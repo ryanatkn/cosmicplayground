@@ -1,0 +1,29 @@
+{
+  "name": "cpg",
+  "version": "0.1.0",
+  "description": "tools and toys for expanding minds: ear training, music theory, etc etc",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"TODO\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cosmicplayground/cpg.git"
+  },
+  "keywords": [
+    "ear",
+    "training",
+    "music",
+    "theory"
+  ],
+  "author": {
+    "name": "Ryan Atkinson",
+    "email": "ryanatkn@gmail.com",
+    "url": "https://github.com/ryanatkn"
+  },
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/cosmicplayground/cpg/issues"
+  },
+  "homepage": "https://cosmicplayground.org"
+}
