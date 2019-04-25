@@ -2,6 +2,8 @@
   "name": "cpg",
   "version": "0.1.0",
   "description": "tools and toys for expanding minds: ear training, music theory, etc etc",
+  "license": "UNLICENSED",
+  "homepage": "https://cosmicplayground.org",
   "main": "index.js",
   "scripts": {
     "test": "echo \"TODO\" && exit 1"
@@ -9,6 +11,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cosmicplayground/cpg.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cosmicplayground/cpg/issues"
   },
   "keywords": [
     "ear",
@@ -21,9 +26,12 @@
     "email": "ryanatkn@gmail.com",
     "url": "https://github.com/ryanatkn"
   },
-  "license": "UNLICENSED",
-  "bugs": {
-    "url": "https://github.com/cosmicplayground/cpg/issues"
+  "devDependencies": {
+    "prettier": "^1.17.0"
   },
-  "homepage": "https://cosmicplayground.org"
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": false
+  }
 }
