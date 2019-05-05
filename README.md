@@ -1,20 +1,53 @@
 # cosmicplayground
 
-> tools and toys for expanding minds: ear training, music theory, etc etc - [cosmicplayground.org](https://cosmicplayground.org)
+> tools and toys for expanding minds: ear training, music theory,
+> etc etc .. [cosmicplayground.org](https://cosmicplayground.org)
 
-This is all a _work in progress_.
+    current status: there's nothing here to see yet - just setting up and prototyping
 
-## community
+_cosmicplayground_ is a **work in progress** website exploring interactive
+learning with ear training, music theory, and other neat stuff.
+It ambitiously experiments in many directions,
+but the general goal is to help us learn and grow.
 
+[The code](https://github.com/cosmicplayground/cpg) is open source,
+[the website](https://cosmicplayground.org) is free to use,
+it's easy and cheap to self-host,
+and we hope to grow a community of contributors.
+
+## how to participate
+
+_cosmicplayground_ hopes to bring together likeminded explorers
+sharing ideas and experiences. Contributions can take many forms:
+
+- report problems, ask questions, give feedback,
+  and discuss ideas in [the GitHub issues](https://github.com/cosmicplayground/cpg/issues)
 - join the subreddit at [/r/cosmicplayground](https://reddit.com/r/cosmicplayground)
-- browse the [GitHub issues](https://github.com/cosmicplayground/cpg/issues)
-- say hi on [Discord](https://discord.gg/57XP5Pv)
 - tweet [@cpg_org](https://twitter.com/cpg_org)
-- stomp around the [cosmicplayground.org](https://cosmicplayground.org)
+- say hi on [Discord](https://discord.gg/57XP5Pv)
+- email [cosmicplayground.org@gmail.com](mailto:cosmicplayground.org@gmail.com)
+- donate on [Patreon](https://patreon.com/ryanatkn)
+- [cosmicplayground.org](https://cosmicplayground.org)
 
-## credits
+## develop
 
-The _under construction_ gifs are from [http://textfiles.com/underconstruction/](http://textfiles.com/underconstruction/)
+To play with the code, you'll need node 10+;
+
+```bash
+npm install
+npm start
+# open your browser to localhost:3000
+```
+
+## credits :pray:
+
+This project relies heavily on content that has been generously
+made freely available through permissive licensing, like
+[NASA's Hubble imagery](https://www.spacetelescope.org).
+See [docs/credits.md](docs/credits.md) for
+the complete list of assets used in the project,
+and see [docs/contributors.md](docs/contributors.md)
+for the list of people making it all go.
 
 ## license
 

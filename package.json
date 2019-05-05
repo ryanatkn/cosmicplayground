@@ -4,9 +4,11 @@
   "description": "tools and toys for expanding minds: ear training, music theory, etc etc",
   "license": "UNLICENSED",
   "homepage": "https://cosmicplayground.org",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"TODO\" && exit 1"
+    "start": "rollup -w -c rollup.config.js",
+    "build": "NODE_ENV=production rollup -c rollup.config.js",
+    "clean": "rm -rf static/bundle.js* static/main.css*",
+    "test": "echo \"TODO add tests\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -16,10 +18,10 @@
     "url": "https://github.com/cosmicplayground/cpg/issues"
   },
   "keywords": [
-    "ear",
-    "training",
-    "music",
-    "theory"
+    "ear training",
+    "music theory",
+    "web audio",
+    "web midi"
   ],
   "author": {
     "name": "Ryan Atkinson",
@@ -27,8 +29,16 @@
     "url": "https://github.com/ryanatkn"
   },
   "devDependencies": {
-    "prettier": "^1.17.0"
+    "prettier": "^1.17.0",
+    "rollup": "^1.10.1",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-serve": "^1.0.1",
+    "rollup-plugin-svelte": "^5.0.3",
+    "rollup-plugin-terser": "^4.0.4",
+    "svelte": "^3.0.1"
   },
+  "dependencies": {},
   "prettier": {
     "singleQuote": true,
     "trailingComma": "all",
