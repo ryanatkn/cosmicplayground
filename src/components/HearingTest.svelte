@@ -27,7 +27,7 @@
   $: displayedFreq = freq === undefined ? '' : Math.round(freq);
 
   const setFreq = f => {
-    osc.frequency.setTargetAtTime(f, 0, 0.02);
+    osc.frequency.setValueAtTime(f, 0);
     freq = f;
   };
   const setVolume = v => {
@@ -149,6 +149,7 @@
   }
   circle.outer {
     fill: rgba(226, 182, 255, 0.4);
+    filter: blur(10px);
   }
   circle.inner {
     fill: rgb(226, 182, 255);
@@ -167,7 +168,7 @@
   }
   .freq {
     position: absolute;
-    bottom: 20px;
+    bottom: 15px;
     left: 0;
     z-index: 1;
     width: 100%;

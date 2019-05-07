@@ -43,9 +43,9 @@
           </div>
         </li>
         <li class="thumbnail" on:click={() => view.set('hearingTest')}>
-          <h2 style="font-size: 28px;">
+          <div style="font-size: 28px;">
             hearing test
-          </h2>
+          </div>
         </li>
         <li class="thumbnail" on:click={() => view.set('freqSpeeds2')} style="display: flex; flex-direction: column;">
           <FreqSpeeds elapsedTime={$clock.time} width={400} height={100} hzItems={[10]} lowestHzItemCount={2}></FreqSpeeds><FreqSpeeds elapsedTime={$clock.time} width={400} height={100} hzItems={[10]} lowestHzItemCount={2} style="transform: rotate(180deg);"></FreqSpeeds>
@@ -71,15 +71,17 @@
     <div class="back-button-wrapper">
       <BackButton view={view}/>
     </div>
-    <Overlay>
-      <About name={name}>
-        <div style="display: flex; align-items: center;">
-          <div style="padding: 12px; border: 3px dashed rgba(0, 0, 0, 0.3); background: rgba(0, 0, 0, 0.15); display: flex;">
-            <ClockControls time={$clock.time} running={$clock.running} pause={clock.pause} resume={clock.resume}/>
+    <div style="margin-top: 90px;">
+      <Overlay>
+        <About name={name}>
+          <div style="display: flex; align-items: center;">
+            <div style="padding: 12px; border: 3px dashed rgba(0, 0, 0, 0.3); background: rgba(0, 0, 0, 0.15); display: flex;">
+              <ClockControls time={$clock.time} running={$clock.running} pause={clock.pause} resume={clock.resume}/>
+            </div>
           </div>
-        </div>
-      </About>
-    </Overlay>
+        </About>
+      </Overlay>
+    </div>
   </section>
 {:else if $view === 'hearingTest'}
   <section class="content">
@@ -147,7 +149,7 @@
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
   }
   .content > section {
@@ -199,6 +201,7 @@
     height: 100%;
     padding: 0;
     margin: 0;
+    font-family: sans-serif;
   }
   :global(body) {
     height: 100%;
