@@ -14,7 +14,7 @@
   };
 
   let spotPosition = spring({x: -100, y: -100}, {
-    stiffness: 0.12,
+    stiffness: 0.08,
     damping: 0.32,
   });
 
@@ -37,15 +37,18 @@
   };
 
   const start = () => {
+    if (osc) return;
     if (!audioCtx) initAudioCtx();
     gain = audioCtx.createGain();
     gain.gain.value = 0;
     gain.connect(audioCtx.destination);
     osc = audioCtx.createOscillator();
     osc.type = 'sine';
+    osc.start();
     osc.connect(gain);
   };
   const stop = () => {
+    if (!osc) return;
     gain.gain.setTargetAtTime(0, 0, SMOOTH_GAIN_TIME_CONSTANT);
     osc.stop(audioCtx.currentTime + SMOOTH_GAIN_TIME_CONSTANT * 2);
     osc = undefined;
@@ -71,18 +74,20 @@
     spotPosition.set({x, y});
   };
 
-  const handleMouseDown = e => {
+  // TODO more cleanly handle touch/click - pointer events with polyfill for Safari?
+  const pointerEventX = e => e.hasOwnProperty('layerX') ? e.layerX : e.clientX;
+  const pointerEventY = e => e.hasOwnProperty('layerY') ? e.layerY : e.clientY;
+  const handlePointerDown = e => {
     start();
-    updateValues(e.clientX, e.clientY, clientWidth, clientHeight);
-    osc.start();
+    updateValues(pointerEventX(e), pointerEventY(e), clientWidth, clientHeight);
   };
-  const handleMouseUp = () => {
+  const handlePointerUp = () => {
     if (!audioCtx || !osc) return;
     stop();
   };
-  const handleMouseMove = e => {
+  const handlePointerMove = e => {
     if (!audioCtx || !osc) return;
-    updateValues(e.clientX, e.clientY, clientWidth, clientHeight);
+    updateValues(pointerEventX(e), pointerEventY(e), clientWidth, clientHeight);
   };
 </script>
 
@@ -109,14 +114,14 @@
   {/if}
   <div
     class="surface"
-    on:mousedown={handleMouseDown}
-    on:mouseup={handleMouseUp}
-    on:mouseleave={handleMouseUp}
-    on:mousemove={handleMouseMove}
-    on:touchstart={handleMouseDown}
-    on:touchend={handleMouseUp}
-    on:touchcancel={handleMouseUp}
-    on:touchmove={handleMouseMove}
+    on:mousedown={handlePointerDown}
+    on:mouseup={handlePointerUp}
+    on:mouseleave={handlePointerUp}
+    on:mousemove={handlePointerMove}
+    on:touchstart={handlePointerDown}
+    on:touchend={handlePointerUp}
+    on:touchcancel={handlePointerUp}
+    on:touchmove={handlePointerMove}
     bind:clientWidth
     bind:clientHeight />
 </div>
