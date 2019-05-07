@@ -24,6 +24,8 @@ export default {
     }),
     resolve(),
     commonjs(),
-    ...(dev ? [serve({contentBase: 'static', port: 3000})] : [terser()]),
+    ...(dev
+      ? [serve({contentBase: 'static', port: 3000, host: '0.0.0.0'})]
+      : [terser()]),
   ],
 };
