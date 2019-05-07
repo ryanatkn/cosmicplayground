@@ -2,7 +2,7 @@
   export let view;
 </script>
 
-<div class="button" on:click={() => view.set('main')}>⇠</div>
+<div class="button" on:click={() => view.set('main')}>⇦</div>
 
 <style>
   .button {
@@ -11,6 +11,7 @@
     opacity: 0.6;
     color: hsla(130, 20%, 90%, 0.9);
     transition: transform 0.08s ease-out;
+    transform-origin: center center;
   }
   .button:hover {
     opacity: 0.8;

@@ -11,11 +11,12 @@
   import CommunityLinks from './CommunityLinks.svelte';
   import BackButton from './BackButton.svelte';
   import FreqSpeeds from './FreqSpeeds.svelte';
+  import HearingTest from './HearingTest.svelte';
 
   export let name;
 
   // TODO refactor all of this view code with proper routing
-  export let view = writable('main'); // main | about | freqSpeeds | freqSpeeds2 | construction
+  export let view = writable('main'); // main | about | freqSpeeds | freqSpeeds2 | construction | hearingTest
 
   export let windowWidth = window.innerWidth;
   export let windowHeight = window.innerHeight;
@@ -34,12 +35,17 @@
     <nav>
       <ul class="thumbnails">
         <li class="thumbnail" on:click={() => view.set('about')}>
-          <div style="color: white; padding: 4px;">
-            <h1>
+          <div style="padding: 4px; display: flex; flex-direction: column; align-items: center;">
+            <div style="font-size: 40px; margin: 20px 0;">
               cosmicplayground
-            </h1>
-            <div style="text-align: right; margin-top: 30px;">help, about, credits</div>
+            </div>
+            <div>help, about, credits</div>
           </div>
+        </li>
+        <li class="thumbnail" on:click={() => view.set('hearingTest')}>
+          <h2 style="font-size: 28px;">
+            hearing test
+          </h2>
         </li>
         <li class="thumbnail" on:click={() => view.set('freqSpeeds2')} style="display: flex; flex-direction: column;">
           <FreqSpeeds elapsedTime={$clock.time} width={400} height={100} hzItems={[10]} lowestHzItemCount={2}></FreqSpeeds><FreqSpeeds elapsedTime={$clock.time} width={400} height={100} hzItems={[10]} lowestHzItemCount={2} style="transform: rotate(180deg);"></FreqSpeeds>
@@ -48,16 +54,14 @@
         <!-- This is entering a whitespace node if not put on the same line, but prettier isn't working yet anyway! -->
           <FreqSpeeds elapsedTime={$clock.time} width={200} height={100} hzItems={[2, 3]} lowestHzItemCount={1}></FreqSpeeds><FreqSpeeds elapsedTime={$clock.time} width={200} height={100} hzItems={[4, 5]} lowestHzItemCount={1} style="transform: rotate(180deg);"></FreqSpeeds>
         </li>
-        <li class={"thumbnail"}>
-          <div on:click={() => view.set('construction')} >
-            {#if $clock.running}
-              <img src="assets/construction/construction_person_rock.gif"
-                alt="under construction: person rock" style="width: 162px; height: 100px;" class="pixelated"/>
-            {:else}
-              <img src="assets/construction/construction_person_rock_pause.png"
-                alt="under construction: person rock" style="width: 162px; height: 100px; filter: grayscale(100%);" class="pixelated"/>
-            {/if}
-          </div>
+        <li class="thumbnail" on:click={() => view.set('construction')}>
+          {#if $clock.running}
+            <img src="assets/construction/construction_person_rock.gif"
+              alt="under construction: person rock" style="width: 162px; height: 100px;" class="pixelated"/>
+          {:else}
+            <img src="assets/construction/construction_person_rock_pause.png"
+              alt="under construction: person rock" style="width: 162px; height: 100px; filter: grayscale(100%);" class="pixelated"/>
+          {/if}
         </li>
       </ul>
     </nav>
@@ -76,6 +80,13 @@
         </div>
       </About>
     </Overlay>
+  </section>
+{:else if $view === 'hearingTest'}
+  <section class="content">
+    <div class="back-button-wrapper">
+      <BackButton view={view}/>
+    </div>
+    <HearingTest/>
   </section>
 {:else if $view === 'freqSpeeds'}
   <section class="content" on:click={clock.toggle}>
@@ -158,6 +169,7 @@
     padding: 12px;
     border: 3px dashed rgba(255, 255, 255, 0.3);
     margin: 12px;
+    color: #fff;
   }
   .thumbnail:hover {
     opacity: 0.85;
@@ -172,9 +184,10 @@
   }
   .back-button-wrapper {
     position: absolute;
-    left: 20px;
+    left: 0;
     top: 0;
-    z-index: 2;
+    padding-left: 20px;
+    z-index: 10;
   }
 
   :global(*) {
