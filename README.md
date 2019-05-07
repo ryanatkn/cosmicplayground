@@ -5,7 +5,7 @@
 
     current status: there's nothing here to see yet - just setting up and prototyping
 
-_cosmicplayground_ is a **work in progress** website exploring interactive
+_cosmicplayground_ (CPG) is a **work in progress** website exploring interactive
 learning with ear training, music theory, and other neat stuff.
 It ambitiously experiments in many directions,
 but the general goal is to help us learn and grow.
@@ -17,7 +17,7 @@ and we hope to grow a community of contributors.
 
 ## how to participate
 
-_cosmicplayground_ hopes to bring together likeminded explorers
+CPG hopes to bring together likeminded explorers
 sharing ideas and experiences. Contributions can take many forms:
 
 - report problems, ask questions, give feedback,

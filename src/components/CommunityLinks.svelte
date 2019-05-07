@@ -1,6 +1,6 @@
 <h3><strong>how to participate</h3>
 <div>
-	<em>cosmicplayground</em> hopes to bring together likeminded explorers
+	<em>cosmicplayground</em> (CPG) hopes to bring together likeminded explorers
 	sharing ideas and experiences. Contributions can take many forms:
 </div>
 <ul>
