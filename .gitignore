@@ -1,5 +1,9 @@
 node_modules/
 npm-debug.log*
 
+.env
+
+/build
+
 static/bundle.js*
 static/main.css*

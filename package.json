@@ -6,9 +6,11 @@
   "homepage": "https://cosmicplayground.org",
   "scripts": {
     "start": "rollup -w -c rollup.config.js",
-    "build": "NODE_ENV=production rollup -c rollup.config.js",
-    "clean": "rm -rf static/bundle.js* static/main.css*",
-    "test": "echo \"TODO add tests\" && exit 1"
+    "build": "NODE_ENV=production rollup -c rollup.config.js && mkdir -p build/dist/client && cp -r static/* build/dist/client",
+    "clean": "rm -rf build static/bundle.js* static/main.css*",
+    "test": "echo \"TODO add tests\" && exit 1",
+    "deploy": "NODE_ENV=production node src/meta/tasks/deploy.js",
+    "deploy-dry-run": "NODE_ENV=production node src/meta/tasks/deploy.js --dry-run --verbose"
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,9 @@
     "url": "https://github.com/ryanatkn"
   },
   "devDependencies": {
+    "chalk": "^2.4.2",
+    "dotenv": "^8.0.0",
+    "minimist": "^1.2.0",
     "prettier": "^1.17.0",
     "rollup": "^1.10.1",
     "rollup-plugin-commonjs": "^9.3.4",
