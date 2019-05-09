@@ -3,7 +3,6 @@
 require('dotenv').config();
 
 const {NODE_ENV, SERVER_USER, SERVER_IP, SERVER_SSH_PORT} = process.env;
-
 if (NODE_ENV !== 'production') {
   throw Error(`Expected NODE_ENV to be 'production', not '${NODE_ENV}'`);
 }
@@ -14,23 +13,16 @@ const fs = require('fs');
 const fp = require('path');
 const exec = require('child_process').exec;
 const ck = require('chalk');
-const minimist = require('minimist');
 
-const argv = minimist(process.argv.slice(2));
-const dryRun = argv['dry-run'];
-const verbose = argv['verbose'];
-
+const {argv, verboseLog, rainbow} = require('../scriptUtils');
 const paths = require('../paths');
+
+const dryRun = argv['dry-run'];
 
 // Make sure the build is ready
 if (!fs.existsSync(paths.appBuildDistClient)) {
   throw Error(`Build directory does not exist: ${paths.appBuildDistClient}`);
 }
-
-const verboseLog = (...args) => {
-  if (!verbose) return;
-  console.log(...args);
-};
 
 /**
  * Prepares and executes deployment:
@@ -45,13 +37,14 @@ const verboseLog = (...args) => {
  */
 const runDeploy = async () => {
   const command = createDeployCommand();
+  verboseLog(ck.magenta(`deployment command`), ck.cyan(command));
 
   if (dryRun) {
     console.log(ck.magenta('dryrun - skipping command execution'));
   } else {
     verboseLog(ck.magenta('executing deploy command'));
     const {stdout, stderr} = await new Promise((resolve, reject) => {
-      exec(command, function(err, stdout, stderr) {
+      exec(command, (err, stdout, stderr) => {
         if (err) {
           reject(err);
         } else {
@@ -61,17 +54,7 @@ const runDeploy = async () => {
     });
     if (stdout) console.log(stdout);
     if (stderr) console.error(stderr);
-  }
-  console.log(
-    [
-      rainbow('~~~~~~~~~~~~~~~~~~'),
-      rainbow('~~~! deployed !~~~'),
-      rainbow('~~~~~~~~~~~~~~~~~~'),
-    ].join('\n'),
-  );
-
-  if (dryRun) {
-    console.log(ck.magenta('dry run complete'));
+    verboseLog(ck.magenta('executed deploy command'));
   }
 };
 
@@ -99,7 +82,6 @@ const createDeployCommand = () => {
   const command = [createTarball, scpTarball, `${ssh} '${setupServer}'`].join(
     ' && ',
   );
-  verboseLog(ck.magenta(`deployment command`), command);
 
   return command;
 };
@@ -128,15 +110,18 @@ const createPaths = () => {
   return p;
 };
 
-// TODO extract into helpers?
-const colors = ['red', 'yellow', 'green', 'cyan', 'blue', 'magenta'];
-const rainbow = str =>
-  str
-    .split('')
-    .map((char, i) => ck[colors[i % colors.length]](char))
-    .join('');
-
-runDeploy().catch(err => {
-  console.error(err);
-  throw err;
-});
+runDeploy()
+  .then(() => {
+    console.log(
+      [
+        rainbow('~~~~~~~~~~~~~~~~~~'),
+        rainbow('~~~! deployed !~~~'),
+        rainbow('~~~~~~~~~~~~~~~~~~'),
+      ].join('\n'),
+    );
+    if (dryRun) console.log(ck.magenta('dry run complete'));
+  })
+  .catch(err => {
+    console.error(err);
+    throw err;
+  });

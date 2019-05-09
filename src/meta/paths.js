@@ -10,8 +10,14 @@ const createPaths = () => {
   const root = resolveDir('./');
   const appBuild = fp.join(root, 'build');
   const appBuildDist = fp.join(appBuild, 'dist');
-  const appBuildDistClient = fp.join(appBuildDist, 'client');
-  return {root, appBuild, appBuildDist, appBuildDistClient};
+  return {
+    root,
+    appBuild,
+    appBuildDist,
+    appBuildDistClient: fp.join(appBuildDist, 'client'),
+    appStatic: fp.join(root, 'static'),
+    appSrc: fp.join(root, 'src'),
+  };
 };
 
 module.exports = createPaths();
