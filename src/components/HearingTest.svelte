@@ -82,9 +82,14 @@
     spotPosition.set({x, y});
   };
 
-  // TODO more cleanly handle touch/click - pointer events with polyfill for Safari?
-  const pointerEventX = e => e.hasOwnProperty('layerX') ? e.layerX : e.clientX;
-  const pointerEventY = e => e.hasOwnProperty('layerY') ? e.layerY : e.clientY;
+  // TODO more cleanly handle touch/click - pointer events with polyfill for Safari? (probably using Svelte actions)
+  // or maybe support multiple touches? yeah...that makes sense here.
+  const pointerEventX = e => e.touches && e.touches.length
+    ? e.touches[0].clientX
+    : e.clientX;
+  const pointerEventY = e => e.touches && e.touches.length
+    ? e.touches[0].clientY
+    : e.clientY;
   const handlePointerDown = e => {
     start();
     updateValues(pointerEventX(e), pointerEventY(e), clientWidth, clientHeight);
