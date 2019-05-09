@@ -27,12 +27,16 @@
   $: displayedFreq = freq === undefined ? '' : Math.round(freq);
 
   const setFreq = f => {
-    osc.frequency.setValueAtTime(f, 0);
+    osc.frequency.setValueAtTime(f, audioCtx.currentTime);
     freq = f;
   };
   const setVolume = v => {
     const gainValue = volumeToGain(v);
-    gain.gain.setTargetAtTime(gainValue, 0, SMOOTH_GAIN_TIME_CONSTANT);
+    gain.gain.setTargetAtTime(
+      gainValue,
+      audioCtx.currentTime,
+      SMOOTH_GAIN_TIME_CONSTANT,
+    );
     volume = v;
   };
 
@@ -49,7 +53,11 @@
   };
   const stop = () => {
     if (!osc) return;
-    gain.gain.setTargetAtTime(0, 0, SMOOTH_GAIN_TIME_CONSTANT);
+    gain.gain.setTargetAtTime(
+      0,
+      audioCtx.currentTime,
+      SMOOTH_GAIN_TIME_CONSTANT,
+    );
     osc.stop(audioCtx.currentTime + SMOOTH_GAIN_TIME_CONSTANT * 2);
     osc = undefined;
     gain = undefined;
