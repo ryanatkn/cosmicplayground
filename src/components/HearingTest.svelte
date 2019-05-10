@@ -1,9 +1,9 @@
 <script>
   import {spring} from 'svelte/motion';
 
-  import {createAudioCtx} from '../audio/audioCtx';
-  import {mix} from '../utils/math';
-  import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../audio/utils';
+  import {createAudioCtx} from '../audio/audioCtx.js';
+  import {mix} from '../utils/math.js';
+  import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../audio/utils.js';
 
   let clientWidth;
   let clientHeight;

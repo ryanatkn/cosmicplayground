@@ -2,7 +2,7 @@
   import {onMount} from 'svelte';
   import {writable} from 'svelte/store';
 
-  import {createClock} from '../stores/clock';
+  import {createClock} from '../stores/clock.js';
   import Overlay from './Overlay.svelte';
   import GalaxyBg from './GalaxyBg.svelte';
   import Construction from './Construction.svelte';
