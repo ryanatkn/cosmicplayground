@@ -4,13 +4,14 @@
   "description": "tools and toys for expanding minds: ear training, music theory, etc etc",
   "license": "UNLICENSED",
   "homepage": "https://cosmicplayground.org",
+  "type": "module",
   "scripts": {
-    "start": "NODE_ENV=development node src/meta/build --verbose --watch",
-    "build": "NODE_ENV=production node src/meta/build --verbose",
+    "start": "NODE_NO_WARNINGS=1 NODE_ENV=development node --experimental-modules src/meta/build/index.js --verbose --watch",
+    "build": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/meta/build/index.js --verbose",
     "clean": "rm -rf build static/bundle.js* static/main.css*",
     "test": "echo \"TODO add tests\" && exit 1",
-    "deploy": "NODE_ENV=production node src/meta/deploy --verbose",
-    "deploy-dry-run": "NODE_ENV=production node src/meta/deploy --dry-run --verbose"
+    "deploy": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/meta/deploy/index.js --verbose",
+    "deploy-dry-run": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/meta/deploy/index.js --dry-run --verbose"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,9 @@
     "name": "Ryan Atkinson",
     "email": "ryanatkn@gmail.com",
     "url": "https://github.com/ryanatkn"
+  },
+  "engines": {
+    "node": ">=12"
   },
   "devDependencies": {
     "chalk": "^2.4.2",

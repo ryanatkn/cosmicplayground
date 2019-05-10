@@ -1,7 +1,5 @@
-'use strict';
-
-const fp = require('path');
-const fs = require('fs');
+import fp from 'path';
+import fs from 'fs';
 
 const mainDir = fs.realpathSync(process.cwd());
 const resolveDir = relativePath => fp.resolve(mainDir, relativePath);
@@ -20,4 +18,4 @@ const createPaths = () => {
   };
 };
 
-module.exports = createPaths();
+export default createPaths();

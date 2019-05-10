@@ -1,7 +1,5 @@
-'use strict';
-
-require('dotenv').config();
-
+import dotenv from 'dotenv';
+dotenv.config();
 const {NODE_ENV, SERVER_USER, SERVER_IP, SERVER_SSH_PORT} = process.env;
 if (NODE_ENV !== 'production') {
   throw Error(`Expected NODE_ENV to be 'production', not '${NODE_ENV}'`);
@@ -9,13 +7,13 @@ if (NODE_ENV !== 'production') {
 if (!SERVER_USER) throw Error('SERVER_USER env var is required for deployment');
 if (!SERVER_IP) throw Error('SERVER_IP env var is required for deployment');
 
-const fs = require('fs');
-const fp = require('path');
-const exec = require('child_process').exec;
-const ck = require('chalk');
+import fs from 'fs';
+import fp from 'path';
+import {exec} from 'child_process';
+import ck from 'chalk';
 
-const {argv, verboseLog, rainbow} = require('../scriptUtils');
-const paths = require('../paths');
+import {argv, verboseLog, rainbow} from '../scriptUtils.js';
+import paths from '../paths.js';
 
 const dryRun = argv['dry-run'];
 

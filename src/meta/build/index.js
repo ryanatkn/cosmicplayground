@@ -1,22 +1,20 @@
-'use strict';
-
-require('dotenv').config();
-
+import dotenv from 'dotenv';
+dotenv.config();
 if (!process.env.NODE_ENV) process.env.NODE_ENV = 'development';
 const {NODE_ENV} = process.env;
 const dev = NODE_ENV !== 'production';
 
-const rollup = require('rollup');
-const svelte = require('rollup-plugin-svelte');
-const resolve = require('rollup-plugin-node-resolve');
-const commonjs = require('rollup-plugin-commonjs');
-const terser = require('rollup-plugin-terser');
-const serve = require('rollup-plugin-serve');
-const ck = require('chalk');
-const fs = require('fs-extra');
+import rollup from 'rollup';
+import svelte from 'rollup-plugin-svelte';
+import resolve from 'rollup-plugin-node-resolve';
+import commonjs from 'rollup-plugin-commonjs';
+import terser from 'rollup-plugin-terser';
+import serve from 'rollup-plugin-serve';
+import ck from 'chalk';
+import fs from 'fs-extra';
 
-const paths = require('../paths');
-const {argv, verboseLog, handleTaskError, rainbow} = require('../scriptUtils');
+import paths from '../paths.js';
+import {argv, verboseLog, handleTaskError, rainbow} from '../scriptUtils.js';
 
 const watch = argv['watch'];
 

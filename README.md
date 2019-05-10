@@ -31,7 +31,7 @@ sharing ideas and experiences. Contributions can take many forms:
 
 ## develop
 
-To play with the code, you'll need node 10+;
+To play with the code, you'll need node 12+;
 
 ```bash
 npm install
