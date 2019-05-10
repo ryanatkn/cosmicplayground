@@ -91,15 +91,21 @@
     ? e.touches[0].clientY
     : e.clientY;
   const handlePointerDown = e => {
+    e.stopPropagation();
+    e.preventDefault();
     start();
     updateValues(pointerEventX(e), pointerEventY(e), clientWidth, clientHeight);
   };
-  const handlePointerUp = () => {
+  const handlePointerUp = e => {
     if (!audioCtx || !osc) return;
+    e.stopPropagation();
+    e.preventDefault();
     stop();
   };
   const handlePointerMove = e => {
     if (!audioCtx || !osc) return;
+    e.stopPropagation();
+    e.preventDefault();
     updateValues(pointerEventX(e), pointerEventY(e), clientWidth, clientHeight);
   };
 </script>
