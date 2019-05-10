@@ -36,23 +36,23 @@
       <ul class="thumbnails">
         <li class="thumbnail" on:click={() => view.set('about')}>
           <div style="padding: 4px; display: flex; flex-direction: column; align-items: center;">
-            <div style="font-size: 40px; margin: 20px 0;">
+            <div style="font-size: 30px; margin: 20px 0;">
               cosmicplayground
             </div>
             <div>help, about, credits</div>
           </div>
         </li>
         <li class="thumbnail" on:click={() => view.set('hearingTest')}>
-          <div style="font-size: 28px;">
+          <div style="font-size: 20px;">
             hearing test
           </div>
         </li>
         <li class="thumbnail" on:click={() => view.set('freqSpeeds2')} style="display: flex; flex-direction: column;">
-          <FreqSpeeds elapsedTime={$clock.time} width={400} height={100} hzItems={[10]} lowestHzItemCount={2}></FreqSpeeds><FreqSpeeds elapsedTime={$clock.time} width={400} height={100} hzItems={[10]} lowestHzItemCount={2} style="transform: rotate(180deg);"></FreqSpeeds>
+          <FreqSpeeds elapsedTime={$clock.time} width={300} height={75} hzItems={[10]} lowestHzItemCount={2}></FreqSpeeds><FreqSpeeds elapsedTime={$clock.time} width={300} height={75} hzItems={[10]} lowestHzItemCount={2} style="transform: rotate(180deg);"></FreqSpeeds>
         </li>
         <li class="thumbnail" on:click={() => view.set('freqSpeeds')} style="display: flex;">
         <!-- This is entering a whitespace node if not put on the same line, but prettier isn't working yet anyway! -->
-          <FreqSpeeds elapsedTime={$clock.time} width={200} height={100} hzItems={[2, 3]} lowestHzItemCount={1}></FreqSpeeds><FreqSpeeds elapsedTime={$clock.time} width={200} height={100} hzItems={[4, 5]} lowestHzItemCount={1} style="transform: rotate(180deg);"></FreqSpeeds>
+          <FreqSpeeds elapsedTime={$clock.time} width={150} height={75} hzItems={[2, 3]} lowestHzItemCount={1}></FreqSpeeds><FreqSpeeds elapsedTime={$clock.time} width={150} height={75} hzItems={[4, 5]} lowestHzItemCount={1} style="transform: rotate(180deg);"></FreqSpeeds>
         </li>
         <li class="thumbnail" on:click={() => view.set('construction')}>
           {#if $clock.running}
