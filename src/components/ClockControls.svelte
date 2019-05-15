@@ -1,5 +1,5 @@
 <script>
- import FreqSpeeds from './FreqSpeeds.svelte';
+ import FreqSpeeds0 from './FreqSpeeds0.svelte';
 
  // TODO what are the perf characteristics if we use the clock store directly?
  // will anything get updated unnecessarily every frame?
@@ -15,7 +15,7 @@
     <img on:click={pause} src="assets/construction/construction_person_rock.gif"
       alt="under construction: person_rock"
       class="rock pixelated" />
-    <button class="toggle-button" on:click={pause}>
+    <button type="button" class="toggle-button" on:click={pause}>
       <div style="font-size: 24px">▮▮</div>
       pause universe clock
     </button>
@@ -23,13 +23,13 @@
     <img on:click={resume} src="assets/construction/construction_person_rock_pause.png"
       alt="under construction: person_rock_pause"
       class="rock pixelated" style="filter: grayscale(100%);" />
-    <button class="toggle-button" on:click={resume}>
+    <button type="button" class="toggle-button" on:click={resume}>
       <div style="font-size: 24px">▶</div>
       resume universe clock
     </button>
   {/if}
   <div on:click={() => running ? pause() : resume()}>
-    <FreqSpeeds elapsedTime={time} width={150} height={80} hzItems={[1, 3, 10]} lowestHzItemCount={2}></FreqSpeeds>
+    <FreqSpeeds0 elapsedTime={time} width={150} height={80} hzItems={[1, 3, 10]} lowestHzItemCount={2}></FreqSpeeds0>
   </div>
 </div>
 

@@ -10,13 +10,14 @@
   import ClockControls from './ClockControls.svelte';
   import CommunityLinks from './CommunityLinks.svelte';
   import BackButton from './BackButton.svelte';
-  import FreqSpeeds from './FreqSpeeds.svelte';
+  import FreqSpeeds1 from './FreqSpeeds1.svelte';
+  import FreqSpeeds0 from './FreqSpeeds0.svelte';
   import HearingTest from './HearingTest.svelte';
 
   export let name;
 
   // TODO refactor all of this view code with proper routing
-  export let view = writable('main'); // main | about | freqSpeeds | freqSpeeds2 | construction | hearingTest
+  export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest
 
   export let windowWidth = window.innerWidth;
   export let windowHeight = window.innerHeight;
@@ -47,12 +48,13 @@
             hearing test
           </div>
         </li>
-        <li class="thumbnail" on:click={() => view.set('freqSpeeds2')} style="display: flex; flex-direction: column;">
-          <FreqSpeeds elapsedTime={$clock.time} width={300} height={75} hzItems={[10]} lowestHzItemCount={2}></FreqSpeeds><FreqSpeeds elapsedTime={$clock.time} width={300} height={75} hzItems={[10]} lowestHzItemCount={2} style="transform: rotate(180deg);"></FreqSpeeds>
+        <li class="thumbnail" on:click={() => view.set('freqSpeeds1')} style="display: flex; flex-direction: column;">
+          <FreqSpeeds1 elapsedTime={$clock.time} width={300} height={75} hzItems={[4]} lowestHzItemCount={2}></FreqSpeeds1>
+          <FreqSpeeds1 elapsedTime={$clock.time} width={300} height={75} hzItems={[4]} lowestHzItemCount={2} style="transform: rotate(180deg);"></FreqSpeeds1>
         </li>
-        <li class="thumbnail" on:click={() => view.set('freqSpeeds')} style="display: flex;">
-        <!-- This is entering a whitespace node if not put on the same line, but prettier isn't working yet anyway! -->
-          <FreqSpeeds elapsedTime={$clock.time} width={150} height={75} hzItems={[2, 3]} lowestHzItemCount={1}></FreqSpeeds><FreqSpeeds elapsedTime={$clock.time} width={150} height={75} hzItems={[4, 5]} lowestHzItemCount={1} style="transform: rotate(180deg);"></FreqSpeeds>
+        <li class="thumbnail" on:click={() => view.set('freqSpeeds0')} style="display: flex;">
+          <FreqSpeeds0 elapsedTime={$clock.time} width={150} height={75} hzItems={[2, 3]} lowestHzItemCount={1}></FreqSpeeds0>
+          <FreqSpeeds0 elapsedTime={$clock.time} width={150} height={75} hzItems={[4, 5]} lowestHzItemCount={1} style="transform: rotate(180deg);"></FreqSpeeds0>
         </li>
         <li class="thumbnail" on:click={() => view.set('construction')}>
           {#if $clock.running}
@@ -90,31 +92,31 @@
     </div>
     <HearingTest/>
   </section>
-{:else if $view === 'freqSpeeds'}
+{:else if $view === 'freqSpeeds0'}
   <section class="content" on:click={clock.toggle}>
     <div class="back-button-wrapper">
       <BackButton view={view}/>
     </div>
-    <FreqSpeeds width={windowWidth} height={windowHeight * 0.7} elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds>
+    <FreqSpeeds0 width={windowWidth} height={windowHeight * 0.7} elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds0>
     <div style="display: flex; justify-content: center;">
       <div style="flex: 0; display: flex; flex-direction: column;">
-        <FreqSpeeds width={windowWidth * 0.25} height={windowHeight * 0.15} style="transform: rotate(180deg);" elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds>
-        <FreqSpeeds width={windowWidth * 0.25} height={windowHeight * 0.15} elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds>
+        <FreqSpeeds0 width={windowWidth * 0.25} height={windowHeight * 0.15} style="transform: rotate(180deg);" elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds0>
+        <FreqSpeeds0 width={windowWidth * 0.25} height={windowHeight * 0.15} elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds0>
       </div>
-      <FreqSpeeds width={windowWidth * 0.5} height={windowHeight * 0.3} style="transform: rotate(180deg);" elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds>
+      <FreqSpeeds0 width={windowWidth * 0.5} height={windowHeight * 0.3} style="transform: rotate(180deg);" elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds0>
       <div style="flex: 0; display: flex; flex-direction: column;">
-        <FreqSpeeds width={windowWidth * 0.25} height={windowHeight * 0.15}  style="transform: rotate(180deg);" elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds>
-        <FreqSpeeds width={windowWidth * 0.25} height={windowHeight * 0.15} elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds>
+        <FreqSpeeds0 width={windowWidth * 0.25} height={windowHeight * 0.15}  style="transform: rotate(180deg);" elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds0>
+        <FreqSpeeds0 width={windowWidth * 0.25} height={windowHeight * 0.15} elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds0>
       </div>
     </div>
   </section>
-{:else if $view === 'freqSpeeds2'}
+{:else if $view === 'freqSpeeds1'}
   <section class="content" on:click={clock.toggle}>
     <div class="back-button-wrapper">
       <BackButton view={view}/>
     </div>
-    <FreqSpeeds width={windowWidth} height={windowHeight / 2} elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10]}></FreqSpeeds>
-    <FreqSpeeds width={windowWidth} height={windowHeight / 2} style="transform: rotate(180deg);" elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10]}></FreqSpeeds>
+    <FreqSpeeds1 width={windowWidth} height={windowHeight / 2} elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10]}></FreqSpeeds1>
+    <FreqSpeeds1 width={windowWidth} height={windowHeight / 2} style="transform: rotate(180deg);" elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10]}></FreqSpeeds1>
   </section>
 {:else if $view === 'construction'}
   <section class="content">
@@ -175,14 +177,13 @@
   }
   .thumbnail:hover {
     opacity: 0.85;
-    border-width: 4px;
-    padding: 11px;
+    border-width: 5px;
+    padding: 10px;
     /* TODO the padding needs to be reduced as the border increases - should do this with some code instead of manually - PostCSS? */
   }
   .thumbnail:active {
     opacity: 0.95;
-    border-width: 5px;
-    padding: 10px;
+    border-style: solid;
   }
   .back-button-wrapper {
     position: absolute;
