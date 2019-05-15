@@ -141,7 +141,7 @@ const createInputOptions = () => {
         include: 'src/components/**/*.svelte',
         dev: !dev,
         css: css => {
-          css.write('static/main.css', !dev);
+          css.write('static/bundle.css', !dev);
         },
       }),
       resolve(),

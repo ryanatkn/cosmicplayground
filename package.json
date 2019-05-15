@@ -8,7 +8,7 @@
   "scripts": {
     "start": "NODE_NO_WARNINGS=1 NODE_ENV=development node --experimental-modules src/meta/build/index.js --verbose --watch",
     "build": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/meta/build/index.js --verbose",
-    "clean": "rm -rf build static/bundle.js* static/main.css*",
+    "clean": "rm -rf build static/bundle.*",
     "test": "echo \"TODO add tests\" && exit 1",
     "deploy": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/meta/deploy/index.js --verbose",
     "deploy-dry-run": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/meta/deploy/index.js --dry-run --verbose"
