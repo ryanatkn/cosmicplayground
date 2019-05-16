@@ -10,7 +10,7 @@ learning with ear training, music theory, and other neat stuff.
 It ambitiously experiments in many directions,
 but the general goal is to help us learn and grow.
 
-[The code](https://github.com/cosmicplayground/cpg) is open source,
+[The code](https://github.com/ryanatkn/cosmicplayground) is open source,
 [the website](https://cosmicplayground.org) is free to use,
 it's easy and cheap to self-host,
 and we hope to grow a community of contributors.
@@ -21,7 +21,7 @@ CPG hopes to bring together likeminded explorers
 sharing ideas and experiences. Contributions can take many forms:
 
 - report problems, ask questions, give feedback,
-  and discuss ideas in [the GitHub issues](https://github.com/cosmicplayground/cpg/issues)
+  and discuss ideas in [the GitHub issues](https://github.com/ryanatkn/cosmicplayground/issues)
 - join the subreddit at [/r/cosmicplayground](https://reddit.com/r/cosmicplayground)
 - tweet [@cpg_org](https://twitter.com/cpg_org)
 - say hi on [Discord](https://discord.gg/57XP5Pv)

@@ -5,7 +5,7 @@
 </div>
 <ul>
 	<li>
-		report problems, ask questions, give feedback, and discuss ideas in <a href="https://github.com/cosmicplayground/cpg/issues">the
+		report problems, ask questions, give feedback, and discuss ideas in <a href="https://github.com/ryanatkn/cosmicplayground/issues">the
 			GitHub issues</a>
 	</li>
 	<li>
@@ -24,7 +24,7 @@
 		donate on <a href="https://patreon.com/ryanatkn">Patreon</a>
 	</li>
 	<li>
-		fork the source code on <a href="https://github.com/cosmicplayground/cpg/issues">GitHub</a> - it's easy to self-host
+		fork the source code on <a href="https://github.com/ryanatkn/cosmicplayground/issues">GitHub</a> - it's easy to self-host
 		on a cheap server
 	</li>
 </ul>
