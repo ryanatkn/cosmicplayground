@@ -15,7 +15,7 @@ but the general goal is to help us learn and grow.
 it's easy and cheap to self-host,
 and we hope to grow a community of contributors.
 
-## how to participate
+## participate
 
 CPG hopes to bring together likeminded explorers
 sharing ideas and experiences. Contributions can take many forms:
@@ -28,6 +28,14 @@ sharing ideas and experiences. Contributions can take many forms:
 - email [cosmicplayground.org@gmail.com](mailto:cosmicplayground.org@gmail.com)
 - donate on [Patreon](https://patreon.com/ryanatkn)
 - [cosmicplayground.org](https://cosmicplayground.org)
+
+## tech
+
+CPG is made with [Svelte](https://github.com/sveltejs/svelte),
+[TypeScript](https://github.com/microsoft/TypeScript),
+[Node](https://nodejs.org),
+[Prettier](https://github.com/prettier/prettier),
+[Rollup](https://github.com/rollup/rollup), ...
 
 ## develop
 
