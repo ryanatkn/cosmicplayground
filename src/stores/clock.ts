@@ -7,9 +7,11 @@ import {writable, get} from 'svelte/store';
 // it'll never reach 0 subscribers and be cleaned up,
 // creating a memory leak. There might be better ways to do this.
 
-export const createClock = (initialState = {}) => {
-  // initialState: {time?: number, running?: boolean}
-  let lastTime, reqId;
+export const createClock = (
+  initialState: {time?: number; running?: boolean} = {},
+) => {
+  let lastTime: number | undefined;
+  let reqId: number | undefined;
 
   const clock = writable(
     {
@@ -24,12 +26,12 @@ export const createClock = (initialState = {}) => {
     },
   );
 
-  const onTimer = dt => {
+  const onTimer = (dt: number): void => {
     logDroppedFrames(dt);
     clock.update(c => ({...c, time: c.time + dt, dt}));
   };
 
-  const onFrame = t => {
+  const onFrame = (t: number): void => {
     if (lastTime !== undefined) {
       onTimer(t - lastTime);
     }
@@ -37,22 +39,22 @@ export const createClock = (initialState = {}) => {
     reqId = requestAnimationFrame(onFrame);
   };
 
-  const resume = () => {
+  const resume = (): void => {
     clock.update(c => {
-      if (c.running) return;
+      if (c.running) return c;
       lastTime = undefined;
       reqId = requestAnimationFrame(onFrame);
       return {...c, running: true};
     });
   };
-  const pause = () => {
+  const pause = (): void => {
     clock.update(c => {
-      if (!c.running) return;
-      cancelAnimationFrame(reqId);
+      if (!c.running) return c;
+      if (reqId) cancelAnimationFrame(reqId);
       return {...c, running: false};
     });
   };
-  const toggle = () => {
+  const toggle = (): void => {
     get(clock).running ? pause() : resume();
   };
 
@@ -63,7 +65,7 @@ export const createClock = (initialState = {}) => {
   return {subscribe: clock.subscribe, resume, pause, toggle};
 };
 
-const logDroppedFrames = dt => {
+const logDroppedFrames = (dt: number): void => {
   const expectedFps = 60;
   const expectedMsPerFrame = 1000 / expectedFps;
   if (dt > expectedMsPerFrame + 5) {

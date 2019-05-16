@@ -10,6 +10,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import terser from 'rollup-plugin-terser';
 import serve from 'rollup-plugin-serve';
+import typescript from 'rollup-plugin-typescript';
 import ck from 'chalk';
 import fs from 'fs-extra';
 
@@ -53,7 +54,10 @@ const runRollupWatcher = async () => {
         case 'BUNDLE_START': // building an individual bundle
         case 'BUNDLE_END': // finished building a bundle
         case 'END': // finished building all bundles
+          break;
         case 'ERROR': // encountered an error while bundling
+          console.log('error', event);
+          reject(`Error: ${event.message}`);
           break;
         case 'FATAL': // encountered an unrecoverable error
           console.log('fatal', event);
@@ -135,8 +139,9 @@ const createInputOptions = () => {
   const inputOptions = {
     // — core input options
     // external,
-    input: 'src/main.js', // required
+    input: 'src/main.ts', // required
     plugins: [
+      typescript(),
       svelte({
         include: 'src/components/**/*.svelte',
         dev: !dev,

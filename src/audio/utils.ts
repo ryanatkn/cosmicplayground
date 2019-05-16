@@ -2,7 +2,7 @@
 // We want some sort of nonlinear curve to match user expectations.
 // TODO why is this exponent so different from the article?
 // https://www.dr-lex.be/info-stuff/volumecontrols.html
-export const volumeToGain = volume => {
+export const volumeToGain = (volume: number): number => {
   return Math.pow(volume, 2.7);
 };
 

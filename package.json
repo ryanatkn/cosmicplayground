@@ -11,7 +11,8 @@
     "clean": "rm -rf build static/bundle.*",
     "test": "echo \"TODO add tests\" && exit 1",
     "deploy": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/meta/deploy/index.js --verbose",
-    "deploy-dry-run": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/meta/deploy/index.js --dry-run --verbose"
+    "deploy-dry-run": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/meta/deploy/index.js --dry-run --verbose",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -47,7 +48,10 @@
     "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^4.0.4",
-    "svelte": "^3.3.0"
+    "rollup-plugin-typescript": "^1.0.1",
+    "svelte": "^3.4.0",
+    "tslib": "^1.9.3",
+    "typescript": "^3.4.5"
   },
   "dependencies": {},
   "prettier": {
