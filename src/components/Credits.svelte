@@ -1,6 +1,13 @@
 <h3>credits</h3>
 <ul class="items">
 	<li class="item">
+		CPG's code and original assets are
+		<a href="https://creativecommons.org/share-your-work/public-domain/cc0">CC0 licensed</a> (public domain).
+		The project also uses the permissively licensed assets listed below.
+		See the included links for more about the copyright holders.
+	</li>
+	<hr/>
+	<li class="item">
 		<div>
 			<img src="assets/space/galaxies.jpg" alt="Hubble sees galaxies galore" style="width: 200px;" />
 		</div>
@@ -10,6 +17,7 @@
 		<a href="https://www.esa.int/">ESA</a>,
 		and S. Beckwith (<a href="https://www.stsci.edu/">STScI</a>) and the HUDF Team
 	</li>
+	<hr/>
 	<li class="item">
 		<div>
 			<img alt="construction idea" src="assets/construction/construction_person_dig_idea.gif" />
@@ -17,6 +25,7 @@
 		</div>
 		<em>under construction gifs credit:</em> <a href="http://textfiles.com/underconstruction/">http://textfiles.com/underconstruction/</a>
 	</li>
+	<hr/>
 </ul>
 
 <style>

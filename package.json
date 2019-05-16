@@ -2,7 +2,7 @@
   "name": "cpg",
   "version": "0.1.0",
   "description": "tools and toys for expanding minds: ear training, music theory, etc etc",
-  "license": "UNLICENSED",
+  "license": "CC0-1.0",
   "homepage": "https://cosmicplayground.org",
   "type": "module",
   "scripts": {

@@ -183,7 +183,7 @@
   }
   .thumbnail:active {
     opacity: 0.95;
-    border-style: solid;
+    border-style: double;
   }
   .thumbnail-construction {
     animation: rotate-pulse 1s infinite ease-in-out;
