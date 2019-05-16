@@ -45,10 +45,10 @@
     height: 80px;
   }
   .rock:hover {
-    transform: scale(1.1, 1.1);
+    transform: scale3d(1.1, 1.1, 1);
   }
   .rock:active {
-    transform: scale(1.2, 1.2);
+    transform: scale3d(1.2, 1.2, 1);
   }
   .toggle-button {
     width: 230px;

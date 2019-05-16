@@ -38,7 +38,7 @@
         <li class="thumbnail" on:click={() => view.set('about')}>
           <div style="padding: 4px; display: flex; flex-direction: column; align-items: center;">
             <div style="font-size: 30px; margin: 20px 0;">
-              cosmicplayground
+              {name}
             </div>
             <div>help, about, credits</div>
           </div>
@@ -59,7 +59,7 @@
         <li class="thumbnail" on:click={() => view.set('construction')}>
           {#if $clock.running}
             <img src="assets/construction/construction_person_rock.gif"
-              alt="under construction: person rock" style="width: 162px; height: 100px;" class="pixelated"/>
+              alt="under construction: person rock" style="width: 162px; height: 100px;" class="pixelated thumbnail-construction"/>
           {:else}
             <img src="assets/construction/construction_person_rock_pause.png"
               alt="under construction: person rock" style="width: 162px; height: 100px; filter: grayscale(100%);" class="pixelated"/>
@@ -115,8 +115,8 @@
     <div class="back-button-wrapper">
       <BackButton view={view}/>
     </div>
-    <FreqSpeeds1 width={windowWidth} height={windowHeight / 2} elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10]}></FreqSpeeds1>
-    <FreqSpeeds1 width={windowWidth} height={windowHeight / 2} style="transform: rotate(180deg);" elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10]}></FreqSpeeds1>
+    <FreqSpeeds1 width={windowWidth} height={windowHeight / 2} elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds1>
+    <FreqSpeeds1 width={windowWidth} height={windowHeight / 2} style="transform: rotate(180deg);" elapsedTime={$clock.time} lowestHzItemCount={2} hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}></FreqSpeeds1>
   </section>
 {:else if $view === 'construction'}
   <section class="content">
@@ -184,6 +184,20 @@
   .thumbnail:active {
     opacity: 0.95;
     border-style: solid;
+  }
+  .thumbnail-construction {
+    animation: rotate-pulse 1s infinite ease-in-out;
+  }
+  @keyframes rotate-pulse {
+    0% {
+      transform: rotate3d(-0.9, 1.0, 0.2, 15deg);
+    }
+    50% {
+      transform: rotate3d(0.7, -0.5, -0.2, 15deg);
+    }
+    100% {
+      transform: rotate3d(-0.9, 1.0, 0.2, 15deg);
+    }
   }
   .back-button-wrapper {
     position: absolute;

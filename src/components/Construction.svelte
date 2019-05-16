@@ -10,7 +10,7 @@
 </script>
 
 <div class="wrapper" bind:clientWidth bind:clientHeight>
-	<div class="content" style={`transform: scale(${scale}, ${scale});`}>
+	<div class="content" style={`transform: scale3d(${scale}, ${scale}, 1);`}>
 		<div style={`width: ${maxWidth}px; height: ${maxHeight}px;`}>
 			<img src="assets/construction/construction_line_1.gif" alt="under construction: line 1" style="width: 100%" class="pixelated" />
 			<img src="assets/construction/construction_person_dig_idea.gif" alt="under construction: person dig idea" style="width: 350px; height: 350px;"
@@ -33,7 +33,7 @@
 			<img src="assets/construction/construction_person_dig_slow.gif" alt="under construction: person dig slow" />
 			<img src="assets/construction/construction_person_dig_slow.gif" alt="under construction: person dig slow" />
 			<img src="assets/construction/construction_person_dig_slow.gif" alt="under construction: person dig slow" />
-			<img src="assets/construction/construction_person_dig_pause.gif" alt="under construction: person dig pause" style="width: 76px; height: 76px; transform: scale(-1, 1);"
+			<img src="assets/construction/construction_person_dig_pause.gif" alt="under construction: person dig pause" style="width: 76px; height: 76px; transform: scale3d(-1, 1, 1);"
 				class="pixelated" />
 			<img src="assets/construction/construction_person_dig_slow.gif" alt="under construction: person dig slow" />
 			<img src="assets/construction/construction_person_dig_slow.gif" alt="under construction: person dig slow" />
@@ -62,9 +62,9 @@
 			</div>
 			<img src="assets/construction/construction_mammal.gif" alt="under construction: mammal" style="width: 144px; height: 144px"
 				class="pixelated" />
-			<img src="assets/construction/construction_line_2.gif" alt="under construction: line 2" style="width: 100%; transform: scale(1, -1)"
+			<img src="assets/construction/construction_line_2.gif" alt="under construction: line 2" style="width: 100%; transform: scale3d(1, -1, 1);"
 				class="pixelated" />
-			<img src="assets/construction/construction_line_1.gif" alt="under construction: line 1" style="width: 100%; position: relative; top: -8px; transform: scale(1, -1);"
+			<img src="assets/construction/construction_line_1.gif" alt="under construction: line 1" style="width: 100%; position: relative; top: -8px; transform: scale3d(1, -1, 1);"
 				class="pixelated" />
 		</div>
 	</div>
