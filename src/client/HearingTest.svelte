@@ -7,7 +7,7 @@
 
   let clientWidth;
   let clientHeight;
-
+  
   let audioCtx;
   const initAudioCtx = () => {
     audioCtx = createAudioCtx();
@@ -113,7 +113,10 @@
 <div class="wrapper">
   {#if $spotPosition}
     <svg>
-      <circle class="outer" cx={$spotPosition.x} cy={$spotPosition.y} r={20} />
+      <filter id="blurOuter" height="200%" width="200%" y="-50%" x="-50%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+      </filter>
+      <circle class="outer" cx={$spotPosition.x} cy={$spotPosition.y} r={20} filter="url(#blurOuter)" />
       <circle class="inner" cx={$spotPosition.x} cy={$spotPosition.y} r={2} />
     </svg>
   {/if}
@@ -168,7 +171,6 @@
   }
   circle.outer {
     fill: rgba(226, 182, 255, 0.4);
-    filter: blur(10px);
   }
   circle.inner {
     fill: rgb(226, 182, 255);
