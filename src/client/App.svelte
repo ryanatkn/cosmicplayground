@@ -13,11 +13,12 @@
   import FreqSpeeds1 from './FreqSpeeds1.svelte';
   import FreqSpeeds0 from './FreqSpeeds0.svelte';
   import HearingTest from './HearingTest.svelte';
+  import TransitionDesigner from './TransitionDesigner.svelte';
 
   export let name;
 
   // TODO refactor all of this view code with proper routing
-  export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest
+  export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest | transitionDesigner
 
   export let windowWidth = window.innerWidth;
   export let windowHeight = window.innerHeight;
@@ -41,6 +42,12 @@
               {name}
             </div>
             <div>help, about, credits</div>
+          </div>
+        </li>
+
+        <li class="thumbnail" on:click={() => view.set('transitionDesigner')}>
+          <div style="font-size: 20px;">
+            transition designer
           </div>
         </li>
         <li class="thumbnail" on:click={() => view.set('hearingTest')}>
@@ -84,6 +91,13 @@
         </About>
       </Overlay>
     </div>
+  </section>
+{:else if $view === 'transitionDesigner'}
+  <section class="content">
+    <div class="back-button-wrapper">
+      <BackButton view={view}/>
+    </div>
+    <TransitionDesigner/>
   </section>
 {:else if $view === 'hearingTest'}
   <section class="content">
@@ -186,17 +200,18 @@
     border-style: double;
   }
   .thumbnail-construction {
-    animation: rotate-pulse 1s infinite ease-in-out;
+    animation: rotate-pulse 2.5s infinite;
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1);
   }
   @keyframes rotate-pulse {
     0% {
-      transform: rotate3d(-0.9, 1.0, 0.2, 15deg);
+      transform: rotate3d(-0.51, 0.49, 0.19, 27deg);
     }
-    50% {
-      transform: rotate3d(0.7, -0.5, -0.2, 15deg);
+    66% {
+      transform: rotate3d(0.65, 0.06, -0.07, 40deg) scale3d(1.12, 1.12, 1.12);
     }
     100% {
-      transform: rotate3d(-0.9, 1.0, 0.2, 15deg);
+      transform: rotate3d(-0.51, 0.49, 0.19, 27deg);
     }
   }
   .back-button-wrapper {
