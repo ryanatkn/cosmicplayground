@@ -139,11 +139,11 @@ const createInputOptions = () => {
   const inputOptions = {
     // — core input options
     // external,
-    input: 'src/main.ts', // required
+    input: 'src/client/main.ts', // required
     plugins: [
       typescript(),
       svelte({
-        include: 'src/components/**/*.svelte',
+        include: 'src/client/**/*.svelte',
         dev: !dev,
         css: css => {
           css.write('static/bundle.css', !dev);
