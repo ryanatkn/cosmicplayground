@@ -161,9 +161,8 @@
           <input
             type="checkbox"
             checked={selected[item.name]}
-            on:change={() => (selected[item.name] = !selected[item.name])}
-            style="visibility: hidden" />
-          <li style="list-style: {selected[item.name] ? 'circle' : 'none'}">{item.name}</li>
+            on:change={() => (selected[item.name] = !selected[item.name])} />
+          <span style="list-style: {selected[item.name] ? 'circle' : 'none'}">{item.name}</span>
         </label>
       </div>
     {/if}
@@ -199,14 +198,14 @@
   /*.item-graphic-translate {}*/
   .item-graphic-rotate {
     position: absolute;
-    left: -50px;
+    right: -200px;
     top: 0;
     width: 3px;
     transform-origin: middle;
   }
   .item-graphic-scale {
     position: absolute;
-    left: -90px;
+    right: -250px;
     top: 0;
     border-radius: 50%;
     transform-origin: middle;
@@ -220,8 +219,15 @@
     align-items: baseline;
     font-weight: bold;
   }
+  .item-label input[type='checkbox'] {
+    visibility: hidden;
+  }
+  .item-label span {
+    display: list-item;
+  }
   section {
-    padding: 15px 15px 15px 100px;
+    padding: 15px;
+    width: 550px;
   }
   input[type='range'] {
     width: 300px;
