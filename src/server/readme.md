@@ -1,0 +1,3 @@
+# cosmicplayground/server
+
+alternative names: ...
