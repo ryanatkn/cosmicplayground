@@ -121,7 +121,7 @@
   </div>
 </section>
 
-<section>
+<section class="controls">
   {#if visible}
     <div class="time" style="width: {timeSliderWidth}px; height: {timeIndicatorSize + timeSliderBorderWidth * 2}px; border-width: {timeSliderBorderWidth}px; border-radius: {(timeIndicatorSize + timeSliderBorderWidth * 2) / 2}px;">
       <div class="time-indicator" style="width: {timeIndicatorSize}px; height: {timeIndicatorSize}px;"

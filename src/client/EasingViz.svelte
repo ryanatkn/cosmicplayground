@@ -223,8 +223,9 @@
     display: list-item;
   }
   section {
-    padding: 15px;
+    padding: 15px 15px 15px 60px;
     width: 550px;
+    margin: 0 auto;
   }
   input[type='range'] {
     width: 300px;

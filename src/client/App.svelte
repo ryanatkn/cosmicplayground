@@ -85,7 +85,7 @@
     <div class="back-button-wrapper">
       <BackButton view={view}/>
     </div>
-    <div style="margin-top: 90px;">
+    <div style="margin: 90px auto 0; max-width: 800px;">
       <Overlay>
         <About name={name}>
           <div style="display: flex; align-items: center;">
@@ -176,12 +176,7 @@
     z-index: 1;
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
     flex-direction: column;
-  }
-  .content > section {
-    position: relative;
   }
   .thumbnails {
     list-style-type: none;
