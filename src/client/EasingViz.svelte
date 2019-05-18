@@ -84,7 +84,7 @@
     }
   };
   const getColor = (index, opacity = 0.8) =>
-    `hsla(${index * 75}deg, 30%, 35%, ${opacity})`;
+    `hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 
   /*
   let filteredTweens;
@@ -161,8 +161,9 @@
           <input
             type="checkbox"
             checked={selected[item.name]}
-            on:change={() => (selected[item.name] = !selected[item.name])} />
-          {item.name}
+            on:change={() => (selected[item.name] = !selected[item.name])}
+            style="visibility: hidden" />
+          <li style="list-style: {selected[item.name] ? 'circle' : 'none'}">{item.name}</li>
         </label>
       </div>
     {/if}
