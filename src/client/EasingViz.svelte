@@ -104,7 +104,7 @@
       class="loop-button"
       on:click={() => (playing = !playing)}
       type="button">
-      {playing ? '⏸' : '▶'}
+      {playing ? 'pause' : 'play'}
     </button>
     <button
       class="toggle-button"
