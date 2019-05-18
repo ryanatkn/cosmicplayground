@@ -16,7 +16,7 @@
       alt="under construction: person_rock"
       class="rock pixelated" />
     <button type="button" class="toggle-button" on:click={pause}>
-      <div style="font-size: 24px">▮▮</div>
+      <div style="font-size: 24px">⏸</div>
       pause universe clock
     </button>
   {:else}

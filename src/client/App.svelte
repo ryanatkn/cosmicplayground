@@ -14,11 +14,12 @@
   import FreqSpeeds0 from './FreqSpeeds0.svelte';
   import HearingTest from './HearingTest.svelte';
   import TransitionDesigner from './TransitionDesigner.svelte';
+  import EasingViz from './EasingViz.svelte';
 
   export let name;
 
   // TODO refactor all of this view code with proper routing
-  export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest | transitionDesigner
+  export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest | transitionDesigner | easingViz
 
   export let windowWidth = window.innerWidth;
   export let windowHeight = window.innerHeight;
@@ -44,7 +45,11 @@
             <div>help, about, credits</div>
           </div>
         </li>
-
+        <li class="thumbnail" on:click={() => view.set('easingViz')}>
+          <div style="font-size: 20px;">
+            easing function visualizations
+          </div>
+        </li>
         <li class="thumbnail" on:click={() => view.set('transitionDesigner')}>
           <div style="font-size: 20px;">
             transition designer
@@ -91,6 +96,13 @@
         </About>
       </Overlay>
     </div>
+  </section>
+{:else if $view === 'easingViz'}
+  <section class="content">
+    <div class="back-button-wrapper">
+      <BackButton view={view}/>
+    </div>
+    <EasingViz/>
   </section>
 {:else if $view === 'transitionDesigner'}
   <section class="content">
