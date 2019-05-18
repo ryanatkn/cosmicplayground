@@ -55,11 +55,8 @@
   $: playing ? startPlaying() : stopPlaying();
   //$: console.log('playing changed', playing);
 
-  // `tweened` does not support updating the `duration` property,
-  // so we re-create all tweens whenever it changes
-  $: tweens = createTweens(duration);
-  $: tweens.set(toggle ? 1 : 0); //, console.log('tweens.set()');
-  //$: console.log('tweens changed', tweens);
+  const tweens = createTweens(duration);
+  $: tweens.set(toggle ? 1 : 0, {duration}); //, console.log('tweens.set()');
 
   $: selected = tweens.names.reduce((v = {}, k) => {
     if (!(k in v)) v[k] = true;
