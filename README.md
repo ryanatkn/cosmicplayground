@@ -58,9 +58,9 @@ npm start
 # open your browser to localhost:3000
 ```
 
-## credits :pray:
+## credits :turtle:
 
-This project relies heavily on content that has been generously
+This project relies on content that has been generously
 made freely available through permissive licensing, like
 [NASA's Hubble imagery](https://www.spacetelescope.org).
 See [docs/credits.md](docs/credits.md) for
