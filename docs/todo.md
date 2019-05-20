@@ -1,5 +1,6 @@
 # todo
 
+- window innerHeight in context/store
 - dev hud
 - eslint
 - precommit typecheck/lint/prettier
@@ -28,15 +29,19 @@
 - keyboard controls
   - escape key first (mac users without escape keys could be instructed to send emotional email to Apple)
 - tests
+  - `src/music/midi.test.ts`
 - deployment
   - server
   - www
 - lerna?
 
+## features
+
+- search the worlds from the home page
+  - tag system - tool/toy, music, math, programming, ...
+
 ## ideas
 
 - FreqSpeeds game with dynamic difficulty (should you ever drop down a level of difficulty? need multiple to advance? lose advancement progress on misses?)
 - interactive animation creator and element styling, starting with 3d transforms
-- expressively "paint" with sound
-  - start with the hearing test interaction model - play with interval bands
-  - make it easy to record and share (data and sound both)
+- colors across the screen based on hue calculation

@@ -13,13 +13,14 @@
   import FreqSpeeds1 from './FreqSpeeds1.svelte';
   import FreqSpeeds0 from './FreqSpeeds0.svelte';
   import HearingTest from './HearingTest.svelte';
+  import Freqscape from './Freqscape.svelte';
   import TransitionDesigner from './TransitionDesigner.svelte';
   import EasingViz from './EasingViz.svelte';
 
   export let name;
 
   // TODO refactor all of this view code with proper routing
-  export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest | transitionDesigner | easingViz
+  export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest | transitionDesigner | easingViz | freqscape
 
   export let windowWidth = window.innerWidth;
   export let windowHeight = window.innerHeight;
@@ -43,6 +44,11 @@
               {name}
             </div>
             <div>help, about, credits</div>
+          </div>
+        </li>
+        <li class="thumbnail" on:click={() => view.set('freqscape')}>
+          <div style="font-size: 20px;">
+            freqscape
           </div>
         </li>
         <li class="thumbnail" on:click={() => view.set('easingViz')}>
@@ -110,6 +116,13 @@
       <BackButton view={view}/>
     </div>
     <TransitionDesigner/>
+  </section>
+{:else if $view === 'freqscape'}
+  <section class="content">
+    <div class="back-button-wrapper">
+      <BackButton view={view}/>
+    </div>
+    <Freqscape/>
   </section>
 {:else if $view === 'hearingTest'}
   <section class="content">

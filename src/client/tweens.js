@@ -26,7 +26,7 @@ export const createTweens = (duration, names = getDefaultEasingNames()) => {
     subscribe,
     names,
     set: (value, options) => {
-      //console.log('setting value for tweens:', v);
+      //console.log('setting value for tweens:', value, options);
       tweens.forEach(t => t.set(value, options));
     },
   };
