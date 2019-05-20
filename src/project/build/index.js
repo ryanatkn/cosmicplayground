@@ -1,8 +1,10 @@
 import dotenv from 'dotenv';
 dotenv.config();
 if (!process.env.NODE_ENV) process.env.NODE_ENV = 'development';
-const {NODE_ENV} = process.env;
+const {NODE_ENV, PORT, HOST} = process.env;
 const dev = NODE_ENV !== 'production';
+const host = HOST || '0.0.0.0';
+const port = PORT || '3000';
 
 import rollup from 'rollup';
 import svelte from 'rollup-plugin-svelte';
@@ -20,24 +22,37 @@ import {argv, verboseLog, handleTaskError, rainbow} from '../scriptUtils.js';
 const watch = argv['watch'];
 
 const runBuild = async () => {
+  verboseLog(ck.magenta(`building ... NODE_ENV=${NODE_ENV}`));
+
   // clean up and prepare build directory
   verboseLog(ck.magenta('cleaning up and preparing build dir'));
   fs.ensureDirSync(paths.appBuildDist);
   fs.emptyDirSync(paths.appBuildDist);
 
-  // copy over static files
-  verboseLog(ck.magenta('copying static files'));
-  await fs.copy(paths.appStatic, paths.appBuildDistClient, {dereference: true});
-
   // run rollup
   if (watch) {
+    // TODO we currently have things a bit wonky between /build and /static - need to figure out how we want things to work (it can be nice to get prod builds in /build for dev purposes)
+    // copy over static files
+    verboseLog(ck.magenta('copying static files'));
+    await fs.copy(paths.appStatic, paths.appBuildDistClient, {
+      dereference: true,
+    });
+
+    // run the watcher
     verboseLog(ck.magenta('building and watching'));
     await runRollupWatcher();
     verboseLog(ck.magenta('stopped watching'));
   } else {
+    // build the js
     verboseLog(ck.magenta('building'));
     await runRollupBuild();
     verboseLog(ck.magenta('completed build'));
+
+    // copy over static files
+    verboseLog(ck.magenta('copying static files'));
+    await fs.copy(paths.appStatic, paths.appBuildDistClient, {
+      dereference: true,
+    });
   }
 };
 
@@ -152,7 +167,7 @@ const createInputOptions = () => {
       resolve(),
       commonjs(),
       ...(dev
-        ? [serve({contentBase: 'static', port: 3000, host: '0.0.0.0'})]
+        ? [serve({contentBase: 'static', host, port})]
         : [terser.terser()]),
     ],
 
