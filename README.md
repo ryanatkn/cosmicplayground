@@ -34,8 +34,8 @@ sharing ideas and experiences. Participation can take many forms:
   Code is an exception - all of it is CC0.
   See [the credits](docs/credits.md) and
   [contributors](docs/contributors.md) for more.
-  Also, if you want to make sure I'll accept your stuff,
-  please open an issue so we can talk about it first.
+  I'm not sure what contributions I'll solicit yet,
+  but if you have something cool in mind please do let me know!
 - email [cosmicplayground.org@gmail.com](mailto:cosmicplayground.org@gmail.com)
 - donate on [Patreon](https://patreon.com/ryanatkn)
 - [cosmicplayground.org](https://cosmicplayground.org)
