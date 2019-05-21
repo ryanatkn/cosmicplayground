@@ -84,22 +84,16 @@
     ? e.touches[0].clientY
     : e.clientY;
   const handlePointerDown = e => {
-    e.stopPropagation();
-    e.preventDefault();
     start();
     pointerX = pointerEventX(e);
     pointerY = pointerEventY(e);
   };
   const handlePointerUp = e => {
     if (!audioCtx || !osc) return;
-    e.stopPropagation();
-    e.preventDefault();
     stop();
   };
   const handlePointerMove = e => {
     if (!audioCtx || !osc) return;
-    e.stopPropagation();
-    e.preventDefault();
     pointerX = pointerEventX(e);
     pointerY = pointerEventY(e);
   };
@@ -131,14 +125,14 @@
   {/if}
   <div
     class="surface"
-    on:mousedown={handlePointerDown}
-    on:mouseup={handlePointerUp}
-    on:mouseleave={handlePointerUp}
-    on:mousemove={handlePointerMove}
-    on:touchstart={handlePointerDown}
-    on:touchend={handlePointerUp}
-    on:touchcancel={handlePointerUp}
-    on:touchmove={handlePointerMove}
+    on:mousedown|stopPropagation|preventDefault={handlePointerDown}
+    on:mouseup|stopPropagation|preventDefault={handlePointerUp}
+    on:mouseleave|stopPropagation|preventDefault={handlePointerUp}
+    on:mousemove|stopPropagation|preventDefault={handlePointerMove}
+    on:touchstart|stopPropagation|preventDefault={handlePointerDown}
+    on:touchend|stopPropagation|preventDefault={handlePointerUp}
+    on:touchcancel|stopPropagation|preventDefault={handlePointerUp}
+    on:touchmove|stopPropagation|preventDefault={handlePointerMove}
     bind:clientWidth={width}
     bind:clientHeight={height} />
 </div>

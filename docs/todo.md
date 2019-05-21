@@ -1,7 +1,9 @@
 # todo
 
+- keys for all #each - fixed obscure bug in svg paths
 - window innerHeight in context/store
 - dev hud
+  - dev tools? seeing component state would be nice. first step towards integrated env.
 - eslint
 - precommit typecheck/lint/prettier
 - proper build to `dist/`
@@ -16,6 +18,8 @@
   - lazy loading - https://github.com/OrdinaryJellyfish/svelte-routing-template
 - css (atomic/tailwind? postcss/less/sass? normalize?)
   - https://github.com/PaulMaly/svelte-tailwind
+  - https://medium.com/seek-blog/a-unified-styling-language-d0c208de2660
+    - libs to look at: styletron, polished
 - xstate?
 - typescript
   - tracking issue - https://github.com/sveltejs/svelte/issues/1639
@@ -33,6 +37,7 @@
 - deployment
   - server
   - www
+- solicit help naming things
 - lerna?
 
 ## features
@@ -45,3 +50,7 @@
 - FreqSpeeds game with dynamic difficulty (should you ever drop down a level of difficulty? need multiple to advance? lose advancement progress on misses?)
 - interactive animation creator and element styling, starting with 3d transforms
 - colors across the screen based on hue calculation
+- three pane chat/forum mockup (that could turn into a real thing!)
+
+## space stories
+http://hubblesite.org/image/837/news_release/1999-26

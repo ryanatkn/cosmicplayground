@@ -2,7 +2,7 @@
   // ...
 </script>
 
-<div class="wrapper" on:click={e => e.stopPropagation()}>
+<div class="wrapper" on:click|stopPropagation>
   <div class="content">
     <slot></slot>
   </div>
