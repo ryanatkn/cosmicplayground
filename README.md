@@ -58,7 +58,7 @@ npm start
 # open your browser to localhost:3000
 ```
 
-## credits :turtle:
+## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
 
 This project relies on content that has been generously
 made freely available through permissive licensing, like
