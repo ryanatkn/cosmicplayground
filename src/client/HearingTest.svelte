@@ -5,39 +5,50 @@
   import {mix} from '../utils/math.js';
   import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../audio/utils.js';
 
-  let clientWidth;
-  let clientHeight;
+  let width;
+  let height;
   
   let audioCtx;
   const initAudioCtx = () => {
     audioCtx = createAudioCtx();
   };
 
-  let spotPosition = spring({x: -100, y: -100}, {
+  let pointerX = -300;
+  let pointerY = -300;
+
+  let spotPosition = spring({x: pointerX, y: pointerY}, {
     stiffness: 0.08,
     damping: 0.32,
   });
+  $: spotPosition.set({x: pointerX, y: pointerY});
 
   let osc;
   let gain;
 
-  let freq;
-  let volume;
-  $: displayedVolume = volume === undefined ? '' : Math.round(volume * 100);
+  $: freq = (pointerX >= 0 && width) ? calcFreq(pointerX, width) : undefined;
   $: displayedFreq = freq === undefined ? '' : Math.round(freq);
-
-  const setFreq = f => {
-    osc.frequency.setValueAtTime(f, audioCtx.currentTime);
-    freq = f;
+  $: if (osc && freq !== undefined) {
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
   };
-  const setVolume = v => {
-    const gainValue = volumeToGain(v);
+  const freqMin = 0;
+  const freqMax = 25000;
+  const calcFreq = (value, max) => {
+    return mix(freqMin, freqMax, value / max);
+  };
+
+  $: volume = (pointerY >= 0 && height) ? calcVolume(pointerY, height) : undefined;
+  $: displayedVolume = volume === undefined ? '' : Math.round(volume * 100);
+  $: if (gain && volume !== undefined) {
     gain.gain.setTargetAtTime(
-      gainValue,
+      volumeToGain(volume),
       audioCtx.currentTime,
       SMOOTH_GAIN_TIME_CONSTANT,
     );
-    volume = v;
+  };
+  const volumeMin = 0;
+  const volumeMax = 1;
+  const calcVolume = (value, max) => {
+    return mix(volumeMin, volumeMax, 1 - value / max);
   };
 
   const start = () => {
@@ -63,24 +74,6 @@
     gain = undefined;
   };
 
-  const freqMin = 0;
-  const freqMax = 25000;
-  const calcFreq = (value, max) => {
-    return mix(freqMin, freqMax, value / max);
-  };
-  const volumeMin = 0;
-  const volumeMax = 1;
-  const calcVolume = (value, max) => {
-    return mix(volumeMin, volumeMax, 1 - value / max);
-  };
-
-  const updateValues = (x, y, width, height) => {
-    const freq = calcFreq(x, width);
-    const volume = calcVolume(y, height);
-    setFreq(freq);
-    setVolume(volume);
-    spotPosition.set({x, y});
-  };
 
   // TODO more cleanly handle touch/click - pointer events with polyfill for Safari? (probably using Svelte actions)
   // or maybe support multiple touches? yeah...that makes sense here.
@@ -94,7 +87,8 @@
     e.stopPropagation();
     e.preventDefault();
     start();
-    updateValues(pointerEventX(e), pointerEventY(e), clientWidth, clientHeight);
+    pointerX = pointerEventX(e);
+    pointerY = pointerEventY(e);
   };
   const handlePointerUp = e => {
     if (!audioCtx || !osc) return;
@@ -106,7 +100,8 @@
     if (!audioCtx || !osc) return;
     e.stopPropagation();
     e.preventDefault();
-    updateValues(pointerEventX(e), pointerEventY(e), clientWidth, clientHeight);
+    pointerX = pointerEventX(e);
+    pointerY = pointerEventY(e);
   };
 </script>
 
@@ -144,8 +139,8 @@
     on:touchend={handlePointerUp}
     on:touchcancel={handlePointerUp}
     on:touchmove={handlePointerMove}
-    bind:clientWidth
-    bind:clientHeight />
+    bind:clientWidth={width}
+    bind:clientHeight={height} />
 </div>
 
 <style>
