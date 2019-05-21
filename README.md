@@ -60,12 +60,14 @@ npm start
 
 ## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
 
-This project relies on content that has been generously
+This project relies on content and code that has been generously
 made freely available through permissive licensing, like
-[NASA's Hubble imagery](https://www.spacetelescope.org).
+[NASA's Hubble imagery](https://www.spacetelescope.org)
+and open source web stuff.
 See [docs/credits.md](docs/credits.md) for
 the complete list of assets used in the project,
-and see [docs/contributors.md](docs/contributors.md)
+[package.json](package.json) for the code powering things,
+and [docs/contributors.md](docs/contributors.md)
 for the list of people making it all go.
 
 ## license
