@@ -12,7 +12,7 @@
   /*
   
   ideas
-  - color the trail (probably change from svg lines to canvas with blend mode)
+  - support painting with a closed shape, not just lines
   - are there other interesting ways to convey octave differences?
   - interval bands? maybe separate button half into chunky intervals
   - blended colors instead of nearest chroma?
@@ -28,7 +28,7 @@
   let pointerX = -300;
   let pointerY = -300;
   let width, height;
-  let canvas, canvasCtx, canvasData;
+  let canvas, canvasCtx, canvasData, fgDataUrl;
   $: if (canvas && width && height) updateCanvas();
 
   // TODO move to shared location? src/music/notes? colors?
@@ -42,7 +42,7 @@
     canvas.height = height;
     canvasData = canvasCtx.createImageData(width, height);
     drawFreqColors();
-  }
+  };
   const drawFreqColors = () => {
     const {data} = canvasData;
     for (let i = 0; i < data.length; i += 4) {
@@ -58,12 +58,20 @@
       data[i + 3] = 255;
     }
     canvasCtx.putImageData(canvasData, 0, 0);
+    fgDataUrl = canvas.toDataURL();
   };
 
-  let lines = []; // array of svg polyline `points` - ['x1,y1 x2,y2', 'x1,y1 x2,y2, x3,y3'] - might need to change to numbers for other processing
+  let lines = [{id: 0, points: ''}];
   $: if (pointerX >= 0) {
     // this won't work for replaying sounds - we'd need to store lines every frame instead of pointer changes
-    lines[lines.length - 1] += ` ${pointerX},${pointerY}`;
+    const point = ` ${pointerX},${pointerY}`;
+    const line = lines[lines.length - 1];
+    if (line.points) {
+      line.points += point;
+    } else {
+      // draw the initial point as a tiny line, so individual points appear onscreen
+      line.points = `${pointerX - 3},${pointerY - 3}${point}`;
+    }
     lines = lines;
   };
 
@@ -140,11 +148,13 @@
     start();
     pointerX = pointerEventX(e);
     pointerY = pointerEventY(e);
+
+    const nextPoint = {id: lines[lines.length - 1].id + 1, points: ''};
     if (e.ctrlKey) {
-      lines.push([]);
+      lines.push(nextPoint);
       lines = lines;
     } else {
-      lines = [[]];
+      lines = [nextPoint];
     }
   };
   const handlePointerUp = e => {
@@ -165,18 +175,28 @@
 <div class="wrapper">
   {#if $spotPosition}
     <svg>
-      <filter id="blurOuter" height="200%" width="200%" y="-50%" x="-50%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+      <!--
+        Chrome doesn't appear to support setting a canvas mask to an svg (it works in Firefox)
+        so we use an svg `image` with a `dataUrl` instead.
+      -->
+      <image xlink:href={fgDataUrl} {width} {height} mask="url(#linePaths)" />      
+      <defs>
+        <mask id="linePaths">
+          {#each lines as line (line.id)}
+            <polyline points={line.points} stroke="white" stroke-width="5" fill="none"/>
+          {/each}
+        </mask>
+      </defs>
+
+      <filter id="blurOuter" height="300%" width="300%" y="-50%" x="-50%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
       </filter>
-      <circle class="outer" cx={$spotPosition.x} cy={$spotPosition.y} r={20} filter="url(#blurOuter)" />
+      <circle class="outer" cx={$spotPosition.x} cy={$spotPosition.y} r={30} filter="url(#blurOuter)" />
       <circle class="inner" cx={$spotPosition.x} cy={$spotPosition.y} r={2} />
-      {#each lines as line}
-        <polyline points={line}/>
-      {/each}
     </svg>
   {/if}
   {#if width !== undefined}
-    <canvas bind:this={canvas}/>
+    <canvas id="bg-canvas" bind:this={canvas}/>
   {/if}
   {#if displayedFreq}
     <div class="freq">
@@ -201,24 +221,31 @@
 
 <style>
   .wrapper {
+    position: relative;
     width: 100%;
     height: 100%;
-    position: relative;
     overflow: hidden;
   }
-  .surface {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 3;
-  }
-  svg {
-    width: 100%;
-    height: 100%;
+  #bg-canvas {
+    z-index: 1;
     position: absolute;
     left: 0;
     top: 0;
+    opacity: 0.25;
+  }
+  .surface {
+    z-index: 3;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  svg {
     z-index: 2;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
   }
   circle.outer {
     fill: rgba(226, 182, 255, 0.4);
@@ -238,13 +265,6 @@
   circle.inner {
     fill: rgb(226, 182, 255);
   }
-  polyline {
-    stroke: rgb(226, 182, 255);
-    stroke-width: 3;
-    fill: none;
-    opacity: 0.4;
-    mix-blend-mode: multiply;
-  }
   .freq {
     position: absolute;
     bottom: 15px;
@@ -259,11 +279,5 @@
   }
   .unit {
     opacity: 0.6;
-  }
-  canvas {
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0.25;
   }
 </style>
