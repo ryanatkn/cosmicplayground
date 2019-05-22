@@ -55,8 +55,18 @@
   },
   "dependencies": {},
   "prettier": {
+    "sortOrder": "scripts-markup-styles",
+    "useTabs": true,
     "singleQuote": true,
     "trailingComma": "all",
-    "bracketSpacing": false
+    "bracketSpacing": false,
+    "overrides": [
+      {
+        "files": "*.json",
+        "options": {
+          "useTabs": false
+        }
+      }
+    ]
   }
 }

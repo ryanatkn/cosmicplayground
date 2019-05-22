@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const {NODE_ENV, SERVER_USER, SERVER_IP, SERVER_SSH_PORT} = process.env;
 if (NODE_ENV !== 'production') {
-  throw Error(`Expected NODE_ENV to be 'production', not '${NODE_ENV}'`);
+	throw Error(`Expected NODE_ENV to be 'production', not '${NODE_ENV}'`);
 }
 if (!SERVER_USER) throw Error('SERVER_USER env var is required for deployment');
 if (!SERVER_IP) throw Error('SERVER_IP env var is required for deployment');
@@ -19,7 +19,7 @@ const dryRun = argv['dry-run'];
 
 // Make sure the build is ready
 if (!fs.existsSync(paths.appBuildDistClient)) {
-  throw Error(`Build directory does not exist: ${paths.appBuildDistClient}`);
+	throw Error(`Build directory does not exist: ${paths.appBuildDistClient}`);
 }
 
 /**
@@ -34,92 +34,92 @@ if (!fs.existsSync(paths.appBuildDistClient)) {
  * directly deployed without special handling.
  */
 const runDeploy = async () => {
-  const command = createDeployCommand();
-  verboseLog(ck.magenta(`deployment command`), ck.cyan(command));
+	const command = createDeployCommand();
+	verboseLog(ck.magenta(`deployment command`), ck.cyan(command));
 
-  if (dryRun) {
-    console.log(ck.magenta('dryrun - skipping command execution'));
-  } else {
-    verboseLog(ck.magenta('executing deploy command'));
-    const {stdout, stderr} = await new Promise((resolve, reject) => {
-      exec(command, (err, stdout, stderr) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve({stdout, stderr});
-        }
-      });
-    });
-    if (stdout) console.log(stdout);
-    if (stderr) console.error(stderr);
-    verboseLog(ck.magenta('executed deploy command'));
-  }
+	if (dryRun) {
+		console.log(ck.magenta('dryrun - skipping command execution'));
+	} else {
+		verboseLog(ck.magenta('executing deploy command'));
+		const {stdout, stderr} = await new Promise((resolve, reject) => {
+			exec(command, (err, stdout, stderr) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve({stdout, stderr});
+				}
+			});
+		});
+		if (stdout) console.log(stdout);
+		if (stderr) console.error(stderr);
+		verboseLog(ck.magenta('executed deploy command'));
+	}
 };
 
 const createDeployCommand = () => {
-  const p = createPaths();
+	const p = createPaths();
 
-  const serverHost = `${SERVER_USER}@${SERVER_IP}`;
-  const ssh = `ssh ${serverHost}${
-    SERVER_SSH_PORT ? ` -p ${SERVER_SSH_PORT}` : ''
-  }`;
+	const serverHost = `${SERVER_USER}@${SERVER_IP}`;
+	const ssh = `ssh ${serverHost}${
+		SERVER_SSH_PORT ? ` -p ${SERVER_SSH_PORT}` : ''
+	}`;
 
-  const createTarball = `tar -czf ${p.localTarball} -C ${
-    paths.appBuild
-  } ${fp.relative(paths.appBuild, paths.appBuildDist)}`;
+	const createTarball = `tar -czf ${p.localTarball} -C ${
+		paths.appBuild
+	} ${fp.relative(paths.appBuild, paths.appBuildDist)}`;
 
-  const scpTarball = `scp ${
-    SERVER_SSH_PORT ? `-P ${SERVER_SSH_PORT}` : ''
-  } -p ${p.localTarball} ${serverHost}:${p.remoteApp}`;
+	const scpTarball = `scp ${
+		SERVER_SSH_PORT ? `-P ${SERVER_SSH_PORT}` : ''
+	} -p ${p.localTarball} ${serverHost}:${p.remoteApp}`;
 
-  const setupServer = [
-    `rm -rf ${p.remoteDist}`,
-    `tar -xzf ${p.remoteTarball} -C ${p.remoteApp}`,
-  ].join(' && ');
+	const setupServer = [
+		`rm -rf ${p.remoteDist}`,
+		`tar -xzf ${p.remoteTarball} -C ${p.remoteApp}`,
+	].join(' && ');
 
-  const command = [createTarball, scpTarball, `${ssh} '${setupServer}'`].join(
-    ' && ',
-  );
+	const command = [createTarball, scpTarball, `${ssh} '${setupServer}'`].join(
+		' && ',
+	);
 
-  return command;
+	return command;
 };
 
 const createPaths = () => {
-  const remoteApp = '/var/www/cosmicplayground.org';
-  const tarFileName = 'dist.tar.gz';
+	const remoteApp = '/var/www/cosmicplayground.org';
+	const tarFileName = 'dist.tar.gz';
 
-  const remoteDist = fp.join(
-    remoteApp,
-    fp.relative(paths.appBuild, paths.appBuildDist),
-  );
+	const remoteDist = fp.join(
+		remoteApp,
+		fp.relative(paths.appBuild, paths.appBuildDist),
+	);
 
-  const p = {
-    remoteApp,
-    tarFileName,
-    remoteDist,
-    remoteDistClient: fp.join(
-      remoteDist,
-      fp.relative(paths.appBuildDist, paths.appBuildDistClient),
-    ),
-    remoteTarball: fp.join(remoteApp, tarFileName),
-    localTarball: fp.join(paths.appBuild, tarFileName),
-  };
-  verboseLog(ck.magenta('deployment paths'), p);
-  return p;
+	const p = {
+		remoteApp,
+		tarFileName,
+		remoteDist,
+		remoteDistClient: fp.join(
+			remoteDist,
+			fp.relative(paths.appBuildDist, paths.appBuildDistClient),
+		),
+		remoteTarball: fp.join(remoteApp, tarFileName),
+		localTarball: fp.join(paths.appBuild, tarFileName),
+	};
+	verboseLog(ck.magenta('deployment paths'), p);
+	return p;
 };
 
 runDeploy()
-  .then(() => {
-    console.log(
-      [
-        rainbow('~~~~~~~~~~~~~~~~~~'),
-        rainbow('~~~! deployed !~~~'),
-        rainbow('~~~~~~~~~~~~~~~~~~'),
-      ].join('\n'),
-    );
-    if (dryRun) console.log(ck.magenta('dry run complete'));
-  })
-  .catch(err => {
-    console.error(err);
-    throw err;
-  });
+	.then(() => {
+		console.log(
+			[
+				rainbow('~~~~~~~~~~~~~~~~~~'),
+				rainbow('~~~! deployed !~~~'),
+				rainbow('~~~~~~~~~~~~~~~~~~'),
+			].join('\n'),
+		);
+		if (dryRun) console.log(ck.magenta('dry run complete'));
+	})
+	.catch(err => {
+		console.error(err);
+		throw err;
+	});

@@ -6,7 +6,7 @@
 // or it needs `resume` called for some browsers.
 // This is tricky when putting it in a top-level Svelte component's `setContext`.
 export const createAudioCtx = (): AudioContext => {
-  const w: any = window;
-  const audioCtx = new (w.AudioContext || w.webkitAudioContext)();
-  return audioCtx;
+	const w: any = window;
+	const audioCtx = new (w.AudioContext || w.webkitAudioContext)();
+	return audioCtx;
 };

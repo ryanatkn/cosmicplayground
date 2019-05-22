@@ -22,230 +22,230 @@ import {argv, verboseLog, handleTaskError, rainbow} from '../scriptUtils.js';
 const watch = argv['watch'];
 
 const runBuild = async () => {
-  verboseLog(ck.magenta(`building ... NODE_ENV=${NODE_ENV}`));
+	verboseLog(ck.magenta(`building ... NODE_ENV=${NODE_ENV}`));
 
-  // clean up and prepare build directory
-  verboseLog(ck.magenta('cleaning up and preparing build dir'));
-  fs.ensureDirSync(paths.appBuildDist);
-  fs.emptyDirSync(paths.appBuildDist);
+	// clean up and prepare build directory
+	verboseLog(ck.magenta('cleaning up and preparing build dir'));
+	fs.ensureDirSync(paths.appBuildDist);
+	fs.emptyDirSync(paths.appBuildDist);
 
-  // run rollup
-  if (watch) {
-    // TODO we currently have things a bit wonky between /build and /static - need to figure out how we want things to work (it can be nice to get prod builds in /build for dev purposes)
-    // copy over static files
-    verboseLog(ck.magenta('copying static files'));
-    await fs.copy(paths.appStatic, paths.appBuildDistClient, {
-      dereference: true,
-    });
+	// run rollup
+	if (watch) {
+		// TODO we currently have things a bit wonky between /build and /static - need to figure out how we want things to work (it can be nice to get prod builds in /build for dev purposes)
+		// copy over static files
+		verboseLog(ck.magenta('copying static files'));
+		await fs.copy(paths.appStatic, paths.appBuildDistClient, {
+			dereference: true,
+		});
 
-    // run the watcher
-    verboseLog(ck.magenta('building and watching'));
-    await runRollupWatcher();
-    verboseLog(ck.magenta('stopped watching'));
-  } else {
-    // build the js
-    verboseLog(ck.magenta('building'));
-    await runRollupBuild();
-    verboseLog(ck.magenta('completed build'));
+		// run the watcher
+		verboseLog(ck.magenta('building and watching'));
+		await runRollupWatcher();
+		verboseLog(ck.magenta('stopped watching'));
+	} else {
+		// build the js
+		verboseLog(ck.magenta('building'));
+		await runRollupBuild();
+		verboseLog(ck.magenta('completed build'));
 
-    // copy over static files
-    verboseLog(ck.magenta('copying static files'));
-    await fs.copy(paths.appStatic, paths.appBuildDistClient, {
-      dereference: true,
-    });
-  }
+		// copy over static files
+		verboseLog(ck.magenta('copying static files'));
+		await fs.copy(paths.appStatic, paths.appBuildDistClient, {
+			dereference: true,
+		});
+	}
 };
 
 const runRollupWatcher = async () => {
-  return new Promise((resolve, reject) => {
-    const watchOptions = createWatchOptions();
-    console.log('watchOptions', watchOptions);
-    const watcher = rollup.watch(watchOptions);
+	return new Promise((resolve, reject) => {
+		const watchOptions = createWatchOptions();
+		console.log('watchOptions', watchOptions);
+		const watcher = rollup.watch(watchOptions);
 
-    watcher.on('event', event => {
-      verboseLog(ck.magenta(`rollup event: ${event.code}`));
-      switch (event.code) {
-        case 'START': // the watcher is (re)starting
-        case 'BUNDLE_START': // building an individual bundle
-        case 'BUNDLE_END': // finished building a bundle
-        case 'END': // finished building all bundles
-          break;
-        case 'ERROR': // encountered an error while bundling
-          console.log('error', event);
-          reject(`Error: ${event.message}`);
-          break;
-        case 'FATAL': // encountered an unrecoverable error
-          console.log('fatal', event);
-          reject(`Fatal error: ${event.message}`);
-          break;
-        default:
-          throw Error(`Unknown rollup watch event code: ${event.code}`);
-      }
-    });
+		watcher.on('event', event => {
+			verboseLog(ck.magenta(`rollup event: ${event.code}`));
+			switch (event.code) {
+				case 'START': // the watcher is (re)starting
+				case 'BUNDLE_START': // building an individual bundle
+				case 'BUNDLE_END': // finished building a bundle
+				case 'END': // finished building all bundles
+					break;
+				case 'ERROR': // encountered an error while bundling
+					console.log('error', event);
+					reject(`Error: ${event.message}`);
+					break;
+				case 'FATAL': // encountered an unrecoverable error
+					console.log('fatal', event);
+					reject(`Fatal error: ${event.message}`);
+					break;
+				default:
+					throw Error(`Unknown rollup watch event code: ${event.code}`);
+			}
+		});
 
-    // call this ever?
-    // watcher.close();
-  });
+		// call this ever?
+		// watcher.close();
+	});
 };
 
 const runRollupBuild = async () => {
-  const inputOptions = createInputOptions();
-  const outputOptions = createOutputOptions();
+	const inputOptions = createInputOptions();
+	const outputOptions = createOutputOptions();
 
-  const build = await rollup.rollup(inputOptions);
+	const build = await rollup.rollup(inputOptions);
 
-  const output = await build.generate(outputOptions);
+	const output = await build.generate(outputOptions);
 
-  // for (const chunkOrAsset of output.output) {
-  //   if (chunkOrAsset.isAsset) {
-  //     // For assets, this contains
-  //     // {
-  //     //   isAsset: true,                 // signifies that this is an asset
-  //     //   fileName: string,              // the asset file name
-  //     //   source: string | Buffer        // the asset source
-  //     // }
-  //     console.log('Asset', chunkOrAsset);
-  //   } else {
-  //     // For chunks, this contains
-  //     // {
-  //     //   code: string,                  // the generated JS code
-  //     //   dynamicImports: string[],      // external modules imported dynamically by the chunk
-  //     //   exports: string[],             // exported variable names
-  //     //   facadeModuleId: string | null, // the id of a module that this chunk corresponds to
-  //     //   fileName: string,              // the chunk file name
-  //     //   imports: string[],             // external modules imported statically by the chunk
-  //     //   isDynamicEntry: boolean,       // is this chunk a dynamic entry point
-  //     //   isEntry: boolean,              // is this chunk a static entry point
-  //     //   map: string | null,            // sourcemaps if present
-  //     //   modules: {                     // information about the modules in this chunk
-  //     //     [id: string]: {
-  //     //       renderedExports: string[]; // exported variable names that were included
-  //     //       removedExports: string[];  // exported variable names that were removed
-  //     //       renderedLength: number;    // the length of the remaining code in this module
-  //     //       originalLength: number;    // the original length of the code in this module
-  //     //     };
-  //     //   },
-  //     //   name: string                   // the name of this chunk as used in naming patterns
-  //     // }
-  //     console.log('Chunk', chunkOrAsset.modules);
-  //   }
-  // }
+	// for (const chunkOrAsset of output.output) {
+	//   if (chunkOrAsset.isAsset) {
+	//     // For assets, this contains
+	//     // {
+	//     //   isAsset: true,                 // signifies that this is an asset
+	//     //   fileName: string,              // the asset file name
+	//     //   source: string | Buffer        // the asset source
+	//     // }
+	//     console.log('Asset', chunkOrAsset);
+	//   } else {
+	//     // For chunks, this contains
+	//     // {
+	//     //   code: string,                  // the generated JS code
+	//     //   dynamicImports: string[],      // external modules imported dynamically by the chunk
+	//     //   exports: string[],             // exported variable names
+	//     //   facadeModuleId: string | null, // the id of a module that this chunk corresponds to
+	//     //   fileName: string,              // the chunk file name
+	//     //   imports: string[],             // external modules imported statically by the chunk
+	//     //   isDynamicEntry: boolean,       // is this chunk a dynamic entry point
+	//     //   isEntry: boolean,              // is this chunk a static entry point
+	//     //   map: string | null,            // sourcemaps if present
+	//     //   modules: {                     // information about the modules in this chunk
+	//     //     [id: string]: {
+	//     //       renderedExports: string[]; // exported variable names that were included
+	//     //       removedExports: string[];  // exported variable names that were removed
+	//     //       renderedLength: number;    // the length of the remaining code in this module
+	//     //       originalLength: number;    // the original length of the code in this module
+	//     //     };
+	//     //   },
+	//     //   name: string                   // the name of this chunk as used in naming patterns
+	//     // }
+	//     console.log('Chunk', chunkOrAsset.modules);
+	//   }
+	// }
 
-  await build.write(outputOptions);
+	await build.write(outputOptions);
 
-  return {build, output};
+	return {build, output};
 };
 
 const createWatchOptions = () => {
-  const watchOptions = {
-    ...createInputOptions(),
-    output: createOutputOptions(),
-    watch: {
-      // chokidar,
-      clearScreen: false,
-      exclude: 'node_modules/**',
-      // include,
-    },
-  };
-  return watchOptions;
+	const watchOptions = {
+		...createInputOptions(),
+		output: createOutputOptions(),
+		watch: {
+			// chokidar,
+			clearScreen: false,
+			exclude: 'node_modules/**',
+			// include,
+		},
+	};
+	return watchOptions;
 };
 
 const createInputOptions = () => {
-  const inputOptions = {
-    // — core input options
-    // external,
-    input: 'src/client/main.ts', // required
-    plugins: [
-      typescript(),
-      svelte({
-        include: 'src/client/**/*.svelte',
-        dev: !dev,
-        css: css => {
-          css.write('static/bundle.css', !dev);
-        },
-      }),
-      resolve(),
-      commonjs(),
-      ...(dev
-        ? [serve({contentBase: 'static', host, port})]
-        : [terser.terser()]),
-    ],
+	const inputOptions = {
+		// — core input options
+		// external,
+		input: 'src/client/main.ts', // required
+		plugins: [
+			typescript(),
+			svelte({
+				include: 'src/client/**/*.svelte',
+				dev: !dev,
+				css: css => {
+					css.write('static/bundle.css', !dev);
+				},
+			}),
+			resolve(),
+			commonjs(),
+			...(dev
+				? [serve({contentBase: 'static', host, port})]
+				: [terser.terser()]),
+		],
 
-    // — advanced input options
-    // cache,
-    // inlineDynamicImports,
-    // manualChunks,
-    // onwarn,
-    // preserveModules,
+		// — advanced input options
+		// cache,
+		// inlineDynamicImports,
+		// manualChunks,
+		// onwarn,
+		// preserveModules,
 
-    // — danger zone
-    // acorn,
-    // acornInjectPlugins,
-    // context,
-    // moduleContext,
-    // preserveSymlinks,
-    // shimMissingExports,
-    // treeshake,
+		// — danger zone
+		// acorn,
+		// acornInjectPlugins,
+		// context,
+		// moduleContext,
+		// preserveSymlinks,
+		// shimMissingExports,
+		// treeshake,
 
-    // — experimental
-    // chunkGroupingSize,
-    // experimentalCacheExpiry,
-    // experimentalOptimizeChunks,
-    // experimentalTopLevelAwait,
-    // perf
-  };
-  return inputOptions;
+		// — experimental
+		// chunkGroupingSize,
+		// experimentalCacheExpiry,
+		// experimentalOptimizeChunks,
+		// experimentalTopLevelAwait,
+		// perf
+	};
+	return inputOptions;
 };
 
 const createOutputOptions = () => {
-  const outputOptions = {
-    // — core output options
-    // dir,
-    file: 'static/bundle.js',
-    format: 'iife', // required
-    // globals,
-    name: 'app',
+	const outputOptions = {
+		// — core output options
+		// dir,
+		file: 'static/bundle.js',
+		format: 'iife', // required
+		// globals,
+		name: 'app',
 
-    // — advanced output options
-    // assetFileNames,
-    // banner,
-    // chunkFileNames,
-    // compact,
-    // entryFileNames,
-    // extend,
-    // footer,
-    // interop,
-    // intro,
-    // outro,
-    // paths,
-    sourcemap: true,
-    // sourcemapExcludeSources,
-    // sourcemapFile,
-    // sourcemapPathTransform,
+		// — advanced output options
+		// assetFileNames,
+		// banner,
+		// chunkFileNames,
+		// compact,
+		// entryFileNames,
+		// extend,
+		// footer,
+		// interop,
+		// intro,
+		// outro,
+		// paths,
+		sourcemap: true,
+		// sourcemapExcludeSources,
+		// sourcemapFile,
+		// sourcemapPathTransform,
 
-    // — danger zone
-    // amd,
-    // dynamicImportFunction,
-    // esModule,
-    // exports,
-    // freeze,
-    // indent,
-    // namespaceToStringTag,
-    // noConflict,
-    // preferConst,
-    // strict
-  };
-  return outputOptions;
+		// — danger zone
+		// amd,
+		// dynamicImportFunction,
+		// esModule,
+		// exports,
+		// freeze,
+		// indent,
+		// namespaceToStringTag,
+		// noConflict,
+		// preferConst,
+		// strict
+	};
+	return outputOptions;
 };
 
 runBuild()
-  .then(() => {
-    console.log(
-      [
-        rainbow('—————————————'),
-        rainbow('——! built !——'),
-        rainbow('—————————————'),
-      ].join('\n'),
-    );
-  })
-  .catch(handleTaskError);
+	.then(() => {
+		console.log(
+			[
+				rainbow('—————————————'),
+				rainbow('——! built !——'),
+				rainbow('—————————————'),
+			].join('\n'),
+		);
+	})
+	.catch(handleTaskError);
