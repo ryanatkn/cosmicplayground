@@ -204,7 +204,6 @@
     cursor: pointer;
     position: relative;
     z-index: 2;
-    opacity: 0.7;
     padding: 12px;
     border: 3px dashed rgba(255, 255, 255, 0.3);
     margin: 12px;
@@ -213,16 +212,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    transition: transform 0.06s ease-out;
+    transform: scale3d(1, 1, 1);
   }
   .thumbnail:hover {
-    opacity: 0.85;
+    transform: scale3d(1.06, 1.06, 1);
     border-width: 5px;
     padding: 10px;
     /* TODO the padding needs to be reduced as the border increases - should do this with some code instead of manually - PostCSS? */
   }
   .thumbnail:active {
-    opacity: 0.95;
-    border-style: double;
+    border-style: dotted;
+    transform: scale3d(0.93, 0.93, 1);
   }
   .thumbnail-construction {
     animation: rotate-pulse 2.5s infinite;
