@@ -77,7 +77,7 @@ for the list of people helping it all go.
 
 [Creative Commons Zero v1.0 Universal](LICENSE) (public domain)
 
-For more info about CC0-1.0, see
+For more info about [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/), see
 [the Creative Commons website](https://creativecommons.org/share-your-work/public-domain/cc0).
 
 Graphics, sounds, and other assets may have licenses that restrict usage
