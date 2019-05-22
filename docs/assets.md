@@ -24,8 +24,8 @@ _credit:_ <http://textfiles.com/underconstruction/>
 
 ![Cosmic Kitty](/static/assets/characters/cosmic_kitty.jpg)
 
-> a cute little kitten who pounced out of _paintfreqs_
+> pounced out of _paintfreqs_ .. mreow
 
 _credit_: Lisa Atkinson
 
-_license_: [CC-BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+_license_: [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
