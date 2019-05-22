@@ -43,7 +43,7 @@
             <div style="font-size: 30px; margin: 20px 0;">
               {name}
             </div>
-            <div>help, about, credits</div>
+            <small>help, about, credits</small>
           </div>
         </li>
         <li class="thumbnail" on:click={() => view.set('paintfreqs')}>
@@ -53,17 +53,20 @@
           <img src="assets/characters/cosmic_kitty.jpg" style="width: 192px; height: 192px;" alt="Cosmic Kitty"/>
         </li>
         <li class="thumbnail" on:click={() => view.set('easingViz')}>
-          <div style="font-size: 20px;">
+          <div>
             easing function visualizations
+          </div>
+          <div class="easing-viz-slider-wrapper">
+            <div class="easing-viz-slider-graphic" />
           </div>
         </li>
         <li class="thumbnail" on:click={() => view.set('transitionDesigner')}>
-          <div style="font-size: 20px;">
+          <div>
             transition designer
           </div>
         </li>
         <li class="thumbnail" on:click={() => view.set('hearingTest')}>
-          <div style="font-size: 20px;">
+          <div>
             hearing test
           </div>
         </li>
@@ -206,7 +209,9 @@
     z-index: 2;
     padding: 12px;
     border: 3px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
     margin: 12px;
+    font-size: 20px;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -226,8 +231,7 @@
     transform: scale3d(0.93, 0.93, 1);
   }
   .thumbnail-construction {
-    animation: rotate-pulse 2.5s infinite;
-    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1);
+    animation: rotate-pulse 2.5s cubic-bezier(0.215, 0.610, 0.355, 1) infinite;
   }
   @keyframes rotate-pulse {
     0% {
@@ -238,6 +242,25 @@
     }
     100% {
       transform: rotate3d(-0.51, 0.49, 0.19, 27deg);
+    }
+  }
+  .easing-viz-slider-wrapper {
+    margin-top: 3px;
+    width: 300px;
+    background-color: hsla(260deg, 60%, 65%, 0.15);
+  } 
+  .easing-viz-slider-graphic {
+    animation: easing-viz-slide 5s cubic-bezier(0.645, 0.045, 0.355, 1) infinite alternate;
+    width: 12px;
+    height: 12px;
+    background-color: hsla(260deg, 60%, 65%, 1);
+  }
+  @keyframes easing-viz-slide {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(288px, 0, 0);
     }
   }
   .back-button-wrapper {
