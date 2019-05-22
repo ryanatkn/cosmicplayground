@@ -4,6 +4,8 @@
 
 ![Hubble sees galaxies galore](/static/assets/space/galaxies.jpg)
 
+> woh
+
 _credit:_ [NASA](https://www.nasa.gov/), [ESA](https://www.esa.int/),
 and S. Beckwith ([STScI](https://www.stsci.edu/)) and the HUDF Team
 [www.spacetelescope.org/images/heic0406a/](https://www.spacetelescope.org/images/heic0406a/)
@@ -13,8 +15,8 @@ and S. Beckwith ([STScI](https://www.stsci.edu/)) and the HUDF Team
 ![construction idea](/static/assets/construction/construction_person_dig_idea.gif)
 ![construction mammal](/static/assets/construction/construction_mammal.gif)
 
-they're so retro wonderfo ..
-more in [static/assets/construction/](/static/assets/construction/)
+> they're so retro wonderfo ..
+> more in [static/assets/construction/](/static/assets/construction/)
 
 _credit:_ <http://textfiles.com/underconstruction/>
 
@@ -22,7 +24,7 @@ _credit:_ <http://textfiles.com/underconstruction/>
 
 ![Cosmic Kitty](/static/assets/characters/cosmic_kitty.jpg)
 
-a cute little kitten who pounced out of _paintfreqs_
+> a cute little kitten who pounced out of _paintfreqs_
 
 _credit_: Lisa Atkinson
 
