@@ -13,14 +13,14 @@
   import FreqSpeeds1 from './FreqSpeeds1.svelte';
   import FreqSpeeds0 from './FreqSpeeds0.svelte';
   import HearingTest from './HearingTest.svelte';
-  import Freqscape from './Freqscape.svelte';
+  import Paintfreqs from './Paintfreqs.svelte';
   import TransitionDesigner from './TransitionDesigner.svelte';
   import EasingViz from './EasingViz.svelte';
 
   export let name;
 
   // TODO refactor all of this view code with proper routing
-  export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest | transitionDesigner | easingViz | freqscape
+  export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest | transitionDesigner | easingViz | paintfreqs
 
   export let windowWidth = window.innerWidth;
   export let windowHeight = window.innerHeight;
@@ -46,10 +46,11 @@
             <div>help, about, credits</div>
           </div>
         </li>
-        <li class="thumbnail" on:click={() => view.set('freqscape')}>
-          <div style="font-size: 20px;">
-            freqscape
+        <li class="thumbnail" on:click={() => view.set('paintfreqs')}>
+          <div style="font-size: 20px; margin-bottom: 7px;">
+            paintfreqs
           </div>
+          <img src="assets/characters/cosmic_kitty.jpg" style="width: 192px; height: 192px;" alt="Cosmic Kitty"/>
         </li>
         <li class="thumbnail" on:click={() => view.set('easingViz')}>
           <div style="font-size: 20px;">
@@ -117,12 +118,12 @@
     </div>
     <TransitionDesigner/>
   </section>
-{:else if $view === 'freqscape'}
+{:else if $view === 'paintfreqs'}
   <section class="content">
     <div class="back-button-wrapper">
       <BackButton view={view}/>
     </div>
-    <Freqscape/>
+    <Paintfreqs/>
   </section>
 {:else if $view === 'hearingTest'}
   <section class="content">
@@ -208,6 +209,10 @@
     border: 3px dashed rgba(255, 255, 255, 0.3);
     margin: 12px;
     color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   .thumbnail:hover {
     opacity: 0.85;

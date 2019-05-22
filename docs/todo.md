@@ -1,6 +1,5 @@
 # todo
 
-- keys for all #each - fixed obscure bug in svg paths
 - window innerHeight in context/store
 - dev hud
   - dev tools? seeing component state would be nice. first step towards integrated env.

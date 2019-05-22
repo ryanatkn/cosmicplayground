@@ -28,11 +28,14 @@ sharing ideas, creations, and experiences. Participation can take many forms:
 - join the subreddit at [/r/cosmicplayground](https://reddit.com/r/cosmicplayground)
 - tweet [@cpg_org](https://twitter.com/cpg_org)
 - say hi on [Discord](https://discord.gg/57XP5Pv)
-- contribute code and other assets like art and audio.
+- contribute code and other assets like graphics and audio.
   Please be aware that your submissions will be [CC0 licensed](LICENSE)
   (public domain) unless you explicitly request otherwise. 
   Code is an exception - all of it is CC0.
-  See [the credits](docs/credits.md) and
+  Creative Commons has a great webpage to help you
+  [choose a license](https://creativecommons.org/choose/)
+  if you want to protect your creations commercially or otherwise.
+  See [the asset credits](docs/assets.md) and
   [contributors](docs/contributors.md) for more.
   I'm not sure what contributions I'll solicit yet,
   but if you have something cool in mind please do let me know!
@@ -64,11 +67,11 @@ This project relies on content and code that has been generously
 made freely available through permissive licensing, like
 [NASA's Hubble imagery](https://www.spacetelescope.org)
 and open source web stuff.
-See [docs/credits.md](docs/credits.md) for
-the complete list of assets used in the project,
+See [docs/assets.md](docs/assets.md) for
+the complete list of non-code assets and their credits,
 [package.json](package.json) for the code powering things,
 and [docs/contributors.md](docs/contributors.md)
-for the list of people making it all go.
+for the list of people helping it all go.
 
 ## license
 
@@ -76,3 +79,6 @@ for the list of people making it all go.
 
 For more info about CC0-1.0, see
 [the Creative Commons website](https://creativecommons.org/share-your-work/public-domain/cc0).
+
+Graphics, sounds, and other assets may have licenses that restrict usage
+as specified in [the asset credits](docs/assets.md).

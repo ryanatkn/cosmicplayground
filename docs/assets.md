@@ -1,4 +1,4 @@
-# credits
+# assets
 
 ## [Hubble sees galaxies galore](https://www.spacetelescope.org/images/heic0406a/)
 
@@ -13,7 +13,17 @@ and S. Beckwith ([STScI](https://www.stsci.edu/)) and the HUDF Team
 ![construction idea](/static/assets/construction/construction_person_dig_idea.gif)
 ![construction mammal](/static/assets/construction/construction_mammal.gif)
 
-they're sooo cuuuute ..
+they're so retro wonderfo ..
 more in [static/assets/construction/](/static/assets/construction/)
 
 _credit:_ <http://textfiles.com/underconstruction/>
+
+## Cosmic Kitty
+
+![Cosmic Kitty](/static/assets/characters/cosmic_kitty.jpg)
+
+a cute little kitten who pounced out of _paintfreqs_
+
+_credit_: Lisa Atkinson
+
+_license_: [CC-BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/)
