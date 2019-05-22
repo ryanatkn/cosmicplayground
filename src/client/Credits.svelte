@@ -44,6 +44,21 @@
 		</a>
 	</li>
 	<hr />
+	<li class="item">
+		<div>
+			<img alt="Cosmic Kitty" src="assets/characters/cosmic_kitty.jpg" />
+		</div>
+		<div>Cosmic Kitty pounced out of <em>paintfreqs</em> .. mreow</div>
+		<div>
+			<em>credit:</em>
+			Lisa Atkinson
+		</div>
+		<div>
+			<em>license:</em>
+			<a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>
+		</div>
+	</li>
+	<hr />
 </ul>
 
 <style>
