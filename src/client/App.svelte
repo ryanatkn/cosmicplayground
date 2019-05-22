@@ -48,10 +48,12 @@
 				</li>
 				<li class="thumbnail" on:click={() => view.set('paintfreqs')}>
 					<div style="font-size: 20px; margin-bottom: 7px;">paintfreqs</div>
-					<img
-						src="assets/characters/cosmic_kitty.jpg"
-						style="width: 192px; height: 192px;"
-						alt="Cosmic Kitty" />
+					<div style="width: 192px; height: 192px; border-radius: 50%; overflow: hidden;">
+						<img
+							src="assets/characters/cosmic_kitty.jpg"
+							style="width: 192px; height: 192px;"
+							alt="Cosmic Kitty" />
+					</div>
 				</li>
 				<li class="thumbnail" on:click={() => view.set('easingViz')}>
 					<div>easing function visualizations</div>
