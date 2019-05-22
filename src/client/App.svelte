@@ -61,7 +61,7 @@
           </div>
         </li>
         <li class="thumbnail" on:click={() => view.set('transitionDesigner')}>
-          <div>
+          <div class="rotating-text">
             transition designer
           </div>
         </li>
@@ -262,6 +262,18 @@
     100% {
       transform: translate3d(288px, 0, 0);
     }
+  }
+  .rotating-text {
+    animation: rotate-text 2.5s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite alternate;
+  }
+  @keyframes rotate-text {
+    0% {
+      transform: rotate3d(-1.35, 4.06, -0.37, 22deg);
+    }
+    100% {
+      transform: rotate3d(1.15, 4.06, -0.37, -18deg);
+    }
+    
   }
   .back-button-wrapper {
     position: absolute;
