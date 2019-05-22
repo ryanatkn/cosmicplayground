@@ -13,14 +13,14 @@
 	import FreqSpeeds1 from './FreqSpeeds1.svelte';
 	import FreqSpeeds0 from './FreqSpeeds0.svelte';
 	import HearingTest from './HearingTest.svelte';
-	import Paintfreqs from './Paintfreqs.svelte';
+	import PaintFreqs from './PaintFreqs.svelte';
 	import TransitionDesigner from './TransitionDesigner.svelte';
 	import EasingViz from './EasingViz.svelte';
 
 	export let name;
 
 	// TODO refactor all of this view code with proper routing
-	export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest | transitionDesigner | easingViz | paintfreqs
+	export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest | transitionDesigner | easingViz | paintFreqs
 
 	export let windowWidth = window.innerWidth;
 	export let windowHeight = window.innerHeight;
@@ -46,8 +46,8 @@
 						<small>help, about, credits</small>
 					</div>
 				</li>
-				<li class="thumbnail" on:click={() => view.set('paintfreqs')}>
-					<div style="font-size: 20px; margin-bottom: 7px;">paintfreqs</div>
+				<li class="thumbnail" on:click={() => view.set('paintFreqs')}>
+					<div style="font-size: 20px; margin-bottom: 7px;">paint freqs</div>
 					<div style="width: 192px; height: 192px; border-radius: 50%; overflow: hidden;">
 						<img
 							src="assets/characters/cosmic_kitty.jpg"
@@ -161,12 +161,12 @@
 		</div>
 		<TransitionDesigner />
 	</section>
-{:else if $view === 'paintfreqs'}
+{:else if $view === 'paintFreqs'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton {view} />
 		</div>
-		<Paintfreqs />
+		<PaintFreqs />
 	</section>
 {:else if $view === 'hearingTest'}
 	<section class="content">

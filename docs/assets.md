@@ -24,7 +24,7 @@ _credit:_ <http://textfiles.com/underconstruction/>
 
 ![Cosmic Kitty](/static/assets/characters/cosmic_kitty.jpg)
 
-> pounced out of _paintfreqs_ .. mreow
+> pounced out of _paint freqs_ .. mreow
 
 _credit_: Lisa Atkinson
 
