@@ -6,7 +6,6 @@
 - eslint
 - precommit typecheck/lint/prettier
 - proper build to `dist/`
-- add `.editorconfig` and decide tabs vs spaces
 - figure out a license
 - router
   - libs
