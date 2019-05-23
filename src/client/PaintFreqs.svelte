@@ -12,14 +12,20 @@
 	/*
   
   ideas
+	- investigate the perf issues
+	- possibly make a different verison that disallows lifting the pointer (or add a toggle) 
   - support painting with a closed shape, not just lines
+		- negative space?
+	- volume controls
   - are there other interesting ways to convey octave differences?
   - interval bands? maybe separate button half into chunky intervals
-  - blended colors instead of nearest chroma?
+	- blended colors instead of nearest chroma?
   - trail history
     - bug - lines will change freq after page resize
     - repeat/move
-  - hold a key to play in reverse
+  - keyboard shortcuts
+	- replay
+		- hold a key to play in reverse
   - multi touch
   - share (lines in hash)
 
@@ -69,18 +75,23 @@
 	};
 
 	let lines = [{id: 0, points: ''}];
-	$: if (pointerX >= 0) {
-		// this won't work for replaying sounds - we'd need to store lines every frame instead of pointer changes
-		const point = ` ${pointerX},${pointerY}`;
+	const createNextPoint = () => ({
+		id: lines[lines.length - 1].id + 1,
+		points: '',
+	});
+	// this won't work for replaying sounds - we'd need to store lines every frame instead of pointer changes
+	$: if (pointerX >= 0) addPoint(pointerX, pointerY);
+	const addPoint = (x, y) => {
+		const point = ` ${x},${y}`;
 		const line = lines[lines.length - 1];
 		if (line.points) {
 			line.points += point;
 		} else {
 			// draw the initial point as a tiny line, so individual points appear onscreen
-			line.points = `${pointerX - 3},${pointerY - 3}${point}`;
+			line.points = `${x - 3},${y - 3}${point}`;
 		}
 		lines = lines;
-	}
+	};
 
 	let audioCtx;
 	const initAudioCtx = () => {
@@ -100,7 +111,7 @@
 	let osc;
 	let gain;
 
-	const VOLUME = 0.5; // TODO probably hook into global settings
+	const VOLUME = 0.25; // TODO probably hook into global settings
 
 	$: freq = width ? calcFreq(pointerX, pointerY, width, height) : undefined;
 	$: if (osc && freq !== undefined)
@@ -157,13 +168,9 @@
 		pointerX = pointerEventX(e);
 		pointerY = pointerEventY(e);
 
-		const nextPoint = {id: lines[lines.length - 1].id + 1, points: ''};
-		if (e.ctrlKey) {
-			lines.push(nextPoint);
-			lines = lines;
-		} else {
-			lines = [nextPoint];
-		}
+		const nextPoint = createNextPoint();
+		lines.push(nextPoint);
+		lines = lines;
 	};
 	const handlePointerUp = e => {
 		if (!audioCtx || !osc) return;
@@ -173,6 +180,11 @@
 		if (!audioCtx || !osc) return;
 		if (!e.altKey) pointerX = pointerEventX(e);
 		if (!e.shiftKey) pointerY = pointerEventY(e);
+	};
+
+	// controls
+	const clear = () => {
+		lines = [createNextPoint()];
 	};
 </script>
 
@@ -220,7 +232,7 @@
 		</div>
 	{/if}
 	<div
-		class="surface"
+		id="surface"
 		on:mousedown|stopPropagation|preventDefault={handlePointerDown}
 		on:mouseup|stopPropagation|preventDefault={handlePointerUp}
 		on:mouseleave|stopPropagation|preventDefault={handlePointerUp}
@@ -231,6 +243,9 @@
 		on:touchmove|stopPropagation|preventDefault={handlePointerMove}
 		bind:clientWidth={width}
 		bind:clientHeight={height} />
+	<div id="controls">
+		<div class="button" on:click|stopPropagation|preventDefault={clear}>↻</div>
+	</div>
 </div>
 
 <style>
@@ -247,11 +262,17 @@
 		top: 0;
 		opacity: 0.25;
 	}
-	.surface {
+	#surface {
 		z-index: 3;
 		position: absolute;
 		width: 100%;
 		height: 100%;
+	}
+	#controls {
+		z-index: 4;
+		position: absolute;
+		bottom: 0;
+		left: 0;
 	}
 	svg {
 		z-index: 2;
@@ -293,5 +314,22 @@
 	}
 	.unit {
 		opacity: 0.6;
+	}
+	.button {
+		cursor: pointer;
+		font-size: 80px;
+		opacity: 0.6;
+		padding: 0 10px;
+		color: hsla(130, 20%, 90%, 0.9);
+		transition: transform 0.06s ease-out;
+		transform-origin: center center;
+	}
+	.button:hover {
+		opacity: 0.8;
+		transform: scale3d(1.2, 1.2, 1);
+	}
+	.button:active {
+		opacity: 0.95;
+		transform: scale3d(1.42, 1.42, 1);
 	}
 </style>
