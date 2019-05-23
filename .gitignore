@@ -7,3 +7,6 @@ yarn-error.log
 
 /build
 /static/bundle.*
+
+*.ignore
+*.ignore.*
