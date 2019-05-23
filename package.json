@@ -12,7 +12,8 @@
     "test": "echo \"TODO add tests\" && exit 1",
     "deploy": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/project/deploy/index.js --verbose",
     "deploy-dry-run": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/project/deploy/index.js --dry-run --verbose",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "format": "./node_modules/.bin/prettier --write src/**/*.{js,ts,json,html,svelte,md}"
   },
   "repository": {
     "type": "git",
