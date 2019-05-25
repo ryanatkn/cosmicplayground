@@ -4,7 +4,7 @@ if (!process.env.NODE_ENV) process.env.NODE_ENV = 'development';
 const {NODE_ENV, PORT, HOST} = process.env;
 const dev = NODE_ENV !== 'production';
 const host = HOST || '0.0.0.0';
-const port = PORT || '3000';
+const port = PORT || '8999';
 
 import rollup from 'rollup';
 import svelte from 'rollup-plugin-svelte';

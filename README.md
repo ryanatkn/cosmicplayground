@@ -58,7 +58,7 @@ To play with the code, you'll need node 12+;
 ```bash
 npm install
 npm start
-# open your browser to localhost:3000
+# open your browser to localhost:8999
 ```
 
 ## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
