@@ -140,7 +140,7 @@
 					<div>🐶 hearing test 🐶</div>
 					<div>
 						<small style="color: hsla(40deg, 60%, 65%, 1);">
-						 🐾 🐕 beware ye, creature 🐕 🐾
+							🐾 🐕 beware ye, creature 🐕 🐾
 						</small>
 					</div>
 				</li>
