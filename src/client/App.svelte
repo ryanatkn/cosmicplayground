@@ -16,16 +16,50 @@
 	import PaintFreqs from './PaintFreqs.svelte';
 	import TransitionDesigner from './TransitionDesigner.svelte';
 	import EasingViz from './EasingViz.svelte';
+	import EasingAudViz from './EasingAudViz.svelte';
+	import {mix} from '../utils/math.js';
 
 	export let name;
 
 	// TODO refactor all of this view code with proper routing
-	export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest | transitionDesigner | easingViz | paintFreqs
+	export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest | transitionDesigner | easingViz | easingAudViz | paintFreqs
 
 	export let windowWidth = window.innerWidth;
 	export let windowHeight = window.innerHeight;
 
 	export let clock = createClock();
+
+	onMount(() => {
+		drawEasingAudVizCanvas();
+	});
+
+	let easingAudVizCanvas;
+	$: easingAudVizCanvas && drawEasingAudVizCanvas();
+	const easingAudVizCanvasWidth = 240;
+	const easingAudVizCanvasHeight = 24;
+	const easingAudVizMouthSize = 16;
+	const easingAudVizTailSize = 10;
+	const drawEasingAudVizCanvas = () => {
+		// TODO can remove these temp vars after refactoring into a standalone component - names should be shortened
+		const canvas = easingAudVizCanvas;
+		const width = easingAudVizCanvasWidth;
+		const height = easingAudVizCanvasHeight;
+		if (canvas.width !== width) canvas.width = width;
+		if (canvas.height !== height) canvas.height = height;
+		const ctx = canvas.getContext('2d');
+		const lineWidth = 2;
+		const h = height - lineWidth * 2;
+		ctx.clearRect(0, 0, width, height);
+		ctx.lineWidth = lineWidth;
+		ctx.strokeStyle = 'hsla(220deg, 60%, 65%, 0.6)'; // could fade opacity in from the left
+		ctx.moveTo(0, height / 2);
+		for (let x = 1; x < width; x++) {
+			const xDiv = mix(8, 3.75, x / width);
+			const y = (Math.sin(x / xDiv) * h) / 2 + h / 2 + lineWidth;
+			ctx.lineTo(x, y);
+		}
+		ctx.stroke();
+	};
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
@@ -48,11 +82,49 @@
 				</li>
 				<li class="thumbnail" on:click={() => view.set('paintFreqs')}>
 					<div style="font-size: 20px; margin-bottom: 7px;">paint freqs</div>
-					<div style="width: 192px; height: 192px; border-radius: 50%; overflow: hidden;">
+					<div
+						style="width: 192px; height: 192px; border-radius: 50%; overflow:
+						hidden;">
 						<img
 							src="assets/characters/cosmic_kitty.jpg"
 							style="width: 192px; height: 192px;"
 							alt="Cosmic Kitty" />
+					</div>
+				</li>
+				<li class="thumbnail" on:click={() => view.set('easingAudViz')}>
+					<div>easing function audioizations and visualizations</div>
+					<div class="easing-aud-viz-wrapper">
+						<canvas bind:this={easingAudVizCanvas} />
+						<div
+							class="easing-aud-viz-mouth-wrapper"
+							style="left: {-easingAudVizMouthSize / 2}px; top: {easingAudVizCanvasHeight / 2 - easingAudVizMouthSize / 2}px;
+							width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;">
+							<div
+								class="easing-aud-viz-mouth"
+								style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;" />
+							<div
+								class="easing-aud-viz-mouth"
+								style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;" />
+							<div
+								class="easing-aud-viz-mouth-void"
+								style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;
+								border-radius: 50%;" />
+						</div>
+						<div
+							class="easing-aud-viz-tail-wrapper"
+							style="right: {-easingAudVizTailSize / 2}px; top: {8 + easingAudVizCanvasHeight / 2 - easingAudVizTailSize / 2}px;
+							width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;">
+							<div
+								class="easing-aud-viz-tail"
+								style="width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;" />
+							<div
+								class="easing-aud-viz-tail"
+								style="width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;" />
+							<div
+								class="easing-aud-viz-tail-void"
+								style="width: {easingAudVizTailSize / 2}px; height: {easingAudVizTailSize / 2}px;
+								border-radius: 50%;" />
+						</div>
 					</div>
 				</li>
 				<li class="thumbnail" on:click={() => view.set('easingViz')}>
@@ -66,6 +138,9 @@
 				</li>
 				<li class="thumbnail" on:click={() => view.set('hearingTest')}>
 					<div>hearing test</div>
+					<div>
+						<small>beware ye, creature</small>
+					</div>
 				</li>
 				<li
 					class="thumbnail"
@@ -99,7 +174,7 @@
 						elapsedTime={$clock.time}
 						width={150}
 						height={75}
-						hzItems={[4, 5]}
+						hzItems={[5, 4]}
 						lowestHzItemCount={1}
 						style="transform: rotate(180deg);" />
 				</li>
@@ -129,7 +204,7 @@
 		<div class="back-button-wrapper">
 			<BackButton {view} />
 		</div>
-		<div style="margin: 90px auto 0; max-width: 800px;">
+		<div style="margin: 90px auto 0; max-width: 980px; padding: 20px;">
 			<Overlay>
 				<About {name}>
 					<div style="display: flex; align-items: center;">
@@ -146,6 +221,13 @@
 				</About>
 			</Overlay>
 		</div>
+	</section>
+{:else if $view === 'easingAudViz'}
+	<section class="content">
+		<div class="back-button-wrapper">
+			<BackButton {view} />
+		</div>
+		<EasingAudViz />
 	</section>
 {:else if $view === 'easingViz'}
 	<section class="content">
@@ -299,6 +381,7 @@
 		border-radius: 2px;
 		margin: 12px;
 		font-size: 20px;
+		text-align: center;
 		color: #fff;
 		display: flex;
 		flex-direction: column;
@@ -351,6 +434,63 @@
 			transform: translate3d(288px, 0, 0);
 		}
 	}
+	.easing-aud-viz-wrapper {
+		position: relative;
+		margin-top: 10px;
+	}
+	.easing-aud-viz-mouth-wrapper {
+		position: absolute;
+		animation: easing-aud-viz-dance 5s cubic-bezier(0.785, 0.135, 0.15, 0.86)
+			infinite;
+		transform-origin: middle middle;
+	}
+	.easing-aud-viz-mouth {
+		position: absolute;
+		left: 0;
+		top: 0;
+		background-color: hsla(220deg, 60%, 65%, 1);
+		animation: rotate-360 0.5s linear reverse infinite;
+		transform-origin: middle middle;
+	}
+	.easing-aud-viz-mouth:nth-child(2) {
+		animation: rotate-360 0.5s linear infinite;
+	}
+	.easing-aud-viz-tail-wrapper {
+		position: absolute;
+		animation: easing-aud-viz-dance 10s cubic-bezier(0.785, 0.135, 0.15, 0.86)
+			infinite;
+		transform-origin: middle middle;
+	}
+	.easing-aud-viz-tail {
+		position: absolute;
+		left: 0;
+		top: 0;
+		background-color: hsla(220deg, 60%, 65%, 1);
+		animation: rotate-360 0.5s linear reverse infinite;
+		transform-origin: middle middle;
+	}
+	.easing-aud-viz-tail:nth-child(2) {
+		animation: rotate-360 0.5s linear infinite;
+	}
+	@keyframes rotate-360 {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+	@keyframes easing-aud-viz-dance {
+		0% {
+			transform: scale3d(0.15, 0.15, 0.15) rotate(-45deg);
+		}
+		50% {
+			transform: scale3d(1, 1, 1) rotate(225deg);
+		}
+		100% {
+			transform: scale3d(0.15, 0.15, 0.15) rotate(450deg);
+		}
+	}
 	.rotating-text {
 		animation: rotate-text 2.5s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite
 			alternate;
@@ -367,7 +507,6 @@
 		position: absolute;
 		left: 0;
 		top: 0;
-		padding-left: 20px;
 		z-index: 10;
 	}
 

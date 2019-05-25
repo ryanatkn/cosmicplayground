@@ -1,43 +1,36 @@
 import {derived} from 'svelte/store';
 import {tweened} from 'svelte/motion';
-import * as easing from 'svelte/easing';
+
+import {svelteEasings} from './easings';
 
 // This is a custom store that internally uses a `derived` store
 // to compose a dynamic list of tweens based on the provided
-// easing function names. I'm curious if there are nicer or better
-// performing ways of doing this.
-export const createTweens = (duration, names = getDefaultEasingNames()) => {
+// easing function names.
+// TODO optimize to not use N tweens by rewriting `tweened`
+export const createTweens = (
+	duration,
+	easings = svelteEasings,
+	initialValue = 0,
+) => {
 	//console.log('create tweens, duration:', duration);
-	let tweens = names.map(name =>
-		tweened(1, {
-			duration,
-			easing: easing[name],
-		}),
+	let tweens = easings.map(easing =>
+		tweened(initialValue, {duration, easing: easing.fn}),
 	);
 
 	const {subscribe} = derived(tweens, $tweens =>
 		$tweens.map((value, i) => ({
 			value,
-			name: names[i],
+			name: easings[i].name,
 		})),
 	);
 
 	return {
 		subscribe,
-		names,
+		easings,
 		set: (value, options) => {
 			//console.log('setting value for tweens:', value, options);
-			tweens.forEach(t => t.set(value, options));
+			const promises = tweens.map(t => t.set(value, options));
+			return promises;
 		},
 	};
-};
-
-const getDefaultEasingNames = () => {
-	const names = Object.keys(easing).filter(
-		n => !['default', '__moduleExports'].includes(n),
-	); // eww
-	// put 'linear' first as a baseline comparison
-	return names.includes('linear')
-		? ['linear', ...names.filter(n => n !== 'linear')]
-		: names;
 };

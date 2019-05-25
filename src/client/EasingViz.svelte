@@ -1,6 +1,6 @@
 <script>
 	/*
-  
+
   Svelte has built-in support for ergonomic and high performance animations.
   It includes a number of easing functions that transition your values from
   start to finish with a flair ranging from vanilla to delightful to well past zany.
@@ -9,7 +9,7 @@
   See the relevant section of Svelte's tutorial -
   https://svelte.dev/tutorial/tweened -
   which also links the Penner easing equations - http://robertpenner.com/easing/
-  
+
   notes
   - there are some really weird visual artifacts when values are near 0
     in Chrome (both versions 74 on Windows and 73 on Linux), but not Firefox
@@ -24,7 +24,7 @@
       I only profiled a handful of times for ~20 seconds,
       and I don't have much experience profiling, so I could be wrong about everything.
   - what could be more idiomatic or clear?
-  
+
   */
 
 	import {onDestroy} from 'svelte';
@@ -55,11 +55,11 @@
 	$: playing ? startPlaying() : stopPlaying();
 	//$: console.log('playing changed', playing);
 
-	const tweens = createTweens(duration);
+	const tweens = createTweens(duration, undefined, 1);
 	$: tweens.set(toggle ? 1 : 0, {duration}); //, console.log('tweens.set()');
 
-	$: selected = tweens.names.reduce((v = {}, k) => {
-		if (!(k in v)) v[k] = true;
+	$: selected = tweens.easings.reduce((v = {}, {name}) => {
+		if (!(name in v)) v[name] = true;
 		return v;
 	}, selected);
 	//$: console.log('selected changed', selected);
@@ -228,6 +228,7 @@
 		padding: 15px 15px 15px 60px;
 		width: 550px;
 		margin: 0 auto;
+		color: rgba(255, 255, 255, 0.8);
 	}
 	input[type='range'] {
 		width: 300px;

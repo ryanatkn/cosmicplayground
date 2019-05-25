@@ -12,16 +12,41 @@
 	</head>
 
 	<body>
-		<div id="root"></div>
+		<div id="root">
+			<noscript>
+				<section
+					class="noscript"
+					style="display: flex; justify-content: center;"
+				>
+					<div
+						style="max-width: 300px; color: rgba(255, 255, 255, 0.8); padding: 10px;"
+					>
+						<p>
+							JavaScript is disabled. If you enable it, fun and surprising
+							things could happen!
+						</p>
+						<p>
+							<em>cosmicplayground</em> insists on respecting you and your
+							machines - you can
+							<a href="https://github.com/ryanatkn/cosmicplayground"
+								>look at the source code</a
+							>
+							and accuse it of misdeeds that seems untrue.
+						</p>
+						<div
+							style="width: 192px; height: 192px; border-radius: 50%; overflow:
+						hidden; margin: 0 auto;"
+						>
+							<img
+								src="assets/characters/cosmic_kitty.jpg"
+								style="width: 192px; height: 192px;"
+								alt="Cosmic Kitty"
+							/>
+						</div>
+					</div>
+				</section>
+			</noscript>
+		</div>
 		<script src="bundle.js"></script>
-		<noscript>
-			JavaScript is disabled. If you enable it something neat could happen!
-			<em>cosmicplayground</em> insists on respecting you and your computer -
-			you can
-			<a href="https://github.com/ryanatkn/cosmicplayground"
-				>look at the source code</a
-			>
-			and denounce it loudly if that seems untrue.
-		</noscript>
 	</body>
 </html>
