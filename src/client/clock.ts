@@ -16,7 +16,7 @@ export const createClock = (
 	const clock = writable(
 		{
 			time: initialState.time || 0,
-			running: false, // see below for where `initialState.running` is used - the initializing `resume` call expects `clock.running` to be false
+			running: false, // see below for where `initialState.running` is used - the initializing `resume` call expects `running` to be false
 			dt: 0,
 		},
 		() => {
@@ -25,10 +25,11 @@ export const createClock = (
 			};
 		},
 	);
+	const {subscribe, set, update} = clock;
 
 	const onTimer = (dt: number): void => {
 		logDroppedFrames(dt);
-		clock.update(c => ({...c, time: c.time + dt, dt}));
+		update(c => ({...c, time: c.time + dt, dt}));
 	};
 
 	const onFrame = (t: number): void => {
@@ -40,7 +41,7 @@ export const createClock = (
 	};
 
 	const resume = (): void => {
-		clock.update(c => {
+		update(c => {
 			if (c.running) return c;
 			lastTime = undefined;
 			reqId = requestAnimationFrame(onFrame);
@@ -48,7 +49,7 @@ export const createClock = (
 		});
 	};
 	const pause = (): void => {
-		clock.update(c => {
+		update(c => {
 			if (!c.running) return c;
 			if (reqId) cancelAnimationFrame(reqId);
 			return {...c, running: false};
@@ -62,7 +63,7 @@ export const createClock = (
 		resume();
 	}
 
-	return {subscribe: clock.subscribe, resume, pause, toggle};
+	return {subscribe, set, update, resume, pause, toggle};
 };
 
 const logDroppedFrames = (dt: number): void => {
