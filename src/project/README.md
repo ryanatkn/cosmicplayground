@@ -1,4 +1,4 @@
-# cosmicplayground/project
+# project<sub><sub>@cosmicplayground</sub></sub>
 
 It's sometimes helpful to share code and configuration between
 the top-level repo management code and the source code itself,

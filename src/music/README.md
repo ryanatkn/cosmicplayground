@@ -1,4 +1,4 @@
-# cosmicplayground/music
+# music<sub><sub>@cosmicplayground</sub></sub>
 
 - music theory
 - midi

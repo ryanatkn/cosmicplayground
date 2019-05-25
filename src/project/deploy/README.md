@@ -1,4 +1,4 @@
-# cosmicplayground/project/deploy
+# project/deploy<sub><sub>@cosmicplayground</sub></sub>
 
 ## server setup
 

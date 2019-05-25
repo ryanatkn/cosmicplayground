@@ -1,1 +1,1 @@
-# cosmicplayground/client
+# client<sub><sub>@cosmicplayground</sub></sub>
