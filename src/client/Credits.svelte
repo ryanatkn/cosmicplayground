@@ -38,11 +38,11 @@
 		<div>
 			<ImgLink
 				alt="construction idea"
-				src="assets/construction/construction_person_dig_idea.gif"
+				src="assets/construction/person-dig-idea.gif"
 				link={true} />
 			<ImgLink
 				alt="construction mammal"
-				src="assets/construction/construction_mammal.gif"
+				src="assets/construction/mammal.gif"
 				link={true} />
 		</div>
 		<em>under construction gifs credit:</em>
@@ -55,7 +55,7 @@
 		<div>
 			<ImgLink
 				alt="Cosmic Kitty"
-				src="assets/characters/cosmic_kitty.jpg"
+				src="assets/characters/cosmic-kitty.jpg"
 				link={true} />
 		</div>
 		<div>

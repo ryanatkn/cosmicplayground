@@ -1,3 +1,3 @@
 # server<sub><sub>@cosmicplayground</sub></sub>
 
-> I serve needs; I question wants; I roll eyes
+> serving needs, delaying wants, rolling eyes

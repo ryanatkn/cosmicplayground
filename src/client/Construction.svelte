@@ -13,154 +13,154 @@
 	<div class="content" style={`transform: scale3d(${scale}, ${scale}, 1);`}>
 		<div style={`width: ${maxWidth}px; height: ${maxHeight}px;`}>
 			<img
-				src="assets/construction/construction_line_1.gif"
+				src="assets/construction/line-1.gif"
 				alt="under construction: line 1"
 				style="width: 100%"
 				class="pixelated" />
 			<img
-				src="assets/construction/construction_person_dig_idea.gif"
+				src="assets/construction/person-dig-idea.gif"
 				alt="under construction: person dig idea"
 				style="width: 350px; height: 350px;"
 				class="pixelated" />
 			<img
-				src="assets/construction/construction_person_rock.gif"
+				src="assets/construction/person-rock.gif"
 				alt="under construction: person rock"
 				style="width: 60px; height: 37px;"
 				class="pixelated" />
 			<img
-				src="assets/construction/construction_person_dig_fast.gif"
+				src="assets/construction/person-dig-fast.gif"
 				alt="under construction: person dig fast" />
 			<img
-				src="assets/construction/construction_person_rock.gif"
+				src="assets/construction/person-rock.gif"
 				alt="under construction: person rock"
 				style="width: 60px; height: 37px;"
 				class="pixelated" />
 			<img
-				src="assets/construction/construction_person_dig_fast.gif"
+				src="assets/construction/person-dig-fast.gif"
 				alt="under construction: person dig fast" />
 			<img
-				src="assets/construction/construction_person_dig_fast.gif"
+				src="assets/construction/person-dig-fast.gif"
 				alt="under construction: person dig fast" />
 			<img
-				src="assets/construction/construction_person_dig_fast.gif"
+				src="assets/construction/person-dig-fast.gif"
 				alt="under construction: person dig fast" />
 			<img
-				src="assets/construction/construction_person_dig_pause.gif"
+				src="assets/construction/person-dig-pause.gif"
 				alt="under construction: person dig pause"
 				style="width: 150px; height: 150px;"
 				class="pixelated" />
 			<img
-				src="assets/construction/construction_person_dig_slow.gif"
+				src="assets/construction/person-dig-slow.gif"
 				alt="under construction: person dig slow" />
 			<img
-				src="assets/construction/construction_person_dig_slow.gif"
+				src="assets/construction/person-dig-slow.gif"
 				alt="under construction: person dig slow" />
 			<img
-				src="assets/construction/construction_person_dig_slow.gif"
+				src="assets/construction/person-dig-slow.gif"
 				alt="under construction: person dig slow" />
 			<img
-				src="assets/construction/construction_person_dig_slow.gif"
+				src="assets/construction/person-dig-slow.gif"
 				alt="under construction: person dig slow" />
 			<img
-				src="assets/construction/construction_person_dig_slow.gif"
+				src="assets/construction/person-dig-slow.gif"
 				alt="under construction: person dig slow" />
 			<img
-				src="assets/construction/construction_person_dig_slow.gif"
+				src="assets/construction/person-dig-slow.gif"
 				alt="under construction: person dig slow" />
 			<img
-				src="assets/construction/construction_person_dig_slow.gif"
+				src="assets/construction/person-dig-slow.gif"
 				alt="under construction: person dig slow" />
 			<img
-				src="assets/construction/construction_person_dig_slow.gif"
+				src="assets/construction/person-dig-slow.gif"
 				alt="under construction: person dig slow" />
 			<img
-				src="assets/construction/construction_person_dig_pause.gif"
+				src="assets/construction/person-dig-pause.gif"
 				alt="under construction: person dig pause"
 				style="width: 76px; height: 76px; transform: scale3d(-1, 1, 1);"
 				class="pixelated" />
 			<img
-				src="assets/construction/construction_person_dig_slow.gif"
+				src="assets/construction/person-dig-slow.gif"
 				alt="under construction: person dig slow" />
 			<img
-				src="assets/construction/construction_person_dig_slow.gif"
+				src="assets/construction/person-dig-slow.gif"
 				alt="under construction: person dig slow" />
 			<img
-				src="assets/construction/construction_person_dig_pause.gif"
+				src="assets/construction/person-dig-pause.gif"
 				alt="under construction: person dig pause" />
 			<img
-				src="assets/construction/construction_person_dig_slow.gif"
+				src="assets/construction/person-dig-slow.gif"
 				alt="under construction: person dig slow" />
 			<img
-				src="assets/construction/construction_person_dig_pause.gif"
+				src="assets/construction/person-dig-pause.gif"
 				alt="under construction: person dig pause" />
 			<img
-				src="assets/construction/construction_person_dig_pause.gif"
+				src="assets/construction/person-dig-pause.gif"
 				alt="under construction: person dig pause" />
 			<img
-				src="assets/construction/construction_person_dig_quick.gif"
+				src="assets/construction/person-dig-quick.gif"
 				alt="under construction: person dig quick" />
 			<img
-				src="assets/construction/construction_person_dig_fast.gif"
+				src="assets/construction/person-dig-fast.gif"
 				alt="under construction: person dig fast" />
 			<img
-				src="assets/construction/construction_person_dig_fast.gif"
+				src="assets/construction/person-dig-fast.gif"
 				alt="under construction: person dig fast" />
 			<img
-				src="assets/construction/construction_person_computer.gif"
+				src="assets/construction/person-computer.gif"
 				alt="under construction: person computer"
 				style="width: 40px; height: 40px;"
 				class="pixelated" />
 			<img
-				src="assets/construction/construction_person_computer.gif"
+				src="assets/construction/person-computer.gif"
 				alt="under construction: person computer large"
 				style="width: 100px; height: 100px;"
 				class="pixelated" />
 			<img
-				src="assets/construction/construction_person_computer.gif"
+				src="assets/construction/person-computer.gif"
 				alt="under construction: person computer huge"
 				style="width: 300px; height: 300px;"
 				class="pixelated" />
 			<img
-				src="assets/construction/construction_person_dig_pause.gif"
+				src="assets/construction/person-dig-pause.gif"
 				alt="under construction: person dig pause"
 				style="width: 200px; height: 200px;"
 				class="pixelated" />
 			<img
-				src="assets/construction/construction_person_dig_pause.gif"
+				src="assets/construction/person-dig-pause.gif"
 				alt="under construction: person dig pause"
 				style="width: 80px; height: 80px;"
 				class="pixelated" />
 			<img
-				src="assets/construction/construction_person_dig_pause.gif"
+				src="assets/construction/person-dig-pause.gif"
 				alt="under construction: person dig pause" />
 			<div
 				style="display: inline-block; height: 100px; position: relative; width:
 				240px; transform: rotate(-7deg);">
 				<img
-					src="assets/construction/construction_line_2.gif"
+					src="assets/construction/line-2.gif"
 					alt="under construction: line 2"
 					style="width: 90%; position: absolute; top: 38px; left: 5%" />
 				<img
-					src="assets/construction/construction_line_2.gif"
+					src="assets/construction/line-2.gif"
 					alt="under construction: line 2"
 					style="width: 80%; position: absolute; bottom: 46px; left: 14%" />
 				<img
-					src="assets/construction/construction_line_2.gif"
+					src="assets/construction/line-2.gif"
 					alt="under construction: line 2"
 					style="width: 100%; position: absolute; bottom: 38px; left: 0" />
 			</div>
 			<img
-				src="assets/construction/construction_mammal.gif"
+				src="assets/construction/mammal.gif"
 				alt="under construction: mammal"
 				style="width: 144px; height: 144px"
 				class="pixelated" />
 			<img
-				src="assets/construction/construction_line_2.gif"
+				src="assets/construction/line-2.gif"
 				alt="under construction: line 2"
 				style="width: 100%; transform: scale3d(1, -1, 1);"
 				class="pixelated" />
 			<img
-				src="assets/construction/construction_line_1.gif"
+				src="assets/construction/line-1.gif"
 				alt="under construction: line 1"
 				style="width: 100%; position: relative; top: -8px; transform: scale3d(1,
 				-1, 1);"

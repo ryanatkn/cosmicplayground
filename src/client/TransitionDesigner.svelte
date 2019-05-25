@@ -22,7 +22,7 @@
 	//  - is there a way to cache the css transition animations so they're not recomputed every time?
 	//  - tweens and springs
 
-	export let imgSrc = 'assets/construction/construction_person_rock.gif';
+	export let imgSrc = 'assets/construction/person-rock.gif';
 
 	let visible = true;
 	let durationIn = 1000;

@@ -10,7 +10,7 @@ learning with ear training, music theory, and other neat stuff.
 It ambitiously experiments in many directions,
 but the general goal is to help us learn and grow.
 
-![galaxies](static/assets/space/galaxies_banner.jpg)
+![galaxies](static/assets/space/galaxies-banner.jpg)
 
 [The code](https://github.com/ryanatkn/cosmicplayground)
 is open source and public domain licensed,

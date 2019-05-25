@@ -12,8 +12,8 @@ and S. Beckwith ([STScI](https://www.stsci.edu/)) and the HUDF Team
 
 ## [under construction gifs](http://textfiles.com/underconstruction/)
 
-![construction idea](/static/assets/construction/construction_person_dig_idea.gif)
-![construction mammal](/static/assets/construction/construction_mammal.gif)
+![construction idea](/static/assets/construction/person-dig-idea.gif)
+![construction mammal](/static/assets/construction/mammal.gif)
 
 > they're so retro wonderfo ..
 > more in [static/assets/construction/](/static/assets/construction/)
@@ -22,7 +22,7 @@ _credit:_ <http://textfiles.com/underconstruction/>
 
 ## Cosmic Kitty
 
-![Cosmic Kitty](/static/assets/characters/cosmic_kitty.jpg)
+![Cosmic Kitty](/static/assets/characters/cosmic-kitty.jpg)
 
 > pounced out of _paint freqs_ .. mreow
 

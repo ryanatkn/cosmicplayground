@@ -14,8 +14,8 @@
 	{#if running}
 		<img
 			on:click={pause}
-			src="assets/construction/construction_person_rock.gif"
-			alt="under construction: person_rock"
+			src="assets/construction/person-rock.gif"
+			alt="under construction: person rock"
 			class="rock pixelated" />
 		<button type="button" class="toggle-button" on:click={pause}>
 			<div style="font-size: 24px">⏸</div>
@@ -24,8 +24,8 @@
 	{:else}
 		<img
 			on:click={resume}
-			src="assets/construction/construction_person_rock_pause.png"
-			alt="under construction: person_rock_pause"
+			src="assets/construction/person-rock-pause.png"
+			alt="under construction: person rock pause"
 			class="rock pixelated"
 			style="filter: grayscale(100%);" />
 		<button type="button" class="toggle-button" on:click={resume}>

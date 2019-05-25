@@ -86,7 +86,7 @@
 						style="width: 192px; height: 192px; border-radius: 50%; overflow:
 						hidden;">
 						<img
-							src="assets/characters/cosmic_kitty.jpg"
+							src="assets/characters/cosmic-kitty.jpg"
 							style="width: 192px; height: 192px;"
 							alt="Cosmic Kitty" />
 					</div>
@@ -183,13 +183,13 @@
 				<li class="thumbnail" on:click={() => view.set('construction')}>
 					{#if $clock.running}
 						<img
-							src="assets/construction/construction_person_rock.gif"
+							src="assets/construction/person-rock.gif"
 							alt="under construction: person rock"
 							style="width: 162px; height: 100px;"
 							class="pixelated thumbnail-construction" />
 					{:else}
 						<img
-							src="assets/construction/construction_person_rock_pause.png"
+							src="assets/construction/person-rock-pause.png"
 							alt="under construction: person rock"
 							style="width: 162px; height: 100px; filter: grayscale(100%);"
 							class="pixelated" />
