@@ -109,7 +109,7 @@
 		}
 	};
 
-	let activeEasingIndex = 0;
+	let activeEasingIndex = easings.findIndex(e => e.name === 'elasticOut');
 	let activeEasing = easings[activeEasingIndex]; // {name, fn}
 	$: activeEasing = easings[activeEasingIndex];
 
@@ -184,113 +184,117 @@
 		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 </script>
 
-<section class="controls" style="padding-left: 90px;">
-	<div class="controls-group">
-		<input
-			type="range"
-			bind:value={duration}
-			min={(2 * 1000) / 60}
-			max={6000}
-			step={1000 / 60} />
-		<div style="padding-left: 10px;">
-			<div>
-				{Math.round(duration)}
-				<small>ms</small>
+<div style="max-width: 980px; display: flex; flex-wrap: wrap; margin: auto;">
+	<section>
+		<section class="controls" style="padding-left: 90px;">
+			<div class="controls-group">
+				<input
+					type="range"
+					bind:value={duration}
+					min={(2 * 1000) / 60}
+					max={6000}
+					step={1000 / 60} />
+				<div style="padding-left: 10px;">
+					<div>
+						{Math.round(duration)}
+						<small>ms</small>
+					</div>
+					<small>duration</small>
+				</div>
 			</div>
-			<small>duration</small>
-		</div>
-	</div>
-	<div class="controls-group">
-		<input
-			type="range"
-			bind:value={waitTime}
-			min={(2 * 1000) / 60}
-			max={2000}
-			step={1000 / 60} />
-		<div style="padding-left: 10px;">
-			<div>
-				{Math.round(waitTime)}
-				<small>ms</small>
+			<div class="controls-group">
+				<input
+					type="range"
+					bind:value={waitTime}
+					min={(2 * 1000) / 60}
+					max={2000}
+					step={1000 / 60} />
+				<div style="padding-left: 10px;">
+					<div>
+						{Math.round(waitTime)}
+						<small>ms</small>
+					</div>
+					<small>waitTime</small>
+				</div>
 			</div>
-			<small>waitTime</small>
-		</div>
-	</div>
-</section>
+		</section>
 
-<section class="active-tween">
-	<label
-		class="active-tween-name"
-		style="color: {getColor(activeEasingIndex)};">
-		{activeEasing.name}
-	</label>
-	<div style="position: relative;">
-		<div
-			style="position: absolute; left: 0; top: 0; transform: translate3d({chartX0 + xPct * chartWidth - chartAxisLineWidth / 2}px,
-			{chartY0 - chartAxisLineWidth / 2}px, 0); background-color: rgba(255, 255,
-			255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px" />
-		<div
-			style="position: absolute; left: 0; top: 0; transform: translate3d({chartX0 - chartAxisLineWidth / 2}px,
-			{chartY0 - yPct * chartHeight - chartAxisLineWidth / 2}px, 0);
-			background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px;
-			height: {chartAxisLineWidth}px" />
-		<canvas style="position: relative; z-index: 1;" bind:this={chartCanvas} />
-		<div
-			style="position: absolute; left: 0; top: 0; background-color: {getColor(activeEasingIndex)};
-			transform: translate3d({chartX0 + xPct * chartWidth - chartLineHighlightWidth / 2}px,
-			{chartY0 - yPct * chartHeight - chartLineHighlightWidth / 2}px, 0); width:
-			{chartLineHighlightWidth}px; height: {chartLineHighlightWidth}px;
-			border-radius: 50%;" />
-	</div>
-	<div
-		style="width: {translateWidth}px; background-color: {getColor(activeEasingIndex, 0.1)};
-		margin-bottom: 24px;">
-		<div
-			class="active-tween-graphic-translate"
-			style="transform: translate3d({tweenAlternating * translateDistance}px, 0,
-			0); width: {graphic1Width}px; height: {graphic1Height}px;
-			background-color: {getColor(activeEasingIndex)};" />
-	</div>
-	<div style="display: flex;">
-		<div
-			style="display: flex; align-items: center; justify-content: center; width:
-			{translateWidth / 2}px">
+		<section class="active-tween">
+			<label
+				class="active-tween-name"
+				style="color: {getColor(activeEasingIndex)};">
+				{activeEasing.name}
+			</label>
+			<div style="position: relative;">
+				<div
+					style="position: absolute; left: 0; top: 0; transform: translate3d({chartX0 + xPct * chartWidth - chartAxisLineWidth / 2}px,
+					{chartY0 - chartAxisLineWidth / 2}px, 0); background-color: rgba(255, 255,
+					255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px" />
+				<div
+					style="position: absolute; left: 0; top: 0; transform: translate3d({chartX0 - chartAxisLineWidth / 2}px,
+					{chartY0 - yPct * chartHeight - chartAxisLineWidth / 2}px, 0);
+					background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px;
+					height: {chartAxisLineWidth}px" />
+				<canvas style="position: relative; z-index: 1;" bind:this={chartCanvas} />
+				<div
+					style="position: absolute; left: 0; top: 0; background-color: {getColor(activeEasingIndex)};
+					transform: translate3d({chartX0 + xPct * chartWidth - chartLineHighlightWidth / 2}px,
+					{chartY0 - yPct * chartHeight - chartLineHighlightWidth / 2}px, 0); width:
+					{chartLineHighlightWidth}px; height: {chartLineHighlightWidth}px;
+					border-radius: 50%;" />
+			</div>
 			<div
-				class="active-tween-graphic-rotate"
-				style="transform: rotate({tweenAlternating * 180}deg); height: {graphic2Height}px;
-				background-color: {getColor(activeEasingIndex)};" />
-		</div>
-		<div
-			style="display: flex; align-items: center; justify-content: center; width:
-			{translateWidth / 2}px">
-			<div
-				class="active-tween-graphic-scale"
-				style="transform: scale3d({tweenAlternating}, {tweenAlternating}, 1);
-				width: {graphic2Width}px; height: {graphic2Height}px; background-color: {getColor(activeEasingIndex)};" />
-		</div>
-	</div>
-	<div>
-		<div
-			style="display: flex; align-items: center; justify-content: center; width:
-			{translateWidth / 2}px; padding: 36px 36px 0;">
-			<div
-				class="active-tween-graphic-skew"
-				style="transform: skew({tweenAlternating * 80 - 25}deg, {tweenAlternating * 10 - 2}deg);
-				width: {graphic2Width}px; height: {graphic2Height}px; background-color: {getColor(activeEasingIndex)};" />
-		</div>
-	</div>
-</section>
+				style="width: {translateWidth}px; background-color: {getColor(activeEasingIndex, 0.1)};
+				margin-bottom: 24px;">
+				<div
+					class="active-tween-graphic-translate"
+					style="transform: translate3d({tweenAlternating * translateDistance}px, 0,
+					0); width: {graphic1Width}px; height: {graphic1Height}px;
+					background-color: {getColor(activeEasingIndex)};" />
+			</div>
+			<div style="display: flex;">
+				<div
+					style="display: flex; align-items: center; justify-content: center; width:
+					{translateWidth / 2}px">
+					<div
+						class="active-tween-graphic-rotate"
+						style="transform: rotate({tweenAlternating * 180}deg); height: {graphic2Height}px;
+						background-color: {getColor(activeEasingIndex)};" />
+				</div>
+				<div
+					style="display: flex; align-items: center; justify-content: center; width:
+					{translateWidth / 2}px">
+					<div
+						class="active-tween-graphic-scale"
+						style="transform: scale3d({tweenAlternating}, {tweenAlternating}, 1);
+						width: {graphic2Width}px; height: {graphic2Height}px; background-color: {getColor(activeEasingIndex)};" />
+				</div>
+			</div>
+			<div>
+				<div
+					style="display: flex; align-items: center; justify-content: center; width:
+					{translateWidth / 2}px; padding: 36px 36px 0;">
+					<div
+						class="active-tween-graphic-skew"
+						style="transform: skew({tweenAlternating * 80 - 25}deg, {tweenAlternating * 10 - 2}deg);
+						width: {graphic2Width}px; height: {graphic2Height}px; background-color: {getColor(activeEasingIndex)};" />
+				</div>
+			</div>
+		</section>
+	</section>
 
-<section class="tweens">
-	{#each easings as easing, i (easing.name)}
-		<label
-			class="tween-radio"
-			class:active={easing === activeEasing}
-			style="color: {getColor(i)}; border-color: {easing === activeEasing ? getColor(i) : 'transparent'}">
-			<input type="radio" bind:group={activeEasingIndex} value={i} />
-			{easing.name}
-		</label>
-	{/each}
-</section>
+	<section class="tweens" style="flex-grow: 1; flex-basis: 440px;">
+		{#each easings as easing, i (easing.name)}
+			<label
+				class="tween-radio"
+				class:active={easing === activeEasing}
+				style="color: {getColor(i)}; border-color: {easing === activeEasing ? getColor(i) : 'transparent'}">
+				<input type="radio" bind:group={activeEasingIndex} value={i} />
+				{easing.name}
+			</label>
+		{/each}
+	</section>
+</div>
 
 <style>
 	.controls {
