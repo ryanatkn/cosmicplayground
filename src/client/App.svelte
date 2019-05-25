@@ -10,8 +10,8 @@
 	import ClockControls from './ClockControls.svelte';
 	import CommunityLinks from './CommunityLinks.svelte';
 	import BackButton from './BackButton.svelte';
-	import FreqSpeeds1 from './FreqSpeeds1.svelte';
-	import FreqSpeeds0 from './FreqSpeeds0.svelte';
+	import FreqSpeeds from './FreqSpeeds.svelte';
+	import FreqSpectacle from './FreqSpectacle.svelte';
 	import HearingTest from './HearingTest.svelte';
 	import PaintFreqs from './PaintFreqs.svelte';
 	import TransitionDesigner from './TransitionDesigner.svelte';
@@ -148,13 +148,13 @@
 					class="thumbnail"
 					on:click={() => view.set('freqSpeeds1')}
 					style="display: flex; flex-direction: column;">
-					<FreqSpeeds1
+					<FreqSpeeds
 						elapsedTime={$clock.time}
 						width={300}
 						height={75}
 						hzItems={[4]}
 						lowestHzItemCount={2} />
-					<FreqSpeeds1
+					<FreqSpeeds
 						elapsedTime={$clock.time}
 						width={300}
 						height={75}
@@ -166,13 +166,13 @@
 					class="thumbnail"
 					on:click={() => view.set('freqSpeeds0')}
 					style="display: flex;">
-					<FreqSpeeds0
+					<FreqSpectacle
 						elapsedTime={$clock.time}
 						width={150}
 						height={75}
 						hzItems={[2, 3]}
 						lowestHzItemCount={1} />
-					<FreqSpeeds0
+					<FreqSpectacle
 						elapsedTime={$clock.time}
 						width={150}
 						height={75}
@@ -264,7 +264,7 @@
 		<div class="back-button-wrapper">
 			<BackButton {view} />
 		</div>
-		<FreqSpeeds0
+		<FreqSpectacle
 			width={windowWidth}
 			height={windowHeight * 0.7}
 			elapsedTime={$clock.time}
@@ -272,21 +272,21 @@
 			hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
 		<div style="display: flex; justify-content: center;">
 			<div style="flex: 0; display: flex; flex-direction: column;">
-				<FreqSpeeds0
+				<FreqSpectacle
 					width={windowWidth * 0.25}
 					height={windowHeight * 0.15}
 					style="transform: rotate(180deg);"
 					elapsedTime={$clock.time}
 					lowestHzItemCount={2}
 					hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
-				<FreqSpeeds0
+				<FreqSpectacle
 					width={windowWidth * 0.25}
 					height={windowHeight * 0.15}
 					elapsedTime={$clock.time}
 					lowestHzItemCount={2}
 					hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
 			</div>
-			<FreqSpeeds0
+			<FreqSpectacle
 				width={windowWidth * 0.5}
 				height={windowHeight * 0.3}
 				style="transform: rotate(180deg);"
@@ -294,14 +294,14 @@
 				lowestHzItemCount={2}
 				hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
 			<div style="flex: 0; display: flex; flex-direction: column;">
-				<FreqSpeeds0
+				<FreqSpectacle
 					width={windowWidth * 0.25}
 					height={windowHeight * 0.15}
 					style="transform: rotate(180deg);"
 					elapsedTime={$clock.time}
 					lowestHzItemCount={2}
 					hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
-				<FreqSpeeds0
+				<FreqSpectacle
 					width={windowWidth * 0.25}
 					height={windowHeight * 0.15}
 					elapsedTime={$clock.time}
@@ -315,13 +315,13 @@
 		<div class="back-button-wrapper">
 			<BackButton {view} />
 		</div>
-		<FreqSpeeds1
+		<FreqSpeeds
 			width={windowWidth}
 			height={windowHeight / 2}
 			elapsedTime={$clock.time}
 			lowestHzItemCount={2}
 			hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
-		<FreqSpeeds1
+		<FreqSpeeds
 			width={windowWidth}
 			height={windowHeight / 2}
 			style="transform: rotate(180deg);"

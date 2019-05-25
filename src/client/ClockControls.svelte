@@ -1,5 +1,5 @@
 <script>
-	import FreqSpeeds0 from './FreqSpeeds0.svelte';
+	import FreqSpectacle from './FreqSpectacle.svelte';
 
 	// TODO what are the perf characteristics if we use the clock store directly?
 	// will anything get updated unnecessarily every frame?
@@ -34,7 +34,7 @@
 		</button>
 	{/if}
 	<div on:click={() => (running ? pause() : resume())}>
-		<FreqSpeeds0
+		<FreqSpectacle
 			elapsedTime={time}
 			width={150}
 			height={80}
