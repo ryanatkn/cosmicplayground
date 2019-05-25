@@ -12,6 +12,7 @@
 		color: hsla(130, 20%, 90%, 0.9);
 		transition: transform 0.06s ease-out;
 		transform-origin: center center;
+		padding-left: 20px;
 	}
 	.button:hover {
 		opacity: 0.8;

@@ -48,7 +48,11 @@
 		<div>
 			<img alt="Cosmic Kitty" src="assets/characters/cosmic_kitty.jpg" />
 		</div>
-		<div>Cosmic Kitty pounced out of <em>paint freqs</em> .. mreow</div>
+		<div>
+			Cosmic Kitty pounced out of
+			<em>paint freqs</em>
+			.. mreow
+		</div>
 		<div>
 			<em>credit:</em>
 			Lisa Atkinson

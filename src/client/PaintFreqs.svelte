@@ -10,10 +10,10 @@
 	import {DEFAULT_TUNING} from '../music/constants.js';
 
 	/*
-  
+
   ideas
 	- investigate the perf issues
-	- possibly make a different verison that disallows lifting the pointer (or add a toggle) 
+	- possibly make a different verison that disallows lifting the pointer (or add a toggle)
   - support painting with a closed shape, not just lines
 		- negative space?
 	- volume controls
@@ -44,15 +44,17 @@
 
 	// could debounce this if it's too slow on resize
 	const updateCanvas = () => {
-		if (!canvasCtx) canvasCtx = canvas.getContext('2d');
 		if (
 			canvasData &&
 			canvasData.width === width &&
 			canvasData.height === height
-		)
+		) {
 			return;
-		canvas.width = width;
-		canvas.height = height;
+		}
+		if (canvas.width !== width) canvas.width = width;
+		if (canvas.height !== height) canvas.height = height;
+		if (!canvasCtx) canvasCtx = canvas.getContext('2d'); // TODO is it possible this gets stale? I don't think so under current usage - but what if the canvas changes in the future?
+		canvasCtx.clearRect(0, 0, width, height);
 		canvasData = canvasCtx.createImageData(width, height);
 		drawFreqColors();
 	};
@@ -111,7 +113,7 @@
 	let osc;
 	let gain;
 
-	const VOLUME = 0.25; // TODO probably hook into global settings
+	const VOLUME = 0.35; // TODO probably hook into global settings
 
 	$: freq = width ? calcFreq(pointerX, pointerY, width, height) : undefined;
 	$: if (osc && freq !== undefined)
