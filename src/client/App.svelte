@@ -137,10 +137,10 @@
 					<div class="rotating-text">transition designer</div>
 				</li>
 				<li class="thumbnail" on:click={() => view.set('hearingTest')}>
-					<div>hearing test</div>
+					<div>🐶 hearing test 🐶</div>
 					<div>
 						<small style="color: hsla(40deg, 60%, 65%, 1);">
-							beware ye, creature
+						 🐾 🐕 beware ye, creature 🐕 🐾
 						</small>
 					</div>
 				</li>
