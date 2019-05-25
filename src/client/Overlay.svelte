@@ -1,9 +1,9 @@
 <script>
-	// ...
+	export let contentStyle;
 </script>
 
 <div class="wrapper" on:click|stopPropagation>
-	<div class="content">
+	<div class="content" style={contentStyle}>
 		<slot />
 	</div>
 </div>

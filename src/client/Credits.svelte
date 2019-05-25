@@ -1,20 +1,25 @@
+<script>
+	import ImgLink from './ImgLink.svelte';
+</script>
+
 <h3>credits</h3>
-<ul class="items">
-	<li class="item">
+<section class="items">
+	<div class="item">
 		CPG's code and original assets are
-		<a href="https://creativecommons.org/share-your-work/public-domain/cc0">
+		<a href="https://creativecommons.org/publicdomain/zero/1.0/">
 			CC0 licensed
 		</a>
 		(public domain). The project also uses the permissively licensed assets
 		listed below. See the included links for more about the copyright holders.
-	</li>
+	</div>
 	<hr />
-	<li class="item">
+	<div class="item">
 		<div>
-			<img
+			<ImgLink
 				src="assets/space/galaxies.jpg"
 				alt="Hubble sees galaxies galore"
-				style="width: 200px;" />
+				style="width: 200px;"
+				link={true} />
 		</div>
 		<em>galaxies background image credit:</em>
 		<a href="https://www.spacetelescope.org/images/heic0406a/">
@@ -27,26 +32,31 @@
 		, and S. Beckwith (
 		<a href="https://www.stsci.edu/">STScI</a>
 		) and the HUDF Team
-	</li>
+	</div>
 	<hr />
-	<li class="item">
+	<div class="item">
 		<div>
-			<img
+			<ImgLink
 				alt="construction idea"
-				src="assets/construction/construction_person_dig_idea.gif" />
-			<img
+				src="assets/construction/construction_person_dig_idea.gif"
+				link={true} />
+			<ImgLink
 				alt="construction mammal"
-				src="assets/construction/construction_mammal.gif" />
+				src="assets/construction/construction_mammal.gif"
+				link={true} />
 		</div>
 		<em>under construction gifs credit:</em>
 		<a href="http://textfiles.com/underconstruction/">
 			http://textfiles.com/underconstruction/
 		</a>
-	</li>
+	</div>
 	<hr />
-	<li class="item">
+	<div class="item">
 		<div>
-			<img alt="Cosmic Kitty" src="assets/characters/cosmic_kitty.jpg" />
+			<ImgLink
+				alt="Cosmic Kitty"
+				src="assets/characters/cosmic_kitty.jpg"
+				link={true} />
 		</div>
 		<div>
 			Cosmic Kitty pounced out of
@@ -61,9 +71,9 @@
 			<em>license:</em>
 			<a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>
 		</div>
-	</li>
+	</div>
 	<hr />
-</ul>
+</section>
 
 <style>
 	.items {

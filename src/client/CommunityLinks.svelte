@@ -55,7 +55,7 @@
 	</li>
 	<li>
 		fork the source code on
-		<a href="https://github.com/ryanatkn/cosmicplayground/issues">GitHub</a>
+		<a href="https://github.com/ryanatkn/cosmicplayground">GitHub</a>
 		- it's easy to self-host on a cheap server
 	</li>
 </ul>

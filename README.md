@@ -30,7 +30,7 @@ sharing ideas, creations, and experiences. Participation can take many forms:
 - say hi on [Discord](https://discord.gg/57XP5Pv)
 - contribute code and other assets like graphics and audio.
   Please be aware that your submissions will be [CC0 licensed](LICENSE)
-  (public domain) unless you explicitly request otherwise.
+  (public domain) unless you request otherwise.
   Code is an exception - all of it is CC0.
   Creative Commons has a great webpage to help you
   [choose a license](https://creativecommons.org/choose/)

@@ -23,7 +23,7 @@
 
 	const easings = svelteEasings;
 
-	let duration = 1500;
+	let duration = 1000;
 	let waitTime = 250; // time to wait between loops
 
 	let destroyed = false; // TODO is there a better way to do this?

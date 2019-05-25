@@ -77,7 +77,7 @@
 						style="padding: 4px; display: flex; flex-direction: column;
 						align-items: center;">
 						<div style="font-size: 30px; margin: 20px 0;">{name}</div>
-						<small>help, about, credits</small>
+						<small>. help . about . credits .</small>
 					</div>
 				</li>
 				<li class="thumbnail" on:click={() => view.set('paintFreqs')}>
@@ -139,7 +139,9 @@
 				<li class="thumbnail" on:click={() => view.set('hearingTest')}>
 					<div>hearing test</div>
 					<div>
-						<small>beware ye, creature</small>
+						<small style="color: hsla(40deg, 60%, 65%, 1);">
+							beware ye, creature
+						</small>
 					</div>
 				</li>
 				<li
@@ -205,7 +207,7 @@
 			<BackButton {view} />
 		</div>
 		<div style="margin: 90px auto 0; max-width: 980px; padding: 20px;">
-			<Overlay>
+			<Overlay contentStyle="padding: 20px;">
 				<About {name}>
 					<div style="display: flex; align-items: center;">
 						<div
