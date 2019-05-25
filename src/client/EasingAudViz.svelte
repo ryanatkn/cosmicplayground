@@ -268,6 +268,16 @@
 				width: {graphic2Width}px; height: {graphic2Height}px; background-color: {getColor(activeEasingIndex)};" />
 		</div>
 	</div>
+	<div>
+		<div
+			style="display: flex; align-items: center; justify-content: center; width:
+			{translateWidth / 2}px; padding: 36px 36px 0;">
+			<div
+				class="active-tween-graphic-skew"
+				style="transform: skew({tweenAlternating * 80 - 25}deg, {tweenAlternating * 10 - 2}deg);
+				width: {graphic2Width}px; height: {graphic2Height}px; background-color: {getColor(activeEasingIndex)};" />
+		</div>
+	</div>
 </section>
 
 <section class="tweens">
@@ -345,8 +355,5 @@
 	}
 	input[type='radio']:active {
 		opacity: 1;
-	}
-	button {
-		height: 40px;
 	}
 </style>
