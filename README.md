@@ -3,7 +3,7 @@
 > tools and toys for expanding minds: ear training, music theory,
 > etc etc .. [cosmicplayground.org](https://cosmicplayground.org)
 
-    current status: there's nothing here to see yet - just setting up and prototyping
+    current status: there's barely anything here yet, but there's not nothing
 
 _cosmicplayground_ (CPG) is a **work in progress** website exploring interactive
 learning with ear training, music theory, and other neat stuff.

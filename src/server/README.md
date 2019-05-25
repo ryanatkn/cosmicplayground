@@ -1,3 +1,1 @@
 # cosmicplayground/server
-
-alternative names: ...
