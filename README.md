@@ -13,7 +13,7 @@ but the general goal is to help us learn and grow.
 ![galaxies](static/assets/space/galaxies_banner.jpg)
 
 [The code](https://github.com/ryanatkn/cosmicplayground)
-is open source and in the public domain,
+is open source and public domain licensed,
 [the website](https://cosmicplayground.org) is free to use,
 it's easy and cheap to self-host,
 and we hope to grow a community of contributors.
