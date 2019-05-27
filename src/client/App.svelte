@@ -170,15 +170,8 @@
 						elapsedTime={$clock.time}
 						width={150}
 						height={75}
-						hzItems={[2, 3]}
+						hzItems={[2, 3, 4]}
 						lowestHzItemCount={1} />
-					<FreqSpectacle
-						elapsedTime={$clock.time}
-						width={150}
-						height={75}
-						hzItems={[5, 4]}
-						lowestHzItemCount={1}
-						style="transform: rotate(180deg);" />
 				</li>
 				<li class="thumbnail" on:click={() => view.set('construction')}>
 					{#if $clock.running}
@@ -439,6 +432,15 @@
 	.easing-aud-viz-wrapper {
 		position: relative;
 		margin-top: 10px;
+		animation: easing-aud-viz-wrapper-warp 5s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;
+	}
+	@keyframes easing-aud-viz-wrapper-warp {
+		0% {
+			transform: scale3d(1, 1, 1);
+		}
+		100% {
+			transform: scale3d(1.5, 1, 1);
+		}
 	}
 	.easing-aud-viz-mouth-wrapper {
 		position: absolute;
@@ -484,13 +486,13 @@
 	}
 	@keyframes easing-aud-viz-dance {
 		0% {
-			transform: scale3d(0.15, 0.15, 0.15) rotate(-45deg);
+			transform: scale3d(0.15, 0.15, 1) rotate(-45deg);
 		}
 		50% {
-			transform: scale3d(1, 1, 1) rotate(225deg);
+			transform: scale3d(0.5, 0.5, 1) rotate(225deg);
 		}
 		100% {
-			transform: scale3d(0.15, 0.15, 0.15) rotate(450deg);
+			transform: scale3d(0.15, 0.15, 1) rotate(450deg);
 		}
 	}
 	.rotating-text {
