@@ -77,7 +77,7 @@
 						style="padding: 4px; display: flex; flex-direction: column;
 						align-items: center;">
 						<div style="font-size: 30px; margin: 20px 0;">{name}</div>
-						<small>. help . about . credits .</small>
+						<small>help . about . credits</small>
 					</div>
 				</li>
 				<li class="thumbnail" on:click={() => view.set('paintFreqs')}>
