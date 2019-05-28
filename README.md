@@ -4,6 +4,7 @@
 > etc etc .. [cosmicplayground.org](https://cosmicplayground.org)
 
 ```svelte
+// work in progress
 // current status: there's barely anything here yet, but there's not {nothing}
 ```
 
