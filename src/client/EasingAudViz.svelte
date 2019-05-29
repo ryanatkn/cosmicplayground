@@ -228,19 +228,21 @@
 			<div style="position: relative;">
 				<div
 					style="position: absolute; left: 0; top: 0; transform: translate3d({chartX0 + xPct * chartWidth - chartAxisLineWidth / 2}px,
-					{chartY0 - chartAxisLineWidth / 2}px, 0); background-color: rgba(255, 255,
-					255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px" />
+					{chartY0 - chartAxisLineWidth / 2}px, 0); background-color: rgba(255,
+					255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px" />
 				<div
 					style="position: absolute; left: 0; top: 0; transform: translate3d({chartX0 - chartAxisLineWidth / 2}px,
 					{chartY0 - yPct * chartHeight - chartAxisLineWidth / 2}px, 0);
 					background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px;
 					height: {chartAxisLineWidth}px" />
-				<canvas style="position: relative; z-index: 1;" bind:this={chartCanvas} />
+				<canvas
+					style="position: relative; z-index: 1;"
+					bind:this={chartCanvas} />
 				<div
 					style="position: absolute; left: 0; top: 0; background-color: {getColor(activeEasingIndex)};
 					transform: translate3d({chartX0 + xPct * chartWidth - chartLineHighlightWidth / 2}px,
-					{chartY0 - yPct * chartHeight - chartLineHighlightWidth / 2}px, 0); width:
-					{chartLineHighlightWidth}px; height: {chartLineHighlightWidth}px;
+					{chartY0 - yPct * chartHeight - chartLineHighlightWidth / 2}px, 0);
+					width: {chartLineHighlightWidth}px; height: {chartLineHighlightWidth}px;
 					border-radius: 50%;" />
 			</div>
 			<div
@@ -248,36 +250,38 @@
 				margin-bottom: 24px;">
 				<div
 					class="active-tween-graphic-translate"
-					style="transform: translate3d({tweenAlternating * translateDistance}px, 0,
-					0); width: {graphic1Width}px; height: {graphic1Height}px;
+					style="transform: translate3d({tweenAlternating * translateDistance}px,
+					0, 0); width: {graphic1Width}px; height: {graphic1Height}px;
 					background-color: {getColor(activeEasingIndex)};" />
 			</div>
 			<div style="display: flex;">
 				<div
-					style="display: flex; align-items: center; justify-content: center; width:
-					{translateWidth / 2}px">
+					style="display: flex; align-items: center; justify-content: center;
+					width: {translateWidth / 2}px">
 					<div
 						class="active-tween-graphic-rotate"
 						style="transform: rotate({tweenAlternating * 180}deg); height: {graphic2Height}px;
 						background-color: {getColor(activeEasingIndex)};" />
 				</div>
 				<div
-					style="display: flex; align-items: center; justify-content: center; width:
-					{translateWidth / 2}px">
+					style="display: flex; align-items: center; justify-content: center;
+					width: {translateWidth / 2}px">
 					<div
 						class="active-tween-graphic-scale"
-						style="transform: scale3d({tweenAlternating}, {tweenAlternating}, 1);
-						width: {graphic2Width}px; height: {graphic2Height}px; background-color: {getColor(activeEasingIndex)};" />
+						style="transform: scale3d({tweenAlternating}, {tweenAlternating},
+						1); width: {graphic2Width}px; height: {graphic2Height}px;
+						background-color: {getColor(activeEasingIndex)};" />
 				</div>
 			</div>
 			<div>
 				<div
-					style="display: flex; align-items: center; justify-content: center; width:
-					{translateWidth / 2}px; padding: 36px 36px 0;">
+					style="display: flex; align-items: center; justify-content: center;
+					width: {translateWidth / 2}px; padding: 36px 36px 0;">
 					<div
 						class="active-tween-graphic-skew"
 						style="transform: skew({tweenAlternating * 80 - 25}deg, {tweenAlternating * 10 - 2}deg);
-						width: {graphic2Width}px; height: {graphic2Height}px; background-color: {getColor(activeEasingIndex)};" />
+						width: {graphic2Width}px; height: {graphic2Height}px;
+						background-color: {getColor(activeEasingIndex)};" />
 				</div>
 			</div>
 		</section>

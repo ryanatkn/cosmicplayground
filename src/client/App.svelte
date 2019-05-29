@@ -432,7 +432,8 @@
 	.easing-aud-viz-wrapper {
 		position: relative;
 		margin-top: 10px;
-		animation: easing-aud-viz-wrapper-warp 5s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;
+		animation: easing-aud-viz-wrapper-warp 5s cubic-bezier(0.86, 0, 0.07, 1)
+			infinite alternate;
 	}
 	@keyframes easing-aud-viz-wrapper-warp {
 		0% {
