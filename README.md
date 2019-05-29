@@ -76,7 +76,7 @@ the complete list of non-code assets and their credits,
 and [docs/contributors.md](docs/contributors.md)
 for the list of people helping it all go.
 
-> :rainbow: did you know? `emoji` can be punctuation :snail: neat huh
+> :rainbow::sparkles: did you know? `emoji` can be punctuation :snail: neat huh
 
 ## license
 
