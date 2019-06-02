@@ -40,8 +40,8 @@
 			href="https://github.com/ryanatkn/cosmicplayground/blob/master/docs/contributors.md">
 			contributors
 		</a>
-		for more. Also, if you want to make sure I'll accept your stuff, please open
-		an issue so we can talk about it first.
+		for more. I'm not sure what contributions I'll solicit yet,
+		but if you have something cool in mind please share!
 	</li>
 	<li>
 		email

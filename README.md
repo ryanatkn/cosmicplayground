@@ -41,7 +41,7 @@ sharing ideas, creations, and experiences. Participation can take many forms:
   See [the asset credits](docs/assets.md) and
   [contributors](docs/contributors.md) for more.
   I'm not sure what contributions I'll solicit yet,
-  but if you have something cool in mind please do let me know!
+  but if you have something cool in mind please share!
 - email [cosmicplayground.org@gmail.com](mailto:cosmicplayground.org@gmail.com)
 - donate on [Patreon](https://patreon.com/ryanatkn)
 - [cosmicplayground.org](https://cosmicplayground.org)
