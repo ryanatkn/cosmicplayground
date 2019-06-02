@@ -18,7 +18,7 @@
 			<ImgLink
 				src="assets/space/galaxies.jpg"
 				alt="Hubble sees galaxies galore"
-				style="width: 200px;"
+				imgStyle="width: 200px;"
 				link={true} />
 		</div>
 		<em>galaxies background image credit:</em>

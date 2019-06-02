@@ -29,9 +29,15 @@
 			src="assets/characters/octocat.png"
 			alt="octocat"
 			href="https://github.com/ryanatkn/cosmicplayground"
-			style="mix-blend-mode: difference;" />
+			imgStyle="mix-blend-mode: difference;" />
 	</div>
 </section>
 <CommunityLinks />
 <slot />
 <Credits />
+<ImgLink
+	href="https://spiderspace.org"
+	src="assets/characters/spider.png"
+	alt="spider"
+	imgStyle="position: absolute; right: -14px; top: -5px;"
+	linkStyle="display: block; position: relative; height: 0;" />

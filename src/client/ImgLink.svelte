@@ -10,10 +10,11 @@
 	export let src;
 	export let alt;
 	export let href = src;
-	export let style;
+	export let imgStyle;
+	export let linkStyle;
 </script>
 
 <!-- TODO {...$$props} -->
-<a style="display: block;" {href}>
-	<img {src} {alt} {style} />
+<a {href} style={linkStyle}>
+	<img {src} {alt} style={imgStyle} />
 </a>
