@@ -1,11 +1,19 @@
 <script>
 	/*
 
-	This component takes easing visualizations to an illogical conclusion.
+	WARNING: messy code
+	TODO refactor
+
+	This component hopes to give us insight into the behavior of easing functions
+	by both visualizing and *audioizing* them.
 	If we're trying to get a feel for a particular easing function,
 	why just use our eyes when we have ears too?
+	Be forewarned: the sounds may annoy you and your neighbors.
 
 	notes
+	- could add a midi picker for the start/end notes
+	- could add a piano visualization (toggleable)
+	- could improve the volume controls (make a reusable component)
   - use this in an "easing function picker" (see also freqency picker that uses the piano)
 	- consider grouping the easings by type into a vertical block
 		(so fooInOut/In/Out are together and easily distinguished as all foo)
@@ -20,15 +28,22 @@
 	import {onDestroy} from 'svelte';
 
 	import {svelteEasings} from './easings.js';
+	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../audio/utils.js';
+	import {mix} from '../utils/math.js';
+	import {createAudioCtx} from '../audio/audioCtx.js';
+	import {midiNames} from '../music/notes.js';
+	import {midiToFreq} from '../music/midi.js';
+	import {DEFAULT_TUNING} from '../music/constants.js';
 
 	const easings = svelteEasings;
 
 	let duration = 1000;
 	let waitTime = 250; // time to wait between loops
 
-	let destroyed = false; // TODO is there a better way to do this?
+	let destroyed = false; // TODO is there a better way to do this? `useLoop`?
 	onDestroy(() => {
-		destroyed = true; // TODO is there a better way to do this?
+		destroyed = true; // TODO is there a better way to do this? `useLoop`?
+		audioCtx.close();
 	});
 
 	let timeNow,
@@ -55,6 +70,7 @@
 		if (timeLast !== undefined) {
 			timeElapsed = now - timeLast;
 			updateTime();
+			updateAudioization();
 		}
 		timeLast = now;
 		return !destroyed;
@@ -109,7 +125,72 @@
 		}
 	};
 
-	let activeEasingIndex = easings.findIndex(e => e.name === 'elasticOut');
+	// audio options
+	const lowestNote = 21;
+	const highestNote = 108;
+	let startNote = 42 + ((Math.random() * 6) | 0); // TODO midi picker
+	let endNote = startNote + 12; // TODO midi picker
+
+	// audio playback
+	// TODO refactor to share code with `HearingTest` and `PaintFreqs`
+	let audioCtx, osc, gain;
+	let volume = 0.5;
+	let muted = false;
+	$: freqMin = midiToFreq(startNote, DEFAULT_TUNING);
+	$: freqMax = midiToFreq(endNote, DEFAULT_TUNING);
+	const calcFreq = pct => mix(freqMin, freqMax, pct);
+	const initAudioCtx = () => {
+		if (audioCtx) return;
+		audioCtx = createAudioCtx();
+	};
+	const updateAudioization = loopState => {
+		startAudio();
+
+		const freq = calcFreq(tweenAlternating);
+		osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+		// TODO volume controls
+		gain.gain.setTargetAtTime(
+			volumeToGain(getVolume()),
+			audioCtx.currentTime,
+			SMOOTH_GAIN_TIME_CONSTANT,
+		);
+	};
+	const getVolume = () => {
+		if (muted) return 0;
+		switch (loopState) {
+			case 'movingLeft':
+			case 'movingRight':
+				return volume;
+			case 'waitingLeft':
+			case 'waitingRight':
+				return volume;
+		}
+	};
+	const startAudio = () => {
+		if (osc) return;
+		initAudioCtx();
+		gain = audioCtx.createGain();
+		gain.gain.value = 0;
+		gain.connect(audioCtx.destination);
+		osc = audioCtx.createOscillator();
+		osc.type = 'sine';
+		osc.start();
+		osc.connect(gain);
+	};
+	const stopAudio = () => {
+		if (!osc) return;
+		gain.gain.setTargetAtTime(
+			0,
+			audioCtx.currentTime,
+			SMOOTH_GAIN_TIME_CONSTANT,
+		);
+		osc.stop(audioCtx.currentTime + SMOOTH_GAIN_TIME_CONSTANT);
+		osc = undefined;
+		gain = undefined;
+	};
+
+	let activeEasingIndex = easings.findIndex(e => e.name === 'quintInOut');
 	let activeEasing = easings[activeEasingIndex]; // {name, fn}
 	$: activeEasing = easings[activeEasingIndex];
 
@@ -187,36 +268,75 @@
 <div style="max-width: 980px; display: flex; flex-wrap: wrap; margin: auto;">
 	<section>
 		<section class="controls" style="padding-left: 90px;">
-			<div class="controls-group">
+			<div class="controls-group {muted ? 'disabled' : ''}">
+				<button on:click={() => (muted = !muted)}>{muted ? '🔇' : '🔊'}</button>
+				<input
+					type="range"
+					bind:value={volume}
+					min={0}
+					max={1}
+					step={0.01}
+					style="width: 260px;"
+					disabled={muted} />
+				<div>
+					{Math.round(volume * 100)}
+					<span>%</span>
+				</div>
+			</div>
+			<label class="controls-group">
+				<input
+					type="range"
+					bind:value={startNote}
+					min={lowestNote}
+					max={highestNote}
+					step={1} />
+				<div>
+					{midiNames[startNote]}
+					<span style="font-size: 24px;">♪</span>
+				</div>
+			</label>
+			<label class="controls-group">
+				<input
+					type="range"
+					bind:value={endNote}
+					min={lowestNote}
+					max={highestNote}
+					step={1} />
+				<div>
+					{midiNames[endNote]}
+					<span style="font-size: 24px;">♪</span>
+				</div>
+			</label>
+			<label class="controls-group">
 				<input
 					type="range"
 					bind:value={duration}
 					min={(2 * 1000) / 60}
 					max={6000}
 					step={1000 / 60} />
-				<div style="padding-left: 10px;">
+				<div>
 					<div>
 						{Math.round(duration)}
 						<small>ms</small>
 					</div>
 					<small>duration</small>
 				</div>
-			</div>
-			<div class="controls-group">
+			</label>
+			<label class="controls-group">
 				<input
 					type="range"
 					bind:value={waitTime}
-					min={(2 * 1000) / 60}
-					max={2000}
+					min={0}
+					max={2001}
 					step={1000 / 60} />
-				<div style="padding-left: 10px;">
+				<div>
 					<div>
 						{Math.round(waitTime)}
 						<small>ms</small>
 					</div>
 					<small>waitTime</small>
 				</div>
-			</div>
+			</label>
 		</section>
 
 		<section class="active-tween">
@@ -351,6 +471,7 @@
 		margin: 0 auto;
 	}
 	input[type='range'] {
+		margin: 0 10px;
 		width: 300px;
 	}
 	input[type='radio'] {
@@ -363,5 +484,11 @@
 	}
 	input[type='radio']:active {
 		opacity: 1;
+	}
+	button {
+		height: 40px;
+	}
+	.disabled {
+		opacity: 0.6;
 	}
 </style>

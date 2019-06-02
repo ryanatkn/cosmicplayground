@@ -3,8 +3,8 @@
 export type Hue = number; // [0, 1]
 export type Saturation = number; // [0, 1]
 export type Lightness = number; // [0, 1]
-export type Hsl = [Hue, Saturation, Lightness]; // [0,1]
-export type Rgb = [number, number, number]; // [0,255]
+export type Hsl = readonly [Hue, Saturation, Lightness]; // [0,1]
+export type Rgb = readonly [number, number, number]; // [0,255]
 
 export const hueToRgb = (p: number, q: number, t: number): number => {
 	if (t < 0) t += 1;
