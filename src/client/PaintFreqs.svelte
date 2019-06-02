@@ -1,8 +1,8 @@
 <script>
 	import {spring} from 'svelte/motion';
-	import {onMount} from 'svelte';
+	import {onMount, onDestroy} from 'svelte';
 
-	import {createAudioCtx} from '../audio/audioCtx.js';
+	import {useAudioCtx} from '../audio/audioCtx.js';
 	import {mix} from '../utils/math.js';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../audio/utils.js';
 	import {hslToRgb} from '../utils/colors.js';
@@ -95,11 +95,7 @@
 		lines = lines;
 	};
 
-	let audioCtx;
-	const initAudioCtx = () => {
-		// TODO store and/or context
-		audioCtx = createAudioCtx();
-	};
+	const audioCtx = useAudioCtx();
 
 	let spotPosition = spring(
 		{x: pointerX, y: pointerY},
@@ -122,7 +118,6 @@
 
 	const start = () => {
 		if (osc) return;
-		if (!audioCtx) initAudioCtx();
 		gain = audioCtx.createGain();
 		gain.gain.value = 0;
 		gain.gain.setTargetAtTime(
@@ -147,6 +142,8 @@
 		osc = undefined;
 		gain = undefined;
 	};
+
+	onDestroy(stop);
 
 	const freqMin = 20; // freq is this when x=0
 	const freqMax = 6000; // freq is this when x=width

@@ -18,6 +18,7 @@
 	import EasingViz from './EasingViz.svelte';
 	import EasingAudViz from './EasingAudViz.svelte';
 	import {mix} from '../utils/math.js';
+	import {initAudioCtx} from '../audio/audioCtx.js';
 
 	export let name;
 
@@ -28,6 +29,8 @@
 	export let windowHeight = window.innerHeight;
 
 	export let clock = createClock();
+
+	initAudioCtx(); // allows components to do `const audioCtx = useAudioCtx();` which uses svelte's `getContext`
 
 	onMount(() => {
 		drawEasingAudVizCanvas();

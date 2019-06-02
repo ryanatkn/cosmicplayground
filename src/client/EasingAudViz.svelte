@@ -30,7 +30,7 @@
 	import {svelteEasings} from './easings.js';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../audio/utils.js';
 	import {mix} from '../utils/math.js';
-	import {createAudioCtx} from '../audio/audioCtx.js';
+	import {useAudioCtx} from '../audio/audioCtx.js';
 	import {midiNames} from '../music/notes.js';
 	import {midiToFreq} from '../music/midi.js';
 	import {DEFAULT_TUNING} from '../music/constants.js';
@@ -43,7 +43,7 @@
 	let destroyed = false; // TODO is there a better way to do this? `useLoop`?
 	onDestroy(() => {
 		destroyed = true; // TODO is there a better way to do this? `useLoop`?
-		audioCtx.close();
+		if (osc) osc.stop();
 	});
 
 	let timeNow,
@@ -133,16 +133,13 @@
 
 	// audio playback
 	// TODO refactor to share code with `HearingTest` and `PaintFreqs`
-	let audioCtx, osc, gain;
+	let osc, gain;
+	const audioCtx = useAudioCtx();
 	let volume = 0.5;
 	let muted = false;
 	$: freqMin = midiToFreq(startNote, DEFAULT_TUNING);
 	$: freqMax = midiToFreq(endNote, DEFAULT_TUNING);
 	const calcFreq = pct => mix(freqMin, freqMax, pct);
-	const initAudioCtx = () => {
-		if (audioCtx) return;
-		audioCtx = createAudioCtx();
-	};
 	const updateAudioization = loopState => {
 		startAudio();
 
@@ -169,7 +166,6 @@
 	};
 	const startAudio = () => {
 		if (osc) return;
-		initAudioCtx();
 		gain = audioCtx.createGain();
 		gain.gain.value = 0;
 		gain.connect(audioCtx.destination);

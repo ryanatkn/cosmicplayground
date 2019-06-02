@@ -1,17 +1,15 @@
 <script>
 	import {spring} from 'svelte/motion';
+	import {onDestroy} from 'svelte';
 
-	import {createAudioCtx} from '../audio/audioCtx.js';
+	import {useAudioCtx} from '../audio/audioCtx.js';
 	import {mix} from '../utils/math.js';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../audio/utils.js';
 
 	let width;
 	let height;
 
-	let audioCtx;
-	const initAudioCtx = () => {
-		audioCtx = createAudioCtx();
-	};
+	const audioCtx = useAudioCtx();
 
 	let pointerX = -300;
 	let pointerY = -300;
@@ -57,7 +55,6 @@
 
 	const start = () => {
 		if (osc) return;
-		if (!audioCtx) initAudioCtx();
 		gain = audioCtx.createGain();
 		gain.gain.value = 0;
 		gain.connect(audioCtx.destination);
@@ -77,6 +74,8 @@
 		osc = undefined;
 		gain = undefined;
 	};
+
+	onDestroy(stop);
 
 	// TODO more cleanly handle touch/click - pointer events with polyfill for Safari? (probably using Svelte actions)
 	// or maybe support multiple touches? yeah...that makes sense here.
