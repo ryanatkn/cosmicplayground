@@ -24,7 +24,7 @@ and we hope to grow a community of contributors.
 ## participate
 
 CPG hopes to bring together likeminded explorers
-sharing ideas, creations, and experiences. Participation can take many forms:
+sharing ideas, creations, and experiences. Participation takes many forms:
 
 - play around! [:octopus::beetle:](https://cosmicplayground.org)
 - report problems, ask questions, give feedback, and discuss ideas in
