@@ -26,6 +26,13 @@
 	</div>
 	<div>
 		<ImgLink
+			src="assets/characters/patreon.png"
+			alt="patreon"
+			href="https://patreon.com/ryanatkn"
+			imgStyle="mix-blend-mode: difference; width: 64px;" />
+	</div>
+	<div>
+		<ImgLink
 			src="assets/characters/octocat.png"
 			alt="octocat"
 			href="https://github.com/ryanatkn/cosmicplayground"
