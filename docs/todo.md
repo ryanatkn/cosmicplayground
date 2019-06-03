@@ -1,5 +1,6 @@
 # todo
 
+- prune these todos to be higher level where possible
 - window innerHeight in context/store
 - dev hud
   - dev tools? seeing component state would be nice. first step towards integrated env.
@@ -37,6 +38,7 @@
   - www
 - solicit help naming things
 - lerna?
+- when status is ready, `const feedback = world.give(thing)`
 
 ## features
 
