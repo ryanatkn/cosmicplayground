@@ -26,6 +26,7 @@ and we hope to grow a community of contributors.
 CPG hopes to bring together likeminded explorers
 sharing ideas, creations, and experiences. Participation can take many forms:
 
+- play around! [:octopus::beetle:](https://cosmicplayground.org)
 - report problems, ask questions, give feedback, and discuss ideas in
   [the GitHub issues](https://github.com/ryanatkn/cosmicplayground/issues)
 - join the subreddit at [/r/cosmicplayground](https://reddit.com/r/cosmicplayground)
@@ -45,6 +46,7 @@ sharing ideas, creations, and experiences. Participation can take many forms:
 - email [cosmicplayground.org@gmail.com](mailto:cosmicplayground.org@gmail.com)
 - donate on [Patreon](https://patreon.com/ryanatkn)
 - [cosmicplayground.org](https://cosmicplayground.org)
+	:stuck_out_tongue_winking_eye:
 
 ## tech
 
