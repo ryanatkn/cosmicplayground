@@ -1,4 +1,4 @@
-# cosmicplayground
+# cosmicplayground [![icon](static/favicon.png)](https://cosmicplayground.org)
 
 > tools and toys for expanding minds: ear training, music theory,
 > etc etc .. [cosmicplayground.org](https://cosmicplayground.org)
