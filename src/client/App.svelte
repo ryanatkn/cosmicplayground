@@ -422,7 +422,7 @@
 			alternate;
 		width: 12px;
 		height: 12px;
-		background-color: hsla(260deg, 60%, 65%, 1);
+		background-color: hsla(260deg, 60%, 65%, 1); /* #6342a6 */
 	}
 	@keyframes easing-viz-slide {
 		0% {
