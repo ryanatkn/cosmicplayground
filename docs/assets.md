@@ -29,3 +29,13 @@ _credit:_ <http://textfiles.com/underconstruction/>
 _credit_: Lisa Atkinson
 
 _license_: [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
+
+## cosm
+
+![cosm](/static/assets/characters/cosm.png)
+
+> appears when needed
+
+_credit_: Ryan Atkinson
+
+_license_: [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
