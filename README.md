@@ -1,7 +1,8 @@
 # cosmicplayground [![icon](static/favicon.png)](https://cosmicplayground.org)
 
 > tools and toys for expanding minds: ear training, music theory,
-> etc etc .. [cosmicplayground.org](https://cosmicplayground.org)
+> etc etc ..
+> [cosmicplayground.org :milky_way::comet:](https://cosmicplayground.org)
 
 ```svelte
 // work in progress
