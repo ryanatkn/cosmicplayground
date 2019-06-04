@@ -404,14 +404,14 @@
 		transform: scale3d(1, 1, 1);
 	}
 	.thumbnail:hover {
-		transform: scale3d(1.06, 1.06, 1);
+		transform: scale3d(1.03, 1.03, 1);
 		border-width: 5px;
 		padding: 10px;
 		/* TODO the padding needs to be reduced as the border increases - should do this with some code instead of manually - PostCSS? */
 	}
 	.thumbnail:active {
 		border-style: dotted;
-		transform: scale3d(0.93, 0.93, 1);
+		transform: scale3d(1.09, 1.09, 1);
 	}
 	.thumbnail-construction {
 		animation: rotate-pulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
