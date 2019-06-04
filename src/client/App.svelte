@@ -561,4 +561,8 @@
 		image-rendering: pixelated; /* in case crisp-edges isn't supported */
 		image-rendering: crisp-edges; /* the recommended pixel art setting according to MDN */
 	}
+	:global(img, video) {
+		max-width: 100%;
+		height: auto;
+	}
 </style>
