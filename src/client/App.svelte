@@ -79,7 +79,22 @@
 					<div
 						style="padding: 4px; display: flex; flex-direction: column;
 						align-items: center;">
-						<div style="font-size: 30px; margin: 20px 0;">{name}</div>
+						<div
+							style="font-size: 30px; margin: 5px 0; display: flex; align-items:
+							center;">
+							<img
+								src="assets/characters/cosm.png"
+								alt="cosm"
+								class="pixelated"
+								style="width: 32px; height: 32px; margin-right: 10px;" />
+							{name}
+							<img
+								src="assets/characters/cosm.png"
+								alt="cosm"
+								class="pixelated"
+								style="width: 32px; height: 32px; margin-left: 10px; transform:
+								scale3d(-1, 1, 1);" />
+						</div>
 						<small>help . about . credits</small>
 					</div>
 				</li>

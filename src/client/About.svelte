@@ -2,6 +2,8 @@
 	import ImgLink from './ImgLink.svelte';
 	import CommunityLinks from './CommunityLinks.svelte';
 	import Credits from './Credits.svelte';
+	import {GR2i} from '../utils/math.js';
+
 	export let name;
 
 	/*
@@ -48,3 +50,10 @@
 	alt="spider"
 	imgStyle="position: absolute; right: -14px; top: -5px;"
 	linkStyle="display: block; position: relative; height: 0;" />
+<ImgLink
+	href="https://github.com/ryanatkn/cosmicplayground"
+	src="assets/characters/cosm.png"
+	alt="cosm"
+	imgStyle="width: 100%;"
+	imgClass="pixelated"
+	linkStyle="display: block; width: {(100 * GR2i) | 0}%; margin: 0 auto;" />
