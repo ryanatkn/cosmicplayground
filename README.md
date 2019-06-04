@@ -46,7 +46,7 @@ sharing ideas, creations, and experiences. Participation takes many forms:
 - email [cosmicplayground.org@gmail.com](mailto:cosmicplayground.org@gmail.com)
 - donate on [Patreon](https://patreon.com/ryanatkn)
 - [cosmicplayground.org](https://cosmicplayground.org)
-	:stuck_out_tongue_winking_eye:
+	:milky_way::comet:
 
 ## tech
 
