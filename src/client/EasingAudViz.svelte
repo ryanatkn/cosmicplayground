@@ -186,7 +186,7 @@
 		gain = undefined;
 	};
 
-	let activeEasingIndex = easings.findIndex(e => e.name === 'quintInOut');
+	let activeEasingIndex = easings.findIndex(e => e.name === 'elasticOut');
 	let activeEasing = easings[activeEasingIndex]; // {name, fn}
 	$: activeEasing = easings[activeEasingIndex];
 

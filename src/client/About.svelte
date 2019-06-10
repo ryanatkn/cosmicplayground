@@ -26,17 +26,22 @@
 			there's nothing here to see yet - just setting up and prototyping
 		</p>
 	</div>
-	<div>
+	<div style="display: flex; flex-direction: column;">
 		<ImgLink
 			src="assets/characters/patreon.png"
-			alt="patreon"
+			alt="@ryanatkn on patreon"
 			href="https://patreon.com/ryanatkn"
+			imgStyle="mix-blend-mode: difference; width: 64px;" />
+		<ImgLink
+			src="assets/characters/twit.png"
+			alt="@cpg_org on twitter"
+			href="https://twitter.com/cpg_org"
 			imgStyle="mix-blend-mode: difference; width: 64px;" />
 	</div>
 	<div>
 		<ImgLink
 			src="assets/characters/octocat.png"
-			alt="octocat"
+			alt="@ryanatkn/cosmicplayground on github"
 			href="https://github.com/ryanatkn/cosmicplayground"
 			imgStyle="mix-blend-mode: difference;" />
 	</div>
@@ -53,7 +58,7 @@
 <ImgLink
 	href="https://github.com/ryanatkn/cosmicplayground"
 	src="assets/characters/cosm.png"
-	alt="cosm"
+	alt="@ryanatkn/cosmicplayground on github"
 	imgStyle="width: 100%;"
 	imgClass="pixelated"
 	linkStyle="display: block; width: {(100 * GR2i) | 0}%; margin: 0 auto;" />
