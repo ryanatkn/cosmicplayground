@@ -1,18 +1,17 @@
 # cosmicplayground [![icon](static/favicon.png)](https://cosmicplayground.org)
 
-> tools and toys for expanding minds: ear training, music theory,
-> etc etc ..
-> [cosmicplayground.org :milky_way::comet:](https://cosmicplayground.org)
+> tools and toys for expanding minds
+> [:milky_way: cosmicplayground.org :comet:](https://cosmicplayground.org)
 
 ```svelte
 // work in progress
-// current status: there's barely anything here yet, but there's not {nothing}
+// current status: there's barely anything here yet, but there's not _nothing_
 ```
 
 _cosmicplayground_ (CPG) is a **work in progress** website exploring interactive
 learning with ear training, music theory, and other neat stuff.
 It ambitiously experiments in many directions,
-but the general goal is to help us learn and grow.
+but the general goal is to help us learn, create, and grow.
 
 ![galaxies](static/assets/space/galaxies-banner.jpg)
 
