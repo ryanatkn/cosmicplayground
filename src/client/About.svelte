@@ -16,15 +16,10 @@
 </script>
 
 <section class="flex">
-	<div style="flex: 1; padding-right: 30px;">
-		<h1 style="margin: 0 0 10px; font-size: 55px;">{name}</h1>
-		<em>tools and toys for expanding minds</em>
-		<p>
-			<em>current status:</em>
-			there's barely anything here yet, but there's not _nothing_
-		</p>
-	</div>
-	<div style="display: flex; flex-direction: column;">
+	<h1 class="flex-1 m-0 mb-2" style="padding-right: 30px; font-size: 55px;">
+		 {name}
+	</h1>
+	<div class="flex flex-col">
 		<ImgLink
 			src="assets/characters/patreon.png"
 			alt="@ryanatkn on patreon"
@@ -44,6 +39,13 @@
 			imgStyle="mix-blend-mode: difference;" />
 	</div>
 </section>
+<div>
+	<em>tools and toys for expanding minds</em>
+	<p>
+		<em>current status:</em>
+		there's barely anything here yet, but there's not _nothing_
+	</p>
+</div>
 <CommunityLinks />
 <slot />
 <Credits />
