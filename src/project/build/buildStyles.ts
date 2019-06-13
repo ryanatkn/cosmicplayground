@@ -1,6 +1,6 @@
 import * as prettier from 'prettier';
 
-import {sy, SyConfig, SyBuild, SyConfigModule} from '../../sy/sy';
+import {sy, SyConfig, SyBuild} from '../../sy/sy';
 import {assignDefaults} from '../../utils/obj';
 import {noop} from '../../utils/fn';
 
@@ -19,6 +19,14 @@ const defaultOptions: BuildStylesOptions = {
 	dev: false,
 	log: noop,
 };
+
+// This type is the shape of the config file (e.g. `sy.config.ts`).
+// It's used to get types for dynamic imports/requires.
+export interface SyConfigModule {
+	// Callers may include a `configPartial` but any part of it can be ignored.
+	// Callers can then further change the returned config if needed.
+	createConfig(partial: Partial<SyConfig>): Promise<SyConfig>;
+}
 
 export const buildStyles = async (
 	options: PartialExcept<BuildStylesOptions, RequiredOptions>,

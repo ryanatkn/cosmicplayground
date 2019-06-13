@@ -16,9 +16,7 @@
 </script>
 
 <section class="flex">
-	<h1 class="flex-1 m-0 mb-2" style="padding-right: 30px; font-size: 55px;">
-		 {name}
-	</h1>
+	<h1 class="flex-1 pr-7"> {name} </h1>
 	<div class="flex flex-col">
 		<ImgLink
 			src="assets/characters/patreon.png"

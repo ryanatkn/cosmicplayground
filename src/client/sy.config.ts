@@ -1,4 +1,6 @@
-import {SyConfig, SyClassDefs} from '../sy/sy';
+import {SyConfig} from '../sy/sy';
+import {classDef, classDefs, selectorDefs} from '../sy/helpers';
+import {flatMap} from '../utils/arr';
 
 // this is a side effect, but we want it to be
 // tree-shook if anything from the config is imported directly
@@ -19,71 +21,62 @@ export const spacings: Array<readonly [string, number]> = [
 		(_, i) => [String(i), i * spacing] as const,
 	),
 ];
+export const spacingsMap = new Map(spacings);
+export const getSpacing = (name: string) => spacingsMap.get(name);
 
 export const createConfig = async (
 	partial: Partial<SyConfig> = {},
 ): Promise<SyConfig> => {
 	return {
 		...partial,
-		// dev?: boolean;
 		// banner?(config: SyConfig): string;
 		// footer?(config: SyConfig): string;
-		classes: {
-			// display
-			block: 'display: block;',
-			flex: {
-				// TODO other options?
-				css: 'display: flex',
-			},
-
-			// flexbox
-			'flex-auto': 'flex: auto',
-			'flex-initial': 'flex: initial',
-			'flex-none': 'flex: none',
-			'flex-1': 'flex: 1',
-
-			'flex-row': 'flex-direction: row',
-			'flex-row-reverse': 'flex-direction: row-reverse',
-			'flex-col': 'flex-direction: column',
-			'flex-col-reverse': 'flex-direction: column-reverse',
-
+		defs: [
 			// padding
-			...spacings.reduce(
-				(r, [c, n]) => {
-					r[`p-${c}`] = `padding: ${n}px`;
-					r[`pt-${c}`] = `padding-top: ${n}px`;
-					r[`pr-${c}`] = `padding-right: ${n}px`;
-					r[`pb-${c}`] = `padding-bottom: ${n}px`;
-					r[`pl-${c}`] = `padding-left: ${n}px`;
-					return r;
-				},
-				{} as SyClassDefs,
-			),
+			...flatMap(spacings, ([c, n]) => [
+				classDef(`p-${c}`, `padding: ${n}px`),
+				classDef(`pt-${c}`, `padding-top: ${n}px`),
+				classDef(`pr-${c}`, `padding-right: ${n}px`),
+				classDef(`pb-${c}`, `padding-bottom: ${n}px`),
+				classDef(`pl-${c}`, `padding-left: ${n}px`),
+			]),
 
 			// margin
-			...spacings.reduce(
-				(r, [c, n]) => {
-					r[`m-${c}`] = `margin: ${n}px`;
-					r[`mt-${c}`] = `margin-top: ${n}px`;
-					r[`mr-${c}`] = `margin-right: ${n}px`;
-					r[`mb-${c}`] = `margin-bottom: ${n}px`;
-					r[`ml-${c}`] = `margin-left: ${n}px`;
-					return r;
-				},
-				{} as SyClassDefs,
-			),
+			...flatMap(spacings, ([c, n]) => [
+				classDef(`m-${c}`, `margin: ${n}px`),
+				classDef(`mt-${c}`, `margin-top: ${n}px`),
+				classDef(`mr-${c}`, `margin-right: ${n}px`),
+				classDef(`mb-${c}`, `margin-bottom: ${n}px`),
+				classDef(`ml-${c}`, `margin-left: ${n}px`),
+			]),
 
 			// width
-			...spacings.reduce(
-				(r, [c, n]) => ((r[`w-${c}`] = `width: ${n}px`), r),
-				{} as SyClassDefs,
-			),
+			...spacings.map(([c, n]) => classDef(`w-${c}`, `width: ${n}px`)),
 
 			// height
-			...spacings.reduce(
-				(r, [c, n]) => ((r[`h-${c}`] = `height: ${n}px`), r),
-				{} as SyClassDefs,
-			),
-		},
+			...spacings.map(([c, n]) => classDef(`h-${c}`, `height: ${n}px`)),
+
+			...classDefs({
+				// display
+				block: 'display: block;',
+				flex: 'display: flex',
+
+				// flexbox
+				'flex-auto': 'flex: auto',
+				'flex-initial': 'flex: initial',
+				'flex-none': 'flex: none',
+				'flex-1': 'flex: 1',
+
+				'flex-row': 'flex-direction: row',
+				'flex-row-reverse': 'flex-direction: row-reverse',
+				'flex-col': 'flex-direction: column',
+				'flex-col-reverse': 'flex-direction: column-reverse',
+			}),
+
+			// h1 (TODO through h6)
+			...selectorDefs({
+				h1: `font-size: 55px; margin: 0 0 ${getSpacing('7')}px`, // TODO class composition? {classes: ['m-0', 'mb-2']}
+			}),
+		],
 	};
 };
