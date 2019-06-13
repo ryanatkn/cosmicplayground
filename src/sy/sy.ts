@@ -44,7 +44,6 @@ export type CssString = string;
 
 export interface SyConfig {
 	classes: SyClassDefs;
-	dev?: boolean;
 	banner?(config: SyConfig): string;
 	footer?(config: SyConfig): string;
 }
@@ -64,21 +63,14 @@ export interface SyBuild {
 export const buildClassDef = (
 	className: ClassName,
 	def: SyClassDef,
-	{dev}: SyConfig,
+	_config: SyConfig,
 ): SyDefBuild => {
-	const css = dev
-		? def.css
-		: (def.css.endsWith(';') ? def.css.slice(0, -1) : def.css).replace(
-				/\s/g,
-				'',
-		  );
+	const {css} = def;
 	return {
 		className,
 		css,
 		declaration: `.${className}{${css}}`,
 	};
 };
-export const defaultBanner = ({dev}: SyConfig): string =>
-	dev ? `/* sy */\n` : '';
-export const defaultFooter = ({dev}: SyConfig): string =>
-	dev ? `\n/* sy */` : '';
+export const defaultBanner = (_config: SyConfig): string => `/* sy */\n`;
+export const defaultFooter = (_config: SyConfig): string => `\n/* sy */`;

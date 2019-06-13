@@ -59,6 +59,5 @@ and [`rollup-plugin-plain-css`](../project/build/rollup-plugin-plain-css.ts).
 
 ## tips
 
-- In dev mode, it can be nice to run
-  [`prettier`](https://github.com/prettier/prettier) on the output.
-  When not in dev mode, the css output is compact.
+- in dev mode, it can be nice to run
+  [`prettier`](https://github.com/prettier/prettier) on the css output

@@ -27,22 +27,20 @@ export const buildStyles = async (
 		defaultOptions,
 		options,
 	);
-	const finalConfigPartial =
-		configPartial.dev === undefined ? {...configPartial, dev} : configPartial;
 	log('buildStyles');
 
 	delete require.cache[require.resolve(configPath)];
 	const configModule: SyConfigModule = require(configPath);
 
 	log('creating config...');
-	const config = await configModule.createConfig(finalConfigPartial);
+	const config = await configModule.createConfig(configPartial);
 	log('created config');
 
 	log('build...');
 	const build = sy(config);
 	log(
 		`build complete
-	# lines: ${(build.styles.match(/\n/g) || []).length}
+	# lines: ${(build.styles.match(/\n/g) || []).length + 1}
 	# characters: ${build.styles.length}`,
 	);
 

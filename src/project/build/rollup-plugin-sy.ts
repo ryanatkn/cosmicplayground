@@ -133,7 +133,7 @@ export const sy = (
 			log('load new build');
 			const build = await buildStyles({
 				configPath: path,
-				configPartial: {dev},
+				configPartial: {},
 				dev,
 				log: logBuildStyles,
 			});
