@@ -1,11 +1,9 @@
-import fp from 'path';
-import fs from 'fs';
+import * as fp from 'path';
 
-const mainDir = fs.realpathSync(process.cwd());
-const resolveDir = relativePath => fp.resolve(mainDir, relativePath);
+import {resolvePath} from './scriptUtils';
 
 const createPaths = () => {
-	const root = resolveDir('./');
+	const root = resolvePath('./');
 	const appBuild = fp.join(root, 'build');
 	const appBuildDist = fp.join(appBuild, 'dist');
 	return {
@@ -18,4 +16,4 @@ const createPaths = () => {
 	};
 };
 
-export default createPaths();
+export const paths = createPaths();

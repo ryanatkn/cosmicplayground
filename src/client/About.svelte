@@ -15,15 +15,13 @@
 	// TODO give this a max width (option to the Overlay wrapper component, probably)
 </script>
 
-<section style="display: flex;">
+<section class="flex">
 	<div style="flex: 1; padding-right: 30px;">
 		<h1 style="margin: 0 0 10px; font-size: 55px;">{name}</h1>
-		<em>
-			tools and toys for expanding minds: ear training, music theory, etc etc
-		</em>
+		<em>tools and toys for expanding minds</em>
 		<p>
 			<em>current status:</em>
-			there's nothing here to see yet - just setting up and prototyping
+			there's barely anything here yet, but there's not _nothing_
 		</p>
 	</div>
 	<div style="display: flex; flex-direction: column;">

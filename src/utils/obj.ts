@@ -11,3 +11,19 @@ export const mapRecord = <T, K extends string | number, U>(
 	}
 	return result;
 };
+
+// Applies default values to a base from left to right.
+// Similar to `Object.assign` except all `undefined` partial values are ignored.
+export const assignDefaults = <T>(
+	defaults: T,
+	...partials: (Partial<T> | undefined)[]
+): T => {
+	const result: T = {...defaults};
+	for (const partial of partials) {
+		for (const key in partial) {
+			const value = partial[key];
+			if (value !== undefined) (result as any)[key] = value; // TODO why is cast needed?
+		}
+	}
+	return result;
+};

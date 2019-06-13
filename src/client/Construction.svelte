@@ -158,7 +158,7 @@
 					<img
 						src="assets/characters/spider.png"
 						alt="spider"
-						style="position: absolute; left: 75px; top: 68px;" />
+						style="position: absolute; left: 56px; top: 68px;" />
 				</a>
 			</div>
 			<img

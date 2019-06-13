@@ -1,18 +1,19 @@
 {
-  "name": "cpg",
+  "name": "cosmicplayground",
   "version": "0.1.0",
   "description": "tools and toys for expanding minds: ear training, music theory, etc etc",
   "license": "CC0-1.0",
   "homepage": "https://cosmicplayground.org",
   "type": "module",
   "scripts": {
-    "start": "NODE_NO_WARNINGS=1 NODE_ENV=development node --experimental-modules src/project/build/index.js --verbose --watch",
-    "build": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/project/build/index.js --verbose",
+    "start": "NODE_ENV=development ts-node -T -O '{\"module\": \"commonjs\"}' src/project/build/build.ts --verbose --watch",
+    "build": "NODE_ENV=production ts-node -T -O '{\"module\": \"commonjs\"}' src/project/build/build.ts --verbose",
+    "buildDev": "NODE_ENV=development ts-node -T -O '{\"module\": \"commonjs\"}' src/project/build/build.ts --verbose",
     "clean": "rm -rf build static/bundle.*",
-    "test": "echo \"TODO add tests\" && exit 1",
-    "deploy": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/project/deploy/index.js --verbose",
-    "deploy-dry-run": "NODE_NO_WARNINGS=1 NODE_ENV=production node --experimental-modules src/project/deploy/index.js --dry-run --verbose",
+    "deploy": "NODE_ENV=production ts-node -T -O '{\"module\": \"commonjs\"}' src/project/deploy/deploy.ts --verbose",
+    "deploy-dry-run": "NODE_ENV=production ts-node -T -O '{\"module\": \"commonjs\"}' src/project/deploy/deploy.ts --dry-run --verbose",
     "typecheck": "tsc --noEmit",
+    "test": "echo \"TODO add tests\" && exit 1",
     "format": "./node_modules/.bin/prettier --write src/**/*.{js,ts,json,html,svelte,md}"
   },
   "repository": {
@@ -37,11 +38,17 @@
     "node": ">=12"
   },
   "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/dotenv": "^6.1.1",
+    "@types/fs-extra": "^7.0.0",
+    "@types/minimist": "^1.2.0",
+    "@types/node": "^12.0.7",
+    "@types/prettier": "^1.16.4",
     "chalk": "^2.4.2",
     "dotenv": "^8.0.0",
     "fs-extra": "^8.0.1",
     "minimist": "^1.2.0",
-    "prettier": "^1.17.1",
+    "prettier": "^1.18.2",
     "prettier-plugin-svelte": "^0.6.0",
     "rollup": "^1.12.0",
     "rollup-plugin-commonjs": "^10.0.0",
@@ -50,7 +57,9 @@
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^4.0.4",
     "rollup-plugin-typescript": "^1.0.1",
+    "rollup-pluginutils": "^2.8.1",
     "svelte": "^3.4.4",
+    "ts-node": "^8.2.0",
     "tslib": "^1.9.3",
     "typescript": "^3.5.1"
   },
@@ -63,7 +72,7 @@
     "bracketSpacing": false,
     "overrides": [
       {
-        "files": "*.json",
+        "files": "*.{json,md}",
         "options": {
           "useTabs": false
         }

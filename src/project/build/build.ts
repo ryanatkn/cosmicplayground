@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 dotenv.config();
 if (!process.env.NODE_ENV) process.env.NODE_ENV = 'development';
 const {NODE_ENV, PORT, HOST} = process.env;
@@ -6,28 +6,48 @@ const dev = NODE_ENV !== 'production';
 const host = HOST || '0.0.0.0';
 const port = PORT || '8999';
 
-import rollup from 'rollup';
-import svelte from 'rollup-plugin-svelte';
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import terser from 'rollup-plugin-terser';
-import serve from 'rollup-plugin-serve';
-import typescript from 'rollup-plugin-typescript';
+import * as rollup from 'rollup';
+import {
+	OutputOptions,
+	InputOptions,
+	RollupWatchOptions,
+	RollupOutput,
+	RollupBuild,
+} from 'rollup';
+import * as svelte from 'rollup-plugin-svelte';
+import * as resolveFIXME from 'rollup-plugin-node-resolve';
+import * as commonjsFIXME from 'rollup-plugin-commonjs';
+import * as terser from 'rollup-plugin-terser';
+import * as serve from 'rollup-plugin-serve';
+import * as typescript from 'rollup-plugin-typescript';
 import ck from 'chalk';
-import fs from 'fs-extra';
+import * as fs from 'fs-extra';
 
-import paths from '../paths.js';
-import {argv, verboseLog, handleTaskError, rainbow} from '../scriptUtils.js';
+import {paths} from '../paths';
+import {
+	argv,
+	verboseLog,
+	handleScriptError,
+	rainbow,
+	resolvePath,
+} from '../scriptUtils';
+import {clean} from './clean';
+import {plainCss} from './rollup-plugin-plain-css';
+import {sy} from './rollup-plugin-sy';
 
 const watch = argv['watch'];
 
-const runBuild = async () => {
+// TODO These modules require `esModuleInterop` to work correctly.
+// Rather than doing that and forcing `allowSyntheticDefaultImports`,
+// I'm opting to just fix the module types after importing for now.
+// This can probably be sorted out cleanly when `ts-node` supports ES modules.
+const resolve: typeof resolveFIXME.default = resolveFIXME as any;
+const commonjs: typeof commonjsFIXME.default = commonjsFIXME as any;
+
+const runBuild = async (): Promise<void> => {
 	verboseLog(ck.magenta(`building ... NODE_ENV=${NODE_ENV}`));
 
-	// clean up and prepare build directory
-	verboseLog(ck.magenta('cleaning up and preparing build dir'));
-	fs.ensureDirSync(paths.appBuildDist);
-	fs.emptyDirSync(paths.appBuildDist);
+	await clean();
 
 	// run rollup
 	if (watch) {
@@ -56,11 +76,11 @@ const runBuild = async () => {
 	}
 };
 
-const runRollupWatcher = async () => {
-	return new Promise((resolve, reject) => {
+const runRollupWatcher = async (): Promise<void> => {
+	return new Promise((_resolve, reject) => {
 		const watchOptions = createWatchOptions();
-		console.log('watchOptions', watchOptions);
-		const watcher = rollup.watch(watchOptions);
+		verboseLog(ck.magenta('watchOptions'), watchOptions);
+		const watcher = rollup.watch([watchOptions]);
 
 		watcher.on('event', event => {
 			verboseLog(ck.magenta(`rollup event: ${event.code}`));
@@ -88,7 +108,10 @@ const runRollupWatcher = async () => {
 	});
 };
 
-const runRollupBuild = async () => {
+const runRollupBuild = async (): Promise<{
+	build: RollupBuild;
+	output: RollupOutput;
+}> => {
 	const inputOptions = createInputOptions();
 	const outputOptions = createOutputOptions();
 
@@ -131,43 +154,52 @@ const runRollupBuild = async () => {
 	//   }
 	// }
 
-	await build.write(outputOptions);
+	await build.write(outputOptions); // don't care about the output of this - maybe refactor
 
 	return {build, output};
 };
 
-const createWatchOptions = () => {
-	const watchOptions = {
+const createWatchOptions = (): RollupWatchOptions => {
+	const watchOptions: RollupWatchOptions = {
 		...createInputOptions(),
 		output: createOutputOptions(),
 		watch: {
 			// chokidar,
 			clearScreen: false,
-			exclude: 'node_modules/**',
+			exclude: ['node_modules/**'],
 			// include,
 		},
 	};
 	return watchOptions;
 };
 
-const createInputOptions = () => {
-	const inputOptions = {
+const createInputOptions = (): InputOptions => {
+	const inputOptions: InputOptions = {
 		// — core input options
 		// external,
 		input: 'src/client/main.ts', // required
 		plugins: [
+			sy({
+				dev,
+				verbose: true,
+			}),
+			plainCss({
+				output: resolvePath('static/bundle.css'),
+				verbose: false,
+			}),
 			typescript(),
 			svelte({
-				include: 'src/client/**/*.svelte',
-				dev: !dev,
-				css: css => {
-					css.write('static/bundle.css', !dev);
-				},
+				include: resolvePath('src/client/**/*.svelte'),
+				// TODO don't generate source maps in prod! maybe patch `rollup-plugin-svelte`?
+				emitCss: true,
+				// css: css => {
+				// 	css.write('static/bundle.css', !dev);
+				// },
 			}),
 			resolve(),
 			commonjs(),
 			...(dev
-				? [serve({contentBase: 'static', host, port})]
+				? [watch && serve({contentBase: resolvePath('static'), host, port})]
 				: [terser.terser()]),
 		],
 
@@ -197,11 +229,11 @@ const createInputOptions = () => {
 	return inputOptions;
 };
 
-const createOutputOptions = () => {
-	const outputOptions = {
+const createOutputOptions = (): OutputOptions => {
+	const outputOptions: OutputOptions = {
 		// — core output options
 		// dir,
-		file: 'static/bundle.js',
+		file: resolvePath('static/bundle.js'),
 		format: 'iife', // required
 		// globals,
 		name: 'app',
@@ -248,4 +280,4 @@ runBuild()
 			].join('\n'),
 		);
 	})
-	.catch(handleTaskError);
+	.catch(handleScriptError);

@@ -1,4 +1,5 @@
 import App from './App.svelte';
+import './sy.config.js';
 
 export const app = new App({
 	target: document.getElementById('root'),

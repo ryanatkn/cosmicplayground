@@ -8,26 +8,35 @@ import {svelteEasings} from './easings';
 // easing function names.
 // TODO optimize to not use N tweens by rewriting `tweened`
 export const createTweens = (
-	duration,
+	duration: number,
 	easings = svelteEasings,
 	initialValue = 0,
 ) => {
 	//console.log('create tweens, duration:', duration);
+	// {duration: number, easing: Function}[]
 	let tweens = easings.map(easing =>
 		tweened(initialValue, {duration, easing: easing.fn}),
 	);
 
-	const {subscribe} = derived(tweens, $tweens =>
-		$tweens.map((value, i) => ({
-			value,
-			name: easings[i].name,
-		})),
-	);
+	// TODO I think the Svelte `Stores` type needs fixing
+	// declare type Stores = Readable<any> |[Readable<any>, ...Array<Readable<any>>];
+	// => change to
+	// declare type Stores = Readable<any> | Readable<any>[];
+	const {subscribe} = derived(
+		tweens as any,
+		(($tweens: number[]) => {
+			$tweens.map((value, i) => ({
+				value,
+				name: easings[i].name,
+			}));
+		}) as any,
+	); // TODO this is gnarly typing
 
 	return {
 		subscribe,
 		easings,
-		set: (value, options) => {
+		// TODO options type
+		set: (value: number, options: any) => {
 			//console.log('setting value for tweens:', value, options);
 			const promises = tweens.map(t => t.set(value, options));
 			return promises;

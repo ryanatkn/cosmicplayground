@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 dotenv.config();
 const {NODE_ENV, SERVER_USER, SERVER_IP, SERVER_SSH_PORT} = process.env;
 if (NODE_ENV !== 'production') {
@@ -7,13 +7,13 @@ if (NODE_ENV !== 'production') {
 if (!SERVER_USER) throw Error('SERVER_USER env var is required for deployment');
 if (!SERVER_IP) throw Error('SERVER_IP env var is required for deployment');
 
-import fs from 'fs';
-import fp from 'path';
+import * as fs from 'fs';
+import * as fp from 'path';
 import {exec} from 'child_process';
 import ck from 'chalk';
 
-import {argv, verboseLog, rainbow} from '../scriptUtils.js';
-import paths from '../paths.js';
+import {argv, verboseLog, rainbow, handleScriptError} from '../scriptUtils';
+import {paths} from '../paths';
 
 const dryRun = argv['dry-run'];
 
@@ -33,7 +33,7 @@ if (!fs.existsSync(paths.appBuildDistClient)) {
  * Building and deploying are intentionally decoupled so that anything can be
  * directly deployed without special handling.
  */
-const runDeploy = async () => {
+const runDeploy = async (): Promise<void> => {
 	const command = createDeployCommand();
 	verboseLog(ck.magenta(`deployment command`), ck.cyan(command));
 
@@ -56,7 +56,7 @@ const runDeploy = async () => {
 	}
 };
 
-const createDeployCommand = () => {
+const createDeployCommand = (): string => {
 	const p = createPaths();
 
 	const serverHost = `${SERVER_USER}@${SERVER_IP}`;
@@ -84,7 +84,7 @@ const createDeployCommand = () => {
 	return command;
 };
 
-const createPaths = () => {
+const createPaths = (): Record<string, string> => {
 	const remoteApp = '/var/www/cosmicplayground.org';
 	const tarFileName = 'dist.tar.gz';
 
@@ -119,7 +119,4 @@ runDeploy()
 		);
 		if (dryRun) console.log(ck.magenta('dry run complete'));
 	})
-	.catch(err => {
-		console.error(err);
-		throw err;
-	});
+	.catch(handleScriptError);
