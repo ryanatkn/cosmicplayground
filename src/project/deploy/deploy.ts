@@ -12,10 +12,8 @@ import * as fp from 'path';
 import {exec} from 'child_process';
 import ck from 'chalk';
 
-import {argv, verboseLog, rainbow, handleScriptError} from '../scriptUtils';
+import {dry, verboseLog, rainbow, handleScriptError} from '../scriptUtils';
 import {paths} from '../paths';
-
-const dryRun = argv['dry-run'];
 
 // Make sure the build is ready
 if (!fs.existsSync(paths.appBuildDistClient)) {
@@ -37,8 +35,8 @@ const runDeploy = async (): Promise<void> => {
 	const command = createDeployCommand();
 	verboseLog(ck.magenta(`deployment command`), ck.cyan(command));
 
-	if (dryRun) {
-		console.log(ck.magenta('dryrun - skipping command execution'));
+	if (dry) {
+		console.log(ck.magenta('dry run - skipping command execution'));
 	} else {
 		verboseLog(ck.magenta('executing deploy command'));
 		const {stdout, stderr} = await new Promise((resolve, reject) => {
@@ -117,6 +115,6 @@ runDeploy()
 				rainbow('~~~~~~~~~~~~~~~~~~'),
 			].join('\n'),
 		);
-		if (dryRun) console.log(ck.magenta('dry run complete'));
+		if (dry) console.log(ck.magenta('dry run complete'));
 	})
 	.catch(handleScriptError);

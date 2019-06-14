@@ -11,7 +11,7 @@
     "buildDev": "NODE_ENV=development ts-node -T -O '{\"module\": \"commonjs\"}' src/project/build/build.ts --verbose",
     "clean": "rm -rf build static/bundle.*",
     "deploy": "NODE_ENV=production ts-node -T -O '{\"module\": \"commonjs\"}' src/project/deploy/deploy.ts --verbose",
-    "deploy-dry-run": "NODE_ENV=production ts-node -T -O '{\"module\": \"commonjs\"}' src/project/deploy/deploy.ts --dry-run --verbose",
+    "deployDry": "NODE_ENV=production ts-node -T -O '{\"module\": \"commonjs\"}' src/project/deploy/deploy.ts --dry --verbose",
     "typecheck": "tsc --noEmit",
     "test": "echo \"TODO add tests\" && exit 1",
     "format": "./node_modules/.bin/prettier --write src/**/*.{js,ts,json,html,svelte,md}"

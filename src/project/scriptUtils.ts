@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as fp from 'path';
 
 export const argv = minimist(process.argv.slice(2));
-export const verbose = argv['verbose'];
+export const {dry, verbose} = argv;
 
 export const verboseLog = (...args: any[]): void => {
 	if (!verbose) return;
