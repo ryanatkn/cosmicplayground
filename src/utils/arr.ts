@@ -9,6 +9,7 @@ export const arrayOf = <T = number>(n: number, fn = identity): T[] => {
 	return r;
 };
 
+// TODO remove these when Edge catches up - https://caniuse.com/#feat=array-flat
 export const flatMap = <T, U>(
 	arr: T[],
 	fn: (t: T, i: number) => U | U[],
