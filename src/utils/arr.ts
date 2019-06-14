@@ -1,3 +1,14 @@
+import {identity} from './fn';
+
+// Like `range` but accepts a mapping `fn` instead of a min or step.
+// If no `fn` is provided, the array's values match its index,
+// e.g. `arrayOf(3) => [0, 1, 2]`
+export const arrayOf = <T = number>(n: number, fn = identity): T[] => {
+	const r = new Array(n);
+	for (let i = 0; i < n; i++) r[i] = fn(i);
+	return r;
+};
+
 export const flatMap = <T, U>(
 	arr: T[],
 	fn: (t: T, i: number) => U | U[],
@@ -15,3 +26,5 @@ export const flatMap = <T, U>(
 	}
 	return result;
 };
+
+export const flatten = <T>(arr: (T | T[])[]): T[] => flatMap(arr, identity);

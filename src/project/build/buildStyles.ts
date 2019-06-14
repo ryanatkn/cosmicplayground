@@ -48,6 +48,7 @@ export const buildStyles = async (
 	const build = sy(config);
 	log(
 		`build complete
+	# defs: ${build.defs.length}
 	# lines: ${(build.styles.match(/\n/g) || []).length + 1}
 	# characters: ${build.styles.length}`,
 	);

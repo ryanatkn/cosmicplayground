@@ -1,6 +1,6 @@
 import {SyConfig} from '../sy/sy';
-import {classDef, classDefs, selectorDefs} from '../sy/helpers';
-import {flatMap} from '../utils/arr';
+import {classDef, classDefs, selectorDef, selectorDefs} from '../sy/helpers';
+import {arrayOf, flatMap} from '../utils/arr';
 
 // this is a side effect, but we want it to be
 // tree-shook if anything from the config is imported directly
@@ -9,20 +9,21 @@ if (typeof window !== 'undefined') {
 	throw Error(`sy.config.ts does not expect to be bundled!`);
 }
 
-// exported consts can be used externally, and tree-shaking kees
+// generic css-related utils
+// the type of `getVar` is ridiculous but I'm just having fun here :d
+const getVar = <T extends (...args: any) => any>(getProperty: T) => (
+	...args: Parameters<T>
+): string => `var(${getProperty.apply(null, args)})`;
+
+// exported consts can be used externally, at buildtime or runtime,
+// and tree-shaking keeps the bundle happy
 export const spacingCount = 10;
-export const spacing = 4; // TODO what if this were a css var that can be dynamically changed for themes or user preference?
-export const spacings: Array<readonly [string, number]> = [
-	['1px', 1],
-	['2px', 2],
-	['3px', 3],
-	...Array.from(
-		{length: spacingCount},
-		(_, i) => [String(i), i * spacing] as const,
-	),
-];
-export const spacingsMap = new Map(spacings);
-export const getSpacing = (name: string) => spacingsMap.get(name);
+export const spacing = 4;
+export const spacings = arrayOf(spacingCount);
+export type SpacingPropertyName = '1px' | '2px' | '3px' | number; // in an ideal world, `number` would be a union of numbers to prevent misuse, but that's a level of hackery I don't want to stoop to yet - maybe codegen types from `spacingCount`? lol
+export const getSpacingProperty = (name?: SpacingPropertyName): string =>
+	name === undefined ? `--spacing` : `--spacing-${name}`;
+export const getSpacingVar = getVar(getSpacingProperty);
 
 export const createConfig = async (
 	partial: Partial<SyConfig> = {},
@@ -32,29 +33,44 @@ export const createConfig = async (
 		// banner?(config: SyConfig): string;
 		// footer?(config: SyConfig): string;
 		defs: [
+			// vars
+			selectorDef(
+				':root',
+				[
+					// TODO could abstract out all of the spacing names for reuse
+					`${getSpacingProperty()}: ${spacing}px`,
+					`${getSpacingProperty('1px')}: 1px`,
+					`${getSpacingProperty('2px')}: 2px`,
+					`${getSpacingProperty('3px')}: 3px`,
+					...spacings.map(
+						i => `${getSpacingProperty(i)}: calc(${i} * ${getSpacingVar()})`,
+					),
+				].join(';'),
+			),
+
 			// padding
-			...flatMap(spacings, ([c, n]) => [
-				classDef(`p-${c}`, `padding: ${n}px`),
-				classDef(`pt-${c}`, `padding-top: ${n}px`),
-				classDef(`pr-${c}`, `padding-right: ${n}px`),
-				classDef(`pb-${c}`, `padding-bottom: ${n}px`),
-				classDef(`pl-${c}`, `padding-left: ${n}px`),
+			...flatMap(spacings, i => [
+				classDef(`p-${i}`, `padding: ${getSpacingVar(i)}`),
+				classDef(`pt-${i}`, `padding-top: ${getSpacingVar(i)}`),
+				classDef(`pr-${i}`, `padding-right: ${getSpacingVar(i)}`),
+				classDef(`pb-${i}`, `padding-bottom: ${getSpacingVar(i)}`),
+				classDef(`pl-${i}`, `padding-left: ${getSpacingVar(i)}`),
 			]),
 
 			// margin
-			...flatMap(spacings, ([c, n]) => [
-				classDef(`m-${c}`, `margin: ${n}px`),
-				classDef(`mt-${c}`, `margin-top: ${n}px`),
-				classDef(`mr-${c}`, `margin-right: ${n}px`),
-				classDef(`mb-${c}`, `margin-bottom: ${n}px`),
-				classDef(`ml-${c}`, `margin-left: ${n}px`),
+			...flatMap(spacings, i => [
+				classDef(`m-${i}`, `margin: ${getSpacingVar(i)}`),
+				classDef(`mt-${i}`, `margin-top: ${getSpacingVar(i)}`),
+				classDef(`mr-${i}`, `margin-right: ${getSpacingVar(i)}`),
+				classDef(`mb-${i}`, `margin-bottom: ${getSpacingVar(i)}`),
+				classDef(`ml-${i}`, `margin-left: ${getSpacingVar(i)}`),
 			]),
 
 			// width
-			...spacings.map(([c, n]) => classDef(`w-${c}`, `width: ${n}px`)),
+			...spacings.map(i => classDef(`w-${i}`, `width: ${getSpacingVar(i)}`)),
 
 			// height
-			...spacings.map(([c, n]) => classDef(`h-${c}`, `height: ${n}px`)),
+			...spacings.map(i => classDef(`h-${i}`, `height: ${getSpacingVar(i)}`)),
 
 			...classDefs({
 				// display
@@ -75,7 +91,7 @@ export const createConfig = async (
 
 			// h1 (TODO through h6)
 			...selectorDefs({
-				h1: `font-size: 55px; margin: 0 0 ${getSpacing('7')}px`, // TODO class composition? {classes: ['m-0', 'mb-2']}
+				h1: `font-size: 55px; margin: 0 0 ${getSpacingVar(7)}`, // TODO class composition? {classes: ['m-0', 'mb-2']}
 			}),
 		],
 	};

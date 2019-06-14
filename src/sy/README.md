@@ -4,7 +4,11 @@
 
 ## motivation
 
-The goal of `sy` is to maximize control and minimize footprint.
+`sy` is a css tool that tries to maximize control and minimize footprint.
+The goal is to support powerful, typesafe, leak-proof abstractions
+that disappear before runtime.
+Its target audience is developers who are comfortable with js and build tools,
+and who want to deliver the best possible UX without compromising much on DX.
 
 ## overview
 
@@ -59,5 +63,7 @@ and [`rollup-plugin-plain-css`](../project/build/rollup-plugin-plain-css.ts).
 
 ## tips
 
-- in dev mode, it can be nice to run
+- while developing, it can be nice to run
   [`prettier`](https://github.com/prettier/prettier) on the css output
+- for production, you'll probably want to minify your css with something like
+  [`cssnano`](https://github.com/cssnano/cssnano)
