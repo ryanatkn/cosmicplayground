@@ -10,7 +10,7 @@ export const sy = (config: SyConfig): SyBuild => {
 		defs,
 		styles:
 			(banner || defaultBanner)(config) +
-			defs.map(d => d.declaration).join('') +
+			defs.map(d => d.rule).join('') +
 			(footer || defaultFooter)(config),
 	};
 };
@@ -28,23 +28,23 @@ export interface SyBuild {
 
 export type SyDef = SyClassDef | SySelectorDef;
 export interface SyBaseDef {
-	declaration: CssDeclaration;
+	rule: CssRule;
 }
 export interface SyClassDef extends SyBaseDef {
 	type: 'class';
 	className: ClassName;
-	expression: CssExpression;
+	declaration: CssDeclaration;
 }
 export interface SySelectorDef extends SyBaseDef {
 	type: 'selector';
 	selector: CssSelector;
-	expression: CssExpression;
+	declaration: CssDeclaration;
 }
 
 // these are for documentation purposes - they don't do anything for type safety
 export type ClassName = string;
-export type CssExpression = string;
 export type CssDeclaration = string;
+export type CssRule = string;
 export type CssSelector = string;
 export type CssString = string;
 

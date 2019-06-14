@@ -1,37 +1,37 @@
-import {SyDef, ClassName, CssSelector, CssExpression} from './sy';
+import {SyDef, ClassName, CssSelector, CssDeclaration} from './sy';
 
 export const classDef = (
 	className: ClassName,
-	expression: CssExpression,
+	declaration: CssDeclaration,
 ): SyDef => {
 	return {
 		type: 'class',
 		className,
-		expression,
-		declaration: `.${className}{${expression}}`,
+		declaration,
+		rule: `.${className}{${declaration}}`,
 	};
 };
 
-export const classDefs = (defs: Record<ClassName, CssExpression>): SyDef[] =>
-	Object.entries(defs).map(([className, expression]) =>
-		classDef(className, expression),
+export const classDefs = (defs: Record<ClassName, CssDeclaration>): SyDef[] =>
+	Object.entries(defs).map(([className, declaration]) =>
+		classDef(className, declaration),
 	);
 
 export const selectorDef = (
 	selector: CssSelector,
-	expression: CssExpression,
+	declaration: CssDeclaration,
 ): SyDef => {
 	return {
 		type: 'selector',
 		selector,
-		expression,
-		declaration: `${selector}{${expression}}`,
+		declaration,
+		rule: `${selector}{${declaration}}`,
 	};
 };
 
 export const selectorDefs = (
-	defs: Record<CssSelector, CssExpression>,
+	defs: Record<CssSelector, CssDeclaration>,
 ): SyDef[] =>
-	Object.entries(defs).map(([selector, expression]) =>
-		selectorDef(selector, expression),
+	Object.entries(defs).map(([selector, declaration]) =>
+		selectorDef(selector, declaration),
 	);
