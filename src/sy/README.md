@@ -1,14 +1,14 @@
 # sy<sub><sub>@cosmicplayground</sub></sub>
 
-> a featherweight css styling tool that yields as much control as it can
+> a build time css-in-js tool that yields as much control as it can
 
 ## motivation
 
 `sy` is a css tool that tries to maximize control and minimize footprint.
 The goal is to support powerful, typesafe, leak-proof abstractions
-that disappear before runtime.
-Its target audience is developers who are comfortable with js and build tools,
-and who want to deliver the best possible UX without compromising much on DX.
+that disappear before runtime to deliver the best possible
+UX without compromising much on DX.
+Its target audience is developers who are comfortable with js and build tools.
 
 ## overview
 
@@ -18,8 +18,9 @@ that exports a data structure which gets converted into plain css.
 
 The core is small and simple enough to work with most tools,
 and it was created to work well with `svelte` and `rollup`.
-It was made with the utility class pattern in mind,
-but it should work with any styling methodology.
+It was made with the
+[utility class pattern](https://css-tricks.com/need-css-utility-library/)
+in mind, but it should work with any styling methodology.
 
 ## disclaimer
 
@@ -42,7 +43,7 @@ and integrate seamlessly with other buildtime and runtime tools and processes.
 It has no dependencies on any libraries or platform-specific features,
 so it can be used at runtime in the browser if that's what a project needs.
 
-`sy` could be described as _css-from-js_,
+`sy` could be described as _css-from-js_ (or _ts_),
 which provides a lot of the advantages of both _css-in-js_ and plain css.
 The distinction from _css-in-js_ is that runtime code need not know anything
 about styles, but it can if desired.
