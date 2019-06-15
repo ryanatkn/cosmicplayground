@@ -24,12 +24,11 @@ export const createTweens = (
 	// declare type Stores = Readable<any> | Readable<any>[];
 	const {subscribe} = derived(
 		tweens as any,
-		(($tweens: number[]) => {
+		(($tweens: number[]) =>
 			$tweens.map((value, i) => ({
 				value,
 				name: easings[i].name,
-			}));
-		}) as any,
+			}))) as any,
 	); // TODO this is gnarly typing
 
 	return {
