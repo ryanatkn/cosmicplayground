@@ -10,15 +10,15 @@
 	export let src;
 	export let alt;
 	export let href = src;
-	export let imgStyle;
-	export let imgClass;
-	export let linkStyle;
-	export let linkClass;
+	export let imgStyle = '';
+	export let imgClass = '';
+	export let linkStyle = '';
+	export let linkClass = '';
 </script>
 
 <!-- TODO {...$$props} -->
-<a {href} target="_blank" style={linkStyle || ''} class={imgClass || ''}>
-	<img {src} {alt} style={imgStyle || ''} class={linkClass || ''} />
+<a {href} target="_blank" style={linkStyle} class={imgClass}>
+	<img {src} {alt} style={imgStyle} class={linkClass} />
 </a>
 
 <style>
