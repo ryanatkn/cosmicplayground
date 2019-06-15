@@ -1,4 +1,4 @@
-import ck from 'chalk';
+import {magenta} from 'kleur';
 import * as fs from 'fs-extra';
 
 import {paths} from '../paths';
@@ -10,6 +10,6 @@ export const clean = async () => {
 
 export const cleanDist = async () => {
 	// clean up and prepare build directory
-	verboseLog(ck.magenta('cleaning up and preparing build dir'));
+	verboseLog(magenta('cleaning up and preparing build dir'));
 	await fs.emptyDir(paths.appBuildDist);
 };

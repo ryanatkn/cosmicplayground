@@ -1,5 +1,5 @@
 import {Plugin, PluginContext} from 'rollup';
-import ck from 'chalk';
+import {yellow, green, cyan} from 'kleur';
 import * as fp from 'path';
 
 import {assignDefaults} from '../../utils/obj';
@@ -45,7 +45,7 @@ export const sy = (
 		options,
 	);
 
-	const logTag = ck.cyan('[sy]');
+	const logTag = cyan('[sy]');
 	const log = verbose
 		? (...args: any[]): void => {
 				console.log(logTag, ...args);
@@ -53,7 +53,7 @@ export const sy = (
 		: noop;
 	const logBuildStyles = verbose
 		? (...args: any[]): void => {
-				console.log(ck.green('[buildStyles]'), ...args);
+				console.log(green('[buildStyles]'), ...args);
 		  }
 		: noop;
 
@@ -152,7 +152,7 @@ export const sy = (
 			if (!pathById.size) {
 				console.log(
 					logTag,
-					ck.yellow(
+					yellow(
 						`warning: no config files were found: ${configFilenames.map(
 							n => `'${n + configExt}'`,
 						)}`,

@@ -20,7 +20,7 @@ import * as commonjsFIXME from 'rollup-plugin-commonjs';
 import * as terser from 'rollup-plugin-terser';
 import * as serve from 'rollup-plugin-serve';
 import * as typescript from 'rollup-plugin-typescript';
-import ck from 'chalk';
+import {magenta} from 'kleur';
 import * as fs from 'fs-extra';
 
 import {paths} from '../paths';
@@ -156,7 +156,7 @@ const createWatchOptions = (): RollupWatchOptions => {
 };
 
 const runBuild = async (): Promise<void> => {
-	verboseLog(ck.magenta(`building ... NODE_ENV=${NODE_ENV}`));
+	verboseLog(magenta(`building ... NODE_ENV=${NODE_ENV}`));
 
 	await clean();
 
@@ -164,23 +164,23 @@ const runBuild = async (): Promise<void> => {
 	if (watch) {
 		// TODO we currently have things a bit wonky between /build and /static - need to figure out how we want things to work (it can be nice to get prod builds in /build for dev purposes)
 		// copy over static files
-		verboseLog(ck.magenta('copying static files'));
+		verboseLog(magenta('copying static files'));
 		await fs.copy(paths.appStatic, paths.appBuildDistClient, {
 			dereference: true,
 		});
 
 		// run the watcher
-		verboseLog(ck.magenta('building and watching'));
+		verboseLog(magenta('building and watching'));
 		await runRollupWatcher();
-		verboseLog(ck.magenta('stopped watching'));
+		verboseLog(magenta('stopped watching'));
 	} else {
 		// build the js
-		verboseLog(ck.magenta('building'));
+		verboseLog(magenta('building'));
 		await runRollupBuild();
-		verboseLog(ck.magenta('completed build'));
+		verboseLog(magenta('completed build'));
 
 		// copy over static files
-		verboseLog(ck.magenta('copying static files'));
+		verboseLog(magenta('copying static files'));
 		await fs.copy(paths.appStatic, paths.appBuildDistClient, {
 			dereference: true,
 		});
@@ -241,11 +241,11 @@ const runRollupBuild = async (): Promise<{
 const runRollupWatcher = async (): Promise<void> => {
 	return new Promise((_resolve, reject) => {
 		const watchOptions = createWatchOptions();
-		verboseLog(ck.magenta('watchOptions'), watchOptions);
+		verboseLog(magenta('watchOptions'), watchOptions);
 		const watcher = rollup.watch([watchOptions]);
 
 		watcher.on('event', event => {
-			verboseLog(ck.magenta(`rollup event: ${event.code}`));
+			verboseLog(magenta(`rollup event: ${event.code}`));
 			switch (event.code) {
 				case 'START': // the watcher is (re)starting
 				case 'BUNDLE_START': // building an individual bundle

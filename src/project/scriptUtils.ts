@@ -1,5 +1,6 @@
 import * as minimist from 'minimist';
-import ck from 'chalk';
+import {red, yellow} from 'kleur';
+import * as kleur from 'kleur';
 import * as fs from 'fs';
 import * as fp from 'path';
 
@@ -12,8 +13,8 @@ export const verboseLog = (...args: any[]): void => {
 };
 
 export const handleScriptError = (err: Error): void => {
-	console.log(ck.red(`Error: ${err.message}`));
-	if (err.stack) console.log(ck.yellow(err.stack));
+	console.log(red(`Error: ${err.message}`));
+	if (err.stack) console.log(yellow(err.stack));
 	process.exit(1);
 };
 
@@ -21,7 +22,7 @@ const colors = ['red', 'yellow', 'green', 'cyan', 'blue', 'magenta'] as const;
 export const rainbow = (str: string): string =>
 	str
 		.split('')
-		.map((char, i) => ck[colors[i % colors.length]](char))
+		.map((char, i) => kleur[colors[i % colors.length]](char))
 		.join('');
 
 export const cwd = fs.realpathSync(process.cwd());

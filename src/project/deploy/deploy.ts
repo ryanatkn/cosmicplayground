@@ -10,7 +10,7 @@ if (!SERVER_IP) throw Error('SERVER_IP env var is required for deployment');
 import * as fs from 'fs';
 import * as fp from 'path';
 import {exec} from 'child_process';
-import ck from 'chalk';
+import {magenta, cyan} from 'kleur';
 
 import {dry, verboseLog, rainbow, handleScriptError} from '../scriptUtils';
 import {paths} from '../paths';
@@ -33,12 +33,12 @@ if (!fs.existsSync(paths.appBuildDistClient)) {
  */
 const runDeploy = async (): Promise<void> => {
 	const command = createDeployCommand();
-	verboseLog(ck.magenta(`deployment command`), ck.cyan(command));
+	verboseLog(magenta(`deployment command`), cyan(command));
 
 	if (dry) {
-		console.log(ck.magenta('dry run - skipping command execution'));
+		console.log(magenta('dry run - skipping command execution'));
 	} else {
-		verboseLog(ck.magenta('executing deploy command'));
+		verboseLog(magenta('executing deploy command'));
 		const {stdout, stderr} = await new Promise((resolve, reject) => {
 			exec(command, (err, stdout, stderr) => {
 				if (err) {
@@ -50,7 +50,7 @@ const runDeploy = async (): Promise<void> => {
 		});
 		if (stdout) console.log(stdout);
 		if (stderr) console.error(stderr);
-		verboseLog(ck.magenta('executed deploy command'));
+		verboseLog(magenta('executed deploy command'));
 	}
 };
 
@@ -102,7 +102,7 @@ const createPaths = (): Record<string, string> => {
 		remoteTarball: fp.join(remoteApp, tarFileName),
 		localTarball: fp.join(paths.appBuild, tarFileName),
 	};
-	verboseLog(ck.magenta('deployment paths'), p);
+	verboseLog(magenta('deployment paths'), p);
 	return p;
 };
 
@@ -115,6 +115,6 @@ runDeploy()
 				rainbow('~~~~~~~~~~~~~~~~~~'),
 			].join('\n'),
 		);
-		if (dry) console.log(ck.magenta('dry run complete'));
+		if (dry) console.log(magenta('dry run complete'));
 	})
 	.catch(handleScriptError);

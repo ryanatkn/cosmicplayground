@@ -1,7 +1,7 @@
 import {OutputOptions, Plugin, OutputBundle, PluginContext} from 'rollup';
 import {outputFile} from 'fs-extra';
 import {createFilter} from 'rollup-pluginutils';
-import ck from 'chalk';
+import {blue} from 'kleur';
 
 import {assignDefaults} from '../../utils/obj';
 import {noop} from '../../utils/fn';
@@ -25,7 +25,7 @@ export const plainCss = (pluginOptions: PluginOptions): Plugin => {
 	);
 	const log = verbose
 		? (...args: any[]): void => {
-				console.log(ck.blue('[plain-css]'), ...args);
+				console.log(blue('[plain-css]'), ...args);
 		  }
 		: noop;
 	log(`output`, output);
