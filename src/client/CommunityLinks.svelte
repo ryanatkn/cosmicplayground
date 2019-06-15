@@ -24,13 +24,7 @@
 		<a href="https://discord.gg/57XP5Pv">Discord</a>
 	</li>
 	<li>
-		contribute code and other assets like art and audio. Please be aware that
-		your submissions will be
-		<a href="https://github.com/ryanatkn/cosmicplayground/blob/master/LICENSE">
-			CC0 licensed
-		</a>
-		(public domain) unless you explicitly request otherwise. Code is an
-		exception - all of it is CC0. See
+		contribute code and other assets like art and audio. See
 		<a
 			href="https://github.com/ryanatkn/cosmicplayground/blob/master/docs/credits.md">
 			the credits
@@ -40,8 +34,8 @@
 			href="https://github.com/ryanatkn/cosmicplayground/blob/master/docs/contributors.md">
 			contributors
 		</a>
-		for more. I'm not sure what contributions I'll solicit yet,
-		but if you have something cool in mind please share!
+		for more. I'm not sure what contributions I'll solicit yet, but if you have
+		something cool in mind please share!
 	</li>
 	<li>
 		email

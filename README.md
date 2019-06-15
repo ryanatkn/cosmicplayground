@@ -16,7 +16,7 @@ but the general goal is to help us learn, create, and grow.
 ![galaxies](static/assets/space/galaxies-banner.jpg)
 
 [The code](https://github.com/ryanatkn/cosmicplayground)
-is open source and public domain licensed,
+is open source and permissively licensed,
 [the website](https://cosmicplayground.org) is free to use,
 it's easy and cheap to self-host,
 and we hope to grow a community of contributors.
@@ -33,9 +33,6 @@ sharing ideas, creations, and experiences. Participation takes many forms:
 - tweet [@cpg_org](https://twitter.com/cpg_org)
 - say hi on [Discord](https://discord.gg/57XP5Pv)
 - contribute code and other assets like graphics and audio.
-  Please be aware that your submissions will be [CC0 licensed](LICENSE)
-  (public domain) unless you request otherwise.
-  Code is an exception - all of it is CC0.
   Creative Commons has a great webpage to help you
   [choose a license](https://creativecommons.org/choose/)
   if you want to protect your creations commercially or otherwise.
@@ -47,14 +44,6 @@ sharing ideas, creations, and experiences. Participation takes many forms:
 - donate on [Patreon](https://patreon.com/ryanatkn)
 - [:milky_way: cosmicplayground.org :comet:](https://cosmicplayground.org)
 
-## tech
-
-Made with [Svelte](https://github.com/sveltejs/svelte),
-[TypeScript](https://github.com/microsoft/TypeScript),
-[Node](https://nodejs.org),
-[Prettier](https://github.com/prettier/prettier),
-[Rollup](https://github.com/rollup/rollup), ...
-
 ## develop
 
 To play with the code, you'll need node 12+;
@@ -64,6 +53,15 @@ npm install
 npm start
 # open your browser to localhost:8999
 ```
+
+## tech
+
+Made with [`svelte`](https://github.com/sveltejs/svelte),
+[`typescript`](https://github.com/microsoft/TypeScript),
+[`rollup`](https://github.com/rollup/rollup),
+[`prettier`](https://github.com/prettier/prettier),
+[`node`](https://nodejs.org),
+[`github`](https://github.com), [`git`](https://git-scm.com/)
 
 ## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
 
@@ -81,10 +79,7 @@ for the list of people helping it all go.
 
 ## license
 
-[Creative Commons Zero v1.0 Universal](LICENSE) (public domain)
-
-For more info about [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/), see
-[the Creative Commons website](https://creativecommons.org/share-your-work/public-domain/cc0).
+[MIT](license)
 
 Graphics, sounds, and other assets may have licenses that restrict usage
 as specified in [the asset credits](docs/assets.md).

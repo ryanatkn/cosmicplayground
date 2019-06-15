@@ -2,7 +2,7 @@
   "name": "cosmicplayground",
   "version": "0.1.0",
   "description": "tools and toys for expanding minds: ear training, music theory, etc etc",
-  "license": "CC0-1.0",
+  "license": "MIT",
   "homepage": "https://cosmicplayground.org",
   "type": "module",
   "scripts": {
@@ -32,7 +32,7 @@
   "author": {
     "name": "Ryan Atkinson",
     "email": "ryanatkn@gmail.com",
-    "url": "https://github.com/ryanatkn"
+    "url": "https://ryanatkn.com"
   },
   "engines": {
     "node": ">=12"

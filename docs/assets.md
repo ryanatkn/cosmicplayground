@@ -15,7 +15,7 @@ and S. Beckwith ([STScI](https://www.stsci.edu/)) and the HUDF Team
 ![construction idea](/static/assets/construction/person-dig-idea.gif)
 ![construction mammal](/static/assets/construction/mammal.gif)
 
-> they're so retro wonderfo ..
+> they're so retro great.
 > more in [static/assets/construction/](/static/assets/construction/)
 
 _credit:_ <http://textfiles.com/underconstruction/>
@@ -27,15 +27,5 @@ _credit:_ <http://textfiles.com/underconstruction/>
 > pounced out of _paint freqs_ .. mreow
 
 _credit_: Lisa Atkinson
-
-_license_: [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
-
-## cosm
-
-![cosm](/static/assets/characters/cosm.png)
-
-> appears when needed
-
-_credit_: Ryan Atkinson
 
 _license_: [CC0](https://creativecommons.org/publicdomain/zero/1.0/)

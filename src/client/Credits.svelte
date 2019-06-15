@@ -6,11 +6,11 @@
 <section class="items">
 	<div class="item">
 		CPG's code and original assets are
-		<a href="https://creativecommons.org/publicdomain/zero/1.0/">
-			CC0 licensed
+		<a href="https://github.com/ryanatkn/cosmicplayground/blob/master/license">
+			MIT licensed
 		</a>
-		(public domain). The project also uses the permissively licensed assets
-		listed below. See the included links for more about the copyright holders.
+		. The project also uses the assets listed below. See the included links for
+		more about the copyright holders.
 	</div>
 	<hr />
 	<div class="item">
