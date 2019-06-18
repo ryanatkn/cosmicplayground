@@ -2,13 +2,6 @@ import {SyConfig} from '../sy/sy';
 import {classDef, classDefs, selectorDef, selectorDefs} from '../sy/helpers';
 import {arrayOf, flatMap} from '../utils/arr';
 
-// this is a side effect, but we want it to be
-// tree-shook if anything from the config is imported directly
-// is there a better way to do this check? meta data?
-if (typeof window !== 'undefined') {
-	throw Error(`sy.config.ts does not expect to be bundled!`);
-}
-
 // generic css-related utils
 // the type of `getVar` is ridiculous but I'm just having fun here :d
 const getVar = <T extends (...args: any) => any>(getProperty: T) => (

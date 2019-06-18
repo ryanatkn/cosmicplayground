@@ -1,0 +1,246 @@
+import {compile} from 'svelte/compiler';
+import {CompileOptions} from 'svelte/types/compiler/interfaces';
+import {
+	Plugin,
+	PluginContext,
+	RollupWarning,
+	InputOptions,
+	ExistingRawSourceMap,
+} from 'rollup';
+import {createFilter} from 'rollup-pluginutils';
+import {magenta, black, bold, bgYellow, yellow, gray} from 'kleur';
+
+import {assignDefaults} from '../../utils/obj';
+import {noop} from '../../utils/fn';
+import {extractFilename, replaceExt, formatMs} from '../scriptUtils';
+import {srcPath} from '../paths';
+import {
+	PlainCssPlugin,
+	CssBuild,
+	findPlainCssPlugin,
+} from './rollup-plugin-plain-css';
+
+// TODO type could be improved, not sure how tho
+interface Stats {
+	timings: {
+		total: number;
+		parse?: {total: number};
+		'create component'?: {total: number};
+	};
+}
+// TODO type belongs upstream - augmented for better safety
+export type SvelteCompilation = OmitStrict<
+	ReturnType<typeof compile>,
+	'js' | 'css' | 'stats'
+> & {
+	js: {
+		code: string;
+		map: string | {mappings: ''} | ExistingRawSourceMap | undefined;
+	};
+	css: CssBuild;
+	stats: Stats;
+};
+
+export type SvelteUnrolledCompilation = SvelteCompilation & {
+	id: string;
+	cssId: string | undefined;
+};
+
+export interface PluginOptions {
+	dev: boolean;
+	include: string | RegExp | (string | RegExp)[] | null | undefined;
+	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
+	compileOptions: CompileOptions;
+	compilations: Map<string, SvelteUnrolledCompilation>;
+	verbose: boolean;
+	onwarn:
+		| undefined
+		| ((
+				id: string,
+				warning: RollupWarning | string,
+				warn: (id: string, warning: RollupWarning | string) => void,
+				pluginContext: PluginContext,
+		  ) => void);
+	onstats:
+		| undefined
+		| ((
+				id: string,
+				stats: Stats,
+				handleStats: (id: string, stats: Stats) => void,
+				pluginContext: PluginContext,
+		  ) => void);
+}
+export type RequiredPluginOptions = 'dev';
+export type InitialPluginOptions = PartialExcept<
+	PluginOptions,
+	RequiredPluginOptions
+>;
+export const defaultPluginOptions = (): PluginOptions => ({
+	dev: false,
+	include: ['src/**/*.svelte'],
+	exclude: undefined,
+	compileOptions: {},
+	compilations: new Map<string, SvelteUnrolledCompilation>(),
+	verbose: false,
+	onwarn: undefined,
+	onstats: undefined,
+});
+
+const baseCompileOptions: CompileOptions = {
+	format: 'esm', // If "esm", creates a JavaScript module (with import and export). If "cjs", creates a CommonJS module (with require and module.exports), which is useful in some server-side rendering situations or for testing.
+	generate: 'dom', // If "dom", Svelte emits a JavaScript class for mounting to the DOM. If "ssr", Svelte emits an object with a render method suitable for server-side rendering. If false, no JavaScript or CSS is returned; just metadata.
+	dev: false, // If true, causes extra code to be added to components that will perform runtime checks and provide debugging information during development.
+	immutable: false, // If true, tells the compiler that you promise not to mutate any objects. This allows it to be less conservative about checking whether values have changed.
+	hydratable: false, // If true, enables the hydrate: true runtime option, which allows a component to upgrade existing DOM rather than creating new DOM from scratch.
+	legacy: false, // If true, generates code that will work in IE9 and IE10, which don't support things like element.dataset.
+	accessors: false, // If true, getters and setters will be created for the component's props. If false, they will only be created for readonly exported values (i.e. those declared with const, class and function). If compiling with customElement: true this option defaults to true.
+	customElement: false, // If true, tells the compiler to generate a custom element constructor instead of a regular Svelte component.
+	tag: undefined, // A string that tells Svelte what tag name to register the custom element with. It must be a lowercase alphanumeric string with at least one hyphen, e.g. "my-element".
+	css: false, // If true, styles will be included in the JavaScript class and injected at runtime. It's recommended that you set this to false and use the CSS that is statically generated, as it will result in smaller JavaScript bundles and better performance.
+	preserveComments: false, // If true, your HTML comments will be preserved during server-side rendering. By default, they are stripped out.
+	preserveWhitespace: false, // If true, whitespace inside and between elements is kept as you typed it, rather than optimised by Svelte.
+	outputFilename: undefined, // A string used for your JavaScript sourcemap.
+	cssOutputFilename: undefined, // A string used for your CSS sourcemap.
+};
+
+// TODO
+// - source maps
+// - types
+// - clean up ts warnings
+// - good logging (removed classes, time stats)
+// - refactor (remove all sy stuff?)
+// - typescript!
+// - track this timing and add to stats
+//   const getElapsed = trackElapsed();
+//   stats.timings.classes (separate or combine walk and generate? also track css creation?)
+//   process.hrtime()
+//     var start = process.hrtime();
+//     var elapsed_time = function(note){
+//         var precision = 3; // 3 decimal places
+//         var elapsed = process.hrtime(start)[1] / 1000000; // divide by a million to get nano to milli
+//         console.log(process.hrtime(start)[0] + " s, " + elapsed.toFixed(precision) + " ms - " + note); // print message + time
+//         start = process.hrtime(); // reset the timer
+//     }
+
+export interface SvelteUnrolledPlugin extends Plugin {
+	compilations: Map<string, SvelteUnrolledCompilation>;
+}
+
+export const name = 'svelte-unrolled';
+
+export const findSvelteUnrolledPlugin = ({plugins}: InputOptions) =>
+	plugins &&
+	(plugins.find(p => p.name === name) as SvelteUnrolledPlugin | undefined);
+
+export const svelteUnrolledPlugin = (
+	pluginOptions: InitialPluginOptions,
+): SvelteUnrolledPlugin => {
+	const {
+		dev,
+		include,
+		exclude,
+		compileOptions,
+		compilations,
+		verbose,
+		onwarn,
+		onstats,
+	} = assignDefaults(defaultPluginOptions(), pluginOptions);
+
+	const log = verbose
+		? (...args: any[]): void => {
+				console.log(magenta(`[${name}]`), ...args);
+		  }
+		: noop;
+	const warn = (
+		id: string | null,
+		warning: RollupWarning | string,
+		...args: any[]
+	): void =>
+		// TODO use logWarn (how to interact with `RollupWarning` and `id` logging?
+		console.log(
+			magenta(`[${name}]`),
+			bold(black(bgYellow(' warning '))),
+			yellow(warning.toString()),
+			id && `\n${yellow(id)}`,
+			...args,
+		);
+
+	const handleStats = (id: string, stats: Stats): void => {
+		log(
+			`${gray('stats')} ${srcPath(id)}:`,
+			...[
+				gray(`total(${formatMs(stats.timings.total)})`),
+				stats.timings.parse &&
+					gray(`parse(${formatMs(stats.timings.parse.total)})`),
+				stats.timings['create component'] &&
+					gray(`create(${formatMs(stats.timings['create component'].total)})`),
+			].filter(Boolean),
+		);
+	};
+
+	const filter = createFilter(include, exclude);
+
+	let plainCssPlugin: PlainCssPlugin | undefined;
+	const cacheCss = (id: string, css: CssBuild): boolean => {
+		if (!plainCssPlugin) throw Error(`${name} depends on PlainCssPlugin`);
+		return plainCssPlugin.cacheCss('bundle.css', id, css);
+	};
+
+	return {
+		name,
+		compilations,
+		options(o) {
+			plainCssPlugin = findPlainCssPlugin(o);
+			return null;
+		},
+		transform(code, id) {
+			if (!filter(id)) return;
+			log('transform', id);
+			const svelteCompilation: SvelteCompilation = compile(code, {
+				...baseCompileOptions,
+				...{dev},
+				...compileOptions,
+				filename: id,
+				name: extractFilename(id),
+			});
+			const {js, css, warnings, stats} = svelteCompilation;
+
+			for (const warning of warnings) {
+				if (onwarn) {
+					onwarn(id, warning, warn, this);
+				} else {
+					warn(id, warning);
+				}
+			}
+
+			if (onstats) {
+				onstats(id, stats, handleStats, this);
+			} else {
+				handleStats(id, stats);
+			}
+
+			let cssId = replaceExt(id, '.css');
+			log('add css import', cssId);
+			// TODO emit file when API is ready - https://github.com/rollup/rollup/issues/2938
+			cacheCss(cssId, css);
+
+			// save the compilation so other plugins can use it
+			// TODO does the coming `emitFile` give a better way to do this?
+			const compilation: SvelteUnrolledCompilation = {
+				...svelteCompilation,
+				id,
+				cssId,
+			};
+			compilations.set(id, compilation);
+
+			return js;
+			// TODO why doesn't returning the ast work?
+			// ideally we want this for efficiency.
+			// it cannot be used if we modify the js code, like with a css import!
+			// return {
+			// 	...js,
+			// ast: ast.instance && ast.instance.content,
+			// };
+		},
+	};
+};

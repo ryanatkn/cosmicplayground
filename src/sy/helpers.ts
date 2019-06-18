@@ -1,7 +1,8 @@
-import {SyDef, ClassName, CssSelector, CssDeclaration} from './sy';
+import {SyDef, CssClass, CssSelector, CssDeclaration, SyConfig} from './sy';
+import {UnreachableError} from '../utils/types';
 
 export const classDef = (
-	className: ClassName,
+	className: CssClass,
 	declaration: CssDeclaration,
 ): SyDef => {
 	return {
@@ -12,7 +13,7 @@ export const classDef = (
 	};
 };
 
-export const classDefs = (defs: Record<ClassName, CssDeclaration>): SyDef[] =>
+export const classDefs = (defs: Record<CssClass, CssDeclaration>): SyDef[] =>
 	Object.entries(defs).map(([className, declaration]) =>
 		classDef(className, declaration),
 	);
@@ -35,3 +36,25 @@ export const selectorDefs = (
 	Object.entries(defs).map(([selector, declaration]) =>
 		selectorDef(selector, declaration),
 	);
+
+export const removeClasses = (
+	config: SyConfig,
+	classes: Set<CssClass>,
+): SyConfig => {
+	return {
+		...config,
+		defs: config.defs.filter(def => {
+			switch (def.type) {
+				case 'class': {
+					return classes.has(def.className);
+				}
+				case 'selector': {
+					return true;
+				}
+				default: {
+					throw new UnreachableError(def);
+				}
+			}
+		}),
+	};
+};

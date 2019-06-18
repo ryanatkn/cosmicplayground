@@ -14,14 +14,14 @@ import {
 	RollupOutput,
 	RollupBuild,
 } from 'rollup';
-import * as svelte from 'rollup-plugin-svelte';
-import * as resolveFIXME from 'rollup-plugin-node-resolve';
-import * as commonjsFIXME from 'rollup-plugin-commonjs';
-import * as terser from 'rollup-plugin-terser';
-import * as serve from 'rollup-plugin-serve';
-import * as typescript from 'rollup-plugin-typescript';
+import * as resolvePluginFIXME from 'rollup-plugin-node-resolve';
+import * as commonjsPluginFIXME from 'rollup-plugin-commonjs';
+import * as terserPlugin from 'rollup-plugin-terser';
+import * as servePlugin from 'rollup-plugin-serve';
+import * as typescriptPlugin from 'rollup-plugin-typescript';
 import {magenta} from 'kleur';
 import * as fs from 'fs-extra';
+import * as prettier from 'prettier';
 
 import {paths} from '../paths';
 import {
@@ -32,8 +32,14 @@ import {
 	resolvePath,
 } from '../scriptUtils';
 import {clean} from './clean';
-import {plainCss} from './rollup-plugin-plain-css';
-import {sy} from './rollup-plugin-sy';
+import {plainCssPlugin} from './rollup-plugin-plain-css';
+import {syPlugin} from './rollup-plugin-sy';
+import {svelteUnrolledPlugin} from './rollup-plugin-svelte-unrolled';
+import {svelteExtractCssClassesPlugin} from './rollup-plugin-svelte-extract-css-classes';
+import {diagnosticsPlugin} from './rollup-plugin-diagnostics';
+
+const pkg = require('../../../package.json'); // TODO import differently?
+const prettierOptions: prettier.Options = pkg.prettier;
 
 const {watch} = argv;
 
@@ -41,8 +47,10 @@ const {watch} = argv;
 // Rather than doing that and forcing `allowSyntheticDefaultImports`,
 // I'm opting to just fix the module types after importing for now.
 // This can probably be sorted out cleanly when `ts-node` supports ES modules.
-const resolve: typeof resolveFIXME.default = resolveFIXME as any;
-const commonjs: typeof commonjsFIXME.default = commonjsFIXME as any;
+const resolvePlugin: typeof resolvePluginFIXME.default = resolvePluginFIXME as any;
+const commonjsPlugin: typeof commonjsPluginFIXME.default = commonjsPluginFIXME as any;
+
+const removeUnusedClasses = !dev;
 
 const createInputOptions = (): InputOptions => {
 	const inputOptions: InputOptions = {
@@ -50,28 +58,47 @@ const createInputOptions = (): InputOptions => {
 		// external,
 		input: 'src/client/main.ts', // required
 		plugins: [
-			sy({
+			// TODO a lot of these plugins have deps that need to be refactored
+			// the rollup `emitFile` API should be helpful when it lands
+			// https://github.com/rollup/rollup/issues/2938
+			diagnosticsPlugin({
+				verbose: true,
+			}),
+			typescriptPlugin(),
+			svelteUnrolledPlugin({
+				include: resolvePath('src/client/**/*.svelte'),
 				dev,
 				verbose: true,
 			}),
-			plainCss({
-				output: resolvePath('static/bundle.css'),
-				verbose: false,
+			// currently this uses the result of `svelteUnrolled`'s transform hook
+			// in its own transform hook, so it needs to be placed after it in plugins
+			// TODO is there good a way to warn/error if they're out of order?
+			removeUnusedClasses &&
+				svelteExtractCssClassesPlugin({
+					verbose: true,
+				}),
+			// TODO the order of these is pretty important right now,
+			// but I think they can be made less order-dependent
+			// once the rollup file emit API is ready -
+			// https://github.com/rollup/rollup/issues/2938
+			syPlugin({
+				dev,
+				verbose: true,
+				prettierOptions,
+				removeUnusedClasses,
 			}),
-			typescript(),
-			svelte({
-				include: resolvePath('src/client/**/*.svelte'),
-				// TODO don't generate source maps in prod! maybe patch `rollup-plugin-svelte`?
-				emitCss: true,
-				// css: css => {
-				// 	css.write('static/bundle.css', !dev);
-				// },
+			plainCssPlugin({
+				sourcemap: dev,
+				verbose: true,
 			}),
-			resolve(),
-			commonjs(),
+			resolvePlugin(),
+			commonjsPlugin(),
 			...(dev
-				? [watch && serve({contentBase: resolvePath('static'), host, port})]
-				: [terser.terser()]),
+				? [
+						watch &&
+							servePlugin({contentBase: resolvePath('static'), host, port}),
+				  ]
+				: [terserPlugin.terser()]),
 		],
 
 		// — advanced input options
@@ -103,8 +130,8 @@ const createInputOptions = (): InputOptions => {
 const createOutputOptions = (): OutputOptions => {
 	const outputOptions: OutputOptions = {
 		// — core output options
-		// dir,
-		file: resolvePath('static/bundle.js'),
+		// dir: paths.appStatic, // TODO chunks - also, output to `/build` instead of static?
+		file: paths.appStaticJs,
 		format: 'iife', // required
 		// globals,
 		name: 'app',
@@ -241,7 +268,7 @@ const runRollupBuild = async (): Promise<{
 const runRollupWatcher = async (): Promise<void> => {
 	return new Promise((_resolve, reject) => {
 		const watchOptions = createWatchOptions();
-		verboseLog(magenta('watchOptions'), watchOptions);
+		// verboseLog(magenta('watchOptions'), watchOptions);
 		const watcher = rollup.watch([watchOptions]);
 
 		watcher.on('event', event => {

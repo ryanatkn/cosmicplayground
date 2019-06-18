@@ -18,8 +18,7 @@
 			<ImgLink
 				src="assets/space/galaxies.jpg"
 				alt="Hubble sees galaxies galore"
-				imgStyle="width: 200px;"
-				link={true} />
+				imgStyle="width: 200px;" />
 		</div>
 		<em>galaxies background image credit:</em>
 		<a href="https://www.spacetelescope.org/images/heic0406a/">
@@ -38,12 +37,8 @@
 		<div>
 			<ImgLink
 				alt="construction idea"
-				src="assets/construction/person-dig-idea.gif"
-				link={true} />
-			<ImgLink
-				alt="construction mammal"
-				src="assets/construction/mammal.gif"
-				link={true} />
+				src="assets/construction/person-dig-idea.gif" />
+			<ImgLink alt="construction mammal" src="assets/construction/mammal.gif" />
 		</div>
 		<em>under construction gifs credit:</em>
 		<a href="http://textfiles.com/underconstruction/">
@@ -53,10 +48,7 @@
 	<hr />
 	<div class="item">
 		<div>
-			<ImgLink
-				alt="Cosmic Kitty"
-				src="assets/characters/cosmic-kitty.jpg"
-				link={true} />
+			<ImgLink alt="Cosmic Kitty" src="assets/characters/cosmic-kitty.jpg" />
 		</div>
 		<div>
 			Cosmic Kitty pounced out of

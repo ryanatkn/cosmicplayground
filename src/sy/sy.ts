@@ -32,7 +32,7 @@ export interface SyBaseDef {
 }
 export interface SyClassDef extends SyBaseDef {
 	type: 'class';
-	className: ClassName;
+	className: CssClass;
 	declaration: CssDeclaration;
 }
 export interface SySelectorDef extends SyBaseDef {
@@ -42,7 +42,7 @@ export interface SySelectorDef extends SyBaseDef {
 }
 
 // these are for documentation purposes - they don't do anything for type safety
-export type ClassName = string;
+export type CssClass = string;
 export type CssDeclaration = string;
 export type CssRule = string;
 export type CssSelector = string;
