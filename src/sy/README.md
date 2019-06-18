@@ -113,6 +113,6 @@ aiming for _best-of-all-worlds tradeoffs_, and so far it seems pretty great.
 - while developing, it can be nice to run
   [`prettier`](https://github.com/prettier/prettier) on the css output
 - for production, you'll probably want to minify your css with something like
-  [`cssnano`](https://github.com/cssnano/cssnano)
+  [`csso`](https://github.com/css/csso)
 - you can use `sy` to generate sass/less/postcss/etc,
-  but it's also nice to use 100% TypeScript
+  but it's also nice to use 100% TypeScript and target the web platform
