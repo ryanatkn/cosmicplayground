@@ -24,9 +24,9 @@ export type InitialPluginOptions = PartialExcept<
 export const defaultPluginOptions = ({
 	getSvelteCompilation,
 }: InitialPluginOptions): PluginOptions => ({
-	getSvelteCompilation,
 	classAttrMatcher: new RegExp(/^(class|.+Class)$/),
 	classes: new Set(), // TODO I don't like how this creates unnecessary garbage, even if it's miniscule; seems like poor design
+	getSvelteCompilation,
 	logLevel: LogLevel.Info,
 });
 
