@@ -60,6 +60,7 @@ At a high level, `sy` is just a function takes a config and returns a build
 containing a css string and some descriptive data.
 Developers can use the library to generate whatever css they want
 using JavaScript. (it's written in and used with TypeScript)
+The [`helpers`](helpers.ts) demonstrate some helpful patterns.
 
 `sy` is far simpler than the average css-in-js library -
 there are almost no concepts or APIs to learn beyond
