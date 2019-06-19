@@ -275,6 +275,7 @@
 		<div class="back-button-wrapper">
 			<BackButton {view} />
 		</div>
+		<!-- TODO refactor this lol. also, do wackier thingg with it. -->
 		<FreqSpectacle
 			width={windowWidth}
 			height={windowHeight * 0.7}

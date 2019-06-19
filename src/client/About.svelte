@@ -22,19 +22,21 @@
 			src="assets/characters/patreon.png"
 			alt="@ryanatkn on patreon"
 			href="https://patreon.com/ryanatkn"
-			imgStyle="mix-blend-mode: difference; width: 64px;" />
+			imgClass="mix-blend-difference"
+			imgStyle="width: 64px;" />
 		<ImgLink
 			src="assets/characters/twit.png"
 			alt="@cpg_org on twitter"
 			href="https://twitter.com/cpg_org"
-			imgStyle="mix-blend-mode: difference; width: 64px;" />
+			imgClass="mix-blend-difference"
+			imgStyle="width: 64px;" />
 	</div>
 	<div>
 		<ImgLink
 			src="assets/characters/octocat.png"
 			alt="@ryanatkn/cosmicplayground on github"
 			href="https://github.com/ryanatkn/cosmicplayground"
-			imgStyle="mix-blend-mode: difference;" />
+			imgClass="mix-blend-difference" />
 	</div>
 </section>
 <div>

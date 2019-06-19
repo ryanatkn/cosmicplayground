@@ -1,6 +1,7 @@
 import {SyConfig} from '../sy/sy';
 import {classDef, classDefs, selectorDef, selectorDefs} from '../sy/helpers';
 import {arrayOf, flatMap} from '../utils/arr';
+import {blendModes} from '../css/blendModes';
 
 // generic css-related utils
 // the type of `getVar` is ridiculous but I'm just having fun here :d
@@ -81,6 +82,12 @@ export const createConfig = async (
 				'flex-col': 'flex-direction: column',
 				'flex-col-reverse': 'flex-direction: column-reverse',
 			}),
+
+			// blend modeas
+			...flatMap(blendModes, b => [
+				classDef(`bg-blend-${b}`, `background-blend-mode: ${b}`),
+				classDef(`mix-blend-${b}`, `mix-blend-mode: ${b}`),
+			]),
 
 			// h1 (TODO through h6)
 			...selectorDefs({
