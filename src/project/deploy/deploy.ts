@@ -10,15 +10,18 @@ if (!SERVER_IP) throw Error('SERVER_IP env var is required for deployment');
 import * as fs from 'fs';
 import * as fp from 'path';
 import {exec} from 'child_process';
-import {magenta, cyan} from 'kleur';
+import {magenta, cyan, blue} from 'kleur';
 
-import {dry, verboseLog, rainbow, handleScriptError} from '../scriptUtils';
+import {dry, rainbow, handleScriptError} from '../scriptUtils';
+import {logger, LogLevel} from '../logger';
 import {paths} from '../paths';
 
 // Make sure the build is ready
 if (!fs.existsSync(paths.appBuildDistClient)) {
 	throw Error(`Build directory does not exist: ${paths.appBuildDistClient}`);
 }
+
+const {info} = logger(LogLevel.Trace, [blue('[deploy]')]);
 
 /**
  * Prepares and executes deployment:
@@ -33,12 +36,12 @@ if (!fs.existsSync(paths.appBuildDistClient)) {
  */
 const runDeploy = async (): Promise<void> => {
 	const command = createDeployCommand();
-	verboseLog(magenta(`deployment command`), cyan(command));
+	info(magenta(`deployment command`), cyan(command));
 
 	if (dry) {
 		console.log(magenta('dry run - skipping command execution'));
 	} else {
-		verboseLog(magenta('executing deploy command'));
+		info(magenta('executing deploy command'));
 		const {stdout, stderr} = await new Promise((resolve, reject) => {
 			exec(command, (err, stdout, stderr) => {
 				if (err) {
@@ -50,7 +53,7 @@ const runDeploy = async (): Promise<void> => {
 		});
 		if (stdout) console.log(stdout);
 		if (stderr) console.error(stderr);
-		verboseLog(magenta('executed deploy command'));
+		info(magenta('executed deploy command'));
 	}
 };
 
@@ -102,7 +105,7 @@ const createPaths = (): Record<string, string> => {
 		remoteTarball: fp.join(remoteApp, tarFileName),
 		localTarball: fp.join(paths.appBuild, tarFileName),
 	};
-	verboseLog(magenta('deployment paths'), p);
+	info(magenta('deployment paths'), p);
 	return p;
 };
 
@@ -110,9 +113,9 @@ runDeploy()
 	.then(() => {
 		console.log(
 			[
-				rainbow('~~~~~~~~~~~~~~~~~~'),
-				rainbow('~~~! deployed !~~~'),
-				rainbow('~~~~~~~~~~~~~~~~~~'),
+				rainbow('~~~~~~~~~~~~~~~~'),
+				rainbow('~❤~ deployed ~❤~'),
+				rainbow('~~~~~~~~~~~~~~~~'),
 			].join('\n'),
 		);
 		if (dry) console.log(magenta('dry run complete'));

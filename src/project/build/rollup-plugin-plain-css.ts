@@ -6,7 +6,8 @@ import * as fp from 'path';
 import {decode, encode, SourceMapSegment} from 'sourcemap-codec';
 
 import {assignDefaults} from '../../utils/obj';
-import {noop} from '../../utils/fn';
+import {LogLevel, logger, logVal} from '../logger';
+import {srcPath} from '../paths';
 
 // TODO upstream rollup type?
 export type CssBuild = {
@@ -23,7 +24,7 @@ export interface PluginOptions {
 	include: string | RegExp | (string | RegExp)[] | null | undefined;
 	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
 	sourcemap: boolean; // TODO consider per-bundle options
-	verbose: boolean;
+	logLevel: LogLevel;
 }
 export type RequiredPluginOptions = never;
 export type InitialPluginOptions = PartialExcept<
@@ -34,7 +35,7 @@ export const defaultPluginOptions = (): PluginOptions => ({
 	include: ['**/*.css'],
 	exclude: undefined,
 	sourcemap: false,
-	verbose: false,
+	logLevel: LogLevel.Info,
 });
 
 export interface PlainCssPlugin extends Plugin {
@@ -46,16 +47,12 @@ export const name = 'plain-css';
 export const plainCssPlugin = (
 	pluginOptions: InitialPluginOptions,
 ): PlainCssPlugin => {
-	const {include, exclude, sourcemap, verbose} = assignDefaults(
+	const {include, exclude, sourcemap, logLevel} = assignDefaults(
 		defaultPluginOptions(),
 		// {sourcemap: pluginOptions.dev}, // TODO dev flag?
 		pluginOptions,
 	);
-	const log = verbose
-		? (...args: any[]): void => {
-				console.log(blue(`[${name}]`), ...args);
-		  }
-		: noop;
+	const {info} = logger(logLevel, [blue(`[${name}]`)]);
 
 	const filter = createFilter(include, exclude);
 
@@ -80,7 +77,7 @@ export const plainCssPlugin = (
 		// I think this comparison is safe - sourcemap should change if code changes, eh?
 		if (build.code === (cachedBuild && cachedBuild.code)) return false;
 
-		log(`caching ${id} for bundle ${bundleName}`);
+		info(logVal('caching', srcPath(id)), logVal('bundle', bundleName));
 		bundle.buildsById.set(id, build);
 		bundle.changedIds.add(id);
 
@@ -94,14 +91,14 @@ export const plainCssPlugin = (
 		transform(code, id) {
 			// TODO handle multiple bundles? or just one?
 			if (!filter(id)) return;
-			log(`transform id`, id);
+			info(`transform id`, id);
 			cacheCss('bundle.css', id, code);
 			return '';
 		},
 		async generateBundle(outputOptions, _bundle, isWrite) {
 			if (!isWrite) return;
 
-			log('generateBundle');
+			info('generateBundle');
 
 			// TODO chunks!
 			const outFile = outputOptions.file;
@@ -112,8 +109,8 @@ export const plainCssPlugin = (
 			for (const {bundleName, buildsById, changedIds} of bundles.values()) {
 				if (!changedIds.size) continue;
 
-				log('generating css bundle', blue(bundleName));
-				log('changes', changedIds.keys());
+				info('generating css bundle', blue(bundleName));
+				info('changes', changedIds.keys()); // TODO trace when !watch
 				changedIds.clear();
 
 				const mappings: SourceMapSegment[][] = [];
@@ -163,13 +160,13 @@ export const plainCssPlugin = (
 						2,
 					);
 
-					log('writing css bundle and sourcemap', dest);
+					info('writing css bundle and sourcemap', dest);
 					await Promise.all([
 						outputFile(dest, finalCss),
 						outputFile(sourcemapDest, cssSourcemap),
 					]);
 				} else {
-					log('writing css bundle', dest);
+					info('writing css bundle', dest);
 					await outputFile(dest, css);
 				}
 			}

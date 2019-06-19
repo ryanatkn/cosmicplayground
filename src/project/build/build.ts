@@ -24,13 +24,8 @@ import * as fs from 'fs-extra';
 import * as prettier from 'prettier';
 
 import {paths} from '../paths';
-import {
-	argv,
-	verboseLog,
-	handleScriptError,
-	rainbow,
-	resolvePath,
-} from '../scriptUtils';
+import {argv, handleScriptError, rainbow, resolvePath} from '../scriptUtils';
+import {logger, LogLevel} from '../logger';
 import {clean} from './clean';
 import {plainCssPlugin} from './rollup-plugin-plain-css';
 import {syPlugin} from './rollup-plugin-sy';
@@ -42,6 +37,9 @@ const pkg = require('../../../package.json'); // TODO import differently?
 const prettierOptions: prettier.Options = pkg.prettier;
 
 const {watch} = argv;
+
+const logLevel = LogLevel.Info; // TODO pull from argv?
+const {info} = logger(logLevel, [magenta('[build]')]);
 
 // TODO These modules require `esModuleInterop` to work correctly.
 // Rather than doing that and forcing `allowSyntheticDefaultImports`,
@@ -58,7 +56,7 @@ const SY_CSS_BUNDLE_NAME = 'bundle.sy.css';
 // it's hard to tell if we'll ever want a single one to be able to coordinate multiple bundles
 const plainCssPluginInstance = plainCssPlugin({
 	sourcemap: dev,
-	verbose: true,
+	logLevel,
 });
 const cacheMainCss = plainCssPluginInstance.cacheCss.bind(
 	null,
@@ -72,12 +70,12 @@ const svelteUnrolledPluginInstance = svelteUnrolledPlugin({
 	dev,
 	cacheCss: cacheMainCss,
 	include: resolvePath('src/client/**/*.svelte'),
-	verbose: true,
+	logLevel,
 });
 const svelteExtractCssClassesPluginInstance = removeUnusedClasses // dat name lol
 	? svelteExtractCssClassesPlugin({
 			getSvelteCompilation: svelteUnrolledPluginInstance.getCompilation,
-			verbose: true,
+			logLevel,
 	  })
 	: undefined;
 // TODO all of the above `PluginInstance` stuff is tiresome.
@@ -93,7 +91,7 @@ const createInputOptions = (): InputOptions => {
 			// the rollup `emitFile` API should be helpful when it lands
 			// https://github.com/rollup/rollup/issues/2938
 			diagnosticsPlugin({
-				verbose: true,
+				logLevel,
 			}),
 			typescriptPlugin(),
 			svelteUnrolledPluginInstance,
@@ -111,7 +109,7 @@ const createInputOptions = (): InputOptions => {
 				getCssClasses:
 					svelteExtractCssClassesPluginInstance &&
 					svelteExtractCssClassesPluginInstance.getCssClasses,
-				verbose: true,
+				logLevel,
 				prettierOptions,
 				removeUnusedClasses,
 			}),
@@ -208,7 +206,7 @@ const createWatchOptions = (): RollupWatchOptions => {
 };
 
 const runBuild = async (): Promise<void> => {
-	verboseLog(magenta(`building ... NODE_ENV=${NODE_ENV}`));
+	info(`building ... NODE_ENV=${NODE_ENV}`);
 
 	await clean();
 
@@ -216,23 +214,23 @@ const runBuild = async (): Promise<void> => {
 	if (watch) {
 		// TODO we currently have things a bit wonky between /build and /static - need to figure out how we want things to work (it can be nice to get prod builds in /build for dev purposes)
 		// copy over static files
-		verboseLog(magenta('copying static files'));
+		info('copying static files');
 		await fs.copy(paths.appStatic, paths.appBuildDistClient, {
 			dereference: true,
 		});
 
 		// run the watcher
-		verboseLog(magenta('building and watching'));
+		info('building and watching');
 		await runRollupWatcher();
-		verboseLog(magenta('stopped watching'));
+		info('stopped watching');
 	} else {
 		// build the js
-		verboseLog(magenta('building'));
+		info('building');
 		await runRollupBuild();
-		verboseLog(magenta('completed build'));
+		info('completed build');
 
 		// copy over static files
-		verboseLog(magenta('copying static files'));
+		info('copying static files');
 		await fs.copy(paths.appStatic, paths.appBuildDistClient, {
 			dereference: true,
 		});
@@ -293,11 +291,11 @@ const runRollupBuild = async (): Promise<{
 const runRollupWatcher = async (): Promise<void> => {
 	return new Promise((_resolve, reject) => {
 		const watchOptions = createWatchOptions();
-		// verboseLog(magenta('watchOptions'), watchOptions);
+		// info(('watchOptions'), watchOptions);
 		const watcher = rollup.watch([watchOptions]);
 
 		watcher.on('event', event => {
-			verboseLog(magenta(`rollup event: ${event.code}`));
+			info(`rollup event: ${event.code}`);
 			switch (event.code) {
 				case 'START': // the watcher is (re)starting
 				case 'BUNDLE_START': // building an individual bundle
@@ -326,9 +324,9 @@ runBuild()
 	.then(() => {
 		console.log(
 			[
-				rainbow('—————————————'),
-				rainbow('——! built !——'),
-				rainbow('—————————————'),
+				rainbow('~~~~~~~~~~~~~'),
+				rainbow('~❤~ built ~❤~'),
+				rainbow('~~~~~~~~~~~~~'),
 			].join('\n'),
 		);
 	})

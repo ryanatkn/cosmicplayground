@@ -6,12 +6,12 @@
   "homepage": "https://cosmicplayground.org",
   "type": "module",
   "scripts": {
-    "start": "NODE_ENV=development TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/build/build.ts --verbose --watch",
-    "build": "NODE_ENV=production TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/build/build.ts --verbose",
-    "buildDev": "NODE_ENV=development TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/build/build.ts --verbose",
+    "start": "NODE_ENV=development TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/build/build.ts --watch",
+    "build": "NODE_ENV=production TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/build/build.ts",
+    "buildDev": "NODE_ENV=development TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/build/build.ts",
     "clean": "rm -rf build static/bundle.*",
-    "deploy": "NODE_ENV=production TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/deploy/deploy.ts --verbose",
-    "deployDry": "NODE_ENV=production TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/deploy/deploy.ts --dry --verbose",
+    "deploy": "NODE_ENV=production TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/deploy/deploy.ts",
+    "deployDry": "NODE_ENV=production TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/deploy/deploy.ts --dry",
     "typecheck": "tsc --noEmit",
     "test": "echo \"TODO add tests\" && exit 1",
     "format": "./node_modules/.bin/prettier --write src/**/*.{js,ts,json,html,svelte,md}"

@@ -7,11 +7,11 @@ import {
 	ExistingRawSourceMap,
 } from 'rollup';
 import {createFilter} from 'rollup-pluginutils';
-import {magenta, black, bold, bgYellow, yellow, gray} from 'kleur';
+import {magenta} from 'kleur';
 
 import {assignDefaults} from '../../utils/obj';
-import {noop} from '../../utils/fn';
-import {extractFilename, replaceExt, formatMs} from '../scriptUtils';
+import {extractFilename, replaceExt} from '../scriptUtils';
+import {LogLevel, logger, logVal, logMs} from '../logger';
 import {srcPath} from '../paths';
 import {CssBuild} from './rollup-plugin-plain-css';
 
@@ -48,7 +48,7 @@ export interface PluginOptions {
 	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
 	compileOptions: CompileOptions;
 	compilations: Map<string, SvelteUnrolledCompilation>;
-	verbose: boolean;
+	logLevel: LogLevel;
 	onwarn:
 		| undefined
 		| ((
@@ -81,7 +81,7 @@ export const defaultPluginOptions = ({
 	exclude: undefined,
 	compileOptions: {},
 	compilations: new Map<string, SvelteUnrolledCompilation>(),
-	verbose: false,
+	logLevel: LogLevel.Info,
 	onwarn: undefined,
 	onstats: undefined,
 });
@@ -104,11 +104,7 @@ const baseCompileOptions: CompileOptions = {
 };
 
 // TODO
-// - source maps
-// - types
 // - clean up ts warnings
-// - good logging (removed classes, time stats)
-// - refactor (remove all sy stuff?)
 // - typescript!
 // - track this timing and add to stats
 //   const getElapsed = trackElapsed();
@@ -138,39 +134,22 @@ export const svelteUnrolledPlugin = (
 		exclude,
 		compileOptions,
 		compilations,
-		verbose,
+		logLevel,
 		onwarn,
 		onstats,
 	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
 
-	const log = verbose
-		? (...args: any[]): void => {
-				console.log(magenta(`[${name}]`), ...args);
-		  }
-		: noop;
-	const warn = (
-		id: string | null,
-		warning: RollupWarning | string,
-		...args: any[]
-	): void =>
-		// TODO use logWarn (how to interact with `RollupWarning` and `id` logging?
-		console.log(
-			magenta(`[${name}]`),
-			bold(black(bgYellow(' warning '))),
-			yellow(warning.toString()),
-			id && `\n${yellow(id)}`,
-			...args,
-		);
+	const {trace, info, warn} = logger(logLevel, [magenta(`[${name}]`)]);
 
 	const handleStats = (id: string, stats: Stats): void => {
-		log(
-			`${gray('stats')} ${srcPath(id)}:`,
+		info(
+			logVal('stats', srcPath(id)),
 			...[
-				gray(`total(${formatMs(stats.timings.total)})`),
+				logVal('total', logMs(stats.timings.total)),
 				stats.timings.parse &&
-					gray(`parse(${formatMs(stats.timings.parse.total)})`),
+					logVal('parse', logMs(stats.timings.parse.total)),
 				stats.timings['create component'] &&
-					gray(`create(${formatMs(stats.timings['create component'].total)})`),
+					logVal('create', logMs(stats.timings['create component'].total)),
 			].filter(Boolean),
 		);
 	};
@@ -185,7 +164,7 @@ export const svelteUnrolledPlugin = (
 		getCompilation,
 		transform(code, id) {
 			if (!filter(id)) return;
-			log('transform', id);
+			trace('transform', id);
 			const svelteCompilation: SvelteCompilation = compile(code, {
 				...baseCompileOptions,
 				...{dev},
@@ -210,7 +189,7 @@ export const svelteUnrolledPlugin = (
 			}
 
 			let cssId = replaceExt(id, '.css');
-			log('add css import', cssId);
+			trace('add css import', cssId);
 			// TODO emit file when API is ready - https://github.com/rollup/rollup/issues/2938
 			cacheCss(cssId, css);
 

@@ -2,10 +2,10 @@ import {Plugin} from 'rollup';
 import {gray, green} from 'kleur';
 
 import {assignDefaults} from '../../utils/obj';
-import {noop} from '../../utils/fn';
+import {LogLevel, logger} from '../logger';
 
 export interface PluginOptions {
-	verbose: boolean;
+	logLevel: LogLevel;
 }
 export type RequiredPluginOptions = never;
 export type InitialPluginOptions = PartialExcept<
@@ -13,7 +13,7 @@ export type InitialPluginOptions = PartialExcept<
 	RequiredPluginOptions
 >;
 export const defaultOptions = (): PluginOptions => ({
-	verbose: false,
+	logLevel: LogLevel.Info,
 });
 
 const name = 'diagnostics';
@@ -21,35 +21,31 @@ const name = 'diagnostics';
 export const diagnosticsPlugin = (
 	pluginOptions: InitialPluginOptions = {},
 ): Plugin => {
-	const {verbose} = assignDefaults(defaultOptions(), pluginOptions);
-	const log = verbose
-		? (...args: any[]): void => {
-				console.log(gray(`[${name}]`), ...args);
-		  }
-		: noop;
+	const {logLevel} = assignDefaults(defaultOptions(), pluginOptions);
+	const {trace, info} = logger(logLevel, [gray(`[${name}]`)]);
 
 	return {
 		name,
 		// banner() {}
 		buildStart() {
-			log(green('buildStart'));
+			info(green('buildStart'));
 		},
 		buildEnd() {
-			log(green('buildEnd'));
+			info(green('buildEnd'));
 		},
 		// footer() {}
-		generateBundle(_outputOptions, _bundle, _isWrite) {
-			log(green('generateBundle'), _isWrite);
+		generateBundle(_outputOptions, _bundle, isWrite) {
+			info(green('generateBundle'), {isWrite});
 		},
 		// intro() {}
 		load(id) {
-			log(green('load'), gray(id));
+			trace(green('load'), gray(id));
 			return null;
 		},
-		// options(o) {
-		// 	log(green('options'), o);
-		// 	return null;
-		// },
+		options(o) {
+			trace(green('options'), o);
+			return null;
+		},
 		// outputOptions(o) {
 		// 	log(green('outputOptions'), o);
 		// 	return null;
@@ -58,12 +54,12 @@ export const diagnosticsPlugin = (
 		// renderChunk(_code, _chunk, _options) {}
 		// renderError(_error) {}
 		renderStart() {
-			log(green('renderStart'));
+			info(green('renderStart'));
 		},
 		// resolveDynamicImport(_specifier, _importer) {}
 		// resolveFileUrl(_asset) {}
 		resolveId(importee, _importer) {
-			log(
+			trace(
 				green('resolveId'),
 				gray(importee),
 				// (_importer && gray(_importer)) || '',
@@ -72,12 +68,14 @@ export const diagnosticsPlugin = (
 		},
 		// resolveImportMeta(_property, _asset) {}
 		transform(_code, id) {
-			log(green('transform'), gray(id));
+			trace(green('transform'), gray(id));
 			return null;
 		},
 		watchChange(id) {
-			log(green('watchChange'), gray(id));
+			trace(green('watchChange'), gray(id));
 		},
-		// writeBundle(_bundle) {}
+		writeBundle(_bundle) {
+			info('writeBundle');
+		},
 	};
 };

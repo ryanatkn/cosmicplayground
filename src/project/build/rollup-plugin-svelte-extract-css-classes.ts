@@ -4,14 +4,14 @@ import {Plugin} from 'rollup';
 import {cyan} from 'kleur';
 
 import {assignDefaults} from '../../utils/obj';
-import {noop} from '../../utils/fn';
 import {CssClass} from '../../sy/sy';
 import {SvelteUnrolledCompilation} from './rollup-plugin-svelte-unrolled';
+import {LogLevel, logger, Logger} from '../logger';
 
 export interface PluginOptions {
 	classes: Set<CssClass>;
 	getSvelteCompilation: (id: string) => SvelteUnrolledCompilation | undefined;
-	verbose: boolean;
+	logLevel: LogLevel;
 }
 export type RequiredPluginOptions = 'getSvelteCompilation';
 export type InitialPluginOptions = PartialExcept<
@@ -23,7 +23,7 @@ export const defaultPluginOptions = ({
 }: InitialPluginOptions): PluginOptions => ({
 	getSvelteCompilation,
 	classes: new Set(), // TODO I don't like how this creates unnecessary garbage, even if it's miniscule; seems like poor design
-	verbose: false,
+	logLevel: LogLevel.Info,
 });
 
 export interface SvelteExtractCssClassesPlugin extends Plugin {
@@ -35,16 +35,13 @@ export const name = 'svelte-extract-css-classes';
 export const svelteExtractCssClassesPlugin = (
 	pluginOptions: InitialPluginOptions,
 ): SvelteExtractCssClassesPlugin => {
-	const {classes, getSvelteCompilation, verbose} = assignDefaults(
+	const {classes, getSvelteCompilation, logLevel} = assignDefaults(
 		defaultPluginOptions(pluginOptions),
 		pluginOptions,
 	);
 
-	const log = verbose
-		? (...args: any[]): void => {
-				console.log(cyan(`[${name}]`), ...args);
-		  }
-		: noop;
+	const log = logger(logLevel, [cyan(`[${name}]`)]);
+	const {info} = log;
 
 	return {
 		name,
@@ -57,7 +54,7 @@ export const svelteExtractCssClassesPlugin = (
 		transform(_code, id) {
 			const compilation = getSvelteCompilation(id);
 			if (!compilation) return null;
-			log('transform', id);
+			info('transform', id);
 			extractCssClassesFromHtml(compilation.ast.html, classes, log); // TODO return stats!
 			return null;
 		},
@@ -68,7 +65,7 @@ export const svelteExtractCssClassesPlugin = (
 const extractCssClassesFromHtml = (
 	ast: Node,
 	classes: Set<CssClass>,
-	log: typeof noop,
+	log: Logger,
 ): void => {
 	walk(ast, {
 		enter(node, _parent, _prop, _index) {
@@ -88,9 +85,9 @@ const extractCssClassesFromHtml = (
 const extractCssClassesFromNode = (
 	node: Node,
 	classes: Set<CssClass>,
-	log: typeof noop,
+	log: Logger,
 ) => {
-	// log(`enter node`, node);
+	// log.trace(`enter node`, node);
 
 	const addClasses = (rawText: string) => {
 		for (const c of rawText.split(' ').filter(Boolean)) {

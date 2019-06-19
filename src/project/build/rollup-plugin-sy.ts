@@ -4,8 +4,8 @@ import {createFilter} from 'rollup-pluginutils';
 import * as prettier from 'prettier';
 
 import {assignDefaults} from '../../utils/obj';
-import {noop} from '../../utils/fn';
-import {replaceExt, logWarn} from '../scriptUtils';
+import {replaceExt} from '../scriptUtils';
+import {logger, LogLevel, Logger} from '../logger';
 import {sy, SyBuild, SyConfig} from '../../sy/sy';
 import {removeClasses} from '../../sy/helpers';
 import {CssBuild} from './rollup-plugin-plain-css';
@@ -21,7 +21,7 @@ export interface PluginOptions {
 	configs: Map<string, SyConfig>;
 	builds: Map<string, SyBuild>;
 	prettierOptions: prettier.Options;
-	verbose: boolean;
+	logLevel: LogLevel;
 }
 export type RequiredPluginOptions = 'dev' | 'cacheCss' | 'getCssClasses';
 export type InitialPluginOptions = PartialExcept<
@@ -42,7 +42,7 @@ export const defaultPluginOptions = ({
 	configs: new Map<string, SyConfig>(),
 	builds: new Map<string, SyBuild>(),
 	prettierOptions: {},
-	verbose: false,
+	logLevel: LogLevel.Warn,
 });
 
 export interface SyPlugin extends Plugin {
@@ -64,16 +64,11 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 		configs,
 		builds,
 		prettierOptions,
-		verbose,
+		logLevel,
 	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
 
-	const logTag = cyan(`[${name}]`);
-	const warn = logWarn(logTag);
-	const log = verbose
-		? (...args: any[]): void => {
-				console.log(logTag, ...args);
-		  }
-		: noop;
+	const log = logger(logLevel, [cyan(`[${name}]`)]);
+	const {info, warn} = log;
 
 	const filter = createFilter(include, exclude);
 
@@ -86,14 +81,14 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 		builds,
 		async transform(_code, id) {
 			if (!filter(id)) return null;
-			log('transform', id);
+			info('transform', id);
 
 			const cssId = replaceExt(id, cssExt);
 
 			// TODO optimize - this reads from disk when we already have the source text. (`_code` arg)
 			// how to execute the source script to ge the result? ts-node?
 			const config = await createSyConfig(id, {}, log);
-			log('setting new config', cssId);
+			info('setting new config', cssId);
 			configs.set(cssId, config);
 			changedCssIds.add(cssId); // not diffing the config here
 
@@ -102,7 +97,7 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 		generateBundle(_outputOptions, _bundle, isWrite) {
 			// TODO is `!isWrite` actually the right time to do this?
 			if (!isWrite || !changedCssIds.size) return;
-			log('generateBundle', isWrite);
+			info('generateBundle', isWrite);
 			for (const cssId of changedCssIds) {
 				const config = configs.get(cssId);
 				if (!config) throw Error(`Cannot find config for cssId ${cssId}`);
@@ -111,9 +106,9 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 				// all svelte has been transformed,
 				// so it needs to go here and not the `load` hook or `transform` hooks.
 
-				log('load config', cssId);
+				info('load config', cssId);
 
-				log('creating sy build...');
+				info('creating sy build...');
 				const classes = getCssClasses && getCssClasses();
 				if (removeUnusedClasses && !getCssClasses) {
 					warn(
@@ -132,7 +127,7 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 					classes && removeUnusedClasses
 						? removeClasses(config, classes)
 						: config;
-				log(
+				info(
 					'final config\n',
 					gray('  removing unused classes: ') +
 						(!!classes && removeUnusedClasses) +
@@ -151,17 +146,9 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 			}
 			changedCssIds.clear();
 		},
-		// watchChange(id: string) {
-		// 	if (!paths.has(id)) return;
-		// 	// Importantly, this `id` is the `path` to the script file,
-		// 	// not the `id` referring to the css file used in the rest of the plugin.
-		// 	// See `this.addWatchFile` in the `load` hook.
-		// 	log('changed', id);
-		// 	changedById.set(id, true);
-		// },
 		buildEnd() {
 			if (!configs.size) {
-				warn(logTag, `no sy config files were found`);
+				warn(`no sy config files were found`);
 			}
 		},
 	};
@@ -178,14 +165,14 @@ interface SyConfigModule {
 const createSyConfig = async (
 	configPath: string,
 	configPartial: Partial<SyConfig> = {},
-	log = noop,
+	log: Logger,
 ): Promise<SyConfig> => {
 	delete require.cache[require.resolve(configPath)];
 	const configModule: SyConfigModule = require(configPath);
 
-	log('creating config...');
+	log.info('creating config...');
 	const config = await configModule.createConfig(configPartial);
-	log('created config');
+	log.info('created config');
 
 	return config;
 };
@@ -193,12 +180,12 @@ const createSyConfig = async (
 const createSyBuild = (
 	config: SyConfig,
 	format: boolean,
-	log: typeof noop,
+	log: Logger,
 	prettierOptions: prettier.Options,
 ): SyBuild => {
-	log('build styles...');
+	log.info('build styles...');
 	const build = sy(config);
-	log(
+	log.info(
 		`built styles
 	# defs: ${build.defs.length}
 	# lines: ${(build.styles.match(/\n/g) || []).length + 1}
@@ -213,14 +200,14 @@ const createSyBuild = (
 
 const formatBuild = (
 	build: SyBuild,
-	log: typeof noop,
+	log: Logger,
 	prettierOptions: prettier.Options,
 ): SyBuild => {
-	log('formatting...');
+	log.info('formatting...');
 	const formatted = {
 		...build,
 		styles: prettier.format(build.styles, {parser: 'css', ...prettierOptions}),
 	};
-	log('format complete');
+	log.info('format complete');
 	return formatted;
 };
