@@ -1,4 +1,4 @@
-import {Plugin, InputOptions, ExistingRawSourceMap} from 'rollup';
+import {Plugin, ExistingRawSourceMap} from 'rollup';
 import {outputFile} from 'fs-extra';
 import {createFilter} from 'rollup-pluginutils';
 import {blue} from 'kleur';
@@ -42,9 +42,6 @@ export interface PlainCssPlugin extends Plugin {
 }
 
 export const name = 'plain-css';
-
-export const findPlainCssPlugin = ({plugins}: InputOptions) =>
-	plugins && (plugins.find(p => p.name === name) as PlainCssPlugin | undefined);
 
 export const plainCssPlugin = (
 	pluginOptions: InitialPluginOptions,
@@ -95,6 +92,7 @@ export const plainCssPlugin = (
 		// TODO rewrite when the emit file API is ready https://github.com/rollup/rollup/issues/2938
 		cacheCss,
 		transform(code, id) {
+			// TODO handle multiple bundles? or just one?
 			if (!filter(id)) return;
 			log(`transform id`, id);
 			cacheCss('bundle.css', id, code);

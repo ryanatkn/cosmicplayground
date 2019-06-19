@@ -52,6 +52,37 @@ const commonjsPlugin: typeof commonjsPluginFIXME.default = commonjsPluginFIXME a
 
 const removeUnusedClasses = !dev;
 
+const MAIN_CSS_BUNDLE_NAME = 'bundle.css';
+const SY_CSS_BUNDLE_NAME = 'bundle.sy.css';
+// TODO consider using two separate css plugins
+// it's hard to tell if we'll ever want a single one to be able to coordinate multiple bundles
+const plainCssPluginInstance = plainCssPlugin({
+	sourcemap: dev,
+	verbose: true,
+});
+const cacheMainCss = plainCssPluginInstance.cacheCss.bind(
+	null,
+	MAIN_CSS_BUNDLE_NAME,
+);
+const cacheSyCss = plainCssPluginInstance.cacheCss.bind(
+	null,
+	SY_CSS_BUNDLE_NAME,
+);
+const svelteUnrolledPluginInstance = svelteUnrolledPlugin({
+	dev,
+	cacheCss: cacheMainCss,
+	include: resolvePath('src/client/**/*.svelte'),
+	verbose: true,
+});
+const svelteExtractCssClassesPluginInstance = removeUnusedClasses // dat name lol
+	? svelteExtractCssClassesPlugin({
+			getSvelteCompilation: svelteUnrolledPluginInstance.getCompilation,
+			verbose: true,
+	  })
+	: undefined;
+// TODO all of the above `PluginInstance` stuff is tiresome.
+// consider changing plugins to be `createFooPlugin`
+
 const createInputOptions = (): InputOptions => {
 	const inputOptions: InputOptions = {
 		// — core input options
@@ -65,32 +96,26 @@ const createInputOptions = (): InputOptions => {
 				verbose: true,
 			}),
 			typescriptPlugin(),
-			svelteUnrolledPlugin({
-				include: resolvePath('src/client/**/*.svelte'),
-				dev,
-				verbose: true,
-			}),
+			svelteUnrolledPluginInstance,
+			svelteExtractCssClassesPluginInstance,
 			// currently this uses the result of `svelteUnrolled`'s transform hook
 			// in its own transform hook, so it needs to be placed after it in plugins
 			// TODO is there good a way to warn/error if they're out of order?
-			removeUnusedClasses &&
-				svelteExtractCssClassesPlugin({
-					verbose: true,
-				}),
 			// TODO the order of these is pretty important right now,
 			// but I think they can be made less order-dependent
 			// once the rollup file emit API is ready -
 			// https://github.com/rollup/rollup/issues/2938
 			syPlugin({
 				dev,
+				cacheCss: cacheSyCss,
+				getCssClasses:
+					svelteExtractCssClassesPluginInstance &&
+					svelteExtractCssClassesPluginInstance.getCssClasses,
 				verbose: true,
 				prettierOptions,
 				removeUnusedClasses,
 			}),
-			plainCssPlugin({
-				sourcemap: dev,
-				verbose: true,
-			}),
+			plainCssPluginInstance,
 			resolvePlugin(),
 			commonjsPlugin(),
 			...(dev

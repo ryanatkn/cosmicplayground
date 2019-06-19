@@ -4,7 +4,6 @@ import {
 	Plugin,
 	PluginContext,
 	RollupWarning,
-	InputOptions,
 	ExistingRawSourceMap,
 } from 'rollup';
 import {createFilter} from 'rollup-pluginutils';
@@ -14,11 +13,7 @@ import {assignDefaults} from '../../utils/obj';
 import {noop} from '../../utils/fn';
 import {extractFilename, replaceExt, formatMs} from '../scriptUtils';
 import {srcPath} from '../paths';
-import {
-	PlainCssPlugin,
-	CssBuild,
-	findPlainCssPlugin,
-} from './rollup-plugin-plain-css';
+import {CssBuild} from './rollup-plugin-plain-css';
 
 // TODO type could be improved, not sure how tho
 interface Stats {
@@ -48,6 +43,7 @@ export type SvelteUnrolledCompilation = SvelteCompilation & {
 
 export interface PluginOptions {
 	dev: boolean;
+	cacheCss(id: string, css: string | CssBuild): boolean;
 	include: string | RegExp | (string | RegExp)[] | null | undefined;
 	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
 	compileOptions: CompileOptions;
@@ -70,13 +66,17 @@ export interface PluginOptions {
 				pluginContext: PluginContext,
 		  ) => void);
 }
-export type RequiredPluginOptions = 'dev';
+export type RequiredPluginOptions = 'dev' | 'cacheCss';
 export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
-export const defaultPluginOptions = (): PluginOptions => ({
-	dev: false,
+export const defaultPluginOptions = ({
+	dev,
+	cacheCss,
+}: InitialPluginOptions): PluginOptions => ({
+	dev,
+	cacheCss,
 	include: ['src/**/*.svelte'],
 	exclude: undefined,
 	compileOptions: {},
@@ -123,20 +123,17 @@ const baseCompileOptions: CompileOptions = {
 //     }
 
 export interface SvelteUnrolledPlugin extends Plugin {
-	compilations: Map<string, SvelteUnrolledCompilation>;
+	getCompilation: (id: string) => SvelteUnrolledCompilation | undefined;
 }
 
 export const name = 'svelte-unrolled';
-
-export const findSvelteUnrolledPlugin = ({plugins}: InputOptions) =>
-	plugins &&
-	(plugins.find(p => p.name === name) as SvelteUnrolledPlugin | undefined);
 
 export const svelteUnrolledPlugin = (
 	pluginOptions: InitialPluginOptions,
 ): SvelteUnrolledPlugin => {
 	const {
 		dev,
+		cacheCss,
 		include,
 		exclude,
 		compileOptions,
@@ -144,7 +141,7 @@ export const svelteUnrolledPlugin = (
 		verbose,
 		onwarn,
 		onstats,
-	} = assignDefaults(defaultPluginOptions(), pluginOptions);
+	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
 
 	const log = verbose
 		? (...args: any[]): void => {
@@ -178,21 +175,14 @@ export const svelteUnrolledPlugin = (
 		);
 	};
 
-	const filter = createFilter(include, exclude);
+	const getCompilation = (id: string): SvelteUnrolledCompilation | undefined =>
+		compilations.get(id);
 
-	let plainCssPlugin: PlainCssPlugin | undefined;
-	const cacheCss = (id: string, css: CssBuild): boolean => {
-		if (!plainCssPlugin) throw Error(`${name} depends on PlainCssPlugin`);
-		return plainCssPlugin.cacheCss('bundle.css', id, css);
-	};
+	const filter = createFilter(include, exclude);
 
 	return {
 		name,
-		compilations,
-		options(o) {
-			plainCssPlugin = findPlainCssPlugin(o);
-			return null;
-		},
+		getCompilation,
 		transform(code, id) {
 			if (!filter(id)) return;
 			log('transform', id);

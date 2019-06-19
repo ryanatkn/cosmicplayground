@@ -1,48 +1,42 @@
 import {walk} from 'svelte/compiler';
 import {Node} from 'svelte/types/compiler/interfaces';
-import {Plugin, InputOptions} from 'rollup';
+import {Plugin} from 'rollup';
 import {cyan} from 'kleur';
 
 import {assignDefaults} from '../../utils/obj';
 import {noop} from '../../utils/fn';
 import {CssClass} from '../../sy/sy';
-import {
-	SvelteUnrolledPlugin,
-	SvelteUnrolledCompilation,
-	findSvelteUnrolledPlugin,
-} from './rollup-plugin-svelte-unrolled';
+import {SvelteUnrolledCompilation} from './rollup-plugin-svelte-unrolled';
 
 export interface PluginOptions {
 	classes: Set<CssClass>;
+	getSvelteCompilation: (id: string) => SvelteUnrolledCompilation | undefined;
 	verbose: boolean;
 }
-export type RequiredPluginOptions = never;
+export type RequiredPluginOptions = 'getSvelteCompilation';
 export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
-export const defaultPluginOptions = (): PluginOptions => ({
-	classes: new Set(),
+export const defaultPluginOptions = ({
+	getSvelteCompilation,
+}: InitialPluginOptions): PluginOptions => ({
+	getSvelteCompilation,
+	classes: new Set(), // TODO I don't like how this creates unnecessary garbage, even if it's miniscule; seems like poor design
 	verbose: false,
 });
 
 export interface SvelteExtractCssClassesPlugin extends Plugin {
-	classes: Set<CssClass>;
+	getCssClasses(): Set<CssClass>;
 }
 
 export const name = 'svelte-extract-css-classes';
 
-export const findSvelteExtractCssClassesPlugin = ({plugins}: InputOptions) =>
-	plugins &&
-	(plugins.find(p => p.name === name) as
-		| SvelteExtractCssClassesPlugin
-		| undefined);
-
 export const svelteExtractCssClassesPlugin = (
-	pluginOptions: InitialPluginOptions = {},
+	pluginOptions: InitialPluginOptions,
 ): SvelteExtractCssClassesPlugin => {
-	const {classes, verbose} = assignDefaults(
-		defaultPluginOptions(),
+	const {classes, getSvelteCompilation, verbose} = assignDefaults(
+		defaultPluginOptions(pluginOptions),
 		pluginOptions,
 	);
 
@@ -52,14 +46,6 @@ export const svelteExtractCssClassesPlugin = (
 		  }
 		: noop;
 
-	let svelteUnrolledPlugin: SvelteUnrolledPlugin | undefined;
-	const getSvelteCompilation = (
-		id: string,
-	): SvelteUnrolledCompilation | undefined =>
-		svelteUnrolledPlugin
-			? svelteUnrolledPlugin.compilations.get(id)
-			: undefined;
-
 	return {
 		name,
 		// TODO ok ... so this currently tracks ALL classes
@@ -67,11 +53,7 @@ export const svelteExtractCssClassesPlugin = (
 		// if we do that it allows us to track classes atomically in the rollup build,
 		// but the downside is that they need to be combined or iterated through
 		// in the removal process, which is going to be less efficient.
-		classes,
-		options(o) {
-			svelteUnrolledPlugin = findSvelteUnrolledPlugin(o);
-			return null;
-		},
+		getCssClasses: () => classes,
 		transform(_code, id) {
 			const compilation = getSvelteCompilation(id);
 			if (!compilation) return null;

@@ -6,16 +6,14 @@ import * as prettier from 'prettier';
 import {assignDefaults} from '../../utils/obj';
 import {noop} from '../../utils/fn';
 import {replaceExt, logWarn} from '../scriptUtils';
-import {sy, SyBuild, SyConfig, CssClass} from '../../sy/sy';
+import {sy, SyBuild, SyConfig} from '../../sy/sy';
 import {removeClasses} from '../../sy/helpers';
-import {
-	SvelteExtractCssClassesPlugin,
-	findSvelteExtractCssClassesPlugin,
-} from './rollup-plugin-svelte-extract-css-classes';
-import {PlainCssPlugin, findPlainCssPlugin} from './rollup-plugin-plain-css';
+import {CssBuild} from './rollup-plugin-plain-css';
 
 export interface PluginOptions {
 	dev: boolean;
+	cacheCss(id: string, css: string | CssBuild): boolean;
+	getCssClasses: (() => Set<string>) | undefined;
 	include: string | RegExp | (string | RegExp)[] | null | undefined;
 	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
 	removeUnusedClasses: boolean;
@@ -25,16 +23,21 @@ export interface PluginOptions {
 	prettierOptions: prettier.Options;
 	verbose: boolean;
 }
-export type RequiredPluginOptions = 'dev';
+export type RequiredPluginOptions = 'dev' | 'cacheCss' | 'getCssClasses';
 export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
-export const defaultPluginOptions = (): PluginOptions => ({
-	dev: false,
+export const defaultPluginOptions = ({
+	dev,
+	cacheCss,
+}: InitialPluginOptions): PluginOptions => ({
+	dev,
+	cacheCss,
+	getCssClasses: undefined,
 	include: ['src/**/sy.config.ts'],
 	exclude: undefined,
-	removeUnusedClasses: false,
+	removeUnusedClasses: !dev,
 	cssExt: '.css',
 	configs: new Map<string, SyConfig>(),
 	builds: new Map<string, SyBuild>(),
@@ -52,6 +55,8 @@ export const name = 'sy';
 export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 	const {
 		dev,
+		cacheCss,
+		getCssClasses,
 		include,
 		exclude,
 		removeUnusedClasses,
@@ -60,11 +65,7 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 		builds,
 		prettierOptions,
 		verbose,
-	} = assignDefaults(
-		defaultPluginOptions(),
-		{removeUnusedClasses: !pluginOptions.dev},
-		pluginOptions,
-	);
+	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
 
 	const logTag = cyan(`[${name}]`);
 	const warn = logWarn(logTag);
@@ -76,18 +77,6 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 
 	const filter = createFilter(include, exclude);
 
-	let svelteExtractCssClassesPlugin: SvelteExtractCssClassesPlugin | undefined;
-	const getSvelteExtractedCssClasses = (): Set<CssClass> | undefined =>
-		svelteExtractCssClassesPlugin
-			? svelteExtractCssClassesPlugin.classes
-			: undefined;
-
-	let plainCssPlugin: PlainCssPlugin | undefined;
-	const cacheCss = (id: string, css: string): boolean => {
-		if (!plainCssPlugin) throw Error(`sy cannot find a PlainCssPlugin`);
-		return plainCssPlugin.cacheCss('bundle.sy.css', id, css);
-	};
-
 	const changedCssIds = new Set<string>();
 
 	return {
@@ -95,18 +84,13 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 		// TODO make sure these are kept in sync when ids are removed/added
 		configs,
 		builds,
-		options(o) {
-			svelteExtractCssClassesPlugin = findSvelteExtractCssClassesPlugin(o);
-			plainCssPlugin = findPlainCssPlugin(o);
-			return null;
-		},
 		resolveId(id) {
 			if (!configs.has(id)) return null;
 			return id;
 		},
 		load(id) {
 			if (!configs.has(id)) return null;
-			return '';
+			return ''; // TODO this prevents being able to import stuff, right?
 			// return {code: '', config: configs.get(id)};
 		},
 		async transform(_code, id) {
@@ -133,7 +117,7 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 			changedCssIds.add(cssId); // not diffing the config here
 
 			// TODO emit file when API is ready - https://github.com/rollup/rollup/issues/2938
-			return '';
+			return ''; // TODO this prevents being able to import stuff, right?
 		},
 		generateBundle(_outputOptions, _bundle, isWrite) {
 			// TODO is `!isWrite` actually the right time to do this?
@@ -150,12 +134,18 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 				log('load config', cssId);
 
 				log('creating sy build...');
-				const classes = getSvelteExtractedCssClasses();
-				if (removeUnusedClasses && !classes) {
+				const classes = getCssClasses && getCssClasses();
+				if (removeUnusedClasses && !getCssClasses) {
 					warn(
 						'',
-						'Option `removeUnusedClasses` is true, but none have been extracted.' +
-							' Is `svelteExtractCssClasses` included in the rollup plugins?',
+						'Option `removeUnusedClasses` is true but `getCssClasses` is undefined.',
+					);
+				}
+				if (removeUnusedClasses && (!classes || !classes.size)) {
+					warn(
+						'',
+						'Option `removeUnusedClasses` is true but no classes were provided.' +
+							' Is the plugin providing `getCssClasses` included in the build?',
 					);
 				}
 				const finalConfig =

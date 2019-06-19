@@ -19,7 +19,7 @@ export const logWarn = (prefix: string) => (
 ) => {
 	console.log(
 		prefix,
-		bold(black(bgYellow(' warning '))),
+		bold(black(bgYellow('  warning  '))),
 		yellow(message),
 		...args,
 	);
