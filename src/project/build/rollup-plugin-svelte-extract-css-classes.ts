@@ -11,6 +11,7 @@ import {timeTracker} from '../scriptUtils';
 import {srcPath} from '../paths';
 
 export interface PluginOptions {
+	classAttrMatcher: RegExp;
 	classes: Set<CssClass>;
 	getSvelteCompilation: (id: string) => SvelteUnrolledCompilation | undefined;
 	logLevel: LogLevel;
@@ -24,6 +25,7 @@ export const defaultPluginOptions = ({
 	getSvelteCompilation,
 }: InitialPluginOptions): PluginOptions => ({
 	getSvelteCompilation,
+	classAttrMatcher: new RegExp(/^(class|.+Class)$/),
 	classes: new Set(), // TODO I don't like how this creates unnecessary garbage, even if it's miniscule; seems like poor design
 	logLevel: LogLevel.Info,
 });
@@ -37,10 +39,12 @@ export const name = 'svelte-extract-css-classes';
 export const svelteExtractCssClassesPlugin = (
 	pluginOptions: InitialPluginOptions,
 ): SvelteExtractCssClassesPlugin => {
-	const {classes, getSvelteCompilation, logLevel} = assignDefaults(
-		defaultPluginOptions(pluginOptions),
-		pluginOptions,
-	);
+	const {
+		classAttrMatcher,
+		classes,
+		getSvelteCompilation,
+		logLevel,
+	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
 
 	const log = logger(logLevel, [cyan(`[${name}]`)]);
 	const {info} = log;
@@ -57,7 +61,12 @@ export const svelteExtractCssClassesPlugin = (
 			const compilation = getSvelteCompilation(id);
 			if (!compilation) return null;
 			const elapsed = timeTracker();
-			extractCssClassesFromHtml(compilation.ast.html, classes, log);
+			extractCssClassesFromHtml(
+				compilation.ast.html,
+				classAttrMatcher,
+				classes,
+				log,
+			);
 			info(gray(srcPath(id)), fmtVal('extract_classes', fmtMs(elapsed(), 2))); // TODO track with stats instead of logging
 			return null;
 		},
@@ -67,12 +76,13 @@ export const svelteExtractCssClassesPlugin = (
 // Mutates `classes` set, adding any css classes found in the html `ast`.
 const extractCssClassesFromHtml = (
 	ast: Node,
+	classAttrMatcher: RegExp,
 	classes: Set<CssClass>,
 	log: Logger,
 ): void => {
 	walk(ast, {
 		enter(node, _parent, _prop, _index) {
-			if (node.name === 'class' && node.type === 'Attribute') {
+			if (node.type === 'Attribute' && classAttrMatcher.test(node.name)) {
 				extractCssClassesFromNode(node, classes, log);
 			}
 		},
@@ -98,10 +108,10 @@ const extractCssClassesFromNode = (
 	};
 	switch (node.type) {
 		case 'Attribute': {
-			if (node.name !== 'class') {
-				// TODO invariant/assert
-				throw Error(`Expected node name to be "class": ${node.name}`);
-			}
+			// TODO is this a useful check or just worthless slowdown?
+			// if (!classAttrMatcher.test(node.name)) {
+			// 	throw Error(`Expected node name to be "class": ${node.name}`);
+			// }
 			for (const v of node.value) {
 				extractCssClassesFromNode(v, classes, log);
 			}

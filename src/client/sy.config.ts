@@ -11,7 +11,7 @@ const getVar = <T extends (...args: any) => any>(getProperty: T) => (
 
 // exported consts can be used externally, at buildtime or runtime,
 // and tree-shaking keeps the bundle happy
-export const spacingCount = 10;
+export const spacingCount = 32; // TODO maybe cut out some of the higher numbers here, what is 31 good for? anything, nothing?
 export const spacing = 4;
 export const spacings = arrayOf(spacingCount); // TODO why does rollup always bundle this along with `spacingCount` and `arrayOf`?
 export type SpacingPropertyName = '1px' | '2px' | '3px' | number; // in an ideal world, `number` would be a union of numbers to prevent misuse, but that's a level of hackery I don't want to stoop to yet - maybe codegen types from `spacingCount`? lol
@@ -49,6 +49,18 @@ export const createConfig = async (
 				classDef(`pr-${i}`, `padding-right: ${getSpacingVar(i)}`),
 				classDef(`pb-${i}`, `padding-bottom: ${getSpacingVar(i)}`),
 				classDef(`pl-${i}`, `padding-left: ${getSpacingVar(i)}`),
+				classDef(
+					`px-${i}`,
+					`padding-left: ${getSpacingVar(i)}; padding-right: ${getSpacingVar(
+						i,
+					)}`,
+				), // TODO consider a class composition pattern
+				classDef(
+					`py-${i}`,
+					`padding-top: ${getSpacingVar(i)}; padding-bottom: ${getSpacingVar(
+						i,
+					)}`,
+				), // TODO consider a class composition pattern
 			]),
 
 			// margin
@@ -58,18 +70,44 @@ export const createConfig = async (
 				classDef(`mr-${i}`, `margin-right: ${getSpacingVar(i)}`),
 				classDef(`mb-${i}`, `margin-bottom: ${getSpacingVar(i)}`),
 				classDef(`ml-${i}`, `margin-left: ${getSpacingVar(i)}`),
+				classDef(
+					`mx-${i}`,
+					`margin-left: ${getSpacingVar(i)}; margin-right: ${getSpacingVar(i)}`,
+				), // TODO consider a class composition pattern
+				classDef(
+					`my-${i}`,
+					`margin-top: ${getSpacingVar(i)}; margin-bottom: ${getSpacingVar(i)}`,
+				), // TODO consider a class composition pattern
 			]),
+			classDef('m-auto', 'margin: auto'),
+			classDef(`mt-auto`, `margin-top: auto`),
+			classDef(`mr-auto`, `margin-right: auto`),
+			classDef(`mb-auto`, `margin-bottom: auto`),
+			classDef(`ml-auto`, `margin-left: auto`),
+			classDef(`mx-auto`, `margin-left: auto; margin-right: auto`), // TODO consider a class composition pattern
+			classDef(`my-auto`, `margin-top: auto; margin-bottom: auto`), // TODO consider a class composition pattern
 
 			// width
 			...spacings.map(i => classDef(`w-${i}`, `width: ${getSpacingVar(i)}`)),
+			classDef('w-100', 'width: 100%'), // TODO hmm..this is a little ambiguous but I don't foresee ever using 100 spacings
 
 			// height
 			...spacings.map(i => classDef(`h-${i}`, `height: ${getSpacingVar(i)}`)),
 
+			// TODO flatten/combine usage of `classDefs`? review the high level layout pattern of all of these styles
 			...classDefs({
 				// display
 				block: 'display: block;',
 				flex: 'display: flex',
+				inline: 'display: inline',
+				'inline-block': 'display: inline-block',
+
+				// position
+				static: 'position: static',
+				relative: 'position: relative',
+				absolute: 'position: absolute',
+				fixed: 'position: fixed',
+				sticky: 'position: sticky',
 
 				// flexbox
 				'flex-auto': 'flex: auto',
@@ -92,6 +130,7 @@ export const createConfig = async (
 			// h1 (TODO through h6)
 			...selectorDefs({
 				h1: `font-size: 55px; margin: 0 0 ${getSpacingVar(7)}`, // TODO class composition? {classes: ['m-0', 'mb-2']}
+				img: `vertical-align: top`, // TODO consider just making them blocks; line-blocks are so weird
 			}),
 		],
 	};

@@ -17,8 +17,8 @@
 </script>
 
 <!-- TODO {...$$props} -->
-<a {href} target="_blank" style={linkStyle} class={imgClass}>
-	<img {src} {alt} style={imgStyle} class={linkClass} />
+<a {href} target="_blank" style={linkStyle} class={linkClass}>
+	<img {src} {alt} style={imgStyle} class={imgClass} />
 </a>
 
 <style>

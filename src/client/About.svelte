@@ -22,22 +22,21 @@
 			src="assets/characters/patreon.png"
 			alt="@ryanatkn on patreon"
 			href="https://patreon.com/ryanatkn"
-			imgClass="mix-blend-difference"
-			imgStyle="width: 64px;" />
+			linkClass="w-16"
+			imgClass="mix-blend-difference" />
 		<ImgLink
 			src="assets/characters/twit.png"
 			alt="@cpg_org on twitter"
 			href="https://twitter.com/cpg_org"
-			imgClass="mix-blend-difference"
-			imgStyle="width: 64px;" />
-	</div>
-	<div>
-		<ImgLink
-			src="assets/characters/octocat.png"
-			alt="@ryanatkn/cosmicplayground on github"
-			href="https://github.com/ryanatkn/cosmicplayground"
+			linkClass="w-16"
 			imgClass="mix-blend-difference" />
 	</div>
+	<ImgLink
+		src="assets/characters/octocat.png"
+		alt="@ryanatkn/cosmicplayground on github"
+		href="https://github.com/ryanatkn/cosmicplayground"
+		linkClass="w-30"
+		imgClass="mix-blend-difference" />
 </section>
 <div>
 	<em>tools and toys for expanding minds</em>
@@ -53,12 +52,14 @@
 	href="https://spiderspace.org"
 	src="assets/characters/spider.png"
 	alt="spider"
-	imgStyle="position: absolute; right: -14px; top: -5px;"
-	linkStyle="display: block; position: relative; height: 0;" />
+	imgClass="absolute"
+	imgStyle="right: -14px; top: -5px;"
+	linkClass="block relative h-0" />
+<!-- TODO sy classes for top/right/bottom/left and negative values for everything (yeesh!), w/o copy/pasting the defs -->
 <ImgLink
 	href="https://github.com/ryanatkn/cosmicplayground"
 	src="assets/characters/cosm.png"
 	alt="@ryanatkn/cosmicplayground on github"
-	imgStyle="width: 100%;"
-	imgClass="pixelated"
-	linkStyle="display: block; width: {(100 * GR2i) | 0}%; margin: 0 auto;" />
+	imgClass="w-100 pixelated"
+	linkClass="block mx-auto"
+	linkStyle="width: {(100 * GR2i) | 0}%;" />
