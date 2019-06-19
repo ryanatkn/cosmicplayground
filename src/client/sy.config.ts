@@ -12,7 +12,7 @@ const getVar = <T extends (...args: any) => any>(getProperty: T) => (
 // and tree-shaking keeps the bundle happy
 export const spacingCount = 10;
 export const spacing = 4;
-export const spacings = arrayOf(spacingCount);
+export const spacings = arrayOf(spacingCount); // TODO why does rollup always bundle this along with `spacingCount` and `arrayOf`?
 export type SpacingPropertyName = '1px' | '2px' | '3px' | number; // in an ideal world, `number` would be a union of numbers to prevent misuse, but that's a level of hackery I don't want to stoop to yet - maybe codegen types from `spacingCount`? lol
 export const getSpacingProperty = (name?: SpacingPropertyName): string =>
 	name === undefined ? `--spacing` : `--spacing-${name}`;

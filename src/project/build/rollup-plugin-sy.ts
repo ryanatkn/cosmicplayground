@@ -84,30 +84,11 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 		// TODO make sure these are kept in sync when ids are removed/added
 		configs,
 		builds,
-		resolveId(id) {
-			if (!configs.has(id)) return null;
-			return id;
-		},
-		load(id) {
-			if (!configs.has(id)) return null;
-			return ''; // TODO this prevents being able to import stuff, right?
-			// return {code: '', config: configs.get(id)};
-		},
 		async transform(_code, id) {
 			if (!filter(id)) return null;
 			log('transform', id);
 
 			const cssId = replaceExt(id, cssExt);
-
-			// see `watchChange` hook for `changedById` tracking
-			// this.addWatchFile(id);
-			// if (!changedById.get(id)) {
-			// 	const build = buildByCssId.get(id);
-			// 	if (!build) throw Error(`Missing build for id '${id}'`);
-			// 	log('load cached build');
-			// 	return build.styles;
-			// }
-			// changedById.set(path, false);
 
 			// TODO optimize - this reads from disk when we already have the source text. (`_code` arg)
 			// how to execute the source script to ge the result? ts-node?
@@ -116,8 +97,7 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 			configs.set(cssId, config);
 			changedCssIds.add(cssId); // not diffing the config here
 
-			// TODO emit file when API is ready - https://github.com/rollup/rollup/issues/2938
-			return ''; // TODO this prevents being able to import stuff, right?
+			return null;
 		},
 		generateBundle(_outputOptions, _bundle, isWrite) {
 			// TODO is `!isWrite` actually the right time to do this?
