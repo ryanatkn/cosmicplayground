@@ -1,12 +1,14 @@
 import {walk} from 'svelte/compiler';
 import {Node} from 'svelte/types/compiler/interfaces';
 import {Plugin} from 'rollup';
-import {cyan} from 'kleur';
+import {cyan, gray} from 'kleur';
 
 import {assignDefaults} from '../../utils/obj';
 import {CssClass} from '../../sy/sy';
 import {SvelteUnrolledCompilation} from './rollup-plugin-svelte-unrolled';
-import {LogLevel, logger, Logger} from '../logger';
+import {LogLevel, logger, Logger, fmtVal, fmtMs} from '../logger';
+import {timeTracker} from '../scriptUtils';
+import {srcPath} from '../paths';
 
 export interface PluginOptions {
 	classes: Set<CssClass>;
@@ -54,8 +56,9 @@ export const svelteExtractCssClassesPlugin = (
 		transform(_code, id) {
 			const compilation = getSvelteCompilation(id);
 			if (!compilation) return null;
-			info('transform', id);
-			extractCssClassesFromHtml(compilation.ast.html, classes, log); // TODO return stats!
+			const elapsed = timeTracker();
+			extractCssClassesFromHtml(compilation.ast.html, classes, log);
+			info(gray(srcPath(id)), fmtVal('extract_classes', fmtMs(elapsed(), 2))); // TODO track with stats instead of logging
 			return null;
 		},
 	};
@@ -79,8 +82,7 @@ const extractCssClassesFromHtml = (
 
 // TODO better way to do this?
 // support more things like certain CallExpression/ArrayExpression patterns?
-// enter/exit stack tracking w/ children maybe?
-// so we know if we're "inside" a class attribute no matter how complicated it gets
+// enter/leave stack tracking w/ children maybe?
 
 const extractCssClassesFromNode = (
 	node: Node,

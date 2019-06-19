@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import * as fp from 'path';
 
 import {logger, LogLevel} from './logger';
+import {round} from '../utils/math';
 
 export const argv = minimist(process.argv.slice(2));
 export const {dry} = argv;
@@ -31,3 +32,13 @@ export const replaceExt = (path: string, ext: string): string =>
 
 export const extractFilename = (path: string): string =>
 	replaceExt(fp.basename(path), '');
+
+export const timeTracker = (decimals = 2) => {
+	let start = process.hrtime.bigint();
+	return (reset = true): number => {
+		const end = process.hrtime.bigint();
+		const elapsed = round(Number(end - start) / 1000000, decimals);
+		if (reset) start = process.hrtime.bigint();
+		return elapsed;
+	};
+};

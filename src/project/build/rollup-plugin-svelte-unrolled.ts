@@ -11,7 +11,7 @@ import {magenta} from 'kleur';
 
 import {assignDefaults} from '../../utils/obj';
 import {extractFilename, replaceExt} from '../scriptUtils';
-import {LogLevel, logger, logVal, logMs} from '../logger';
+import {LogLevel, logger, fmtVal, fmtMs} from '../logger';
 import {srcPath} from '../paths';
 import {CssBuild} from './rollup-plugin-plain-css';
 
@@ -103,20 +103,7 @@ const baseCompileOptions: CompileOptions = {
 	cssOutputFilename: undefined, // A string used for your CSS sourcemap.
 };
 
-// TODO
-// - clean up ts warnings
-// - typescript!
-// - track this timing and add to stats
-//   const getElapsed = trackElapsed();
-//   stats.timings.classes (separate or combine walk and generate? also track css creation?)
-//   process.hrtime()
-//     var start = process.hrtime();
-//     var elapsed_time = function(note){
-//         var precision = 3; // 3 decimal places
-//         var elapsed = process.hrtime(start)[1] / 1000000; // divide by a million to get nano to milli
-//         console.log(process.hrtime(start)[0] + " s, " + elapsed.toFixed(precision) + " ms - " + note); // print message + time
-//         start = process.hrtime(); // reset the timer
-//     }
+// TODO typescript!
 
 export interface SvelteUnrolledPlugin extends Plugin {
 	getCompilation: (id: string) => SvelteUnrolledCompilation | undefined;
@@ -143,13 +130,13 @@ export const svelteUnrolledPlugin = (
 
 	const handleStats = (id: string, stats: Stats): void => {
 		info(
-			logVal('stats', srcPath(id)),
+			fmtVal('stats', srcPath(id)),
 			...[
-				logVal('total', logMs(stats.timings.total)),
+				fmtVal('total', fmtMs(stats.timings.total)),
 				stats.timings.parse &&
-					logVal('parse', logMs(stats.timings.parse.total)),
+					fmtVal('parse', fmtMs(stats.timings.parse.total)),
 				stats.timings['create component'] &&
-					logVal('create', logMs(stats.timings['create component'].total)),
+					fmtVal('create', fmtMs(stats.timings['create component'].total)),
 			].filter(Boolean),
 		);
 	};

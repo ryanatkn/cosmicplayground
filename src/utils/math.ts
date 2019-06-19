@@ -18,3 +18,8 @@ export const GR6 = Math.pow(GR, 6);
 export const GR6i = 1 / GR6;
 export const GR7 = Math.pow(GR, 7);
 export const GR7i = 1 / GR7;
+
+export const round = (n: number, decimals: number): number => {
+	const mult = Math.pow(10, decimals);
+	return Math.round(n * mult) / mult;
+};

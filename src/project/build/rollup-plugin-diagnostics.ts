@@ -2,7 +2,8 @@ import {Plugin} from 'rollup';
 import {gray, green} from 'kleur';
 
 import {assignDefaults} from '../../utils/obj';
-import {LogLevel, logger} from '../logger';
+import {LogLevel, logger, fmtVal, fmtMs} from '../logger';
+import {timeTracker} from '../scriptUtils';
 
 export interface PluginOptions {
 	logLevel: LogLevel;
@@ -24,6 +25,9 @@ export const diagnosticsPlugin = (
 	const {logLevel} = assignDefaults(defaultOptions(), pluginOptions);
 	const {trace, info} = logger(logLevel, [gray(`[${name}]`)]);
 
+	const elapsedTotal = timeTracker(); // TODO combine with svelte timings
+
+	// TODO consider returning 2 plugins, one to be put first and one to go last to track timings
 	return {
 		name,
 		// banner() {}
@@ -58,24 +62,28 @@ export const diagnosticsPlugin = (
 		},
 		// resolveDynamicImport(_specifier, _importer) {}
 		// resolveFileUrl(_asset) {}
-		resolveId(importee, _importer) {
+		resolveId(importee, importer) {
 			trace(
 				green('resolveId'),
 				gray(importee),
-				// (_importer && gray(_importer)) || '',
+				(importer && gray('<- ' + importer)) || '',
 			);
 			return null;
 		},
 		// resolveImportMeta(_property, _asset) {}
-		transform(_code, id) {
-			trace(green('transform'), gray(id));
+		transform(code, id) {
+			trace(
+				green('transform'),
+				gray(id),
+				fmtVal('len', (code && code.length) || 0),
+			);
 			return null;
 		},
 		watchChange(id) {
 			trace(green('watchChange'), gray(id));
 		},
 		writeBundle(_bundle) {
-			info('writeBundle');
+			info('writeBundle', fmtVal('totalElapsed', fmtMs(elapsedTotal())));
 		},
 	};
 };

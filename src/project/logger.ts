@@ -1,6 +1,7 @@
 import {red, yellow, gray, black, bgYellow, bgRed, white} from 'kleur';
 
 import {noop} from '../utils/fn';
+import {round} from '../utils/math';
 
 export type Log = (...args: any[]) => void;
 
@@ -54,10 +55,9 @@ export const logger = (
 	};
 };
 
-export const logVal = (key: string, val: string | number): string =>
+export const fmtVal = (key: string, val: string | number): string =>
 	gray(`${key}(`) + val + gray(')');
 
-export const logMs = (ms: number, decimals = 1): string => {
-	const mult = Math.pow(10, decimals);
-	return white((Math.round(ms * mult) / mult).toFixed(decimals)) + gray('ms');
+export const fmtMs = (ms: number, decimals = 1): string => {
+	return white(round(ms, decimals).toFixed(decimals)) + gray('ms');
 };
