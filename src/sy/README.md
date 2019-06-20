@@ -28,6 +28,7 @@ maximize control, flexibility, and performance with minimal costs.
   so you can use css features like custom properties (css vars)
   and future stuff without needing to update the library
 - utility classes have few of the drawbacks of inline styles and css modules
+- types :frog:
 - compile-time tools are the forever hotness
 
 ## key tradeoffs
