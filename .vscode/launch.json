@@ -1,0 +1,18 @@
+{
+  // sudo ln -s "$(which node)" /usr/local/bin/node
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "build",
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "args": ["${workspaceFolder}/src/project/build/build.ts"],
+      "runtimeExecutable": "/home/ryan/.nvm/versions/node/v12.3.1/bin/node",
+      "env": {
+        "TS_NODE_TRANSPILE_ONLY": "true",
+        "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\"}"
+      }
+    }
+  ]
+}
