@@ -1,5 +1,5 @@
 import {Plugin} from 'rollup';
-import {gray, green} from 'kleur';
+import {gray, yellow} from 'kleur';
 
 import {assignDefaults} from '../../utils/obj';
 import {LogLevel, logger, fmtVal, fmtMs} from '../logger';
@@ -32,39 +32,42 @@ export const diagnosticsPlugin = (
 		name,
 		// banner() {}
 		buildStart() {
-			info(green('buildStart'));
+			info(yellow('buildStart'));
 		},
 		buildEnd() {
-			info(green('buildEnd'));
+			info(yellow('buildEnd'));
 		},
 		// footer() {}
 		generateBundle(_outputOptions, _bundle, isWrite) {
-			info(green('generateBundle'), {isWrite});
+			info(yellow('generateBundle'), {isWrite});
 		},
 		// intro() {}
 		load(id) {
-			trace(green('load'), gray(id));
+			trace(yellow('load'), gray(id));
 			return null;
 		},
 		options(o) {
-			trace(green('options'), o);
+			trace(yellow('options'), o);
 			return null;
 		},
 		// outputOptions(o) {
-		// 	log(green('outputOptions'), o);
+		// 	log(yellow('outputOptions'), o);
 		// 	return null;
 		// },
 		// outro() {}
-		// renderChunk(_code, _chunk, _options) {}
+		renderChunk(_code, _chunk, _options) {
+			info(yellow('renderChunk'), _chunk.name);
+			return null;
+		},
 		// renderError(_error) {}
 		renderStart() {
-			info(green('renderStart'));
+			info(yellow('renderStart'));
 		},
 		// resolveDynamicImport(_specifier, _importer) {}
 		// resolveFileUrl(_asset) {}
 		resolveId(importee, importer) {
 			trace(
-				green('resolveId'),
+				yellow('resolveId'),
 				gray(importee),
 				(importer && gray('<- ' + importer)) || '',
 			);
@@ -73,17 +76,20 @@ export const diagnosticsPlugin = (
 		// resolveImportMeta(_property, _asset) {}
 		transform(code, id) {
 			trace(
-				green('transform'),
+				yellow('transform'),
 				gray(id),
 				fmtVal('len', (code && code.length) || 0),
 			);
 			return null;
 		},
 		watchChange(id) {
-			trace(green('watchChange'), gray(id));
+			trace(yellow('watchChange'), gray(id));
 		},
 		writeBundle(_bundle) {
-			info('writeBundle', fmtVal('totalElapsed', fmtMs(elapsedTotal())));
+			info(
+				yellow('writeBundle'),
+				fmtVal('totalElapsed', fmtMs(elapsedTotal())),
+			);
 		},
 	};
 };

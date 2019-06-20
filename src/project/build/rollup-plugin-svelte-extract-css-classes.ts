@@ -10,8 +10,14 @@ import {LogLevel, logger, Logger, fmtVal, fmtMs} from '../logger';
 import {timeTracker} from '../scriptUtils';
 import {srcPath} from '../paths';
 
+// TODO fill in use cases when they're encountered.
+// For now this supports the `cls('class literals')` and
+// some attribute patterns like `class="foo {a ? 'b' : 'c'}"`.
+// TODO class directives! `class:active={isActive}`
+
 export interface PluginOptions {
 	classAttrMatcher: RegExp;
+	classFnMatcher: RegExp;
 	classes: Set<CssClass>;
 	getSvelteCompilation: (id: string) => SvelteUnrolledCompilation | undefined;
 	logLevel: LogLevel;
@@ -25,6 +31,7 @@ export const defaultPluginOptions = ({
 	getSvelteCompilation,
 }: InitialPluginOptions): PluginOptions => ({
 	classAttrMatcher: new RegExp(/^(class|.+Class)$/),
+	classFnMatcher: new RegExp(/^(cls)$/),
 	classes: new Set(), // TODO I don't like how this creates unnecessary garbage, even if it's miniscule; seems like poor design
 	getSvelteCompilation,
 	logLevel: LogLevel.Info,
@@ -41,6 +48,7 @@ export const svelteExtractCssClassesPlugin = (
 ): SvelteExtractCssClassesPlugin => {
 	const {
 		classAttrMatcher,
+		classFnMatcher,
 		classes,
 		getSvelteCompilation,
 		logLevel,
@@ -61,9 +69,15 @@ export const svelteExtractCssClassesPlugin = (
 			const compilation = getSvelteCompilation(id);
 			if (!compilation) return null;
 			const elapsed = timeTracker();
-			extractCssClassesFromHtml(
+			extractCssClassesFromMarkup(
 				compilation.ast.html,
 				classAttrMatcher,
+				classes,
+				log,
+			);
+			extractCssClassesFromScript(
+				compilation.ast.instance,
+				classFnMatcher,
 				classes,
 				log,
 			);
@@ -73,8 +87,8 @@ export const svelteExtractCssClassesPlugin = (
 	};
 };
 
-// Mutates `classes` set, adding any css classes found in the html `ast`.
-const extractCssClassesFromHtml = (
+// Mutates `classes` set, adding any css classes found in the html ast.
+const extractCssClassesFromMarkup = (
 	ast: Node,
 	classAttrMatcher: RegExp,
 	classes: Set<CssClass>,
@@ -83,7 +97,32 @@ const extractCssClassesFromHtml = (
 	walk(ast, {
 		enter(node, _parent, _prop, _index) {
 			if (node.type === 'Attribute' && classAttrMatcher.test(node.name)) {
+				// TODO can we grab basic identifiers without the `classFnMatcher`?
 				extractCssClassesFromNode(node, classes, log);
+			}
+		},
+		// leave(node, parent, prop, index) {},
+	});
+};
+
+// Mutates `classes` set, adding any css classes found in the js ast.
+const extractCssClassesFromScript = (
+	ast: Node,
+	classFnMatcher: RegExp,
+	classes: Set<CssClass>,
+	log: Logger,
+): void => {
+	walk(ast, {
+		enter(node, parent, _prop, _index) {
+			// TODO elide the function call? can we modify the ast?
+			if (
+				node.type === 'Identifier' &&
+				parent &&
+				parent.type === 'CallExpression' &&
+				classFnMatcher.test(node.name)
+			) {
+				// if (parent.arguments.length !== 1) throw Error(`rely on typescript?`)
+				extractCssClassesFromNode(parent.arguments[0], classes, log);
 			}
 		},
 		// leave(node, parent, prop, index) {},

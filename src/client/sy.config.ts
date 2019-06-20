@@ -3,6 +3,10 @@ import {classDef, classDefs, selectorDef, selectorDefs} from '../sy/helpers';
 import {arrayOf, flatMap} from '../utils/arr';
 import {blendModes} from '../css/blendModes';
 
+// helper for tagging dynamic css class usage so `sy` sees it for inclusion.
+// see `classFnMatcher` in `rollup-plugin-svelte-extract-css-classes`.
+export const cls = (cssClasses: string): string => cssClasses; // TODO consider accepting multiple params and joining? is that a valid use case? we'll know when/if we get there
+
 // generic css-related utils
 const toProperty = <T>(prefix: string) => (suffix?: T): string =>
 	suffix === undefined ? `--${prefix}` : `--${prefix}-${suffix}`;

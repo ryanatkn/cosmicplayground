@@ -3,8 +3,13 @@
 	import CommunityLinks from './CommunityLinks.svelte';
 	import Credits from './Credits.svelte';
 	import {GR2i} from '../utils/math.js';
+	import {cls} from './sy.config.js';
 
 	export let name;
+
+	// initial test for class extraction helper
+	// see the comments on the helper for more
+	const headerClass = cls('pr-7');
 
 	/*
 
@@ -16,7 +21,7 @@
 </script>
 
 <section class="flex">
-	<h1 class="flex-1 pr-7"> {name} </h1>
+	<h1 class="flex-1 {headerClass}"> {name} </h1>
 	<div class="flex flex-col">
 		<ImgLink
 			src="assets/characters/patreon.png"
