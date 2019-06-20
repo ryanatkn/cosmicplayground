@@ -21,14 +21,21 @@ maximize control, flexibility, and performance with minimal costs.
 
 - only used styles get bundled, so you can go nuts generating tons of css
   and the only cost is a little compilation speed
-- flexibility to use whatever patterns a project needs
+- flexibility to use whatever patterns and tools a project needs
 - excellent interop with js/ts - abstractions can disappear at runtime,
-  but you can also import variables and helpers like any other modules
+  but you can also import script variables and helpers like any other js/ts
 - puts handles directly on the web platform,
   so you can use css features like custom properties (css vars)
   and future stuff without needing to update the library
 - utility classes have few of the drawbacks of inline styles and css modules
 - compile-time tools are the forever hotness
+
+## key tradeoffs
+
+- writing styles in js/ts is unfriendly and inaccessible to many css users
+- utility classes make some people wretch,
+  and others simply prefer writing css and classes
+- you may not be able to unsee a lack of awesomeness in other solutions
 
 ## disclaimer
 
