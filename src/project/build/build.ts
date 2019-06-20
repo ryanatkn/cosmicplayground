@@ -32,6 +32,7 @@ import {syPlugin} from './rollup-plugin-sy';
 import {svelteUnrolledPlugin} from './rollup-plugin-svelte-unrolled';
 import {svelteExtractCssClassesPlugin} from './rollup-plugin-svelte-extract-css-classes';
 import {diagnosticsPlugin} from './rollup-plugin-diagnostics';
+import {bundleWriterPlugin} from './rollup-plugin-bundle-writer';
 
 const pkg = require('../../../package.json'); // TODO import differently?
 const prettierOptions: prettier.Options = pkg.prettier;
@@ -122,6 +123,7 @@ const createInputOptions = (): InputOptions => {
 							servePlugin({contentBase: resolvePath('static'), host, port}),
 				  ]
 				: [terserPlugin.terser()]),
+			bundleWriterPlugin(),
 		],
 
 		// — advanced input options

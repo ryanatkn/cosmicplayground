@@ -7,3 +7,7 @@ type PartialExcept<T, K extends keyof T> = {[P in K]: T[P]} &
 	{[P in Exclude<keyof T, K>]?: T[Exclude<keyof T, K>]};
 type PartialOnly<T, K extends keyof T> = {[P in K]?: T[P]} &
 	{[P in Exclude<keyof T, K>]: T[Exclude<keyof T, K>]};
+
+type PartialValues<T> = {
+	[P in keyof T]: Partial<T[P]>;
+};

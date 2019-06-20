@@ -13,7 +13,7 @@ export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
-export const defaultOptions = (): PluginOptions => ({
+export const defaultPluginOptions = (): PluginOptions => ({
 	logLevel: LogLevel.Info,
 });
 
@@ -22,7 +22,7 @@ const name = 'diagnostics';
 export const diagnosticsPlugin = (
 	pluginOptions: InitialPluginOptions = {},
 ): Plugin => {
-	const {logLevel} = assignDefaults(defaultOptions(), pluginOptions);
+	const {logLevel} = assignDefaults(defaultPluginOptions(), pluginOptions);
 	const {trace, info} = logger(logLevel, [gray(`[${name}]`)]);
 
 	const elapsedTotal = timeTracker(); // TODO combine with svelte timings
