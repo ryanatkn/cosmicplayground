@@ -54,16 +54,14 @@ npm start
 # open your browser to localhost:8999
 ```
 
-## tech
+## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
 
 Made with [`svelte`](https://github.com/sveltejs/svelte),
 [`typescript`](https://github.com/microsoft/TypeScript),
 [`rollup`](https://github.com/rollup/rollup),
 [`prettier`](https://github.com/prettier/prettier),
 [`node`](https://nodejs.org),
-[`github`](https://github.com), [`git`](https://git-scm.com/)
-
-## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
+[`github`](https://github.com), and [`git`](https://git-scm.com/).
 
 This project relies on content and code that has been generously
 made freely available through permissive licensing, like
