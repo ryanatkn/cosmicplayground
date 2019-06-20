@@ -1,6 +1,6 @@
 # sy<sub><sub>@cosmicplayground</sub></sub>
 
-> a build time css-in-js (or _css-from-ts_) tool
+> a build-time css-in-js (or _css-from-ts_) tool
 > aiming for _best-of-all-worlds tradeoffs_
 
 ```ts
@@ -11,11 +11,11 @@
 
 `sy` is a css tool with the goal to support powerful, typesafe,
 leak-proof abstractions that disappear before runtime to deliver
-the best possible UX without compromising much on DX.
+the best possible UX without compromising much on our precious DX.
 Its target audience is developers who are comfortable
 with js/ts, build tools, and css heresy.
-It leverages build time scripts and optimizations to
-maximize control, flexibility, and performance with minimal costs.
+It leverages build-time scripts and optimizations to
+minimize costs while maximizing control, flexibility, and performance.
 
 ## key benefits
 
@@ -35,14 +35,19 @@ maximize control, flexibility, and performance with minimal costs.
 
 - writing styles in js/ts is unfriendly and inaccessible to many css users
 - utility classes make some people wretch,
-  and others simply prefer writing css and classes
+  and others simply prefer writing css and classes -
+  `sy` doesn't force them but they seem to be its sweet spot
+- lacks css conventions and opinions, leaving most work to you
+  and enforcing no standardization across projects,
+  so much of "learning `sy`" may not translate between codebases
 - you may not be able to unsee a lack of awesomeness in other solutions
 
 ## disclaimer
 
 There are many fantastic tools for working with css,
 and right now you should probably use one of them instead of `sy`.
-This library is immature and will change a lot.
+This library is immature and will change a lot,
+but it is already being used on deployed websites.
 
 ## usage
 
@@ -58,22 +63,17 @@ and [`rollup-plugin-plain-css`](../project/build/rollup-plugin-plain-css.ts).
 
 > TODO clean this up and organize it better
 
-`sy` uses code (js/ts/etc) to generate styles as a build step.
+`sy` uses scripts (js/ts/etc) to generate styles as a build step,
+or at runtime if that's on the menu.
 Typical usage has the developer define a config file
 that exports a data structure which gets converted into plain css.
-
-It was made with the
-[utility class pattern](https://css-tricks.com/need-css-utility-library/)
-in mind, but it should work with any styling methodology.
-The core is small and simple enough to work with most tools,
-and it was created to work well with `svelte` and `rollup`.
 
 Most css-in-js solutions come with a significant runtime performance penalty,
 and most utility class libraries generate large stylesheets
 and need a large set of tools.
-`sy` uses build time scripting to get the best of both worlds with little code:
-[its `rollup` plugins](../project/build) make it easy to compile to plain css
-and cull unused styles, so your users receive the best the web can offer.
+`sy` uses build-time scripting to get the best of both worlds with little code:
+[its `rollup` plugins](../project/build) make it easy to cull unused styles
+and compile to plain css, so your users receive the best the web can offer.
 It also plays nicely with TypeScript and other typed languages,
 so you can enjoy powerfully pleasant tooling and safe refactoring.
 
@@ -91,10 +91,16 @@ Developers can use whatever patterns they like to build that data.
 in that it's less like a library or framework,
 and more like a simple pattern with a reference implementation.
 
-For the standard use case, `sy` is designed to do its work at build time
-and integrate seamlessly with other buildtime and runtime tools and processes.
+For the standard use case, `sy` is designed to do its work at build-time
+and integrate seamlessly with other build-time and runtime tools and processes.
 It has no dependencies on any libraries or platform-specific features,
 so it can be used at runtime in the browser if that's what a project needs.
+
+It was made with the
+[utility class pattern](https://css-tricks.com/need-css-utility-library/)
+in mind, but it should work with any styling methodology.
+The core is small and simple enough to work with most tools,
+and it was created to work well with `svelte` and `rollup`.
 
 Unlike tools like [tailwindcss](https://github.com/tailwindcss/tailwindcss),
 `sy` brings no opinions about class names, responsive design, colors, etc;
@@ -119,7 +125,7 @@ aiming for _best-of-all-worlds tradeoffs_, and so far it seems pretty great.
 
 ## inspirations
 
-- compile time sourcery: [svelte](https://github.com/sveltejs/svelte),
+- compile-time sourcery: [svelte](https://github.com/sveltejs/svelte),
   macros in lisps and other languages
 - utility class libraries:
   [tailwindcss](https://github.com/tailwindcss/tailwindcss),
@@ -137,4 +143,4 @@ aiming for _best-of-all-worlds tradeoffs_, and so far it seems pretty great.
 - for production, you'll probably want to minify your css with something like
   [`csso`](https://github.com/css/csso)
 - you can use `sy` to generate sass/less/postcss/etc,
-  but it's also nice to use 100% TypeScript and target the web platform
+  but it's also nice to use 100% TypeScript and target the web platform directly
