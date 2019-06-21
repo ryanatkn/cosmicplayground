@@ -13,7 +13,7 @@
 leak-proof abstractions that disappear before runtime to deliver
 the best possible UX without compromising much on our precious DX.
 Its target audience is developers who are comfortable
-with js/ts, build tools, and css heresy.
+with js/ts, build tools, owning their conventions, and css heresy.
 It leverages build-time scripts and optimizations to
 minimize costs while maximizing control, flexibility, and performance.
 
