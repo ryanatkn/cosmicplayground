@@ -21,26 +21,33 @@ minimize costs while maximizing control, flexibility, and performance.
 
 - only used styles get bundled, so you can go nuts generating tons of css
   and the only cost is a little compilation speed
-- flexibility to use whatever patterns and tools a project needs
+- flexibility to use whatever names/patterns/tools a project/developer wants
 - excellent interop with js/ts - abstractions can disappear at runtime,
   but you can also import script variables and helpers like any other js/ts
 - puts handles directly on the web platform,
   so you can use css features like custom properties (css vars)
   and future stuff without needing to update the library
-- utility classes have few of the drawbacks of inline styles and css modules
 - types :frog:
+- utility classes have few of the drawbacks of inline styles and css modules,
+  and they're just one tool in the styling kit
+  (`sy` can style any selectors)
 - compile-time tools are the forever hotness
 
-## key tradeoffs
+## key tradeoffs :neutral_face:
 
 - writing styles in js/ts is unfriendly and inaccessible to many css users
-- utility classes make some people wretch,
-  and others simply prefer writing css and classes -
-  `sy` doesn't force them but they seem to be its sweet spot
+- utility classes (e.g. a `block` class that that applies `display: block`)
+  make some people wretch, and others simply prefer writing classes and css -
+  `sy` doesn't force this pattern but they seem to be a sweet spot
 - lacks css conventions and opinions, leaving most work to you
   and enforcing no standardization across projects,
   so much of "learning `sy`" may not translate between codebases
-- you may not be able to unsee a lack of awesomeness in other solutions
+- dynamic styles defined in scripts must currently (always forever?) be marked
+  with a helper function, e.g. `const classes = sy('my dynamic classes')`,
+  but dynamic styles in mark are generally supported,
+  e.g. `class="static {is ? 'dynamic' : 'thisworks'}"`.
+  (I'd appreciate help expanding the supported use cases here)
+- you may not be able to unsee a lack of awesomeness in other solutions :sob:
 
 ## disclaimer
 
