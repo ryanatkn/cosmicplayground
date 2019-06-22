@@ -476,7 +476,7 @@
 	}
 	.easing-aud-viz-mouth-wrapper {
 		position: absolute;
-		animation: easing-aud-viz-dance 5s cubic-bezier(0.785, 0.135, 0.15, 0.86)
+		animation: easing-aud-viz-dance 10s cubic-bezier(0.785, 0.135, 0.15, 0.86)
 			infinite;
 		transform-origin: middle middle;
 	}
