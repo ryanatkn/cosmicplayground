@@ -12,7 +12,8 @@
       "env": {
         "TS_NODE_TRANSPILE_ONLY": "true",
         "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\"}",
-        "NODE_ENV": "production"
+        // "NODE_ENV": "production"
+        "NODE_ENV": "development"
       }
     }
   ]

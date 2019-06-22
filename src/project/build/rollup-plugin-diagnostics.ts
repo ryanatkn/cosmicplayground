@@ -55,8 +55,13 @@ export const diagnosticsPlugin = (
 		// 	return null;
 		// },
 		// outro() {}
-		renderChunk(_code, _chunk, _options) {
-			info(yellow('renderChunk'), _chunk.name);
+		renderChunk(_code, chunk, _options) {
+			info(
+				yellow('renderChunk'),
+				chunk.name,
+				chunk.fileName,
+				chunk.facadeModuleId && gray(chunk.facadeModuleId),
+			);
 			return null;
 		},
 		// renderError(_error) {}

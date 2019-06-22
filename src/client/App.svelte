@@ -6,6 +6,7 @@
 	import Overlay from './Overlay.svelte';
 	import GalaxyBg from './GalaxyBg.svelte';
 	import Construction from './Construction.svelte';
+	import BundleVision from './BundleVision.svelte';
 	import About from './About.svelte';
 	import ClockControls from './ClockControls.svelte';
 	import CommunityLinks from './CommunityLinks.svelte';
@@ -23,7 +24,7 @@
 	export let name;
 
 	// TODO refactor all of this view code with proper routing
-	export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | hearingTest | transitionDesigner | easingViz | easingAudViz | paintFreqs
+	export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | bundleVision | hearingTest | transitionDesigner | easingViz | easingAudViz | paintFreqs
 
 	export let windowWidth = window.innerWidth;
 	export let windowHeight = window.innerHeight;
@@ -87,7 +88,7 @@
 								alt="cosm"
 								class="pixelated"
 								style="width: 32px; height: 32px; margin-right: 10px;" />
-							{name}
+							 {name}
 							<img
 								src="assets/characters/cosm.png"
 								alt="cosm"
@@ -190,6 +191,9 @@
 						height={75}
 						hzItems={[2, 3, 4]}
 						lowestHzItemCount={1} />
+				</li>
+				<li class="thumbnail" on:click={() => view.set('bundleVision')}>
+					 {'{ bundle vision }'}
 				</li>
 				<li class="thumbnail" on:click={() => view.set('construction')}>
 					{#if $clock.running}
@@ -340,6 +344,14 @@
 			elapsedTime={$clock.time}
 			lowestHzItemCount={2}
 			hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+	</section>
+{:else if $view === 'bundleVision'}
+	<!-- // TODO path - see `src/project/paths.ts` for more -->
+	<section class="content">
+		<div class="back-button-wrapper">
+			<BackButton {view} />
+		</div>
+		<BundleVision url="/bundle.stats.json" />
 	</section>
 {:else if $view === 'construction'}
 	<section class="content">

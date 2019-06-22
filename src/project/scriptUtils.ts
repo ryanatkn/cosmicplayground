@@ -6,13 +6,18 @@ import * as fp from 'path';
 
 import {logger, LogLevel} from './logger';
 import {round} from '../utils/math';
+import {truncate} from '../utils/str';
 
 export const argv = minimist(process.argv.slice(2));
 export const {dry} = argv;
 
+const MAX_SCRIPT_ERROR_LOG_LENGTH = 1000;
+
 export const handleScriptError = (err: Error): void => {
 	const {error} = logger(LogLevel.Error, [red('[handleScriptError]')]);
-	error(err.stack ? yellow(err.stack) : yellow(`Error: ${err.message}`));
+	const msg = err.stack ? yellow(err.stack) : yellow(`Error: ${err.message}`);
+	const truncated = truncate(msg, MAX_SCRIPT_ERROR_LOG_LENGTH);
+	error(truncated);
 	process.exit(1);
 };
 

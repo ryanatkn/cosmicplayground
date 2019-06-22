@@ -35,3 +35,5 @@ export const flatMap = <T, U>(
 };
 
 export const flatten = <T>(arr: (T | T[])[]): T[] => flatMap(arr, identity);
+
+export const last = <T>(arr: T[]): T => arr[arr.length - 1];

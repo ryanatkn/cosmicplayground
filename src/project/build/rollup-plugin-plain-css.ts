@@ -7,7 +7,7 @@ import {decode, encode, SourceMapSegment} from 'sourcemap-codec';
 
 import {assignDefaults} from '../../utils/obj';
 import {LogLevel, logger, fmtVal} from '../logger';
-import {srcPath} from '../paths';
+import {toSrcPath} from '../paths';
 
 // TODO upstream rollup type?
 export type CssBuild = {
@@ -77,7 +77,7 @@ export const plainCssPlugin = (
 		// I think this comparison is safe - sourcemap should change if code changes, eh?
 		if (build.code === (cachedBuild && cachedBuild.code)) return false;
 
-		info(fmtVal('caching', srcPath(id)), fmtVal('bundle', bundleName));
+		info(fmtVal('caching', toSrcPath(id)), fmtVal('bundle', bundleName));
 		bundle.buildsById.set(id, build);
 		bundle.changedIds.add(id);
 

@@ -51,8 +51,6 @@ const commonjsPlugin: typeof commonjsPluginFIXME.default = commonjsPluginFIXME a
 
 const removeUnusedClasses = !dev;
 
-const MAIN_CSS_BUNDLE_NAME = 'bundle.css';
-const SY_CSS_BUNDLE_NAME = 'bundle.sy.css';
 // TODO consider using two separate css plugins
 // it's hard to tell if we'll ever want a single one to be able to coordinate multiple bundles
 const plainCssPluginInstance = plainCssPlugin({
@@ -61,11 +59,11 @@ const plainCssPluginInstance = plainCssPlugin({
 });
 const cacheMainCss = plainCssPluginInstance.cacheCss.bind(
 	null,
-	MAIN_CSS_BUNDLE_NAME,
+	paths.mainCssBundleName,
 );
 const cacheSyCss = plainCssPluginInstance.cacheCss.bind(
 	null,
-	SY_CSS_BUNDLE_NAME,
+	paths.syCssBundleName,
 );
 const svelteUnrolledPluginInstance = svelteUnrolledPlugin({
 	dev,
@@ -118,12 +116,11 @@ const createInputOptions = (): InputOptions => {
 			resolvePlugin(),
 			commonjsPlugin(),
 			...(dev
-				? [
-						watch &&
-							servePlugin({contentBase: resolvePath('static'), host, port}),
-				  ]
+				? [watch && servePlugin({contentBase: paths.appStatic, host, port})]
 				: [terserPlugin.terser()]),
-			bundleWriterPlugin(),
+			bundleWriterPlugin({
+				output: paths.appStaticJsStats,
+			}),
 		],
 
 		// — advanced input options

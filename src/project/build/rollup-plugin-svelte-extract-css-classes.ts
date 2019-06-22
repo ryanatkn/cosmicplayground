@@ -8,7 +8,7 @@ import {CssClass} from '../../sy/sy';
 import {SvelteUnrolledCompilation} from './rollup-plugin-svelte-unrolled';
 import {LogLevel, logger, Logger, fmtVal, fmtMs} from '../logger';
 import {timeTracker} from '../scriptUtils';
-import {srcPath} from '../paths';
+import {toSrcPath} from '../paths';
 
 // TODO fill in use cases when they're encountered.
 // For now this supports the `cls('class literals')` and
@@ -81,7 +81,7 @@ export const svelteExtractCssClassesPlugin = (
 				classes,
 				log,
 			);
-			info(gray(srcPath(id)), fmtVal('extract_classes', fmtMs(elapsed(), 2))); // TODO track with stats instead of logging
+			info(gray(toSrcPath(id)), fmtVal('extract_classes', fmtMs(elapsed(), 2))); // TODO track with stats instead of logging
 			return null;
 		},
 	};

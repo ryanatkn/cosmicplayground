@@ -24,6 +24,8 @@ export type SpacingPropertyName = '1px' | '2px' | '3px' | number; // in an ideal
 export const spacingProperty = toProperty<SpacingPropertyName>('spacing');
 export const spacingVar = toVar(spacingProperty);
 
+// TODO malformed CSS causes some gnarly errors - maybe use `magic-string` to make a sourcemap?
+
 export const createConfig = async (
 	partial: Partial<SyConfig> = {},
 ): Promise<SyConfig> => {
@@ -94,11 +96,12 @@ export const createConfig = async (
 
 			// height
 			...spacings.map(i => classDef(`h-${i}`, `height: ${spacingVar(i)}`)),
+			classDef('h-100', 'height: 100%'), // TODO hmm..this is a little ambiguous but I don't foresee ever using 100 spacings
 
 			// TODO flatten/combine usage of `classDefs`? review the high level layout pattern of all of these styles
 			...classDefs({
 				// display
-				block: 'display: block;',
+				block: 'display: block',
 				flex: 'display: flex',
 				inline: 'display: inline',
 				'inline-block': 'display: inline-block',
@@ -109,6 +112,8 @@ export const createConfig = async (
 				absolute: 'position: absolute',
 				fixed: 'position: fixed',
 				sticky: 'position: sticky',
+				absolute0: 'position: absolute; left: 0; top: 0;', // TODO other values? might want a better design - needed for e.g. padding.
+				// TODO add left/right/top/bottom spacings
 
 				// flexbox
 				'flex-auto': 'flex: auto',
@@ -120,6 +125,102 @@ export const createConfig = async (
 				'flex-row-reverse': 'flex-direction: row-reverse',
 				'flex-col': 'flex-direction: column',
 				'flex-col-reverse': 'flex-direction: column-reverse',
+
+				// justify content values have sketchy support - Edge support in particular is weak
+				// https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content
+				// 'justify-start': 'justify-content: start',
+				// 'justify-end': 'justify-content: end',
+				'justify-start': 'justify-content: flex-start',
+				'justify-end': 'justify-content: flex-end',
+				'justify-center': 'justify-content: center',
+				// 'justify-left': 'justify-content: left',
+				// 'justify-right': 'justify-content: right',
+				'justify-normal': 'justify-content: normal',
+				// 'justify-baseline': 'justify-content: baseline',
+				// 'justify-first-baseline': 'justify-content: first-baseline',
+				// 'justify-last-baseline': 'justify-content: last-baseline',
+				'justify-between': 'justify-content: space-between',
+				'justify-around': 'justify-content: space-around',
+				// 'justify-evenly': 'justify-content: space-evenly',
+				// 'justify-stretch': 'justify-content: stretch', // hmm........ this may be the one that gets me to break some browsers
+
+				// align items
+				// TODO some of the support for these may be incorrect on MDN
+				// https://developer.mozilla.org/en-US/docs/Web/CSS/align-items
+				'items-normal': 'align-items: normal',
+				'items-start': 'align-items: flex-start',
+				'items-end': 'align-items: flex-end',
+				'items-center': 'align-items: center',
+				// 'items-start':'align-items: start',
+				// 'items-end':'align-items: end',
+				'items-self-start': 'align-items: self-start',
+				'items-self-end': 'align-items: self-end',
+				'items-baseline': 'align-items: baseline',
+				// 'items-first-baseline':'align-items: first baseline',
+				// 'items-last-baseline':'align-items: last baseline',
+				'items-stretch': 'align-items: stretch',
+				// 'items-safe':'align-items: safe',
+				// 'items-unsafe':'align-items: unsafe',
+
+				// font-weight
+				// TODO consider supporting numerical weight?
+				// https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
+				'font-normal': 'font-weight: normal',
+				'font-bold': 'font-weight: bold',
+				'font-lighter': 'font-weight: lighter',
+				'font-bolder': 'font-weight: bolder',
+
+				// text-decoration
+				// TODO text-decoration-color
+				// TODO b/c of Edge, using plain "text-decoration" instead of "text-decoration-line"
+				// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line
+				'text-decoration-none': 'text-decoration: none',
+				underline: 'text-decoration: underline',
+				overline: 'text-decoration: overline',
+				'line-through': 'text-decoration: line-through',
+				'text-decoration-solid': 'text-decoration-style: solid',
+				'text-decoration-double': 'text-decoration-style: double',
+				'text-decoration-dotted': 'text-decoration-style: dotted',
+				'text-decoration-dashed': 'text-decoration-style: dashed',
+				'text-decoration-wavy': 'text-decoration-style: wavy',
+
+				// cursors
+				'cursor-auto': 'cursor: auto',
+				'cursor-default': 'cursor: default',
+				'cursor-none': 'cursor: none',
+				'cursor-context-menu': 'cursor: context-menu',
+				'cursor-help': 'cursor: help',
+				'cursor-pointer': 'cursor: pointer',
+				'cursor-progress': 'cursor: progress',
+				'cursor-wait': 'cursor: wait',
+				'cursor-cell': 'cursor: cell',
+				'cursor-crosshair': 'cursor: crosshair',
+				'cursor-text': 'cursor: text',
+				'cursor-vertical-text': 'cursor: vertical-text',
+				'cursor-alias': 'cursor: alias',
+				'cursor-copy': 'cursor: copy',
+				'cursor-move': 'cursor: move',
+				'cursor-no-drop': 'cursor: no-drop',
+				'cursor-not-allowed': 'cursor: not-allowed',
+				'cursor-grab': 'cursor: grab',
+				'cursor-grabbing': 'cursor: grabbing',
+				'cursor-e-resize': 'cursor: e-resize',
+				'cursor-n-resize': 'cursor: n-resize',
+				'cursor-ne-resize': 'cursor: ne-resize',
+				'cursor-nw-resize': 'cursor: nw-resize',
+				'cursor-s-resize': 'cursor: s-resize',
+				'cursor-se-resize': 'cursor: se-resize',
+				'cursor-sw-resize': 'cursor: sw-resize',
+				'cursor-w-resize': 'cursor: w-resize',
+				'cursor-ew-resize': 'cursor: ew-resize',
+				'cursor-ns-resize': 'cursor: ns-resize',
+				'cursor-nesw-resize': 'cursor: nesw-resize',
+				'cursor-nwse-resize': 'cursor: nwse-resize',
+				'cursor-col-resize': 'cursor: col-resize',
+				'cursor-row-resize': 'cursor: row-resize',
+				'cursor-all-scroll': 'cursor: all-scroll',
+				'cursor-zoom-in': 'cursor: zoom-in',
+				'cursor-zoom-out': 'cursor: zoom-out',
 			}),
 
 			// blend modeas
