@@ -50,6 +50,7 @@ const resolvePlugin: typeof resolvePluginFIXME.default = resolvePluginFIXME as a
 const commonjsPlugin: typeof commonjsPluginFIXME.default = commonjsPluginFIXME as any;
 
 const removeUnusedClasses = !dev;
+const warnUndefinedClasses = true;
 
 // TODO consider using two separate css plugins
 // it's hard to tell if we'll ever want a single one to be able to coordinate multiple bundles
@@ -71,12 +72,13 @@ const svelteUnrolledPluginInstance = svelteUnrolledPlugin({
 	include: resolvePath('src/client/**/*.svelte'),
 	logLevel,
 });
-const svelteExtractCssClassesPluginInstance = removeUnusedClasses // dat name lol
-	? svelteExtractCssClassesPlugin({
-			getSvelteCompilation: svelteUnrolledPluginInstance.getCompilation,
-			logLevel,
-	  })
-	: undefined;
+const svelteExtractCssClassesPluginInstance =
+	removeUnusedClasses || warnUndefinedClasses
+		? svelteExtractCssClassesPlugin({
+				getSvelteCompilation: svelteUnrolledPluginInstance.getCompilation,
+				logLevel,
+		  })
+		: undefined;
 // TODO all of the above `PluginInstance` stuff is tiresome.
 // consider changing plugins to be `createFooPlugin`
 
@@ -105,9 +107,12 @@ const createInputOptions = (): InputOptions => {
 			syPlugin({
 				dev,
 				cacheCss: cacheSyCss,
-				getCssClasses:
+				getUsedCssClasses:
 					svelteExtractCssClassesPluginInstance &&
-					svelteExtractCssClassesPluginInstance.getCssClasses,
+					svelteExtractCssClassesPluginInstance.getUsedCssClasses,
+				getDefinedCssClasses:
+					svelteExtractCssClassesPluginInstance &&
+					svelteExtractCssClassesPluginInstance.getDefinedCssClasses,
 				logLevel,
 				prettierOptions,
 				removeUnusedClasses,

@@ -10,7 +10,7 @@
 </script>
 
 <div class="wrapper" bind:clientWidth bind:clientHeight>
-	<div class="content" style={`transform: scale3d(${scale}, ${scale}, 1);`}>
+	<div style={`transform: scale3d(${scale}, ${scale}, 1);`}>
 		<div style={`width: ${maxWidth}px; height: ${maxHeight}px;`}>
 			<img
 				src="assets/construction/line-1.gif"

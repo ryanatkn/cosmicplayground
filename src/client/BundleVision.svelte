@@ -10,11 +10,13 @@
 
 	improvements
 
+	- show classes, used and defined (and where they came from!)
 	- group by various keys - pkg, dir, external
 	- sort
 	- filter - search text, external
 	- explore rendered/removed exports
 	- styling!
+	- if it's a svelte file, link to the live thing! (or page/route? hmm)
    
 	*/
 

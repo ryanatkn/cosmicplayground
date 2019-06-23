@@ -2,6 +2,7 @@ import {walk} from 'svelte/compiler';
 import {Node} from 'svelte/types/compiler/interfaces';
 import {Plugin} from 'rollup';
 import {cyan, gray} from 'kleur';
+import {parse} from 'css-tree';
 
 import {assignDefaults} from '../../utils/obj';
 import {CssClass} from '../../sy/sy';
@@ -10,15 +11,21 @@ import {LogLevel, logger, Logger, fmtVal, fmtMs} from '../logger';
 import {timeTracker} from '../scriptUtils';
 import {toSrcPath} from '../paths';
 
-// TODO fill in use cases when they're encountered.
-// For now this supports the `cls('class literals')` and
-// some attribute patterns like `class="foo {a ? 'b' : 'c'}"`.
+// TODO imported css files need to be parsed with css-tree and have classes extracted
 // TODO class directives! `class:active={isActive}`
+// TODO bundle vision! that should show you classes (and warn on undefined ones)
+//   probably need to change the way classes are stored/deleted for this
+// TODO fill in use cases when they're encountered.
+//   For now this supports the `cls('class literals')` and
+//   some attribute patterns like `class="foo {a ? 'b' : 'c'}"`.
+// TODO simple identifers?
+// TODO investigate using workers to speed this up
 
 export interface PluginOptions {
 	classAttrMatcher: RegExp;
 	classFnMatcher: RegExp;
-	classes: Set<CssClass>;
+	usedClasses: Set<CssClass>;
+	definedClasses: Set<CssClass>;
 	getSvelteCompilation: (id: string) => SvelteUnrolledCompilation | undefined;
 	logLevel: LogLevel;
 }
@@ -31,14 +38,16 @@ export const defaultPluginOptions = ({
 	getSvelteCompilation,
 }: InitialPluginOptions): PluginOptions => ({
 	classAttrMatcher: new RegExp(/^(class|.+Class)$/),
-	classFnMatcher: new RegExp(/^(cls)$/),
-	classes: new Set(), // TODO I don't like how this creates unnecessary garbage, even if it's miniscule; seems like poor design
+	classFnMatcher: new RegExp(/^(cls)$/), // TODO consider renaming: sy, cn, ..
+	usedClasses: new Set(),
+	definedClasses: new Set(),
 	getSvelteCompilation,
 	logLevel: LogLevel.Info,
 });
 
 export interface SvelteExtractCssClassesPlugin extends Plugin {
-	getCssClasses(): Set<CssClass>;
+	getUsedCssClasses(): Set<CssClass>;
+	getDefinedCssClasses(): Set<CssClass>;
 }
 
 export const name = 'svelte-extract-css-classes';
@@ -49,7 +58,8 @@ export const svelteExtractCssClassesPlugin = (
 	const {
 		classAttrMatcher,
 		classFnMatcher,
-		classes,
+		usedClasses,
+		definedClasses,
 		getSvelteCompilation,
 		logLevel,
 	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
@@ -64,23 +74,25 @@ export const svelteExtractCssClassesPlugin = (
 		// if we do that it allows us to track classes atomically in the rollup build,
 		// but the downside is that they need to be combined or iterated through
 		// in the removal process, which is going to be less efficient.
-		getCssClasses: () => classes,
-		transform(_code, id) {
+		getUsedCssClasses: () => usedClasses,
+		getDefinedCssClasses: () => definedClasses,
+		async transform(_code, id) {
 			const compilation = getSvelteCompilation(id);
 			if (!compilation) return null;
 			const elapsed = timeTracker();
 			extractCssClassesFromMarkup(
 				compilation.ast.html,
 				classAttrMatcher,
-				classes,
+				usedClasses,
 				log,
 			);
 			extractCssClassesFromScript(
 				compilation.ast.instance,
 				classFnMatcher,
-				classes,
+				usedClasses,
 				log,
 			);
+			extractCssClassesFromStyles(compilation.ast.css, definedClasses, log);
 			info(gray(toSrcPath(id)), fmtVal('extract_classes', fmtMs(elapsed(), 2))); // TODO track with stats instead of logging
 			return null;
 		},
@@ -129,6 +141,41 @@ const extractCssClassesFromScript = (
 	});
 };
 
+// Mutates `classes` set, remove any css classes found in the css ast.
+// Utility classes cannot be used by svelte,
+// but we need some solution for including classes that are referenced
+// in global svelte styles, css files, or otherwise outside of the `sy` config.
+const extractCssClassesFromStyles = async (
+	ast: Node,
+	classes: Set<CssClass>,
+	log: Logger,
+): Promise<void> => {
+	walk(ast, {
+		enter(node, parent, _prop, _index) {
+			if (node.type === 'ClassSelector') {
+				classes.add(node.name);
+			} else if (
+				parent &&
+				parent.name === 'global' &&
+				parent.type === 'PseudoClassSelector' &&
+				node.type === 'Raw'
+			) {
+				// handle `:global(selectors)` because they're not parsed by svelte
+				const parsedAst = parse(node.value, {
+					context: 'selectorList',
+					positions: false,
+				});
+				// This looks terrible but it's what svelte does with css-tree's AST:
+				// https://github.com/sveltejs/svelte/blob/0b836872cf50f25eb643cf24e57a85cf6db31cbe/src/compiler/parse/read/style.ts
+				// Looks like it's because css-tree uses data structures
+				// like a `List` for children instead of plain arrays.
+				const estreeAst = JSON.parse(JSON.stringify(parsedAst));
+				extractCssClassesFromStyles(estreeAst, classes, log);
+			}
+		},
+	});
+};
+
 // TODO better way to do this?
 // support more things like certain CallExpression/ArrayExpression patterns?
 // enter/leave stack tracking w/ children maybe?
@@ -139,7 +186,6 @@ const extractCssClassesFromNode = (
 	log: Logger,
 ) => {
 	// log.trace(`enter node`, node);
-
 	const addClasses = (rawText: string) => {
 		for (const c of rawText.split(' ').filter(Boolean)) {
 			classes.add(c);

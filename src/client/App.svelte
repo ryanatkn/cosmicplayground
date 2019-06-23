@@ -73,7 +73,7 @@
 </section>
 
 {#if $view === 'main'}
-	<section class="menu">
+	<section>
 		<nav>
 			<ul class="thumbnails">
 				<li class="thumbnail" on:click={() => view.set('about')}>
@@ -125,7 +125,6 @@
 								class="easing-aud-viz-mouth"
 								style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;" />
 							<div
-								class="easing-aud-viz-mouth-void"
 								style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;
 								border-radius: 50%;" />
 						</div>
@@ -140,7 +139,6 @@
 								class="easing-aud-viz-tail"
 								style="width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;" />
 							<div
-								class="easing-aud-viz-tail-void"
 								style="width: {easingAudVizTailSize / 2}px; height: {easingAudVizTailSize / 2}px;
 								border-radius: 50%;" />
 						</div>

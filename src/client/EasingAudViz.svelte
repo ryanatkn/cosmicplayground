@@ -365,7 +365,6 @@
 				style="width: {translateWidth}px; background-color: {getColor(activeEasingIndex, 0.1)};
 				margin-bottom: 24px;">
 				<div
-					class="active-tween-graphic-translate"
 					style="transform: translate3d({tweenAlternating * translateDistance}px,
 					0, 0); width: {graphic1Width}px; height: {graphic1Height}px;
 					background-color: {getColor(activeEasingIndex)};" />
@@ -394,7 +393,6 @@
 					style="display: flex; align-items: center; justify-content: center;
 					width: {translateWidth / 2}px; padding: 36px 36px 0;">
 					<div
-						class="active-tween-graphic-skew"
 						style="transform: skew({tweenAlternating * 80 - 25}deg, {tweenAlternating * 10 - 2}deg);
 						width: {graphic2Width}px; height: {graphic2Height}px;
 						background-color: {getColor(activeEasingIndex)};" />
@@ -433,7 +431,6 @@
 		align-items: center;
 		margin-top: 6px;
 	}
-	/*.active-tween-graphic-translate {}*/
 	.active-tween-graphic-rotate {
 		width: 5px;
 		transform-origin: middle;

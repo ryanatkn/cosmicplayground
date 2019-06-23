@@ -93,6 +93,11 @@ export const diagnosticsPlugin = (
 		writeBundle(_bundle) {
 			info(
 				yellow('writeBundle'),
+				// TODO
+				// print # of errors/warnings (maybe duplicate printing them here too)
+				// how should that work?
+				// ideally the state is contained here in the diagnostics plugin
+				// could track what module is logging via the keyed tags.
 				fmtVal('totalElapsed', fmtMs(elapsedTotal())),
 			);
 		},

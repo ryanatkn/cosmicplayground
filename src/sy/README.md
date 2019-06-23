@@ -11,7 +11,7 @@
 
 `sy` is a css tool with the goal to support powerful, typesafe,
 leak-proof abstractions that disappear before runtime to deliver
-the best possible UX without compromising much on our precious DX.
+the best possible UX without compromising much on precious DX.
 Its target audience is developers who are comfortable
 with js/ts, build tools, owning their conventions, and css heresy.
 It leverages build-time scripts and optimizations to
@@ -19,19 +19,23 @@ minimize costs while maximizing control, flexibility, and performance.
 
 ## key benefits
 
-- only used styles get bundled, so you can go nuts generating tons of css
-  and the only cost is a little compilation speed
+- only used classes get bundled, so you can go nuts generating tons of css
+  and the only cost is a little compilation speed,
+  and undefined classes cause warnings to prevent mistakes and outdated debris
+  ([terminology is explained here](#terminology))
 - flexibility to use whatever names/patterns/tools a project/developer wants
-- excellent interop with js/ts - abstractions can disappear at runtime,
-  but you can also import script variables and helpers like any other js/ts
 - puts handles directly on the web platform,
   so you can use css features like custom properties (css vars)
   and future stuff without needing to update the library
+- excellent interop with js/ts - like other css-in-js libraries,
+  `sy` unifies styling data and logic into one language and source of truth,
+  erasing the typical awkward boundary between static css
+  and dynamic script-computed styles
 - types :frog:
 - utility classes have few of the drawbacks of inline styles and css modules,
   and they're just one tool in the styling kit
-  (`sy` can style any selectors)
-- compile-time tools are the forever hotness
+  (`sy` can style any selectors, create keyframe animations, etc)
+- compile-time tools are the forever hotness, optimizing UX with great DX
 
 ## key tradeoffs :neutral_face:
 
@@ -42,11 +46,17 @@ minimize costs while maximizing control, flexibility, and performance.
 - lacks css conventions and opinions, leaving most work to you
   and enforcing no standardization across projects,
   so much of "learning `sy`" may not translate between codebases
+- lacks source maps from styles back to your code -
+  some mappings can be added, some look very difficult
 - dynamic styles defined in scripts must currently (always forever?) be marked
   with a helper function, e.g. `const classes = sy('my dynamic classes')`,
   but dynamic styles in mark are generally supported,
   e.g. `class="static {is ? 'dynamic' : 'thisworks'}"`.
   (I'd appreciate help expanding the supported use cases here)
+- reaping the benefits of removing unused classes and warning on undefined classes
+  requires buying into config and build tools, inherently adding more complexity
+  in a way that feels similar to adopting TypeScript (to a much lesser degree,
+  and with similar benefits when working with css classes)
 - you may not be able to unsee a lack of awesomeness in other solutions :sob:
 
 ## disclaimer
@@ -65,6 +75,46 @@ See [`src/client/sy.config.ts`](../client/sy.config.ts),
 [`src/project/build/build.ts`](../project/build/build.ts),
 [`rollup-plugin-svelte-extract-css-classes`](../project/build/rollup-plugin-svelte-extract-css-classes.ts),
 and [`rollup-plugin-plain-css`](../project/build/rollup-plugin-plain-css.ts).
+
+## terminology
+
+- **_undefined css classes_**: classes that appear in markup and scripts,
+  but have no corresponding definition in the css or `sy` config
+- **_unused css classes_**: classes that appear in the css or `sy` config
+  but are never used in the markup or scripts
+
+`sy` was designed with the assumption that we ought to be able to easily detect
+both of these cases, and remove or warn about them as appropriate.
+Currently, I find the best tradeoffs to be the following:
+
+- _undefined css classes_ cause warnings in both dev and prod builds,
+  with helpful messages for what could be wrong (it can't be inferred)
+- _unused css classes_ are removed in prod and retained in dev.
+  This allows playing around with classes directly in the browser.
+  This is a complicated set of tradeoffs though, so YMMV.
+
+The `rollup` plugins can be configured in whatever way makes sense to you.
+
+> TODO provide build time diagnostics when removing and retaining unused classes
+
+More on the design. These two processes should efficiently happen during the
+build with existing ASTs and few dependencies, so there's few wasted
+CPU cycles and no fruitlessly complex dependency graphs.
+This prevents mistakes, minimizes the bytes users have to download,
+and helps keep the developer's mind free of clutter.
+
+> TODO show what installing PostCSS/Tailwind does to `package-lock.json`
+
+Build scripts try to find undefined and unused css classes,
+but there are limits to what can be inferred, particularly with
+dynamic strings that are inserted as css classes.
+In these cases, `sy` requires wrapping class strings with a no-op helper.
+(currently named `cls` , and this can be configured and
+(in the future) removed at build time)
+It's probable that more can be inferred beyond what `sy` currently does,
+so if you run into some use cases you think should be supported, please share!
+
+> TODO document what can and can't be inferred without the `cls` helper
 
 ## overview
 

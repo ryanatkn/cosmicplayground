@@ -150,7 +150,6 @@
 					style="transform: rotate({item.value * 180}deg); height: {graphicHeight}px;
 					background-color: {getColor(i)};" />
 				<div
-					class="item-graphic-translate"
 					style="transform: translate3d({item.value * translateDistance}px, 0,
 					0); width: {graphicWidth}px; height: {graphicHeight}px;
 					background-color: {getColor(i)};" />
@@ -194,7 +193,6 @@
 		display: flex;
 		margin-top: 6px;
 	}
-	/*.item-graphic-translate {}*/
 	.item-graphic-rotate {
 		position: absolute;
 		right: -200px;

@@ -41,8 +41,8 @@ export const logger = (
 		warn:
 			LogLevel.Warn >= level
 				? log(
-						[yellow('➤'), black(bgYellow(' ⚑ warning ⚑ ')), yellow('➤')],
-						[black(bgYellow(' ⚑ '))],
+						[yellow('➤'), black(bgYellow(' ⚑ warning ⚑ ')), '\n' + yellow('➤')],
+						['\n ', black(bgYellow(' ⚑ '))],
 				  )
 				: noop,
 		error:
@@ -60,4 +60,8 @@ export const fmtVal = (key: string, val: string | number): string =>
 
 export const fmtMs = (ms: number, decimals = 1): string => {
 	return white(round(ms, decimals).toFixed(decimals)) + gray('ms');
+};
+
+export const fmtCauses = (solutions: string[]): string => {
+	return '\n	Possible causes:' + solutions.map(s => `\n		• ${s}`).join('');
 };

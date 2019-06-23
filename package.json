@@ -38,11 +38,13 @@
     "node": ">=12"
   },
   "devDependencies": {
+    "@types/css-tree": "^1.0.0",
     "@types/dotenv": "^6.1.1",
     "@types/fs-extra": "^7.0.0",
     "@types/minimist": "^1.2.0",
     "@types/node": "^12.0.8",
     "@types/prettier": "^1.16.4",
+    "css-tree": "^1.0.0-alpha22",
     "dotenv": "^8.0.0",
     "fs-extra": "^8.0.1",
     "kleur": "^3.0.3",
