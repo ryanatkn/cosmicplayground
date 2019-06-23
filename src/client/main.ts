@@ -1,8 +1,12 @@
 import App from './App.svelte';
 import './sy.config.js';
 
+const rootElId = 'root';
+const root = document.getElementById(rootElId);
+if (!root) throw Error(`Cannot find app target element with id '${rootElId}'`);
+
 export const app = new App({
-	target: document.getElementById('root'),
+	target: root,
 	props: {
 		name: 'cosmicplayground',
 	},
