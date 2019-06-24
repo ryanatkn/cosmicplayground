@@ -8,10 +8,12 @@
 // current status: there's barely anything here yet, but there's not _nothing_
 ```
 
-_cosmicplayground_ (CPG) is a **work in progress** website exploring interactive
-learning with ear training, music theory, and other neat stuff.
-It ambitiously experiments in many directions,
-but the general goal is to help us learn, create, and grow.
+_cosmicplayground_ (CPG) is an experimental **work in progress** website
+exploring interactive learning with over-engineered web tech.
+It plays with explorable systems, generative creativity, and other neat stuff
+in domains like math, dataviz, ear training, and music theory.
+It explores in many directions, but the general goal
+is to help us learn, create, and grow.
 
 ![galaxies](static/assets/space/galaxies-banner.jpg)
 
