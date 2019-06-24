@@ -131,6 +131,9 @@ or at runtime if that's on the menu.
 Typical usage has the developer define a config file
 that exports a data structure which gets converted into plain css.
 
+> TODO walk through all of the tradeoffs of using an AST (ESTree)
+> versus the current simplified data structure
+
 Most css-in-js solutions come with a significant runtime performance penalty,
 and most utility class libraries generate large stylesheets
 and need a large set of tools.
