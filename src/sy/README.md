@@ -53,11 +53,14 @@ minimize costs while maximizing control, flexibility, and performance.
   but dynamic styles in mark are generally supported,
   e.g. `class="static {is ? 'dynamic' : 'thisworks'}"`.
   (I'd appreciate help expanding the supported use cases here)
-- reaping the benefits of removing unused classes and warning on undefined classes
-  requires buying into config and build tools, inherently adding more complexity
-  in a way that feels similar to adopting TypeScript (to a much lesser degree,
-  and with similar benefits when working with css classes)
+- requires buying into config and build tools, inherently adding more complexity
+  in a way that feels similar to adopting TypeScript
+  (to a much lesser degree, and with similar benefits:
+  removing unused classes and warning on undefined classes feel so worth it)
+
 - you may not be able to unsee a lack of awesomeness in other solutions :sob:
+
+> anything big missing? please submit an issue or pull request!
 
 ## disclaimer
 
@@ -97,20 +100,23 @@ The `rollup` plugins can be configured in whatever way makes sense to you.
 
 > TODO provide build time diagnostics when removing and retaining unused classes
 
-More on the design. These two processes should efficiently happen during the
-build with existing ASTs and few dependencies, so there's few wasted
-CPU cycles and no fruitlessly complex dependency graphs.
+These two processes should efficiently happen during the build with reused ASTs
+(and not error-prone regexps), and with few dependencies,
+so there's few wasted CPU cycles and no fruitlessly complex dependency graphs.
 This prevents mistakes, minimizes the bytes users have to download,
-and helps keep the developer's mind free of clutter.
+and helps keep the developer's mind and build pipeline free of clutter.
 
 > TODO show what installing PostCSS/Tailwind does to `package-lock.json`
 
-Build scripts try to find undefined and unused css classes,
-but there are limits to what can be inferred, particularly with
-dynamic strings that are inserted as css classes.
-In these cases, `sy` requires wrapping class strings with a no-op helper.
-(currently named `cls` , and this can be configured and
-(in the future) removed at build time)
+Build scripts automatically try to find undefined and unused css classes,
+but there are limits to what can be inferred,
+particularly with dynamic strings that are injected as css classes.
+In these cases, `sy` requires wrapping class strings with a no-op helper,
+rather than relying on error-prone regexps or
+heavyweight solutions that load your app into an actual DOM.
+The helper is currently named `cls`, e.g. `cls('my-class')` wherever
+classes are created outside of the markup;
+the name can be configured and (when I get around to it) removed at build time.
 It's probable that more can be inferred beyond what `sy` currently does,
 so if you run into some use cases you think should be supported, please share!
 
@@ -118,7 +124,7 @@ so if you run into some use cases you think should be supported, please share!
 
 ## overview
 
-> TODO clean this up and organize it better
+> TODO clean this up and organize it better with everything above
 
 `sy` uses scripts (js/ts/etc) to generate styles as a build step,
 or at runtime if that's on the menu.
