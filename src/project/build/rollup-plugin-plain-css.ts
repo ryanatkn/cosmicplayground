@@ -21,6 +21,7 @@ export type CssBundle = {
 };
 
 export interface PluginOptions {
+	mainBundleName: string;
 	include: string | RegExp | (string | RegExp)[] | null | undefined;
 	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
 	sourcemap: boolean; // TODO consider per-bundle options
@@ -32,6 +33,7 @@ export type InitialPluginOptions = PartialExcept<
 	RequiredPluginOptions
 >;
 export const defaultPluginOptions = (): PluginOptions => ({
+	mainBundleName: 'bundle.css',
 	include: ['**/*.css'],
 	exclude: undefined,
 	sourcemap: false,
@@ -47,7 +49,13 @@ export const name = 'plain-css';
 export const plainCssPlugin = (
 	pluginOptions: InitialPluginOptions,
 ): PlainCssPlugin => {
-	const {include, exclude, sourcemap, logLevel} = assignDefaults(
+	const {
+		mainBundleName,
+		include,
+		exclude,
+		sourcemap,
+		logLevel,
+	} = assignDefaults(
 		defaultPluginOptions(),
 		// {sourcemap: pluginOptions.dev}, // TODO dev flag?
 		pluginOptions,
@@ -89,10 +97,12 @@ export const plainCssPlugin = (
 		// TODO rewrite when the emit file API is ready https://github.com/rollup/rollup/issues/2938
 		cacheCss,
 		transform(code, id) {
+			// handle *.css imports - styles from `sy` and `.svelte`
+			// files are handled elsewhere
 			// TODO handle multiple bundles? or just one?
 			if (!filter(id)) return;
 			info(`transform id`, id);
-			cacheCss('bundle.css', id, code);
+			cacheCss(mainBundleName, id, code);
 			return '';
 		},
 		async generateBundle(outputOptions, _bundle, isWrite) {

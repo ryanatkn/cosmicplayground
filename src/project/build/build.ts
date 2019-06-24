@@ -55,6 +55,7 @@ const warnUndefinedClasses = true;
 // TODO consider using two separate css plugins
 // it's hard to tell if we'll ever want a single one to be able to coordinate multiple bundles
 const plainCssPluginInstance = plainCssPlugin({
+	mainBundleName: paths.mainCssBundleName,
 	sourcemap: dev,
 	logLevel,
 });
