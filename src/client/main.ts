@@ -1,4 +1,5 @@
 import App from './App.svelte';
+import './main.css';
 import './sy.config.js';
 
 const rootElId = 'root';

@@ -1,0 +1,39 @@
+html {
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: sans-serif;
+}
+
+/* border-box all the things, but let parents override children */
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+body {
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	background-color: #000;
+}
+
+#root {
+	height: 100%;
+	position: relative;
+}
+
+img,
+video {
+	max-width: 100%;
+	height: auto;
+}
+
+.pixelated {
+	image-rendering: -webkit-optimize-contrast; /* Safari */
+	image-rendering: -o-crisp-edges; /* OS X & Windows Opera (12.02+) */
+	image-rendering: pixelated; /* in case crisp-edges isn't supported */
+	image-rendering: crisp-edges; /* the recommended pixel art setting according to MDN */
+}

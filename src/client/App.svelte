@@ -543,37 +543,4 @@
 		top: 0;
 		z-index: 10;
 	}
-
-	:global(*) {
-		/* before/after? normalize.css? */
-		box-sizing: border-box;
-	}
-
-	:global(html) {
-		height: 100%;
-		padding: 0;
-		margin: 0;
-		font-family: sans-serif;
-	}
-	:global(body) {
-		height: 100%;
-		padding: 0;
-		margin: 0;
-		background-color: #000;
-	}
-	:global(#root) {
-		height: 100%;
-		position: relative;
-	}
-
-	:global(.pixelated) {
-		image-rendering: -webkit-optimize-contrast; /* Safari */
-		image-rendering: -o-crisp-edges; /* OS X & Windows Opera (12.02+) */
-		image-rendering: pixelated; /* in case crisp-edges isn't supported */
-		image-rendering: crisp-edges; /* the recommended pixel art setting according to MDN */
-	}
-	:global(img, video) {
-		max-width: 100%;
-		height: auto;
-	}
 </style>
