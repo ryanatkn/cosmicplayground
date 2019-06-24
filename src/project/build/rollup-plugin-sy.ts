@@ -175,10 +175,10 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 								Array.from(undefinedClasses).join(' '),
 							)}` +
 								fmtCauses([
-									'a misspelled class in markup or scripts',
-									'a misspelled or missing declaration in css or sy config',
-									'a missing or broken css file import',
-									'outdated/unused classes that can be deleted :D',
+									'misspelled class in markup or scripts',
+									'misspelled or missing rule in css or sy config',
+									'missing or broken css file import',
+									'outdated/unused class that can be deleted :D',
 								]),
 						); // TODO better message - could standardize a format of "here are possible causes/solutions:"
 					}
