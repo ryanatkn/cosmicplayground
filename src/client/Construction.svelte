@@ -135,7 +135,7 @@
 				alt="under construction: person dig pause" />
 			<div
 				style="display: inline-block; height: 100px; position: relative; width:
-				240px; transform: rotate(-7deg);">
+				240px; transform: rotate(-5deg); top: 46px;">
 				<img
 					src="assets/construction/line-2.gif"
 					alt="under construction: line 2"
@@ -149,7 +149,9 @@
 					alt="under construction: line 2"
 					style="width: 100%; position: absolute; bottom: 38px; left: 0" />
 			</div>
-			<div style="position: relative; width: 144px; height: 144px; display: inline-block;">
+			<div
+				style="position: relative; width: 144px; height: 144px; display:
+				inline-block;">
 				<img
 					src="assets/construction/mammal.gif"
 					alt="under construction: mammal"

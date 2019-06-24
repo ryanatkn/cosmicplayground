@@ -232,7 +232,7 @@ export const createConfig = async (
 			// h1 (TODO through h6)
 			...selectorDefs({
 				h1: `font-size: 55px; margin: 0 0 ${spacingVar(7)}`, // TODO class composition? {classes: ['m-0', 'mb-2']}
-				img: `vertical-align: top`, // TODO consider just making them blocks; line-blocks are so weird
+				img: `vertical-align: middle`, // TODO consider just making them blocks; line-blocks are so weird
 			}),
 		],
 	};
