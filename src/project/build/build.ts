@@ -34,6 +34,7 @@ import {extractPlainCssClassesPlugin} from './rollup-plugin-extract-plain-css-cl
 import {extractSvelteCssClassesPlugin} from './rollup-plugin-extract-svelte-css-classes';
 import {diagnosticsPlugin} from './rollup-plugin-diagnostics';
 import {bundleWriterPlugin} from './rollup-plugin-bundle-writer';
+import {createCssClassesCache} from './cssClassesCache';
 
 const pkg = require('../../../package.json'); // TODO import differently?
 const prettierOptions: prettier.Options = pkg.prettier;
@@ -52,6 +53,8 @@ const commonjsPlugin: typeof commonjsPluginFIXME.default = commonjsPluginFIXME a
 
 const removeUnusedClasses = !dev;
 const warnUndefinedClasses = true;
+
+const cssClasses = createCssClassesCache();
 
 // TODO consider using two separate css plugins
 // it's hard to tell if we'll ever want a single one to be able to coordinate multiple bundles
@@ -80,6 +83,7 @@ const svelteUnrolledPluginInstance = svelteUnrolledPlugin({
 const extractSvelteCssClassesPluginInstance =
 	removeUnusedClasses || warnUndefinedClasses
 		? extractSvelteCssClassesPlugin({
+				cssClasses,
 				getSvelteCompilation: svelteUnrolledPluginInstance.getCompilation,
 				logLevel,
 		  })
@@ -106,9 +110,8 @@ const createInputOptions = (): InputOptions => {
 			// file emitting will probably fix
 			extractSvelteCssClassesPluginInstance
 				? extractPlainCssClassesPlugin({
-						setDefinedCssClasses:
-							extractSvelteCssClassesPluginInstance.setDefinedCssClasses,
 						cacheCss: cachePlainCss,
+						cssClasses,
 						logLevel,
 				  })
 				: undefined,
@@ -123,15 +126,7 @@ const createInputOptions = (): InputOptions => {
 			syPlugin({
 				dev,
 				cacheCss: cacheSyCss,
-				getUsedCssClasses:
-					extractSvelteCssClassesPluginInstance &&
-					extractSvelteCssClassesPluginInstance.getUsedCssClasses,
-				getDefinedCssClasses:
-					extractSvelteCssClassesPluginInstance &&
-					extractSvelteCssClassesPluginInstance.getDefinedCssClasses,
-				setDefinedCssClasses:
-					extractSvelteCssClassesPluginInstance &&
-					extractSvelteCssClassesPluginInstance.setDefinedCssClasses,
+				cssClasses,
 				logLevel,
 				prettierOptions,
 				removeUnusedClasses,

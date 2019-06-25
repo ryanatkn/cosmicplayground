@@ -10,7 +10,9 @@ import {SvelteUnrolledCompilation} from './rollup-plugin-svelte-unrolled';
 import {LogLevel, logger, Logger, fmtVal, fmtMs} from '../logger';
 import {timeTracker} from '../scriptUtils';
 import {toSrcPath} from '../paths';
+import {CssClassesCache} from './cssClassesCache';
 
+// TODO remove unused plain css classes in prod
 // TODO class directives! `class:active={isActive}`
 // TODO bundle vision! that should show you classes (and warn on undefined ones)
 //   probably need to change the way classes are stored/deleted for this
@@ -21,45 +23,37 @@ import {toSrcPath} from '../paths';
 // TODO investigate using workers to speed this up
 
 export interface PluginOptions {
+	cssClasses: CssClassesCache;
 	classAttrMatcher: RegExp;
 	classFnMatcher: RegExp;
-	usedClasses: Set<CssClass>;
-	definedClassesById: Map<string, Set<CssClass>>;
 	getSvelteCompilation: (id: string) => SvelteUnrolledCompilation | undefined;
 	logLevel: LogLevel;
 }
-export type RequiredPluginOptions = 'getSvelteCompilation';
+export type RequiredPluginOptions = 'cssClasses' | 'getSvelteCompilation';
 export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
 export const defaultPluginOptions = ({
+	cssClasses,
 	getSvelteCompilation,
 }: InitialPluginOptions): PluginOptions => ({
+	cssClasses,
 	classAttrMatcher: new RegExp(/^(class|.+Class)$/),
 	classFnMatcher: new RegExp(/^(cls)$/), // TODO consider renaming: sy, cn, ..
-	usedClasses: new Set(),
-	definedClassesById: new Map(),
 	getSvelteCompilation,
 	logLevel: LogLevel.Info,
 });
-
-export interface ExtractSvelteCssClassesPlugin extends Plugin {
-	getUsedCssClasses(): Set<CssClass>;
-	getDefinedCssClasses(): Set<CssClass>;
-	setDefinedCssClasses(id: string, classes: Set<string>): void;
-}
 
 export const name = 'extract-svelte-css-classes';
 
 export const extractSvelteCssClassesPlugin = (
 	pluginOptions: InitialPluginOptions,
-): ExtractSvelteCssClassesPlugin => {
+): Plugin => {
 	const {
+		cssClasses,
 		classAttrMatcher,
 		classFnMatcher,
-		usedClasses,
-		definedClassesById,
 		getSvelteCompilation,
 		logLevel,
 	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
@@ -67,50 +61,15 @@ export const extractSvelteCssClassesPlugin = (
 	const log = logger(logLevel, [cyan(`[${name}]`)]);
 	const {info} = log;
 
-	// We store the defined classes by id in `definedClassesById`,
-	// to enable quicker recomptuation after changes.
-	// We're currently throwing away each file/id's classes and recomputing
-	// whenever there's a change, to make sure we don't retain stale classes
-	// that were removed.
-	// TODO `recomputeDefinedClasses` could be much faster if we diffed which
-	// classes get added/removed upstream
-	const definedClasses = new Set<string>();
-	let definedClassesChanged = true;
-	const recomputeDefinedClasses = (): Set<string> => {
-		info('recomputing defined classes');
-		definedClasses.clear();
-		for (const classes of definedClassesById.values()) {
-			for (const cls of classes) {
-				definedClasses.add(cls);
-			}
-		}
-		return definedClasses;
-	};
-	const setDefinedCssClasses = (id: string, classes: Set<string>): void => {
-		log.trace(gray('setDefinedCssClasses'), id, Array.from(classes));
-		// TODO see above not about diffing classes that get added/removed upstream to increase perf
-		definedClassesChanged = true;
-		definedClassesById.set(id, classes);
-	};
-
 	return {
 		name,
-		// TODO ok ... so this currently tracks ALL classes
-		// do we instead want to track `classesByCssId`?
-		// if we do that it allows us to track classes atomically in the rollup build,
-		// but the downside is that they need to be combined or iterated through
-		// in the removal process, which is going to be less efficient.
-		getUsedCssClasses: () => usedClasses,
-		getDefinedCssClasses: () => {
-			if (!definedClassesChanged) return definedClasses;
-			definedClassesChanged = false;
-			return recomputeDefinedClasses();
-		},
-		setDefinedCssClasses,
 		async transform(_code, id) {
 			const compilation = getSvelteCompilation(id);
 			if (!compilation) return null;
+
+			// add used classes from the svelte markup and scripts
 			const elapsed = timeTracker();
+			const usedClasses = new Set<string>();
 			extractCssClassesFromMarkup(
 				compilation.ast.html,
 				classAttrMatcher,
@@ -123,10 +82,18 @@ export const extractSvelteCssClassesPlugin = (
 				usedClasses,
 				log,
 			);
+			extractCssClassesFromScript(
+				compilation.ast.module,
+				classFnMatcher,
+				usedClasses,
+				log,
+			);
+			cssClasses.setUsedCssClasses(id, usedClasses);
+
 			// add defined classes from the svelte styles
-			const classes = new Set<string>();
-			extractCssClassesFromStyles(compilation.ast.css, classes, log);
-			setDefinedCssClasses(id, classes);
+			const definedClasses = new Set<string>();
+			extractCssClassesFromStyles(compilation.ast.css, definedClasses, log);
+			cssClasses.setDefinedCssClasses(id, definedClasses);
 
 			info(gray(toSrcPath(id)), fmtVal('extract_classes', fmtMs(elapsed(), 2))); // TODO track with stats instead of logging
 			return null;

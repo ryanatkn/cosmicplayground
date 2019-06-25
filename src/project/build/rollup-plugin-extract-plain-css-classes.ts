@@ -10,6 +10,7 @@ import {createFilter} from 'rollup-pluginutils';
 import {assignDefaults} from '../../utils/obj';
 import {LogLevel, logger, Logger} from '../logger';
 import {CssBuild} from './rollup-plugin-output-css';
+import {CssClassesCache} from './cssClassesCache';
 
 // This is hacky, but works around the broken css-tree types
 // when importing modules directly from `css-tree/lib/`,
@@ -20,22 +21,22 @@ const parse = csstreeParse as Parse;
 
 export interface PluginOptions {
 	cacheCss(id: string, css: string | CssBuild): boolean;
-	setDefinedCssClasses(id: string, classes: Set<string>): void;
+	cssClasses: CssClassesCache;
 	include: string | RegExp | (string | RegExp)[] | null | undefined;
 	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
 	logLevel: LogLevel;
 }
-export type RequiredPluginOptions = 'cacheCss' | 'setDefinedCssClasses';
+export type RequiredPluginOptions = 'cacheCss' | 'cssClasses';
 export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
 export const defaultPluginOptions = ({
 	cacheCss,
-	setDefinedCssClasses,
+	cssClasses,
 }: InitialPluginOptions): PluginOptions => ({
 	cacheCss,
-	setDefinedCssClasses,
+	cssClasses,
 	include: ['**/*.css'],
 	exclude: undefined,
 	logLevel: LogLevel.Info,
@@ -46,13 +47,10 @@ export const name = 'extract-plain-css-classes';
 export const extractPlainCssClassesPlugin = (
 	pluginOptions: InitialPluginOptions,
 ): Plugin => {
-	const {
-		cacheCss,
-		setDefinedCssClasses,
-		include,
-		exclude,
-		logLevel,
-	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
+	const {cacheCss, cssClasses, include, exclude, logLevel} = assignDefaults(
+		defaultPluginOptions(pluginOptions),
+		pluginOptions,
+	);
 
 	const log = logger(logLevel, [green(`[${name}]`)]);
 	const {info} = log;
@@ -90,7 +88,7 @@ export const extractPlainCssClassesPlugin = (
 				const estreeAst = toPlainObject(parsedAst);
 				const classes = new Set<string>();
 				extractCssClassesFromStyles(estreeAst, classes, log);
-				setDefinedCssClasses(id, classes);
+				cssClasses.setDefinedCssClasses(id, classes);
 			}
 			return '';
 		},
