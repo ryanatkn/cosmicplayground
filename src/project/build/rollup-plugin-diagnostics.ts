@@ -1,5 +1,5 @@
 import {Plugin} from 'rollup';
-import {gray, yellow} from 'kleur';
+import {gray} from 'kleur';
 
 import {assignDefaults} from '../../utils/obj';
 import {LogLevel, logger, fmtVal, fmtMs} from '../logger';
@@ -19,6 +19,8 @@ export const defaultPluginOptions = (): PluginOptions => ({
 
 const name = 'diagnostics';
 
+const tag = (s: string) => s; // maybe color this
+
 export const diagnosticsPlugin = (
 	pluginOptions: InitialPluginOptions = {},
 ): Plugin => {
@@ -32,32 +34,32 @@ export const diagnosticsPlugin = (
 		name,
 		// banner() {}
 		buildStart() {
-			info(yellow('buildStart'));
+			info(tag('buildStart'));
 		},
 		buildEnd() {
-			info(yellow('buildEnd'));
+			info(tag('buildEnd'));
 		},
 		// footer() {}
 		generateBundle(_outputOptions, _bundle, isWrite) {
-			info(yellow('generateBundle'), {isWrite});
+			info(tag('generateBundle'), {isWrite});
 		},
 		// intro() {}
 		load(id) {
-			trace(yellow('load'), gray(id));
+			trace(tag('load'), gray(id));
 			return null;
 		},
 		options(o) {
-			trace(yellow('options'), o);
+			trace(tag('options'), o);
 			return null;
 		},
 		// outputOptions(o) {
-		// 	log(yellow('outputOptions'), o);
+		// 	log(tag('outputOptions'), o);
 		// 	return null;
 		// },
 		// outro() {}
 		renderChunk(_code, chunk, _options) {
 			info(
-				yellow('renderChunk'),
+				tag('renderChunk'),
 				chunk.name,
 				chunk.fileName,
 				chunk.facadeModuleId && gray(chunk.facadeModuleId),
@@ -66,13 +68,13 @@ export const diagnosticsPlugin = (
 		},
 		// renderError(_error) {}
 		renderStart() {
-			info(yellow('renderStart'));
+			info(tag('renderStart'));
 		},
 		// resolveDynamicImport(_specifier, _importer) {}
 		// resolveFileUrl(_asset) {}
 		resolveId(importee, importer) {
 			trace(
-				yellow('resolveId'),
+				tag('resolveId'),
 				gray(importee),
 				(importer && gray('<- ' + importer)) || '',
 			);
@@ -81,18 +83,18 @@ export const diagnosticsPlugin = (
 		// resolveImportMeta(_property, _asset) {}
 		transform(code, id) {
 			trace(
-				yellow('transform'),
+				tag('transform'),
 				gray(id),
 				fmtVal('len', (code && code.length) || 0),
 			);
 			return null;
 		},
 		watchChange(id) {
-			trace(yellow('watchChange'), gray(id));
+			trace(tag('watchChange'), gray(id));
 		},
 		writeBundle(_bundle) {
 			info(
-				yellow('writeBundle'),
+				tag('writeBundle'),
 				// TODO
 				// print # of errors/warnings (maybe duplicate printing them here too)
 				// how should that work?
