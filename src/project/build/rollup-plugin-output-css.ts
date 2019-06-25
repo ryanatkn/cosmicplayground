@@ -1,6 +1,5 @@
 import {Plugin, ExistingRawSourceMap} from 'rollup';
 import {outputFile} from 'fs-extra';
-import {createFilter} from 'rollup-pluginutils';
 import {blue} from 'kleur';
 import * as fp from 'path';
 import {decode, encode, SourceMapSegment} from 'sourcemap-codec';
@@ -21,9 +20,6 @@ export type CssBundle = {
 };
 
 export interface PluginOptions {
-	mainBundleName: string;
-	include: string | RegExp | (string | RegExp)[] | null | undefined;
-	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
 	sourcemap: boolean; // TODO consider per-bundle options
 	logLevel: LogLevel;
 }
@@ -33,9 +29,6 @@ export type InitialPluginOptions = PartialExcept<
 	RequiredPluginOptions
 >;
 export const defaultPluginOptions = (): PluginOptions => ({
-	mainBundleName: 'bundle.css',
-	include: ['**/*.css'],
-	exclude: undefined,
 	sourcemap: false,
 	logLevel: LogLevel.Info,
 });
@@ -44,25 +37,18 @@ export interface PlainCssPlugin extends Plugin {
 	cacheCss(bundleName: string, id: string, css: string | CssBuild): boolean;
 }
 
-export const name = 'plain-css';
+export const name = 'output-css';
 
-export const plainCssPlugin = (
+// TODO this really just outputs css - but it'll probably be refactored
+export const outputCssPlugin = (
 	pluginOptions: InitialPluginOptions,
 ): PlainCssPlugin => {
-	const {
-		mainBundleName,
-		include,
-		exclude,
-		sourcemap,
-		logLevel,
-	} = assignDefaults(
+	const {sourcemap, logLevel} = assignDefaults(
 		defaultPluginOptions(),
 		// {sourcemap: pluginOptions.dev}, // TODO dev flag?
 		pluginOptions,
 	);
 	const {info} = logger(logLevel, [blue(`[${name}]`)]);
-
-	const filter = createFilter(include, exclude);
 
 	// `bundles` key is an output file name,
 	// and the value is css by id.
@@ -96,15 +82,6 @@ export const plainCssPlugin = (
 		name,
 		// TODO rewrite when the emit file API is ready https://github.com/rollup/rollup/issues/2938
 		cacheCss,
-		transform(code, id) {
-			// handle *.css imports - styles from `sy` and `.svelte`
-			// files are handled elsewhere
-			// TODO handle multiple bundles? or just one?
-			if (!filter(id)) return;
-			info(`transform id`, id);
-			cacheCss(mainBundleName, id, code);
-			return '';
-		},
 		async generateBundle(outputOptions, _bundle, isWrite) {
 			if (!isWrite) return;
 

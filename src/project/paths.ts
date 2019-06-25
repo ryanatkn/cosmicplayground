@@ -23,8 +23,9 @@ const createPaths = () => {
 		appStaticJsStats: fp.join(appStatic, 'bundle.stats.json'),
 		appSrc: fp.join(root, 'src'),
 		appExternals: fp.join(root, 'node_modules'),
-		mainCssBundleName: 'bundle.css',
+		svelteCssBundleName: 'bundle.svelte.css',
 		syCssBundleName: 'bundle.sy.css',
+		plainCssBundleName: 'bundle.plain.css',
 	};
 };
 

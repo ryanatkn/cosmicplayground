@@ -27,10 +27,11 @@ import {paths} from '../paths';
 import {argv, handleScriptError, rainbow, resolvePath} from '../scriptUtils';
 import {logger, LogLevel} from '../logger';
 import {clean} from './clean';
-import {plainCssPlugin} from './rollup-plugin-plain-css';
+import {outputCssPlugin} from './rollup-plugin-output-css';
 import {syPlugin} from './rollup-plugin-sy';
 import {svelteUnrolledPlugin} from './rollup-plugin-svelte-unrolled';
-import {svelteExtractCssClassesPlugin} from './rollup-plugin-svelte-extract-css-classes';
+import {extractPlainCssClassesPlugin} from './rollup-plugin-extract-plain-css-classes';
+import {extractSvelteCssClassesPlugin} from './rollup-plugin-extract-svelte-css-classes';
 import {diagnosticsPlugin} from './rollup-plugin-diagnostics';
 import {bundleWriterPlugin} from './rollup-plugin-bundle-writer';
 
@@ -54,32 +55,36 @@ const warnUndefinedClasses = true;
 
 // TODO consider using two separate css plugins
 // it's hard to tell if we'll ever want a single one to be able to coordinate multiple bundles
-const plainCssPluginInstance = plainCssPlugin({
-	mainBundleName: paths.mainCssBundleName,
+const outputCssPluginInstance = outputCssPlugin({
 	sourcemap: dev,
 	logLevel,
 });
-const cacheMainCss = plainCssPluginInstance.cacheCss.bind(
+const cacheSvelteCss = outputCssPluginInstance.cacheCss.bind(
 	null,
-	paths.mainCssBundleName,
+	paths.svelteCssBundleName,
 );
-const cacheSyCss = plainCssPluginInstance.cacheCss.bind(
+const cacheSyCss = outputCssPluginInstance.cacheCss.bind(
 	null,
 	paths.syCssBundleName,
 );
+const cachePlainCss = outputCssPluginInstance.cacheCss.bind(
+	null,
+	paths.plainCssBundleName,
+);
 const svelteUnrolledPluginInstance = svelteUnrolledPlugin({
 	dev,
-	cacheCss: cacheMainCss,
+	cacheCss: cacheSvelteCss,
 	include: resolvePath('src/client/**/*.svelte'),
 	logLevel,
 });
-const svelteExtractCssClassesPluginInstance =
+const extractSvelteCssClassesPluginInstance =
 	removeUnusedClasses || warnUndefinedClasses
-		? svelteExtractCssClassesPlugin({
+		? extractSvelteCssClassesPlugin({
 				getSvelteCompilation: svelteUnrolledPluginInstance.getCompilation,
 				logLevel,
 		  })
 		: undefined;
+
 // TODO all of the above `PluginInstance` stuff is tiresome.
 // consider changing plugins to be `createFooPlugin`
 
@@ -97,7 +102,17 @@ const createInputOptions = (): InputOptions => {
 			}),
 			typescriptPlugin(),
 			svelteUnrolledPluginInstance,
-			svelteExtractCssClassesPluginInstance,
+			// TODO this dependency on a similarly named peer is an obvious problem -
+			// file emitting will probably fix
+			extractSvelteCssClassesPluginInstance
+				? extractPlainCssClassesPlugin({
+						setDefinedCssClasses:
+							extractSvelteCssClassesPluginInstance.setDefinedCssClasses,
+						cacheCss: cachePlainCss,
+						logLevel,
+				  })
+				: undefined,
+			extractSvelteCssClassesPluginInstance,
 			// currently this uses the result of `svelteUnrolled`'s transform hook
 			// in its own transform hook, so it needs to be placed after it in plugins
 			// TODO is there good a way to warn/error if they're out of order?
@@ -109,16 +124,19 @@ const createInputOptions = (): InputOptions => {
 				dev,
 				cacheCss: cacheSyCss,
 				getUsedCssClasses:
-					svelteExtractCssClassesPluginInstance &&
-					svelteExtractCssClassesPluginInstance.getUsedCssClasses,
+					extractSvelteCssClassesPluginInstance &&
+					extractSvelteCssClassesPluginInstance.getUsedCssClasses,
 				getDefinedCssClasses:
-					svelteExtractCssClassesPluginInstance &&
-					svelteExtractCssClassesPluginInstance.getDefinedCssClasses,
+					extractSvelteCssClassesPluginInstance &&
+					extractSvelteCssClassesPluginInstance.getDefinedCssClasses,
+				setDefinedCssClasses:
+					extractSvelteCssClassesPluginInstance &&
+					extractSvelteCssClassesPluginInstance.setDefinedCssClasses,
 				logLevel,
 				prettierOptions,
 				removeUnusedClasses,
 			}),
-			plainCssPluginInstance,
+			outputCssPluginInstance,
 			resolvePlugin(),
 			commonjsPlugin(),
 			...(dev

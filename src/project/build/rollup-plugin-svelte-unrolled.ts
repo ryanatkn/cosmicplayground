@@ -13,7 +13,7 @@ import {assignDefaults} from '../../utils/obj';
 import {extractFilename, replaceExt} from '../scriptUtils';
 import {LogLevel, logger, fmtVal, fmtMs} from '../logger';
 import {toSrcPath} from '../paths';
-import {CssBuild} from './rollup-plugin-plain-css';
+import {CssBuild} from './rollup-plugin-output-css';
 
 // TODO type could be improved, not sure how tho
 interface Stats {

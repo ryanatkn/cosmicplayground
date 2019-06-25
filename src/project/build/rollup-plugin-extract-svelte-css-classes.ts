@@ -11,7 +11,6 @@ import {LogLevel, logger, Logger, fmtVal, fmtMs} from '../logger';
 import {timeTracker} from '../scriptUtils';
 import {toSrcPath} from '../paths';
 
-// TODO imported css files need to be parsed with css-tree and have classes extracted
 // TODO class directives! `class:active={isActive}`
 // TODO bundle vision! that should show you classes (and warn on undefined ones)
 //   probably need to change the way classes are stored/deleted for this
@@ -25,7 +24,7 @@ export interface PluginOptions {
 	classAttrMatcher: RegExp;
 	classFnMatcher: RegExp;
 	usedClasses: Set<CssClass>;
-	definedClasses: Set<CssClass>;
+	definedClassesById: Map<string, Set<CssClass>>;
 	getSvelteCompilation: (id: string) => SvelteUnrolledCompilation | undefined;
 	logLevel: LogLevel;
 }
@@ -40,32 +39,59 @@ export const defaultPluginOptions = ({
 	classAttrMatcher: new RegExp(/^(class|.+Class)$/),
 	classFnMatcher: new RegExp(/^(cls)$/), // TODO consider renaming: sy, cn, ..
 	usedClasses: new Set(),
-	definedClasses: new Set(),
+	definedClassesById: new Map(),
 	getSvelteCompilation,
 	logLevel: LogLevel.Info,
 });
 
-export interface SvelteExtractCssClassesPlugin extends Plugin {
+export interface ExtractSvelteCssClassesPlugin extends Plugin {
 	getUsedCssClasses(): Set<CssClass>;
 	getDefinedCssClasses(): Set<CssClass>;
+	setDefinedCssClasses(id: string, classes: Set<string>): void;
 }
 
-export const name = 'svelte-extract-css-classes';
+export const name = 'extract-svelte-css-classes';
 
-export const svelteExtractCssClassesPlugin = (
+export const extractSvelteCssClassesPlugin = (
 	pluginOptions: InitialPluginOptions,
-): SvelteExtractCssClassesPlugin => {
+): ExtractSvelteCssClassesPlugin => {
 	const {
 		classAttrMatcher,
 		classFnMatcher,
 		usedClasses,
-		definedClasses,
+		definedClassesById,
 		getSvelteCompilation,
 		logLevel,
 	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
 
 	const log = logger(logLevel, [cyan(`[${name}]`)]);
 	const {info} = log;
+
+	// We store the defined classes by id in `definedClassesById`,
+	// to enable quicker recomptuation after changes.
+	// We're currently throwing away each file/id's classes and recomputing
+	// whenever there's a change, to make sure we don't retain stale classes
+	// that were removed.
+	// TODO `recomputeDefinedClasses` could be much faster if we diffed which
+	// classes get added/removed upstream
+	const definedClasses = new Set<string>();
+	let definedClassesChanged = true;
+	const recomputeDefinedClasses = (): Set<string> => {
+		info('recomputing defined classes');
+		definedClasses.clear();
+		for (const classes of definedClassesById.values()) {
+			for (const cls of classes) {
+				definedClasses.add(cls);
+			}
+		}
+		return definedClasses;
+	};
+	const setDefinedCssClasses = (id: string, classes: Set<string>): void => {
+		log.trace(gray('setDefinedCssClasses'), id, Array.from(classes));
+		// TODO see above not about diffing classes that get added/removed upstream to increase perf
+		definedClassesChanged = true;
+		definedClassesById.set(id, classes);
+	};
 
 	return {
 		name,
@@ -75,7 +101,12 @@ export const svelteExtractCssClassesPlugin = (
 		// but the downside is that they need to be combined or iterated through
 		// in the removal process, which is going to be less efficient.
 		getUsedCssClasses: () => usedClasses,
-		getDefinedCssClasses: () => definedClasses,
+		getDefinedCssClasses: () => {
+			if (!definedClassesChanged) return definedClasses;
+			definedClassesChanged = false;
+			return recomputeDefinedClasses();
+		},
+		setDefinedCssClasses,
 		async transform(_code, id) {
 			const compilation = getSvelteCompilation(id);
 			if (!compilation) return null;
@@ -92,7 +123,11 @@ export const svelteExtractCssClassesPlugin = (
 				usedClasses,
 				log,
 			);
-			extractCssClassesFromStyles(compilation.ast.css, definedClasses, log);
+			// add defined classes from the svelte styles
+			const classes = new Set<string>();
+			extractCssClassesFromStyles(compilation.ast.css, classes, log);
+			setDefinedCssClasses(id, classes);
+
 			info(gray(toSrcPath(id)), fmtVal('extract_classes', fmtMs(elapsed(), 2))); // TODO track with stats instead of logging
 			return null;
 		},
@@ -147,7 +182,7 @@ const extractCssClassesFromScript = (
 // in global svelte styles, css files, or otherwise outside of the `sy` config.
 const extractCssClassesFromStyles = async (
 	ast: Node,
-	classes: Set<CssClass>,
+	classes: Set<string>,
 	log: Logger,
 ): Promise<void> => {
 	walk(ast, {
@@ -169,6 +204,8 @@ const extractCssClassesFromStyles = async (
 				// https://github.com/sveltejs/svelte/blob/0b836872cf50f25eb643cf24e57a85cf6db31cbe/src/compiler/parse/read/style.ts
 				// Looks like it's because css-tree uses data structures
 				// like a `List` for children instead of plain arrays.
+				// TODO see the other notes with this link - https://github.com/csstree/csstree/issues/47
+				// ideally we measure the differences here - walking once makes sense though, and calling `toArray`
 				const estreeAst = JSON.parse(JSON.stringify(parsedAst));
 				extractCssClassesFromStyles(estreeAst, classes, log);
 			}

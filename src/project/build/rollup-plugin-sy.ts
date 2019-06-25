@@ -8,13 +8,14 @@ import {replaceExt} from '../scriptUtils';
 import {logger, LogLevel, Logger, fmtCauses} from '../logger';
 import {sy, SyBuild, SyConfig, CssClass} from '../../sy/sy';
 import {removeClasses} from '../../sy/helpers';
-import {CssBuild} from './rollup-plugin-plain-css';
+import {CssBuild} from './rollup-plugin-output-css';
 
 export interface PluginOptions {
 	dev: boolean;
 	cacheCss(id: string, css: string | CssBuild): boolean;
 	getUsedCssClasses?: () => Set<string>;
 	getDefinedCssClasses?: () => Set<string>;
+	setDefinedCssClasses?: (id: string, classes: Set<string>) => void;
 	include: string | RegExp | (string | RegExp)[] | null | undefined;
 	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
 	removeUnusedClasses: boolean;
@@ -38,6 +39,7 @@ export const defaultPluginOptions = ({
 	cacheCss,
 	getUsedCssClasses: undefined,
 	getDefinedCssClasses: undefined,
+	setDefinedCssClasses: undefined,
 	include: ['src/**/sy.config.ts'],
 	exclude: undefined,
 	removeUnusedClasses: !dev,
@@ -62,6 +64,7 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 		cacheCss,
 		getUsedCssClasses,
 		getDefinedCssClasses,
+		setDefinedCssClasses,
 		include,
 		exclude,
 		removeUnusedClasses,
@@ -98,11 +101,13 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 			configs.set(cssId, config);
 			changedCssIds.add(cssId); // not diffing the config here
 
-			if (getDefinedCssClasses) {
-				const definedClasses = getDefinedCssClasses();
+			if (setDefinedCssClasses) {
+				// TODO caching? helper?
+				const definedCssClasses = new Set<string>();
 				for (const def of config.defs) {
-					if (def.type === 'class') definedClasses.add(def.className);
+					if (def.type === 'class') definedCssClasses.add(def.className);
 				}
+				setDefinedCssClasses(cssId, definedCssClasses);
 			}
 
 			return null;
@@ -115,6 +120,9 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 			// for now I'm leaving it broken until I understand the clean fix
 			if (!changedCssIds.size) return;
 			info('generateBundle', isWrite);
+			// TODO should this work be done elsewhere, not `generateBundle`?
+			// its interaction with `rolup-plugin-plain-css` isn't great.
+			// It adds css to that plugin's bundles at the end here.
 			for (const cssId of changedCssIds) {
 				const config = configs.get(cssId);
 				if (!config) throw Error(`Cannot find config for cssId ${cssId}`);
