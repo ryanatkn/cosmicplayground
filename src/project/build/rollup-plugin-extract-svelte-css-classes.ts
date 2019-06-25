@@ -12,7 +12,7 @@ import {timeTracker} from '../scriptUtils';
 import {toSrcPath} from '../paths';
 import {CssClassesCache} from './cssClassesCache';
 
-// TODO remove unused plain css classes in prod
+// TODO remove unused plain css classes in prod (groundwork is now laid with `cssClassesCache`)
 // TODO class directives! `class:active={isActive}`
 // TODO bundle vision! that should show you classes (and warn on undefined ones)
 //   probably need to change the way classes are stored/deleted for this

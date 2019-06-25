@@ -54,7 +54,7 @@ const commonjsPlugin: typeof commonjsPluginFIXME.default = commonjsPluginFIXME a
 const removeUnusedClasses = !dev;
 const warnUndefinedClasses = true;
 
-const cssClasses = createCssClassesCache();
+const cssClasses = createCssClassesCache({logLevel});
 
 // TODO consider using two separate css plugins
 // it's hard to tell if we'll ever want a single one to be able to coordinate multiple bundles

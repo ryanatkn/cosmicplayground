@@ -57,7 +57,6 @@ minimize costs while maximizing control, flexibility, and performance.
   in a way that feels similar to adopting TypeScript
   (to a much lesser degree, and with similar benefits:
   removing unused classes and warning on undefined classes feel so worth it)
-
 - you may not be able to unsee a lack of awesomeness in other solutions :sob:
 
 > anything big missing? please submit an issue or pull request!
@@ -71,13 +70,23 @@ but it is already being used on deployed websites.
 
 ## usage
 
-> TODO improve with inline example
+```html
+<!-- you can use TailwindCSS names -->
+<div class="flex relative"></div>
+<!-- or something more concise -->
+<div class="f rel"></div>
+<!-- or whatever you want! -->
+```
+
+> TODO improve with inline example, including plugins
 
 See [`src/client/sy.config.ts`](../client/sy.config.ts),
 [`rollup-plugin-sy`](../project/build/rollup-plugin-sy.ts),
 [`src/project/build/build.ts`](../project/build/build.ts),
-[`rollup-plugin-svelte-extract-css-classes`](../project/build/rollup-plugin-svelte-extract-css-classes.ts),
-and [`rollup-plugin-plain-css`](../project/build/rollup-plugin-plain-css.ts).
+[`rollup-plugin-extract-svelte-css-classes`](../project/build/rollup-plugin-extract-svelte-css-classes.ts),
+[`rollup-plugin-extract-plain-css-classes`](../project/build/rollup-plugin-extract-plain-css-classes.ts),
+[`cssClassesCache`](../project/build/cssClassesCache.ts),
+and [`rollup-plugin-output-css`](../project/build/rollup-plugin-output-css.ts).
 
 ## terminology
 
@@ -93,7 +102,8 @@ Currently, I find the best tradeoffs to be the following:
 - _undefined css classes_ cause warnings in both dev and prod builds,
   with helpful messages for what could be wrong (it can't be inferred)
 - _unused css classes_ are removed in prod and retained in dev.
-  This allows playing around with classes directly in the browser.
+  This allows playing around with classes directly in the browser
+  and avoids a lot of recomputation when a new style gets used.
   This is a complicated set of tradeoffs though, so YMMV.
 
 The `rollup` plugins can be configured in whatever way makes sense to you.
@@ -106,7 +116,7 @@ so there's few wasted CPU cycles and no fruitlessly complex dependency graphs.
 This prevents mistakes, minimizes the bytes users have to download,
 and helps keep the developer's mind and build pipeline free of clutter.
 
-> TODO show what installing PostCSS/Tailwind does to `package-lock.json`
+> TODO show what installing PostCSS/TailwindCSS does to `package-lock.json`
 
 Build scripts automatically try to find undefined and unused css classes,
 but there are limits to what can be inferred,
