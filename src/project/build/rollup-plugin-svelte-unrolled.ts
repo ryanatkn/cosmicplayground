@@ -43,7 +43,7 @@ export type SvelteUnrolledCompilation = SvelteCompilation & {
 
 export interface PluginOptions {
 	dev: boolean;
-	cacheCss(id: string, css: string | CssBuild): boolean;
+	cacheCss(id: string, css: CssBuild): boolean;
 	include: string | RegExp | (string | RegExp)[] | null | undefined;
 	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
 	compileOptions: CompileOptions;

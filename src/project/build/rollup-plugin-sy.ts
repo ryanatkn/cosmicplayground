@@ -13,7 +13,7 @@ import {CssClassesCache} from './cssClassesCache';
 
 export interface PluginOptions {
 	dev: boolean;
-	cacheCss(id: string, css: string | CssBuild): boolean;
+	cacheCss(id: string, css: CssBuild): boolean;
 	cssClasses: CssClassesCache;
 	include: string | RegExp | (string | RegExp)[] | null | undefined;
 	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
@@ -179,7 +179,7 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 				const build = createSyBuild(finalConfig, dev, log, prettierOptions);
 				builds.set(cssId, build);
 				// TODO rewrite when the emit file API is ready https://github.com/rollup/rollup/issues/2938
-				cacheCss(cssId, build.styles);
+				cacheCss(cssId, {code: build.styles, map: undefined});
 			}
 			changedCssIds.clear();
 		},

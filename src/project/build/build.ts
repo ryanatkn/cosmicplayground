@@ -60,6 +60,7 @@ const cssClasses = createCssClassesCache({logLevel});
 // it's hard to tell if we'll ever want a single one to be able to coordinate multiple bundles
 const outputCssPluginInstance = outputCssPlugin({
 	sourcemap: dev,
+	cssClasses,
 	logLevel,
 });
 const cacheSvelteCss = outputCssPluginInstance.cacheCss.bind(
@@ -112,6 +113,7 @@ const createInputOptions = (): InputOptions => {
 				? extractPlainCssClassesPlugin({
 						cacheCss: cachePlainCss,
 						cssClasses,
+						removeUnusedClasses,
 						logLevel,
 				  })
 				: undefined,
@@ -127,9 +129,9 @@ const createInputOptions = (): InputOptions => {
 				dev,
 				cacheCss: cacheSyCss,
 				cssClasses,
-				logLevel,
-				prettierOptions,
 				removeUnusedClasses,
+				prettierOptions,
+				logLevel,
 			}),
 			outputCssPluginInstance,
 			resolvePlugin(),

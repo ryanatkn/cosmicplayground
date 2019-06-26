@@ -16,4 +16,10 @@ declare module 'css-tree/lib/convertor' {
 	import {Node} from 'svelte/types/compiler/interfaces';
 	import {CssNode} from 'css-tree';
 	export function toPlainObject(node: CssNode): Node;
+	export function fromPlainObject(node: Node): CssNode;
+}
+
+declare module 'css-tree/lib/generator' {
+	import {CssNode} from 'css-tree';
+	export function translate(node: CssNode): string;
 }

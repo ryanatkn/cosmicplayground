@@ -20,8 +20,9 @@ import {CssClassesCache} from './cssClassesCache';
 const parse = csstreeParse as Parse;
 
 export interface PluginOptions {
-	cacheCss(id: string, css: string | CssBuild): boolean;
+	cacheCss(id: string, css: CssBuild): boolean;
 	cssClasses: CssClassesCache;
+	removeUnusedClasses: boolean;
 	include: string | RegExp | (string | RegExp)[] | null | undefined;
 	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
 	logLevel: LogLevel;
@@ -37,6 +38,7 @@ export const defaultPluginOptions = ({
 }: InitialPluginOptions): PluginOptions => ({
 	cacheCss,
 	cssClasses,
+	removeUnusedClasses: false,
 	include: ['**/*.css'],
 	exclude: undefined,
 	logLevel: LogLevel.Info,
@@ -47,10 +49,14 @@ export const name = 'extract-plain-css-classes';
 export const extractPlainCssClassesPlugin = (
 	pluginOptions: InitialPluginOptions,
 ): Plugin => {
-	const {cacheCss, cssClasses, include, exclude, logLevel} = assignDefaults(
-		defaultPluginOptions(pluginOptions),
-		pluginOptions,
-	);
+	const {
+		cacheCss,
+		cssClasses,
+		removeUnusedClasses,
+		include,
+		exclude,
+		logLevel,
+	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
 
 	const log = logger(logLevel, [green(`[${name}]`)]);
 	const {info} = log;
@@ -60,36 +66,45 @@ export const extractPlainCssClassesPlugin = (
 	return {
 		name,
 		async transform(code, id) {
-			// TODO is this plugin doing too much?
 			if (!filter(id)) return;
 			// handle *.css imports - styles from `sy` and `.svelte`
 			// files are handled elsewhere
-			// TODO handle multiple bundles? or just one?
 			info(`transform id`, id);
+
+			// TODO this needs to be rethought
+			// ideally we forward css instead of adding it to the cache here, and let rollup handle caching
+			// we need to parse the css and update classes, but only if the cache changed
+			// doing this seems like we're mixing concerns across files though
+
+			// TODO with the file emit api, we'll want to return this AST from this `transform` fn
+			const parsedAst = parse(code, {positions: false});
+			// TODO consider changing this - could walk once for example, but then the AST is incompatible with svelte's
+			// maybe JSON.parse(JSON.stringify()) performs ok? maybe not lol. PR to svelte if significant?
+			// https://github.com/csstree/csstree/issues/47
+			// Svelte jses JSON.parse(JSON.stringify(parsedAst))
+			// https://github.com/sveltejs/svelte/blob/0b836872cf50f25eb643cf24e57a85cf6db31cbe/src/compiler/parse/read/style.ts
+			const ast = toPlainObject(parsedAst);
+			const classes = new Set<string>();
+			extractCssClassesFromStyles(ast, classes, log);
+			cssClasses.setDefinedCssClasses(id, classes);
 
 			// TODO emit asset or use the incoming emitFile api
 			// TODO hmm.. combine caching css and classes? or keep separate?
-			const updatedCache = cacheCss(id, code); // TODO is this cache check ever false?
+			const updatedCache = cacheCss(id, {
+				code,
+				ast,
+				removeUnusedClasses,
+				map: undefined,
+			});
 			info('updated cache:', updatedCache);
-			if (updatedCache) {
-				// TODO this needs to be rethought
-				// ideally we forward css instead of adding it to the cache here, and let rollup handle caching
-				// we need to parse the css and update classes, but only if the cache changed
-				// doing this seems like we're mixing concerns across files though
 
-				// TODO with the file emit api, we'll want to return this AST from this `transform` fn
-				const parsedAst = parse(code, {positions: false});
-				// TODO consider changing this - could walk once for example, but then the AST is incompatible with svelte's
-				// maybe JSON.parse(JSON.stringify()) performs ok? maybe not lol. PR to svelte if significant?
-				// https://github.com/csstree/csstree/issues/47
-				// Svelte jses JSON.parse(JSON.stringify(parsedAst))
-				// https://github.com/sveltejs/svelte/blob/0b836872cf50f25eb643cf24e57a85cf6db31cbe/src/compiler/parse/read/style.ts
-				// const estreeAst = JSON.parse(JSON.stringify(parsedAst));
-				const estreeAst = toPlainObject(parsedAst);
-				const classes = new Set<string>();
-				extractCssClassesFromStyles(estreeAst, classes, log);
-				cssClasses.setDefinedCssClasses(id, classes);
+			// TODO understand this
+			if (!updatedCache) {
+				throw Error(
+					`Hmm...didn't expect this cache miss. TODO figure out circular ast/caching problem`,
+				);
 			}
+
 			return '';
 		},
 	};
