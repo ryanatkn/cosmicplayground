@@ -8,7 +8,7 @@ import {
 } from '../sy/helpers';
 import {arrayOf, flatMap} from '../utils/arr';
 import {blendModes} from '../css/blendModes';
-import {cursor} from '../css/properties';
+import {cursor, justifyContent, alignItems} from '../css/properties';
 
 // helper for tagging dynamic css class usage so `sy` sees it for inclusion.
 // see `classFnMatcher` in `rollup-plugin-svelte-extract-css-classes`.
@@ -133,42 +133,6 @@ export const createConfig = async (
 				'flex-col': 'flex-direction: column',
 				'flex-col-reverse': 'flex-direction: column-reverse',
 
-				// justify content values have sketchy support - Edge support in particular is weak
-				// https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content
-				// 'justify-start': 'justify-content: start',
-				// 'justify-end': 'justify-content: end',
-				'justify-start': 'justify-content: flex-start',
-				'justify-end': 'justify-content: flex-end',
-				'justify-center': 'justify-content: center',
-				// 'justify-left': 'justify-content: left',
-				// 'justify-right': 'justify-content: right',
-				'justify-normal': 'justify-content: normal',
-				// 'justify-baseline': 'justify-content: baseline',
-				// 'justify-first-baseline': 'justify-content: first-baseline',
-				// 'justify-last-baseline': 'justify-content: last-baseline',
-				'justify-between': 'justify-content: space-between',
-				'justify-around': 'justify-content: space-around',
-				// 'justify-evenly': 'justify-content: space-evenly',
-				// 'justify-stretch': 'justify-content: stretch', // hmm........ this may be the one that gets me to break some browsers
-
-				// align items
-				// TODO some of the support for these may be incorrect on MDN
-				// https://developer.mozilla.org/en-US/docs/Web/CSS/align-items
-				'items-normal': 'align-items: normal',
-				'items-start': 'align-items: flex-start',
-				'items-end': 'align-items: flex-end',
-				'items-center': 'align-items: center',
-				// 'items-start':'align-items: start',
-				// 'items-end':'align-items: end',
-				'items-self-start': 'align-items: self-start',
-				'items-self-end': 'align-items: self-end',
-				'items-baseline': 'align-items: baseline',
-				// 'items-first-baseline':'align-items: first baseline',
-				// 'items-last-baseline':'align-items: last baseline',
-				'items-stretch': 'align-items: stretch',
-				// 'items-safe':'align-items: safe',
-				// 'items-unsafe':'align-items: unsafe',
-
 				// font-weight
 				// TODO consider supporting numerical weight?
 				// https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
@@ -191,6 +155,9 @@ export const createConfig = async (
 				'text-decoration-dashed': 'text-decoration-style: dashed',
 				'text-decoration-wavy': 'text-decoration-style: wavy',
 			}),
+
+			...propsToClassDefs(justifyContent, 'justify-content', 'justify'),
+			...propsToClassDefs(alignItems, 'align-items', 'items'),
 
 			// cursors
 			...propsToClassDefs(cursor, 'cursor'),

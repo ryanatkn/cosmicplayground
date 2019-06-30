@@ -18,8 +18,20 @@ export const classDefs = (defs: Record<CssClass, CssDeclaration>): SyDef[] =>
 		classDef(className, declaration),
 	);
 
-export const propsToClassDefs = (props: string[], name: string): SyDef[] =>
-	props.map(p => classDef(`${name}-${p}`, `${name}: ${p}`));
+// `props` can be a string that's directly mapped
+// from css property value to css class suffix,
+// or it can be a tuple of the form `[cssPropertyValue, classSuffix]`,
+// e.g. `['flex-start', 'start']`
+export const propsToClassDefs = (
+	props: (string | string[])[],
+	propName: string,
+	classPrefix = propName,
+): SyDef[] =>
+	props.map(p =>
+		typeof p === 'string'
+			? classDef(`${classPrefix}-${p}`, `${propName}: ${p}`)
+			: classDef(`${classPrefix}-${p[1]}`, `${propName}: ${p[0]}`),
+	);
 
 export const selectorDef = (
 	selector: CssSelector,
