@@ -18,6 +18,9 @@ export const classDefs = (defs: Record<CssClass, CssDeclaration>): SyDef[] =>
 		classDef(className, declaration),
 	);
 
+export const propsToClassDefs = (props: string[], name: string): SyDef[] =>
+	props.map(p => classDef(`${name}-${p}`, `${name}: ${p}`));
+
 export const selectorDef = (
 	selector: CssSelector,
 	declaration: CssDeclaration,

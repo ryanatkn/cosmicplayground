@@ -1,7 +1,14 @@
 import {SyConfig} from '../sy/sy';
-import {classDef, classDefs, selectorDef, selectorDefs} from '../sy/helpers';
+import {
+	classDef,
+	classDefs,
+	selectorDef,
+	selectorDefs,
+	propsToClassDefs,
+} from '../sy/helpers';
 import {arrayOf, flatMap} from '../utils/arr';
 import {blendModes} from '../css/blendModes';
+import {cursor} from '../css/properties';
 
 // helper for tagging dynamic css class usage so `sy` sees it for inclusion.
 // see `classFnMatcher` in `rollup-plugin-svelte-extract-css-classes`.
@@ -183,45 +190,10 @@ export const createConfig = async (
 				'text-decoration-dotted': 'text-decoration-style: dotted',
 				'text-decoration-dashed': 'text-decoration-style: dashed',
 				'text-decoration-wavy': 'text-decoration-style: wavy',
-
-				// cursors
-				'cursor-auto': 'cursor: auto',
-				'cursor-default': 'cursor: default',
-				'cursor-none': 'cursor: none',
-				'cursor-context-menu': 'cursor: context-menu',
-				'cursor-help': 'cursor: help',
-				'cursor-pointer': 'cursor: pointer',
-				'cursor-progress': 'cursor: progress',
-				'cursor-wait': 'cursor: wait',
-				'cursor-cell': 'cursor: cell',
-				'cursor-crosshair': 'cursor: crosshair',
-				'cursor-text': 'cursor: text',
-				'cursor-vertical-text': 'cursor: vertical-text',
-				'cursor-alias': 'cursor: alias',
-				'cursor-copy': 'cursor: copy',
-				'cursor-move': 'cursor: move',
-				'cursor-no-drop': 'cursor: no-drop',
-				'cursor-not-allowed': 'cursor: not-allowed',
-				'cursor-grab': 'cursor: grab',
-				'cursor-grabbing': 'cursor: grabbing',
-				'cursor-e-resize': 'cursor: e-resize',
-				'cursor-n-resize': 'cursor: n-resize',
-				'cursor-ne-resize': 'cursor: ne-resize',
-				'cursor-nw-resize': 'cursor: nw-resize',
-				'cursor-s-resize': 'cursor: s-resize',
-				'cursor-se-resize': 'cursor: se-resize',
-				'cursor-sw-resize': 'cursor: sw-resize',
-				'cursor-w-resize': 'cursor: w-resize',
-				'cursor-ew-resize': 'cursor: ew-resize',
-				'cursor-ns-resize': 'cursor: ns-resize',
-				'cursor-nesw-resize': 'cursor: nesw-resize',
-				'cursor-nwse-resize': 'cursor: nwse-resize',
-				'cursor-col-resize': 'cursor: col-resize',
-				'cursor-row-resize': 'cursor: row-resize',
-				'cursor-all-scroll': 'cursor: all-scroll',
-				'cursor-zoom-in': 'cursor: zoom-in',
-				'cursor-zoom-out': 'cursor: zoom-out',
 			}),
+
+			// cursors
+			...propsToClassDefs(cursor, 'cursor'),
 
 			// blend modeas
 			...flatMap(blendModes, b => [
