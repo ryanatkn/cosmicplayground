@@ -1,7 +1,7 @@
 # cosmicplayground [![icon](static/favicon.png)](https://cosmicplayground.org)
 
 > tools and toys for expanding minds
-> [:milky_way: cosmicplayground.org :comet:](https://cosmicplayground.org)
+> [:milky_way: cosmicplayground.org](https://cosmicplayground.org)
 
 ```svelte
 // work in progress
@@ -44,7 +44,7 @@ sharing ideas, creations, and experiences. Participation takes many forms:
   but if you have something cool in mind please share!
 - email [cosmicplayground.org@gmail.com](mailto:cosmicplayground.org@gmail.com)
 - donate on [Patreon](https://patreon.com/ryanatkn)
-- [:milky_way: cosmicplayground.org :comet:](https://cosmicplayground.org)
+- [:milky_way: cosmicplayground.org](https://cosmicplayground.org)
 
 ## develop
 
