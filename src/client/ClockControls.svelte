@@ -26,8 +26,7 @@
 			on:click={resume}
 			src="assets/construction/person-rock-pause.png"
 			alt="under construction: person rock pause"
-			class="rock pixelated"
-			style="filter: grayscale(100%);" />
+			class="rock pixelated grayscale" />
 		<button type="button" class="toggle-button" on:click={resume}>
 			<div style="font-size: 24px">▶</div>
 			resume universe clock
