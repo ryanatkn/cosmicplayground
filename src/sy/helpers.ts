@@ -29,8 +29,11 @@ export const propsToClassDefs = (
 ): SyDef[] =>
 	props.map(p =>
 		typeof p === 'string'
-			? classDef(`${classPrefix}-${p}`, `${propName}: ${p}`)
-			: classDef(`${classPrefix}-${p[1]}`, `${propName}: ${p[0]}`),
+			? classDef(classPrefix ? `${classPrefix}-${p}` : p, `${propName}: ${p}`)
+			: classDef(
+					classPrefix ? `${classPrefix}-${p[1]}` : p[1],
+					`${propName}: ${p[0]}`,
+			  ),
 	);
 
 export const selectorDef = (

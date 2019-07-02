@@ -7,8 +7,62 @@
 // and use browser support data to enable/disable stuff with a single switch.
 // I don't see that browser support data right now, but I haven't looked hard.
 
+// type is `cssPropertyValue | [cssPropertyValue, cssPropertyValueShorthand]`
+export type CssPropertiesData = (string | [string, string])[];
+
+// position
+export const position: CssPropertiesData = [
+	'static',
+	'relative',
+	'absolute',
+	'fixed',
+	'sticky',
+];
+
+// display
+export const display: CssPropertiesData = [
+	'block',
+	'flex',
+	'inline',
+	'inline-block',
+];
+
+// font-weight
+// TODO consider supporting numerical weight?
+// https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
+export const fontWeight: CssPropertiesData = [
+	'normal',
+	'bold',
+	'lighter',
+	'bolder',
+];
+
+// text-decoration
+// TODO text-decoration-color
+// TODO b/c of Edge, using plain "text-decoration" instead of "text-decoration-line" - want to undo
+// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line
+export const textDecoration: CssPropertiesData = [
+	// TODO this creates an unfortunate coupling between
+	// the prefix rendering and data definitions -
+	// not sure what the fix is. this works it just breaks the clean design
+	// that has these data definitions agnostic to class names.
+	// We could go the other direction, and specify that the other values are literals
+	// that need no class name prefixes, but the class concerns still bleed over in that case.
+	['none', 'text-decoration-none'],
+	'underline',
+	'overline',
+	'line-through',
+];
+export const textDecorationStyle: CssPropertiesData = [
+	'solid',
+	'double',
+	'dotted',
+	'dashed',
+	'wavy',
+];
+
 // https://developer.mozilla.org/en-US/docs/Web/CSS/cursor
-export const cursor = [
+export const cursor: CssPropertiesData = [
 	'auto', 'default', 'none',
 	'context-menu', 'help', 'pointer', 'progress', 'wait',
 	'cell', 'crosshair', 'text', 'vertical-text',
@@ -20,9 +74,12 @@ export const cursor = [
 	'zoom-in', 'zoom-out',
 ]; // prettier-ignore
 
+// flexbox
+export const flex: CssPropertiesData = ['auto', 'initial', 'none', '1'];
+
 // justify content values have sketchy support - Edge support in particular is weak
 // https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content
-export const justifyContent = [
+export const justifyContent: CssPropertiesData = [
 	'normal',
 	// start/end aren't supported well so we ignore them and
 	// confusingly use a shorthand for flex-start/end (like Tailwind does)
@@ -44,7 +101,7 @@ export const justifyContent = [
 
 // align items
 // https://developer.mozilla.org/en-US/docs/Web/CSS/align-items
-export const alignItems = [
+export const alignItems: CssPropertiesData = [
 	'normal',
 	// like with `justifyContent`, start/end aren't supported well so we ignore them and
 	// confusingly use a shorthand for flex-start/end (like Tailwind does)

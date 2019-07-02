@@ -8,7 +8,17 @@ import {
 } from '../sy/helpers';
 import {arrayOf, flatMap} from '../utils/arr';
 import {blendModes} from '../css/blendModes';
-import {cursor, justifyContent, alignItems} from '../css/properties';
+import {
+	cursor,
+	justifyContent,
+	alignItems,
+	textDecorationStyle,
+	textDecoration,
+	fontWeight,
+	display,
+	position,
+	flex,
+} from '../css/properties';
 
 // helper for tagging dynamic css class usage so `sy` sees it for inclusion.
 // see `classFnMatcher` in `rollup-plugin-svelte-extract-css-classes`.
@@ -105,59 +115,43 @@ export const createConfig = async (
 			...spacings.map(i => classDef(`h-${i}`, `height: ${spacingVar(i)}`)),
 			classDef('h-100', 'height: 100%'), // TODO hmm..this is a little ambiguous but I don't foresee ever using 100 spacings
 
-			// TODO flatten/combine usage of `classDefs`? review the high level layout pattern of all of these styles
+			// TODO add left/right/top/bottom spacings
+
+			// position
+			...propsToClassDefs(position, 'position', ''),
 			...classDefs({
-				// display
-				block: 'display: block',
-				flex: 'display: flex',
-				inline: 'display: inline',
-				'inline-block': 'display: inline-block',
+				// TODO other values? might want a better design - needed for e.g. padding.
+				absolute0: 'position: absolute; left: 0; top: 0;',
+			}),
 
-				// position
-				static: 'position: static',
-				relative: 'position: relative',
-				absolute: 'position: absolute',
-				fixed: 'position: fixed',
-				sticky: 'position: sticky',
-				absolute0: 'position: absolute; left: 0; top: 0;', // TODO other values? might want a better design - needed for e.g. padding.
-				// TODO add left/right/top/bottom spacings
+			// display
+			...propsToClassDefs(display, 'display', ''),
 
-				// flexbox
-				'flex-auto': 'flex: auto',
-				'flex-initial': 'flex: initial',
-				'flex-none': 'flex: none',
-				'flex-1': 'flex: 1',
+			// font-weight
+			...propsToClassDefs(fontWeight, 'font-weight', 'font'),
 
+			// text-decoration
+			...propsToClassDefs(textDecoration, 'text-decoration', ''),
+			...propsToClassDefs(
+				textDecorationStyle,
+				'text-decoration-style',
+				'text-decoration',
+			),
+
+			// flexbox
+			...propsToClassDefs(flex, 'flex'),
+			...propsToClassDefs(justifyContent, 'justify-content', 'justify'),
+			...propsToClassDefs(alignItems, 'align-items', 'items'),
+			...classDefs({
+				// TODO col shorthand is the problem here ..
+				// splitting the flexDirectionRow/Col definitions works but that's gross
+				// hmm.. this strategy isn't the easiest to read in general,
+				// but it _is_ flexible, easy to alter prefixes and such
 				'flex-row': 'flex-direction: row',
 				'flex-row-reverse': 'flex-direction: row-reverse',
 				'flex-col': 'flex-direction: column',
 				'flex-col-reverse': 'flex-direction: column-reverse',
-
-				// font-weight
-				// TODO consider supporting numerical weight?
-				// https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
-				'font-normal': 'font-weight: normal',
-				'font-bold': 'font-weight: bold',
-				'font-lighter': 'font-weight: lighter',
-				'font-bolder': 'font-weight: bolder',
-
-				// text-decoration
-				// TODO text-decoration-color
-				// TODO b/c of Edge, using plain "text-decoration" instead of "text-decoration-line"
-				// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line
-				'text-decoration-none': 'text-decoration: none',
-				underline: 'text-decoration: underline',
-				overline: 'text-decoration: overline',
-				'line-through': 'text-decoration: line-through',
-				'text-decoration-solid': 'text-decoration-style: solid',
-				'text-decoration-double': 'text-decoration-style: double',
-				'text-decoration-dotted': 'text-decoration-style: dotted',
-				'text-decoration-dashed': 'text-decoration-style: dashed',
-				'text-decoration-wavy': 'text-decoration-style: wavy',
 			}),
-
-			...propsToClassDefs(justifyContent, 'justify-content', 'justify'),
-			...propsToClassDefs(alignItems, 'align-items', 'items'),
 
 			// cursors
 			...propsToClassDefs(cursor, 'cursor'),
