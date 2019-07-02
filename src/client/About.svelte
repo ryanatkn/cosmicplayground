@@ -57,10 +57,8 @@
 	href="https://spiderspace.org"
 	src="assets/characters/spider.png"
 	alt="spider"
-	imgClass="absolute"
-	imgStyle="right: -14px; top: -5px;"
+	imgClass="absolute -t-1 -r-3"
 	linkClass="block relative h-0" />
-<!-- TODO sy classes for top/right/bottom/left and negative values for everything (yeesh!), w/o copy/pasting the defs -->
 <ImgLink
 	href="https://github.com/ryanatkn/cosmicplayground"
 	src="assets/characters/cosm.png"
