@@ -10,7 +10,8 @@
 </script>
 
 <div
-	class="wrapper w-100 h-100 relative flex items-center justify-center overflow-hidden"
+	class="w-100 h-100 relative z-1 flex items-center justify-center
+	overflow-hidden"
 	bind:clientWidth
 	bind:clientHeight>
 	<div style={`transform: scale3d(${scale}, ${scale}, 1);`}>
@@ -180,9 +181,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	.wrapper {
-		z-index: 1;
-	}
-</style>

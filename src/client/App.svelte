@@ -68,7 +68,7 @@
 
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
-<section class="bg w-100">
+<section class="bg w-100 z-0">
 	<GalaxyBg running={$clock.running} />
 </section>
 
@@ -378,7 +378,6 @@
 		top: 0;
 		left: 0;
 		height: 100%;
-		z-index: 0;
 	}
 	.content {
 		position: relative;

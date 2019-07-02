@@ -151,6 +151,10 @@ export const createConfig = async (
 			...propsToClassDefs(overflow, 'overflow-x'),
 			...propsToClassDefs(overflow, 'overflow-y'),
 
+			// z-index
+			...arrayOf(10, n => classDef(`z-${n}`, `z-index: ${n}`)),
+			...arrayOf(3, n => classDef(`-z-${n + 1}`, `z-index: -${n + 1}`)),
+
 			// font-weight
 			...propsToClassDefs(fontWeight, 'font-weight', 'font'),
 

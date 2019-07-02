@@ -351,9 +351,7 @@
 					{chartY0 - yPct * chartHeight - chartAxisLineWidth / 2}px, 0);
 					background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px;
 					height: {chartAxisLineWidth}px" />
-				<canvas
-					style="position: relative; z-index: 1;"
-					bind:this={chartCanvas} />
+				<canvas class="relative z-1" bind:this={chartCanvas} />
 				<div
 					style="position: absolute; left: 0; top: 0; background-color: {getColor(activeEasingIndex)};
 					transform: translate3d({chartX0 + xPct * chartWidth - chartLineHighlightWidth / 2}px,

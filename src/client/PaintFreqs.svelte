@@ -189,7 +189,7 @@
 
 <div class="relative w-100 h-100 overflow-hidden">
 	{#if $spotPosition}
-		<svg class="absolute0 w-100 h-100">
+		<svg class="absolute0 z-2 w-100 h-100">
 			<!--
 				Chrome doesn't appear to support setting a canvas mask to an svg (it works in Firefox)
 				so we use an svg `image` with a `dataUrl` instead.
@@ -220,10 +220,10 @@
 		</svg>
 	{/if}
 	{#if width !== undefined}
-		<canvas id="bg-canvas" class="absolute0" bind:this={canvas} />
+		<canvas id="bg-canvas" class="absolute0 z-1" bind:this={canvas} />
 	{/if}
 	{#if displayedFreq}
-		<div class="freq w-100 absolute flex items-start justify-center l-0 b-4">
+		<div class="freq w-100 absolute z-1 flex items-start justify-center l-0 b-4">
 			<div>
 				{displayedFreq}
 				<span class="unit">hz</span>
@@ -231,8 +231,7 @@
 		</div>
 	{/if}
 	<div
-		id="surface"
-		class="absolute w-100 h-100"
+		class="absolute z-3 w-100 h-100"
 		on:mousedown|stopPropagation|preventDefault={handlePointerDown}
 		on:mouseup|stopPropagation|preventDefault={handlePointerUp}
 		on:mouseleave|stopPropagation|preventDefault={handlePointerUp}
@@ -243,24 +242,14 @@
 		on:touchmove|stopPropagation|preventDefault={handlePointerMove}
 		bind:clientWidth={width}
 		bind:clientHeight={height} />
-	<div id="controls" class="absolute b-0 l-0">
+	<div id="controls" class="absolute z-4 b-0 l-0">
 		<div class="button" on:click|stopPropagation|preventDefault={clear}>↻</div>
 	</div>
 </div>
 
 <style>
 	#bg-canvas {
-		z-index: 1;
 		opacity: 0.25;
-	}
-	#surface {
-		z-index: 3;
-	}
-	#controls {
-		z-index: 4;
-	}
-	svg {
-		z-index: 2;
 	}
 	circle.outer {
 		fill: rgba(226, 182, 255, 0.4);
@@ -281,7 +270,6 @@
 		fill: rgb(226, 182, 255);
 	}
 	.freq {
-		z-index: 1;
 		font-size: 50px;
 		color: #fff;
 	}
