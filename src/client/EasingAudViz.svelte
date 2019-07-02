@@ -261,7 +261,7 @@
 		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 </script>
 
-<div style="max-width: 980px; display: flex; flex-wrap: wrap; margin: auto;">
+<div class="max-column-width" style="display: flex; flex-wrap: wrap; margin: auto;">
 	<section>
 		<section class="controls" style="padding-left: 90px;">
 			<div class="controls-group {muted ? 'disabled' : ''}">
@@ -460,7 +460,6 @@
 	section {
 		color: rgba(255, 255, 255, 0.8);
 		padding: 15px;
-		max-width: 980px;
 		margin: 0 auto;
 	}
 	input[type='range'] {

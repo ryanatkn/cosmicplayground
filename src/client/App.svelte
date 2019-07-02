@@ -219,7 +219,7 @@
 		<div class="back-button-wrapper">
 			<BackButton {view} />
 		</div>
-		<div style="margin: 90px auto 0; max-width: 980px; padding: 20px;">
+		<div class="max-column-width" style="margin: 90px auto 0; padding: 20px;">
 			<Overlay contentStyle="padding: 20px;">
 				<About {name}>
 					<div style="display: flex; align-items: center;">

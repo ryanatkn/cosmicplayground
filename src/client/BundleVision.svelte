@@ -61,7 +61,7 @@
 </style>
 
 <!-- TODO max-width should be a variable, like max-content-width -->
-<div class="p-5 mx-auto" style="color: #ccc; max-width: 980px">
+<div class="p-5 mx-auto max-column-width" style="color: #ccc;">
 	<nav class="flex mb-4" style="background-color: #171314;">
 		{#each views as view (view.name)}
 			<div
