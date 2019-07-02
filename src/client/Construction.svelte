@@ -9,14 +9,16 @@
 	$: scale = Math.min(xScale, yScale);
 </script>
 
-<div class="wrapper" bind:clientWidth bind:clientHeight>
+<div
+	class="wrapper w-100 h-100 relative flex items-center justify-center"
+	bind:clientWidth
+	bind:clientHeight>
 	<div style={`transform: scale3d(${scale}, ${scale}, 1);`}>
 		<div style={`width: ${maxWidth}px; height: ${maxHeight}px;`}>
 			<img
 				src="assets/construction/line-1.gif"
 				alt="under construction: line 1"
-				style="width: 100%"
-				class="pixelated" />
+				class="pixelated w-100" />
 			<img
 				src="assets/construction/person-dig-idea.gif"
 				alt="under construction: person dig idea"
@@ -134,24 +136,25 @@
 				src="assets/construction/person-dig-pause.gif"
 				alt="under construction: person dig pause" />
 			<div
-				style="display: inline-block; height: 100px; position: relative; width:
-				240px; transform: rotate(-5deg); top: 46px;">
+				class="inline-block relative"
+				style="height: 100px; width: 240px; transform: rotate(-5deg); top: 46px;">
 				<img
 					src="assets/construction/line-2.gif"
 					alt="under construction: line 2"
-					style="width: 90%; position: absolute; top: 38px; left: 5%" />
+					class="absolute"
+					style="width: 90%; top: 38px; left: 5%" />
 				<img
 					src="assets/construction/line-2.gif"
 					alt="under construction: line 2"
-					style="width: 80%; position: absolute; bottom: 46px; left: 14%" />
+					class="absolute"
+					style="width: 80%; bottom: 46px; left: 14%" />
 				<img
 					src="assets/construction/line-2.gif"
 					alt="under construction: line 2"
-					style="width: 100%; position: absolute; bottom: 38px; left: 0" />
+					class="w-100 absolute"
+					style="bottom: 38px; left: 0" />
 			</div>
-			<div
-				style="position: relative; width: 144px; height: 144px; display:
-				inline-block;">
+			<div class="relative inline-block" style="width: 144px; height: 144px;">
 				<img
 					src="assets/construction/mammal.gif"
 					alt="under construction: mammal"
@@ -160,33 +163,27 @@
 					<img
 						src="assets/characters/spider.png"
 						alt="spider"
-						style="position: absolute; left: 56px; top: 68px;" />
+						class="absolute"
+						style="left: 56px; top: 68px;" />
 				</a>
 			</div>
 			<img
 				src="assets/construction/line-2.gif"
 				alt="under construction: line 2"
-				style="width: 100%; transform: scale3d(1, -1, 1);"
-				class="pixelated" />
+				style="transform: scale3d(1, -1, 1);"
+				class="pixelated w-100" />
 			<img
 				src="assets/construction/line-1.gif"
 				alt="under construction: line 1"
-				style="width: 100%; position: relative; top: -8px; transform: scale3d(1,
-				-1, 1);"
-				class="pixelated" />
+				style="top: -8px; transform: scale3d(1, -1, 1);"
+				class="pixelated w-100 relative" />
 		</div>
 	</div>
 </div>
 
 <style>
 	.wrapper {
-		position: relative;
 		z-index: 1;
-		height: 100%;
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
 		overflow: hidden;
 	}
 </style>

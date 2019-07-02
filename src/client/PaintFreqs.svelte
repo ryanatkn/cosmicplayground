@@ -187,9 +187,9 @@
 	};
 </script>
 
-<div class="wrapper">
+<div class="wrapper relative w-100 h-100">
 	{#if $spotPosition}
-		<svg>
+		<svg class="absolute0 w-100 h-100">
 			<!--
 				Chrome doesn't appear to support setting a canvas mask to an svg (it works in Firefox)
 				so we use an svg `image` with a `dataUrl` instead.
@@ -220,10 +220,10 @@
 		</svg>
 	{/if}
 	{#if width !== undefined}
-		<canvas id="bg-canvas" bind:this={canvas} />
+		<canvas id="bg-canvas" class="absolute0" bind:this={canvas} />
 	{/if}
 	{#if displayedFreq}
-		<div class="freq">
+		<div class="freq w-100 absolute flex items-start justify-center l-0 b-4">
 			<div>
 				{displayedFreq}
 				<span class="unit">hz</span>
@@ -232,6 +232,7 @@
 	{/if}
 	<div
 		id="surface"
+		class="absolute w-100 h-100"
 		on:mousedown|stopPropagation|preventDefault={handlePointerDown}
 		on:mouseup|stopPropagation|preventDefault={handlePointerUp}
 		on:mouseleave|stopPropagation|preventDefault={handlePointerUp}
@@ -242,44 +243,27 @@
 		on:touchmove|stopPropagation|preventDefault={handlePointerMove}
 		bind:clientWidth={width}
 		bind:clientHeight={height} />
-	<div id="controls">
+	<div id="controls" class="absolute b-0 l-0">
 		<div class="button" on:click|stopPropagation|preventDefault={clear}>↻</div>
 	</div>
 </div>
 
 <style>
 	.wrapper {
-		position: relative;
-		width: 100%;
-		height: 100%;
 		overflow: hidden;
 	}
 	#bg-canvas {
 		z-index: 1;
-		position: absolute;
-		left: 0;
-		top: 0;
 		opacity: 0.25;
 	}
 	#surface {
 		z-index: 3;
-		position: absolute;
-		width: 100%;
-		height: 100%;
 	}
 	#controls {
 		z-index: 4;
-		position: absolute;
-		bottom: 0;
-		left: 0;
 	}
 	svg {
 		z-index: 2;
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		left: 0;
-		top: 0;
 	}
 	circle.outer {
 		fill: rgba(226, 182, 255, 0.4);
@@ -300,14 +284,7 @@
 		fill: rgb(226, 182, 255);
 	}
 	.freq {
-		position: absolute;
-		bottom: 15px;
-		left: 0;
 		z-index: 1;
-		width: 100%;
-		display: flex;
-		align-items: flex-start;
-		justify-content: center;
 		font-size: 50px;
 		color: #fff;
 	}

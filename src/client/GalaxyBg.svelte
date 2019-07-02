@@ -5,16 +5,13 @@
 	$: animation = running ? '' : 'animation: none;';
 </script>
 
-<div class="wrapper">
+<div class="wrapper w-100 h-100 absolute">
 	<div class="bg" style={animation} />
 </div>
 
 <style>
 	.wrapper {
-		height: 100%;
-		width: 100%;
 		overflow: hidden;
-		position: absolute;
 		z-index: 0;
 		opacity: 0.2;
 	}

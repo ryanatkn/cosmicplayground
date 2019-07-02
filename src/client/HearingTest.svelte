@@ -99,9 +99,9 @@
 	};
 </script>
 
-<div class="wrapper">
+<div class="wrapper relative w-100 h-100">
 	{#if $spotPosition}
-		<svg>
+		<svg class="absolute0 w-100 h-100">
 			<filter id="blurOuter" height="200%" width="200%" y="-50%" x="-50%">
 				<feGaussianBlur in="SourceGraphic" stdDeviation="10" />
 			</filter>
@@ -115,7 +115,7 @@
 		</svg>
 	{/if}
 	{#if volume !== undefined}
-		<div class="volume">
+		<div class="volume h-100 absolute t-0 flex items-center justify-start">
 			<div>
 				{displayedVolume}
 				<span class="unit">%</span>
@@ -123,7 +123,7 @@
 		</div>
 	{/if}
 	{#if freq !== undefined}
-		<div class="freq">
+		<div class="freq absolute w-100 l-0 flex items-start justify-center">
 			<div>
 				{displayedFreq}
 				<span class="unit">hz</span>
@@ -131,7 +131,7 @@
 		</div>
 	{/if}
 	<div
-		class="surface"
+		class="surface absolute w-100 h-100"
 		on:mousedown|stopPropagation|preventDefault={handlePointerDown}
 		on:mouseup|stopPropagation|preventDefault={handlePointerUp}
 		on:mouseleave|stopPropagation|preventDefault={handlePointerUp}
@@ -146,23 +146,12 @@
 
 <style>
 	.wrapper {
-		width: 100%;
-		height: 100%;
-		position: relative;
 		overflow: hidden;
 	}
 	.surface {
-		width: 100%;
-		height: 100%;
-		position: absolute;
 		z-index: 3;
 	}
 	svg {
-		width: 100%;
-		height: 100%;
-		position: absolute;
-		left: 0;
-		top: 0;
 		z-index: 2;
 	}
 	circle.outer {
@@ -172,26 +161,14 @@
 		fill: rgb(226, 182, 255);
 	}
 	.volume {
-		position: absolute;
 		left: 20px;
-		top: 0;
 		z-index: 1;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: flex-start;
 		font-size: 50px;
 		color: #fff;
 	}
 	.freq {
-		position: absolute;
 		bottom: 15px;
-		left: 0;
 		z-index: 1;
-		width: 100%;
-		display: flex;
-		align-items: flex-start;
-		justify-content: center;
 		font-size: 50px;
 		color: #fff;
 	}

@@ -125,7 +125,7 @@
 			min={(2 * 1000) / 60}
 			max={6000}
 			step={1000 / 60} />
-		<div style="padding-left: 10px;">
+		<div class="pl-2">
 			<div>
 				{Math.round(duration)}
 				<small>ms</small>

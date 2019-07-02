@@ -110,12 +110,12 @@ export const createConfig = async (
 
 			// width
 			...spacings.map(i => classDef(`w-${i}`, `width: ${spacingVar(i)}`)),
-			classDef('w-100', 'width: 100%'), // TODO hmm..this is a little ambiguous but I don't foresee ever using 100 spacings
+			classDef('w-100', 'width: 100%'), // TODO hmm..this is a little ambiguous
 			classDef('max-column-width', 'max-width: 980px'), // TODO refactor? rename?
 
 			// height
 			...spacings.map(i => classDef(`h-${i}`, `height: ${spacingVar(i)}`)),
-			classDef('h-100', 'height: 100%'), // TODO hmm..this is a little ambiguous but I don't foresee ever using 100 spacings
+			classDef('h-100', 'height: 100%'), // TODO hmm..this is a little ambiguous
 
 			// left/right/top/bottom
 			...spacings.map(i => classDef(`l-${i}`, `left: ${spacingVar(i)}`)),

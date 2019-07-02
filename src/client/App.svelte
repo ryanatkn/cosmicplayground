@@ -68,7 +68,7 @@
 
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
-<section class="bg">
+<section class="bg w-100">
 	<GalaxyBg running={$clock.running} />
 </section>
 
@@ -220,7 +220,7 @@
 			<BackButton {view} />
 		</div>
 		<div class="max-column-width" style="margin: 90px auto 0; padding: 20px;">
-			<Overlay contentStyle="padding: 20px;">
+			<Overlay contentClass="p-5">
 				<About {name}>
 					<div style="display: flex; align-items: center;">
 						<div
@@ -377,7 +377,6 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		width: 100%;
 		height: 100%;
 		z-index: 0;
 	}
