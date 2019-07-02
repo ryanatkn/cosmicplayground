@@ -116,7 +116,11 @@ export const createConfig = async (
 			...spacings.map(i => classDef(`h-${i}`, `height: ${spacingVar(i)}`)),
 			classDef('h-100', 'height: 100%'), // TODO hmm..this is a little ambiguous but I don't foresee ever using 100 spacings
 
-			// TODO add left/right/top/bottom spacings
+			// left/right/top/bottom
+			...spacings.map(i => classDef(`left-${i}`, `left: ${spacingVar(i)}`)),
+			...spacings.map(i => classDef(`right-${i}`, `right: ${spacingVar(i)}`)),
+			...spacings.map(i => classDef(`top-${i}`, `top: ${spacingVar(i)}`)),
+			...spacings.map(i => classDef(`bottom-${i}`, `bottom: ${spacingVar(i)}`)),
 
 			// position
 			...propsToClassDefs(position, 'position', ''),
