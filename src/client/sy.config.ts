@@ -35,8 +35,8 @@ const toVar = <T extends (...args: any) => any>(getProperty: T) => (
 // exported consts can be used externally, at buildtime or runtime,
 // and tree-shaking keeps the bundle happy
 export const spacing = 4;
-export const spacings = arrayOf(16).concat(
-	20, 24, 28, 32, 36, 40, 48, 64, 96, 128
+export const spacings = arrayOf(17).concat(
+	18, 20, 22, 24, 26, 28, 30, 32, 36, 40, 48, 56, 64, 80, 96, 128
 ); // prettier-ignore
 export type SpacingVarName = '1px' | '2px' | '3px' | number; // in an ideal world, `number` would be a union of numbers to prevent misuse, but that's a level of hackery I don't want to stoop to yet - maybe codegen types from `spacingCount`? lol
 export const spacingProperty = toVarName<SpacingVarName>('spacing');
