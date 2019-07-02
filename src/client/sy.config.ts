@@ -25,7 +25,7 @@ import {
 export const cls = (cssClasses: string): string => cssClasses; // TODO consider accepting multiple params and joining? is that a valid use case? we'll know when/if we get there
 
 // generic css-related utils
-const toProperty = <T>(prefix: string) => (suffix?: T): string =>
+const toVarName = <T>(prefix: string) => (suffix?: T): string =>
 	suffix === undefined ? `--${prefix}` : `--${prefix}-${suffix}`;
 // the type of `toVar` is ridiculous but I'm just having fun here :d
 const toVar = <T extends (...args: any) => any>(getProperty: T) => (
@@ -34,11 +34,12 @@ const toVar = <T extends (...args: any) => any>(getProperty: T) => (
 
 // exported consts can be used externally, at buildtime or runtime,
 // and tree-shaking keeps the bundle happy
-export const spacingCount = 32; // TODO maybe cut out some of the higher numbers here, what is 31 good for? anything, nothing?
 export const spacing = 4;
-export const spacings = arrayOf(spacingCount); // TODO why does rollup always bundle this along with `spacingCount` and `arrayOf`?
-export type SpacingPropertyName = '1px' | '2px' | '3px' | number; // in an ideal world, `number` would be a union of numbers to prevent misuse, but that's a level of hackery I don't want to stoop to yet - maybe codegen types from `spacingCount`? lol
-export const spacingProperty = toProperty<SpacingPropertyName>('spacing');
+export const spacings = arrayOf(16).concat(
+	20, 24, 28, 32, 36, 40, 48, 64, 96, 128
+); // prettier-ignore
+export type SpacingVarName = '1px' | '2px' | '3px' | number; // in an ideal world, `number` would be a union of numbers to prevent misuse, but that's a level of hackery I don't want to stoop to yet - maybe codegen types from `spacingCount`? lol
+export const spacingProperty = toVarName<SpacingVarName>('spacing');
 export const spacingVar = toVar(spacingProperty);
 
 // TODO malformed CSS causes some gnarly errors - maybe use `magic-string` to make a sourcemap?
