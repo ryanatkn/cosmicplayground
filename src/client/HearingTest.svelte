@@ -99,7 +99,7 @@
 	};
 </script>
 
-<div class="wrapper relative w-100 h-100">
+<div class="relative w-100 h-100 overflow-hidden">
 	{#if $spotPosition}
 		<svg class="absolute0 w-100 h-100">
 			<filter id="blurOuter" height="200%" width="200%" y="-50%" x="-50%">
@@ -145,9 +145,6 @@
 </div>
 
 <style>
-	.wrapper {
-		overflow: hidden;
-	}
 	.surface {
 		z-index: 3;
 	}

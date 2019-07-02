@@ -187,7 +187,7 @@
 	};
 </script>
 
-<div class="wrapper relative w-100 h-100">
+<div class="relative w-100 h-100 overflow-hidden">
 	{#if $spotPosition}
 		<svg class="absolute0 w-100 h-100">
 			<!--
@@ -249,9 +249,6 @@
 </div>
 
 <style>
-	.wrapper {
-		overflow: hidden;
-	}
 	#bg-canvas {
 		z-index: 1;
 		opacity: 0.25;

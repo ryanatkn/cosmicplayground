@@ -18,6 +18,7 @@ import {
 	display,
 	position,
 	flex,
+	overflow,
 } from '../css/properties';
 
 // helper for tagging dynamic css class usage so `sy` sees it for inclusion.
@@ -144,6 +145,11 @@ export const createConfig = async (
 
 			// display
 			...propsToClassDefs(display, 'display', ''),
+
+			// overflow
+			...propsToClassDefs(overflow, 'overflow'),
+			...propsToClassDefs(overflow, 'overflow-x'),
+			...propsToClassDefs(overflow, 'overflow-y'),
 
 			// font-weight
 			...propsToClassDefs(fontWeight, 'font-weight', 'font'),

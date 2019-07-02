@@ -27,6 +27,15 @@ export const display: CssPropertiesData = [
 	'inline-block',
 ];
 
+// overflow
+export const overflow: CssPropertiesData = [
+	'visible',
+	'hidden',
+	'scroll',
+	'auto',
+	// 'clip', some day
+];
+
 // font-weight
 // TODO consider supporting numerical weight?
 // https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight

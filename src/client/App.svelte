@@ -102,8 +102,8 @@
 				<li class="thumbnail" on:click={() => view.set('paintFreqs')}>
 					<div style="font-size: 20px; margin-bottom: 7px;">paint freqs</div>
 					<div
-						style="width: 192px; height: 192px; border-radius: 50%; overflow:
-						hidden;">
+						class="overflow-hidden"
+						style="width: 192px; height: 192px; border-radius: 50%;">
 						<img
 							src="assets/characters/cosmic-kitty.jpg"
 							style="width: 192px; height: 192px;"
