@@ -5,20 +5,26 @@ import {outputFile} from 'fs-extra';
 import {assignDefaults} from '../../utils/obj';
 import {LogLevel, logger} from '../logger';
 import {toBundleData, BundleData} from '../../bundle/bundleData';
-import {paths} from '../paths';
 
 export interface PluginOptions {
+	srcPath: string;
+	externalsPath: string;
 	output:
 		| string
 		| ((bundleString: string, bundle: BundleData) => Promise<void>);
 	logLevel: LogLevel;
 }
-export type RequiredPluginOptions = never;
+export type RequiredPluginOptions = 'srcPath' | 'externalsPath';
 export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
-export const defaultPluginOptions = (): PluginOptions => ({
+export const defaultPluginOptions = ({
+	srcPath,
+	externalsPath,
+}: InitialPluginOptions): PluginOptions => ({
+	srcPath,
+	externalsPath,
 	output: 'bundle.json',
 	logLevel: LogLevel.Info,
 });
@@ -26,10 +32,10 @@ export const defaultPluginOptions = (): PluginOptions => ({
 const name = 'bundle-writer';
 
 export const bundleWriterPlugin = (
-	pluginOptions: InitialPluginOptions = {},
+	pluginOptions: InitialPluginOptions,
 ): Plugin => {
-	const {output, logLevel} = assignDefaults(
-		defaultPluginOptions(),
+	const {srcPath, externalsPath, output, logLevel} = assignDefaults(
+		defaultPluginOptions(pluginOptions),
 		pluginOptions,
 	);
 	const {info} = logger(logLevel, [gray(`[${name}]`)]);
@@ -38,10 +44,7 @@ export const bundleWriterPlugin = (
 		name,
 		async writeBundle(bundle) {
 			info(blue('writeBundle'), Object.keys(bundle));
-			const bundleData = toBundleData(bundle, {
-				srcPath: paths.appSrc,
-				externalsPath: paths.appExternals,
-			});
+			const bundleData = toBundleData(bundle, {srcPath, externalsPath});
 			const str = JSON.stringify(bundleData, null, 2);
 			if (typeof output === 'function') {
 				await output(str, bundleData);

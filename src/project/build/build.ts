@@ -140,6 +140,8 @@ const createInputOptions = (): InputOptions => {
 				? [watch && servePlugin({contentBase: paths.appStatic, host, port})]
 				: [terserPlugin.terser()]),
 			bundleWriterPlugin({
+				srcPath: paths.appSrc,
+				externalsPath: paths.appExternals,
 				output: paths.appStaticJsStats,
 			}),
 		],
