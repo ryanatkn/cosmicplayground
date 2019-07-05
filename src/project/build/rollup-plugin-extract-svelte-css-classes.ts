@@ -184,6 +184,8 @@ const extractCssClassesFromStyles = async (
 // support more things like certain CallExpression/ArrayExpression patterns?
 // enter/leave stack tracking w/ children maybe?
 
+const CSS_CLASS_SPLITTER = /\s+/;
+
 const extractCssClassesFromNode = (
 	node: Node,
 	classes: Set<CssClass>,
@@ -191,7 +193,7 @@ const extractCssClassesFromNode = (
 ) => {
 	// log.trace(`enter node`, node);
 	const addClasses = (rawText: string) => {
-		for (const c of rawText.split(' ').filter(Boolean)) {
+		for (const c of rawText.split(CSS_CLASS_SPLITTER).filter(Boolean)) {
 			classes.add(c);
 		}
 	};
