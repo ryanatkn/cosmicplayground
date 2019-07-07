@@ -134,8 +134,10 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 				if (removeUnusedClasses && !usedClasses.size) {
 					warn(
 						'',
+						// TODO improve this error message
 						'Option `removeUnusedClasses` is true but no classes were provided.' +
-							' Is the plugin providing `getUsedCssClasses` included in the build?',
+							' Is the plugin providing `getUsedCssClasses` included in the build?' +
+							' Or maybe there are just no classes yet!',
 					);
 				}
 				const finalConfig = removeUnusedClasses
@@ -146,8 +148,10 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 				if (warnUndefinedClasses && !usedClasses.size) {
 					warn(
 						'',
+						// TODO improve this error message
 						'Option `warnUndefinedClasses` is true but no classes were provided.' +
-							' Is the plugin providing `getUsedCssClasses` included in the build?',
+							' Is the plugin providing `getUsedCssClasses` included in the build?' +
+							' Or maybe there are just no classes yet!',
 					);
 				}
 				if (warnUndefinedClasses) {
