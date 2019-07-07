@@ -12,6 +12,8 @@
 	/*
 
   ideas
+	- add button to lock pointer down
+	  - visualize pointer down
 	- investigate the perf issues
 	- possibly make a different verison that disallows lifting the pointer (or add a toggle)
   - support painting with a closed shape, not just lines
