@@ -12,7 +12,7 @@ import {magenta} from 'kleur';
 import {assignDefaults} from '../../utils/obj';
 import {extractFilename, replaceExt} from '../scriptUtils';
 import {LogLevel, logger, fmtVal, fmtMs} from '../logger';
-import {toSrcPath} from '../paths';
+import {toRootPath} from '../paths';
 import {CssBuild} from './rollup-plugin-output-css';
 
 // TODO type could be improved, not sure how tho
@@ -130,7 +130,7 @@ export const svelteUnrolledPlugin = (
 
 	const handleStats = (id: string, stats: Stats): void => {
 		info(
-			fmtVal('stats', toSrcPath(id)),
+			fmtVal('stats', toRootPath(id)),
 			...[
 				fmtVal('total', fmtMs(stats.timings.total)),
 				stats.timings.parse &&

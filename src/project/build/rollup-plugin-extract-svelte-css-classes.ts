@@ -9,7 +9,7 @@ import {CssClass} from '../../sy/sy';
 import {SvelteUnrolledCompilation} from './rollup-plugin-svelte-unrolled';
 import {LogLevel, logger, Logger, fmtVal, fmtMs} from '../logger';
 import {timeTracker} from '../scriptUtils';
-import {toSrcPath} from '../paths';
+import {toRootPath} from '../paths';
 import {CssClassesCache} from './cssClassesCache';
 
 // TODO remove unused plain css classes in prod (groundwork is now laid with `cssClassesCache`)
@@ -95,7 +95,10 @@ export const extractSvelteCssClassesPlugin = (
 			extractCssClassesFromStyles(compilation.ast.css, definedClasses, log);
 			cssClasses.setDefinedCssClasses(id, definedClasses);
 
-			info(gray(toSrcPath(id)), fmtVal('extract_classes', fmtMs(elapsed(), 2))); // TODO track with stats instead of logging
+			info(
+				gray(toRootPath(id)),
+				fmtVal('extract_classes', fmtMs(elapsed(), 2)),
+			); // TODO track with stats instead of logging
 			return null;
 		},
 	};

@@ -17,8 +17,8 @@ import {logger, LogLevel} from '../logger';
 import {paths} from '../paths';
 
 // Make sure the build is ready
-if (!fs.existsSync(paths.appBuildDistClient)) {
-	throw Error(`Build directory does not exist: ${paths.appBuildDistClient}`);
+if (!fs.existsSync(paths.buildDistClient)) {
+	throw Error(`Build directory does not exist: ${paths.buildDistClient}`);
 }
 
 const {info} = logger(LogLevel.Trace, [blue('[deploy]')]);
@@ -66,8 +66,8 @@ const createDeployCommand = (): string => {
 	}`;
 
 	const createTarball = `tar -czf ${p.localTarball} -C ${
-		paths.appBuild
-	} ${fp.relative(paths.appBuild, paths.appBuildDist)}`;
+		paths.build
+	} ${fp.relative(paths.build, paths.buildDist)}`;
 
 	const scpTarball = `scp ${
 		SERVER_SSH_PORT ? `-P ${SERVER_SSH_PORT}` : ''
@@ -91,7 +91,7 @@ const createPaths = (): Record<string, string> => {
 
 	const remoteDist = fp.join(
 		remoteApp,
-		fp.relative(paths.appBuild, paths.appBuildDist),
+		fp.relative(paths.build, paths.buildDist),
 	);
 
 	const p = {
@@ -100,10 +100,10 @@ const createPaths = (): Record<string, string> => {
 		remoteDist,
 		remoteDistClient: fp.join(
 			remoteDist,
-			fp.relative(paths.appBuildDist, paths.appBuildDistClient),
+			fp.relative(paths.buildDist, paths.buildDistClient),
 		),
 		remoteTarball: fp.join(remoteApp, tarFileName),
-		localTarball: fp.join(paths.appBuild, tarFileName),
+		localTarball: fp.join(paths.build, tarFileName),
 	};
 	info(magenta('deployment paths'), p);
 	return p;

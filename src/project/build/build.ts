@@ -137,12 +137,12 @@ const createInputOptions = (): InputOptions => {
 			resolvePlugin(),
 			commonjsPlugin(),
 			...(dev
-				? [watch && servePlugin({contentBase: paths.appStatic, host, port})]
+				? [watch && servePlugin({contentBase: paths.staticDir, host, port})]
 				: [terserPlugin.terser()]),
 			bundleWriterPlugin({
-				srcPath: paths.appSrc,
-				externalsPath: paths.appExternals,
-				output: paths.appStaticJsStats,
+				srcPath: paths.src,
+				externalsPath: paths.externals,
+				output: paths.staticJsStats,
 			}),
 		],
 
@@ -175,8 +175,8 @@ const createInputOptions = (): InputOptions => {
 const createOutputOptions = (): OutputOptions => {
 	const outputOptions: OutputOptions = {
 		// — core output options
-		// dir: paths.appStatic, // TODO chunks - also, output to `/build` instead of static?
-		file: paths.appStaticJs,
+		// dir: paths.staticDir, // TODO chunks - also, output to `/build` instead of static?
+		file: paths.staticJs,
 		format: 'iife', // required
 		// globals,
 		name: 'app',
@@ -237,7 +237,7 @@ const runBuild = async (): Promise<void> => {
 		// TODO we currently have things a bit wonky between /build and /static - need to figure out how we want things to work (it can be nice to get prod builds in /build for dev purposes)
 		// copy over static files
 		info('copying static files');
-		await fs.copy(paths.appStatic, paths.appBuildDistClient, {
+		await fs.copy(paths.staticDir, paths.buildDistClient, {
 			dereference: true,
 		});
 
@@ -253,7 +253,7 @@ const runBuild = async (): Promise<void> => {
 
 		// copy over static files
 		info('copying static files');
-		await fs.copy(paths.appStatic, paths.appBuildDistClient, {
+		await fs.copy(paths.staticDir, paths.buildDistClient, {
 			dereference: true,
 		});
 	}

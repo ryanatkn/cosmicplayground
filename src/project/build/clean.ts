@@ -13,5 +13,5 @@ export const clean = async () => {
 export const cleanDist = async () => {
 	// clean up and prepare build directory
 	info('cleaning up and preparing build dir');
-	await fs.emptyDir(paths.appBuildDist);
+	await fs.emptyDir(paths.buildDist);
 };

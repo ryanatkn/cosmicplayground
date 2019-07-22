@@ -1,6 +1,10 @@
 import * as fp from 'path';
+import {gray} from 'kleur';
 
 import {resolvePath} from './scriptUtils';
+import {logger, LogLevel} from './logger';
+
+const {info} = logger(LogLevel.Info, [gray('[paths]')]); // TODO log level from env var? param?
 
 // TODO we want to reuse these in the client somehow
 // what's a good way to do that? abstract these out?
@@ -10,19 +14,23 @@ import {resolvePath} from './scriptUtils';
 
 const createPaths = () => {
 	const root = resolvePath('./');
-	const appBuild = fp.join(root, 'build');
-	const appBuildDist = fp.join(appBuild, 'dist');
-	const appStatic = fp.join(root, 'static');
+	const build = fp.join(root, 'build');
+	const buildDist = fp.join(build, 'dist');
+	const staticDir = fp.join(root, 'static');
+	const src = fp.join(root, 'src');
+	const client = fp.join(src, 'client');
 	return {
 		root,
-		appBuild,
-		appBuildDist,
-		appBuildDistClient: fp.join(appBuildDist, 'client'),
-		appStatic,
-		appStaticJs: fp.join(appStatic, 'bundle.js'),
-		appStaticJsStats: fp.join(appStatic, 'bundle.stats.json'),
-		appSrc: fp.join(root, 'src'),
-		appExternals: fp.join(root, 'node_modules'),
+		build,
+		buildDist,
+		buildDistClient: fp.join(buildDist, 'client'),
+		staticDir, // TODO rename? probably yes when we rework the build process
+		staticJs: fp.join(staticDir, 'bundle.js'),
+		staticJsStats: fp.join(staticDir, 'bundle.stats.json'),
+		src,
+		client,
+		clientMain: fp.join(client, 'main.ts'),
+		externals: fp.join(root, 'node_modules'),
 		svelteCssBundleName: 'bundle.svelte.css',
 		syCssBundleName: 'bundle.sy.css',
 		plainCssBundleName: 'bundle.plain.css',
@@ -30,8 +38,8 @@ const createPaths = () => {
 };
 
 export const paths = createPaths();
-console.log(`paths`, paths);
+info(paths);
 
 // TODO this helper is bleh
-export const toSrcPath = (path: string): string =>
-	path.startsWith(paths.appSrc) ? path.slice(paths.appSrc.length - 3) : path;
+export const toRootPath = (path: string): string =>
+	path.startsWith(paths.root) ? path.slice(paths.root.length + 1) : path;

@@ -10,7 +10,7 @@ import {fromPlainObject} from 'css-tree/lib/convertor';
 
 import {assignDefaults} from '../../utils/obj';
 import {LogLevel, logger, fmtVal, Logger} from '../logger';
-import {toSrcPath} from '../paths';
+import {toRootPath} from '../paths';
 import {CssClassesCache} from './cssClassesCache';
 
 // TODO this is error prone - we're not expecting to have a `map` and an `ast` for example
@@ -80,7 +80,7 @@ export const outputCssPlugin = (
 		// I think this comparison is safe - sourcemap should change iif code changes, eh?
 		if (build.code === (cachedBuild && cachedBuild.code)) return false;
 
-		info(fmtVal('caching', toSrcPath(id)), fmtVal('bundle', bundleName));
+		info(fmtVal('caching', toRootPath(id)), fmtVal('bundle', bundleName));
 		bundle.buildsById.set(id, build);
 		bundle.changedIds.add(id);
 
