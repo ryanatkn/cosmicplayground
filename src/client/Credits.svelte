@@ -1,19 +1,19 @@
 <script>
 	import ImgLink from './ImgLink.svelte';
+	import CreditsItem from './CreditsItem.svelte';
 </script>
 
 <h3>credits</h3>
-<section class="items">
-	<div class="item">
+<section>
+	<CreditsItem>
 		CPG's code and original assets are
 		<a href="https://github.com/ryanatkn/cosmicplayground/blob/master/license">
 			MIT licensed
 		</a>
 		. The project also uses the assets listed below. See the included links for
 		more about the copyright holders.
-	</div>
-	<hr />
-	<div class="item">
+	</CreditsItem>
+	<CreditsItem>
 		<div>
 			<ImgLink
 				src="assets/space/galaxies.jpg"
@@ -31,9 +31,8 @@
 		, and S. Beckwith (
 		<a href="https://www.stsci.edu/">STScI</a>
 		) and the HUDF Team
-	</div>
-	<hr />
-	<div class="item">
+	</CreditsItem>
+	<CreditsItem>
 		<div>
 			<ImgLink
 				alt="construction idea"
@@ -44,9 +43,8 @@
 		<a href="http://textfiles.com/underconstruction/">
 			http://textfiles.com/underconstruction/
 		</a>
-	</div>
-	<hr />
-	<div class="item">
+	</CreditsItem>
+	<CreditsItem>
 		<div>
 			<ImgLink alt="Cosmic Kitty" src="assets/characters/cosmic-kitty.jpg" />
 		</div>
@@ -63,15 +61,5 @@
 			<em>license:</em>
 			<a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>
 		</div>
-	</div>
-	<hr />
+	</CreditsItem>
 </section>
-
-<style>
-	.items {
-		list-style: none;
-	}
-	.item {
-		margin-top: 20px;
-	}
-</style>
