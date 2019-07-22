@@ -19,6 +19,7 @@ import {
 	position,
 	flex,
 	overflow,
+	flexWrap,
 } from '../css/properties';
 
 // helper for tagging dynamic css class usage so `sy` sees it for inclusion.
@@ -170,6 +171,7 @@ export const createConfig = async (
 			...propsToClassDefs(flex, 'flex'),
 			...propsToClassDefs(justifyContent, 'justify-content', 'justify'),
 			...propsToClassDefs(alignItems, 'align-items', 'items'),
+			...propsToClassDefs(flexWrap, 'flex-wrap', 'flex'),
 			...classDefs({
 				// TODO col shorthand is the problem here ..
 				// splitting the flexDirectionRow/Col definitions works but that's gross

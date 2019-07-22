@@ -10,14 +10,14 @@
 	export let resume;
 </script>
 
-<div class="wrapper">
+<div class="flex flex-wrap items-center justify-center">
 	{#if running}
 		<img
 			on:click={pause}
 			src="assets/construction/person-rock.gif"
 			alt="under construction: person rock"
 			class="rock pixelated" />
-		<button type="button" class="toggle-button" on:click={pause}>
+		<button type="button" class="w-48 h-20" on:click={pause}>
 			<div style="font-size: 24px">⏸</div>
 			pause universe clock
 		</button>
@@ -27,7 +27,7 @@
 			src="assets/construction/person-rock-pause.png"
 			alt="under construction: person rock pause"
 			class="rock pixelated grayscale" />
-		<button type="button" class="toggle-button" on:click={resume}>
+		<button type="button" class="w-48 h-20" on:click={resume}>
 			<div style="font-size: 24px">▶</div>
 			resume universe clock
 		</button>
@@ -43,12 +43,6 @@
 </div>
 
 <style>
-	.wrapper {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: center;
-	}
 	.rock {
 		width: 120px;
 		height: 80px;
@@ -58,9 +52,5 @@
 	}
 	.rock:active {
 		transform: scale3d(1.2, 1.2, 1);
-	}
-	.toggle-button {
-		width: 230px;
-		height: 80px;
 	}
 </style>

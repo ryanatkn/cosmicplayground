@@ -126,3 +126,7 @@ export const alignItems: CssPropertiesData = [
 	// ['last baseline', 'last-baseline']',
 	// 'stretch', // hmm........ this may be the one that gets me to break some browsers
 ];
+
+// flex wrap
+// https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap
+export const flexWrap: CssPropertiesData = ['nowrap', 'wrap', 'wrap-reverse'];
