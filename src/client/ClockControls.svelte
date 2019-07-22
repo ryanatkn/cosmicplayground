@@ -17,7 +17,7 @@
 			src="assets/construction/person-rock.gif"
 			alt="under construction: person rock"
 			class="rock pixelated" />
-		<button type="button" class="w-48 h-20" on:click={pause}>
+		<button type="button" class="w-50 h-20" on:click={pause}>
 			<div style="font-size: 24px">⏸</div>
 			pause universe clock
 		</button>
@@ -27,7 +27,7 @@
 			src="assets/construction/person-rock-pause.png"
 			alt="under construction: person rock pause"
 			class="rock pixelated grayscale" />
-		<button type="button" class="w-48 h-20" on:click={resume}>
+		<button type="button" class="w-50 h-20" on:click={resume}>
 			<div style="font-size: 24px">▶</div>
 			resume universe clock
 		</button>

@@ -103,38 +103,33 @@
 	$: rotate3d2 = `rotate3d(${rotate3dX2}, ${rotate3dY2}, ${rotate3dZ2}, ${rotate3dDeg2}deg)`;
 </script>
 
-<section
-	style="height: 100px; display: flex; align-items: center; justify-content:
-	center;">
+<section class="h-25 flex items-center justify-center">
 	<img
 		src={imgSrc}
 		alt="styler target"
-		style="width: 162px; height: 100px; transform: {rotate3d1}; margin-right:
-		50px;"
-		class="pixelated" />
+		class="pixelated h-25 mr-12"
+		style="width: 162px; transform: {rotate3d1};" />
 	<img
 		src={imgSrc}
 		alt="styler target"
-		style="width: 162px; height: 100px; transform: {rotate3d2}"
-		class="pixelated" />
+		class="pixelated h-25"
+		style="width: 162px; transform: {rotate3d2}" />
 </section>
-<section
-	style="height: 200px; display: flex; align-items: center; justify-content:
-	center;">
-	<div style="display: inline-block; width: 162px; height: 100px;">
+<section class="h-50 flex items-center justify-center">
+	<div class="inline-block h-25" style="width: 162px;">
 		{#if visible}
 			<img
 				in:transition={{duration: durationIn}}
 				out:transition={{duration: durationOut}}
 				src={imgSrc}
 				alt="styler target"
-				style="width: 162px; height: 100px;"
-				class="pixelated" />
+				class="pixelated h-25"
+				style="width: 162px;" />
 		{/if}
 	</div>
 </section>
 
-<section class="controls">
+<section class="flex flex-wrap items-start justify-center">
 	{#if visible}
 		<div
 			class="time"
@@ -149,8 +144,8 @@
 	{/if}
 </section>
 
-<section class="controls">
-	<section>
+<section class="flex flex-wrap items-start justify-center">
+	<section class="p-2">
 		<label>
 			<input type="number" bind:value={durationIn} />
 			<small>duration in</small>
@@ -161,7 +156,7 @@
 		</label>
 	</section>
 
-	<section>
+	<section class="p-2">
 		<pre>{rotate3d1}</pre>
 		<label>
 			<input
@@ -205,7 +200,7 @@
 		</label>
 	</section>
 
-	<section>
+	<section class="p-2">
 		<pre>{rotate3d2}</pre>
 		<label>
 			<input
@@ -252,15 +247,6 @@
 </section>
 
 <style>
-	.controls {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: flex-start;
-		justify-content: center;
-	}
-	.controls > section {
-		padding: 10px;
-	}
 	section {
 		margin-top: 10px;
 		color: rgba(255, 255, 255, 0.8);
