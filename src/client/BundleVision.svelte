@@ -46,20 +46,6 @@
 	});
 </script>
 
-<style>
-	/* TODO proper styling w/ nav button components */
-	nav > div:hover {
-		background-color: #1f1213;
-	}
-	nav > div:active {
-		background-color: #221314;
-	}
-	nav .active,
-	nav .active:hover {
-		background-color: #271314;
-	}
-</style>
-
 <!-- TODO max-width should be a variable, like max-content-width -->
 <div class="p-5 mx-auto max-column-width" style="color: #ccc;">
 	<nav class="flex mb-4" style="background-color: #171314;">
@@ -69,7 +55,7 @@
 				on:click={() => (activeView = view.name)}
 				class:active={activeView === view.name}>
 				<!-- TODO ergonomic way of active class with sy? -->
-				 {view.title}
+				{view.title}
 			</div>
 		{/each}
 	</nav>
@@ -85,3 +71,17 @@
 		<LoadingIndicator />
 	{/if}
 </div>
+
+<style>
+	/* TODO proper styling w/ nav button components */
+	nav > div:hover {
+		background-color: #1f1213;
+	}
+	nav > div:active {
+		background-color: #221314;
+	}
+	nav .active,
+	nav .active:hover {
+		background-color: #271314;
+	}
+</style>

@@ -225,7 +225,8 @@
 		<canvas id="bg-canvas" class="absolute0 z-1" bind:this={canvas} />
 	{/if}
 	{#if displayedFreq}
-		<div class="freq w-100 absolute z-1 flex items-start justify-center l-0 b-4">
+		<div
+			class="freq w-100 absolute z-1 flex items-start justify-center l-0 b-4">
 			<div>
 				{displayedFreq}
 				<span class="unit">hz</span>

@@ -21,7 +21,7 @@
 </script>
 
 <section class="flex">
-	<h1 class="flex-1 {headerClass}"> {name} </h1>
+	<h1 class="flex-1 {headerClass}">{name}</h1>
 	<div class="flex flex-col">
 		<ImgLink
 			src="assets/characters/patreon.png"

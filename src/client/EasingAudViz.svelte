@@ -261,7 +261,9 @@
 		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 </script>
 
-<div class="max-column-width" style="display: flex; flex-wrap: wrap; margin: auto;">
+<div
+	class="max-column-width"
+	style="display: flex; flex-wrap: wrap; margin: auto;">
 	<section>
 		<section class="controls" style="padding-left: 90px;">
 			<div class="controls-group {muted ? 'disabled' : ''}">
