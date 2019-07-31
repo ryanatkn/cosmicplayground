@@ -3,6 +3,7 @@ import {gray, green} from 'kleur';
 import {CssClass} from '../../sy/sy';
 import {LogLevel, logger} from '../logger';
 import {omitUndefined} from '../../utils/obj';
+import {toRootPath} from '../paths';
 
 export interface CssClassesCache {
 	getUsedCssClasses(): Set<CssClass>;
@@ -72,7 +73,7 @@ export const createCssClassesCache = (
 		classes: Set<CssClass> | undefined,
 	): void => {
 		if (classes && !classes.size) classes = undefined; // TODO are these the right semantics? so files that have no classes are same as nonexistent? probably
-		info(gray('setUsedCssClasses'), id);
+		info(gray('setUsedCssClasses'), toRootPath(id));
 		const prevClasses = usedClassesById.get(id);
 		const ops = diffClasses(classes, prevClasses);
 		trace('ops', ops);
@@ -112,7 +113,7 @@ export const createCssClassesCache = (
 		classes: Set<CssClass> | undefined,
 	): void => {
 		if (classes && !classes.size) classes = undefined; // TODO are these the right semantics? so files that have no classes are same as nonexistent? probably
-		info(gray('setDefinedCssClasses'), id);
+		info(gray('setDefinedCssClasses'), toRootPath(id));
 		const prevClasses = definedClassesById.get(id);
 		const ops = diffClasses(classes, prevClasses);
 		for (const op of ops) {

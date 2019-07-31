@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	export let elapsedTime;
 	export let style = null;
 	export let lowestHzValue = 1000; // the half cycle should be a multiple of this

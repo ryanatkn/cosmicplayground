@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	let wrapperWidth, clientWidth, clientHeight;
 	const maxWidth = 1667;
 	const maxHeight = 781;

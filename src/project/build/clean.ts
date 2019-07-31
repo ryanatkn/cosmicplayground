@@ -1,5 +1,5 @@
 import {magenta} from 'kleur';
-import * as fs from 'fs-extra';
+import {emptyDir} from 'fs-extra';
 
 import {paths} from '../paths';
 import {logger, LogLevel} from '../logger';
@@ -13,5 +13,5 @@ export const clean = async () => {
 export const cleanDist = async () => {
 	// clean up and prepare build directory
 	info('cleaning up and preparing build dir');
-	await fs.emptyDir(paths.buildDist);
+	await emptyDir(paths.buildDist);
 };

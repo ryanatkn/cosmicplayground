@@ -1,4 +1,5 @@
-import {compile} from 'svelte/compiler';
+import * as svelte from 'svelte/compiler';
+import {PreprocessorGroup} from 'svelte/types/compiler/preprocess/index';
 import {CompileOptions} from 'svelte/types/compiler/interfaces';
 import {
 	Plugin,
@@ -7,13 +8,16 @@ import {
 	ExistingRawSourceMap,
 } from 'rollup';
 import {createFilter} from 'rollup-pluginutils';
-import {magenta} from 'kleur';
+import {magenta, yellow} from 'kleur';
 
 import {extractFilename, replaceExt} from '../scriptUtils';
 import {LogLevel, logger, fmtVal, fmtMs} from '../logger';
 import {toRootPath} from '../paths';
 import {CssBuild} from './rollup-plugin-output-css';
 import {omitUndefined} from '../../utils/obj';
+
+// TODO support `package.json` "svelte" field
+// see reference here https://github.com/rollup/rollup-plugin-svelte/blob/master/index.js#L190
 
 // TODO type could be improved, not sure how tho
 interface Stats {
@@ -25,7 +29,7 @@ interface Stats {
 }
 // TODO type belongs upstream - augmented for better safety
 export type SvelteCompilation = OmitStrict<
-	ReturnType<typeof compile>,
+	ReturnType<typeof svelte.compile>,
 	'js' | 'css' | 'stats'
 > & {
 	js: {
@@ -39,6 +43,8 @@ export type SvelteCompilation = OmitStrict<
 export type SvelteUnrolledCompilation = SvelteCompilation & {
 	id: string;
 	cssId: string | undefined;
+	code: string; // may be preprocessed or equal to `originalCode`
+	originalCode: string;
 };
 
 export interface PluginOptions {
@@ -46,6 +52,7 @@ export interface PluginOptions {
 	cacheCss(id: string, css: CssBuild): boolean;
 	include: string | RegExp | (string | RegExp)[] | null | undefined;
 	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
+	preprocessor: PreprocessorGroup | PreprocessorGroup[] | undefined;
 	compileOptions: CompileOptions;
 	compilations: Map<string, SvelteUnrolledCompilation>;
 	logLevel: LogLevel;
@@ -76,6 +83,7 @@ export const defaultPluginOptions = (
 ): PluginOptions => ({
 	include: ['src/**/*.svelte'],
 	exclude: undefined,
+	preprocessor: undefined,
 	compileOptions: {},
 	compilations: new Map<string, SvelteUnrolledCompilation>(),
 	logLevel: LogLevel.Info,
@@ -117,6 +125,7 @@ export const svelteUnrolledPlugin = (
 		cacheCss,
 		include,
 		exclude,
+		preprocessor,
 		compileOptions,
 		compilations,
 		logLevel,
@@ -147,23 +156,45 @@ export const svelteUnrolledPlugin = (
 	return {
 		name,
 		getCompilation,
-		transform(code, id) {
+		async transform(code, id) {
 			if (!filter(id)) return;
-			trace('transform', id);
-			const svelteCompilation: SvelteCompilation = compile(code, {
-				...baseCompileOptions,
-				...{dev},
-				...compileOptions,
-				filename: id,
-				name: extractFilename(id),
-			});
+			trace('transform', toRootPath(id));
+
+			let preprocessedCode = code;
+
+			// TODO use these?
+			// let finalDependencies = [];
+			if (preprocessor) {
+				trace('preprocess', toRootPath(id));
+				const preprocessed = await svelte.preprocess(code, preprocessor, {
+					filename: id,
+				});
+				preprocessedCode = preprocessed.code;
+				// finalDependencies = preprocessed.dependencies;
+			}
+
+			trace('compile', toRootPath(id));
+			const svelteCompilation: SvelteCompilation = svelte.compile(
+				preprocessedCode,
+				{
+					...baseCompileOptions,
+					...{dev},
+					...compileOptions,
+					filename: id,
+					name: extractFilename(id),
+				},
+			);
 			const {js, css, warnings, stats} = svelteCompilation;
 
 			for (const warning of warnings) {
 				if (onwarn) {
 					onwarn(id, warning, warn, this);
 				} else {
-					warn(id, warning);
+					const warnArgs: any[] = [id, warning];
+					if (warning.frame) {
+						warnArgs.push('\n' + warning.frame, '\n', yellow(warning.message));
+					}
+					warn(...warnArgs);
 				}
 			}
 
@@ -174,7 +205,7 @@ export const svelteUnrolledPlugin = (
 			}
 
 			let cssId = replaceExt(id, '.css');
-			trace('add css import', cssId);
+			trace('add css import', toRootPath(cssId));
 			// TODO emit file when API is ready - https://github.com/rollup/rollup/issues/2938
 			cacheCss(cssId, css);
 
@@ -184,6 +215,8 @@ export const svelteUnrolledPlugin = (
 				...svelteCompilation,
 				id,
 				cssId,
+				code: preprocessedCode,
+				originalCode: code,
 			};
 			compilations.set(id, compilation);
 

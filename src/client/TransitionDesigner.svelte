@@ -1,10 +1,10 @@
-<script context="module">
+<script context="module" lang="ts">
 	let rotateMax = 2;
 	let rotateMin = -2;
 	let rotateStep = 0.01;
 </script>
 
-<script>
+<script lang="ts">
 	import {onMount, onDestroy} from 'svelte';
 	import {fade} from 'svelte/transition';
 	import {mix} from '../utils/math.js';

@@ -4,6 +4,7 @@ import {gray} from 'kleur';
 import {LogLevel, logger, fmtVal, fmtMs} from '../logger';
 import {timeTracker} from '../scriptUtils';
 import {omitUndefined} from '../../utils/obj';
+import {toRootPath} from '../paths';
 
 export interface PluginOptions {
 	logLevel: LogLevel;
@@ -49,7 +50,7 @@ export const diagnosticsPlugin = (
 		},
 		// intro() {}
 		load(id) {
-			trace(tag('load'), gray(id));
+			trace(tag('load'), gray(toRootPath(id)));
 			return null;
 		},
 		options(o) {
@@ -66,7 +67,7 @@ export const diagnosticsPlugin = (
 				tag('renderChunk'),
 				chunk.name,
 				chunk.fileName,
-				chunk.facadeModuleId && gray(chunk.facadeModuleId),
+				chunk.facadeModuleId && gray(toRootPath(chunk.facadeModuleId)),
 			);
 			return null;
 		},
@@ -80,7 +81,7 @@ export const diagnosticsPlugin = (
 			trace(
 				tag('resolveId'),
 				gray(importee),
-				(importer && gray('<- ' + importer)) || '',
+				(importer && gray('<- ' + toRootPath(importer))) || '',
 			);
 			return null;
 		},
@@ -88,7 +89,7 @@ export const diagnosticsPlugin = (
 		transform(code, id) {
 			trace(
 				tag('transform'),
-				gray(id),
+				gray(toRootPath(id)),
 				fmtVal('len', (code && code.length) || 0),
 			);
 			return null;

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import BundleChunkSummary from './BundleChunkSummary.svelte';
 
 	export let stats;

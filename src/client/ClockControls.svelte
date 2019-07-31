@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import FreqSpectacle from './FreqSpectacle.svelte';
 
 	// TODO what are the perf characteristics if we use the clock store directly?

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	// TODO make this modular - is currently hardcoded for a particular image name and size
 
 	export let running = true;

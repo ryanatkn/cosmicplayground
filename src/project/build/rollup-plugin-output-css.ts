@@ -46,7 +46,7 @@ export const defaultPluginOptions = (
 	...omitUndefined(initialOptions),
 });
 
-export interface PlainCssPlugin extends Plugin {
+export interface OutputCssPlugin extends Plugin {
 	cacheCss(bundleName: string, id: string, css: CssBuild): boolean;
 }
 
@@ -55,7 +55,7 @@ export const name = 'output-css';
 // TODO this really just outputs css - but it'll probably be refactored
 export const outputCssPlugin = (
 	pluginOptions: InitialPluginOptions,
-): PlainCssPlugin => {
+): OutputCssPlugin => {
 	const {sourcemap, logLevel, cssClasses} = defaultPluginOptions(pluginOptions);
 
 	const log = logger(logLevel, [blue(`[${name}]`)]);

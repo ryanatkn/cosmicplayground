@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import ImgLink from './ImgLink.svelte';
 	import CommunityLinks from './CommunityLinks.svelte';
 	import Credits from './Credits.svelte';

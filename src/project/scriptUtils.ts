@@ -35,6 +35,9 @@ export const resolvePath = (relativePath: string): string =>
 export const replaceExt = (path: string, ext: string): string =>
 	path.slice(0, -fp.extname(path).length) + ext;
 
+export const hasExt = (path: string, exts: string[]): boolean =>
+	exts.some(ext => fp.extname(path) === ext);
+
 export const extractFilename = (path: string): string =>
 	replaceExt(fp.basename(path), '');
 

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import ImgLink from './ImgLink.svelte';
 	import CreditsItem from './CreditsItem.svelte';
 </script>

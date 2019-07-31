@@ -5,6 +5,9 @@ import {round} from '../utils/math';
 
 export type Log = (...args: any[]) => void;
 
+// TODO track warnings/errors (or anything above a certain threshold)
+// and report at the end of each build (and other tasks)
+
 export type Logger = {
 	trace: Log;
 	info: Log;
@@ -49,7 +52,7 @@ export const logger = (
 			LogLevel.Error >= level
 				? log(
 						[red('➤'), black(bgRed(' ✖✖ error ✖✖ ')), red('➤')],
-						[black(bgRed(' ✖✖ error ✖✖ ')), black(bgRed(' ✖✖✖ '))],
+						['\n ', black(bgRed(' ✖✖✖ '))],
 				  )
 				: noop,
 	};

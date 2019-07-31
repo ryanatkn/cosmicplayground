@@ -20,28 +20,30 @@ import * as terserPlugin from 'rollup-plugin-terser';
 import * as servePlugin from 'rollup-plugin-serve';
 import * as typescriptPlugin from 'rollup-plugin-typescript';
 import {magenta} from 'kleur';
-import * as fs from 'fs-extra';
-import * as prettier from 'prettier';
+import {copy} from 'fs-extra';
+// import * as prettier from 'prettier';
 
 import {paths} from '../paths';
 import {argv, handleScriptError, rainbow, resolvePath} from '../scriptUtils';
 import {logger, LogLevel} from '../logger';
 import {clean} from './clean';
 import {outputCssPlugin} from './rollup-plugin-output-css';
-import {syPlugin} from './rollup-plugin-sy';
+// import {syPlugin} from './rollup-plugin-sy';
 import {svelteUnrolledPlugin} from './rollup-plugin-svelte-unrolled';
 import {extractPlainCssClassesPlugin} from './rollup-plugin-extract-plain-css-classes';
 import {extractSvelteCssClassesPlugin} from './rollup-plugin-extract-svelte-css-classes';
+import {svelteTypescriptCheckerPlugin} from './rollup-plugin-svelte-typescript-checker';
 import {diagnosticsPlugin} from './rollup-plugin-diagnostics';
 import {bundleWriterPlugin} from './rollup-plugin-bundle-writer';
 import {createCssClassesCache} from './cssClassesCache';
+import {sveltePreprocessTypescript} from './svelte-preprocess-typescript';
 
-const pkg = require('../../../package.json'); // TODO import differently?
-const prettierOptions: prettier.Options = pkg.prettier;
+// const pkg = require('../../../package.json'); // TODO import differently?
+// const prettierOptions: prettier.Options = pkg.prettier;
 
 const {watch} = argv;
 
-const logLevel = LogLevel.Info; // TODO pull from argv?
+const logLevel = LogLevel.Trace; // TODO pull from argv?
 const {info} = logger(logLevel, [magenta('[build]')]);
 
 // TODO These modules require `esModuleInterop` to work correctly.
@@ -58,46 +60,41 @@ const cssClasses = createCssClassesCache({logLevel});
 
 // TODO consider using two separate css plugins
 // it's hard to tell if we'll ever want a single one to be able to coordinate multiple bundles
-const outputCssPluginInstance = outputCssPlugin({
+const outputCss = outputCssPlugin({
 	sourcemap: dev,
 	cssClasses,
 	logLevel,
 });
-const cacheSvelteCss = outputCssPluginInstance.cacheCss.bind(
-	null,
-	paths.svelteCssBundleName,
-);
-const cacheSyCss = outputCssPluginInstance.cacheCss.bind(
-	null,
-	paths.syCssBundleName,
-);
-const cachePlainCss = outputCssPluginInstance.cacheCss.bind(
-	null,
-	paths.plainCssBundleName,
-);
-const svelteUnrolledPluginInstance = svelteUnrolledPlugin({
+const cacheSvelteCss = outputCss.cacheCss.bind(null, paths.svelteCssBundleName);
+// const cacheSyCss = outputCss.cacheCss.bind(null, paths.syCssBundleName);
+const cachePlainCss = outputCss.cacheCss.bind(null, paths.plainCssBundleName);
+const svelteUnrolled = svelteUnrolledPlugin({
 	dev,
 	cacheCss: cacheSvelteCss,
 	include: resolvePath('src/client/**/*.svelte'),
 	logLevel,
+	preprocessor: [sveltePreprocessTypescript({logLevel})],
 });
-const extractSvelteCssClassesPluginInstance =
+const svelteTypescriptChecker = svelteTypescriptCheckerPlugin({
+	rootFileNames: [paths.clientMain],
+	getSvelteCompilation: svelteUnrolled.getCompilation,
+	debugVirtualSvelteTsOutputDir: paths.build + '/virtualSvelteTs',
+	logLevel,
+});
+const extractSvelteCssClasses =
 	removeUnusedClasses || warnUndefinedClasses
 		? extractSvelteCssClassesPlugin({
 				cssClasses,
-				getSvelteCompilation: svelteUnrolledPluginInstance.getCompilation,
+				getSvelteCompilation: svelteUnrolled.getCompilation,
 				logLevel,
 		  })
 		: undefined;
-
-// TODO all of the above `PluginInstance` stuff is tiresome.
-// consider changing plugins to be `createFooPlugin`
 
 const createInputOptions = (): InputOptions => {
 	const inputOptions: InputOptions = {
 		// — core input options
 		// external,
-		input: 'src/client/main.ts', // required
+		input: paths.clientMain, // required
 		plugins: [
 			// TODO a lot of these plugins have deps that need to be refactored
 			// the rollup `emitFile` API should be helpful when it lands
@@ -105,11 +102,12 @@ const createInputOptions = (): InputOptions => {
 			diagnosticsPlugin({
 				logLevel,
 			}),
+			svelteUnrolled,
+			svelteTypescriptChecker,
 			typescriptPlugin(),
-			svelteUnrolledPluginInstance,
 			// TODO this dependency on a similarly named peer is an obvious problem -
 			// file emitting will probably fix
-			extractSvelteCssClassesPluginInstance
+			extractSvelteCssClasses
 				? extractPlainCssClassesPlugin({
 						cacheCss: cachePlainCss,
 						cssClasses,
@@ -117,7 +115,7 @@ const createInputOptions = (): InputOptions => {
 						logLevel,
 				  })
 				: undefined,
-			extractSvelteCssClassesPluginInstance,
+			extractSvelteCssClasses,
 			// currently this uses the result of `svelteUnrolled`'s transform hook
 			// in its own transform hook, so it needs to be placed after it in plugins
 			// TODO is there good a way to warn/error if they're out of order?
@@ -125,15 +123,15 @@ const createInputOptions = (): InputOptions => {
 			// but I think they can be made less order-dependent
 			// once the rollup file emit API is ready -
 			// https://github.com/rollup/rollup/issues/2938
-			syPlugin({
-				dev,
-				cacheCss: cacheSyCss,
-				cssClasses,
-				removeUnusedClasses,
-				prettierOptions,
-				logLevel,
-			}),
-			outputCssPluginInstance,
+			// syPlugin({
+			// 	dev,
+			// 	cacheCss: cacheSyCss,
+			// 	cssClasses,
+			// 	removeUnusedClasses,
+			// 	prettierOptions,
+			// 	logLevel,
+			// }),
+			outputCss,
 			resolvePlugin(),
 			commonjsPlugin(),
 			...(dev
@@ -237,7 +235,7 @@ const runBuild = async (): Promise<void> => {
 		// TODO we currently have things a bit wonky between /build and /static - need to figure out how we want things to work (it can be nice to get prod builds in /build for dev purposes)
 		// copy over static files
 		info('copying static files');
-		await fs.copy(paths.staticDir, paths.buildDistClient, {
+		await copy(paths.staticDir, paths.buildDistClient, {
 			dereference: true,
 		});
 
@@ -253,7 +251,7 @@ const runBuild = async (): Promise<void> => {
 
 		// copy over static files
 		info('copying static files');
-		await fs.copy(paths.staticDir, paths.buildDistClient, {
+		await copy(paths.staticDir, paths.buildDistClient, {
 			dereference: true,
 		});
 	}

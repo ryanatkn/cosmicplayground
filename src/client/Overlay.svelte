@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	export let contentStyle = '';
 	export let contentClass = 'p-1';
 </script>
