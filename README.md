@@ -81,7 +81,7 @@ for the list of people helping it all go.
 
 > :rainbow::sparkles: did you know? `emoji` can be punctuation :snail: neat huh
 
-## license
+## license :bird:
 
 [AGPL-3.0-only](license) (optimized for end-user freedoms)
 
