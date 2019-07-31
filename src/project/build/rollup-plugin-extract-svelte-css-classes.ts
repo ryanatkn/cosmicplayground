@@ -4,13 +4,13 @@ import {Plugin} from 'rollup';
 import {cyan, gray} from 'kleur';
 import {parse} from 'css-tree';
 
-import {assignDefaults} from '../../utils/obj';
 import {CssClass} from '../../sy/sy';
 import {SvelteUnrolledCompilation} from './rollup-plugin-svelte-unrolled';
 import {LogLevel, logger, Logger, fmtVal, fmtMs} from '../logger';
 import {timeTracker} from '../scriptUtils';
 import {toRootPath} from '../paths';
 import {CssClassesCache} from './cssClassesCache';
+import {omitUndefined} from '../../utils/obj';
 
 // TODO remove unused plain css classes in prod (groundwork is now laid with `cssClassesCache`)
 // TODO class directives! `class:active={isActive}`
@@ -34,15 +34,13 @@ export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
-export const defaultPluginOptions = ({
-	cssClasses,
-	getSvelteCompilation,
-}: InitialPluginOptions): PluginOptions => ({
-	cssClasses,
+export const defaultPluginOptions = (
+	initialOptions: InitialPluginOptions,
+): PluginOptions => ({
 	classAttrMatcher: new RegExp(/^(class|.+Class)$/),
 	classFnMatcher: new RegExp(/^(cls)$/), // TODO consider renaming: sy, cn, ..
-	getSvelteCompilation,
 	logLevel: LogLevel.Info,
+	...omitUndefined(initialOptions),
 });
 
 export const name = 'extract-svelte-css-classes';
@@ -56,7 +54,7 @@ export const extractSvelteCssClassesPlugin = (
 		classFnMatcher,
 		getSvelteCompilation,
 		logLevel,
-	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
+	} = defaultPluginOptions(pluginOptions);
 
 	const log = logger(logLevel, [cyan(`[${name}]`)]);
 	const {info} = log;

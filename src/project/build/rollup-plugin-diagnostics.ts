@@ -1,9 +1,9 @@
 import {Plugin} from 'rollup';
 import {gray} from 'kleur';
 
-import {assignDefaults} from '../../utils/obj';
 import {LogLevel, logger, fmtVal, fmtMs} from '../logger';
 import {timeTracker} from '../scriptUtils';
+import {omitUndefined} from '../../utils/obj';
 
 export interface PluginOptions {
 	logLevel: LogLevel;
@@ -13,8 +13,11 @@ export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
-export const defaultPluginOptions = (): PluginOptions => ({
+export const defaultPluginOptions = (
+	initialOptions: InitialPluginOptions,
+): PluginOptions => ({
 	logLevel: LogLevel.Info,
+	...omitUndefined(initialOptions),
 });
 
 const name = 'diagnostics';
@@ -24,7 +27,8 @@ const tag = (s: string) => s; // maybe color this
 export const diagnosticsPlugin = (
 	pluginOptions: InitialPluginOptions = {},
 ): Plugin => {
-	const {logLevel} = assignDefaults(defaultPluginOptions(), pluginOptions);
+	const {logLevel} = defaultPluginOptions(pluginOptions);
+
 	const {trace, info} = logger(logLevel, [gray(`[${name}]`)]);
 
 	const elapsedTotal = timeTracker(); // TODO combine with svelte timings

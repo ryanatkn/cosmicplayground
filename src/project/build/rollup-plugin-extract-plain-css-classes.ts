@@ -7,10 +7,10 @@ import {Parse} from 'css-tree/lib/parser';
 import {toPlainObject} from 'css-tree/lib/convertor';
 import {createFilter} from 'rollup-pluginutils';
 
-import {assignDefaults} from '../../utils/obj';
 import {LogLevel, logger, Logger} from '../logger';
 import {CssBuild} from './rollup-plugin-output-css';
 import {CssClassesCache} from './cssClassesCache';
+import {omitUndefined} from '../../utils/obj';
 
 // This is hacky, but works around the broken css-tree types
 // when importing modules directly from `css-tree/lib/`,
@@ -32,16 +32,14 @@ export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
-export const defaultPluginOptions = ({
-	cacheCss,
-	cssClasses,
-}: InitialPluginOptions): PluginOptions => ({
-	cacheCss,
-	cssClasses,
+export const defaultPluginOptions = (
+	initialOptions: InitialPluginOptions,
+): PluginOptions => ({
 	removeUnusedClasses: false,
 	include: ['**/*.css'],
 	exclude: undefined,
 	logLevel: LogLevel.Info,
+	...omitUndefined(initialOptions),
 });
 
 export const name = 'extract-plain-css-classes';
@@ -56,7 +54,7 @@ export const extractPlainCssClassesPlugin = (
 		include,
 		exclude,
 		logLevel,
-	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
+	} = defaultPluginOptions(pluginOptions);
 
 	const log = logger(logLevel, [green(`[${name}]`)]);
 	const {info} = log;

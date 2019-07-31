@@ -1,8 +1,8 @@
 import {gray, green} from 'kleur';
 
 import {CssClass} from '../../sy/sy';
-import {assignDefaults} from '../../utils/obj';
 import {LogLevel, logger} from '../logger';
+import {omitUndefined} from '../../utils/obj';
 
 export interface CssClassesCache {
 	getUsedCssClasses(): Set<CssClass>;
@@ -18,8 +18,9 @@ export interface Options {
 export type RequiredOptions = never;
 export type InitialOptions = PartialExcept<Options, RequiredOptions>;
 
-export const defaultOptions = (): Options => ({
+export const defaultOptions = (initialOptions: InitialOptions): Options => ({
 	logLevel: LogLevel.Info,
+	...omitUndefined(initialOptions),
 });
 
 type CssClassCacheOp = [CssClass, boolean]; // `[cssClass, added]`, where `added` is false when removed
@@ -30,7 +31,7 @@ type CssClassCacheOp = [CssClass, boolean]; // `[cssClass, added]`, where `added
 export const createCssClassesCache = (
 	pluginOptions: InitialOptions = {},
 ): CssClassesCache => {
-	const {logLevel} = assignDefaults(defaultOptions(), pluginOptions);
+	const {logLevel} = defaultOptions(pluginOptions);
 
 	const {info, trace} = logger(logLevel, [green('[cssClassesCache]')]);
 

@@ -2,9 +2,9 @@ import {Plugin} from 'rollup';
 import {gray, blue} from 'kleur';
 import {outputFile} from 'fs-extra';
 
-import {assignDefaults} from '../../utils/obj';
 import {LogLevel, logger} from '../logger';
 import {toBundleData, BundleData} from '../../bundle/bundleData';
+import {omitUndefined} from '../../utils/obj';
 
 export interface PluginOptions {
 	srcPath: string;
@@ -19,14 +19,12 @@ export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
-export const defaultPluginOptions = ({
-	srcPath,
-	externalsPath,
-}: InitialPluginOptions): PluginOptions => ({
-	srcPath,
-	externalsPath,
+export const defaultPluginOptions = (
+	initialOptions: InitialPluginOptions,
+): PluginOptions => ({
 	output: 'bundle.json',
 	logLevel: LogLevel.Info,
+	...omitUndefined(initialOptions),
 });
 
 const name = 'bundle-writer';
@@ -34,10 +32,10 @@ const name = 'bundle-writer';
 export const bundleWriterPlugin = (
 	pluginOptions: InitialPluginOptions,
 ): Plugin => {
-	const {srcPath, externalsPath, output, logLevel} = assignDefaults(
-		defaultPluginOptions(pluginOptions),
+	const {srcPath, externalsPath, output, logLevel} = defaultPluginOptions(
 		pluginOptions,
 	);
+
 	const {info} = logger(logLevel, [gray(`[${name}]`)]);
 
 	return {

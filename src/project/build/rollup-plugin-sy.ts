@@ -3,13 +3,13 @@ import {cyan, gray, yellow} from 'kleur';
 import {createFilter} from 'rollup-pluginutils';
 import * as prettier from 'prettier';
 
-import {assignDefaults} from '../../utils/obj';
 import {replaceExt} from '../scriptUtils';
 import {logger, LogLevel, Logger, fmtCauses} from '../logger';
 import {sy, SyBuild, SyConfig} from '../../sy/sy';
 import {removeClasses} from '../../sy/helpers';
 import {CssBuild} from './rollup-plugin-output-css';
 import {CssClassesCache} from './cssClassesCache';
+import {omitUndefined} from '../../utils/obj';
 
 export interface PluginOptions {
 	dev: boolean;
@@ -30,23 +30,19 @@ export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
-export const defaultPluginOptions = ({
-	dev,
-	cacheCss,
-	cssClasses,
-}: InitialPluginOptions): PluginOptions => ({
-	dev,
-	cacheCss,
-	cssClasses,
+export const defaultPluginOptions = (
+	initialOptions: InitialPluginOptions,
+): PluginOptions => ({
 	include: ['src/**/sy.config.ts'],
 	exclude: undefined,
-	removeUnusedClasses: !dev,
+	removeUnusedClasses: !initialOptions.dev,
 	warnUndefinedClasses: true,
 	cssExt: '.css',
 	configs: new Map<string, SyConfig>(),
 	builds: new Map<string, SyBuild>(),
 	prettierOptions: {},
 	logLevel: LogLevel.Warn,
+	...omitUndefined(initialOptions),
 });
 
 export interface SyPlugin extends Plugin {
@@ -70,7 +66,7 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 		builds,
 		prettierOptions,
 		logLevel,
-	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
+	} = defaultPluginOptions(pluginOptions);
 
 	const log = logger(logLevel, [cyan(`[${name}]`)]);
 	const {info, warn} = log;

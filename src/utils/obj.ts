@@ -12,22 +12,6 @@ export const mapRecord = <T, K extends string | number, U>(
 	return result;
 };
 
-// Applies default values to a base from left to right.
-// Similar to `Object.assign` except all `undefined` partial values are ignored.
-export const assignDefaults = <T>(
-	defaults: T,
-	...partials: (Partial<T> | undefined)[]
-): T => {
-	const result: T = {...defaults};
-	for (const partial of partials) {
-		for (const key in partial) {
-			const value = partial[key];
-			if (value !== undefined) (result as any)[key] = value; // TODO why is cast needed?
-		}
-	}
-	return result;
-};
-
 export const omit = <
 	T extends Partial<Record<K, any>>,
 	K extends string | number
@@ -42,6 +26,22 @@ export const omit = <
 		// and explicitly pass the key param? or mabye I'm missing something
 		if (!keys.includes(key as any)) {
 			result[key] = obj[key];
+		}
+	}
+	return result;
+};
+
+export const omitUndefined = <
+	T extends Partial<Record<K, any>>,
+	K extends string | number
+>(
+	obj: T,
+): T => {
+	const result = {} as T;
+	for (const key in obj) {
+		const value = obj[key];
+		if (value !== undefined) {
+			result[key] = value;
 		}
 	}
 	return result;

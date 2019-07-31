@@ -8,10 +8,10 @@ import {walk} from 'svelte/compiler';
 import {translate} from 'css-tree/lib/generator'; // TODO import directly - maybe lazily?
 import {fromPlainObject} from 'css-tree/lib/convertor';
 
-import {assignDefaults} from '../../utils/obj';
 import {LogLevel, logger, fmtVal, Logger} from '../logger';
 import {toRootPath} from '../paths';
 import {CssClassesCache} from './cssClassesCache';
+import {omitUndefined} from '../../utils/obj';
 
 // TODO this is error prone - we're not expecting to have a `map` and an `ast` for example
 export interface CssBuild {
@@ -37,10 +37,13 @@ export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
-export const defaultPluginOptions = (): PluginOptions => ({
+export const defaultPluginOptions = (
+	initialOptions: InitialPluginOptions,
+): PluginOptions => ({
 	sourcemap: false,
 	logLevel: LogLevel.Info,
 	cssClasses: undefined,
+	...omitUndefined(initialOptions),
 });
 
 export interface PlainCssPlugin extends Plugin {
@@ -53,11 +56,8 @@ export const name = 'output-css';
 export const outputCssPlugin = (
 	pluginOptions: InitialPluginOptions,
 ): PlainCssPlugin => {
-	const {sourcemap, logLevel, cssClasses} = assignDefaults(
-		defaultPluginOptions(),
-		// {sourcemap: pluginOptions.dev}, // TODO dev flag?
-		pluginOptions,
-	);
+	const {sourcemap, logLevel, cssClasses} = defaultPluginOptions(pluginOptions);
+
 	const log = logger(logLevel, [blue(`[${name}]`)]);
 	const {info} = log;
 

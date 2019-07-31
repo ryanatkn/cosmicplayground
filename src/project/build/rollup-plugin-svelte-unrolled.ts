@@ -9,11 +9,11 @@ import {
 import {createFilter} from 'rollup-pluginutils';
 import {magenta} from 'kleur';
 
-import {assignDefaults} from '../../utils/obj';
 import {extractFilename, replaceExt} from '../scriptUtils';
 import {LogLevel, logger, fmtVal, fmtMs} from '../logger';
 import {toRootPath} from '../paths';
 import {CssBuild} from './rollup-plugin-output-css';
+import {omitUndefined} from '../../utils/obj';
 
 // TODO type could be improved, not sure how tho
 interface Stats {
@@ -71,12 +71,9 @@ export type InitialPluginOptions = PartialExcept<
 	PluginOptions,
 	RequiredPluginOptions
 >;
-export const defaultPluginOptions = ({
-	dev,
-	cacheCss,
-}: InitialPluginOptions): PluginOptions => ({
-	dev,
-	cacheCss,
+export const defaultPluginOptions = (
+	initialOptions: InitialPluginOptions,
+): PluginOptions => ({
 	include: ['src/**/*.svelte'],
 	exclude: undefined,
 	compileOptions: {},
@@ -84,6 +81,7 @@ export const defaultPluginOptions = ({
 	logLevel: LogLevel.Info,
 	onwarn: undefined,
 	onstats: undefined,
+	...omitUndefined(initialOptions),
 });
 
 const baseCompileOptions: CompileOptions = {
@@ -124,7 +122,7 @@ export const svelteUnrolledPlugin = (
 		logLevel,
 		onwarn,
 		onstats,
-	} = assignDefaults(defaultPluginOptions(pluginOptions), pluginOptions);
+	} = defaultPluginOptions(pluginOptions);
 
 	const {trace, info, warn} = logger(logLevel, [magenta(`[${name}]`)]);
 
