@@ -25,7 +25,7 @@ is open source and copyleft licensed,
 it's easy and cheap to self-host,
 and we hope to grow a community of contributors.
 
-> the copyleft [AGPL-3.0-only license](#license) optimizes for end-user freedoms
+> the copyleft [AGPL3](#license) optimizes for end-user freedoms
 
 ## participate
 
