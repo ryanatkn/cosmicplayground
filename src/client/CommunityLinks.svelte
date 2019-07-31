@@ -35,7 +35,10 @@
 			contributors
 		</a>
 		for more. I'm not sure what contributions I'll solicit yet, but if you have
-		something cool in mind please share!
+		something cool in mind
+		<a href="https://github.com/ryanatkn/cosmicplayground/issues">
+			please share!
+		</a>
 	</li>
 	<li>
 		email
@@ -50,6 +53,12 @@
 	<li>
 		fork the source code on
 		<a href="https://github.com/ryanatkn/cosmicplayground">GitHub</a>
-		- it's easy to self-host on a cheap server
+		<ul>
+			<li>it's easy to self-host on a cheap server</li>
+			<li>
+				<em>AGPL-3.0-only</em>
+				license optimizes for end-user freedoms
+			</li>
+		</ul>
 	</li>
 </ul>

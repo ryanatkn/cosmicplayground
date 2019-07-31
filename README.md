@@ -18,10 +18,12 @@ is to help us learn, create, and grow.
 ![galaxies](static/assets/space/galaxies-banner.jpg)
 
 [The code](https://github.com/ryanatkn/cosmicplayground)
-is open source and permissively licensed,
+is open source and copyleft licensed,
 [the website](https://cosmicplayground.org) is free to use,
 it's easy and cheap to self-host,
 and we hope to grow a community of contributors.
+
+> the copyleft [AGPL-3.0-only license](#license) optimizes for end-user freedoms
 
 ## participate
 
@@ -65,8 +67,8 @@ Made with [`svelte`](https://github.com/sveltejs/svelte),
 [`node`](https://nodejs.org),
 [`github`](https://github.com), and [`git`](https://git-scm.com/).
 
-This project relies on content and code that has been generously
-made freely available through permissive licensing, like
+This project relies on content and code made freely available
+through open source licenses, like
 [NASA's Hubble imagery](https://www.spacetelescope.org)
 and open source web stuff.
 See [docs/assets.md](docs/assets.md) for
@@ -79,7 +81,7 @@ for the list of people helping it all go.
 
 ## license
 
-[MIT](license)
+[AGPL-3.0-only](license) (optimized for end-user freedoms)
 
 Graphics, sounds, and other assets may have licenses that restrict usage
 as specified in [the asset credits](docs/assets.md).
