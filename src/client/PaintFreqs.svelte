@@ -12,6 +12,7 @@
 	/*
 
   ideas
+   - holding shift/alt should follow spectrum, not cardinal vectors
 	- add button to lock pointer down
 	  - visualize pointer down
 	- investigate the perf issues
