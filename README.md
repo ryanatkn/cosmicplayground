@@ -41,7 +41,7 @@ using technology including
 - [GitHub](https://github.com)
 - [Git](https://git-scm.com)
 
-## 🐢<sub>🐢</sub><sub><sub>🐢</sub></sub>
+## 🐢<sub>🐢</sub>
 
 <sub><sub>🐢</sub></sub><sub>🐢</sub>🐢
 
