@@ -30,6 +30,7 @@ currently steering towards abstract ideas like:
 and so forth,
 in domains like:
 
+- user interfaces
 - math
 - dataviz
 - web communication: messaging in chats/forums, information aggregation, voting
