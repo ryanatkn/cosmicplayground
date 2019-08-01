@@ -12,10 +12,10 @@
 
 _[cosmicplayground.org](https://cosmicplayground.org)_
 is a free, open source, experimental,
-**work in progress** website.
+**work in progress** website
 (<sub>i.e. this document is more _"hopes and dreams"_
 than _"polished implementation"_</sub>)
-It's currently steering towards abstract ideas like:
+currently steering towards abstract ideas like:
 
 - explorable systems
 - creation and communication tools
