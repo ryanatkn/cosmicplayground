@@ -31,6 +31,17 @@ in domains like
 - training tools and skill building
 - games and information tools (ear training, music theory, more)
 
+using technology including
+
+- [TypeScript](https://www.typescriptlang.org)
+- [Svelte](https://svelte.dev)
+- [the Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+- [Rollup](https://rollupjs.org)
+- [GitHub](https://github.com)
+- [Git](https://git-scm.com)
+
+🐢
+
 It aims to explore in many directions,
 but the general goal
 is to help us learn, create, communicate, and grow.
