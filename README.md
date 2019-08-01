@@ -33,6 +33,7 @@ in domains like:
 - math
 - dataviz
 - web communication: messaging in chats/forums, voting
+- miscellaneous computer-assisted processes
 - ear training, music theory, weird audio widgets
 
 using mostly open source technology including:
