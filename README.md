@@ -64,7 +64,7 @@ is open source and copyleft licensed,
 it's easy and cheap to self-host,
 and we hope to grow a community of contributors.
 
-> the copyleft [AGPL3](#license) optimizes for end-user freedoms
+> CPG's license is [AGPLv3](#license), optimizing for end-user freedoms
 
 ## participate
 
