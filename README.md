@@ -45,7 +45,7 @@ using technology including
 
 <sub><sub>🐢</sub></sub><sub>🐢</sub>🐢
 
-It aims to explore in many directions,
+_cosmicplayground_ aims to explore in many directions,
 but the general goal
 is to help us learn, create, communicate, and grow.
 
