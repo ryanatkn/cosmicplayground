@@ -10,12 +10,20 @@
 // current status: there's barely anything here yet, but there's not _nothing_
 ```
 
-_cosmicplayground_ (CPG) is an experimental **work in progress** website
-exploring interactive learning with over-engineered web tech.
-It plays with explorable systems, generative creativity, and other neat stuff
-in domains like math, dataviz, ear training, and music theory.
-It explores in many directions, but the general goal
-is to help us learn, create, and grow.
+_[cosmicplayground.org](https://cosmicplayground.org)_
+is a free, open source, experimental,
+**work in progress** website exploring interactive information systems
+with over-engineered web tech.
+It's currently steering towards explorable systems,
+creation and communication tools,
+programmable interfaces, generative creativity,
+multiplayer interactivity, and other neat stuff
+in domains like math, dataviz, web communication
+(messaging in chats/forums, voting),
+and information tools/games (ear training, music theory, more).
+It explores in many directions,
+but the general goal
+is to help us learn, create, communicate, and grow.
 
 ![galaxies](static/assets/space/galaxies-banner.jpg)
 
