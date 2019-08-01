@@ -14,14 +14,24 @@ _[cosmicplayground.org](https://cosmicplayground.org)_
 is a free, open source, experimental,
 **work in progress** website exploring interactive information systems
 with over-engineered web tech.
-It's currently steering towards explorable systems,
-creation and communication tools,
-programmable interfaces, generative creativity,
-multiplayer interactivity, and other neat stuff
-in domains like math, dataviz, web communication
-(messaging in chats/forums, voting),
-and information tools/games (ear training, music theory, more).
-It explores in many directions,
+It's currently steering towards abstract ideas like
+
+- explorable systems
+- creation and communication tools
+- programmable interfaces
+- generative creativity
+- multiplayer interactivity
+
+and so forth,
+in domains like
+
+- math
+- dataviz
+- web communication (web messaging in chats/forums, voting)
+- training tools and skill building
+- games and information tools (ear training, music theory, more)
+
+It aims to explore in many directions,
 but the general goal
 is to help us learn, create, communicate, and grow.
 
