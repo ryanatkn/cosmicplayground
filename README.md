@@ -7,7 +7,7 @@
 
 ```svelte
 // work in progress
-// current status: there's barely anything here yet, but there's not _nothing_
+// current status: not much here but glimpses
 ```
 
 _[cosmicplayground.org](https://cosmicplayground.org)_
