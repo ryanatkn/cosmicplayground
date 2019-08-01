@@ -120,9 +120,9 @@ for the list of people helping it all go.
 
 > :rainbow::sparkles: did you know? `emoji` can be punctuation :snail: neat huh
 
-## license :bird:
+## license
 
-[AGPL-3.0-only](license) (optimizing for end-user freedoms)
+[AGPL-3.0-only](license) - optimizing for end-user freedoms :bird:
 
 Graphics, sounds, and other assets may have licenses that restrict usage
 as specified in [the asset credits](docs/assets.md).
