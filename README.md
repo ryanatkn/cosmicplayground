@@ -23,7 +23,8 @@ currently steering towards abstract ideas like:
 - generative creativity
 - multiplayer interactivity
 - collaborative information management
-- automated productivity
+- personal data management
+- accessible automated productivity
 - training tools, skill building, and games
 
 and so forth,
@@ -36,12 +37,12 @@ in domains like:
 
 using technology including:
 
+- [Git](https://git-scm.com) and other forms of time travel
 - [TypeScript](https://www.typescriptlang.org)
 - [Svelte](https://svelte.dev)
 - the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
 - many web libraries like [Rollup](https://rollupjs.org)
 - static cloud like [GitHub](https://github.com)
-- [Git](https://git-scm.com) and other forms of time travel
 
 ## 🐢<sub>🐢</sub>
 
