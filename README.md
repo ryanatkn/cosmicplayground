@@ -12,7 +12,8 @@
 
 _[cosmicplayground.org](https://cosmicplayground.org)_
 is a free, open source, experimental,
-**work in progress** website exploring interactive information systems
+**work in progress** website exploring
+_interactive information systems_ <sub>(??)</sub>
 with over-engineered web tech.
 It's currently steering towards abstract ideas like
 
