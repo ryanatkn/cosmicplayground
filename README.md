@@ -84,7 +84,7 @@ sharing ideas, creations, and experiences. Participation takes many forms:
   I'm not sure what contributions I'll solicit yet,
   but if you have something cool in mind please share!
 - email [cosmicplayground.org@gmail.com](mailto:cosmicplayground.org@gmail.com)
-- donate on [Patreon](https://patreon.com/ryanatkn)
+- support the work with donations on [Patreon](https://patreon.com/ryanatkn)
 - [:milky_way: cosmicplayground.org](https://cosmicplayground.org)
 
 ## develop
