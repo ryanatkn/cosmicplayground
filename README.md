@@ -50,7 +50,7 @@ using mostly open source technology including:
 
 ## [🐢](https://github.com/mozilla/source-map)<sub>[🐢](https://github.com/lukeed/kleur)</sub>
 
-<sub><sub>🐢</sub></sub><sub>🐢</sub>🐢
+<sub><sub>[🐢](https://github.com/prettier/prettier)</sub></sub><sub>🐢</sub>🐢
 
 _cosmicplayground_ explores in many directions,
 but the general goal
