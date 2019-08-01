@@ -36,6 +36,7 @@ in domains like:
 - web communication: messaging in chats/forums, information aggregation, voting
 - miscellaneous computer-assisted processes
 - ear training, music theory, weird audio widgets
+- gardening experiences, as opposed to mining experiences
 - user experiences
 
 using mostly open source technology including:
