@@ -27,18 +27,18 @@ currently steering towards abstract ideas like:
 - training tools, skill building, and games
 
 and so forth,
-in domains like
+in domains like:
 
 - math
 - dataviz
 - web communication (web messaging in chats/forums, voting)
 - ear training, music theory, weird audio widgets
 
-using technology including
+using technology including:
 
 - [TypeScript](https://www.typescriptlang.org)
 - [Svelte](https://svelte.dev)
-- [the Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+- the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
 - many web libraries like [Rollup](https://rollupjs.org)
 - static cloud like [GitHub](https://github.com)
 - [Git](https://git-scm.com) and other forms of time travel
