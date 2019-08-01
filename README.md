@@ -12,16 +12,19 @@
 
 _[cosmicplayground.org](https://cosmicplayground.org)_
 is a free, open source, experimental,
-**work in progress** website exploring
-_interactive information systems_ <sub>(??)</sub>
-with over-engineered web tech.
-It's currently steering towards abstract ideas like
+**work in progress** website.
+(<sub>i.e. this document is more _"hopes and dreams"_
+than _"polished implementation"_</sub>)
+It's currently steering towards abstract ideas like:
 
 - explorable systems
 - creation and communication tools
 - programmable interfaces
 - generative creativity
 - multiplayer interactivity
+- collaborative information management
+- automated productivity
+- training tools, skill building, and games
 
 and so forth,
 in domains like
@@ -29,17 +32,16 @@ in domains like
 - math
 - dataviz
 - web communication (web messaging in chats/forums, voting)
-- training tools and skill building
-- games and information tools (ear training, music theory, more)
+- ear training, music theory, weird audio widgets
 
 using technology including
 
 - [TypeScript](https://www.typescriptlang.org)
 - [Svelte](https://svelte.dev)
 - [the Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
-- [Rollup](https://rollupjs.org)
-- [GitHub](https://github.com)
-- [Git](https://git-scm.com)
+- many web libraries like [Rollup](https://rollupjs.org)
+- static cloud like [GitHub](https://github.com)
+- [Git](https://git-scm.com) and other forms of time travel
 
 ## 🐢<sub>🐢</sub>
 
@@ -115,7 +117,7 @@ for the list of people helping it all go.
 
 ## license :bird:
 
-[AGPL-3.0-only](license) (optimized for end-user freedoms)
+[AGPL-3.0-only](license) (optimizing for end-user freedoms)
 
 Graphics, sounds, and other assets may have licenses that restrict usage
 as specified in [the asset credits](docs/assets.md).
