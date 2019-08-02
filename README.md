@@ -59,12 +59,10 @@ is to help us learn, create, communicate, and grow.
 ![galaxies](static/assets/space/galaxies-banner.jpg)
 
 [The code](https://github.com/ryanatkn/cosmicplayground)
-is open source and copyleft licensed,
+is open source and [copyleft licensed](#license),
 [the website](https://cosmicplayground.org) is free to use,
 it's easy and cheap to self-host,
 and we hope to grow a community of contributors.
-
-> CPG's license is [AGPLv3](#license), maximizing end-user freedoms
 
 ## participate
 
