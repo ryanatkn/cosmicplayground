@@ -70,7 +70,8 @@ sharing ideas, creations, and experiences. Participation takes many forms:
 - play around! [:octopus::beetle:](https://cosmicplayground.org)
 - report problems, ask questions, give feedback, and discuss ideas in
   [the GitHub issues](https://github.com/ryanatkn/cosmicplayground/issues)
-- join the subreddit at [/r/cosmicplayground](https://reddit.com/r/cosmicplayground)
+- join the subreddit and do reddit things
+  at [/r/cosmicplayground](https://reddit.com/r/cosmicplayground)
 - tweet [@cpg_org](https://twitter.com/cpg_org)
 - say hi on [Discord](https://discord.gg/57XP5Pv)
 - contribute code and other assets like graphics and audio.
