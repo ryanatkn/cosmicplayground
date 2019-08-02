@@ -17,7 +17,7 @@ currently steering towards abstract ideas like:
 
 - explorable systems
 - creation and communication tools
-- programmable interfaces
+- programmable interfaces and editable environments
 - generative creativity
 - multiplayer interactivity
 - collaborative information management
