@@ -41,11 +41,11 @@ using mostly open source technology including:
 - [Git](https://git-scm.com) and other forms of time travel
 - cross-platform web
   - [TypeScript](https://www.typescriptlang.org)
+  - [nodejs](https://nodejs.org)
   - [Svelte](https://svelte.dev)
   - the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
   - many web libraries like [Rollup](https://rollupjs.org),
     [Prettier](https://github.com/prettier/prettier)
-  - [nodejs](https://nodejs.org)
   - static cloud like [GitHub](https://github.com)
 
 ## [🐢](https://github.com/mozilla/source-map)<sub>[🐢](https://github.com/lukeed/kleur)</sub>
