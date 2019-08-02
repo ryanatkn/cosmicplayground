@@ -64,7 +64,7 @@ is open source and copyleft licensed,
 it's easy and cheap to self-host,
 and we hope to grow a community of contributors.
 
-> CPG's license is [AGPLv3](#license), optimizing for end-user freedoms
+> CPG's license is [AGPLv3](#license), maximizing end-user freedoms
 
 ## participate
 
@@ -122,7 +122,7 @@ for the list of people helping it all go.
 
 ## license
 
-[AGPL-3.0-only](license) - optimizing for end-user freedoms :bird:
+[AGPL-3.0-only](license), maximizing end-user freedoms :bird:
 
 Graphics, sounds, and other assets may have licenses that restrict usage
 as specified in [the asset credits](docs/assets.md).

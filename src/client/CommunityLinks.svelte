@@ -56,8 +56,8 @@
 		<ul>
 			<li>it's easy to self-host on a cheap server</li>
 			<li>
-				<em>AGPL-3.0-only</em>
-				license optimizes for end-user freedoms
+				license is <em>AGPL-3.0-only</em>,
+				maximizing end-user freedoms
 			</li>
 		</ul>
 	</li>
