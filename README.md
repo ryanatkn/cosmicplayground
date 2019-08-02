@@ -120,7 +120,8 @@ for the list of people helping it all go.
 
 ## license
 
-[AGPL-3.0-only](license), maximizing end-user freedoms :bird:
+Code is licensed [AGPL-3.0-only](license), maximizing end-user freedoms :bird:
 
-Graphics, sounds, and other assets may have licenses that restrict usage
-as specified in [the asset credits](docs/assets.md).
+See [the asset credits](docs/assets.md) for the licenses
+to graphics, sounds, and other non-code assets.
+Usage may be restricted.
