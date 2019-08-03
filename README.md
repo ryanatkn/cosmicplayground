@@ -23,18 +23,10 @@ currently steering towards abstract ideas like:
 - collaborative information management
 - personal data management
 - accessible automated productivity
-- training tools, skill building, and games
-
-and so forth,
-in domains like:
-
-- user interfaces
-- math
-- dataviz
-- web communication: messaging in chats/forums, information aggregation, voting
-- miscellaneous computer-assisted processes
-- ear training, music theory, weird audio widgets
-- user experiences
+- training tools, skill building, and games -
+  math, dataviz, audio/sound,
+  music theory, ear training, weird audio/musical widgets, ...
+- web communication: messaging in chats/forums, aggregation, voting, ...
 
 using mostly open source technology including:
 
