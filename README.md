@@ -30,7 +30,7 @@ currently steering towards abstract ideas like:
 
 using mostly open source technology including:
 
-- [Git](https://git-scm.com) and other forms of time travel
+- [Git](https://git-scm.com) and other forms of structured time travel
 - cross-platform web
   - [TypeScript](https://www.typescriptlang.org)
   - [nodejs](https://nodejs.org)
