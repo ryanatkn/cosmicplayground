@@ -47,9 +47,9 @@ for the list of people helping it all go.
 
 > :rainbow::sparkles: did you know? `emoji` can be punctuation :snail: neat huh
 
-## license
+## license :bird:
 
-Code is licensed [AGPL-3.0-only](license), maximizing end-user freedoms :bird:
+Code license is [MIT](license). :dolphin:
 
 See [the asset credits](docs/assets.md) for the licenses
 to graphics, sounds, and other non-code assets.
