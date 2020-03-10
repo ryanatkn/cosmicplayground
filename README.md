@@ -6,7 +6,7 @@
 > [:milky_way: cosmicplayground.org](https://cosmicplayground.org)
 > work in progress
 
-current status: there's just a few weird things here
+**current status** — there's a few weird things
 and an in-progress ear training game on the `earworm` branch
 
 _[cosmicplayground.org](https://cosmicplayground.org)_
