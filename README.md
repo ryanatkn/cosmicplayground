@@ -47,6 +47,14 @@ for the list of people helping it all go.
 
 > :rainbow::sparkles: did you know? `emoji` can be punctuation :snail: neat huh
 
+## support
+
+If you like what you see and want to help me make more stuff,
+you can [support me on Patreon](https://patreon.com/ryanatkn).
+Soon I hope to have an ear training game here that makes
+supporting the work seem like a reasonable trade.
+If you're technically inclined you can track progress on the `earworm` branch.
+
 ## license :bird:
 
 Code license is [MIT](license). :dolphin:
