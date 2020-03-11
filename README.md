@@ -60,7 +60,8 @@ and a [Twitter account](https://twitter.com/cpg_org).
 
 ## license :bird:
 
-Code license is [MIT](license). :dolphin:
+code license is [ISC](license)
+<sub>permissive <3 [learn more at Wikipedia](https://en.wikipedia.org/wiki/ISC_license)</sub>
 
 See [the asset credits](docs/assets.md) for the licenses
 to graphics, sounds, and other non-code assets.

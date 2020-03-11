@@ -56,8 +56,8 @@
 		<ul>
 			<li>it's easy to self-host on a cheap server</li>
 			<li>
-				license is <em>AGPL-3.0-only</em>,
-				maximizing end-user freedoms
+				permissive
+				<a href="https://en.wikipedia.org/wiki/ISC_license">ISC license</a>
 			</li>
 		</ul>
 	</li>

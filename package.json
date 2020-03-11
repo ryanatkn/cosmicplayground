@@ -2,7 +2,7 @@
   "name": "cosmicplayground",
   "version": "0.1.0",
   "description": "tools and toys for expanding minds: ear training, music theory, etc etc",
-  "license": "MIT",
+  "license": "ISC",
   "homepage": "https://cosmicplayground.org",
   "type": "module",
   "scripts": {
