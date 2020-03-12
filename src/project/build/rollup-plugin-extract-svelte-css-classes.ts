@@ -169,7 +169,7 @@ const extractCssClassesFromStyles = async (
 					positions: false,
 				});
 				// This looks terrible but it's what svelte does with css-tree's AST:
-				// https://github.com/sveltejs/svelte/blob/0b836872cf50f25eb643cf24e57a85cf6db31cbe/src/compiler/parse/read/style.ts
+				// https://github.com/sveltejs/svelte/tree/0b836872cf50f25eb643cf24e57a85cf6db31cbe/src/compiler/parse/read/style.ts
 				// Looks like it's because css-tree uses data structures
 				// like a `List` for children instead of plain arrays.
 				// TODO see the other notes with this link - https://github.com/csstree/csstree/issues/47

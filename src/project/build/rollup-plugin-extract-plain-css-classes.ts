@@ -80,7 +80,7 @@ export const extractPlainCssClassesPlugin = (
 			// maybe JSON.parse(JSON.stringify()) performs ok? maybe not lol. PR to svelte if significant?
 			// https://github.com/csstree/csstree/issues/47
 			// Svelte jses JSON.parse(JSON.stringify(parsedAst))
-			// https://github.com/sveltejs/svelte/blob/0b836872cf50f25eb643cf24e57a85cf6db31cbe/src/compiler/parse/read/style.ts
+			// https://github.com/sveltejs/svelte/tree/0b836872cf50f25eb643cf24e57a85cf6db31cbe/src/compiler/parse/read/style.ts
 			const ast = toPlainObject(parsedAst);
 			const classes = new Set<string>();
 			extractCssClassesFromStyles(ast, classes, log);

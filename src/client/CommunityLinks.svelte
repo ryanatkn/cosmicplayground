@@ -26,12 +26,12 @@
 	<li>
 		contribute code and other assets like art and audio. See
 		<a
-			href="https://github.com/ryanatkn/cosmicplayground/blob/master/docs/credits.md">
-			the credits
+			href="https://github.com/ryanatkn/cosmicplayground/tree/master/docs/assets.md">
+			the asset credits
 		</a>
 		and
 		<a
-			href="https://github.com/ryanatkn/cosmicplayground/blob/master/docs/contributors.md">
+			href="https://github.com/ryanatkn/cosmicplayground/tree/master/docs/contributors.md">
 			contributors
 		</a>
 		for more. I'm not sure what contributions I'll solicit yet, but if you have
