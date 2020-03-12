@@ -6,9 +6,9 @@
 <h3>credits</h3>
 <section>
 	<CreditsItem>
-		CPG's code and original assets are
+		CPG's code and original assets are permissively licensed under the
 		<a href="https://github.com/ryanatkn/cosmicplayground/blob/master/license">
-			MIT licensed
+			ISC license
 		</a>
 		. The project also uses the assets listed below. See the included links for
 		more about the copyright holders.
