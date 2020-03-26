@@ -6,12 +6,7 @@ import {isSveltePath} from './tsHelpers';
 
 /*
 
-Source maps for TypeScript errors and other diagnostics
-
-At a high level, we need source mappings
-from the virtual Svelte TypeScript code
-back to the original `.svelte` code.
-We use the source maps returned from `./virtualSvelteTs.ts`
+Uses the source maps returned from `./virtualSvelteTs.ts`
 to map positions in the TypeScript diagnostics
 of the virtual code back to the original Svelte code.
 
