@@ -11,11 +11,8 @@ Source maps for TypeScript errors and other diagnostics
 At a high level, we need source mappings
 from the virtual Svelte TypeScript code
 back to the original `.svelte` code.
-The current implementation uses `magic-string` to incrementally modify
-the original code into the generated typechecked form.
-(see `./virtualSvelteTs.ts`)
-We then use `magic-string.generateMap` to generate mapping data
-which is then used to map positions in the TypeScript diagnostics
+We use the source maps returned from `./virtualSvelteTs.ts`
+to map positions in the TypeScript diagnostics
 of the virtual code back to the original Svelte code.
 
 */
