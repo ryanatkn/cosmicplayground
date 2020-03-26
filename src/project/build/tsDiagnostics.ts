@@ -4,14 +4,6 @@ import {RawSourceMap, SourceMapConsumer} from 'source-map';
 import {toRootPath} from '../paths';
 import {isSveltePath} from './tsHelpers';
 
-/*
-
-Uses the source maps returned from `./virtualSvelteTs.ts`
-to map positions in the TypeScript diagnostics
-of the virtual code back to the original Svelte code.
-
-*/
-
 // Maps TypeScript diagnostics (error messages) from the generated virtual ts
 // back to the original unpreprocessed source.
 export const mapVirtualDiagnosticsToSource = async (
