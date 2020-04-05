@@ -10,7 +10,7 @@
 </script>
 
 <div
-	class="w-100 h-100 relative z-1 flex items-center justify-center
+	class="w-full h-full relative z-1 flex items-center justify-center
 	overflow-hidden"
 	bind:clientWidth
 	bind:clientHeight>
@@ -19,7 +19,7 @@
 			<img
 				src="assets/construction/line-1.gif"
 				alt="under construction: line 1"
-				class="pixelated w-100" />
+				class="pixelated w-full" />
 			<img
 				src="assets/construction/person-dig-idea.gif"
 				alt="under construction: person dig idea"
@@ -152,7 +152,7 @@
 				<img
 					src="assets/construction/line-2.gif"
 					alt="under construction: line 2"
-					class="w-100 absolute"
+					class="w-full absolute"
 					style="bottom: 38px; left: 0" />
 			</div>
 			<div class="relative inline-block" style="width: 144px; height: 144px;">
@@ -172,12 +172,12 @@
 				src="assets/construction/line-2.gif"
 				alt="under construction: line 2"
 				style="transform: scale3d(1, -1, 1);"
-				class="pixelated w-100" />
+				class="pixelated w-full" />
 			<img
 				src="assets/construction/line-1.gif"
 				alt="under construction: line 1"
 				style="top: -8px; transform: scale3d(1, -1, 1);"
-				class="pixelated w-100 relative" />
+				class="pixelated w-full relative" />
 		</div>
 	</div>
 </div>

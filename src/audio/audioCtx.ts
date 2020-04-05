@@ -1,4 +1,4 @@
-import {setContext, getContext} from 'svelte';
+import {setContext, getContext} from 'svelte/index.mjs';
 
 // There's an unfortunate overlap between "context" as in
 // svelte's `getContext`/`setContext`, and the browser's `AudioContext`.

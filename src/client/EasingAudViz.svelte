@@ -25,7 +25,7 @@
 	import * as easing from 'svelte/easing';
 	import {tweened} from 'svelte/motion';
 	import {loop} from 'svelte/internal';
-	import {onDestroy} from 'svelte';
+	import {onDestroy} from 'svelte/index.mjs';
 
 	import {svelteEasings} from './easings.js';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../audio/utils.js';

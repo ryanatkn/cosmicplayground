@@ -57,6 +57,6 @@
 	href="https://github.com/ryanatkn/cosmicplayground"
 	src="assets/characters/cosm.png"
 	alt="@ryanatkn/cosmicplayground on github"
-	imgClass="w-100 pixelated"
+	imgClass="w-full pixelated"
 	linkClass="block mx-auto"
 	linkStyle="width: {(100 * GR2i) | 0}%;" />

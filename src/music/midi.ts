@@ -1,5 +1,7 @@
 import {Frequency} from '../audio/types.js';
 
+// TODO min audible Midi (max too?)
+
 // This project uses `Midi`, the midi number,
 // as the standard musical note identity.
 // This comes with drawbacks, the obvious one being that
@@ -21,15 +23,15 @@ export type Midi =
   | 100 | 101 | 102 | 103 | 104 | 105 | 106 | 107 | 108 | 109
   | 110 | 111 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119
   | 120 | 121 | 122 | 123 | 124 | 125 | 126 | 127; // prettier-ignore
-export const MIDI_NUMBER_MIN = 0;
-export const MIDI_NUMBER_MAX = 127;
+export const MIDI_MIN = 0;
+export const MIDI_MAX = 127;
 
 export const midis: Midi[] = Object.freeze(
-	Array.from({length: MIDI_NUMBER_MAX + 1}, (_, i) => i),
+	Array.from({length: MIDI_MAX + 1}, (_, i) => i),
 ) as Midi[];
 
 export const isMidi = (n: number): n is Midi => {
-	return n >= MIDI_NUMBER_MIN && n <= MIDI_NUMBER_MAX && Number.isInteger(n);
+	return n >= MIDI_MIN && n <= MIDI_MAX && Number.isInteger(n);
 };
 
 // note/midi/frequency formulas: https://newt.phys.unsw.edu.au/jw/notes.html

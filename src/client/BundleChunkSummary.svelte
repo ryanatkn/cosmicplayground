@@ -20,14 +20,14 @@
 	<h2>{chunk.fileName}</h2>
 	<!-- TODO separate comoponents probably -->
 	{#each chunk.modules as mod (mod.path)}
-		<div class="relative w-100 h-8 flex items-center px-2">
-			<div class="absolute0 w-100 h-100">
+		<div class="relative w-full h-8 flex items-center px-2">
+			<div class="absolute0 w-full h-full">
 				<div
 					style="background-color: rgba(80, 180, 220, 0.2); width: {toLengthPct(mod.originalLength)}%;"
-					class="absolute h-100" />
+					class="absolute h-full" />
 				<div
 					style="background-color: rgba(220, 80, 180, 0.2); width: {toLengthPct(mod.renderedLength)}%;"
-					class="absolute h-100" />
+					class="absolute h-full" />
 			</div>
 			<div class="flex-1">{mod.path}</div>
 			<div>{mod.originalLength} → {mod.renderedLength}</div>

@@ -1,5 +1,5 @@
 <script>
-	import {onMount} from 'svelte';
+	import {onMount} from 'svelte/index.mjs';
 	import {writable} from 'svelte/store';
 
 	import {createClock} from './clock.js';
@@ -11,6 +11,8 @@
 	import ClockControls from './ClockControls.svelte';
 	import CommunityLinks from './CommunityLinks.svelte';
 	import BackButton from './BackButton.svelte';
+	import EarWormGalaxy from './earWormGalaxy/EarWormGalaxy.svelte';
+	import EarWormGalaxyThumbnail from './earWormGalaxy/EarWormGalaxyThumbnail.svelte';
 	import FreqSpeeds from './FreqSpeeds.svelte';
 	import FreqSpectacle from './FreqSpectacle.svelte';
 	import HearingTest from './HearingTest.svelte';
@@ -24,7 +26,7 @@
 	export let name;
 
 	// TODO refactor all of this view code with proper routing
-	export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | bundleVision | hearingTest | transitionDesigner | easingViz | easingAudViz | paintFreqs
+	export let view = writable('earWormGalaxy'); // main | about | earWormGalaxy | freqSpeeds0 | freqSpeeds1 | construction | bundleVision | hearingTest | transitionDesigner | easingViz | easingAudViz | paintFreqs
 
 	export let windowWidth = window.innerWidth;
 	export let windowHeight = window.innerHeight;
@@ -45,6 +47,7 @@
 	const easingAudVizTailSize = 10;
 	const drawEasingAudVizCanvas = () => {
 		// TODO can remove these temp vars after refactoring into a standalone component - names should be shortened
+		if (!easingAudVizCanvas) return; // TODO this is a temporary fix
 		const canvas = easingAudVizCanvas;
 		const width = easingAudVizCanvasWidth;
 		const height = easingAudVizCanvasHeight;
@@ -68,7 +71,7 @@
 
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
-<section class="bg w-100 z-0">
+<section class="bg w-full z-0">
 	<GalaxyBg running={$clock.running} />
 </section>
 
@@ -88,7 +91,7 @@
 								alt="cosm"
 								class="pixelated"
 								style="width: 32px; height: 32px; margin-right: 10px;" />
-							 {name}
+							{name}
 							<img
 								src="assets/characters/cosm.png"
 								alt="cosm"
@@ -98,6 +101,12 @@
 						</div>
 						<small>help . about . credits</small>
 					</div>
+				</li>
+				<li
+					class="thumbnail"
+					on:click={() => view.set('earWormGalaxy')}
+					style="display: flex;">
+					<EarWormGalaxyThumbnail />
 				</li>
 				<li class="thumbnail" on:click={() => view.set('paintFreqs')}>
 					<div style="font-size: 20px; margin-bottom: 7px;">paint freqs</div>
@@ -191,7 +200,7 @@
 						lowestHzItemCount={1} />
 				</li>
 				<li class="thumbnail" on:click={() => view.set('bundleVision')}>
-					 {'{ bundle vision }'}
+					{'{ bundle vision }'}
 				</li>
 				<li class="thumbnail" on:click={() => view.set('construction')}>
 					{#if $clock.running}
@@ -236,6 +245,14 @@
 				</About>
 			</Overlay>
 		</div>
+	</section>
+{:else if $view === 'earWormGalaxy'}
+	<section class="content">
+		<!-- TODO handle exiting via a menu (escape key & what else?) -->
+		<!-- <div class="back-button-wrapper">
+			<BackButton {view} />
+		</div> -->
+		<EarWormGalaxy />
 	</section>
 {:else if $view === 'easingAudViz'}
 	<section class="content">

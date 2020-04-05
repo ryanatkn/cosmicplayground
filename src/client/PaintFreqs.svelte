@@ -1,6 +1,6 @@
 <script>
 	import {spring} from 'svelte/motion';
-	import {onMount, onDestroy} from 'svelte';
+	import {onMount, onDestroy} from 'svelte/index.mjs';
 
 	import {useAudioCtx} from '../audio/audioCtx.js';
 	import {mix} from '../utils/math.js';
@@ -190,9 +190,9 @@
 	};
 </script>
 
-<div class="relative w-100 h-100 overflow-hidden">
+<div class="relative w-full h-full overflow-hidden">
 	{#if $spotPosition}
-		<svg class="absolute0 z-2 w-100 h-100">
+		<svg class="absolute0 z-2 w-full h-full">
 			<!--
 				Chrome doesn't appear to support setting a canvas mask to an svg (it works in Firefox)
 				so we use an svg `image` with a `dataUrl` instead.
@@ -227,7 +227,7 @@
 	{/if}
 	{#if displayedFreq}
 		<div
-			class="freq w-100 absolute z-1 flex items-start justify-center l-0 b-4">
+			class="freq w-full absolute z-1 flex items-start justify-center l-0 b-4">
 			<div>
 				{displayedFreq}
 				<span class="unit">hz</span>
@@ -235,7 +235,7 @@
 		</div>
 	{/if}
 	<div
-		class="absolute z-3 w-100 h-100"
+		class="absolute z-3 w-full h-full"
 		on:mousedown|stopPropagation|preventDefault={handlePointerDown}
 		on:mouseup|stopPropagation|preventDefault={handlePointerUp}
 		on:mouseleave|stopPropagation|preventDefault={handlePointerUp}

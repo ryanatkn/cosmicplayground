@@ -27,7 +27,7 @@
 
   */
 
-	import {onDestroy} from 'svelte';
+	import {onDestroy} from 'svelte/index.mjs';
 	import {createTweens} from './tweens.js';
 
 	let duration = 1500;

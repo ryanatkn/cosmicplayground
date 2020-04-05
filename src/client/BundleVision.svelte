@@ -1,5 +1,5 @@
 <script>
-	import {onMount} from 'svelte';
+	import {onMount} from 'svelte/index.mjs';
 
 	import JsonExplorer from './JsonExplorer.svelte';
 	import BundleSummary from './BundleSummary.svelte';

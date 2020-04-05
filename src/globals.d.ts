@@ -11,3 +11,7 @@ type PartialOnly<T, K extends keyof T> = {[P in K]?: T[P]} &
 type PartialValues<T> = {
 	[P in keyof T]: Partial<T[P]>;
 };
+
+// Gets the type of an array's elements,
+// e.g. `ArrayElement<typeof [1, 2, 3]> => 1 | 2 | 3`
+type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType[number];

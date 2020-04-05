@@ -17,13 +17,13 @@ export type NoteName =
   | 'C8'  | 'C♯8'  | 'D8'  | 'D♯8'  | 'E8'  | 'F8'  | 'F♯8'  | 'G8'  | 'G♯8'  | 'A8'  | 'A♯8'  | 'B8'
   | 'C9'  | 'C♯9'  | 'D9'  | 'D♯9'  | 'E9'  | 'F9'  | 'F♯9'  | 'G9'; // prettier-ignore
 
-export type Chroma = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11; // corresponds to indices of `pitchClasses`
-export const chromas = Object.freeze([0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11]) as Chroma[]; // prettier-ignore
-export type PitchClass = 'C' | 'C♯' | 'D' | 'D♯' | 'E' | 'F' | 'F♯' | 'G' | 'G♯' | 'A' | 'A♯' | 'B'; // prettier-ignore
-export const pitchClasses = Object.freeze(['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B']) as PitchClass[]; // prettier-ignore
+export const chromas = Object.freeze([0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11] as const); // prettier-ignore
+export type Chroma = ArrayElement<typeof chromas>; // corresponds to indices of `pitchClasses`
+export const pitchClasses = Object.freeze(['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B'] as const); // prettier-ignore
+export type PitchClass = ArrayElement<typeof pitchClasses>;
 export type Octave = -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 // export type NoteLetter = 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B'; // TODO this is unused - is it even a useful concept?
-export type Semitones = number; // TODO enumerate all possible? it's basically all Midis with negative values included
+export type Semitones = number;
 
 // `Midi` is our primary means of identifying notes,
 // and its type is a number with a min of 0, just like array indices.
@@ -62,29 +62,33 @@ export const transpose = (midi: Midi, semitones: Semitones): Midi => {
 	return transposed;
 };
 
+// Computes the interval from a to b normalized to a single octave.
+// Note that compound intervals spanning more than an octave
+// are normalized to a single octave, so notes 13 semitones apart
+// are actually an interval of 1.
+export const computeInterval = (a: Midi, b: Midi): Semitones => {
+	let interval = b - a;
+	while (interval < 0) interval += 12; // not the best code, but it works
+	return interval % 12;
+};
+
 // TODO the hue shouldn't be hardcoded from the chroma - this relationship should be user-customizable (`app.colors` or `app.audio.colors` or something)
 export const noteChromaToHue = Object.freeze(
-	chromas.reduce(
-		(result, chroma) => {
-			result[chroma] = chroma / 12;
-			return result;
-		},
-		{} as Record<Chroma, Hue>,
-	),
+	chromas.reduce((result, chroma) => {
+		result[chroma] = chroma / 12;
+		return result;
+	}, {} as Record<Chroma, Hue>),
 );
 // TODO consider changing to a memoized helper function with optional saturation+lightness
 export const noteChromaToHsl = Object.freeze(
-	chromas.reduce(
-		(result, chroma) => {
-			result[chroma] = Object.freeze([
-				noteChromaToHue[chroma],
-				0.5,
-				0.5,
-			] as const);
-			return result;
-		},
-		{} as Record<Chroma, Hsl>,
-	),
+	chromas.reduce((result, chroma) => {
+		result[chroma] = Object.freeze([
+			noteChromaToHue[chroma],
+			0.5,
+			0.5,
+		] as const);
+		return result;
+	}, {} as Record<Chroma, Hsl>),
 );
 export const noteChromaToHslString = Object.freeze(
 	mapRecord(noteChromaToHsl, hsl => hslToStr(hsl)),

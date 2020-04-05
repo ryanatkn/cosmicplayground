@@ -10,6 +10,19 @@ _credit:_ [NASA](https://www.nasa.gov/), [ESA](https://www.esa.int/),
 and S. Beckwith ([STScI](https://www.stsci.edu/)) and the HUDF Team
 [www.spacetelescope.org/images/heic0406a/](https://www.spacetelescope.org/images/heic0406a/)
 
+## [UGC 2885](https://www.spacetelescope.org/images/heic2002a/)
+
+![UGC 2885](/static/assets/space/heic2002a.jpg)
+
+> Galaxy UGC 2885 may be the largest one in the local universe.
+> It is 2.5 times wider than our Milky Way and contains 10 times as many stars.
+> This galaxy is 232 million light-years away,
+> located in the northern constellation of Perseus.
+
+_credit:_ [NASA](https://www.nasa.gov/), [ESA](https://www.esa.int/),
+and B. Holwerda (University of Louisville)
+[www.spacetelescope.org/images/heic2002a/](https://www.spacetelescope.org/images/heic2002a/)
+
 ## [under construction gifs](http://textfiles.com/underconstruction/)
 
 ![construction idea](/static/assets/construction/person-dig-idea.gif)

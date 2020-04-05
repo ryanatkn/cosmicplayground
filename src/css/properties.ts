@@ -36,6 +36,14 @@ export const overflow: CssPropertiesData = [
 	// 'clip', some day
 ];
 
+// text-align
+export const textAlign: CssPropertiesData = [
+	'left',
+	'right',
+	'center',
+	'justify',
+];
+
 // font-weight
 // TODO consider supporting numerical weight?
 // https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight

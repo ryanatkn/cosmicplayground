@@ -134,7 +134,7 @@ const createInputOptions = (): InputOptions => {
 				logLevel,
 			}),
 			outputCssPluginInstance,
-			resolvePlugin(),
+			resolvePlugin(), // {extensions: ['.mjs', '.js', '.json']}
 			commonjsPlugin(),
 			...(dev
 				? [watch && servePlugin({contentBase: paths.staticDir, host, port})]

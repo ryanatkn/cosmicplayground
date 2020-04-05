@@ -5,7 +5,7 @@
 	$: animation = running ? '' : 'animation: none;';
 </script>
 
-<div class="wrapper w-100 h-100 absolute overflow-hidden z-0">
+<div class="wrapper w-full h-full absolute overflow-hidden z-0">
 	<div class="bg" style={animation} />
 </div>
 
