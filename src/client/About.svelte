@@ -24,12 +24,6 @@
 	<h1 class="flex-1 {headerClass}">{name}</h1>
 	<div class="flex flex-col">
 		<ImgLink
-			src="assets/characters/patreon.png"
-			alt="@ryanatkn on patreon"
-			href="https://patreon.com/ryanatkn"
-			linkClass="w-16"
-			imgClass="mix-blend-difference" />
-		<ImgLink
 			src="assets/characters/twit.png"
 			alt="@cpg_org on twitter"
 			href="https://twitter.com/cpg_org"

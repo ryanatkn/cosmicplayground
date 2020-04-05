@@ -4,7 +4,7 @@
 
 > tools and toys for expanding minds
 > [:milky_way: cosmicplayground.org](https://cosmicplayground.org)
-> work in progress
+> :dragon: work in progress
 
 **current status** — there's a few weird things
 and an in-progress ear training game on the `earworm` branch
@@ -44,19 +44,7 @@ the complete list of non-code assets and their credits,
 and [docs/contributors.md](docs/contributors.md)
 for the list of people helping it all go.
 
-> :rainbow::sparkles: did you know? `emoji` can be punctuation :snail: neat huh
-
-## support
-
-If you like what you see and want to help me make more stuff,
-you can [support me on Patreon](https://patreon.com/ryanatkn).
-Soon I hope to have an ear training game here that makes
-supporting the work seem like a reasonable trade.
-If you're technically inclined you can track progress on the `earworm` branch.
-There's an empty forum at
-[/r/cosmicplayground](https://reddit.com/r/cosmicplayground),
-a [Discord](https://discord.gg/57XP5Pv) with nobody in it,
-and a [Twitter account](https://twitter.com/cpg_org).
+> :rainbow::sparkles: did you know? emoji can be punctuation :snail: neat huh
 
 ## license :bird:
 

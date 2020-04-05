@@ -47,10 +47,6 @@
 		</a>
 	</li>
 	<li>
-		donate on
-		<a href="https://patreon.com/ryanatkn">Patreon</a>
-	</li>
-	<li>
 		fork the source code on
 		<a href="https://github.com/ryanatkn/cosmicplayground">GitHub</a>
 		<ul>
