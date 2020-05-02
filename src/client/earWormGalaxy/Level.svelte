@@ -1,7 +1,7 @@
 <script>
 	import {onMount} from 'svelte/index.mjs';
 
-	import {createLevelStore} from './levelStore.js';
+	import {createLevelStore, createLevelService} from './levelStore.js';
 	import PianoInstrument from '../music/PianoInstrument.svelte';
 	import LevelProgressIndicator from './LevelProgressIndicator.svelte';
 	import TrialProgressIndicator from './TrialProgressIndicator.svelte';
@@ -30,6 +30,10 @@
 
 	const audioCtx = useAudioCtx();
 
+	const levelService = createLevelService(levelDef, audioCtx);
+	window.s = levelService;
+	console.log('levelService', levelService);
+
 	const level = createLevelStore(levelDef, audioCtx);
 	// $: level.setDef(levelDef); // TODO update if levelDef prop changes
 
@@ -41,16 +45,21 @@
 
 	onMount(() => {
 		level.send('START');
+		levelService.send('START');
 	});
 
 	useMidiInput({
 		onNoteStart: midi => {
 			// TODO should this be ignored if it's not an enabled key? should the level itself ignore the guess?
 			level.send({type: 'GUESS', midi});
+			levelService.send({type: 'GUESS', midi});
 		},
 	});
 
-	const reset = () => level.reset();
+	const reset = () => {
+		level.reset();
+		levelService.reset();
+	};
 
 	const onDocumentKeyDown = e => {
 		switch (e.key) {
@@ -69,6 +78,7 @@
 			}
 			case '`': {
 				level.guessCorrectly($level);
+				levelService.guessCorrectly($level);
 				break;
 			}
 			case 'Escape': {
@@ -81,6 +91,7 @@
 	const onPressKey = midi => {
 		console.log('press midi key', midi);
 		level.send({type: 'GUESS', midi});
+		levelService.send({type: 'GUESS', midi});
 	};
 </script>
 

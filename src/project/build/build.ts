@@ -19,6 +19,7 @@ import * as commonjsPluginFIXME from 'rollup-plugin-commonjs';
 import * as terserPlugin from 'rollup-plugin-terser';
 import * as servePlugin from 'rollup-plugin-serve';
 import * as typescriptPlugin from 'rollup-plugin-typescript';
+import * as replacePluginFIXME from '@rollup/plugin-replace';
 import {magenta} from 'kleur';
 import * as fs from 'fs-extra';
 import * as prettier from 'prettier';
@@ -50,6 +51,7 @@ const {info} = logger(logLevel, [magenta('[build]')]);
 // This can probably be sorted out cleanly when `ts-node` supports ES modules.
 const resolvePlugin: typeof resolvePluginFIXME.default = resolvePluginFIXME as any;
 const commonjsPlugin: typeof commonjsPluginFIXME.default = commonjsPluginFIXME as any;
+const replacePlugin: typeof replacePluginFIXME.default = replacePluginFIXME as any;
 
 const removeUnusedClasses = !dev;
 const warnUndefinedClasses = true;
@@ -136,6 +138,9 @@ const createInputOptions = (): InputOptions => {
 			outputCssPluginInstance,
 			resolvePlugin(), // {extensions: ['.mjs', '.js', '.json']}
 			commonjsPlugin(),
+			replacePlugin({
+				'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+			}),
 			...(dev
 				? [watch && servePlugin({contentBase: paths.staticDir, host, port})]
 				: [terserPlugin.terser()]),
