@@ -37,17 +37,10 @@ export const createLevelMachine = (context: LevelContext) => {
 				presentingPrompt: {
 					invoke: {
 						id: 'presentPrompt',
-						src: context => async (callback: any) => {
-							await presentTrialPrompt(
-								context.audioCtx,
-								context.trial!.sequence,
-								callback,
-							);
-							log('presented trial prompt');
-						},
+						src: 'presentPrompt',
 						onDone: {
 							target: 'waitingForInput',
-							actions: assign<LevelContext>({presentingIndex: () => null}),
+							actions: 'resetPresentingIndex',
 						},
 					},
 					on: {
@@ -70,8 +63,16 @@ export const createLevelMachine = (context: LevelContext) => {
 				complete: {type: 'final'},
 			},
 		},
-		{actions: {createNextTrial, presentNextNote}},
+		{
+			actions: {createNextTrial, presentNextNote, resetPresentingIndex},
+			services: {presentPrompt},
+		},
 	);
+};
+
+const presentPrompt = (context: LevelContext) => async (callback: any) => {
+	await presentTrialPrompt(context.audioCtx, context.trial!.sequence, callback);
+	log('presented trial prompt');
 };
 
 const presentTrialPrompt = async (
@@ -85,7 +86,7 @@ const presentTrialPrompt = async (
 		const note = sequence[i];
 		log('set interval', note);
 		callback('PRESENT_NEXT_NOTE');
-		// TODO should this be done here or as an effect in PRESENT_NEXT_NOTE?
+		// TODO should this be done here or as an effect in PRESENT_NEXT_NOTE or a new PLAY_NOTE?
 		await playNote(audioCtx, note, NOTE_DURATION);
 	}
 	// the final action is performed via `onDone`, not by a final callback event
@@ -368,3 +369,7 @@ const presentNextNote = assign<LevelContext>(
 		};
 	},
 );
+
+const resetPresentingIndex = assign<LevelContext>({
+	presentingIndex: () => null,
+});
