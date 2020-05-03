@@ -30,8 +30,8 @@ type Status =
 	| 'initial'
 	| 'presentingPrompt'
 	| 'waitingForInput'
-	| 'showingSuccessFeedback'
-	| 'showingFailureFeedback'
+	| 'showingTrialSuccessFeedback'
+	| 'showingTrialFailureFeedback'
 	| 'complete';
 
 type LevelStoreState = {
@@ -264,14 +264,14 @@ export const createLevelStore = (
 							const actual = getCorrectGuess($level.trial);
 							playNote(audioCtx, guess, NOTE_DURATION);
 							log('guess', e.midi, guess, actual);
-							// if incorrect -> FAILURE -> showingFailureFeedback -> REPROMPT
+							// if incorrect -> FAILURE -> showingTrialFailureFeedback -> REPROMPT
 							if (actual !== guess) {
 								log('guess incorrect');
-								// TODO this is really "on enter showingFailureFeedback state" logic
+								// TODO this is really "on enter showingTrialFailureFeedback state" logic
 								setTimeout(() => send('RETRY_TRIAL'), 1000);
 								return {
 									...$level,
-									status: 'showingFailureFeedback',
+									status: 'showingTrialFailureFeedback',
 								};
 							}
 							// else if more -> update current response index
@@ -281,23 +281,23 @@ export const createLevelStore = (
 							) {
 								if ($level.trial.index < $level.def.trialCount - 1) {
 									log('guess correct and done with trial!!');
-									// TODO this is really "on enter showingSuccessFeedback state" logic
+									// TODO this is really "on enter showingTrialSuccessFeedback state" logic
 									setTimeout(() => send('NEXT_TRIAL'), 1000);
 									return {
 										...$level,
-										status: 'showingSuccessFeedback',
+										status: 'showingTrialSuccessFeedback',
 									};
 								} else {
-									// TODO this is really "on enter showingSuccessFeedback state" logic
+									// TODO this is really "on enter showingTrialSuccessFeedback state" logic
 									log('guess correct and done with all trials!!!!');
 									setTimeout(() => send('COMPLETE_LEVEL'), 1000);
 									return {
 										...$level,
-										status: 'showingSuccessFeedback',
+										status: 'showingTrialSuccessFeedback',
 									};
 								}
 							}
-							// else -> SUCCESS -> showingSuccessFeedback
+							// else -> SUCCESS -> showingTrialSuccessFeedback
 							else {
 								log('guess correct but not done');
 								return {
@@ -316,7 +316,7 @@ export const createLevelStore = (
 						}
 					}
 				}
-				case 'showingSuccessFeedback': {
+				case 'showingTrialSuccessFeedback': {
 					switch (e.type) {
 						case 'NEXT_TRIAL': {
 							const trial = createNextTrial_OLD($level);
@@ -345,7 +345,7 @@ export const createLevelStore = (
 						}
 					}
 				}
-				case 'showingFailureFeedback': {
+				case 'showingTrialFailureFeedback': {
 					switch (e.type) {
 						case 'RETRY_TRIAL': {
 							// TODO this is really "on enter presentingPrompt state" logic

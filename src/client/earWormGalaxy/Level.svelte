@@ -114,9 +114,9 @@
 
 	<!-- {#if $level.state.value === 'presentingPrompt'}
 	{:else if $level.state.value === 'guessing'} -->
-	{#if $level.state.value === 'showingSuccessFeedback'}
+	{#if $level.state.value === 'showingTrialSuccessFeedback'}
 		<div class="absolute t-50 r-0 w-50 h-50" style="background-color: green;" />
-	{:else if $level.state.value === 'showingFailureFeedback'}
+	{:else if $level.state.value === 'showingTrialFailureFeedback'}
 		<div class="absolute t-50 r-0 w-50 h-50" style="background-color: red;" />
 	{:else if $level.state.value === 'complete'}
 		<button

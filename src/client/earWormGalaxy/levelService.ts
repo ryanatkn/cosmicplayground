@@ -58,8 +58,8 @@ export const createLevelMachine = (context: LevelContext) => {
 						// I can see it being easier to drive the state machine
 						// with simple events that don't need the midi guess param.
 						// GUESS
-						// 'showingFailureFeedback',
-						// 'showingSuccessFeedback',
+						// 'showingTrialFailureFeedback',
+						// 'showingTrialSuccessFeedback',
 
 						// TODO this should play the note and also
 						// playing the note with event daata seems messy though,
@@ -68,16 +68,17 @@ export const createLevelMachine = (context: LevelContext) => {
 						// this all seems to stem from the fact that we're not using conditions here,
 						// instead we've externalized the logic (see comment above)
 						GUESS_INCORRECTLY: {
-							target: 'showingFailureFeedback',
+							target: 'showingTrialFailureFeedback',
 							actions: 'playIncorrectNote',
+							// TODO increment retryCount
 						},
 						// TODO how to model these cleanly? they go to different places!
 						GUESS_CORRECTLY_AND_FINISH_TRIAL: {
-							target: 'showingSuccessFeedback',
+							target: 'showingTrialSuccessFeedback',
 							actions: 'playCurrentNote',
 						},
 						GUESS_CORRECTLY_AND_FINISH_LEVEL: {
-							target: 'showingSuccessFeedback',
+							target: 'showingLevelSuccessFeedback',
 							actions: 'playCurrentNote',
 						},
 						GUESS_CORRECTLY_AND_WAIT_FOR_MORE: {
@@ -87,16 +88,25 @@ export const createLevelMachine = (context: LevelContext) => {
 						},
 					},
 				},
-				showingSuccessFeedback: {
-					// on: {NEXT_TRIAL: 'presentingPrompt', COMPLETE_LEVEL: 'complete'},
+				showingTrialFailureFeedback: {
 					after: {
-						SUCCESS_FEEDBACK_DELAY: 'complete', // TODO !
+						TRIAL_FAILURE_FEEDBACK_DELAY: 'presentingPrompt',
 					},
 				},
-				showingFailureFeedback: {
-					// on: {RETRY_TRIAL: 'presentingPrompt'}
+				showingTrialSuccessFeedback: {
 					after: {
-						FAILURE_FEEDBACK_DELAY: 'complete',
+						TRIAL_SUCCESS_FEEDBACK_DELAY: {
+							target: 'presentingPrompt',
+							// TODO what if we're on the last trial?
+							// we need a cond right? otherwise we combinatorially explode?
+							// what's the best design then for guessing correctly? see the many related comments.
+							actions: 'createNextTrial',
+						}, // TODO !
+					},
+				},
+				showingLevelSuccessFeedback: {
+					after: {
+						LEVEL_SUCCESS_FEEDBACK_DELAY: 'complete', // TODO !
 					},
 				},
 				complete: {type: 'final'},
@@ -105,6 +115,7 @@ export const createLevelMachine = (context: LevelContext) => {
 		{
 			// TODO should we inline these functions?
 			actions: {
+				// TODO should this be like "advanceToNextTrial"?
 				createNextTrial,
 				presentNote,
 				resetPresentingIndex: assign<LevelContext>({
@@ -154,8 +165,9 @@ export const createLevelMachine = (context: LevelContext) => {
 			},
 			services: {presentPrompt},
 			delays: {
-				SUCCESS_FEEDBACK_DELAY: 1000,
-				FAILURE_FEEDBACK_DELAY: 1000,
+				TRIAL_SUCCESS_FEEDBACK_DELAY: 1000,
+				TRIAL_FAILURE_FEEDBACK_DELAY: 1000,
+				LEVEL_SUCCESS_FEEDBACK_DELAY: 1000,
 			},
 		},
 	);
@@ -259,7 +271,7 @@ export const createLevelService = (
 		log('actual', actual);
 		if (actual !== midiGuess) {
 			log('guessguessguessguessguess incorrect');
-			// TODO this is really "on enter showingFailureFeedback state" logic
+			// TODO this is really "on enter showingTrialFailureFeedback state" logic
 			// setTimeout(() => interpreter.send('RETRY_TRIAL'), 1000); // TODO can be modeled with "after" right?
 			interpreter.send({type: 'GUESS_INCORRECTLY', note: midiGuess});
 		}
@@ -267,19 +279,19 @@ export const createLevelService = (
 		else if (context.guessingIndex >= context.trial.sequence.length - 1) {
 			if (context.trial.index < context.def.trialCount - 1) {
 				log('guessguessguessguessguess correct and done with trial!!');
-				// TODO this is really "on enter showingSuccessFeedback state" logic
+				// TODO this is really "on enter showingTrialSuccessFeedback state" logic
 				// setTimeout(() => interpreter.send('NEXT_TRIAL'), 1000); // TODO can be modeled with "after" right?
 				interpreter.send('GUESS_CORRECTLY_AND_FINISH_TRIAL');
-				// status: 'showingSuccessFeedback',
+				// status: 'showingTrialSuccessFeedback',
 			} else {
-				// TODO this is really "on enter showingSuccessFeedback state" logic
+				// TODO this is really "on enter showingTrialSuccessFeedback state" logic
 				log('guessguessguessguessguess correct and done with all trials!!!!');
 				// setTimeout(() => interpreter.send('COMPLETE_LEVEL'), 1000); // TODO can be modeled with "after" right?
 				interpreter.send('GUESS_CORRECTLY_AND_FINISH_LEVEL');
-				// status: 'showingSuccessFeedback',
+				// status: 'showingTrialSuccessFeedback',
 			}
 		}
-		// else -> SUCCESS -> showingSuccessFeedback
+		// else -> SUCCESS -> showingTrialSuccessFeedback
 		else {
 			log('guessguessguessguessguess correct but not done');
 			interpreter.send('GUESS_CORRECTLY_AND_WAIT_FOR_MORE');
