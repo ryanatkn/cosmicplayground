@@ -44,8 +44,7 @@ export const createLevelMachine = (context: LevelContext) => {
 						},
 					},
 					on: {
-						PLAY_NOTE: {actions: 'playNote'},
-						PRESENT_NEXT_NOTE: {actions: 'presentNextNote'},
+						PRESENT_NOTE: {actions: 'presentNote'},
 					},
 				},
 				waitingForInput: {
@@ -67,8 +66,7 @@ export const createLevelMachine = (context: LevelContext) => {
 		{
 			actions: {
 				createNextTrial,
-				playNote,
-				presentNextNote,
+				presentNote,
 				resetPresentingIndex,
 			},
 			services: {presentPrompt},
@@ -227,8 +225,7 @@ type EventData =
 	| {type: 'COMPLETE_LEVEL'}
 	| {type: 'PRESENTED'}
 	| {type: 'GUESS'; midi: Midi}
-	| {type: 'PLAY_NOTE'; note: Midi}
-	| {type: 'PRESENT_NEXT_NOTE'}
+	| {type: 'PRESENT_NOTE'; note: Midi; index: number}
 	| {type: 'GUESS_INCORRECTLY'}
 	| {type: 'GUESS_CORRECTLY_AND_FINISH_TRIAL'}
 	| {type: 'GUESS_CORRECTLY_AND_FINISH_ALL_TRIALS'}
@@ -321,50 +318,37 @@ const createNextTrialFromContext = ({def, trial}: LevelContext): Trial => {
 	};
 };
 
-const presentPrompt = (context: LevelContext) => async (callback: any) => {
+const presentPrompt = (context: LevelContext) => async (
+	callback: (e: EventData) => void, // TODO better type? is there a helper like `assign` for this? or easy way to access this type?
+) => {
 	const sequence = context.trial!.sequence;
 	log('---> presentTrialPrompt vvvvvvvvvvvvv', sequence);
 	for (let i = 0; i < sequence.length; i++) {
 		const note = sequence[i];
-		// TODO what does separating PLAY_NOTE and PRESENT_NEXT_NOTE do for us?
-		// is it needless complexity?
-		// maybe PRESENT_NOTE should replace both and have both the note and the index?
-		callback({type: 'PLAY_NOTE', note});
+		callback({type: 'PRESENT_NOTE', note, index: i});
 		await new Promise(r => setTimeout(r, NOTE_DURATION));
-		callback('PRESENT_NEXT_NOTE');
 	}
-	// TODO the final action is performed via `onDone`, not by a final callback event
-	// is that good?
+	// TODO the final action is performed via `onDone`, not by a final callback event.
+	// is that best?
 	// callback('PRESENTED_PROMPT'); => presentingIndex: null
 	log('<--- presentTrialPrompt ^^^^^^^^^^^^^');
 };
 
-const presentNextNote = assign<LevelContext>(
-	(context: LevelContext, _event) => {
-		return {
-			// TODO should this event have index as the data or just increment?
-			// maybe it should validate the index? hmm
-			// or should it be "present note" that does both?
-			presentingIndex:
-				context.presentingIndex === null ? 0 : context.presentingIndex + 1,
-		};
-	},
-);
-
-const resetPresentingIndex = assign<LevelContext>({
-	presentingIndex: () => null,
-});
-
-const playNote = async (
-	context: LevelContext,
-	event: EventData,
-): Promise<void> => {
-	if (event.type === 'PLAY_NOTE') {
+const presentNote = assign<LevelContext, EventData>((context, event) => {
+	if (event.type === 'PRESENT_NOTE') {
+		// TODO should this action be split out into PLAY_NOTE and NEXT_SEQUENCE_INDEX?
 		playMidiNote(context.audioCtx, event.note, NOTE_DURATION);
 	} else {
 		throw Error(`Trying to play note with event type ${event.type}`);
 	}
-};
+	return {
+		presentingIndex: event.index,
+	};
+});
+
+const resetPresentingIndex = assign<LevelContext>({
+	presentingIndex: () => null,
+});
 
 // TODO move this
 const playMidiNote = (
