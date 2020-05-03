@@ -9,7 +9,7 @@ import {DEFAULT_TUNING} from '../../music/constants.js';
 import {last} from '../../utils/arr.js';
 import {computeInterval} from '../../music/notes.js';
 
-const logNew = (...args: any[]) => {
+const log = (...args: any[]) => {
 	console.log(
 		'%c NEW ',
 		'background: #96c; font-weight: bold; color: white;',
@@ -33,17 +33,27 @@ export const createLevelMachine = (context: LevelContext) => {
 						},
 					},
 				},
-				presentingPrompt: {on: {PRESENTED: 'waitingForInput'}},
-				// presentingPrompt: {
-				// 	invoke: {
-				// 		id: 'presentPrompt',
-				// 		src: async (context, event) => {},
-				// 		onDone: {
-				// 			target: 'waitingForInput',
-				// 			actions: assign({presentingIndex: () => null}),
-				// 		},
-				// 	},
-				// },
+				// presentingPrompt: {on: {PRESENTED: 'waitingForInput'}},
+				presentingPrompt: {
+					invoke: {
+						id: 'presentPrompt',
+						src: context => async (callback: any) => {
+							await presentTrialPrompt(
+								context.audioCtx,
+								context.trial!.sequence,
+								callback,
+							);
+							log('presented trial prompt');
+						},
+						onDone: {
+							target: 'waitingForInput',
+							actions: assign<LevelContext>({presentingIndex: () => null}),
+						},
+					},
+					on: {
+						PRESENT_NEXT_NOTE: {actions: 'presentNextNote'},
+					},
+				},
 				waitingForInput: {
 					on: {
 						// GUESS:
@@ -60,8 +70,26 @@ export const createLevelMachine = (context: LevelContext) => {
 				complete: {type: 'final'},
 			},
 		},
-		{actions: {createNextTrial}},
+		{actions: {createNextTrial, presentNextNote}},
 	);
+};
+
+const presentTrialPrompt = async (
+	audioCtx: AudioContext,
+	sequence: Midi[],
+	callback: (string: any) => void,
+): Promise<void> => {
+	log('---> presentTrialPrompt', sequence);
+	// audioCtx
+	for (let i = 0; i < sequence.length; i++) {
+		const note = sequence[i];
+		log('set interval', note);
+		callback('PRESENT_NEXT_NOTE');
+		// TODO should this be done here or as an effect in PRESENT_NEXT_NOTE?
+		await playNote(audioCtx, note, NOTE_DURATION);
+	}
+	// the final action is performed via `onDone`, not by a final callback event
+	// callback('PRESENTED_PROMPT'); => presentingIndex: null
 };
 
 interface LevelService {
@@ -78,15 +106,20 @@ interface LevelService {
 }
 
 type LevelContext = {
-	def: LevelDef; // TODO should this be removed from context?
+	def: LevelDef; // TODO this doesn't belong here right?
+	audioCtx: AudioContext; // TODO this doesn't belong here right?
 	trial: Trial | null; // TODO these nullable values are unfortunate - maybe make this a type union based on status
 	trials: Trial[];
 	presentingIndex: number | null; // index of interval being presented
 	guessingIndex: number | null; // index of interval being guessed
 	retryCount: number;
 };
-const createDefaultContext = (levelDef: LevelDef): LevelContext => ({
+const createDefaultContext = (
+	levelDef: LevelDef,
+	audioCtx: AudioContext,
+): LevelContext => ({
 	def: levelDef,
+	audioCtx: audioCtx,
 	trial: null,
 	trials: [],
 	presentingIndex: null,
@@ -98,8 +131,8 @@ export const createLevelService = (
 	levelDef: LevelDef,
 	audioCtx: AudioContext,
 ): LevelService => {
-	const defaultContext = createDefaultContext(levelDef);
-	const {subscribe, update, set} = writable<LevelContext>(defaultContext);
+	const defaultContext = createDefaultContext(levelDef, audioCtx);
+	const {subscribe, set} = writable<LevelContext>(defaultContext);
 
 	let $level: LevelContext; // TODO?
 	// subscribe(v => ($level = v)); // TODO?
@@ -108,49 +141,23 @@ export const createLevelService = (
 
 	const levelMachine = createLevelMachine(defaultContext);
 	const interpreter = interpret(levelMachine)
-		.onTransition(state => logNew('onTransition', state.value, state))
+		.onTransition(state => log('onTransition', state.value, state))
 		.onEvent(e => {
-			logNew('onEvent', e);
+			log('onEvent', e);
 			lastEvent = e;
 		})
 		.onChange((context, prevContext) => {
 			$level = context;
-			logNew('onChange', context, '\nold:', prevContext);
+			log('onChange', context, '\nold:', prevContext);
 		})
 		.onSend(event => {
-			logNew('onSend', event);
+			log('onSend', event);
 		})
 		.onDone(event => {
-			logNew('onDone', event);
+			log('onDone', event);
 		})
-		.onStop(() => logNew('onStop'))
+		.onStop(() => log('onStop'))
 		.start();
-
-	const presentTrialPrompt = async (sequence: Midi[]): Promise<void> => {
-		logNew('present trial prompt', sequence);
-		// audioCtx
-		for (let i = 0; i < sequence.length; i++) {
-			const note = sequence[i];
-			logNew('set interval', note);
-			update($level => ({
-				...$level,
-				trial: $level.trial && {
-					...$level.trial,
-					presentingIndex: i,
-				},
-			}));
-			await playNote(audioCtx, note, NOTE_DURATION);
-		}
-		update($level => ({
-			...$level,
-			trial: $level.trial && {
-				...$level.trial,
-				presentingIndex: null,
-			},
-		}));
-		// TODO when presenting is complete, we want to automatically transition to the `waitingForInput` state
-		interpreter.send('PRESENTED');
-	};
 
 	const guess = (midiGuess: Midi) => {
 		if (!$level.trial || $level.guessingIndex === null) {
@@ -158,7 +165,7 @@ export const createLevelService = (
 		}
 		const actual = getCorrectGuess($level);
 		if (actual !== midiGuess) {
-			logNew('guess incorrect');
+			log('guess incorrect');
 			// TODO this is really "on enter showingFailureFeedback state" logic
 			setTimeout(() => interpreter.send('RETRY_TRIAL'), 1000);
 			interpreter.send('GUESS_INCORRECTLY');
@@ -166,14 +173,14 @@ export const createLevelService = (
 		// else if more -> update current response index
 		else if ($level.guessingIndex >= $level.trial.sequence.length - 1) {
 			if ($level.trial.index < $level.def.trialCount - 1) {
-				logNew('guess correct and done with trial!!');
+				log('guess correct and done with trial!!');
 				// TODO this is really "on enter showingSuccessFeedback state" logic
 				setTimeout(() => interpreter.send('NEXT_TRIAL'), 1000);
 				interpreter.send('GUESS_CORRECTLY_AND_FINISH_TRIAL');
 				// status: 'showingSuccessFeedback',
 			} else {
 				// TODO this is really "on enter showingSuccessFeedback state" logic
-				logNew('guess correct and done with all trials!!!!');
+				log('guess correct and done with all trials!!!!');
 				setTimeout(() => interpreter.send('COMPLETE_LEVEL'), 1000);
 				interpreter.send('GUESS_CORRECTLY_AND_FINISH_ALL_TRIALS');
 				// status: 'showingSuccessFeedback',
@@ -181,7 +188,7 @@ export const createLevelService = (
 		}
 		// else -> SUCCESS -> showingSuccessFeedback
 		else {
-			logNew('guess correct but not done');
+			log('guess correct but not done');
 			interpreter.send('GUESS_CORRECTLY_AND_CONTINUE');
 			// guessingIndex: $level.trial.guessingIndex + 1,
 		}
@@ -194,7 +201,7 @@ export const createLevelService = (
 		reset: () => {
 			// TODO should this be defined as an event?
 			// TODO this causes errors if we have pending async events coming in! they should be canceled!
-			set(createDefaultContext(levelDef));
+			set(createDefaultContext(levelDef, audioCtx));
 		},
 		// isInputDisabled,
 
@@ -244,7 +251,8 @@ const playNote = async (
 	note: Midi,
 	durationMs: number,
 ) => {
-	// TODO
+	log('---> playNote', audioCtx, note, NOTE_DURATION);
+
 	const freq = midiToFreq(note, DEFAULT_TUNING);
 	console.log('playing note', note, freq);
 
@@ -281,16 +289,18 @@ const getCorrectGuess = (context: LevelContext): Midi | null => {
 // I don't think changing the data structure seems right.
 // The function syntax seems "correct" but it is less analyzable.
 // https://xstate.js.org/docs/guides/context.html#notes
-const createNextTrial = assign((context: LevelContext, _event) => {
-	const trial = createNextTrialFromContext(context);
-	return {
-		trial,
-		trials: [...context.trials, trial],
-	};
-});
+const createNextTrial = assign<LevelContext>(
+	(context: LevelContext, _event) => {
+		const trial = createNextTrialFromContext(context);
+		return {
+			trial,
+			trials: [...context.trials, trial],
+		};
+	},
+);
 
 const createNextTrialFromContext = ({def, trial}: LevelContext): Trial => {
-	logNew('-->createNextTrialFromContext');
+	log('---> createNextTrialFromContext');
 	const {midiMin, midiMax, octaveShiftMin, octaveShiftMax} = def;
 
 	const tonicMax = midiMax - 12;
@@ -348,3 +358,13 @@ const createNextTrialFromContext = ({def, trial}: LevelContext): Trial => {
 		sequence,
 	};
 };
+
+const presentNextNote = assign<LevelContext>(
+	(context: LevelContext, _event) => {
+		return {
+			// TODO should this event have index as the data or just increment?
+			presentingIndex:
+				context.presentingIndex === null ? 0 : context.presentingIndex + 1,
+		};
+	},
+);

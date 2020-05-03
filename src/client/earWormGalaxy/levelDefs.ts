@@ -95,7 +95,7 @@ export const levelDefs: LevelDef[] = [
 	{
 		id: '4,7,12',
 		...baseLevelDef,
-		sequenceLength: 2,
+		sequenceLength: 4,
 		intervals: [4, 7, 12],
 		x: 400,
 		y: 600,

@@ -9,7 +9,7 @@ import {DEFAULT_TUNING} from '../../music/constants.js';
 import {last} from '../../utils/arr.js';
 import {computeInterval} from '../../music/notes.js';
 
-const logOld = (...args: any[]) => {
+const log = (...args: any[]) => {
 	console.log(
 		'%c OLD ',
 		'background: #6c9; font-weight: bold; color: white;',
@@ -139,8 +139,13 @@ const playNote = async (
 	audioCtx: AudioContext,
 	note: Midi,
 	durationMs: number,
+	TODO__exitEarly = false,
 ) => {
-	// TODO
+	if (TODO__exitEarly) {
+		await new Promise(r => setTimeout(r, durationMs));
+		return;
+	}
+
 	const freq = midiToFreq(note, DEFAULT_TUNING);
 	console.log('playing note', note, freq);
 
@@ -176,10 +181,10 @@ export const createLevelStore = (
 	);
 
 	const presentTrialPrompt = async (sequence: Midi[]): Promise<void> => {
-		logOld('present trial prompt', sequence);
+		log('present trial prompt', sequence);
 		for (let i = 0; i < sequence.length; i++) {
 			const note = sequence[i];
-			logOld('set interval', note);
+			log('set interval', note);
 			update($level => ({
 				...$level,
 				trial: $level.trial && {
@@ -187,7 +192,7 @@ export const createLevelStore = (
 					presentingIndex: i,
 				},
 			}));
-			await playNote(audioCtx, note, NOTE_DURATION);
+			await playNote(audioCtx, note, NOTE_DURATION, true);
 		}
 		update($level => ({
 			...$level,
@@ -202,7 +207,7 @@ export const createLevelStore = (
 
 	const send = (event: EventName | EventData): void => {
 		const e = typeof event === 'string' ? {type: event} : event;
-		logOld(`send ${e.type}`, e);
+		log(`send ${e.type}`, e);
 		update($level => {
 			// This is a reducer but state-machiney,
 			// first switching on the current status of the store (aka machine).
@@ -211,7 +216,7 @@ export const createLevelStore = (
 					switch (e.type) {
 						case 'START': {
 							const trial = createNextTrial_OLD($level); // -> maps to an action
-							logOld('trial', trial);
+							log('trial', trial);
 							// TODO this is really "on enter presentingPrompt state" logic
 							// TODO `s` is stale! so we need the timeout
 							setTimeout(() => presentTrialPrompt(trial.sequence), 0); // TODO do side effects within the xstate api
@@ -254,14 +259,14 @@ export const createLevelStore = (
 							if (!$level.trial || $level.trial.guessingIndex === null) {
 								throw Error(`Expected a trial and guessingIndex`); // TODO how to encode in xstate?
 							}
-							logOld('guessing interval', $level.trial.guessingIndex);
+							log('guessing interval', $level.trial.guessingIndex);
 							const guess = e.midi;
 							const actual = getCorrectGuess($level.trial);
 							playNote(audioCtx, guess, NOTE_DURATION);
-							logOld('guess', e.midi, guess, actual);
+							log('guess', e.midi, guess, actual);
 							// if incorrect -> FAILURE -> showingFailureFeedback -> REPROMPT
 							if (actual !== guess) {
-								logOld('guess incorrect');
+								log('guess incorrect');
 								// TODO this is really "on enter showingFailureFeedback state" logic
 								setTimeout(() => send('RETRY_TRIAL'), 1000);
 								return {
@@ -275,7 +280,7 @@ export const createLevelStore = (
 								$level.trial.sequence.length - 1
 							) {
 								if ($level.trial.index < $level.def.trialCount - 1) {
-									logOld('guess correct and done with trial!!');
+									log('guess correct and done with trial!!');
 									// TODO this is really "on enter showingSuccessFeedback state" logic
 									setTimeout(() => send('NEXT_TRIAL'), 1000);
 									return {
@@ -284,7 +289,7 @@ export const createLevelStore = (
 									};
 								} else {
 									// TODO this is really "on enter showingSuccessFeedback state" logic
-									logOld('guess correct and done with all trials!!!!');
+									log('guess correct and done with all trials!!!!');
 									setTimeout(() => send('COMPLETE_LEVEL'), 1000);
 									return {
 										...$level,
@@ -294,7 +299,7 @@ export const createLevelStore = (
 							}
 							// else -> SUCCESS -> showingSuccessFeedback
 							else {
-								logOld('guess correct but not done');
+								log('guess correct but not done');
 								return {
 									...$level,
 									trial: {
@@ -315,7 +320,7 @@ export const createLevelStore = (
 					switch (e.type) {
 						case 'NEXT_TRIAL': {
 							const trial = createNextTrial_OLD($level);
-							logOld('trial', trial);
+							log('trial', trial);
 							// TODO this is really "on enter presentingPrompt state" logic
 							// TODO `s` is stale! so we need the timeout
 							setTimeout(() => presentTrialPrompt(trial.sequence), 0); // TODO do side effects within the xstate api
