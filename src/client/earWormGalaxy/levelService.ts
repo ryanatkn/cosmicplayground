@@ -116,6 +116,7 @@ export const createLevelMachine = (context: LevelContext) => {
 				}),
 				// TODO should this validate that we don't overflow? should it error on null?
 				// mainly I'm thinking of the case that GUESS_CORRECTLY_AND_WAIT_FOR_MORE is sent when invalid
+				// There's a larger question here about event validation.
 				nextGuessingIndex: assign<LevelContext>({
 					guessingIndex: context => {
 						// TODO see below about playCurrentNote
@@ -140,6 +141,9 @@ export const createLevelMachine = (context: LevelContext) => {
 				playIncorrectNote: (context, event) => {
 					// TODO we could make this `playNote` with event data and
 					// use it in the above two places, right?
+					// problem with that is the GUESS_CORRECTLY_* events then require the correct midi note.
+					// that makes them not as easy to trigger, like in the visualizer,
+					// and it duplicates information implicit in the context, confusing the source of truth.
 					if (event.type !== 'GUESS_INCORRECTLY') {
 						throw Error(
 							`Invalid event type ${event.type} for "playIncorrectNote" action`,
@@ -240,6 +244,11 @@ export const createLevelService = (
 	// TODO check this is necessary
 	interpreter.start();
 
+	// TODO These aren't conditions in a single GUESS event because
+	// XState recommends not doing that when possible.
+	// They also don't forward the guess data for correct guesses
+	// to avoid duplicating the source of truth.
+	// However this makes the machine implementation more complex - see above for more.
 	const guess = (midiGuess: Midi) => {
 		const {context} = $level;
 		if (!context.trial || context.guessingIndex === null) {
