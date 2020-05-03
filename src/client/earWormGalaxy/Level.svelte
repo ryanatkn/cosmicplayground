@@ -1,7 +1,8 @@
 <script>
 	import {onMount} from 'svelte/index.mjs';
 
-	import {createLevelStore, createLevelService} from './levelStore.js';
+	import {createLevelStore} from './levelStore.js';
+	import {createLevelService} from './levelService.js';
 	import PianoInstrument from '../music/PianoInstrument.svelte';
 	import LevelProgressIndicator from './LevelProgressIndicator.svelte';
 	import TrialProgressIndicator from './TrialProgressIndicator.svelte';
