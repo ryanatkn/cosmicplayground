@@ -45,13 +45,13 @@
 	const emphasizedKeys = new Set([60]);
 
 	onMount(() => {
-		level.send('START');
+		level.start();
 	});
 
 	useMidiInput({
 		onNoteStart: midi => {
 			// TODO should this be ignored if it's not an enabled key? should the level itself ignore the guess?
-			level.send({type: 'GUESS', midi});
+			level.guess(midi);
 		},
 	});
 

@@ -175,7 +175,7 @@ export const createLevelMachine = (context: LevelContext) => {
 
 interface LevelService {
 	subscribe: Writable<LevelStoreState>['subscribe'];
-	send(event: EventData): void;
+	start(): void;
 	guess(midi: Midi): void;
 	reset(): void;
 	// TODO isInputDisabled?
@@ -271,37 +271,28 @@ export const createLevelService = (
 		log('actual', actual);
 		if (actual !== midiGuess) {
 			log('guessguessguessguessguess incorrect');
-			// TODO this is really "on enter showingTrialFailureFeedback state" logic
-			// setTimeout(() => interpreter.send('RETRY_TRIAL'), 1000); // TODO can be modeled with "after" right?
 			interpreter.send({type: 'GUESS_INCORRECTLY', note: midiGuess});
 		}
 		// else if more -> update current response index
 		else if (context.guessingIndex >= context.trial.sequence.length - 1) {
 			if (context.trial.index < context.def.trialCount - 1) {
 				log('guessguessguessguessguess correct and done with trial!!');
-				// TODO this is really "on enter showingTrialSuccessFeedback state" logic
-				// setTimeout(() => interpreter.send('NEXT_TRIAL'), 1000); // TODO can be modeled with "after" right?
 				interpreter.send('GUESS_CORRECTLY_AND_FINISH_TRIAL');
-				// status: 'showingTrialSuccessFeedback',
 			} else {
-				// TODO this is really "on enter showingTrialSuccessFeedback state" logic
 				log('guessguessguessguessguess correct and done with all trials!!!!');
-				// setTimeout(() => interpreter.send('COMPLETE_LEVEL'), 1000); // TODO can be modeled with "after" right?
 				interpreter.send('GUESS_CORRECTLY_AND_FINISH_LEVEL');
-				// status: 'showingTrialSuccessFeedback',
 			}
 		}
 		// else -> SUCCESS -> showingTrialSuccessFeedback
 		else {
 			log('guessguessguessguessguess correct but not done');
 			interpreter.send('GUESS_CORRECTLY_AND_WAIT_FOR_MORE');
-			// guessingIndex: context.trial.guessingIndex + 1,
 		}
 	};
 
 	return {
 		subscribe,
-		send: event => interpreter.send(event), // TODO can we remove the wrapper? i.e. is `this` needed?
+		start: () => interpreter.send('START'), // TODO can we remove the wrapper? i.e. is `this` needed?
 		guess,
 		reset: () => {
 			// TODO should this be defined as an event?
@@ -342,12 +333,8 @@ interface Trial {
 
 type EventData =
 	| {type: 'START'}
-	| {type: 'NEXT_TRIAL'}
-	| {type: 'RETRY_TRIAL'}
-	| {type: 'COMPLETE_LEVEL'}
-	| {type: 'PRESENTED'}
-	| {type: 'GUESS'; midi: Midi}
 	| {type: 'PRESENT_NOTE'; note: Midi; index: number}
+	// | {type: 'GUESS'; midi: Midi} // TODO see notes above
 	| {type: 'GUESS_INCORRECTLY'; note: Midi}
 	| {type: 'GUESS_CORRECTLY_AND_FINISH_TRIAL'}
 	| {type: 'GUESS_CORRECTLY_AND_FINISH_LEVEL'}

@@ -1,6 +1,8 @@
 import {Semitones} from '../../music/notes.js';
 import {Midi} from '../../music/midi.js';
 
+// TODO we want a construct for keeping your hangs in the same place for more than 1 trial
+
 // TODO maybe rename this to `name`?
 export type LevelId = string;
 
