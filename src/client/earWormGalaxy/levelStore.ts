@@ -85,7 +85,7 @@ const createNextTrial_OLD = ({def, trial}: LevelStoreState): Trial => {
 
 	if (validNotes.length <= 2) {
 		// TODO use TS invariant helper!
-		console.log({
+		log({
 			def,
 			trial,
 			tonic,
@@ -147,7 +147,7 @@ const playNote = async (
 	}
 
 	const freq = midiToFreq(note, DEFAULT_TUNING);
-	console.log('playing note', note, freq);
+	log('playing note', note, freq);
 
 	const gain = audioCtx.createGain();
 	gain.gain.value = 0.1; // TODO volume variable

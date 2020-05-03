@@ -19,7 +19,7 @@ const log = (...args: any[]) => {
 
 // TODO I think we want a statechart with a nested `trialMachine`
 export const createLevelMachine = (context: LevelContext) => {
-	return createMachine<LevelContext>(
+	return createMachine<LevelContext, EventData>(
 		{
 			id: 'level',
 			initial: 'initial',
@@ -44,6 +44,7 @@ export const createLevelMachine = (context: LevelContext) => {
 						},
 					},
 					on: {
+						PLAY_NOTE: {actions: 'playNote'},
 						PRESENT_NEXT_NOTE: {actions: 'presentNextNote'},
 					},
 				},
@@ -64,38 +65,20 @@ export const createLevelMachine = (context: LevelContext) => {
 			},
 		},
 		{
-			actions: {createNextTrial, presentNextNote, resetPresentingIndex},
+			actions: {
+				createNextTrial,
+				playNote,
+				presentNextNote,
+				resetPresentingIndex,
+			},
 			services: {presentPrompt},
 		},
 	);
 };
 
-const presentPrompt = (context: LevelContext) => async (callback: any) => {
-	await presentTrialPrompt(context.audioCtx, context.trial!.sequence, callback);
-	log('presented trial prompt');
-};
-
-const presentTrialPrompt = async (
-	audioCtx: AudioContext,
-	sequence: Midi[],
-	callback: (string: any) => void,
-): Promise<void> => {
-	log('---> presentTrialPrompt', sequence);
-	// audioCtx
-	for (let i = 0; i < sequence.length; i++) {
-		const note = sequence[i];
-		log('set interval', note);
-		callback('PRESENT_NEXT_NOTE');
-		// TODO should this be done here or as an effect in PRESENT_NEXT_NOTE or a new PLAY_NOTE?
-		await playNote(audioCtx, note, NOTE_DURATION);
-	}
-	// the final action is performed via `onDone`, not by a final callback event
-	// callback('PRESENTED_PROMPT'); => presentingIndex: null
-};
-
 interface LevelService {
 	subscribe: Writable<LevelContext>['subscribe'];
-	send(event: EventName | EventData): void;
+	send(event: EventData): void;
 	guess(midi: Midi): void;
 	reset(): void;
 	// TODO isInputDisabled?
@@ -103,8 +86,10 @@ interface LevelService {
 	// dev and debug methods
 	guessCorrectly(context: LevelContext): void;
 	getCorrectGuess(context: LevelContext): number | null;
-	interpreter: Interpreter<LevelContext>;
+	interpreter: Interpreter<LevelContext, LevelStateSchema, EventData>;
 }
+
+type LevelStateSchema = any; // TODO ??
 
 type LevelContext = {
 	def: LevelDef; // TODO this doesn't belong here right?
@@ -141,15 +126,17 @@ export const createLevelService = (
 	let lastEvent: any; // TODO HACK
 
 	const levelMachine = createLevelMachine(defaultContext);
-	const interpreter = interpret(levelMachine)
+	const interpreter = interpret<LevelContext, LevelStateSchema, EventData>(
+		levelMachine,
+	)
 		.onTransition(state => log('onTransition', state.value, state))
 		.onEvent(e => {
 			log('onEvent', e);
 			lastEvent = e;
 		})
-		.onChange((context, prevContext) => {
+		.onChange((context, _prevContext) => {
 			$level = context;
-			log('onChange', context, '\nold:', prevContext);
+			log('onChange', context);
 		})
 		.onSend(event => {
 			log('onSend', event);
@@ -233,45 +220,19 @@ interface Trial {
 	sequence: Midi[];
 }
 
-type EventName =
-	| 'START'
-	| 'PRESENTED'
-	| 'NEXT_TRIAL'
-	| 'RETRY_TRIAL'
-	| 'COMPLETE_LEVEL';
 type EventData =
 	| {type: 'START'}
 	| {type: 'NEXT_TRIAL'}
 	| {type: 'RETRY_TRIAL'}
 	| {type: 'COMPLETE_LEVEL'}
 	| {type: 'PRESENTED'}
-	| {type: 'GUESS'; midi: Midi};
-
-const playNote = async (
-	audioCtx: AudioContext,
-	note: Midi,
-	durationMs: number,
-) => {
-	log('---> playNote', audioCtx, note, NOTE_DURATION);
-
-	const freq = midiToFreq(note, DEFAULT_TUNING);
-	console.log('playing note', note, freq);
-
-	const gain = audioCtx.createGain();
-	gain.gain.value = 0.1; // TODO volume variable
-	gain.connect(audioCtx.destination);
-	const osc = audioCtx.createOscillator();
-	osc.type = 'sine';
-	osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-	osc.start();
-	osc.connect(gain);
-
-	const endTime = audioCtx.currentTime + durationMs / 1000;
-	gain.gain.setTargetAtTime(0, endTime, SMOOTH_GAIN_TIME_CONSTANT);
-	osc.stop(endTime + SMOOTH_GAIN_TIME_CONSTANT * 2);
-
-	await new Promise(r => setTimeout(r, durationMs));
-};
+	| {type: 'GUESS'; midi: Midi}
+	| {type: 'PLAY_NOTE'; note: Midi}
+	| {type: 'PRESENT_NEXT_NOTE'}
+	| {type: 'GUESS_INCORRECTLY'}
+	| {type: 'GUESS_CORRECTLY_AND_FINISH_TRIAL'}
+	| {type: 'GUESS_CORRECTLY_AND_FINISH_ALL_TRIALS'}
+	| {type: 'GUESS_CORRECTLY_AND_CONTINUE'};
 
 // const isInputDisabled = ($level: LevelService, index: number): boolean => {
 // 	if ($level.status !== 'waitingForInput') return true;
@@ -327,7 +288,7 @@ const createNextTrialFromContext = ({def, trial}: LevelContext): Trial => {
 
 	if (validNotes.length <= 2) {
 		// TODO use TS invariant helper!
-		console.log({
+		log({
 			def,
 			trial,
 			tonic,
@@ -360,10 +321,30 @@ const createNextTrialFromContext = ({def, trial}: LevelContext): Trial => {
 	};
 };
 
+const presentPrompt = (context: LevelContext) => async (callback: any) => {
+	const sequence = context.trial!.sequence;
+	log('---> presentTrialPrompt vvvvvvvvvvvvv', sequence);
+	for (let i = 0; i < sequence.length; i++) {
+		const note = sequence[i];
+		// TODO what does separating PLAY_NOTE and PRESENT_NEXT_NOTE do for us?
+		// is it needless complexity?
+		// maybe PRESENT_NOTE should replace both and have both the note and the index?
+		callback({type: 'PLAY_NOTE', note});
+		await new Promise(r => setTimeout(r, NOTE_DURATION));
+		callback('PRESENT_NEXT_NOTE');
+	}
+	// TODO the final action is performed via `onDone`, not by a final callback event
+	// is that good?
+	// callback('PRESENTED_PROMPT'); => presentingIndex: null
+	log('<--- presentTrialPrompt ^^^^^^^^^^^^^');
+};
+
 const presentNextNote = assign<LevelContext>(
 	(context: LevelContext, _event) => {
 		return {
 			// TODO should this event have index as the data or just increment?
+			// maybe it should validate the index? hmm
+			// or should it be "present note" that does both?
 			presentingIndex:
 				context.presentingIndex === null ? 0 : context.presentingIndex + 1,
 		};
@@ -373,3 +354,37 @@ const presentNextNote = assign<LevelContext>(
 const resetPresentingIndex = assign<LevelContext>({
 	presentingIndex: () => null,
 });
+
+const playNote = async (
+	context: LevelContext,
+	event: EventData,
+): Promise<void> => {
+	if (event.type === 'PLAY_NOTE') {
+		playMidiNote(context.audioCtx, event.note, NOTE_DURATION);
+	} else {
+		throw Error(`Trying to play note with event type ${event.type}`);
+	}
+};
+
+// TODO move this
+const playMidiNote = (
+	audioCtx: AudioContext,
+	note: Midi,
+	durationMs: number,
+) => {
+	const freq = midiToFreq(note, DEFAULT_TUNING);
+	log('playNote', note, durationMs, freq);
+
+	const gain = audioCtx.createGain();
+	gain.gain.value = 0.1; // TODO volume variable
+	gain.connect(audioCtx.destination);
+	const osc = audioCtx.createOscillator();
+	osc.type = 'sine';
+	osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+	osc.start();
+	osc.connect(gain);
+
+	const endTime = audioCtx.currentTime + durationMs / 1000;
+	gain.gain.setTargetAtTime(0, endTime, SMOOTH_GAIN_TIME_CONSTANT);
+	osc.stop(endTime + SMOOTH_GAIN_TIME_CONSTANT * 2);
+};
