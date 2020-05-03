@@ -34,29 +34,10 @@ export const createLevelMachine = (context: LevelContext) => {
 					},
 				},
 				presentingPrompt: {on: {PRESENTED: 'waitingForInput'}},
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
-				// TODO stopping here -- is the trial a nested machine?
 				// presentingPrompt: {
 				// 	invoke: {
 				// 		id: 'presentPrompt',
-				// 		src: async (context, event) => {
-
-				// 		},
+				// 		src: async (context, event) => {},
 				// 		onDone: {
 				// 			target: 'waitingForInput',
 				// 			actions: assign({presentingIndex: () => null}),
@@ -91,8 +72,8 @@ interface LevelService {
 	// TODO isInputDisabled?
 	// isInputDisabled($level: LevelContext, index: number): boolean;
 	// dev and debug methods
-	guessCorrectly($level: LevelContext): void;
-	getCorrectGuess(trial: Trial | null): number | null;
+	guessCorrectly(context: LevelContext): void;
+	getCorrectGuess(context: LevelContext): number | null;
 	interpreter: Interpreter<LevelContext>;
 }
 
@@ -100,11 +81,17 @@ type LevelContext = {
 	def: LevelDef; // TODO should this be removed from context?
 	trial: Trial | null; // TODO these nullable values are unfortunate - maybe make this a type union based on status
 	trials: Trial[];
+	presentingIndex: number | null; // index of interval being presented
+	guessingIndex: number | null; // index of interval being guessed
+	retryCount: number;
 };
 const createDefaultContext = (levelDef: LevelDef): LevelContext => ({
 	def: levelDef,
 	trial: null,
 	trials: [],
+	presentingIndex: null,
+	guessingIndex: null,
+	retryCount: 0,
 });
 
 export const createLevelService = (
@@ -166,10 +153,10 @@ export const createLevelService = (
 	};
 
 	const guess = (midiGuess: Midi) => {
-		if (!$level.trial || $level.trial.guessingIndex === null) {
+		if (!$level.trial || $level.guessingIndex === null) {
 			throw Error(`XSTATE Expected a trial and guessingIndex`); // TODO how to encode in xstate?
 		}
-		const actual = getCorrectGuess($level.trial);
+		const actual = getCorrectGuess($level);
 		if (actual !== midiGuess) {
 			logNew('guess incorrect');
 			// TODO this is really "on enter showingFailureFeedback state" logic
@@ -177,7 +164,7 @@ export const createLevelService = (
 			interpreter.send('GUESS_INCORRECTLY');
 		}
 		// else if more -> update current response index
-		else if ($level.trial.guessingIndex >= $level.trial.sequence.length - 1) {
+		else if ($level.guessingIndex >= $level.trial.sequence.length - 1) {
 			if ($level.trial.index < $level.def.trialCount - 1) {
 				logNew('guess correct and done with trial!!');
 				// TODO this is really "on enter showingSuccessFeedback state" logic
@@ -214,7 +201,7 @@ export const createLevelService = (
 		// dev and debug methods
 		guessCorrectly: ($level: LevelContext): void => {
 			if (lastEvent.type !== 'waitingForInput') return;
-			const midi = getCorrectGuess($level.trial);
+			const midi = getCorrectGuess($level);
 			if (midi === null) return;
 			guess(midi);
 		},
@@ -236,9 +223,6 @@ interface Trial {
 	index: number;
 	validNotes: Set<Midi>;
 	sequence: Midi[];
-	presentingIndex: number | null; // index of interval being presented
-	guessingIndex: number | null; // index of interval being guessed
-	retryCount: number;
 }
 
 type EventName =
@@ -286,9 +270,9 @@ const playNote = async (
 // 	return !$level.def.intervals.includes(index);
 // };
 
-const getCorrectGuess = (trial: Trial | null): Midi | null => {
-	if (!trial || trial.guessingIndex === null) return null;
-	return trial.sequence[trial.guessingIndex];
+const getCorrectGuess = (context: LevelContext): Midi | null => {
+	if (!context.trial || context.guessingIndex === null) return null;
+	return context.trial.sequence[context.guessingIndex];
 };
 
 // TODO what's the right way to update this? multiple actions?
@@ -362,8 +346,5 @@ const createNextTrialFromContext = ({def, trial}: LevelContext): Trial => {
 		index: (trial && trial.index + 1) || 0,
 		validNotes: new Set(validNotes),
 		sequence,
-		presentingIndex: null,
-		guessingIndex: null,
-		retryCount: 0,
 	};
 };
