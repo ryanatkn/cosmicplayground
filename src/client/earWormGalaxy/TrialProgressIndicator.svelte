@@ -2,15 +2,15 @@
 	// TODO should we hoist some logic so this just takes a trial?
 	export let level;
 
-	$: currentIndex = $level.trial
-		? $level.trial.presentingIndex === null
-			? $level.trial.guessingIndex
-			: $level.trial.presentingIndex
+	$: currentIndex = $level.context.trial
+		? $level.context.trial.presentingIndex === null
+			? $level.context.trial.guessingIndex
+			: $level.context.trial.presentingIndex
 		: null;
 
 	// TODO colors
 	const getBgColor = ($level, index) => {
-		return $level.status === 'complete'
+		return $level.state.value === 'complete'
 			? 'rgba(255, 255, 255, 0.6)'
 			: index === currentIndex
 			? 'rgba(255, 255, 255, 0.4)'
@@ -20,9 +20,9 @@
 	};
 </script>
 
-{#if $level.trial}
+{#if $level.context.trial}
 	<div class="flex h-full w-full">
-		{#each {length: $level.trial.sequence.length} as _, index}
+		{#each {length: $level.context.trial.sequence.length} as _, index}
 			<div
 				class="flex-1 border-primary h-full"
 				style="background-color: {getBgColor($level, index)}" />

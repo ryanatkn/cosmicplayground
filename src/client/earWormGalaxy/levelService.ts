@@ -33,49 +33,132 @@ export const createLevelMachine = (context: LevelContext) => {
 						},
 					},
 				},
-				// presentingPrompt: {on: {PRESENTED: 'waitingForInput'}},
+				// presentingPrompt: {on: {PRESENTED: 'guessing'}},
 				presentingPrompt: {
 					invoke: {
-						id: 'presentPrompt',
+						id: 'presentingTrialPrompt',
 						src: 'presentPrompt',
 						onDone: {
-							target: 'waitingForInput',
-							actions: 'resetPresentingIndex',
+							target: 'guessing',
+							// TODO does 'initGuessingIndex' really belong on entry of `guessing`?
+							// or exit of `presentingPrompt`?
+							actions: ['resetPresentingIndex', 'initGuessingIndex'],
 						},
 					},
 					on: {
 						PRESENT_NOTE: {actions: 'presentNote'},
 					},
 				},
-				waitingForInput: {
+				guessing: {
 					on: {
-						// GUESS:
-						// TODO maybe these should be split into GUESS_INCORRECTLY and GUESS_CORRECTLY events?
+						// TODO this could be represented as a GUESS event with conditions,
+						// but the recommendation is to keep them as separate things.
+						// This externalizes the logic of the guess.
+						// There's tradeoffs here I don't understand -
+						// I can see it being easier to drive the state machine
+						// with simple events that don't need the midi guess param.
+						// GUESS
 						// 'showingFailureFeedback',
 						// 'showingSuccessFeedback',
-						// TODO there's also the case of the correct guess but not done, so no state change
+
+						// TODO this should play the note and also
+						// playing the note with event daata seems messy though,
+						// since that's not how correct guesses work!
+						// correct guesses use the context data to make this implicit.
+						// this all seems to stem from the fact that we're not using conditions here,
+						// instead we've externalized the logic (see comment above)
+						GUESS_INCORRECTLY: {
+							target: 'showingFailureFeedback',
+							actions: 'playIncorrectNote',
+						},
+						// TODO how to model these cleanly? they go to different places!
+						GUESS_CORRECTLY_AND_FINISH_TRIAL: {
+							target: 'showingSuccessFeedback',
+							actions: 'playCurrentNote',
+						},
+						GUESS_CORRECTLY_AND_FINISH_LEVEL: {
+							target: 'showingSuccessFeedback',
+							actions: 'playCurrentNote',
+						},
+						GUESS_CORRECTLY_AND_WAIT_FOR_MORE: {
+							// TODO these don't execute in this order
+							// how to play the right note?
+							actions: 'nextGuessingIndex',
+						},
 					},
 				},
 				showingSuccessFeedback: {
-					on: {NEXT_TRIAL: 'presentingPrompt', COMPLETE_LEVEL: 'complete'},
+					// on: {NEXT_TRIAL: 'presentingPrompt', COMPLETE_LEVEL: 'complete'},
+					after: {
+						SUCCESS_FEEDBACK_DELAY: 'complete', // TODO !
+					},
 				},
-				showingFailureFeedback: {on: {RETRY_TRIAL: 'presentingPrompt'}},
+				showingFailureFeedback: {
+					// on: {RETRY_TRIAL: 'presentingPrompt'}
+					after: {
+						FAILURE_FEEDBACK_DELAY: 'complete',
+					},
+				},
 				complete: {type: 'final'},
 			},
 		},
 		{
+			// TODO should we inline these functions?
 			actions: {
 				createNextTrial,
 				presentNote,
-				resetPresentingIndex,
+				resetPresentingIndex: assign<LevelContext>({
+					presentingIndex: null,
+				}),
+				// TODO is this the best implementation? is it too granular?
+				initGuessingIndex: assign<LevelContext>({
+					guessingIndex: 0,
+				}),
+				// TODO should this validate that we don't overflow? should it error on null?
+				// mainly I'm thinking of the case that GUESS_CORRECTLY_AND_WAIT_FOR_MORE is sent when invalid
+				nextGuessingIndex: assign<LevelContext>({
+					guessingIndex: context => {
+						// TODO see below about playCurrentNote
+						// action order shouldn't matter, so we're coupling these two effects together
+						playMidiNote(
+							context.audioCtx,
+							context.trial!.sequence[context.guessingIndex!],
+							NOTE_DURATION,
+						);
+						return context.guessingIndex! + 1;
+					},
+				}),
+				playCurrentNote: context => {
+					// TODO yikes ... should the note be event data? looked up some other way?
+					// TODO this is duplicated in `nextGuessingIndex` above, see its comments for why
+					playMidiNote(
+						context.audioCtx,
+						context.trial!.sequence[context.guessingIndex!],
+						NOTE_DURATION,
+					);
+				},
+				playIncorrectNote: (context, event) => {
+					// TODO we could make this `playNote` with event data and
+					// use it in the above two places, right?
+					if (event.type !== 'GUESS_INCORRECTLY') {
+						throw Error(
+							`Invalid event type ${event.type} for "playIncorrectNote" action`,
+						);
+					}
+					playMidiNote(context.audioCtx, event.note, NOTE_DURATION);
+				},
 			},
 			services: {presentPrompt},
+			delays: {
+				SUCCESS_FEEDBACK_DELAY: 1000,
+				FAILURE_FEEDBACK_DELAY: 1000,
+			},
 		},
 	);
 };
 
 interface LevelService {
-	subscribe: Writable<LevelContext>['subscribe'];
+	subscribe: Writable<LevelStoreState>['subscribe'];
 	send(event: EventData): void;
 	guess(midi: Midi): void;
 	reset(): void;
@@ -111,15 +194,18 @@ const createDefaultContext = (
 	retryCount: 0,
 });
 
+type LevelStoreState = {
+	state: Interpreter<LevelContext, LevelStateSchema, EventData>['state'];
+	context: LevelContext;
+};
+
 export const createLevelService = (
 	levelDef: LevelDef,
 	audioCtx: AudioContext,
 ): LevelService => {
 	const defaultContext = createDefaultContext(levelDef, audioCtx);
-	const {subscribe, set} = writable<LevelContext>(defaultContext);
 
-	let $level: LevelContext; // TODO?
-	// subscribe(v => ($level = v)); // TODO?
+	let $level: LevelStoreState; // TODO?
 
 	let lastEvent: any; // TODO HACK
 
@@ -133,8 +219,9 @@ export const createLevelService = (
 			lastEvent = e;
 		})
 		.onChange((context, _prevContext) => {
-			$level = context;
 			log('onChange', context);
+			$level = {state: interpreter.state, context};
+			set($level);
 		})
 		.onSend(event => {
 			log('onSend', event);
@@ -142,41 +229,52 @@ export const createLevelService = (
 		.onDone(event => {
 			log('onDone', event);
 		})
-		.onStop(() => log('onStop'))
-		.start();
+		.onStop(() => log('onStop'));
+
+	const {subscribe, set} = writable<LevelStoreState>({
+		state: interpreter.state,
+		context: defaultContext,
+	});
+
+	// start after store is ready
+	// TODO check this is necessary
+	interpreter.start();
 
 	const guess = (midiGuess: Midi) => {
-		if (!$level.trial || $level.guessingIndex === null) {
+		const {context} = $level;
+		if (!context.trial || context.guessingIndex === null) {
 			throw Error(`XSTATE Expected a trial and guessingIndex`); // TODO how to encode in xstate?
 		}
-		const actual = getCorrectGuess($level);
+		const actual = getCorrectGuess(context);
+		log('midiGuess', midiGuess);
+		log('actual', actual);
 		if (actual !== midiGuess) {
-			log('guess incorrect');
+			log('guessguessguessguessguess incorrect');
 			// TODO this is really "on enter showingFailureFeedback state" logic
-			setTimeout(() => interpreter.send('RETRY_TRIAL'), 1000);
-			interpreter.send('GUESS_INCORRECTLY');
+			// setTimeout(() => interpreter.send('RETRY_TRIAL'), 1000); // TODO can be modeled with "after" right?
+			interpreter.send({type: 'GUESS_INCORRECTLY', note: midiGuess});
 		}
 		// else if more -> update current response index
-		else if ($level.guessingIndex >= $level.trial.sequence.length - 1) {
-			if ($level.trial.index < $level.def.trialCount - 1) {
-				log('guess correct and done with trial!!');
+		else if (context.guessingIndex >= context.trial.sequence.length - 1) {
+			if (context.trial.index < context.def.trialCount - 1) {
+				log('guessguessguessguessguess correct and done with trial!!');
 				// TODO this is really "on enter showingSuccessFeedback state" logic
-				setTimeout(() => interpreter.send('NEXT_TRIAL'), 1000);
+				// setTimeout(() => interpreter.send('NEXT_TRIAL'), 1000); // TODO can be modeled with "after" right?
 				interpreter.send('GUESS_CORRECTLY_AND_FINISH_TRIAL');
 				// status: 'showingSuccessFeedback',
 			} else {
 				// TODO this is really "on enter showingSuccessFeedback state" logic
-				log('guess correct and done with all trials!!!!');
-				setTimeout(() => interpreter.send('COMPLETE_LEVEL'), 1000);
-				interpreter.send('GUESS_CORRECTLY_AND_FINISH_ALL_TRIALS');
+				log('guessguessguessguessguess correct and done with all trials!!!!');
+				// setTimeout(() => interpreter.send('COMPLETE_LEVEL'), 1000); // TODO can be modeled with "after" right?
+				interpreter.send('GUESS_CORRECTLY_AND_FINISH_LEVEL');
 				// status: 'showingSuccessFeedback',
 			}
 		}
 		// else -> SUCCESS -> showingSuccessFeedback
 		else {
-			log('guess correct but not done');
-			interpreter.send('GUESS_CORRECTLY_AND_CONTINUE');
-			// guessingIndex: $level.trial.guessingIndex + 1,
+			log('guessguessguessguessguess correct but not done');
+			interpreter.send('GUESS_CORRECTLY_AND_WAIT_FOR_MORE');
+			// guessingIndex: context.trial.guessingIndex + 1,
 		}
 	};
 
@@ -187,14 +285,17 @@ export const createLevelService = (
 		reset: () => {
 			// TODO should this be defined as an event?
 			// TODO this causes errors if we have pending async events coming in! they should be canceled!
-			set(createDefaultContext(levelDef, audioCtx));
+			throw Error('TODO');
+			// set({state: interpreter.state, context: createDefaultContext(levelDef, audioCtx)});
+			// TODO need to update interpreter - what's the best way to do this?
+			// should there be no "reset' function? only send RESET or something?
 		},
 		// isInputDisabled,
 
 		// dev and debug methods
-		guessCorrectly: ($level: LevelContext): void => {
-			if (lastEvent.type !== 'waitingForInput') return;
-			const midi = getCorrectGuess($level);
+		guessCorrectly: (): void => {
+			if (lastEvent.type !== 'guessing') return;
+			const midi = getCorrectGuess($level.context);
 			if (midi === null) return;
 			guess(midi);
 		},
@@ -226,13 +327,13 @@ type EventData =
 	| {type: 'PRESENTED'}
 	| {type: 'GUESS'; midi: Midi}
 	| {type: 'PRESENT_NOTE'; note: Midi; index: number}
-	| {type: 'GUESS_INCORRECTLY'}
+	| {type: 'GUESS_INCORRECTLY'; note: Midi}
 	| {type: 'GUESS_CORRECTLY_AND_FINISH_TRIAL'}
-	| {type: 'GUESS_CORRECTLY_AND_FINISH_ALL_TRIALS'}
-	| {type: 'GUESS_CORRECTLY_AND_CONTINUE'};
+	| {type: 'GUESS_CORRECTLY_AND_FINISH_LEVEL'}
+	| {type: 'GUESS_CORRECTLY_AND_WAIT_FOR_MORE'};
 
 // const isInputDisabled = ($level: LevelService, index: number): boolean => {
-// 	if ($level.status !== 'waitingForInput') return true;
+// 	if ($level.status !== 'guessing') return true;
 // 	if (index === 0) return false;
 // 	return !$level.def.intervals.includes(index);
 // };
@@ -344,10 +445,6 @@ const presentNote = assign<LevelContext, EventData>((context, event) => {
 	return {
 		presentingIndex: event.index,
 	};
-});
-
-const resetPresentingIndex = assign<LevelContext>({
-	presentingIndex: () => null,
 });
 
 // TODO move this

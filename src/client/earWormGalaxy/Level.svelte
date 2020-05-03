@@ -31,14 +31,14 @@
 
 	const audioCtx = useAudioCtx();
 
-	const levelService = createLevelService(levelDef, audioCtx);
-	window.s = levelService;
-	console.log('levelService', levelService);
+	const level = createLevelService(levelDef, audioCtx);
+	window.s = level;
+	console.log('level', level);
 
-	const level = createLevelStore(levelDef, audioCtx);
 	// $: level.setDef(levelDef); // TODO update if levelDef prop changes
 
-	$: highlightedKeys = $level.trial && new Set([$level.trial.sequence[0]]);
+	$: highlightedKeys =
+		$level.context.trial && new Set([$level.context.trial.sequence[0]]);
 	$: console.log('highlighted', highlightedKeys);
 
 	// emphasize middle C to make it easier to orient oneself on a MIDI keyboard
@@ -46,20 +46,17 @@
 
 	onMount(() => {
 		level.send('START');
-		levelService.send('START');
 	});
 
 	useMidiInput({
 		onNoteStart: midi => {
 			// TODO should this be ignored if it's not an enabled key? should the level itself ignore the guess?
 			level.send({type: 'GUESS', midi});
-			levelService.send({type: 'GUESS', midi});
 		},
 	});
 
 	const reset = () => {
 		level.reset();
-		levelService.reset();
 	};
 
 	const onDocumentKeyDown = e => {
@@ -69,7 +66,7 @@
 				break;
 			}
 			case ' ': {
-				switch ($level.status) {
+				switch ($level.state.value) {
 					case 'complete': {
 						exitLevelToMap(true);
 						break;
@@ -78,8 +75,7 @@
 				break;
 			}
 			case '`': {
-				level.guessCorrectly($level);
-				levelService.guessCorrectly($level);
+				level.guessCorrectly();
 				break;
 			}
 			case 'Escape': {
@@ -91,8 +87,7 @@
 
 	const onPressKey = midi => {
 		console.log('press midi key', midi);
-		level.send({type: 'GUESS', midi});
-		levelService.send({type: 'GUESS', midi});
+		level.guess(midi);
 	};
 </script>
 
@@ -101,27 +96,29 @@
 	<div
 		class="text-2xl h-full w-full absolute t-0 l-0 flex items-center
 		justify-center flex-col">
-		<div>status: {$level.status}</div>
-		<div>trials created: {$level.trials.length}</div>
-		{#if $level.trial}
-			<div>trial: {$level.trial.index + 1} of {$level.def.trialCount}</div>
-			<div>retryCount: {$level.trial.retryCount}</div>
-			{#if $level.trial.presentingIndex !== null}
+		<div>status: {$level.state.value}</div>
+		<div>trials created: {$level.context.trials.length}</div>
+		{#if $level.context.trial}
+			<div>
+				trial: {$level.context.trial.index + 1} of {$level.context.def.trialCount}
+			</div>
+			<div>retryCount: {$level.context.trial.retryCount}</div>
+			{#if $level.context.trial.presentingIndex !== null}
 				<div>
-					presentingIndex: {$level.trial.sequence[$level.trial.presentingIndex]}
+					presentingIndex: {$level.context.trial.sequence[$level.context.trial.presentingIndex]}
 				</div>
 			{:else}...{/if}
 		{:else}no trial{/if}
 	</div>
 	<!-- /debugging -->
 
-	<!-- {#if $level.status === 'presentingPrompt'}
-	{:else if $level.status === 'waitingForInput'} -->
-	{#if $level.status === 'showingSuccessFeedback'}
+	<!-- {#if $level.state.value === 'presentingPrompt'}
+	{:else if $level.state.value === 'guessing'} -->
+	{#if $level.state.value === 'showingSuccessFeedback'}
 		<div class="absolute t-50 r-0 w-50 h-50" style="background-color: green;" />
-	{:else if $level.status === 'showingFailureFeedback'}
+	{:else if $level.state.value === 'showingFailureFeedback'}
 		<div class="absolute t-50 r-0 w-50 h-50" style="background-color: red;" />
-	{:else if $level.status === 'complete'}
+	{:else if $level.state.value === 'complete'}
 		<button
 			class="absolute t-50 r-0 w-50 h-25 text-3xl"
 			on:click={exitLevelToMap}>
@@ -140,10 +137,10 @@
 		{#if clientWidth}
 			<PianoInstrument
 				width={clientWidth}
-				midiMin={$level.def.midiMin}
-				midiMax={$level.def.midiMax}
-				onPressKey={$level.status === 'waitingForInput' ? onPressKey : undefined}
-				enabledKeys={$level.trial && $level.trial.validNotes}
+				midiMin={$level.context.def.midiMin}
+				midiMax={$level.context.def.midiMax}
+				onPressKey={$level.state.value === 'guessing' ? onPressKey : undefined}
+				enabledKeys={$level.context.trial && $level.context.trial.validNotes}
 				{highlightedKeys}
 				{emphasizedKeys} />
 		{/if}
