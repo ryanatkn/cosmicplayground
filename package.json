@@ -4,7 +4,6 @@
   "description": "tools and toys for expanding minds: ear training, music theory, etc etc",
   "license": "ISC",
   "homepage": "https://cosmicplayground.org",
-  "type": "module",
   "scripts": {
     "start": "NODE_ENV=development TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/build/build.ts --watch",
     "build": "NODE_ENV=production TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/build/build.ts",
