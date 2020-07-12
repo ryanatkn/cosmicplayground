@@ -9,7 +9,6 @@
 	import BundleVision from './BundleVision.svelte';
 	import About from './About.svelte';
 	import ClockControls from './ClockControls.svelte';
-	import CommunityLinks from './CommunityLinks.svelte';
 	import BackButton from './BackButton.svelte';
 	import FreqSpeeds from './FreqSpeeds.svelte';
 	import FreqSpectacle from './FreqSpectacle.svelte';

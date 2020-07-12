@@ -1,6 +1,5 @@
 <script>
 	import ImgLink from './ImgLink.svelte';
-	import CommunityLinks from './CommunityLinks.svelte';
 	import Credits from './Credits.svelte';
 	import {GR2i} from '../utils/math.js';
 	import {cls} from './sy.config.js';
@@ -41,10 +40,9 @@
 	<em>tools and toys for expanding minds</em>
 	<p>
 		<em>current status:</em>
-		there's barely anything here yet, but there's not _nothing_
+		there's barely anything here yet, but there's not *nothing*
 	</p>
 </div>
-<CommunityLinks />
 <slot />
 <Credits />
 <ImgLink
