@@ -1,4 +1,6 @@
 <script>
+	export let running;
+
 	let wrapperWidth, clientWidth, clientHeight;
 	const maxWidth = 1667;
 	const maxHeight = 781;
@@ -14,7 +16,8 @@
 	overflow-hidden"
 	bind:clientWidth
 	bind:clientHeight>
-	<div style={`transform: scale3d(${scale}, ${scale}, 1);`}>
+	<div
+		style={`transform: scale3d(${scale}, ${scale}, 1); ${running ? '' : 'filter: grayscale();'}`}>
 		<div style={`width: ${maxWidth}px; height: ${maxHeight}px;`}>
 			<img
 				src="assets/construction/line-1.gif"
