@@ -1,11 +1,7 @@
-<script>
-	export let view;
-</script>
-
-<div class="button" on:click={() => view.set('main')}>⇦</div>
+<a href="#portals">⇦</a>
 
 <style>
-	.button {
+	a {
 		cursor: pointer;
 		font-size: 80px;
 		opacity: 0.6;
@@ -14,11 +10,11 @@
 		transform-origin: center center;
 		padding-left: 20px;
 	}
-	.button:hover {
+	a:hover {
 		opacity: 0.8;
 		transform: scale3d(1.2, 1.2, 1);
 	}
-	.button:active {
+	a:active {
 		opacity: 0.95;
 		transform: scale3d(1.42, 1.42, 1);
 	}

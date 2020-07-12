@@ -41,3 +41,7 @@ video {
 .grayscale {
 	filter: grayscale(1);
 }
+
+a {
+	text-decoration: none;
+}

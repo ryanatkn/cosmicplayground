@@ -1,7 +1,4 @@
 <script>
-	import {onMount} from 'svelte';
-	import {writable} from 'svelte/store';
-
 	import {createClock} from './clock.js';
 	import Overlay from './Overlay.svelte';
 	import GalaxyBg from './GalaxyBg.svelte';
@@ -22,19 +19,22 @@
 
 	export let name;
 
-	// TODO refactor all of this view code with proper routing
-	export let view = writable('main'); // main | about | freqSpeeds0 | freqSpeeds1 | construction | bundleVision | hearingTest | transitionDesigner | easingViz | easingAudViz | paintFreqs
-
 	export let windowWidth = window.innerWidth;
 	export let windowHeight = window.innerHeight;
 
 	export let clock = createClock();
 
-	initAudioCtx(); // allows components to do `const audioCtx = useAudioCtx();` which uses svelte's `getContext`
+	// views:
+	// portals | about | freq_speed | freq_speeds | construction | bundle_vision |
+	// hearing_test | transition_designer | easing_viz | easing_aud_viz | paint_freqs
+	let hash = typeof window === 'undefined' ? '' : window.location.hash;
+	const DEFAULT_VIEW = 'portals';
+	$: view = hash.slice(1) || DEFAULT_VIEW;
+	const onHashChange = e => {
+		hash = window.location.hash;
+	};
 
-	onMount(() => {
-		drawEasingAudVizCanvas();
-	});
+	initAudioCtx(); // allows components to do `const audioCtx = useAudioCtx();` which uses svelte's `getContext`
 
 	let easingAudVizCanvas;
 	$: easingAudVizCanvas && drawEasingAudVizCanvas();
@@ -65,158 +65,151 @@
 	};
 </script>
 
-<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
+<svelte:window
+	bind:innerWidth={windowWidth}
+	bind:innerHeight={windowHeight}
+	on:hashchange={onHashChange} />
 
 <section class="bg w-100 z-0">
 	<GalaxyBg running={$clock.running} />
 </section>
 
-{#if $view === 'main'}
+{#if view === 'portals'}
 	<section>
-		<nav>
-			<ul class="thumbnails">
-				<li class="thumbnail" on:click={() => view.set('about')}>
+		<nav class="thumbnails">
+			<a class="thumbnail" href="#about">
+				<div
+					style="padding: 4px; display: flex; flex-direction: column;
+					align-items: center;">
 					<div
-						style="padding: 4px; display: flex; flex-direction: column;
-						align-items: center;">
-						<div
-							style="font-size: 30px; margin: 5px 0; display: flex; align-items:
-							center;">
-							<img
-								src="assets/characters/cosm.png"
-								alt="cosm"
-								class="pixelated"
-								style="width: 32px; height: 32px; margin-right: 10px;" />
-							 {name}
-							<img
-								src="assets/characters/cosm.png"
-								alt="cosm"
-								class="pixelated"
-								style="width: 32px; height: 32px; margin-left: 10px; transform:
-								scale3d(-1, 1, 1);" />
-						</div>
-						<small>help . about . credits</small>
+						style="font-size: 30px; margin: 5px 0; display: flex; align-items:
+						center;">
+						<img
+							src="assets/characters/cosm.png"
+							alt="cosm"
+							class="pixelated"
+							style="width: 32px; height: 32px; margin-right: 10px;" />
+						{name}
+						<img
+							src="assets/characters/cosm.png"
+							alt="cosm"
+							class="pixelated"
+							style="width: 32px; height: 32px; margin-left: 10px; transform:
+							scale3d(-1, 1, 1);" />
 					</div>
-				</li>
-				<li class="thumbnail" on:click={() => view.set('paintFreqs')}>
-					<div style="font-size: 20px; margin-bottom: 7px;">paint freqs</div>
+					<small>help . about . credits</small>
+				</div>
+			</a>
+			<a class="thumbnail" href="#paint_freqs">
+				<div style="font-size: 20px; margin-bottom: 7px;">paint freqs</div>
+				<div
+					class="overflow-hidden"
+					style="width: 192px; height: 192px; border-radius: 50%;">
+					<img
+						src="assets/characters/cosmic-kitty.jpg"
+						style="width: 192px; height: 192px;"
+						alt="Cosmic Kitty" />
+				</div>
+			</a>
+			<a class="thumbnail" href="#easing_aud_viz">
+				<div>easing function audioizations and visualizations</div>
+				<div class="easing-aud-viz-wrapper">
+					<canvas bind:this={easingAudVizCanvas} />
 					<div
-						class="overflow-hidden"
-						style="width: 192px; height: 192px; border-radius: 50%;">
-						<img
-							src="assets/characters/cosmic-kitty.jpg"
-							style="width: 192px; height: 192px;"
-							alt="Cosmic Kitty" />
-					</div>
-				</li>
-				<li class="thumbnail" on:click={() => view.set('easingAudViz')}>
-					<div>easing function audioizations and visualizations</div>
-					<div class="easing-aud-viz-wrapper">
-						<canvas bind:this={easingAudVizCanvas} />
+						class="easing-aud-viz-mouth-wrapper"
+						style="left: {-easingAudVizMouthSize / 2}px; top: {easingAudVizCanvasHeight / 2 - easingAudVizMouthSize / 2}px;
+						width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;">
 						<div
-							class="easing-aud-viz-mouth-wrapper"
-							style="left: {-easingAudVizMouthSize / 2}px; top: {easingAudVizCanvasHeight / 2 - easingAudVizMouthSize / 2}px;
-							width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;">
-							<div
-								class="easing-aud-viz-mouth"
-								style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;" />
-							<div
-								class="easing-aud-viz-mouth"
-								style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;" />
-							<div
-								style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;
-								border-radius: 50%;" />
-						</div>
+							class="easing-aud-viz-mouth"
+							style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;" />
 						<div
-							class="easing-aud-viz-tail-wrapper"
-							style="right: {-easingAudVizTailSize / 2}px; top: {8 + easingAudVizCanvasHeight / 2 - easingAudVizTailSize / 2}px;
-							width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;">
-							<div
-								class="easing-aud-viz-tail"
-								style="width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;" />
-							<div
-								class="easing-aud-viz-tail"
-								style="width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;" />
-							<div
-								style="width: {easingAudVizTailSize / 2}px; height: {easingAudVizTailSize / 2}px;
-								border-radius: 50%;" />
-						</div>
+							class="easing-aud-viz-mouth"
+							style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;" />
+						<div
+							style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;
+							border-radius: 50%;" />
 					</div>
-				</li>
-				<li class="thumbnail" on:click={() => view.set('easingViz')}>
-					<div>easing function visualizations</div>
-					<div class="easing-viz-slider-wrapper">
-						<div class="easing-viz-slider-graphic" />
+					<div
+						class="easing-aud-viz-tail-wrapper"
+						style="right: {-easingAudVizTailSize / 2}px; top: {8 + easingAudVizCanvasHeight / 2 - easingAudVizTailSize / 2}px;
+						width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;">
+						<div
+							class="easing-aud-viz-tail"
+							style="width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;" />
+						<div
+							class="easing-aud-viz-tail"
+							style="width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;" />
+						<div
+							style="width: {easingAudVizTailSize / 2}px; height: {easingAudVizTailSize / 2}px;
+							border-radius: 50%;" />
 					</div>
-				</li>
-				<li class="thumbnail" on:click={() => view.set('transitionDesigner')}>
-					<div class="rotating-text">transition designer</div>
-				</li>
-				<li class="thumbnail" on:click={() => view.set('hearingTest')}>
-					<div>🐶 hearing test 🐶</div>
-					<div>
-						<small style="color: hsla(40deg, 60%, 65%, 1);">
-							🐾 🐕 beware ye, creature 🐕 🐾
-						</small>
-					</div>
-				</li>
-				<li
-					class="thumbnail"
-					on:click={() => view.set('freqSpeeds1')}
-					style="display: flex; flex-direction: column;">
-					<FreqSpeeds
-						elapsedTime={$clock.time}
-						width={300}
-						height={75}
-						hzItems={[4]}
-						lowestHzItemCount={2} />
-					<FreqSpeeds
-						elapsedTime={$clock.time}
-						width={300}
-						height={75}
-						hzItems={[4]}
-						lowestHzItemCount={2}
-						style="transform: rotate(180deg);" />
-				</li>
-				<li
-					class="thumbnail"
-					on:click={() => view.set('freqSpeeds0')}
-					style="display: flex;">
-					<FreqSpectacle
-						elapsedTime={$clock.time}
-						width={150}
-						height={75}
-						hzItems={[2, 3, 4]}
-						lowestHzItemCount={1} />
-				</li>
-				<li class="thumbnail" on:click={() => view.set('bundleVision')}>
-					 {'{ bundle vision }'}
-				</li>
-				<li class="thumbnail" on:click={() => view.set('construction')}>
-					{#if $clock.running}
-						<img
-							src="assets/construction/person-rock.gif"
-							alt="under construction: person rock"
-							style="width: 162px; height: 100px;"
-							class="pixelated thumbnail-construction" />
-					{:else}
-						<img
-							src="assets/construction/person-rock-pause.png"
-							alt="under construction: person rock"
-							style="width: 162px; height: 100px;"
-							class="pixelated grayscale" />
-					{/if}
-				</li>
-			</ul>
+				</div>
+			</a>
+			<a class="thumbnail" href="#easing_viz">
+				<div>easing function visualizations</div>
+				<div class="easing-viz-slider-wrapper">
+					<div class="easing-viz-slider-graphic" />
+				</div>
+			</a>
+			<a class="thumbnail" href="#transition_designer">
+				<div class="rotating-text">transition designer</div>
+			</a>
+			<a class="thumbnail" href="#hearing_test">
+				<div>🐶 hearing test 🐶</div>
+				<div>
+					<small style="color: hsla(40deg, 60%, 65%, 1);">
+						🐾 🐕 beware ye, creature 🐕 🐾
+					</small>
+				</div>
+			</a>
+			<a
+				class="thumbnail"
+				href="#freq_speeds"
+				style="display: flex; flex-direction: column;">
+				<FreqSpeeds
+					elapsedTime={$clock.time}
+					width={300}
+					height={75}
+					hzItems={[4]}
+					lowestHzItemCount={2} />
+				<FreqSpeeds
+					elapsedTime={$clock.time}
+					width={300}
+					height={75}
+					hzItems={[4]}
+					lowestHzItemCount={2}
+					style="transform: rotate(180deg);" />
+			</a>
+			<a class="thumbnail" href="#freq_speed" style="display: flex;">
+				<FreqSpectacle
+					elapsedTime={$clock.time}
+					width={150}
+					height={75}
+					hzItems={[2, 3, 4]}
+					lowestHzItemCount={1} />
+			</a>
+			<a class="thumbnail" href="#bundle_vision">{'{ bundle vision }'}</a>
+			<a class="thumbnail" href="#construction">
+				{#if $clock.running}
+					<img
+						src="assets/construction/person-rock.gif"
+						alt="under construction: person rock"
+						style="width: 162px; height: 100px;"
+						class="pixelated thumbnail-construction" />
+				{:else}
+					<img
+						src="assets/construction/person-rock-pause.png"
+						alt="under construction: person rock"
+						style="width: 162px; height: 100px;"
+						class="pixelated grayscale" />
+				{/if}
+			</a>
 		</nav>
 	</section>
-{:else if $view === 'about'}
-	<section
-		class="content"
-		on:click={() => view.set('main')}
-		style="padding: 20px;">
+{:else if view === 'about'}
+	<section class="content" style="padding: 20px;">
 		<div class="back-button-wrapper">
-			<BackButton {view} />
+			<BackButton />
 		</div>
 		<div class="max-column-width" style="margin: 90px auto 0; padding: 20px;">
 			<Overlay contentClass="p-5">
@@ -236,137 +229,138 @@
 			</Overlay>
 		</div>
 	</section>
-{:else if $view === 'easingAudViz'}
+{:else if view === 'easing_aud_viz'}
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton {view} />
+			<BackButton />
 		</div>
 		<EasingAudViz />
 	</section>
-{:else if $view === 'easingViz'}
+{:else if view === 'easing_viz'}
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton {view} />
+			<BackButton />
 		</div>
 		<EasingViz />
 	</section>
-{:else if $view === 'transitionDesigner'}
+{:else if view === 'transition_designer'}
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton {view} />
+			<BackButton />
 		</div>
 		<TransitionDesigner />
 	</section>
-{:else if $view === 'paintFreqs'}
+{:else if view === 'paint_freqs'}
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton {view} />
+			<BackButton />
 		</div>
 		<PaintFreqs />
 	</section>
-{:else if $view === 'hearingTest'}
+{:else if view === 'hearing_test'}
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton {view} />
+			<BackButton />
 		</div>
 		<HearingTest />
 	</section>
-{:else if $view === 'freqSpeeds0'}
-	<section class="content" on:click={clock.toggle}>
+{:else if view === 'freq_speed'}
+	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton {view} />
+			<BackButton />
 		</div>
 		<!-- TODO refactor this lol. also, do wackier thingg with it. -->
-		<FreqSpectacle
-			width={windowWidth}
-			height={windowHeight * 0.7}
-			elapsedTime={$clock.time}
-			lowestHzItemCount={2}
-			hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
-		<div style="display: flex; justify-content: center;">
-			<div style="flex: 0; display: flex; flex-direction: column;">
+		<div class="content" on:click={clock.toggle}>
+			<FreqSpectacle
+				width={windowWidth}
+				height={windowHeight * 0.7}
+				elapsedTime={$clock.time}
+				lowestHzItemCount={2}
+				hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+			<div style="display: flex; justify-content: center;">
+				<div style="flex: 0; display: flex; flex-direction: column;">
+					<FreqSpectacle
+						width={windowWidth * 0.25}
+						height={windowHeight * 0.15}
+						style="transform: rotate(180deg);"
+						elapsedTime={$clock.time}
+						lowestHzItemCount={2}
+						hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+					<FreqSpectacle
+						width={windowWidth * 0.25}
+						height={windowHeight * 0.15}
+						elapsedTime={$clock.time}
+						lowestHzItemCount={2}
+						hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+				</div>
 				<FreqSpectacle
-					width={windowWidth * 0.25}
-					height={windowHeight * 0.15}
+					width={windowWidth * 0.5}
+					height={windowHeight * 0.3}
 					style="transform: rotate(180deg);"
 					elapsedTime={$clock.time}
 					lowestHzItemCount={2}
 					hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
-				<FreqSpectacle
-					width={windowWidth * 0.25}
-					height={windowHeight * 0.15}
-					elapsedTime={$clock.time}
-					lowestHzItemCount={2}
-					hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+				<div style="flex: 0; display: flex; flex-direction: column;">
+					<FreqSpectacle
+						width={windowWidth * 0.25}
+						height={windowHeight * 0.15}
+						style="transform: rotate(180deg);"
+						elapsedTime={$clock.time}
+						lowestHzItemCount={2}
+						hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+					<FreqSpectacle
+						width={windowWidth * 0.25}
+						height={windowHeight * 0.15}
+						elapsedTime={$clock.time}
+						lowestHzItemCount={2}
+						hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+				</div>
 			</div>
-			<FreqSpectacle
-				width={windowWidth * 0.5}
-				height={windowHeight * 0.3}
+		</div>
+	</section>
+{:else if view === 'freq_speeds'}
+	<section class="content">
+		<div class="back-button-wrapper">
+			<BackButton />
+		</div>
+		<div class="content" on:click={clock.toggle}>
+			<FreqSpeeds
+				width={windowWidth}
+				height={windowHeight / 2}
+				elapsedTime={$clock.time}
+				lowestHzItemCount={2}
+				hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+			<FreqSpeeds
+				width={windowWidth}
+				height={windowHeight / 2}
 				style="transform: rotate(180deg);"
 				elapsedTime={$clock.time}
 				lowestHzItemCount={2}
 				hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
-			<div style="flex: 0; display: flex; flex-direction: column;">
-				<FreqSpectacle
-					width={windowWidth * 0.25}
-					height={windowHeight * 0.15}
-					style="transform: rotate(180deg);"
-					elapsedTime={$clock.time}
-					lowestHzItemCount={2}
-					hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
-				<FreqSpectacle
-					width={windowWidth * 0.25}
-					height={windowHeight * 0.15}
-					elapsedTime={$clock.time}
-					lowestHzItemCount={2}
-					hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
-			</div>
 		</div>
 	</section>
-{:else if $view === 'freqSpeeds1'}
-	<section class="content" on:click={clock.toggle}>
-		<div class="back-button-wrapper">
-			<BackButton {view} />
-		</div>
-		<FreqSpeeds
-			width={windowWidth}
-			height={windowHeight / 2}
-			elapsedTime={$clock.time}
-			lowestHzItemCount={2}
-			hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
-		<FreqSpeeds
-			width={windowWidth}
-			height={windowHeight / 2}
-			style="transform: rotate(180deg);"
-			elapsedTime={$clock.time}
-			lowestHzItemCount={2}
-			hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
-	</section>
-{:else if $view === 'bundleVision'}
+{:else if view === 'bundle_vision'}
 	<!-- // TODO path - see `src/project/paths.ts` for more -->
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton {view} />
+			<BackButton />
 		</div>
 		<BundleVision url="/bundle.stats.json" />
 	</section>
-{:else if $view === 'construction'}
+{:else if view === 'construction'}
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton {view} />
+			<BackButton />
 		</div>
 		<Construction running={$clock.running} />
 	</section>
 {:else}
-	<section
-		class="content"
-		style="display: flex;"
-		on:click={() => view.set('main')}>
+	<section class="content" style="display: flex;">
 		<Overlay>
 			<div class="back-button-wrapper">
-				<BackButton {view} />
+				<BackButton />
 			</div>
-			<h2>unknown view: {$view}</h2>
+			<h2>unknown view: {view}</h2>
 		</Overlay>
 	</section>
 {/if}

@@ -51,7 +51,9 @@
 		</div>
 		<div>
 			Cosmic Kitty pounced out of
-			<em>paint freqs</em>
+			<em>
+				<a href="#paint_freqs">paint freqs</a>
+			</em>
 			.. mreow
 		</div>
 		<div>
