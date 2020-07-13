@@ -14,6 +14,7 @@
 	import TransitionDesigner from './TransitionDesigner.svelte';
 	import EasingViz from './EasingViz.svelte';
 	import EasingAudViz from './EasingAudViz.svelte';
+	import StarlitHammock from './StarlitHammock.svelte';
 	import {mix} from '../utils/math.js';
 	import {initAudioCtx} from '../audio/audioCtx.js';
 
@@ -27,6 +28,7 @@
 	// views:
 	// portals | about | freq_speed | freq_speeds | construction | bundle_vision |
 	// hearing_test | transition_designer | easing_viz | easing_aud_viz | paint_freqs
+	// starlit_hammock
 	let hash = typeof window === 'undefined' ? '' : window.location.hash;
 	const DEFAULT_VIEW = 'portals';
 	$: view = hash.slice(1) || DEFAULT_VIEW;
@@ -71,7 +73,10 @@
 	on:hashchange={onHashChange} />
 
 <section class="bg w-100 z-0">
-	<GalaxyBg running={$clock.running} />
+	<GalaxyBg
+		running={$clock.running}
+		width={windowWidth}
+		height={windowHeight} />
 </section>
 
 {#if view === 'portals'}
@@ -110,6 +115,18 @@
 						style="width: 192px; height: 192px;"
 						alt="Cosmic Kitty" />
 				</div>
+			</a>
+			<a
+				class="thumbnail"
+				href="#starlit_hammock"
+				style="width: 320px; height: 180px;">
+				<div class="relative z-1">starlit hammock</div>
+				<GalaxyBg
+					width={320}
+					height={180}
+					opacity={0.6}
+					animationDuration="45s"
+					running={$clock.running} />
 			</a>
 			<a class="thumbnail" href="#easing_aud_viz">
 				<div>easing function audioizations and visualizations</div>
@@ -256,6 +273,13 @@
 			<BackButton />
 		</div>
 		<PaintFreqs />
+	</section>
+{:else if view === 'starlit_hammock'}
+	<section class="content">
+		<div class="back-button-wrapper">
+			<BackButton />
+		</div>
+		<StarlitHammock width={windowWidth} height={windowHeight} />
 	</section>
 {:else if view === 'hearing_test'}
 	<section class="content">
