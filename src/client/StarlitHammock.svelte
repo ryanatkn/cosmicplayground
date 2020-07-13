@@ -1,9 +1,6 @@
 <script>
 	import {onMount, onDestroy} from 'svelte';
-
-	// TODO import
-	// import {randomFloat} from '@feltcoop/gro/dist/utils/random.js';
-	const randomFloat = (min, max) => Math.random() * (max - min) + min;
+	import {randomFloat} from '@feltcoop/gro/dist/utils/random.js';
 
 	export let imageUrl = '/assets/space/galaxies.jpg';
 	export let width;
@@ -33,6 +30,9 @@
 		const yMax = scaledImageHeight - height;
 		x = -randomFloat(xMin, xMax);
 		y = -randomFloat(yMin, yMax);
+
+		// allow `randomize` to be called during a transition
+		clearTimeout(timeout);
 		timeout = setTimeout(() => randomize(), duration);
 	};
 
@@ -40,7 +40,10 @@
 	onDestroy(() => clearTimeout(timeout));
 </script>
 
-<div class="viewport" style="width: {width}px; height: {height}px;">
+<div
+	class="viewport"
+	style="width: {width}px; height: {height}px;"
+	on:click={() => randomize()}>
 	<img
 		src={imageUrl}
 		style="width: {imageWidth}px; height: {imageHeight}px; transform:
