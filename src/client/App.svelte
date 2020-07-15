@@ -36,6 +36,20 @@
 		hash = window.location.hash;
 	};
 
+	const viewsWithGalaxyBg = new Set([
+		'portals',
+		'about',
+		'freq_speed',
+		'freq_speeds',
+		'construction',
+		'bundle_vision',
+		'hearing_test',
+		'transition_designer',
+		'easing_viz',
+		'easing_aud_viz',
+		'paint_freqs',
+	]);
+
 	initAudioCtx(); // allows components to do `const audioCtx = useAudioCtx();` which uses svelte's `getContext`
 
 	let easingAudVizCanvas;
@@ -72,12 +86,14 @@
 	bind:innerHeight={windowHeight}
 	on:hashchange={onHashChange} />
 
-<section class="bg w-100 z-0">
-	<GalaxyBg
-		running={$clock.running}
-		width={windowWidth}
-		height={windowHeight} />
-</section>
+{#if viewsWithGalaxyBg.has(view)}
+	<section class="bg w-100 z-0">
+		<GalaxyBg
+			running={$clock.running}
+			width={windowWidth}
+			height={windowHeight} />
+	</section>
+{/if}
 
 {#if view === 'portals'}
 	<section>
