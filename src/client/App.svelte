@@ -293,7 +293,7 @@
 {:else if view === 'starlit_hammock'}
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton />
+			<BackButton hideWhenIdle={true} />
 		</div>
 		<StarlitHammock width={windowWidth} height={windowHeight} />
 	</section>
@@ -307,7 +307,7 @@
 {:else if view === 'freq_speed'}
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton />
+			<BackButton hideWhenIdle={true} />
 		</div>
 		<!-- TODO refactor this lol. also, do wackier thingg with it. -->
 		<div class="content" on:click={clock.toggle}>
@@ -361,7 +361,7 @@
 {:else if view === 'freq_speeds'}
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton />
+			<BackButton hideWhenIdle={true} />
 		</div>
 		<div class="content" on:click={clock.toggle}>
 			<FreqSpeeds
@@ -390,7 +390,7 @@
 {:else if view === 'construction'}
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton />
+			<BackButton hideWhenIdle={true} />
 		</div>
 		<Construction running={$clock.running} />
 	</section>
