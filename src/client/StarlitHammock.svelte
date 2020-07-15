@@ -2,12 +2,16 @@
 	import {onMount, onDestroy} from 'svelte';
 	import {randomFloat} from '@feltcoop/gro/dist/utils/random.js';
 
+	// TODO choose from multiple images
+	// TODO consider adjusting the duration based on distance, with a random range
+	// TODO rotation?!
+
 	export let imageUrl = '/assets/space/galaxies.jpg';
 	export let width;
 	export let height;
 	export let scaleMin = 1;
-	export let scaleMax = 4;
-	export let transitionDuration = 30000;
+	export let scaleMax = 5;
+	export let transitionDuration = 60000;
 	export let pauseDuration = 2000;
 
 	let timeout;
