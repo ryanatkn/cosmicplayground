@@ -10,7 +10,7 @@
 	export let width;
 	export let height;
 	export let scaleMin = 1;
-	export let scaleMax = 5;
+	export let scaleMax = 4;
 	export let transitionDuration = 60000;
 	export let pauseDuration = 2000;
 
