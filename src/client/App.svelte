@@ -1,4 +1,6 @@
 <script>
+	import {writable} from 'svelte/store';
+
 	import {createClock} from './clock.js';
 	import Overlay from './Overlay.svelte';
 	import GalaxyBg from './GalaxyBg.svelte';
@@ -17,6 +19,7 @@
 	import StarlitHammock from './StarlitHammock.svelte';
 	import {mix} from '../utils/math.js';
 	import {initAudioCtx} from '../audio/audioCtx.js';
+	import {trackIdleState} from './trackIdleState.js';
 
 	export let name;
 
@@ -79,12 +82,15 @@
 		}
 		ctx.stroke();
 	};
+
+	const isIdle = writable(false);
 </script>
 
 <svelte:window
 	bind:innerWidth={windowWidth}
 	bind:innerHeight={windowHeight}
-	on:hashchange={onHashChange} />
+	on:hashchange={onHashChange}
+	use:trackIdleState={{isIdle, timeToGoIdle: 6000, idleIntervalTime: 1000}} />
 
 {#if viewsWithGalaxyBg.has(view)}
 	<section class="bg w-100 z-0">
@@ -291,9 +297,9 @@
 		<PaintFreqs />
 	</section>
 {:else if view === 'starlit_hammock'}
-	<section class="content">
+	<section class="content" class:cursor-none={$isIdle}>
 		<div class="back-button-wrapper">
-			<BackButton hideWhenIdle={true} />
+			<BackButton isIdle={$isIdle} />
 		</div>
 		<StarlitHammock width={windowWidth} height={windowHeight} />
 	</section>
@@ -307,7 +313,7 @@
 {:else if view === 'freq_speed'}
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton hideWhenIdle={true} />
+			<BackButton isIdle={$isIdle} />
 		</div>
 		<!-- TODO refactor this lol. also, do wackier thingg with it. -->
 		<div class="content" on:click={clock.toggle}>
@@ -361,7 +367,7 @@
 {:else if view === 'freq_speeds'}
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton hideWhenIdle={true} />
+			<BackButton isIdle={$isIdle} />
 		</div>
 		<div class="content" on:click={clock.toggle}>
 			<FreqSpeeds
@@ -390,7 +396,7 @@
 {:else if view === 'construction'}
 	<section class="content">
 		<div class="back-button-wrapper">
-			<BackButton hideWhenIdle={true} />
+			<BackButton isIdle={$isIdle} />
 		</div>
 		<Construction running={$clock.running} />
 	</section>

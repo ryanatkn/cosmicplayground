@@ -1,40 +1,8 @@
 <script>
-	import {onDestroy} from 'svelte';
-
-	export let hideWhenIdle = false;
-	export let idleIntervalTime = 1000;
-	export let timeToGoIdle = 6000;
-
-	let idle = false;
-	let interval;
-	let idleTimer = 0;
-
-	const updateIdleState = () => {
-		if (idle) return;
-		idleTimer += idleIntervalTime;
-		if (idleTimer >= timeToGoIdle) {
-			idle = true;
-		}
-	};
-
-	$: {
-		clearInterval(interval);
-		if (hideWhenIdle) {
-			console.log('set interval');
-			interval = setInterval(updateIdleState, idleIntervalTime);
-		}
-	}
-	onDestroy(() => clearInterval(interval));
-
-	const onMouseMove = () => {
-		idleTimer = 0;
-		if (idle) idle = false;
-	};
+	export let isIdle = false;
 </script>
 
-<svelte:window on:mousemove={hideWhenIdle ? onMouseMove : undefined} />
-
-<a href="#portals" class:idle>⇦</a>
+<a href="#portals" class:idle={isIdle}>⇦</a>
 
 <style>
 	a {
@@ -55,7 +23,7 @@
 		opacity: 0.95;
 		transform: scale3d(1.42, 1.42, 1);
 	}
-	a.idle {
+	.idle {
 		opacity: 0;
 	}
 </style>
