@@ -69,5 +69,7 @@
 		transition-property: transform;
 		transition-timing-function: ease-in-out;
 		transform-origin: top left;
+		/* fixes a bug in Chrome where sections of the image go black until the mouse is moved */
+		will-change: transform;
 	}
 </style>
