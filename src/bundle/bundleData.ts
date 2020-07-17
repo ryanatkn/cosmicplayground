@@ -69,11 +69,10 @@ export interface BundleChunkMeta {
 const excludedAssetKeysDef = {code: null, source: null};
 type ExcludedAssetKeys = keyof typeof excludedAssetKeysDef;
 const excludedAssetKeys = Object.keys(excludedAssetKeysDef) as ExcludedAssetKeys[];
-export type BundleAsset = OmitStrict<OutputAsset, 'code' | 'source'>;
+export type BundleAsset = OmitStrict<OutputAsset, 'source'>;
 
-export const isOutputAsset = (c: OutputChunk | OutputAsset): c is OutputAsset =>
-	c.hasOwnProperty('isAsset');
+// TODO do we need these helpers with Rollup 2?
+export const isOutputAsset = (c: OutputChunk | OutputAsset): c is OutputAsset => c.type === 'asset';
 export const isOutputChunk = (c: OutputChunk | OutputAsset): c is OutputChunk => !isOutputAsset(c);
-export const isBundleAsset = (c: BundleChunk | BundleAsset): c is BundleAsset =>
-	c.hasOwnProperty('isAsset');
+export const isBundleAsset = (c: BundleChunk | BundleAsset): c is BundleAsset => c.type === 'asset';
 export const isBundleChunk = (c: BundleChunk | BundleAsset): c is BundleChunk => !isBundleAsset(c);

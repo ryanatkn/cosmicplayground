@@ -29,6 +29,7 @@ import {extractSvelteCssClassesPlugin} from './rollup-plugin-extract-svelte-css-
 import {diagnosticsPlugin} from './rollup-plugin-diagnostics';
 import {bundleWriterPlugin} from './rollup-plugin-bundle-writer';
 import {createCssClassesCache} from './cssClassesCache';
+import {UnreachableError} from '../../utils/types';
 
 const pkg = require('../../../package.json'); // TODO import differently?
 const prettierOptions: prettier.Options = pkg.prettier;
@@ -310,15 +311,11 @@ const runRollupWatcher = async (): Promise<void> => {
 				case 'END': // finished building all bundles
 					break;
 				case 'ERROR': // encountered an error while bundling
-					console.log('error', event);
-					reject(`Error: ${event.message}`);
-					break;
-				case 'FATAL': // encountered an unrecoverable error
-					console.log('fatal', event);
-					reject(`Fatal error: ${event.message}`);
+					console.log('error', event.error);
+					reject(event.error);
 					break;
 				default:
-					throw Error(`Unknown rollup watch event code: ${event.code}`);
+					throw new UnreachableError(event);
 			}
 		});
 

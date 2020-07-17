@@ -29,7 +29,7 @@ export const bundleWriterPlugin = (pluginOptions: InitialPluginOptions): Plugin 
 
 	return {
 		name,
-		async writeBundle(bundle) {
+		async writeBundle(_outputOptions, bundle) {
 			info(blue('writeBundle'), Object.keys(bundle));
 			const bundleData = toBundleData(bundle, {srcPath, externalsPath});
 			const str = JSON.stringify(bundleData, null, 2);
