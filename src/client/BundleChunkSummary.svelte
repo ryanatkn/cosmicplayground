@@ -13,7 +13,7 @@
 
 	$: maxLength = Math.max(maxOriginalLength, maxRenderedLength);
 
-	const toLengthPct = n => (100 * n) / maxLength;
+	const toLengthPct = (n) => (100 * n) / maxLength;
 </script>
 
 <div>
@@ -24,10 +24,12 @@
 			<div class="absolute0 w-100 h-100">
 				<div
 					style="background-color: rgba(80, 180, 220, 0.2); width: {toLengthPct(mod.originalLength)}%;"
-					class="absolute h-100" />
+					class="absolute h-100"
+				/>
 				<div
 					style="background-color: rgba(220, 80, 180, 0.2); width: {toLengthPct(mod.renderedLength)}%;"
-					class="absolute h-100" />
+					class="absolute h-100"
+				/>
 			</div>
 			<div class="flex-1">{mod.path}</div>
 			<div>{mod.originalLength} → {mod.renderedLength}</div>

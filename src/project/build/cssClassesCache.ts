@@ -28,9 +28,7 @@ type CssClassCacheOp = [CssClass, boolean]; // `[cssClass, added]`, where `added
 // TODO investigate if initial setup can be sped up, to not do a lot of checks
 // maybe do defined first somehow? need to keep things simple tho
 
-export const createCssClassesCache = (
-	pluginOptions: InitialOptions = {},
-): CssClassesCache => {
+export const createCssClassesCache = (pluginOptions: InitialOptions = {}): CssClassesCache => {
 	const {logLevel} = defaultOptions(pluginOptions);
 
 	const {info, trace} = logger(logLevel, [green('[cssClassesCache]')]);
@@ -67,10 +65,7 @@ export const createCssClassesCache = (
 	const usedClassCounts: Map<CssClass, number> = new Map();
 	const definedClassCounts: Map<CssClass, number> = new Map();
 
-	const setUsedCssClasses = (
-		id: string,
-		classes: Set<CssClass> | undefined,
-	): void => {
+	const setUsedCssClasses = (id: string, classes: Set<CssClass> | undefined): void => {
 		if (classes && !classes.size) classes = undefined; // TODO are these the right semantics? so files that have no classes are same as nonexistent? probably
 		info(gray('setUsedCssClasses'), id);
 		const prevClasses = usedClassesById.get(id);
@@ -107,10 +102,7 @@ export const createCssClassesCache = (
 	// but there are some subtle differences around updating the undefined classes.
 	// For now we're opting for code duplication over abstraction.
 	// It'd be easy to abstract this logic into a callback once things are working.
-	const setDefinedCssClasses = (
-		id: string,
-		classes: Set<CssClass> | undefined,
-	): void => {
+	const setDefinedCssClasses = (id: string, classes: Set<CssClass> | undefined): void => {
 		if (classes && !classes.size) classes = undefined; // TODO are these the right semantics? so files that have no classes are same as nonexistent? probably
 		info(gray('setDefinedCssClasses'), id);
 		const prevClasses = definedClassesById.get(id);

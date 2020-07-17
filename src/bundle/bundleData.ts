@@ -15,10 +15,8 @@ export type BundleData = {
 	[fileName: string]: BundleChunk | BundleAsset;
 };
 
-export const toBundleData = (
-	outputBundle: OutputBundle,
-	meta: BundleChunkMeta,
-): BundleData => mapRecord(outputBundle, b => toBundleChunkOrAsset(b, meta));
+export const toBundleData = (outputBundle: OutputBundle, meta: BundleChunkMeta): BundleData =>
+	mapRecord(outputBundle, (b) => toBundleChunkOrAsset(b, meta));
 
 export const toBundleChunkOrAsset = (
 	chunkOrAsset: OutputChunk | OutputAsset,
@@ -41,9 +39,7 @@ export const toBundleChunkOrAsset = (
 // If only functions could return types! (ocaml modules?)
 const excludedChunkKeysDef = {code: null, map: null};
 type ExcludedChunkKeys = keyof typeof excludedChunkKeysDef;
-const excludedChunkKeys = Object.keys(
-	excludedChunkKeysDef,
-) as ExcludedChunkKeys[];
+const excludedChunkKeys = Object.keys(excludedChunkKeysDef) as ExcludedChunkKeys[];
 
 // Seems like the interface form is generally preferable -
 // they're lazy, which among other things has better display readability,
@@ -51,9 +47,7 @@ const excludedChunkKeys = Object.keys(
 // Collisions can just be manually omitted. (that's not why these are omitted)
 // export type BundleChunk = OmitStrict<OutputChunk, 'code' | 'map'> &
 // 	BundleChunkMeta;
-export interface BundleChunk
-	extends OmitStrict<OutputChunk, 'code' | 'map'>,
-		BundleChunkMeta {}
+export interface BundleChunk extends OmitStrict<OutputChunk, 'code' | 'map'>, BundleChunkMeta {}
 // TODO keeping this in sync isn't terrible, but it'd be nice to use codegen
 const bundleChunkKeyOrder: (keyof BundleChunk)[] = [
 	'name',
@@ -74,16 +68,12 @@ export interface BundleChunkMeta {
 
 const excludedAssetKeysDef = {code: null, source: null};
 type ExcludedAssetKeys = keyof typeof excludedAssetKeysDef;
-const excludedAssetKeys = Object.keys(
-	excludedAssetKeysDef,
-) as ExcludedAssetKeys[];
+const excludedAssetKeys = Object.keys(excludedAssetKeysDef) as ExcludedAssetKeys[];
 export type BundleAsset = OmitStrict<OutputAsset, 'code' | 'source'>;
 
 export const isOutputAsset = (c: OutputChunk | OutputAsset): c is OutputAsset =>
 	c.hasOwnProperty('isAsset');
-export const isOutputChunk = (c: OutputChunk | OutputAsset): c is OutputChunk =>
-	!isOutputAsset(c);
+export const isOutputChunk = (c: OutputChunk | OutputAsset): c is OutputChunk => !isOutputAsset(c);
 export const isBundleAsset = (c: BundleChunk | BundleAsset): c is BundleAsset =>
 	c.hasOwnProperty('isAsset');
-export const isBundleChunk = (c: BundleChunk | BundleAsset): c is BundleChunk =>
-	!isBundleAsset(c);
+export const isBundleChunk = (c: BundleChunk | BundleAsset): c is BundleChunk => !isBundleAsset(c);

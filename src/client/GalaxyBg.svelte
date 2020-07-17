@@ -24,14 +24,12 @@
 	$: animation = running ? '' : 'animation: none;';
 </script>
 
-<div
-	class="w-100 h-100 absolute overflow-hidden z-0"
-	style="opacity: {opacity};">
+<div class="w-100 h-100 absolute overflow-hidden z-0" style="opacity: {opacity};">
 	<div
 		class="bg"
-		style="{animation} width: {bgWidth}px; height: {bgHeight}px;
-		background-image: url({imageUrl}); background-size: {bgSizeStr};
-		animation-duration: {animationDuration};" />
+		style="{animation} width: {bgWidth}px; height: {bgHeight}px; background-image: url({imageUrl});
+		background-size: {bgSizeStr}; animation-duration: {animationDuration};"
+	/>
 </div>
 
 <style>

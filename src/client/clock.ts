@@ -7,9 +7,7 @@ import {writable, get} from 'svelte/store';
 // it'll never reach 0 subscribers and be cleaned up,
 // creating a memory leak. There might be better ways to do this.
 
-export const createClock = (
-	initialState: {time?: number; running?: boolean} = {},
-) => {
+export const createClock = (initialState: {time?: number; running?: boolean} = {}) => {
 	let lastTime: number | undefined;
 	let reqId: number | undefined;
 
@@ -29,7 +27,7 @@ export const createClock = (
 
 	const onTimer = (dt: number): void => {
 		logDroppedFrames(dt);
-		update(c => ({...c, time: c.time + dt, dt}));
+		update((c) => ({...c, time: c.time + dt, dt}));
 	};
 
 	const onFrame = (t: number): void => {
@@ -41,7 +39,7 @@ export const createClock = (
 	};
 
 	const resume = (): void => {
-		update(c => {
+		update((c) => {
 			if (c.running) return c;
 			lastTime = undefined;
 			reqId = requestAnimationFrame(onFrame);
@@ -49,7 +47,7 @@ export const createClock = (
 		});
 	};
 	const pause = (): void => {
-		update(c => {
+		update((c) => {
 			if (!c.running) return c;
 			if (reqId) cancelAnimationFrame(reqId);
 			return {...c, running: false};

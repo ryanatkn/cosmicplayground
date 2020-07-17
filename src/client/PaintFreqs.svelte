@@ -41,17 +41,11 @@
 	$: if (canvas && width && height) updateCanvas();
 
 	// TODO move to shared location? src/music/notes? colors?
-	const colorsByChroma = Array.from({length: 12}, (_, i) =>
-		hslToRgb(i / 12, 0.3, 0.5),
-	);
+	const colorsByChroma = Array.from({length: 12}, (_, i) => hslToRgb(i / 12, 0.3, 0.5));
 
 	// could debounce this if it's too slow on resize
 	const updateCanvas = () => {
-		if (
-			canvasData &&
-			canvasData.width === width &&
-			canvasData.height === height
-		) {
+		if (canvasData && canvasData.width === width && canvasData.height === height) {
 			return;
 		}
 		if (canvas.width !== width) canvas.width = width;
@@ -115,8 +109,7 @@
 	const VOLUME = 0.35; // TODO probably hook into global settings
 
 	$: freq = width ? calcFreq(pointerX, pointerY, width, height) : undefined;
-	$: if (osc && freq !== undefined)
-		osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+	$: if (osc && freq !== undefined) osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 	$: displayedFreq = freq === undefined ? '' : Math.round(freq);
 
 	const start = () => {
@@ -136,11 +129,7 @@
 	};
 	const stop = () => {
 		if (!osc) return;
-		gain.gain.setTargetAtTime(
-			0,
-			audioCtx.currentTime,
-			SMOOTH_GAIN_TIME_CONSTANT,
-		);
+		gain.gain.setTargetAtTime(0, audioCtx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
 		osc.stop(audioCtx.currentTime + SMOOTH_GAIN_TIME_CONSTANT * 2);
 		osc = undefined;
 		gain = undefined;
@@ -161,11 +150,9 @@
 
 	// TODO more cleanly handle touch/click - pointer events with polyfill for Safari? (probably using Svelte actions)
 	// or maybe support multiple touches? yeah...that makes sense here.
-	const pointerEventX = e =>
-		e.touches && e.touches.length ? e.touches[0].clientX : e.clientX;
-	const pointerEventY = e =>
-		e.touches && e.touches.length ? e.touches[0].clientY : e.clientY;
-	const handlePointerDown = e => {
+	const pointerEventX = (e) => (e.touches && e.touches.length ? e.touches[0].clientX : e.clientX);
+	const pointerEventY = (e) => (e.touches && e.touches.length ? e.touches[0].clientY : e.clientY);
+	const handlePointerDown = (e) => {
 		start();
 		pointerX = pointerEventX(e);
 		pointerY = pointerEventY(e);
@@ -174,11 +161,11 @@
 		lines.push(nextPoint);
 		lines = lines;
 	};
-	const handlePointerUp = e => {
+	const handlePointerUp = (e) => {
 		if (!audioCtx || !osc) return;
 		stop();
 	};
-	const handlePointerMove = e => {
+	const handlePointerMove = (e) => {
 		if (!audioCtx || !osc) return;
 		if (!e.altKey) pointerX = pointerEventX(e);
 		if (!e.shiftKey) pointerY = pointerEventY(e);
@@ -201,11 +188,7 @@
 			<defs>
 				<mask id="linePaths">
 					{#each lines as line (line.id)}
-						<polyline
-							points={line.points}
-							stroke="white"
-							stroke-width="5"
-							fill="none" />
+						<polyline points={line.points} stroke="white" stroke-width="5" fill="none" />
 					{/each}
 				</mask>
 			</defs>
@@ -218,7 +201,8 @@
 				cx={$spotPosition.x}
 				cy={$spotPosition.y}
 				r={30}
-				filter="url(#blurOuter)" />
+				filter="url(#blurOuter)"
+			/>
 			<circle class="inner" cx={$spotPosition.x} cy={$spotPosition.y} r={2} />
 		</svg>
 	{/if}
@@ -226,8 +210,7 @@
 		<canvas id="bg-canvas" class="absolute0 z-1" bind:this={canvas} />
 	{/if}
 	{#if displayedFreq}
-		<div
-			class="freq w-100 absolute z-1 flex items-start justify-center l-0 b-4">
+		<div class="freq w-100 absolute z-1 flex items-start justify-center l-0 b-4">
 			<div>
 				{displayedFreq}
 				<span class="unit">hz</span>
@@ -245,7 +228,8 @@
 		on:touchcancel|stopPropagation|preventDefault={handlePointerUp}
 		on:touchmove|stopPropagation|preventDefault={handlePointerMove}
 		bind:clientWidth={width}
-		bind:clientHeight={height} />
+		bind:clientHeight={height}
+	/>
 	<div id="controls" class="absolute z-4 b-0 l-0">
 		<div class="button" on:click|stopPropagation|preventDefault={clear}>↻</div>
 	</div>

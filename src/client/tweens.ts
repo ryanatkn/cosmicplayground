@@ -7,16 +7,10 @@ import {svelteEasings} from './easings';
 // to compose a dynamic list of tweens based on the provided
 // easing function names.
 // TODO optimize to not use N tweens by rewriting `tweened`
-export const createTweens = (
-	duration: number,
-	easings = svelteEasings,
-	initialValue = 0,
-) => {
+export const createTweens = (duration: number, easings = svelteEasings, initialValue = 0) => {
 	//console.log('create tweens, duration:', duration);
 	// {duration: number, easing: Function}[]
-	let tweens = easings.map(easing =>
-		tweened(initialValue, {duration, easing: easing.fn}),
-	);
+	let tweens = easings.map((easing) => tweened(initialValue, {duration, easing: easing.fn}));
 
 	// TODO I think the Svelte `Stores` type needs fixing
 	// declare type Stores = Readable<any> |[Readable<any>, ...Array<Readable<any>>];
@@ -37,7 +31,7 @@ export const createTweens = (
 		// TODO options type
 		set: (value: number, options: any) => {
 			//console.log('setting value for tweens:', value, options);
-			const promises = tweens.map(t => t.set(value, options));
+			const promises = tweens.map((t) => t.set(value, options));
 			return promises;
 		},
 	};

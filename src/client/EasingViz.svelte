@@ -38,7 +38,7 @@
 
 	let timeout;
 	const loopPadding = 300; // time to wait between loops
-	const loop = time => {
+	const loop = (time) => {
 		timeout = setTimeout(() => {
 			toggle = !toggle;
 			loop(duration + loopPadding);
@@ -69,7 +69,7 @@
 	const translateWidth = 300;
 	const translateDistance = translateWidth - graphicWidth;
 
-	const isVisible = tween => {
+	const isVisible = (tween) => {
 		//console.log("isVisible", view);
 		switch (view) {
 			case 'all':
@@ -80,8 +80,7 @@
 				return !selected[tween.name];
 		}
 	};
-	const getColor = (index, opacity = 0.8) =>
-		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
+	const getColor = (index, opacity = 0.8) => `hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 
 	/*
   let filteredTweens;
@@ -100,18 +99,10 @@
 
 <section class="controls">
 	<div class="controls-group">
-		<button
-			class="loop-button"
-			on:click={() => (playing = !playing)}
-			type="button">
+		<button class="loop-button" on:click={() => (playing = !playing)} type="button">
 			{playing ? 'pause' : 'play'}
 		</button>
-		<button
-			class="toggle-button"
-			on:click={() => (toggle = !toggle)}
-			type="button">
-			toggle
-		</button>
+		<button class="toggle-button" on:click={() => (toggle = !toggle)} type="button">toggle</button>
 		<select bind:value={view}>
 			{#each views as view (view)}
 				<option value={view}>view {view}</option>
@@ -119,12 +110,7 @@
 		</select>
 	</div>
 	<div class="controls-group">
-		<input
-			type="range"
-			bind:value={duration}
-			min={(2 * 1000) / 60}
-			max={6000}
-			step={1000 / 60} />
+		<input type="range" bind:value={duration} min={(2 * 1000) / 60} max={6000} step={1000 / 60} />
 		<div class="pl-2">
 			<div>
 				{Math.round(duration)}
@@ -138,29 +124,28 @@
 <section>
 	{#each $tweens as item, i (item.name)}
 		{#if isVisible(item)}
-			<div
-				class="item"
-				style="width: {translateWidth}px; background-color: {getColor(i, 0.1)};">
+			<div class="item" style="width: {translateWidth}px; background-color: {getColor(i, 0.1)};">
 				<div
 					class="item-graphic-scale"
-					style="transform: scale3d({item.value}, {item.value}, 1); width: {graphicWidth}px;
-					height: {graphicHeight}px; background-color: {getColor(i)};" />
+					style="transform: scale3d({item.value}, {item.value}, 1); width: {graphicWidth}px; height:
+					{graphicHeight}px; background-color: {getColor(i)};"
+				/>
 				<div
 					class="item-graphic-rotate"
 					style="transform: rotate({item.value * 180}deg); height: {graphicHeight}px;
-					background-color: {getColor(i)};" />
+					background-color: {getColor(i)};"
+				/>
 				<div
-					style="transform: translate3d({item.value * translateDistance}px, 0,
-					0); width: {graphicWidth}px; height: {graphicHeight}px;
-					background-color: {getColor(i)};" />
+					style="transform: translate3d({item.value * translateDistance}px, 0, 0); width: {graphicWidth}px;
+					height: {graphicHeight}px; background-color: {getColor(i)};"
+				/>
 				<label class="item-label" style="color: {getColor(i)};">
 					<input
 						type="checkbox"
 						checked={selected[item.name]}
-						on:change={() => (selected[item.name] = !selected[item.name])} />
-					<span style="list-style: {selected[item.name] ? 'circle' : 'none'}">
-						{item.name}
-					</span>
+						on:change={() => (selected[item.name] = !selected[item.name])}
+					/>
+					<span style="list-style: {selected[item.name] ? 'circle' : 'none'}">{item.name}</span>
 				</label>
 			</div>
 		{/if}

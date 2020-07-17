@@ -11,21 +11,10 @@
 export type CssPropertiesData = (string | [string, string])[];
 
 // position
-export const position: CssPropertiesData = [
-	'static',
-	'relative',
-	'absolute',
-	'fixed',
-	'sticky',
-];
+export const position: CssPropertiesData = ['static', 'relative', 'absolute', 'fixed', 'sticky'];
 
 // display
-export const display: CssPropertiesData = [
-	'block',
-	'flex',
-	'inline',
-	'inline-block',
-];
+export const display: CssPropertiesData = ['block', 'flex', 'inline', 'inline-block'];
 
 // overflow
 export const overflow: CssPropertiesData = [
@@ -39,12 +28,7 @@ export const overflow: CssPropertiesData = [
 // font-weight
 // TODO consider supporting numerical weight?
 // https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
-export const fontWeight: CssPropertiesData = [
-	'normal',
-	'bold',
-	'lighter',
-	'bolder',
-];
+export const fontWeight: CssPropertiesData = ['normal', 'bold', 'lighter', 'bolder'];
 
 // text-decoration
 // TODO text-decoration-color

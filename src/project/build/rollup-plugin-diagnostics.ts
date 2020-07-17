@@ -9,13 +9,8 @@ export interface PluginOptions {
 	logLevel: LogLevel;
 }
 export type RequiredPluginOptions = never;
-export type InitialPluginOptions = PartialExcept<
-	PluginOptions,
-	RequiredPluginOptions
->;
-export const defaultPluginOptions = (
-	initialOptions: InitialPluginOptions,
-): PluginOptions => ({
+export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
+export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
 	logLevel: LogLevel.Info,
 	...omitUndefined(initialOptions),
 });
@@ -24,9 +19,7 @@ const name = 'diagnostics';
 
 const tag = (s: string) => s; // maybe color this
 
-export const diagnosticsPlugin = (
-	pluginOptions: InitialPluginOptions = {},
-): Plugin => {
+export const diagnosticsPlugin = (pluginOptions: InitialPluginOptions = {}): Plugin => {
 	const {logLevel} = defaultPluginOptions(pluginOptions);
 
 	const {trace, info} = logger(logLevel, [gray(`[${name}]`)]);
@@ -77,20 +70,12 @@ export const diagnosticsPlugin = (
 		// resolveDynamicImport(_specifier, _importer) {}
 		// resolveFileUrl(_asset) {}
 		resolveId(importee, importer) {
-			trace(
-				tag('resolveId'),
-				gray(importee),
-				(importer && gray('<- ' + importer)) || '',
-			);
+			trace(tag('resolveId'), gray(importee), (importer && gray('<- ' + importer)) || '');
 			return null;
 		},
 		// resolveImportMeta(_property, _asset) {}
 		transform(code, id) {
-			trace(
-				tag('transform'),
-				gray(id),
-				fmtVal('len', (code && code.length) || 0),
-			);
+			trace(tag('transform'), gray(id), fmtVal('len', (code && code.length) || 0));
 			return null;
 		},
 		watchChange(id) {

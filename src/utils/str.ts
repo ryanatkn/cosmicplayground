@@ -1,8 +1,4 @@
-export const truncate = (
-	str: string,
-	maxLength: number,
-	suffix = '...',
-): string => {
+export const truncate = (str: string, maxLength: number, suffix = '...'): string => {
 	if (str.length > maxLength) {
 		return str.slice(0, maxLength - suffix.length) + suffix;
 	}

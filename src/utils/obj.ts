@@ -12,10 +12,7 @@ export const mapRecord = <T, K extends string | number, U>(
 	return result;
 };
 
-export const omit = <
-	T extends Partial<Record<K, any>>,
-	K extends string | number
->(
+export const omit = <T extends Partial<Record<K, any>>, K extends string | number>(
 	obj: T,
 	keys: K[],
 ): OmitStrict<T, K> => {
@@ -31,10 +28,7 @@ export const omit = <
 	return result;
 };
 
-export const omitUndefined = <
-	T extends Partial<Record<K, any>>,
-	K extends string | number
->(
+export const omitUndefined = <T extends Partial<Record<K, any>>, K extends string | number>(
 	obj: T,
 ): T => {
 	const result = {} as T;
@@ -48,10 +42,7 @@ export const omitUndefined = <
 };
 
 // A more explicit form of `{putThisFirst: obj.putThisFirst, ...obj}`
-export const reorder = <
-	T extends Partial<Record<K, any>>,
-	K extends string | number
->(
+export const reorder = <T extends Partial<Record<K, any>>, K extends string | number>(
 	obj: T,
 	keys: K[],
 ): T => {

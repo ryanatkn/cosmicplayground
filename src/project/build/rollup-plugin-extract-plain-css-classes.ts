@@ -28,13 +28,8 @@ export interface PluginOptions {
 	logLevel: LogLevel;
 }
 export type RequiredPluginOptions = 'cacheCss' | 'cssClasses';
-export type InitialPluginOptions = PartialExcept<
-	PluginOptions,
-	RequiredPluginOptions
->;
-export const defaultPluginOptions = (
-	initialOptions: InitialPluginOptions,
-): PluginOptions => ({
+export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
+export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
 	removeUnusedClasses: false,
 	include: ['**/*.css'],
 	exclude: undefined,
@@ -44,9 +39,7 @@ export const defaultPluginOptions = (
 
 export const name = 'extract-plain-css-classes';
 
-export const extractPlainCssClassesPlugin = (
-	pluginOptions: InitialPluginOptions,
-): Plugin => {
+export const extractPlainCssClassesPlugin = (pluginOptions: InitialPluginOptions): Plugin => {
 	const {
 		cacheCss,
 		cssClasses,

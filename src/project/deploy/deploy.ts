@@ -61,26 +61,23 @@ const createDeployCommand = (): string => {
 	const p = createPaths();
 
 	const serverHost = `${SERVER_USER}@${SERVER_IP}`;
-	const ssh = `ssh ${serverHost}${
-		SERVER_SSH_PORT ? ` -p ${SERVER_SSH_PORT}` : ''
-	}`;
+	const ssh = `ssh ${serverHost}${SERVER_SSH_PORT ? ` -p ${SERVER_SSH_PORT}` : ''}`;
 
-	const createTarball = `tar -czf ${p.localTarball} -C ${
-		paths.build
-	} ${fp.relative(paths.build, paths.buildDist)}`;
+	const createTarball = `tar -czf ${p.localTarball} -C ${paths.build} ${fp.relative(
+		paths.build,
+		paths.buildDist,
+	)}`;
 
-	const scpTarball = `scp ${
-		SERVER_SSH_PORT ? `-P ${SERVER_SSH_PORT}` : ''
-	} -p ${p.localTarball} ${serverHost}:${p.remoteApp}`;
+	const scpTarball = `scp ${SERVER_SSH_PORT ? `-P ${SERVER_SSH_PORT}` : ''} -p ${
+		p.localTarball
+	} ${serverHost}:${p.remoteApp}`;
 
 	const setupServer = [
 		`rm -rf ${p.remoteDist}`,
 		`tar -xzf ${p.remoteTarball} -C ${p.remoteApp}`,
 	].join(' && ');
 
-	const command = [createTarball, scpTarball, `${ssh} '${setupServer}'`].join(
-		' && ',
-	);
+	const command = [createTarball, scpTarball, `${ssh} '${setupServer}'`].join(' && ');
 
 	return command;
 };
@@ -89,19 +86,13 @@ const createPaths = (): Record<string, string> => {
 	const remoteApp = '/var/www/cosmicplayground.org';
 	const tarFileName = 'dist.tar.gz';
 
-	const remoteDist = fp.join(
-		remoteApp,
-		fp.relative(paths.build, paths.buildDist),
-	);
+	const remoteDist = fp.join(remoteApp, fp.relative(paths.build, paths.buildDist));
 
 	const p = {
 		remoteApp,
 		tarFileName,
 		remoteDist,
-		remoteDistClient: fp.join(
-			remoteDist,
-			fp.relative(paths.buildDist, paths.buildDistClient),
-		),
+		remoteDistClient: fp.join(remoteDist, fp.relative(paths.buildDist, paths.buildDistClient)),
 		remoteTarball: fp.join(remoteApp, tarFileName),
 		localTarball: fp.join(paths.build, tarFileName),
 	};
@@ -112,11 +103,9 @@ const createPaths = (): Record<string, string> => {
 runDeploy()
 	.then(() => {
 		console.log(
-			[
-				rainbow('~~~~~~~~~~~~~~~~'),
-				rainbow('~❤~ deployed ~❤~'),
-				rainbow('~~~~~~~~~~~~~~~~'),
-			].join('\n'),
+			[rainbow('~~~~~~~~~~~~~~~~'), rainbow('~❤~ deployed ~❤~'), rainbow('~~~~~~~~~~~~~~~~')].join(
+				'\n',
+			),
 		);
 		if (dry) console.log(magenta('dry run complete'));
 	})

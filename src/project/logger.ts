@@ -19,21 +19,9 @@ export enum LogLevel {
 	Error,
 }
 
-export const logger = (
-	level: LogLevel,
-	prefixes: any[] = [],
-	suffixes: any[] = [],
-): Logger => {
-	const log = (levelPrefixes: any[], levelSuffixes: any[] = []) => (
-		...args: any[]
-	) => {
-		console.log(
-			...levelPrefixes,
-			...prefixes,
-			...args,
-			...suffixes,
-			...levelSuffixes,
-		);
+export const logger = (level: LogLevel, prefixes: any[] = [], suffixes: any[] = []): Logger => {
+	const log = (levelPrefixes: any[], levelSuffixes: any[] = []) => (...args: any[]) => {
+		console.log(...levelPrefixes, ...prefixes, ...args, ...suffixes, ...levelSuffixes);
 	};
 	return {
 		trace: LogLevel.Trace >= level ? log([gray('-')]) : noop,
@@ -63,5 +51,5 @@ export const fmtMs = (ms: number, decimals = 1): string => {
 };
 
 export const fmtCauses = (solutions: string[]): string => {
-	return '\n	Possible causes:' + solutions.map(s => `\n		• ${s}`).join('');
+	return '\n	Possible causes:' + solutions.map((s) => `\n		• ${s}`).join('');
 };

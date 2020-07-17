@@ -10,7 +10,7 @@ export const sy = (config: SyConfig): SyBuild => {
 		defs,
 		styles:
 			(banner || defaultBanner)(config) +
-			defs.map(d => d.rule).join('') +
+			defs.map((d) => d.rule).join('') +
 			(footer || defaultFooter)(config),
 	};
 };

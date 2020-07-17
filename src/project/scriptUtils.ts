@@ -29,14 +29,12 @@ export const rainbow = (str: string): string =>
 		.join('');
 
 export const cwd = fs.realpathSync(process.cwd());
-export const resolvePath = (relativePath: string): string =>
-	fp.resolve(cwd, relativePath);
+export const resolvePath = (relativePath: string): string => fp.resolve(cwd, relativePath);
 
 export const replaceExt = (path: string, ext: string): string =>
 	path.slice(0, -fp.extname(path).length) + ext;
 
-export const extractFilename = (path: string): string =>
-	replaceExt(fp.basename(path), '');
+export const extractFilename = (path: string): string => replaceExt(fp.basename(path), '');
 
 export const timeTracker = (decimals = 2) => {
 	let start = process.hrtime.bigint();

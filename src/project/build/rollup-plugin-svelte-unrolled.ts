@@ -1,11 +1,6 @@
 import {compile} from 'svelte/compiler';
 import {CompileOptions} from 'svelte/types/compiler/interfaces';
-import {
-	Plugin,
-	PluginContext,
-	RollupWarning,
-	ExistingRawSourceMap,
-} from 'rollup';
+import {Plugin, PluginContext, RollupWarning, ExistingRawSourceMap} from 'rollup';
 import {createFilter} from 'rollup-pluginutils';
 import {magenta} from 'kleur';
 
@@ -24,10 +19,7 @@ interface Stats {
 	};
 }
 // TODO type belongs upstream - augmented for better safety
-export type SvelteCompilation = OmitStrict<
-	ReturnType<typeof compile>,
-	'js' | 'css' | 'stats'
-> & {
+export type SvelteCompilation = OmitStrict<ReturnType<typeof compile>, 'js' | 'css' | 'stats'> & {
 	js: {
 		code: string;
 		map: string | {mappings: ''} | ExistingRawSourceMap | undefined;
@@ -67,13 +59,8 @@ export interface PluginOptions {
 		  ) => void);
 }
 export type RequiredPluginOptions = 'dev' | 'cacheCss';
-export type InitialPluginOptions = PartialExcept<
-	PluginOptions,
-	RequiredPluginOptions
->;
-export const defaultPluginOptions = (
-	initialOptions: InitialPluginOptions,
-): PluginOptions => ({
+export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
+export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
 	include: ['src/**/*.svelte'],
 	exclude: undefined,
 	compileOptions: {},
@@ -109,9 +96,7 @@ export interface SvelteUnrolledPlugin extends Plugin {
 
 export const name = 'svelte-unrolled';
 
-export const svelteUnrolledPlugin = (
-	pluginOptions: InitialPluginOptions,
-): SvelteUnrolledPlugin => {
+export const svelteUnrolledPlugin = (pluginOptions: InitialPluginOptions): SvelteUnrolledPlugin => {
 	const {
 		dev,
 		cacheCss,
@@ -131,8 +116,7 @@ export const svelteUnrolledPlugin = (
 			fmtVal('stats', toRootPath(id)),
 			...[
 				fmtVal('total', fmtMs(stats.timings.total)),
-				stats.timings.parse &&
-					fmtVal('parse', fmtMs(stats.timings.parse.total)),
+				stats.timings.parse && fmtVal('parse', fmtMs(stats.timings.parse.total)),
 				stats.timings['create component'] &&
 					fmtVal('create', fmtMs(stats.timings['create component'].total)),
 			].filter(Boolean),

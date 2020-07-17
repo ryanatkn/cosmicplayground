@@ -16,10 +16,7 @@ export const arrayOf = <T = number>(n: number, fn?: (n: number) => T): T[] => {
 };
 
 // TODO remove these when Edge catches up - https://caniuse.com/#feat=array-flat
-export const flatMap = <T, U>(
-	arr: T[],
-	fn: (t: T, i: number) => U | U[],
-): U[] => {
+export const flatMap = <T, U>(arr: T[], fn: (t: T, i: number) => U | U[]): U[] => {
 	const result: U[] = [];
 	for (let i = 0; i < arr.length; i++) {
 		const u = fn(arr[i], i);

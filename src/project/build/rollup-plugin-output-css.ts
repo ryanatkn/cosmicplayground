@@ -33,13 +33,8 @@ export interface PluginOptions {
 	cssClasses: CssClassesCache | undefined;
 }
 export type RequiredPluginOptions = never;
-export type InitialPluginOptions = PartialExcept<
-	PluginOptions,
-	RequiredPluginOptions
->;
-export const defaultPluginOptions = (
-	initialOptions: InitialPluginOptions,
-): PluginOptions => ({
+export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
+export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
 	sourcemap: false,
 	logLevel: LogLevel.Info,
 	cssClasses: undefined,
@@ -53,9 +48,7 @@ export interface PlainCssPlugin extends Plugin {
 export const name = 'output-css';
 
 // TODO this really just outputs css - but it'll probably be refactored
-export const outputCssPlugin = (
-	pluginOptions: InitialPluginOptions,
-): PlainCssPlugin => {
+export const outputCssPlugin = (pluginOptions: InitialPluginOptions): PlainCssPlugin => {
 	const {sourcemap, logLevel, cssClasses} = defaultPluginOptions(pluginOptions);
 
 	const log = logger(logLevel, [blue(`[${name}]`)]);
@@ -65,11 +58,7 @@ export const outputCssPlugin = (
 	// and the value is css by id.
 	// Return a bool indicating if the cache was updated.
 	const bundles = new Map<string, CssBundle>();
-	const cacheCss = (
-		bundleName: string,
-		id: string,
-		build: CssBuild,
-	): boolean => {
+	const cacheCss = (bundleName: string, id: string, build: CssBuild): boolean => {
 		let bundle = bundles.get(bundleName);
 		if (!bundle) {
 			bundle = {bundleName, buildsById: new Map(), changedIds: new Set()};
@@ -142,13 +131,12 @@ export const outputCssPlugin = (
 
 				if (sources.length) {
 					const sourcemapDest = dest + '.map';
-					const finalCss =
-						css + `\n/*# sourceMappingURL=${bundleName}.map */\n`;
+					const finalCss = css + `\n/*# sourceMappingURL=${bundleName}.map */\n`;
 					const cssSourcemap = JSON.stringify(
 						{
 							version: 3,
 							file: bundleName,
-							sources: sources.map(s => fp.relative(outDir, s)),
+							sources: sources.map((s) => fp.relative(outDir, s)),
 							sourcesContent,
 							names: [],
 							mappings: encode(mappings),
@@ -158,10 +146,7 @@ export const outputCssPlugin = (
 					);
 
 					info('writing css bundle and sourcemap', dest);
-					await Promise.all([
-						outputFile(dest, finalCss),
-						outputFile(sourcemapDest, cssSourcemap),
-					]);
+					await Promise.all([outputFile(dest, finalCss), outputFile(sourcemapDest, cssSourcemap)]);
 				} else {
 					info('writing css bundle', dest);
 					await outputFile(dest, css);
@@ -229,30 +214,27 @@ const toFinalCode = (
 		...ast,
 		children:
 			ast.children &&
-			ast.children.reduce(
-				(rules, rule) => {
-					// skip if whole rule is ignored
-					if (rulesToRemove.has(rule)) {
+			ast.children.reduce((rules, rule) => {
+				// skip if whole rule is ignored
+				if (rulesToRemove.has(rule)) {
+					return rules;
+				}
+
+				// remove any appropriate children in the selector list
+				if (rule.selector && rule.selector.children) {
+					rule.selector.children = rule.selector.children.filter(
+						(c: Node) => !selectorsToRemove.has(c),
+					);
+					// remove the whole thing if there are no rules left
+					if (rule.selector.children.length === 0) {
 						return rules;
 					}
+				}
 
-					// remove any appropriate children in the selector list
-					if (rule.selector && rule.selector.children) {
-						rule.selector.children = rule.selector.children.filter(
-							(c: Node) => !selectorsToRemove.has(c),
-						);
-						// remove the whole thing if there are no rules left
-						if (rule.selector.children.length === 0) {
-							return rules;
-						}
-					}
-
-					// add the rule, because nothing short-circuited
-					rules.push(rule);
-					return rules;
-				},
-				[] as Node[],
-			),
+				// add the rule, because nothing short-circuited
+				rules.push(rule);
+				return rules;
+			}, [] as Node[]),
 	};
 
 	const trimmedCode = translate(fromPlainObject(trimmedAst));

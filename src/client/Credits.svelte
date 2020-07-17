@@ -6,25 +6,21 @@
 <h3>credits</h3>
 <section>
 	<CreditsItem>
-		CPG's code and original assets are permissively licensed under the
-		permissive
-		<a href="https://github.com/ryanatkn/cosmicplayground/tree/master/license">
-			ISC license
-		</a>
-		. The project also uses the assets listed below. See the included links for
-		more about the copyright holders.
+		CPG's code and original assets are permissively licensed under the permissive
+		<a href="https://github.com/ryanatkn/cosmicplayground/tree/master/license">ISC license</a>
+		. The project also uses the assets listed below. See the included links for more about the
+		copyright holders.
 	</CreditsItem>
 	<CreditsItem>
 		<div>
 			<ImgLink
 				src="assets/space/galaxies.jpg"
 				alt="Hubble sees galaxies galore"
-				imgStyle="width: 200px;" />
+				imgStyle="width: 200px;"
+			/>
 		</div>
 		<em>galaxies background image credit:</em>
-		<a href="https://www.spacetelescope.org/images/heic0406a/">
-			Hubble sees galaxies galore
-		</a>
+		<a href="https://www.spacetelescope.org/images/heic0406a/">Hubble sees galaxies galore</a>
 		-
 		<a href="https://www.nasa.gov/">NASA</a>
 		,
@@ -35,15 +31,11 @@
 	</CreditsItem>
 	<CreditsItem>
 		<div>
-			<ImgLink
-				alt="construction idea"
-				src="assets/construction/person-dig-idea.gif" />
+			<ImgLink alt="construction idea" src="assets/construction/person-dig-idea.gif" />
 			<ImgLink alt="construction mammal" src="assets/construction/mammal.gif" />
 		</div>
 		<em>under construction gifs credit:</em>
-		<a href="http://textfiles.com/underconstruction/">
-			http://textfiles.com/underconstruction/
-		</a>
+		<a href="http://textfiles.com/underconstruction/">http://textfiles.com/underconstruction/</a>
 	</CreditsItem>
 	<CreditsItem>
 		<div>

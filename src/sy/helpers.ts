@@ -1,10 +1,7 @@
 import {SyDef, CssClass, CssSelector, CssDeclaration, SyConfig} from './sy';
 import {UnreachableError} from '../utils/types';
 
-export const classDef = (
-	className: CssClass,
-	declaration: CssDeclaration,
-): SyDef => {
+export const classDef = (className: CssClass, declaration: CssDeclaration): SyDef => {
 	return {
 		type: 'class',
 		className,
@@ -14,9 +11,7 @@ export const classDef = (
 };
 
 export const classDefs = (defs: Record<CssClass, CssDeclaration>): SyDef[] =>
-	Object.entries(defs).map(([className, declaration]) =>
-		classDef(className, declaration),
-	);
+	Object.entries(defs).map(([className, declaration]) => classDef(className, declaration));
 
 // `props` can be a string that's directly mapped
 // from css property value to css class suffix,
@@ -27,19 +22,13 @@ export const propsToClassDefs = (
 	propName: string,
 	classPrefix = propName,
 ): SyDef[] =>
-	props.map(p =>
+	props.map((p) =>
 		typeof p === 'string'
 			? classDef(classPrefix ? `${classPrefix}-${p}` : p, `${propName}: ${p}`)
-			: classDef(
-					classPrefix ? `${classPrefix}-${p[1]}` : p[1],
-					`${propName}: ${p[0]}`,
-			  ),
+			: classDef(classPrefix ? `${classPrefix}-${p[1]}` : p[1], `${propName}: ${p[0]}`),
 	);
 
-export const selectorDef = (
-	selector: CssSelector,
-	declaration: CssDeclaration,
-): SyDef => {
+export const selectorDef = (selector: CssSelector, declaration: CssDeclaration): SyDef => {
 	return {
 		type: 'selector',
 		selector,
@@ -48,20 +37,13 @@ export const selectorDef = (
 	};
 };
 
-export const selectorDefs = (
-	defs: Record<CssSelector, CssDeclaration>,
-): SyDef[] =>
-	Object.entries(defs).map(([selector, declaration]) =>
-		selectorDef(selector, declaration),
-	);
+export const selectorDefs = (defs: Record<CssSelector, CssDeclaration>): SyDef[] =>
+	Object.entries(defs).map(([selector, declaration]) => selectorDef(selector, declaration));
 
-export const removeClasses = (
-	config: SyConfig,
-	classes: Set<CssClass>,
-): SyConfig => {
+export const removeClasses = (config: SyConfig, classes: Set<CssClass>): SyConfig => {
 	return {
 		...config,
-		defs: config.defs.filter(def => {
+		defs: config.defs.filter((def) => {
 			switch (def.type) {
 				case 'class': {
 					return classes.has(def.className);

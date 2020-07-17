@@ -53,7 +53,8 @@
 			<div
 				class="flex-1 flex justify-center py-2 cursor-pointer {activeView === view.name ? 'font-bold' : ''}"
 				on:click={() => (activeView = view.name)}
-				class:active={activeView === view.name}>
+				class:active={activeView === view.name}
+			>
 				<!-- TODO ergonomic way of active class with sy? -->
 				{view.title}
 			</div>

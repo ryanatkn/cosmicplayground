@@ -26,13 +26,8 @@ export interface PluginOptions {
 	logLevel: LogLevel;
 }
 export type RequiredPluginOptions = 'dev' | 'cacheCss' | 'cssClasses';
-export type InitialPluginOptions = PartialExcept<
-	PluginOptions,
-	RequiredPluginOptions
->;
-export const defaultPluginOptions = (
-	initialOptions: InitialPluginOptions,
-): PluginOptions => ({
+export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
+export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
 	include: ['src/**/sy.config.ts'],
 	exclude: undefined,
 	removeUnusedClasses: !initialOptions.dev,
@@ -136,9 +131,7 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 							' Or maybe there are just no classes yet!',
 					);
 				}
-				const finalConfig = removeUnusedClasses
-					? removeClasses(config, usedClasses)
-					: config;
+				const finalConfig = removeUnusedClasses ? removeClasses(config, usedClasses) : config;
 
 				// warn about undefined classes
 				if (warnUndefinedClasses && !usedClasses.size) {
@@ -229,17 +222,11 @@ const createSyBuild = (
 	# characters: ${build.styles.length}`,
 	);
 
-	const formattedBuild = format
-		? formatBuild(build, log, prettierOptions)
-		: build;
+	const formattedBuild = format ? formatBuild(build, log, prettierOptions) : build;
 	return formattedBuild;
 };
 
-const formatBuild = (
-	build: SyBuild,
-	log: Logger,
-	prettierOptions: prettier.Options,
-): SyBuild => {
+const formatBuild = (build: SyBuild, log: Logger, prettierOptions: prettier.Options): SyBuild => {
 	log.info('formatting...');
 	const formatted = {
 		...build,

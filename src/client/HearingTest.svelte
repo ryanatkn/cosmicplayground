@@ -37,8 +37,7 @@
 		return mix(freqMin, freqMax, value / max);
 	};
 
-	$: volume =
-		pointerY >= 0 && height ? calcVolume(pointerY, height) : undefined;
+	$: volume = pointerY >= 0 && height ? calcVolume(pointerY, height) : undefined;
 	$: displayedVolume = volume === undefined ? '' : Math.round(volume * 100);
 	$: if (gain && volume !== undefined) {
 		gain.gain.setTargetAtTime(
@@ -65,11 +64,7 @@
 	};
 	const stop = () => {
 		if (!osc) return;
-		gain.gain.setTargetAtTime(
-			0,
-			audioCtx.currentTime,
-			SMOOTH_GAIN_TIME_CONSTANT,
-		);
+		gain.gain.setTargetAtTime(0, audioCtx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
 		osc.stop(audioCtx.currentTime + SMOOTH_GAIN_TIME_CONSTANT * 2);
 		osc = undefined;
 		gain = undefined;
@@ -79,20 +74,18 @@
 
 	// TODO more cleanly handle touch/click - pointer events with polyfill for Safari? (probably using Svelte actions)
 	// or maybe support multiple touches? yeah...that makes sense here.
-	const pointerEventX = e =>
-		e.touches && e.touches.length ? e.touches[0].clientX : e.clientX;
-	const pointerEventY = e =>
-		e.touches && e.touches.length ? e.touches[0].clientY : e.clientY;
-	const handlePointerDown = e => {
+	const pointerEventX = (e) => (e.touches && e.touches.length ? e.touches[0].clientX : e.clientX);
+	const pointerEventY = (e) => (e.touches && e.touches.length ? e.touches[0].clientY : e.clientY);
+	const handlePointerDown = (e) => {
 		start();
 		pointerX = pointerEventX(e);
 		pointerY = pointerEventY(e);
 	};
-	const handlePointerUp = e => {
+	const handlePointerUp = (e) => {
 		if (!audioCtx || !osc) return;
 		stop();
 	};
-	const handlePointerMove = e => {
+	const handlePointerMove = (e) => {
 		if (!audioCtx || !osc) return;
 		pointerX = pointerEventX(e);
 		pointerY = pointerEventY(e);
@@ -110,7 +103,8 @@
 				cx={$spotPosition.x}
 				cy={$spotPosition.y}
 				r={20}
-				filter="url(#blurOuter)" />
+				filter="url(#blurOuter)"
+			/>
 			<circle class="inner" cx={$spotPosition.x} cy={$spotPosition.y} r={2} />
 		</svg>
 	{/if}
@@ -141,7 +135,8 @@
 		on:touchcancel|stopPropagation|preventDefault={handlePointerUp}
 		on:touchmove|stopPropagation|preventDefault={handlePointerMove}
 		bind:clientWidth={width}
-		bind:clientHeight={height} />
+		bind:clientHeight={height}
+	/>
 </div>
 
 <style>

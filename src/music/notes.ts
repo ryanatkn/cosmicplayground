@@ -38,20 +38,18 @@ export type Semitones = number; // TODO enumerate all possible? it's basically a
 // TODO consider converting all of these to `Map`s
 // TODO do we want to remove the `midi` part of these data array names, or otherwise rename them?
 // maybe instead of `midiFoos`, rename to `noteFoos`?
-export const midiChromas: Chroma[] = Object.freeze(
-	midis.map(m => m % 12),
-) as Chroma[];
+export const midiChromas: Chroma[] = Object.freeze(midis.map((m) => m % 12)) as Chroma[];
 export const midiPcs: PitchClass[] = Object.freeze(
-	midis.map(m => pitchClasses[midiChromas[m]]),
+	midis.map((m) => pitchClasses[midiChromas[m]]),
 ) as PitchClass[];
 export const midiOctaves: Octave[] = Object.freeze(
-	midis.map(m => Math.floor(m / 12) - 1),
+	midis.map((m) => Math.floor(m / 12) - 1),
 ) as Octave[];
 export const midiNames: NoteName[] = Object.freeze(
-	midis.map(m => midiPcs[m] + midiOctaves[m]),
+	midis.map((m) => midiPcs[m] + midiOctaves[m]),
 ) as NoteName[];
 export const midiNaturals: boolean[] = Object.freeze(
-	midis.map(m => midiPcs[m][1] !== NOTE_SHARP_SYMBOL),
+	midis.map((m) => midiPcs[m][1] !== NOTE_SHARP_SYMBOL),
 ) as boolean[];
 
 export const transpose = (midi: Midi, semitones: Semitones): Midi => {
@@ -64,28 +62,18 @@ export const transpose = (midi: Midi, semitones: Semitones): Midi => {
 
 // TODO the hue shouldn't be hardcoded from the chroma - this relationship should be user-customizable (`app.colors` or `app.audio.colors` or something)
 export const noteChromaToHue = Object.freeze(
-	chromas.reduce(
-		(result, chroma) => {
-			result[chroma] = chroma / 12;
-			return result;
-		},
-		{} as Record<Chroma, Hue>,
-	),
+	chromas.reduce((result, chroma) => {
+		result[chroma] = chroma / 12;
+		return result;
+	}, {} as Record<Chroma, Hue>),
 );
 // TODO consider changing to a memoized helper function with optional saturation+lightness
 export const noteChromaToHsl = Object.freeze(
-	chromas.reduce(
-		(result, chroma) => {
-			result[chroma] = Object.freeze([
-				noteChromaToHue[chroma],
-				0.5,
-				0.5,
-			] as const);
-			return result;
-		},
-		{} as Record<Chroma, Hsl>,
-	),
+	chromas.reduce((result, chroma) => {
+		result[chroma] = Object.freeze([noteChromaToHue[chroma], 0.5, 0.5] as const);
+		return result;
+	}, {} as Record<Chroma, Hsl>),
 );
 export const noteChromaToHslString = Object.freeze(
-	mapRecord(noteChromaToHsl, hsl => hslToStr(hsl)),
+	mapRecord(noteChromaToHsl, (hsl) => hslToStr(hsl)),
 );

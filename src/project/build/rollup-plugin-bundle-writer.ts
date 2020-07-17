@@ -9,19 +9,12 @@ import {omitUndefined} from '../../utils/obj';
 export interface PluginOptions {
 	srcPath: string;
 	externalsPath: string;
-	output:
-		| string
-		| ((bundleString: string, bundle: BundleData) => Promise<void>);
+	output: string | ((bundleString: string, bundle: BundleData) => Promise<void>);
 	logLevel: LogLevel;
 }
 export type RequiredPluginOptions = 'srcPath' | 'externalsPath';
-export type InitialPluginOptions = PartialExcept<
-	PluginOptions,
-	RequiredPluginOptions
->;
-export const defaultPluginOptions = (
-	initialOptions: InitialPluginOptions,
-): PluginOptions => ({
+export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
+export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
 	output: 'bundle.json',
 	logLevel: LogLevel.Info,
 	...omitUndefined(initialOptions),
@@ -29,12 +22,8 @@ export const defaultPluginOptions = (
 
 const name = 'bundle-writer';
 
-export const bundleWriterPlugin = (
-	pluginOptions: InitialPluginOptions,
-): Plugin => {
-	const {srcPath, externalsPath, output, logLevel} = defaultPluginOptions(
-		pluginOptions,
-	);
+export const bundleWriterPlugin = (pluginOptions: InitialPluginOptions): Plugin => {
+	const {srcPath, externalsPath, output, logLevel} = defaultPluginOptions(pluginOptions);
 
 	const {info} = logger(logLevel, [gray(`[${name}]`)]);
 

@@ -30,13 +30,8 @@ export interface PluginOptions {
 	logLevel: LogLevel;
 }
 export type RequiredPluginOptions = 'cssClasses' | 'getSvelteCompilation';
-export type InitialPluginOptions = PartialExcept<
-	PluginOptions,
-	RequiredPluginOptions
->;
-export const defaultPluginOptions = (
-	initialOptions: InitialPluginOptions,
-): PluginOptions => ({
+export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
+export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
 	classAttrMatcher: new RegExp(/^(class|.+Class)$/),
 	classFnMatcher: new RegExp(/^(cls)$/), // TODO consider renaming: sy, cn, ..
 	logLevel: LogLevel.Info,
@@ -45,9 +40,7 @@ export const defaultPluginOptions = (
 
 export const name = 'extract-svelte-css-classes';
 
-export const extractSvelteCssClassesPlugin = (
-	pluginOptions: InitialPluginOptions,
-): Plugin => {
+export const extractSvelteCssClassesPlugin = (pluginOptions: InitialPluginOptions): Plugin => {
 	const {
 		cssClasses,
 		classAttrMatcher,
@@ -68,24 +61,9 @@ export const extractSvelteCssClassesPlugin = (
 			// add used classes from the svelte markup and scripts
 			const elapsed = timeTracker();
 			const usedClasses = new Set<string>();
-			extractCssClassesFromMarkup(
-				compilation.ast.html,
-				classAttrMatcher,
-				usedClasses,
-				log,
-			);
-			extractCssClassesFromScript(
-				compilation.ast.instance,
-				classFnMatcher,
-				usedClasses,
-				log,
-			);
-			extractCssClassesFromScript(
-				compilation.ast.module,
-				classFnMatcher,
-				usedClasses,
-				log,
-			);
+			extractCssClassesFromMarkup(compilation.ast.html, classAttrMatcher, usedClasses, log);
+			extractCssClassesFromScript(compilation.ast.instance, classFnMatcher, usedClasses, log);
+			extractCssClassesFromScript(compilation.ast.module, classFnMatcher, usedClasses, log);
 			cssClasses.setUsedCssClasses(id, usedClasses);
 
 			// add defined classes from the svelte styles
@@ -93,10 +71,7 @@ export const extractSvelteCssClassesPlugin = (
 			extractCssClassesFromStyles(compilation.ast.css, definedClasses, log);
 			cssClasses.setDefinedCssClasses(id, definedClasses);
 
-			info(
-				gray(toRootPath(id)),
-				fmtVal('extract_classes', fmtMs(elapsed(), 2)),
-			); // TODO track with stats instead of logging
+			info(gray(toRootPath(id)), fmtVal('extract_classes', fmtMs(elapsed(), 2))); // TODO track with stats instead of logging
 			return null;
 		},
 	};
@@ -187,11 +162,7 @@ const extractCssClassesFromStyles = async (
 
 const CSS_CLASS_SPLITTER = /\s+/;
 
-const extractCssClassesFromNode = (
-	node: Node,
-	classes: Set<CssClass>,
-	log: Logger,
-) => {
+const extractCssClassesFromNode = (node: Node, classes: Set<CssClass>, log: Logger) => {
 	// log.trace(`enter node`, node);
 	const addClasses = (rawText: string) => {
 		for (const c of rawText.split(CSS_CLASS_SPLITTER).filter(Boolean)) {

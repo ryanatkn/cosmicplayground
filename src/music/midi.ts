@@ -43,10 +43,7 @@ export const midiToFreq = (midi: Midi, tuning: Frequency): Frequency => {
 export const freqToMidi = (freq: Frequency, tuning: Frequency): Midi => {
 	return Math.round(12 * Math.log2(freq / tuning) + 69) as Midi;
 };
-export const freqToMidiSafe = (
-	freq: Frequency,
-	tuning: Frequency,
-): Midi | null => {
+export const freqToMidiSafe = (freq: Frequency, tuning: Frequency): Midi | null => {
 	const midi = freqToMidi(freq, tuning);
 	if (!isMidi(midi)) return null;
 	return midi;

@@ -46,21 +46,14 @@
 		if (osc) osc.stop();
 	});
 
-	let timeNow,
-		timeLast,
-		timeElapsed,
-		timeTarget,
-		tween,
-		tweenAlternating,
-		xPct,
-		yPct;
+	let timeNow, timeLast, timeElapsed, timeTarget, tween, tweenAlternating, xPct, yPct;
 	// TODO refactor `loopState` to a state machine? xstate? microstate?
 	// this looks a little more complicated than it needs to be,
 	// and the variable names are tattered in spots
 	let loopState = 'waitingLeft'; // 'waitingLeft' | 'movingRight' | 'waitingRight' | 'movingLeft'
 	let timePct = 0; // % of the way to `TimeTarget`, when the next state transition will occur
 	let loopPct = 0; // % of the alternating loop
-	loop(now => {
+	loop((now) => {
 		// TODO use clock? somethig like...
 		// useClock({timeNow, timeElapsed, timeLast, timeTarget}) // clock state should be a singleton context object
 		timeNow = now;
@@ -87,7 +80,7 @@
 		tween = activeEasing.fn(calcTweenPct(loopState, timePct));
 		tweenAlternating = loopState === 'movingLeft' ? 1 - tween : tween;
 	};
-	const getNextLoopState = loopState => {
+	const getNextLoopState = (loopState) => {
 		return {
 			waitingLeft: 'movingRight',
 			movingRight: 'waitingRight',
@@ -95,7 +88,7 @@
 			movingLeft: 'waitingLeft',
 		}[loopState];
 	};
-	const calcTimeTarget = loopState => {
+	const calcTimeTarget = (loopState) => {
 		return {
 			waitingLeft: waitTime,
 			movingRight: duration,
@@ -139,8 +132,8 @@
 	let muted = false;
 	$: freqMin = midiToFreq(startNote, DEFAULT_TUNING);
 	$: freqMax = midiToFreq(endNote, DEFAULT_TUNING);
-	const calcFreq = pct => mix(freqMin, freqMax, pct);
-	const updateAudioization = loopState => {
+	const calcFreq = (pct) => mix(freqMin, freqMax, pct);
+	const updateAudioization = (loopState) => {
 		startAudio();
 
 		const freq = calcFreq(tweenAlternating);
@@ -176,17 +169,13 @@
 	};
 	const stopAudio = () => {
 		if (!osc) return;
-		gain.gain.setTargetAtTime(
-			0,
-			audioCtx.currentTime,
-			SMOOTH_GAIN_TIME_CONSTANT,
-		);
+		gain.gain.setTargetAtTime(0, audioCtx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
 		osc.stop(audioCtx.currentTime + SMOOTH_GAIN_TIME_CONSTANT);
 		osc = undefined;
 		gain = undefined;
 	};
 
-	let activeEasingIndex = easings.findIndex(e => e.name === 'elasticOut');
+	let activeEasingIndex = easings.findIndex((e) => e.name === 'elasticOut');
 	let activeEasing = easings[activeEasingIndex]; // {name, fn}
 	$: activeEasing = easings[activeEasingIndex];
 
@@ -257,13 +246,10 @@
 		ctx.stroke();
 	};
 
-	const getColor = (index, opacity = 0.8) =>
-		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
+	const getColor = (index, opacity = 0.8) => `hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 </script>
 
-<div
-	class="max-column-width"
-	style="display: flex; flex-wrap: wrap; margin: auto;">
+<div class="max-column-width" style="display: flex; flex-wrap: wrap; margin: auto;">
 	<section>
 		<section class="controls" style="padding-left: 90px;">
 			<div class="controls-group {muted ? 'disabled' : ''}">
@@ -275,31 +261,22 @@
 					max={1}
 					step={0.01}
 					style="width: 260px;"
-					disabled={muted} />
+					disabled={muted}
+				/>
 				<div>
 					{Math.round(volume * 100)}
 					<span>%</span>
 				</div>
 			</div>
 			<label class="controls-group">
-				<input
-					type="range"
-					bind:value={startNote}
-					min={lowestNote}
-					max={highestNote}
-					step={1} />
+				<input type="range" bind:value={startNote} min={lowestNote} max={highestNote} step={1} />
 				<div>
 					{midiNames[startNote]}
 					<span style="font-size: 24px;">♪</span>
 				</div>
 			</label>
 			<label class="controls-group">
-				<input
-					type="range"
-					bind:value={endNote}
-					min={lowestNote}
-					max={highestNote}
-					step={1} />
+				<input type="range" bind:value={endNote} min={lowestNote} max={highestNote} step={1} />
 				<div>
 					{midiNames[endNote]}
 					<span style="font-size: 24px;">♪</span>
@@ -311,7 +288,8 @@
 					bind:value={duration}
 					min={(2 * 1000) / 60}
 					max={6000}
-					step={1000 / 60} />
+					step={1000 / 60}
+				/>
 				<div>
 					<div>
 						{Math.round(duration)}
@@ -321,12 +299,7 @@
 				</div>
 			</label>
 			<label class="controls-group">
-				<input
-					type="range"
-					bind:value={waitTime}
-					min={0}
-					max={2001}
-					step={1000 / 60} />
+				<input type="range" bind:value={waitTime} min={0} max={2001} step={1000 / 60} />
 				<div>
 					<div>
 						{Math.round(waitTime)}
@@ -338,64 +311,66 @@
 		</section>
 
 		<section class="active-tween">
-			<label
-				class="active-tween-name"
-				style="color: {getColor(activeEasingIndex)};">
+			<label class="active-tween-name" style="color: {getColor(activeEasingIndex)};">
 				{activeEasing.name}
 			</label>
 			<div style="position: relative;">
 				<div
 					style="position: absolute; left: 0; top: 0; transform: translate3d({chartX0 + xPct * chartWidth - chartAxisLineWidth / 2}px,
-					{chartY0 - chartAxisLineWidth / 2}px, 0); background-color: rgba(255,
-					255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px" />
+					{chartY0 - chartAxisLineWidth / 2}px, 0); background-color: rgba(255, 255, 255, 0.6);
+					width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
+				/>
 				<div
 					style="position: absolute; left: 0; top: 0; transform: translate3d({chartX0 - chartAxisLineWidth / 2}px,
-					{chartY0 - yPct * chartHeight - chartAxisLineWidth / 2}px, 0);
-					background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px;
-					height: {chartAxisLineWidth}px" />
+					{chartY0 - yPct * chartHeight - chartAxisLineWidth / 2}px, 0); background-color: rgba(255,
+					255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
+				/>
 				<canvas class="relative z-1" bind:this={chartCanvas} />
 				<div
 					style="position: absolute; left: 0; top: 0; background-color: {getColor(activeEasingIndex)};
-					transform: translate3d({chartX0 + xPct * chartWidth - chartLineHighlightWidth / 2}px,
-					{chartY0 - yPct * chartHeight - chartLineHighlightWidth / 2}px, 0);
-					width: {chartLineHighlightWidth}px; height: {chartLineHighlightWidth}px;
-					border-radius: 50%;" />
+					transform: translate3d({chartX0 + xPct * chartWidth - chartLineHighlightWidth / 2}px, {chartY0 - yPct * chartHeight - chartLineHighlightWidth / 2}px,
+					0); width: {chartLineHighlightWidth}px; height: {chartLineHighlightWidth}px;
+					border-radius: 50%;"
+				/>
 			</div>
 			<div
 				style="width: {translateWidth}px; background-color: {getColor(activeEasingIndex, 0.1)};
-				margin-bottom: 24px;">
+				margin-bottom: 24px;"
+			>
 				<div
-					style="transform: translate3d({tweenAlternating * translateDistance}px,
-					0, 0); width: {graphic1Width}px; height: {graphic1Height}px;
-					background-color: {getColor(activeEasingIndex)};" />
+					style="transform: translate3d({tweenAlternating * translateDistance}px, 0, 0); width: {graphic1Width}px;
+					height: {graphic1Height}px; background-color: {getColor(activeEasingIndex)};"
+				/>
 			</div>
 			<div style="display: flex;">
 				<div
-					style="display: flex; align-items: center; justify-content: center;
-					width: {translateWidth / 2}px">
+					style="display: flex; align-items: center; justify-content: center; width: {translateWidth / 2}px"
+				>
 					<div
 						class="active-tween-graphic-rotate"
 						style="transform: rotate({tweenAlternating * 180}deg); height: {graphic2Height}px;
-						background-color: {getColor(activeEasingIndex)};" />
+						background-color: {getColor(activeEasingIndex)};"
+					/>
 				</div>
 				<div
-					style="display: flex; align-items: center; justify-content: center;
-					width: {translateWidth / 2}px">
+					style="display: flex; align-items: center; justify-content: center; width: {translateWidth / 2}px"
+				>
 					<div
 						class="active-tween-graphic-scale"
-						style="transform: scale3d({tweenAlternating}, {tweenAlternating},
-						1); width: {graphic2Width}px; height: {graphic2Height}px;
-						background-color: {getColor(activeEasingIndex)};" />
+						style="transform: scale3d({tweenAlternating}, {tweenAlternating}, 1); width: {graphic2Width}px;
+						height: {graphic2Height}px; background-color: {getColor(activeEasingIndex)};"
+					/>
 				</div>
 			</div>
 			<div>
 				<div
-					style="display: flex; align-items: center; justify-content: center;
-					width: {translateWidth / 2}px; padding: 36px 36px 0;">
+					style="display: flex; align-items: center; justify-content: center; width: {translateWidth / 2}px;
+					padding: 36px 36px 0;"
+				>
 					<div
 						style="transform: skew({tweenAlternating * 80 - 25}deg, {tweenAlternating * 10 - 2}deg);
-						width: {graphic2Width}px; height: {graphic2Height}px;
-						background-color: {getColor(activeEasingIndex)};" />
+						width: {graphic2Width}px; height: {graphic2Height}px; background-color: {getColor(activeEasingIndex)};"
+					/>
 				</div>
 			</div>
 		</section>
@@ -406,7 +381,8 @@
 			<label
 				class="tween-radio"
 				class:active={easing === activeEasing}
-				style="color: {getColor(i)}; border-color: {easing === activeEasing ? getColor(i) : 'transparent'}">
+				style="color: {getColor(i)}; border-color: {easing === activeEasing ? getColor(i) : 'transparent'}"
+			>
 				<input type="radio" bind:group={activeEasingIndex} value={i} />
 				{easing.name}
 			</label>

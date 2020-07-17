@@ -27,14 +27,16 @@
 			alt="@cpg_org on twitter"
 			href="https://twitter.com/cpg_org"
 			linkClass="w-16"
-			imgClass="mix-blend-difference" />
+			imgClass="mix-blend-difference"
+		/>
 	</div>
 	<ImgLink
 		src="assets/characters/octocat.png"
 		alt="@ryanatkn/cosmicplayground on github"
 		href="https://github.com/ryanatkn/cosmicplayground"
 		linkClass="w-30"
-		imgClass="mix-blend-difference" />
+		imgClass="mix-blend-difference"
+	/>
 </section>
 <div>
 	<em>tools and toys for expanding minds</em>
@@ -50,11 +52,13 @@
 	src="assets/characters/spider.png"
 	alt="spider"
 	imgClass="absolute -t-1 -r-3"
-	linkClass="block relative h-0" />
+	linkClass="block relative h-0"
+/>
 <ImgLink
 	href="https://github.com/ryanatkn/cosmicplayground"
 	src="assets/characters/cosm.png"
 	alt="@ryanatkn/cosmicplayground on github"
 	imgClass="w-100 pixelated"
 	linkClass="block mx-auto"
-	linkStyle="width: {(100 * GR2i) | 0}%;" />
+	linkStyle="width: {(100 * GR2i) | 0}%;"
+/>

@@ -1,11 +1,5 @@
 import {SyConfig} from '../sy/sy';
-import {
-	classDef,
-	classDefs,
-	selectorDef,
-	selectorDefs,
-	propsToClassDefs,
-} from '../sy/helpers';
+import {classDef, classDefs, selectorDef, selectorDefs, propsToClassDefs} from '../sy/helpers';
 import {arrayOf, flatMap} from '../utils/arr';
 import {blendModes} from '../css/blendModes';
 import {
@@ -47,9 +41,7 @@ export const spacingVar = toVar(spacingProperty);
 
 // TODO malformed CSS causes some gnarly errors - maybe use `magic-string` to make a sourcemap?
 
-export const createConfig = async (
-	partial: Partial<SyConfig> = {},
-): Promise<SyConfig> => {
+export const createConfig = async (partial: Partial<SyConfig> = {}): Promise<SyConfig> => {
 	return {
 		...partial,
 		// banner?(config: SyConfig): string;
@@ -64,44 +56,30 @@ export const createConfig = async (
 					`${spacingProperty('1px')}: 1px`,
 					`${spacingProperty('2px')}: 2px`,
 					`${spacingProperty('3px')}: 3px`,
-					...spacings.map(
-						i => `${spacingProperty(i)}: calc(${i} * ${spacingVar()})`,
-					),
+					...spacings.map((i) => `${spacingProperty(i)}: calc(${i} * ${spacingVar()})`),
 				].join(';'),
 			),
 
 			// padding
-			...flatMap(spacings, i => [
+			...flatMap(spacings, (i) => [
 				classDef(`p-${i}`, `padding: ${spacingVar(i)}`),
 				classDef(`pt-${i}`, `padding-top: ${spacingVar(i)}`),
 				classDef(`pr-${i}`, `padding-right: ${spacingVar(i)}`),
 				classDef(`pb-${i}`, `padding-bottom: ${spacingVar(i)}`),
 				classDef(`pl-${i}`, `padding-left: ${spacingVar(i)}`),
-				classDef(
-					`px-${i}`,
-					`padding-left: ${spacingVar(i)}; padding-right: ${spacingVar(i)}`,
-				), // TODO consider a class composition pattern
-				classDef(
-					`py-${i}`,
-					`padding-top: ${spacingVar(i)}; padding-bottom: ${spacingVar(i)}`,
-				), // TODO consider a class composition pattern
+				classDef(`px-${i}`, `padding-left: ${spacingVar(i)}; padding-right: ${spacingVar(i)}`), // TODO consider a class composition pattern
+				classDef(`py-${i}`, `padding-top: ${spacingVar(i)}; padding-bottom: ${spacingVar(i)}`), // TODO consider a class composition pattern
 			]),
 
 			// margin
-			...flatMap(spacings, i => [
+			...flatMap(spacings, (i) => [
 				classDef(`m-${i}`, `margin: ${spacingVar(i)}`),
 				classDef(`mt-${i}`, `margin-top: ${spacingVar(i)}`),
 				classDef(`mr-${i}`, `margin-right: ${spacingVar(i)}`),
 				classDef(`mb-${i}`, `margin-bottom: ${spacingVar(i)}`),
 				classDef(`ml-${i}`, `margin-left: ${spacingVar(i)}`),
-				classDef(
-					`mx-${i}`,
-					`margin-left: ${spacingVar(i)}; margin-right: ${spacingVar(i)}`,
-				), // TODO consider a class composition pattern
-				classDef(
-					`my-${i}`,
-					`margin-top: ${spacingVar(i)}; margin-bottom: ${spacingVar(i)}`,
-				), // TODO consider a class composition pattern
+				classDef(`mx-${i}`, `margin-left: ${spacingVar(i)}; margin-right: ${spacingVar(i)}`), // TODO consider a class composition pattern
+				classDef(`my-${i}`, `margin-top: ${spacingVar(i)}; margin-bottom: ${spacingVar(i)}`), // TODO consider a class composition pattern
 			]),
 			classDef('m-auto', 'margin: auto'),
 			classDef(`mt-auto`, `margin-top: auto`),
@@ -112,31 +90,23 @@ export const createConfig = async (
 			classDef(`my-auto`, `margin-top: auto; margin-bottom: auto`), // TODO consider a class composition pattern
 
 			// width
-			...spacings.map(i => classDef(`w-${i}`, `width: ${spacingVar(i)}`)),
+			...spacings.map((i) => classDef(`w-${i}`, `width: ${spacingVar(i)}`)),
 			classDef('w-100', 'width: 100%'), // TODO hmm..this is a little ambiguous
 			classDef('max-column-width', 'max-width: 980px'), // TODO refactor? rename?
 
 			// height
-			...spacings.map(i => classDef(`h-${i}`, `height: ${spacingVar(i)}`)),
+			...spacings.map((i) => classDef(`h-${i}`, `height: ${spacingVar(i)}`)),
 			classDef('h-100', 'height: 100%'), // TODO hmm..this is a little ambiguous
 
 			// left/right/top/bottom
-			...spacings.map(i => classDef(`l-${i}`, `left: ${spacingVar(i)}`)),
-			...spacings.map(i => classDef(`r-${i}`, `right: ${spacingVar(i)}`)),
-			...spacings.map(i => classDef(`t-${i}`, `top: ${spacingVar(i)}`)),
-			...spacings.map(i => classDef(`b-${i}`, `bottom: ${spacingVar(i)}`)),
-			...spacings.map(i =>
-				classDef(`-l-${i}`, `left: calc(-1 * ${spacingVar(i)})`),
-			),
-			...spacings.map(i =>
-				classDef(`-r-${i}`, `right: calc(-1 * ${spacingVar(i)})`),
-			),
-			...spacings.map(i =>
-				classDef(`-t-${i}`, `top: calc(-1 * ${spacingVar(i)})`),
-			),
-			...spacings.map(i =>
-				classDef(`-b-${i}`, `bottom: calc(-1 * ${spacingVar(i)})`),
-			),
+			...spacings.map((i) => classDef(`l-${i}`, `left: ${spacingVar(i)}`)),
+			...spacings.map((i) => classDef(`r-${i}`, `right: ${spacingVar(i)}`)),
+			...spacings.map((i) => classDef(`t-${i}`, `top: ${spacingVar(i)}`)),
+			...spacings.map((i) => classDef(`b-${i}`, `bottom: ${spacingVar(i)}`)),
+			...spacings.map((i) => classDef(`-l-${i}`, `left: calc(-1 * ${spacingVar(i)})`)),
+			...spacings.map((i) => classDef(`-r-${i}`, `right: calc(-1 * ${spacingVar(i)})`)),
+			...spacings.map((i) => classDef(`-t-${i}`, `top: calc(-1 * ${spacingVar(i)})`)),
+			...spacings.map((i) => classDef(`-b-${i}`, `bottom: calc(-1 * ${spacingVar(i)})`)),
 
 			// position
 			...propsToClassDefs(position, 'position', ''),
@@ -154,19 +124,15 @@ export const createConfig = async (
 			...propsToClassDefs(overflow, 'overflow-y'),
 
 			// z-index
-			...arrayOf(10, n => classDef(`z-${n}`, `z-index: ${n}`)),
-			...arrayOf(3, n => classDef(`-z-${n + 1}`, `z-index: -${n + 1}`)),
+			...arrayOf(10, (n) => classDef(`z-${n}`, `z-index: ${n}`)),
+			...arrayOf(3, (n) => classDef(`-z-${n + 1}`, `z-index: -${n + 1}`)),
 
 			// font-weight
 			...propsToClassDefs(fontWeight, 'font-weight', 'font'),
 
 			// text-decoration
 			...propsToClassDefs(textDecoration, 'text-decoration', ''),
-			...propsToClassDefs(
-				textDecorationStyle,
-				'text-decoration-style',
-				'text-decoration',
-			),
+			...propsToClassDefs(textDecorationStyle, 'text-decoration-style', 'text-decoration'),
 
 			// flexbox
 			...propsToClassDefs(flex, 'flex'),
@@ -188,7 +154,7 @@ export const createConfig = async (
 			...propsToClassDefs(cursor, 'cursor'),
 
 			// blend modeas
-			...flatMap(blendModes, b => [
+			...flatMap(blendModes, (b) => [
 				classDef(`bg-blend-${b}`, `background-blend-mode: ${b}`),
 				classDef(`mix-blend-${b}`, `mix-blend-mode: ${b}`),
 			]),

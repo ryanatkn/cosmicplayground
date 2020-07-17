@@ -7,13 +7,7 @@ const host = HOST || '0.0.0.0';
 const port = PORT || '8999';
 
 import * as rollup from 'rollup';
-import {
-	OutputOptions,
-	InputOptions,
-	RollupWatchOptions,
-	RollupOutput,
-	RollupBuild,
-} from 'rollup';
+import {OutputOptions, InputOptions, RollupWatchOptions, RollupOutput, RollupBuild} from 'rollup';
 import * as resolvePluginFIXME from 'rollup-plugin-node-resolve';
 import * as commonjsPluginFIXME from 'rollup-plugin-commonjs';
 import * as terserPlugin from 'rollup-plugin-terser';
@@ -63,18 +57,9 @@ const outputCssPluginInstance = outputCssPlugin({
 	cssClasses,
 	logLevel,
 });
-const cacheSvelteCss = outputCssPluginInstance.cacheCss.bind(
-	null,
-	paths.svelteCssBundleName,
-);
-const cacheSyCss = outputCssPluginInstance.cacheCss.bind(
-	null,
-	paths.syCssBundleName,
-);
-const cachePlainCss = outputCssPluginInstance.cacheCss.bind(
-	null,
-	paths.plainCssBundleName,
-);
+const cacheSvelteCss = outputCssPluginInstance.cacheCss.bind(null, paths.svelteCssBundleName);
+const cacheSyCss = outputCssPluginInstance.cacheCss.bind(null, paths.syCssBundleName);
+const cachePlainCss = outputCssPluginInstance.cacheCss.bind(null, paths.plainCssBundleName);
 const svelteUnrolledPluginInstance = svelteUnrolledPlugin({
 	dev,
 	cacheCss: cacheSvelteCss,
@@ -316,7 +301,7 @@ const runRollupWatcher = async (): Promise<void> => {
 		// info(('watchOptions'), watchOptions);
 		const watcher = rollup.watch([watchOptions]);
 
-		watcher.on('event', event => {
+		watcher.on('event', (event) => {
 			info(`rollup event: ${event.code}`);
 			switch (event.code) {
 				case 'START': // the watcher is (re)starting
@@ -345,11 +330,7 @@ const runRollupWatcher = async (): Promise<void> => {
 runBuild()
 	.then(() => {
 		console.log(
-			[
-				rainbow('~~~~~~~~~~~~~'),
-				rainbow('~❤~ built ~❤~'),
-				rainbow('~~~~~~~~~~~~~'),
-			].join('\n'),
+			[rainbow('~~~~~~~~~~~~~'), rainbow('~❤~ built ~❤~'), rainbow('~~~~~~~~~~~~~')].join('\n'),
 		);
 	})
 	.catch(handleScriptError);

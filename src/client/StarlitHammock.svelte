@@ -44,16 +44,13 @@
 	onDestroy(() => clearTimeout(timeout));
 </script>
 
-<div
-	class="viewport"
-	style="width: {width}px; height: {height}px;"
-	on:click={() => randomize()}>
+<div class="viewport" style="width: {width}px; height: {height}px;" on:click={() => randomize()}>
 	<img
 		src={imageUrl}
-		style="width: {imageWidth}px; height: {imageHeight}px; transform:
-		translate3d({x}px, {y}px, 0) scale3d({scale}, {scale}, 1);
-		transition-duration: {transitionDuration}ms;"
-		alt="view of space" />
+		style="width: {imageWidth}px; height: {imageHeight}px; transform: translate3d({x}px, {y}px, 0)
+		scale3d({scale}, {scale}, 1); transition-duration: {transitionDuration}ms;"
+		alt="view of space"
+	/>
 </div>
 
 <style>

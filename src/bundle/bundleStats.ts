@@ -1,9 +1,4 @@
-import {
-	BundleData,
-	isBundleChunk,
-	BundleChunk,
-	BundleAsset,
-} from './bundleData';
+import {BundleData, isBundleChunk, BundleChunk, BundleAsset} from './bundleData';
 import {reorder} from '../utils/obj';
 import {stripStart, stripEnd} from '../utils/str';
 import {last} from '../utils/arr';
@@ -110,11 +105,7 @@ export const toAssetStats = (asset: BundleAsset): AssetStats => {
 	return asset;
 };
 
-export const toModuleStats = ({
-	srcPath,
-	externalsPath,
-	modules,
-}: BundleChunk): ModuleStats[] => {
+export const toModuleStats = ({srcPath, externalsPath, modules}: BundleChunk): ModuleStats[] => {
 	const moduleStats: ModuleStats[] = [];
 	for (const id in modules) {
 		const mod = modules[id];
@@ -139,14 +130,9 @@ export const toModuleStats = ({
 export const toFileName = (id: string): string => last(id.split('/'));
 export const toPkg = (path: string): string => path.split('/')[0];
 // TODO think about if we'd prefer to always have dirs end with a /
-export const toDir = (path: string): string =>
-	stripEnd(stripEnd(path, toFileName(path)), '/');
+export const toDir = (path: string): string => stripEnd(stripEnd(path, toFileName(path)), '/');
 // TODO handle \u0000 - maybe add an `nullChar` or `buildIgnored` flag that's undefined or true
-export const toPath = (
-	id: string,
-	srcPath: string,
-	externalsPath?: string,
-): string =>
+export const toPath = (id: string, srcPath: string, externalsPath?: string): string =>
 	id.startsWith(srcPath)
 		? stripStart(id, srcPath + '/')
 		: externalsPath

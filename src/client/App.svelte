@@ -35,7 +35,7 @@
 	let hash = typeof window === 'undefined' ? '' : window.location.hash;
 	const DEFAULT_VIEW = 'portals';
 	$: view = hash.slice(1) || DEFAULT_VIEW;
-	const onHashChange = e => {
+	const onHashChange = (e) => {
 		hash = window.location.hash;
 	};
 
@@ -90,14 +90,12 @@
 	bind:innerWidth={windowWidth}
 	bind:innerHeight={windowHeight}
 	on:hashchange={onHashChange}
-	use:trackIdleState={{isIdle, timeToGoIdle: 6000, idleIntervalTime: 1000}} />
+	use:trackIdleState={{isIdle, timeToGoIdle: 6000, idleIntervalTime: 1000}}
+/>
 
 {#if viewsWithGalaxyBg.has(view)}
 	<section class="bg w-100 z-0">
-		<GalaxyBg
-			running={$clock.running}
-			width={windowWidth}
-			height={windowHeight} />
+		<GalaxyBg running={$clock.running} width={windowWidth} height={windowHeight} />
 	</section>
 {/if}
 
@@ -105,50 +103,44 @@
 	<section>
 		<nav class="thumbnails">
 			<a class="thumbnail" href="#about">
-				<div
-					style="padding: 4px; display: flex; flex-direction: column;
-					align-items: center;">
-					<div
-						style="font-size: 30px; margin: 5px 0; display: flex; align-items:
-						center;">
+				<div style="padding: 4px; display: flex; flex-direction: column; align-items: center;">
+					<div style="font-size: 30px; margin: 5px 0; display: flex; align-items: center;">
 						<img
 							src="assets/characters/cosm.png"
 							alt="cosm"
 							class="pixelated"
-							style="width: 32px; height: 32px; margin-right: 10px;" />
+							style="width: 32px; height: 32px; margin-right: 10px;"
+						/>
 						{name}
 						<img
 							src="assets/characters/cosm.png"
 							alt="cosm"
 							class="pixelated"
-							style="width: 32px; height: 32px; margin-left: 10px; transform:
-							scale3d(-1, 1, 1);" />
+							style="width: 32px; height: 32px; margin-left: 10px; transform: scale3d(-1, 1, 1);"
+						/>
 					</div>
 					<small>help . about . credits</small>
 				</div>
 			</a>
 			<a class="thumbnail" href="#paint_freqs">
 				<div style="font-size: 20px; margin-bottom: 7px;">paint freqs</div>
-				<div
-					class="overflow-hidden"
-					style="width: 192px; height: 192px; border-radius: 50%;">
+				<div class="overflow-hidden" style="width: 192px; height: 192px; border-radius: 50%;">
 					<img
 						src="assets/characters/cosmic-kitty.jpg"
 						style="width: 192px; height: 192px;"
-						alt="Cosmic Kitty" />
+						alt="Cosmic Kitty"
+					/>
 				</div>
 			</a>
-			<a
-				class="thumbnail"
-				href="#starlit_hammock"
-				style="width: 320px; height: 180px;">
+			<a class="thumbnail" href="#starlit_hammock" style="width: 320px; height: 180px;">
 				<div class="relative z-1">starlit hammock</div>
 				<GalaxyBg
 					width={320}
 					height={180}
 					opacity={0.6}
 					animationDuration="45s"
-					running={$clock.running} />
+					running={$clock.running}
+				/>
 			</a>
 			<a class="thumbnail" href="#easing_aud_viz">
 				<div>easing function audioizations and visualizations</div>
@@ -157,30 +149,38 @@
 					<div
 						class="easing-aud-viz-mouth-wrapper"
 						style="left: {-easingAudVizMouthSize / 2}px; top: {easingAudVizCanvasHeight / 2 - easingAudVizMouthSize / 2}px;
-						width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;">
+						width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;"
+					>
 						<div
 							class="easing-aud-viz-mouth"
-							style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;" />
+							style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;"
+						/>
 						<div
 							class="easing-aud-viz-mouth"
-							style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;" />
+							style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;"
+						/>
 						<div
 							style="width: {easingAudVizMouthSize}px; height: {easingAudVizMouthSize}px;
-							border-radius: 50%;" />
+							border-radius: 50%;"
+						/>
 					</div>
 					<div
 						class="easing-aud-viz-tail-wrapper"
 						style="right: {-easingAudVizTailSize / 2}px; top: {8 + easingAudVizCanvasHeight / 2 - easingAudVizTailSize / 2}px;
-						width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;">
+						width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;"
+					>
 						<div
 							class="easing-aud-viz-tail"
-							style="width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;" />
+							style="width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;"
+						/>
 						<div
 							class="easing-aud-viz-tail"
-							style="width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;" />
+							style="width: {easingAudVizTailSize}px; height: {easingAudVizTailSize}px;"
+						/>
 						<div
 							style="width: {easingAudVizTailSize / 2}px; height: {easingAudVizTailSize / 2}px;
-							border-radius: 50%;" />
+							border-radius: 50%;"
+						/>
 					</div>
 				</div>
 			</a>
@@ -196,28 +196,25 @@
 			<a class="thumbnail" href="#hearing_test">
 				<div>🐶 hearing test 🐶</div>
 				<div>
-					<small style="color: hsla(40deg, 60%, 65%, 1);">
-						🐾 🐕 beware ye, creature 🐕 🐾
-					</small>
+					<small style="color: hsla(40deg, 60%, 65%, 1);">🐾 🐕 beware ye, creature 🐕 🐾</small>
 				</div>
 			</a>
-			<a
-				class="thumbnail"
-				href="#freq_speeds"
-				style="display: flex; flex-direction: column;">
-				<FreqSpeeds
-					elapsedTime={$clock.time}
-					width={300}
-					height={75}
-					hzItems={[4]}
-					lowestHzItemCount={2} />
+			<a class="thumbnail" href="#freq_speeds" style="display: flex; flex-direction: column;">
 				<FreqSpeeds
 					elapsedTime={$clock.time}
 					width={300}
 					height={75}
 					hzItems={[4]}
 					lowestHzItemCount={2}
-					style="transform: rotate(180deg);" />
+				/>
+				<FreqSpeeds
+					elapsedTime={$clock.time}
+					width={300}
+					height={75}
+					hzItems={[4]}
+					lowestHzItemCount={2}
+					style="transform: rotate(180deg);"
+				/>
 			</a>
 			<a class="thumbnail" href="#freq_speed" style="display: flex;">
 				<FreqSpectacle
@@ -225,7 +222,8 @@
 					width={150}
 					height={75}
 					hzItems={[2, 3, 4]}
-					lowestHzItemCount={1} />
+					lowestHzItemCount={1}
+				/>
 			</a>
 			<a class="thumbnail" href="#bundle_vision">{'{ bundle vision }'}</a>
 			<a class="thumbnail" href="#construction">
@@ -234,13 +232,15 @@
 						src="assets/construction/person-rock.gif"
 						alt="under construction: person rock"
 						style="width: 162px; height: 100px;"
-						class="pixelated thumbnail-construction" />
+						class="pixelated thumbnail-construction"
+					/>
 				{:else}
 					<img
 						src="assets/construction/person-rock-pause.png"
 						alt="under construction: person rock"
 						style="width: 162px; height: 100px;"
-						class="pixelated grayscale" />
+						class="pixelated grayscale"
+					/>
 				{/if}
 			</a>
 		</nav>
@@ -255,13 +255,15 @@
 				<About {name}>
 					<div style="display: flex; align-items: center;">
 						<div
-							style="padding: 12px; border: 3px dashed rgba(0, 0, 0, 0.3);
-							background: rgba(0, 0, 0, 0.15); display: flex;">
+							style="padding: 12px; border: 3px dashed rgba(0, 0, 0, 0.3); background: rgba(0, 0, 0,
+							0.15); display: flex;"
+						>
 							<ClockControls
 								time={$clock.time}
 								running={$clock.running}
 								pause={clock.pause}
-								resume={clock.resume} />
+								resume={clock.resume}
+							/>
 						</div>
 					</div>
 				</About>
@@ -322,7 +324,8 @@
 				height={windowHeight * 0.7}
 				elapsedTime={$clock.time}
 				lowestHzItemCount={2}
-				hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+				hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}
+			/>
 			<div style="display: flex; justify-content: center;">
 				<div style="flex: 0; display: flex; flex-direction: column;">
 					<FreqSpectacle
@@ -331,13 +334,15 @@
 						style="transform: rotate(180deg);"
 						elapsedTime={$clock.time}
 						lowestHzItemCount={2}
-						hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+						hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}
+					/>
 					<FreqSpectacle
 						width={windowWidth * 0.25}
 						height={windowHeight * 0.15}
 						elapsedTime={$clock.time}
 						lowestHzItemCount={2}
-						hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+						hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}
+					/>
 				</div>
 				<FreqSpectacle
 					width={windowWidth * 0.5}
@@ -345,7 +350,8 @@
 					style="transform: rotate(180deg);"
 					elapsedTime={$clock.time}
 					lowestHzItemCount={2}
-					hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+					hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}
+				/>
 				<div style="flex: 0; display: flex; flex-direction: column;">
 					<FreqSpectacle
 						width={windowWidth * 0.25}
@@ -353,13 +359,15 @@
 						style="transform: rotate(180deg);"
 						elapsedTime={$clock.time}
 						lowestHzItemCount={2}
-						hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+						hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}
+					/>
 					<FreqSpectacle
 						width={windowWidth * 0.25}
 						height={windowHeight * 0.15}
 						elapsedTime={$clock.time}
 						lowestHzItemCount={2}
-						hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+						hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}
+					/>
 				</div>
 			</div>
 		</div>
@@ -375,14 +383,16 @@
 				height={windowHeight / 2}
 				elapsedTime={$clock.time}
 				lowestHzItemCount={2}
-				hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+				hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}
+			/>
 			<FreqSpeeds
 				width={windowWidth}
 				height={windowHeight / 2}
 				style="transform: rotate(180deg);"
 				elapsedTime={$clock.time}
 				lowestHzItemCount={2}
-				hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]} />
+				hzItems={[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]}
+			/>
 		</div>
 	</section>
 {:else if view === 'bundle_vision'}
@@ -481,8 +491,7 @@
 		background-color: hsla(260deg, 60%, 65%, 0.15);
 	}
 	.easing-viz-slider-graphic {
-		animation: easing-viz-slide 5s cubic-bezier(0.645, 0.045, 0.355, 1) infinite
-			alternate;
+		animation: easing-viz-slide 5s cubic-bezier(0.645, 0.045, 0.355, 1) infinite alternate;
 		width: 12px;
 		height: 12px;
 		background-color: hsla(260deg, 60%, 65%, 1); /* #6342a6 */
@@ -498,8 +507,7 @@
 	.easing-aud-viz-wrapper {
 		position: relative;
 		margin-top: 10px;
-		animation: easing-aud-viz-wrapper-warp 5s cubic-bezier(0.86, 0, 0.07, 1)
-			infinite alternate;
+		animation: easing-aud-viz-wrapper-warp 5s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;
 	}
 	@keyframes easing-aud-viz-wrapper-warp {
 		0% {
@@ -511,8 +519,7 @@
 	}
 	.easing-aud-viz-mouth-wrapper {
 		position: absolute;
-		animation: easing-aud-viz-dance 10s cubic-bezier(0.785, 0.135, 0.15, 0.86)
-			infinite;
+		animation: easing-aud-viz-dance 10s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
 		transform-origin: middle middle;
 	}
 	.easing-aud-viz-mouth {
@@ -528,8 +535,7 @@
 	}
 	.easing-aud-viz-tail-wrapper {
 		position: absolute;
-		animation: easing-aud-viz-dance 10s cubic-bezier(0.785, 0.135, 0.15, 0.86)
-			infinite;
+		animation: easing-aud-viz-dance 10s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
 		transform-origin: middle middle;
 	}
 	.easing-aud-viz-tail {
@@ -563,8 +569,7 @@
 		}
 	}
 	.rotating-text {
-		animation: rotate-text 2.5s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite
-			alternate;
+		animation: rotate-text 2.5s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite alternate;
 	}
 	@keyframes rotate-text {
 		0% {
