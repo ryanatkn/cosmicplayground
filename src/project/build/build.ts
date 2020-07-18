@@ -64,7 +64,7 @@ const cachePlainCss = outputCssPluginInstance.cacheCss.bind(null, paths.plainCss
 const svelteUnrolledPluginInstance = svelteUnrolledPlugin({
 	dev,
 	cacheCss: cacheSvelteCss,
-	include: resolvePath('src/client/**/*.svelte'),
+	include: '**/*.svelte',
 	logLevel,
 });
 const extractSvelteCssClassesPluginInstance =

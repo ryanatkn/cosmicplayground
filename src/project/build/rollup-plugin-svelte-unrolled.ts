@@ -1,7 +1,7 @@
 import {compile} from 'svelte/compiler';
 import {CompileOptions} from 'svelte/types/compiler/interfaces';
 import {Plugin, PluginContext, RollupWarning, ExistingRawSourceMap} from 'rollup';
-import {createFilter} from 'rollup-pluginutils';
+import {createFilter} from '@rollup/pluginutils';
 import {magenta} from 'kleur';
 
 import {extractFilename, replaceExt} from '../scriptUtils';
@@ -36,8 +36,8 @@ export type SvelteUnrolledCompilation = SvelteCompilation & {
 export interface PluginOptions {
 	dev: boolean;
 	cacheCss(id: string, css: CssBuild): boolean;
-	include: string | RegExp | (string | RegExp)[] | null | undefined;
-	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
+	include: string | RegExp | (string | RegExp)[] | null;
+	exclude: string | RegExp | (string | RegExp)[] | null;
 	compileOptions: CompileOptions;
 	compilations: Map<string, SvelteUnrolledCompilation>;
 	logLevel: LogLevel;
@@ -61,8 +61,8 @@ export interface PluginOptions {
 export type RequiredPluginOptions = 'dev' | 'cacheCss';
 export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
 export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
-	include: ['src/**/*.svelte'],
-	exclude: undefined,
+	include: '**/*.svelte',
+	exclude: null,
 	compileOptions: {},
 	compilations: new Map<string, SvelteUnrolledCompilation>(),
 	logLevel: LogLevel.Info,

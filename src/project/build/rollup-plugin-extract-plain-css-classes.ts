@@ -5,7 +5,7 @@ import {green, gray} from 'kleur';
 import * as csstreeParse from 'css-tree/lib/parser';
 import {Parse} from 'css-tree/lib/parser';
 import {toPlainObject} from 'css-tree/lib/convertor';
-import {createFilter} from 'rollup-pluginutils';
+import {createFilter} from '@rollup/pluginutils';
 
 import {LogLevel, logger, Logger} from '../logger';
 import {CssBuild} from './rollup-plugin-output-css';
@@ -23,16 +23,16 @@ export interface PluginOptions {
 	cacheCss(id: string, css: CssBuild): boolean;
 	cssClasses: CssClassesCache;
 	removeUnusedClasses: boolean;
-	include: string | RegExp | (string | RegExp)[] | null | undefined;
-	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
+	include: string | RegExp | (string | RegExp)[] | null;
+	exclude: string | RegExp | (string | RegExp)[] | null;
 	logLevel: LogLevel;
 }
 export type RequiredPluginOptions = 'cacheCss' | 'cssClasses';
 export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
 export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
 	removeUnusedClasses: false,
-	include: ['**/*.css'],
-	exclude: undefined,
+	include: '**/*.css',
+	exclude: null,
 	logLevel: LogLevel.Info,
 	...omitUndefined(initialOptions),
 });

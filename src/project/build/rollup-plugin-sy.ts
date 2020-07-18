@@ -1,6 +1,6 @@
 import {Plugin} from 'rollup';
 import {cyan, gray, yellow} from 'kleur';
-import {createFilter} from 'rollup-pluginutils';
+import {createFilter} from '@rollup/pluginutils';
 import * as prettier from 'prettier';
 
 import {replaceExt} from '../scriptUtils';
@@ -15,8 +15,8 @@ export interface PluginOptions {
 	dev: boolean;
 	cacheCss(id: string, css: CssBuild): boolean;
 	cssClasses: CssClassesCache;
-	include: string | RegExp | (string | RegExp)[] | null | undefined;
-	exclude: string | RegExp | (string | RegExp)[] | null | undefined;
+	include: string | RegExp | (string | RegExp)[] | null;
+	exclude: string | RegExp | (string | RegExp)[] | null;
 	removeUnusedClasses: boolean;
 	warnUndefinedClasses: boolean;
 	cssExt: string;
@@ -28,8 +28,8 @@ export interface PluginOptions {
 export type RequiredPluginOptions = 'dev' | 'cacheCss' | 'cssClasses';
 export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
 export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
-	include: ['src/**/sy.config.ts'],
-	exclude: undefined,
+	include: 'src/**/sy.config.ts',
+	exclude: null,
 	removeUnusedClasses: !initialOptions.dev,
 	warnUndefinedClasses: true,
 	cssExt: '.css',
