@@ -37,7 +37,7 @@
     "node": ">=12"
   },
   "devDependencies": {
-    "@feltcoop/gro": "^0.2.5",
+    "@feltcoop/gro": "^0.2.7",
     "@rollup/plugin-node-resolve": "^8.4.0",
     "@rollup/pluginutils": "^3.1.0",
     "@types/css-tree": "^1.0.0",
