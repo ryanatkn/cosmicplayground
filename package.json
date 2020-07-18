@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@feltcoop/gro": "^0.2.5",
+    "@rollup/plugin-node-resolve": "^8.4.0",
     "@rollup/pluginutils": "^3.1.0",
     "@types/css-tree": "^1.0.0",
     "@types/dotenv": "^6.1.1",
@@ -54,7 +55,6 @@
     "prettier-plugin-svelte": "^1.1.0",
     "rollup": "^2.21.0",
     "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-node-resolve": "^5.0.3",
     "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-terser": "^5.3.0",
     "rollup-plugin-typescript": "^1.0.1",

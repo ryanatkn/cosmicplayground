@@ -8,7 +8,7 @@ const port = PORT || '8999';
 
 import * as rollup from 'rollup';
 import {OutputOptions, InputOptions, RollupWatchOptions, RollupOutput, RollupBuild} from 'rollup';
-import * as resolvePluginFIXME from 'rollup-plugin-node-resolve';
+import resolvePlugin from '@rollup/plugin-node-resolve';
 import * as commonjsPluginFIXME from 'rollup-plugin-commonjs';
 import * as terserPlugin from 'rollup-plugin-terser';
 import * as servePlugin from 'rollup-plugin-serve';
@@ -18,7 +18,7 @@ import * as fs from 'fs-extra';
 import * as prettier from 'prettier';
 
 import {paths} from '../paths';
-import {argv, handleScriptError, rainbow, resolvePath} from '../scriptUtils';
+import {argv, handleScriptError, rainbow} from '../scriptUtils';
 import {logger, LogLevel} from '../logger';
 import {clean} from './clean';
 import {outputCssPlugin} from './rollup-plugin-output-css';
@@ -43,7 +43,6 @@ const {info} = logger(logLevel, [magenta('[build]')]);
 // Rather than doing that and forcing `allowSyntheticDefaultImports`,
 // I'm opting to just fix the module types after importing for now.
 // This can probably be sorted out cleanly when `ts-node` supports ES modules.
-const resolvePlugin: typeof resolvePluginFIXME.default = resolvePluginFIXME as any;
 const commonjsPlugin: typeof commonjsPluginFIXME.default = commonjsPluginFIXME as any;
 
 const removeUnusedClasses = !dev;
