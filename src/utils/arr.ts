@@ -1,4 +1,4 @@
-import {identity} from './fn';
+import {identity} from './fn.js';
 
 // Like `range` but accepts a mapping `fn` instead of a min or step,
 // like `Array.from` but with a nicer shorthand.

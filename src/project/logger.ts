@@ -1,7 +1,15 @@
-import {red, yellow, gray, black, bgYellow, bgRed, white} from 'kleur';
+import {
+	red,
+	yellow,
+	gray,
+	black,
+	bgYellow,
+	bgRed,
+	white,
+} from '@feltcoop/gro/dist/colors/terminal.js';
 
-import {noop} from '../utils/fn';
-import {round} from '../utils/math';
+import {noop} from '../utils/fn.js';
+import {round} from '../utils/math.js';
 
 export type Log = (...args: any[]) => void;
 

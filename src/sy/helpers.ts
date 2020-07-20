@@ -1,5 +1,5 @@
-import {SyDef, CssClass, CssSelector, CssDeclaration, SyConfig} from './sy';
-import {UnreachableError} from '../utils/types';
+import {SyDef, CssClass, CssSelector, CssDeclaration, SyConfig} from './sy.js';
+import {UnreachableError} from '../utils/types.js';
 
 export const classDef = (className: CssClass, declaration: CssDeclaration): SyDef => {
 	return {

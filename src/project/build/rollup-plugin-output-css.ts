@@ -1,38 +1,42 @@
-import {Plugin, ExistingRawSourceMap} from 'rollup';
-import {outputFile} from 'fs-extra';
-import {blue, gray} from 'kleur';
+import {Plugin} from 'rollup';
+import {outputFile} from '@feltcoop/gro/dist/fs/nodeFs.js';
+import {blue, gray} from '@feltcoop/gro/dist/colors/terminal.js';
 import * as fp from 'path';
-import {decode, encode, SourceMapSegment} from 'sourcemap-codec';
-import {Node} from 'svelte/types/compiler/interfaces';
-import {walk} from 'svelte/compiler';
-import {translate} from 'css-tree/lib/generator'; // TODO import directly - maybe lazily?
-import {fromPlainObject} from 'css-tree/lib/convertor';
+import {SourceMapSegment} from 'sourcemap-codec';
+import sourcemapCodec from 'sourcemap-codec';
+import {Style} from 'svelte/types/compiler/interfaces.js';
+import svelteCompiler from 'svelte/compiler.js';
+const {walk} = svelteCompiler;
+import * as cssTreeGenerator from 'css-tree/lib/generator/index.js'; // TODO import directly - maybe lazily?
+const {translate} = cssTreeGenerator;
+import cssTreeConvertor from 'css-tree/lib/convertor/index.js';
+const {fromPlainObject} = cssTreeConvertor;
+import {CssNode} from 'css-tree';
+import {GroCssBundle, GroCssBuild} from '@feltcoop/gro/dist/project/types.js';
+import {dirname} from 'path';
 
-import {LogLevel, logger, fmtVal, Logger} from '../logger';
-import {toRootPath} from '../paths';
-import {CssClassesCache} from './cssClassesCache';
-import {omitUndefined} from '../../utils/obj';
+import {LogLevel, logger, Logger} from '../logger.js';
+import {CssClassesCache} from './cssClassesCache.js';
+import {omitUndefined} from '../../utils/obj.js';
 
-// TODO this is error prone - we're not expecting to have a `map` and an `ast` for example
-export interface CssBuild {
-	code: string;
-	map: ExistingRawSourceMap | undefined; // TODO review this type - `{mappings: ''}`?
-	ast?: Node;
+export interface SyCssBuild extends GroCssBuild {
+	ast?: Style;
 	removeUnusedClasses?: boolean;
 }
 
 export type CssBundle = {
 	bundleName: string;
-	buildsById: Map<string, CssBuild>;
+	buildsById: Map<string, SyCssBuild>;
 	changedIds: Set<string>;
 };
 
 export interface PluginOptions {
+	getCssBundles(): Map<string, GroCssBundle>;
 	sourcemap: boolean; // TODO consider per-bundle options
 	logLevel: LogLevel;
 	cssClasses: CssClassesCache | undefined;
 }
-export type RequiredPluginOptions = never;
+export type RequiredPluginOptions = 'getCssBundles';
 export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
 export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
 	sourcemap: false,
@@ -41,57 +45,29 @@ export const defaultPluginOptions = (initialOptions: InitialPluginOptions): Plug
 	...omitUndefined(initialOptions),
 });
 
-export interface PlainCssPlugin extends Plugin {
-	cacheCss(bundleName: string, id: string, css: CssBuild): boolean;
-}
+export interface PlainCssPlugin extends Plugin {}
 
 export const name = 'output-css';
 
 // TODO this really just outputs css - but it'll probably be refactored
 export const outputCssPlugin = (pluginOptions: InitialPluginOptions): PlainCssPlugin => {
-	const {sourcemap, logLevel, cssClasses} = defaultPluginOptions(pluginOptions);
+	const {getCssBundles, sourcemap, logLevel, cssClasses} = defaultPluginOptions(pluginOptions);
 
 	const log = logger(logLevel, [blue(`[${name}]`)]);
 	const {info} = log;
 
-	// `bundles` key is an output file name,
-	// and the value is css by id.
-	// Return a bool indicating if the cache was updated.
-	const bundles = new Map<string, CssBundle>();
-	const cacheCss = (bundleName: string, id: string, build: CssBuild): boolean => {
-		let bundle = bundles.get(bundleName);
-		if (!bundle) {
-			bundle = {bundleName, buildsById: new Map(), changedIds: new Set()};
-			bundles.set(bundleName, bundle);
-		}
-
-		const cachedBuild = bundle.buildsById.get(id);
-		// I think this comparison is safe - sourcemap should change iif code changes, eh?
-		if (build.code === (cachedBuild && cachedBuild.code)) return false;
-
-		info(fmtVal('caching', toRootPath(id)), fmtVal('bundle', bundleName));
-		bundle.buildsById.set(id, build);
-		bundle.changedIds.add(id);
-
-		return true;
-	};
-
 	return {
 		name,
-		// TODO rewrite when the emit file API is ready https://github.com/rollup/rollup/issues/2938
-		cacheCss,
 		async generateBundle(outputOptions, _bundle, isWrite) {
 			if (!isWrite) return;
 
 			info('generateBundle');
 
 			// TODO chunks!
-			const outFile = outputOptions.file;
-			if (!outFile) throw Error(`Expected outputOptions.file: ${outFile}`);
-			const outDir = fp.dirname(outFile);
+			const outputDir = outputOptions.dir || dirname(outputOptions.file!);
 
 			// write each changed bundle to disk
-			for (const {bundleName, buildsById, changedIds} of bundles.values()) {
+			for (const {bundleName, buildsById, changedIds} of getCssBundles().values()) {
 				if (!changedIds.size) continue;
 
 				info('generating css bundle', blue(bundleName));
@@ -109,12 +85,12 @@ export const outputCssPlugin = (pluginOptions: InitialPluginOptions): PlainCssPl
 					cssStrings.push(code);
 
 					// add css source map
-					// TODO do we we ever want a warning if `build.map` is undefined?
+					// TODO do we we ever want a warning if `build.map` is undefined? YES! it breaks the others
 					if (sourcemap && build.map && build.map.sourcesContent) {
 						const sourcesLength = sources.length;
 						sources.push(build.map.sources[0]);
 						sourcesContent.push(build.map.sourcesContent[0]);
-						const decoded = decode(build.map.mappings);
+						const decoded = sourcemapCodec.decode(build.map.mappings);
 						if (sourcesLength > 0) {
 							for (const line of decoded) {
 								for (const segment of line) {
@@ -127,7 +103,7 @@ export const outputCssPlugin = (pluginOptions: InitialPluginOptions): PlainCssPl
 				}
 				const css = cssStrings.join('\n');
 
-				const dest = fp.join(outDir, bundleName);
+				const dest = fp.join(outputDir, bundleName);
 
 				if (sources.length) {
 					const sourcemapDest = dest + '.map';
@@ -136,10 +112,10 @@ export const outputCssPlugin = (pluginOptions: InitialPluginOptions): PlainCssPl
 						{
 							version: 3,
 							file: bundleName,
-							sources: sources.map((s) => fp.relative(outDir, s)),
+							sources: sources.map((s) => fp.relative(outputDir, s)),
 							sourcesContent,
 							names: [],
-							mappings: encode(mappings),
+							mappings: sourcemapCodec.encode(mappings),
 						},
 						null,
 						2,
@@ -157,7 +133,7 @@ export const outputCssPlugin = (pluginOptions: InitialPluginOptions): PlainCssPl
 };
 
 const toFinalCode = (
-	{code, ast, removeUnusedClasses}: CssBuild,
+	{code, ast, removeUnusedClasses}: SyCssBuild,
 	cssClasses: CssClassesCache | undefined,
 	{trace, warn}: Logger,
 ): string => {
@@ -175,10 +151,10 @@ const toFinalCode = (
 	// There is _definitely_ a better, faster, more idiomatic way to do this.
 
 	const usedClasses = cssClasses.getUsedCssClasses();
-	const rulesToRemove = new Set<Node>();
-	const selectorsToRemove = new Set<Node>();
-	let rule: Node | undefined;
-	let selectorList: Node | undefined;
+	const rulesToRemove = new Set<CssNode>();
+	const selectorsToRemove = new Set<CssNode>();
+	let rule: CssNode | undefined;
+	let selectorList: CssNode | undefined;
 	walk(ast, {
 		enter(node, parent, _prop, _index) {
 			if (node.type === 'Rule') {
@@ -193,13 +169,13 @@ const toFinalCode = (
 				if (!rule) {
 					throw Error(`Expected to be inside a rule`);
 				}
-				if (!selectorList || !selectorList.children) {
+				if (!selectorList || !('children' in selectorList)) {
 					throw Error(`Expected to be inside a selector list with children`);
 				}
 				if (!parent) {
 					throw Error(`Expected to have a parent`);
 				}
-				if (selectorList.children.length === 1) {
+				if (selectorList.children && selectorList.children.getSize() === 1) {
 					rulesToRemove.add(rule);
 				} else {
 					selectorsToRemove.add(parent);
@@ -210,11 +186,12 @@ const toFinalCode = (
 
 	if (rulesToRemove.size === 0 && selectorsToRemove.size === 0) return code;
 
-	const trimmedAst: Node = {
+	const trimmedAst: Style = {
 		...ast,
 		children:
 			ast.children &&
-			ast.children.reduce((rules, rule) => {
+			// TODO types?
+			ast.children.reduce((rules: any, rule: any) => {
 				// skip if whole rule is ignored
 				if (rulesToRemove.has(rule)) {
 					return rules;
@@ -223,7 +200,7 @@ const toFinalCode = (
 				// remove any appropriate children in the selector list
 				if (rule.selector && rule.selector.children) {
 					rule.selector.children = rule.selector.children.filter(
-						(c: Node) => !selectorsToRemove.has(c),
+						(c: CssNode) => !selectorsToRemove.has(c),
 					);
 					// remove the whole thing if there are no rules left
 					if (rule.selector.children.length === 0) {
@@ -234,10 +211,10 @@ const toFinalCode = (
 				// add the rule, because nothing short-circuited
 				rules.push(rule);
 				return rules;
-			}, [] as Node[]),
+			}, [] as CssNode[]),
 	};
 
-	const trimmedCode = translate(fromPlainObject(trimmedAst));
+	const trimmedCode = translate(fromPlainObject(trimmedAst as any));
 
 	return trimmedCode;
 };

@@ -1,7 +1,7 @@
-import {BundleData, isBundleChunk, BundleChunk, BundleAsset} from './bundleData';
-import {reorder} from '../utils/obj';
-import {stripStart, stripEnd} from '../utils/str';
-import {last} from '../utils/arr';
+import {BundleData, isBundleChunk, BundleChunk, BundleAsset} from './bundleData.js';
+import {reorder} from '../utils/obj.js';
+import {stripStart, stripEnd} from '../utils/str.js';
+import {last} from '../utils/arr.js';
 
 // `BundleStats` an expanded transformation of `BundleStats` that provides
 // a more ergonomic runtime data representation.

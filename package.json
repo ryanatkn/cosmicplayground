@@ -1,16 +1,14 @@
 {
   "name": "cosmicplayground",
   "version": "0.1.0",
-  "description": "tools and toys for expanding minds: ear training, music theory, etc etc",
+  "description": "tools and toys for expanding minds 🌌",
   "license": "ISC",
   "homepage": "https://cosmicplayground.org",
+  "type": "module",
   "scripts": {
-    "start": "NODE_ENV=development TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/build/build.ts --watch",
-    "build": "NODE_ENV=production TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/build/build.ts",
-    "buildDev": "NODE_ENV=development TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/build/build.ts",
-    "clean": "rm -rf build static/bundle.*",
-    "deploy": "NODE_ENV=production TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/deploy/deploy.ts",
-    "deployDry": "NODE_ENV=production TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' TS_NODE_TRANSPILE_ONLY=1 ts-node src/project/deploy/deploy.ts --dry"
+    "start": "gro dev",
+    "build": "NODE_ENV=production gro build",
+    "buildDev": "NODE_ENV=development gro build"
   },
   "repository": {
     "type": "git",
@@ -20,10 +18,8 @@
     "url": "https://github.com/ryanatkn/cosmicplayground/issues"
   },
   "keywords": [
-    "ear training",
-    "music theory",
-    "web audio",
-    "web midi"
+    "web",
+    "space"
   ],
   "author": {
     "name": "Ryan Atkinson",
@@ -31,33 +27,20 @@
     "url": "https://ryanatkn.com"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "devDependencies": {
-    "@feltcoop/gro": "^0.2.7",
-    "@rollup/plugin-node-resolve": "^8.4.0",
+    "@feltcoop/gro": "^0.2.8",
     "@rollup/pluginutils": "^3.1.0",
     "@types/css-tree": "^1.0.0",
-    "@types/dotenv": "^6.1.1",
-    "@types/fs-extra": "^7.0.0",
-    "@types/minimist": "^1.2.0",
     "@types/node": "^14.0.23",
     "@types/prettier": "^2.0.2",
     "css-tree": "^1.0.0-alpha22",
-    "dotenv": "^8.0.0",
-    "fs-extra": "^8.0.1",
-    "kleur": "^3.0.3",
-    "minimist": "^1.2.3",
     "prettier": "^2.0.5",
     "prettier-plugin-svelte": "^1.1.0",
-    "rollup": "^2.21.0",
-    "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-serve": "^1.0.1",
-    "rollup-plugin-terser": "^5.3.0",
-    "rollup-plugin-typescript": "^1.0.1",
-    "sourcemap-codec": "^1.4.4",
-    "svelte": "^3.6.4",
-    "ts-node": "^8.3.0",
+    "rollup": "^2.22.1",
+    "sourcemap-codec": "^1.4.8",
+    "svelte": "^3.24.0",
     "tslib": "^2.0.0",
     "typescript": "^3.9.7"
   },

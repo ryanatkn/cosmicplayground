@@ -1,16 +1,18 @@
-import {walk} from 'svelte/compiler';
-import {Node} from 'svelte/types/compiler/interfaces';
+import svelteCompiler from 'svelte/compiler.js';
+const {walk} = svelteCompiler;
 import {Plugin} from 'rollup';
-import {cyan, gray} from 'kleur';
-import {parse} from 'css-tree';
+import {cyan} from '@feltcoop/gro/dist/colors/terminal.js';
+import * as cssTree from 'css-tree';
+const {parse} = cssTree;
+import {TemplateNode, Style, Script} from 'svelte/types/compiler/interfaces.js';
+import {printPath} from '@feltcoop/gro/dist/utils/print.js';
+import {GroSvelteCompilation} from '@feltcoop/gro/dist/project/rollup-plugin-gro-svelte.js';
+import {createStopwatch} from '@feltcoop/gro/dist/utils/time.js';
 
-import {CssClass} from '../../sy/sy';
-import {SvelteUnrolledCompilation} from './rollup-plugin-svelte-unrolled';
-import {LogLevel, logger, Logger, fmtVal, fmtMs} from '../logger';
-import {timeTracker} from '../scriptUtils';
-import {toRootPath} from '../paths';
-import {CssClassesCache} from './cssClassesCache';
-import {omitUndefined} from '../../utils/obj';
+import {CssClass} from '../../sy/sy.js';
+import {LogLevel, logger, Logger, fmtVal, fmtMs} from '../logger.js';
+import {CssClassesCache} from './cssClassesCache.js';
+import {omitUndefined} from '../../utils/obj.js';
 
 // TODO remove unused plain css classes in prod (groundwork is now laid with `cssClassesCache`)
 // TODO class directives! `class:active={isActive}`
@@ -26,7 +28,7 @@ export interface PluginOptions {
 	cssClasses: CssClassesCache;
 	classAttrMatcher: RegExp;
 	classFnMatcher: RegExp;
-	getSvelteCompilation: (id: string) => SvelteUnrolledCompilation | undefined;
+	getSvelteCompilation: (id: string) => GroSvelteCompilation | undefined;
 	logLevel: LogLevel;
 }
 export type RequiredPluginOptions = 'cssClasses' | 'getSvelteCompilation';
@@ -59,7 +61,7 @@ export const extractSvelteCssClassesPlugin = (pluginOptions: InitialPluginOption
 			if (!compilation) return null;
 
 			// add used classes from the svelte markup and scripts
-			const elapsed = timeTracker();
+			const elapsed = createStopwatch();
 			const usedClasses = new Set<string>();
 			extractCssClassesFromMarkup(compilation.ast.html, classAttrMatcher, usedClasses, log);
 			extractCssClassesFromScript(compilation.ast.instance, classFnMatcher, usedClasses, log);
@@ -71,7 +73,7 @@ export const extractSvelteCssClassesPlugin = (pluginOptions: InitialPluginOption
 			extractCssClassesFromStyles(compilation.ast.css, definedClasses, log);
 			cssClasses.setDefinedCssClasses(id, definedClasses);
 
-			info(gray(toRootPath(id)), fmtVal('extract_classes', fmtMs(elapsed(), 2))); // TODO track with stats instead of logging
+			info(printPath(id), fmtVal('extract_classes', fmtMs(elapsed(), 2))); // TODO track with stats instead of logging
 			return null;
 		},
 	};
@@ -79,7 +81,7 @@ export const extractSvelteCssClassesPlugin = (pluginOptions: InitialPluginOption
 
 // Mutates `classes` set, adding any css classes found in the html ast.
 const extractCssClassesFromMarkup = (
-	ast: Node,
+	ast: TemplateNode,
 	classAttrMatcher: RegExp,
 	classes: Set<CssClass>,
 	log: Logger,
@@ -97,7 +99,7 @@ const extractCssClassesFromMarkup = (
 
 // Mutates `classes` set, adding any css classes found in the js ast.
 const extractCssClassesFromScript = (
-	ast: Node,
+	ast: Script,
 	classFnMatcher: RegExp,
 	classes: Set<CssClass>,
 	log: Logger,
@@ -124,7 +126,7 @@ const extractCssClassesFromScript = (
 // but we need some solution for including classes that are referenced
 // in global svelte styles, css files, or otherwise outside of the `sy` config.
 const extractCssClassesFromStyles = async (
-	ast: Node,
+	ast: Style,
 	classes: Set<string>,
 	log: Logger,
 ): Promise<void> => {
@@ -134,8 +136,8 @@ const extractCssClassesFromStyles = async (
 				classes.add(node.name);
 			} else if (
 				parent &&
-				parent.name === 'global' &&
 				parent.type === 'PseudoClassSelector' &&
+				parent.name === 'global' &&
 				node.type === 'Raw'
 			) {
 				// handle `:global(selectors)` because they're not parsed by svelte
@@ -162,7 +164,7 @@ const extractCssClassesFromStyles = async (
 
 const CSS_CLASS_SPLITTER = /\s+/;
 
-const extractCssClassesFromNode = (node: Node, classes: Set<CssClass>, log: Logger) => {
+const extractCssClassesFromNode = (node: TemplateNode, classes: Set<CssClass>, log: Logger) => {
 	// log.trace(`enter node`, node);
 	const addClasses = (rawText: string) => {
 		for (const c of rawText.split(CSS_CLASS_SPLITTER).filter(Boolean)) {
@@ -222,7 +224,7 @@ const extractCssClassesFromNode = (node: Node, classes: Set<CssClass>, log: Logg
 		case 'Text': {
 			// use `node.raw` because `node.data` contains
 			// the generated svelte classes, e.g. `data: 'item svelte-1j9zaau'`
-			addClasses(node.raw);
+			addClasses((node as any).raw); // TODO does this still exist?
 			break;
 		}
 		case 'MustacheTag': {

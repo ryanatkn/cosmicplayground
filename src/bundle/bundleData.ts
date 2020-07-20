@@ -1,6 +1,6 @@
 import {OutputBundle, OutputChunk, OutputAsset} from 'rollup';
 
-import {omit, mapRecord, reorder} from '../utils/obj';
+import {omit, mapRecord, reorder} from '../utils/obj.js';
 
 // `BundleData` gets written by `rollup-plugin-bundle-writer`
 // and gets imported into the app as a json asset.

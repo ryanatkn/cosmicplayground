@@ -1,33 +1,27 @@
-import {walk} from 'svelte/compiler';
-import {Node} from 'svelte/types/compiler/interfaces';
+import svelteCompiler from 'svelte/compiler.js';
+const {walk} = svelteCompiler;
 import {Plugin} from 'rollup';
-import {green, gray} from 'kleur';
-import * as csstreeParse from 'css-tree/lib/parser';
-import {Parse} from 'css-tree/lib/parser';
-import {toPlainObject} from 'css-tree/lib/convertor';
+import {green, gray} from '@feltcoop/gro/dist/colors/terminal.js';
+import parse from 'css-tree/lib/parser/index.js';
+import cssTreeConvertor from 'css-tree/lib/convertor/index.js';
+const {toPlainObject} = cssTreeConvertor;
 import {createFilter} from '@rollup/pluginutils';
+import {Style} from 'svelte/types/compiler/interfaces.js';
 
-import {LogLevel, logger, Logger} from '../logger';
-import {CssBuild} from './rollup-plugin-output-css';
-import {CssClassesCache} from './cssClassesCache';
-import {omitUndefined} from '../../utils/obj';
-
-// This is hacky, but works around the broken css-tree types
-// when importing modules directly from `css-tree/lib/`,
-// which is done to avoid importing a ton of unused javascript and json data.
-// We could try to use svelte's parser directly by hacking in a `<style>`
-// tag and removing the dependency on css-tree, but...hmm...
-const parse = csstreeParse as Parse;
+import {LogLevel, logger, Logger} from '../logger.js';
+import {CssClassesCache} from './cssClassesCache.js';
+import {omitUndefined} from '../../utils/obj.js';
+import {SyCssBuild} from './rollup-plugin-output-css.js';
 
 export interface PluginOptions {
-	cacheCss(id: string, css: CssBuild): boolean;
+	getCssBuild(id: string): SyCssBuild;
 	cssClasses: CssClassesCache;
 	removeUnusedClasses: boolean;
 	include: string | RegExp | (string | RegExp)[] | null;
 	exclude: string | RegExp | (string | RegExp)[] | null;
 	logLevel: LogLevel;
 }
-export type RequiredPluginOptions = 'cacheCss' | 'cssClasses';
+export type RequiredPluginOptions = 'getCssBuild' | 'cssClasses';
 export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
 export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
 	removeUnusedClasses: false,
@@ -41,7 +35,7 @@ export const name = 'extract-plain-css-classes';
 
 export const extractPlainCssClassesPlugin = (pluginOptions: InitialPluginOptions): Plugin => {
 	const {
-		cacheCss,
+		getCssBuild,
 		cssClasses,
 		removeUnusedClasses,
 		include,
@@ -56,11 +50,15 @@ export const extractPlainCssClassesPlugin = (pluginOptions: InitialPluginOptions
 
 	return {
 		name,
-		async transform(code, id) {
+		async transform(_code, id) {
 			if (!filter(id)) return;
 			// handle *.css imports - styles from `sy` and `.svelte`
 			// files are handled elsewhere
 			info(`transform id`, id);
+
+			// `code` is an empty string because of the plain css plugin, so we load it
+			const cssBuild = getCssBuild(id);
+			const {code} = cssBuild;
 
 			// TODO this needs to be rethought
 			// ideally we forward css instead of adding it to the cache here, and let rollup handle caching
@@ -74,27 +72,15 @@ export const extractPlainCssClassesPlugin = (pluginOptions: InitialPluginOptions
 			// https://github.com/csstree/csstree/issues/47
 			// Svelte jses JSON.parse(JSON.stringify(parsedAst))
 			// https://github.com/sveltejs/svelte/tree/0b836872cf50f25eb643cf24e57a85cf6db31cbe/src/compiler/parse/read/style.ts
-			const ast = toPlainObject(parsedAst);
+			const ast: Style = toPlainObject(parsedAst) as any;
 			const classes = new Set<string>();
 			extractCssClassesFromStyles(ast, classes, log);
 			cssClasses.setDefinedCssClasses(id, classes);
 
 			// TODO emit asset or use the incoming emitFile api
-			// TODO hmm.. combine caching css and classes? or keep separate?
-			const updatedCache = cacheCss(id, {
-				code,
-				ast,
-				removeUnusedClasses,
-				map: undefined,
-			});
-			info('updated cache:', updatedCache);
-
-			// TODO understand this
-			if (!updatedCache) {
-				throw Error(
-					`Hmm...didn't expect this cache miss. TODO figure out circular ast/caching problem`,
-				);
-			}
+			// TODO this is hacky.. but caching isn't the right answer, because that's for changed code
+			cssBuild.ast = ast;
+			cssBuild.removeUnusedClasses = removeUnusedClasses;
 
 			return '';
 		},
@@ -106,7 +92,7 @@ export const extractPlainCssClassesPlugin = (pluginOptions: InitialPluginOptions
 // but we need some solution for including classes that are referenced
 // in global svelte styles, css files, or otherwise outside of the `sy` config.
 const extractCssClassesFromStyles = async (
-	ast: Node,
+	ast: Style,
 	classes: Set<string>,
 	log: Logger,
 ): Promise<void> => {

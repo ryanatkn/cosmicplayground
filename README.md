@@ -1,6 +1,6 @@
 # cosmicplayground
 
-[<img src="static/assets/characters/cosmic-kitty.jpg" align="right" width="100">](https://cosmicplayground.org)
+[<img src="/src/assets/characters/cosmic-kitty.jpg" align="right" width="100">](https://cosmicplayground.org)
 
 > tools and toys for expanding minds
 > [:milky_way: cosmicplayground.org](https://cosmicplayground.org)
@@ -13,7 +13,7 @@ _[cosmicplayground.org](https://cosmicplayground.org)_
 is an experimental **work in progress** website exploring
 various ideas with over-engineered web tech.
 
-![galaxies](static/assets/space/galaxies-banner.jpg)
+![galaxies](/src/assets/space/galaxies-banner.jpg)
 
 ## develop
 

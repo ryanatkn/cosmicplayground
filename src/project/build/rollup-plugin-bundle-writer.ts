@@ -1,10 +1,10 @@
 import {Plugin} from 'rollup';
-import {gray, blue} from 'kleur';
-import {outputFile} from 'fs-extra';
+import {gray, blue} from '@feltcoop/gro/dist/colors/terminal.js';
+import {outputFile} from '@feltcoop/gro/dist/fs/nodeFs.js';
 
-import {LogLevel, logger} from '../logger';
-import {toBundleData, BundleData} from '../../bundle/bundleData';
-import {omitUndefined} from '../../utils/obj';
+import {LogLevel, logger} from '../logger.js';
+import {toBundleData, BundleData} from '../../bundle/bundleData.js';
+import {omitUndefined} from '../../utils/obj.js';
 
 export interface PluginOptions {
 	srcPath: string;

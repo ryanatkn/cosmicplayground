@@ -1,8 +1,8 @@
-import {gray, green} from 'kleur';
+import {gray, green} from '@feltcoop/gro/dist/colors/terminal.js';
 
-import {CssClass} from '../../sy/sy';
-import {LogLevel, logger} from '../logger';
-import {omitUndefined} from '../../utils/obj';
+import {CssClass} from '../../sy/sy.js';
+import {LogLevel, logger} from '../logger.js';
+import {omitUndefined} from '../../utils/obj.js';
 
 export interface CssClassesCache {
 	getUsedCssClasses(): Set<CssClass>;
@@ -31,7 +31,7 @@ type CssClassCacheOp = [CssClass, boolean]; // `[cssClass, added]`, where `added
 export const createCssClassesCache = (pluginOptions: InitialOptions = {}): CssClassesCache => {
 	const {logLevel} = defaultOptions(pluginOptions);
 
-	const {info, trace} = logger(logLevel, [green('[cssClassesCache]')]);
+	const {info} = logger(logLevel, [green('[cssClassesCache]')]);
 
 	// These are build-wide sets of css classes.
 	// They get efficiently updated at a granular level using
@@ -70,23 +70,23 @@ export const createCssClassesCache = (pluginOptions: InitialOptions = {}): CssCl
 		info(gray('setUsedCssClasses'), id);
 		const prevClasses = usedClassesById.get(id);
 		const ops = diffClasses(classes, prevClasses);
-		trace('ops', ops);
+		// trace('ops', ops);
 		for (const op of ops) {
-			trace('op', op);
+			// trace('op', op);
 			const [cssClass, added] = op;
 			const count = applyCacheOp(usedClasses, usedClassCounts, op);
-			trace(gray('setUsedCssClasses op'), op, count);
+			// trace(gray('setUsedCssClasses op'), op, count);
 			// update undefined classes
 			if (added) {
 				// is it defined? if no, add to undefined
 				if (!definedClasses.has(cssClass)) {
-					trace(gray('add undefined class'), cssClass);
+					// trace(gray('add undefined class'), cssClass);
 					undefinedClasses.add(cssClass);
 				}
 			} else {
 				// is it the last reference, and is it defined? if yes+no, remove from undefined
 				if (!count && !definedClasses.has(cssClass)) {
-					trace(gray('delete undefined class'), cssClass);
+					// trace(gray('delete undefined class'), cssClass);
 					undefinedClasses.delete(cssClass);
 				}
 			}
@@ -114,13 +114,13 @@ export const createCssClassesCache = (pluginOptions: InitialOptions = {}): CssCl
 			if (added) {
 				// is it used? if yes, remove from undefined
 				if (usedClasses.has(cssClass)) {
-					trace(gray('delete undefined class'), cssClass);
+					// trace(gray('delete undefined class'), cssClass);
 					undefinedClasses.delete(cssClass);
 				}
 			} else {
 				// is it the last reference, and is it used? if yes+yes, add to undefined
 				if (!count && usedClasses.has(cssClass)) {
-					trace(gray('add undefined class'), cssClass);
+					// trace(gray('add undefined class'), cssClass);
 					undefinedClasses.add(cssClass);
 				}
 			}

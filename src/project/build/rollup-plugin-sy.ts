@@ -1,19 +1,20 @@
 import {Plugin} from 'rollup';
-import {cyan, gray, yellow} from 'kleur';
+import {cyan, gray, yellow} from '@feltcoop/gro/dist/colors/terminal.js';
 import {createFilter} from '@rollup/pluginutils';
-import * as prettier from 'prettier';
+import prettier from 'prettier';
+import {toBuildId} from '@feltcoop/gro/dist/paths.js';
+import {replaceExt} from '@feltcoop/gro/dist/utils/path.js';
 
-import {replaceExt} from '../scriptUtils';
-import {logger, LogLevel, Logger, fmtCauses} from '../logger';
-import {sy, SyBuild, SyConfig} from '../../sy/sy';
-import {removeClasses} from '../../sy/helpers';
-import {CssBuild} from './rollup-plugin-output-css';
-import {CssClassesCache} from './cssClassesCache';
-import {omitUndefined} from '../../utils/obj';
+import {logger, LogLevel, Logger, fmtCauses} from '../logger.js';
+import {sy, SyBuild, SyConfig} from '../../sy/sy.js';
+import {removeClasses} from '../../sy/helpers.js';
+import {SyCssBuild} from './rollup-plugin-output-css.js';
+import {CssClassesCache} from './cssClassesCache.js';
+import {omitUndefined} from '../../utils/obj.js';
 
 export interface PluginOptions {
 	dev: boolean;
-	cacheCss(id: string, css: CssBuild): boolean;
+	cacheCss(css: SyCssBuild): boolean;
 	cssClasses: CssClassesCache;
 	include: string | RegExp | (string | RegExp)[] | null;
 	exclude: string | RegExp | (string | RegExp)[] | null;
@@ -172,7 +173,7 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 				const build = createSyBuild(finalConfig, dev, log, prettierOptions);
 				builds.set(cssId, build);
 				// TODO rewrite when the emit file API is ready https://github.com/rollup/rollup/issues/2938
-				cacheCss(cssId, {code: build.styles, map: undefined});
+				cacheCss({id: cssId, sourceId: cssId, code: build.styles, map: undefined, sortIndex: 0});
 			}
 			changedCssIds.clear();
 		},
@@ -197,8 +198,11 @@ const createSyConfig = async (
 	configPartial: Partial<SyConfig> = {},
 	log: Logger,
 ): Promise<SyConfig> => {
-	delete require.cache[require.resolve(configPath)];
-	const configModule: SyConfigModule = require(configPath);
+	// TODO how to do this? worker process?
+	// delete require.cache[require.resolve(configPath)];
+	// TODO do this correctly
+	const buildConfigPath = toBuildId(configPath);
+	const configModule: SyConfigModule = await import(buildConfigPath);
 
 	log.info('creating config...');
 	const config = await configModule.createConfig(configPartial);
