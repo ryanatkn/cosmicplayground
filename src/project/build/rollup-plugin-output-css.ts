@@ -78,7 +78,7 @@ export const outputCssPlugin = (pluginOptions: InitialPluginOptions): PlainCssPl
 				const sources: string[] = [];
 				const sourcesContent: string[] = [];
 
-				// sort the css builds, so the cascade works according to import order
+				// sort the css builds for determinism and so the cascade works according to import order
 				const builds = Array.from(buildsById.values()).sort((a, b) =>
 					a.sortIndex === b.sortIndex ? (a.id > b.id ? 1 : -1) : a.sortIndex > b.sortIndex ? 1 : -1,
 				);
