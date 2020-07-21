@@ -52,7 +52,7 @@
 	src="assets/characters/spider.png"
 	alt="spider"
 	imgClass="absolute -t-1 -r-3"
-	linkClass="block relative h-0"
+	linkClass="block relative h-0 cursor-none"
 />
 <ImgLink
 	href="https://github.com/ryanatkn/cosmicplayground"

@@ -202,7 +202,7 @@
 					alt="under construction: mammal"
 					class="pixelated"
 				/>
-				<a href="https://spiderspace.org">
+				<a href="https://spiderspace.org" class="cursor-none">
 					<img
 						src="assets/characters/spider.png"
 						alt="spider"
