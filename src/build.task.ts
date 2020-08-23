@@ -23,7 +23,11 @@ export const task: Task = {
 
 		// TODO assets task
 		await copy(paths.assets, toDistId(paths.assets)); // TODO should be with assets - also, import this path
-		await copy(join(paths.source, 'index.html'), join(paths.dist, 'index.html')); // TODO should be with assets - also, import this path
+		// TODO should be with assets - also, import this path
+		const otherAssetFiles = ['index.html', 'favicon.png'];
+		for (const assetFile of otherAssetFiles) {
+			await copy(join(paths.source, assetFile), join(paths.dist, assetFile));
+		}
 
 		await invokeTask('gro/build');
 	},
