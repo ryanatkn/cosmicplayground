@@ -89,7 +89,7 @@
 			// draw the initial point as a tiny line, so individual points appear onscreen
 			line.points = `${x - 3},${y - 3}${point}`;
 		}
-		lines = lines;
+		lines = lines.slice();
 	};
 
 	const audioCtx = useAudioCtx();
@@ -159,7 +159,7 @@
 
 		const nextPoint = createNextPoint();
 		lines.push(nextPoint);
-		lines = lines;
+		lines = lines.slice();
 	};
 	const handlePointerUp = (e) => {
 		if (!audioCtx || !osc) return;
