@@ -126,6 +126,7 @@
 				<div style="font-size: 20px; margin-bottom: 7px;">paint freqs</div>
 				<div class="overflow-hidden" style="width: 192px; height: 192px; border-radius: 50%;">
 					<img
+						id="cosmic-kitty"
 						src="assets/characters/cosmic-kitty.jpg"
 						style="width: 192px; height: 192px;"
 						alt="Cosmic Kitty"
@@ -584,5 +585,16 @@
 		left: 0;
 		top: 0;
 		z-index: 10;
+	}
+	#cosmic-kitty {
+		animation: rotate-kitty 5s ease-in-out infinite alternate;
+	}
+	@keyframes rotate-kitty {
+		0% {
+			transform: rotate3d(0, 0, 0, -3deg);
+		}
+		100% {
+			transform: rotate3d(0, 0, 1, 8deg);
+		}
 	}
 </style>
