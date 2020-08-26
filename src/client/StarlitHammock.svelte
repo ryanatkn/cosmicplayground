@@ -21,8 +21,11 @@
 	let x = 0;
 	let y = 0;
 	let scale = 1;
+	let lastTransitionDuration = transitionDuration;
 
 	const randomize = (duration = transitionDuration + pauseDuration) => {
+		lastTransitionDuration = duration;
+
 		// TODO maybe change the duration based on the distance/scaling to be done?
 		// or maybe ensure either/both the scaling/distance factor are significantly different?
 		scale = randomFloat(scaleMin, scaleMax);
@@ -44,11 +47,15 @@
 	onDestroy(() => clearTimeout(timeout));
 </script>
 
-<div class="viewport" style="width: {width}px; height: {height}px;" on:click={() => randomize()}>
+<div
+	class="viewport"
+	style="width: {width}px; height: {height}px;"
+	on:click={() => randomize(1000)}
+>
 	<img
 		src={imageUrl}
 		style="width: {imageWidth}px; height: {imageHeight}px; transform: translate3d({x}px, {y}px, 0)
-		scale3d({scale}, {scale}, 1); transition-duration: {transitionDuration}ms;"
+		scale3d({scale}, {scale}, 1); transition-duration: {lastTransitionDuration}ms;"
 		alt="view of space"
 	/>
 </div>
