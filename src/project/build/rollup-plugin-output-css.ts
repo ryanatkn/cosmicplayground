@@ -14,10 +14,10 @@ const {fromPlainObject} = cssTreeConvertor;
 import {CssNode} from 'css-tree';
 import {GroCssBundle, GroCssBuild} from '@feltcoop/gro/dist/project/types.js';
 import {dirname} from 'path';
+import {omitUndefined} from '@feltcoop/gro/dist/utils/object.js';
 
 import {LogLevel, logger, Logger} from '../logger.js';
 import {CssClassesCache} from './cssClassesCache.js';
-import {omitUndefined} from '../../utils/obj.js';
 
 export interface SyCssBuild extends GroCssBuild {
 	ast?: Style;

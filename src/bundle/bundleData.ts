@@ -1,6 +1,7 @@
 import {OutputBundle, OutputChunk, OutputAsset} from 'rollup';
+import {mapRecord, reorder} from '@feltcoop/gro/dist/utils/object.js';
 
-import {omit, mapRecord, reorder} from '../utils/obj.js';
+import {omit} from '../utils/obj.js';
 
 // `BundleData` gets written by `rollup-plugin-bundle-writer`
 // and gets imported into the app as a json asset.

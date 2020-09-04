@@ -4,13 +4,13 @@ import {createFilter} from '@rollup/pluginutils';
 import prettier from 'prettier';
 import {toBuildId} from '@feltcoop/gro/dist/paths.js';
 import {replaceExt} from '@feltcoop/gro/dist/utils/path.js';
+import {omitUndefined} from '@feltcoop/gro/dist/utils/object.js';
 
 import {logger, LogLevel, Logger, fmtCauses} from '../logger.js';
 import {sy, SyBuild, SyConfig} from '../../sy/sy.js';
 import {removeClasses} from '../../sy/helpers.js';
 import {SyCssBuild} from './rollup-plugin-output-css.js';
 import {CssClassesCache} from './cssClassesCache.js';
-import {omitUndefined} from '../../utils/obj.js';
 
 export interface PluginOptions {
 	dev: boolean;

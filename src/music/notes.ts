@@ -1,5 +1,6 @@
+import {mapRecord} from '@feltcoop/gro/dist/utils/object.js';
+
 import {Hsl, hslToStr, Hue} from '../utils/colors.js'; // TODO maybe this belongs somewhere elase - a `colorsAndMusic` module?
-import {mapRecord} from '../utils/obj.js';
 import {Midi, midis, isMidi} from './midi.js';
 
 export const NOTE_FLAT_SYMBOL = '♭';

@@ -7,10 +7,10 @@ import cssTreeConvertor from 'css-tree/lib/convertor/index.js';
 const {toPlainObject} = cssTreeConvertor;
 import {createFilter} from '@rollup/pluginutils';
 import {Style} from 'svelte/types/compiler/interfaces.js';
+import {omitUndefined} from '@feltcoop/gro/dist/utils/object.js';
 
 import {LogLevel, logger, Logger} from '../logger.js';
 import {CssClassesCache} from './cssClassesCache.js';
-import {omitUndefined} from '../../utils/obj.js';
 import {SyCssBuild} from './rollup-plugin-output-css.js';
 
 export interface PluginOptions {

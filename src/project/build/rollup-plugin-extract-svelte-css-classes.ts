@@ -7,11 +7,11 @@ import {TemplateNode, Style, Script} from 'svelte/types/compiler/interfaces.js';
 import {printPath} from '@feltcoop/gro/dist/utils/print.js';
 import {GroSvelteCompilation} from '@feltcoop/gro/dist/project/rollup-plugin-gro-svelte.js';
 import {createStopwatch} from '@feltcoop/gro/dist/utils/time.js';
+import {omitUndefined} from '@feltcoop/gro/dist/utils/object.js';
 
 import {CssClass} from '../../sy/sy.js';
 import {LogLevel, logger, Logger, fmtVal, fmtMs} from '../logger.js';
 import {CssClassesCache} from './cssClassesCache.js';
-import {omitUndefined} from '../../utils/obj.js';
 
 // TODO remove unused plain css classes in prod (groundwork is now laid with `cssClassesCache`)
 // TODO class directives! `class:active={isActive}`
