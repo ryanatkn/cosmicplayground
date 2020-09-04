@@ -27,6 +27,7 @@
 	export let isIdle;
 
 	const settings = useSettings();
+	let {devMode} = $settings; // needed for lexical scoping
 	$: devMode = $settings.devMode;
 	$: audioEnabled = $settings.audioEnabled;
 
