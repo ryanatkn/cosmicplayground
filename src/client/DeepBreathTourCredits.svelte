@@ -1,8 +1,10 @@
 <script>
 	import {blur} from 'svelte/transition';
 	import ImgLink from './ImgLink.svelte';
+	import {useSettings} from './settingsStore.js';
 
-	const displayForVideo = false; // TODO add to settings?
+	const settings = useSettings();
+	$: displayForVideo = $settings.recordingMode;
 
 	export let transitionDuration;
 

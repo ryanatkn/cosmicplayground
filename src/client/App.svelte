@@ -22,6 +22,7 @@
 	import {mix} from '../utils/math.js';
 	import {initAudioCtx} from '../audio/audioCtx.js';
 	import {trackIdleState} from './trackIdleState.js';
+	import {initSettings} from './settingsStore.js';
 
 	export let name;
 
@@ -29,6 +30,12 @@
 	export let windowHeight = window.innerHeight;
 
 	export let clock = createClock();
+
+	const settings = initSettings({
+		audioEnabled: true,
+		devMode: false,
+		recordingMode: false,
+	});
 
 	// views:
 	// portals | about | freq-spectacle | freq-speeds | under-construction | bundle-vision |
@@ -42,7 +49,7 @@
 	};
 
 	const isIdle = writable(false);
-	const timeToGoIdle = 6000; // TODO set with devMode (add to context)
+	$: timeToGoIdle = $settings.devMode ? 99999999999 : 6000;
 
 	const viewsWithGalaxyBg = new Set([
 		'portals',

@@ -2,6 +2,7 @@
 	import {tweened} from 'svelte/motion';
 	import {cubicInOut, sineInOut} from 'svelte/easing';
 	import {writable} from 'svelte/store';
+	import {onDestroy} from 'svelte';
 	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
 	import {randomFloat} from '@feltcoop/gro/dist/utils/random.js';
 
@@ -19,14 +20,16 @@
 	import DeepBreathTourIntro from './DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from './DeepBreathTourTitle.svelte';
 	import DeepBreathTourCredits from './DeepBreathTourCredits.svelte';
-	import {onDestroy} from 'svelte';
+	import {useSettings} from './settingsStore.js';
 
 	export let width;
 	export let height;
 	export let isIdle;
 
-	const devMode = false;
-	const muteAudio = false;
+	const settings = useSettings();
+	$: devMode = $settings.devMode;
+	$: audioEnabled = $settings.audioEnabled;
+
 	const debugStartTime = 0; // ~0-300000
 
 	// TODO image metadata
@@ -274,12 +277,12 @@
 						}
 						case 'playOceanWavesSound': {
 							oceanWavesSound.audio.currentTime = 0;
-							if (!muteAudio) oceanWavesSound.audio.play();
+							if (audioEnabled) oceanWavesSound.audio.play();
 							return;
 						}
 						case 'playSong': {
 							tourSong.audio.currentTime = 0;
-							if (!muteAudio) tourSong.audio.play();
+							if (audioEnabled) tourSong.audio.play();
 							return;
 						}
 						case 'showIntro': {
@@ -332,7 +335,7 @@
 			// TODO this is broken in Chrome, maybe because of headers
 			// https://stackoverflow.com/questions/37044064/html-audio-cant-set-currenttime
 			if (audio.paused) {
-				if (!muteAudio) audio.play();
+				if (audioEnabled) audio.play();
 			}
 		} else if (!audio.paused) {
 			audio.pause();
