@@ -51,7 +51,7 @@
 	const views = ['all', 'selected', 'unselected'];
 	let view = 'selected';
 	//$: console.log('view changed', view);
-	let playing = false;
+	let playing = true;
 	$: playing ? startPlaying() : stopPlaying();
 	//$: console.log('playing changed', playing);
 
