@@ -40,7 +40,7 @@
 			<ImgLink alt="construction idea" src="assets/construction/person-dig-idea.gif" />
 			<ImgLink alt="construction mammal" src="assets/construction/mammal.gif" />
 		</div>
-		<a href="#construction">
+		<a href="#under-construction">
 			<em>under construction</em>
 		</a>
 		gifs from
@@ -54,7 +54,7 @@
 		</div>
 		<div>
 			Cosmic Kitty pounced out of
-			<a href="#paint_freqs">
+			<a href="#paint-freqs">
 				<em>paint freqs</em>
 			</a>
 			.. mreow
@@ -66,7 +66,7 @@
 	</CreditsItem>
 	<CreditsItem>
 		<EarthThumbnail width={600} height={300} animationDuration="45s" />
-		<a href="#deep_breath">
+		<a href="#deep-breath">
 			<em>deep breath</em>
 		</a>
 		inhales

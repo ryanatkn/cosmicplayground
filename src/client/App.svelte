@@ -4,7 +4,7 @@
 	import {createClock} from './clock.js';
 	import Panel from './Panel.svelte';
 	import GalaxyBg from './GalaxyBg.svelte';
-	import Construction from './Construction.svelte';
+	import UnderConstruction from './UnderConstruction.svelte';
 	import BundleVision from './BundleVision.svelte';
 	import About from './About.svelte';
 	import ClockControls from './ClockControls.svelte';
@@ -31,9 +31,9 @@
 	export let clock = createClock();
 
 	// views:
-	// portals | about | freq_speed | freq_speeds | construction | bundle_vision |
-	// hearing_test | transition_designer | easing_viz | easing_aud_viz | paint_freqs
-	// starlit_hammock | deep_breath
+	// portals | about | freq-spectacle | freq-speeds | under-construction | bundle-vision |
+	// hearing-test | transition-designer | easings-1 | easings-2 | paint-freqs
+	// starlit-hammock | deep-breath
 	let hash = typeof window === 'undefined' ? '' : window.location.hash;
 	const DEFAULT_VIEW = 'portals';
 	$: view = hash.slice(1) || DEFAULT_VIEW;
@@ -47,16 +47,16 @@
 	const viewsWithGalaxyBg = new Set([
 		'portals',
 		'about',
-		'freq_speed',
-		'freq_speeds',
-		'construction',
-		'bundle_vision',
-		'hearing_test',
-		'transition_designer',
-		'easing_viz',
-		'easing_aud_viz',
-		'paint_freqs',
-		'deep_breath', // TODO hide this during the tour
+		'freq-spectacle',
+		'freq-speeds',
+		'under-construction',
+		'bundle-vision',
+		'hearing-test',
+		'transition-designer',
+		'easings-1',
+		'easings-2',
+		'paint-freqs',
+		'deep-breath', // TODO hide this during the tour
 	]);
 	$: showGalaxyBg = viewsWithGalaxyBg.has(view);
 
@@ -145,7 +145,7 @@
 			</a>
 			<a
 				class="thumbnail thumbnail--deep-breath"
-				href="#deep_breath"
+				href="#deep-breath"
 				style="width: 326px; height: 166px;"
 			>
 				<EarthThumbnail
@@ -157,7 +157,7 @@
 					styles="position: absolute;"
 				/>
 			</a>
-			<a class="thumbnail" href="#paint_freqs">
+			<a class="thumbnail" href="#paint-freqs">
 				<div style="font-size: 20px; margin-bottom: 7px;">paint freqs</div>
 				<div class="overflow-hidden" style="width: 192px; height: 192px; border-radius: 50%;">
 					<img
@@ -168,7 +168,7 @@
 					/>
 				</div>
 			</a>
-			<a class="thumbnail" href="#starlit_hammock" style="width: 260px; height: 200px;">
+			<a class="thumbnail" href="#starlit-hammock" style="width: 260px; height: 200px;">
 				<div class="relative z-1">starlit hammock</div>
 				<GalaxyBg
 					width={260}
@@ -178,7 +178,7 @@
 					running={$clock.running}
 				/>
 			</a>
-			<a class="thumbnail" href="#easing_aud_viz">
+			<a class="thumbnail" href="#easings-2">
 				<div>easing function audioizations and visualizations</div>
 				<div class="easing-aud-viz-wrapper">
 					<canvas bind:this={easingAudVizCanvas} />
@@ -220,22 +220,22 @@
 					</div>
 				</div>
 			</a>
-			<a class="thumbnail" href="#easing_viz">
+			<a class="thumbnail" href="#easings-1">
 				<div>easing function visualizations</div>
 				<div class="easing-viz-slider-wrapper">
 					<div class="easing-viz-slider-graphic" />
 				</div>
 			</a>
-			<a class="thumbnail" href="#transition_designer">
+			<a class="thumbnail" href="#transition-designer">
 				<div class="rotating-text">transition designer</div>
 			</a>
-			<a class="thumbnail" href="#hearing_test">
+			<a class="thumbnail" href="#hearing-test">
 				<div>🐶 hearing test 🐶</div>
 				<div>
 					<small style="color: hsla(40deg, 60%, 65%, 1);">🐾 🐕 beware ye, creature 🐕 🐾</small>
 				</div>
 			</a>
-			<a class="thumbnail" href="#freq_speeds" style="display: flex; flex-direction: column;">
+			<a class="thumbnail" href="#freq-speeds" style="display: flex; flex-direction: column;">
 				<FreqSpeeds
 					elapsedTime={$clock.time}
 					width={300}
@@ -252,7 +252,7 @@
 					style="transform: rotate(180deg);"
 				/>
 			</a>
-			<a class="thumbnail" href="#freq_speed" style="display: flex;">
+			<a class="thumbnail" href="#freq-spectacle" style="display: flex;">
 				<FreqSpectacle
 					elapsedTime={$clock.time}
 					width={150}
@@ -261,8 +261,8 @@
 					lowestHzItemCount={1}
 				/>
 			</a>
-			<a class="thumbnail" href="#bundle_vision">{'{ bundle vision }'}</a>
-			<a class="thumbnail thumbnail--construction" href="#construction">
+			<a class="thumbnail" href="#bundle-vision">{'{ bundle vision }'}</a>
+			<a class="thumbnail thumbnail--under-construction" href="#under-construction">
 				{#if $clock.running}
 					<img
 						src="assets/construction/person-rock.gif"
@@ -304,53 +304,53 @@
 			</About>
 		</Panel>
 	</section>
-{:else if view === 'easing_aud_viz'}
+{:else if view === 'easings-2'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton />
 		</div>
 		<EasingAudViz />
 	</section>
-{:else if view === 'easing_viz'}
+{:else if view === 'easings-1'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton />
 		</div>
 		<EasingViz />
 	</section>
-{:else if view === 'transition_designer'}
+{:else if view === 'transition-designer'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton />
 		</div>
 		<TransitionDesigner />
 	</section>
-{:else if view === 'paint_freqs'}
+{:else if view === 'paint-freqs'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton />
 		</div>
 		<PaintFreqs />
 	</section>
-{:else if view === 'starlit_hammock'}
+{:else if view === 'starlit-hammock'}
 	<section class="content" class:cursor-none={$isIdle}>
 		<div class="back-button-wrapper">
 			<BackButton isIdle={$isIdle} />
 		</div>
 		<StarlitHammock width={windowWidth} height={windowHeight} />
 	</section>
-{:else if view === 'deep_breath'}
+{:else if view === 'deep-breath'}
 	<section class="content" class:cursor-none={$isIdle}>
 		<DeepBreath {clock} width={windowWidth} height={windowHeight} {isIdle} />
 	</section>
-{:else if view === 'hearing_test'}
+{:else if view === 'hearing-test'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton />
 		</div>
 		<HearingTest />
 	</section>
-{:else if view === 'freq_speed'}
+{:else if view === 'freq-spectacle'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton isIdle={$isIdle} />
@@ -410,7 +410,7 @@
 			</div>
 		</div>
 	</section>
-{:else if view === 'freq_speeds'}
+{:else if view === 'freq-speeds'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton isIdle={$isIdle} />
@@ -433,7 +433,7 @@
 			/>
 		</div>
 	</section>
-{:else if view === 'bundle_vision'}
+{:else if view === 'bundle-vision'}
 	<!-- // TODO path - see `src/project/paths.ts` for more -->
 	<section class="content">
 		<div class="back-button-wrapper">
@@ -441,12 +441,12 @@
 		</div>
 		<BundleVision url="/bundle.stats.json" />
 	</section>
-{:else if view === 'construction'}
+{:else if view === 'under-construction'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton isIdle={$isIdle} />
 		</div>
-		<Construction running={$clock.running} />
+		<UnderConstruction running={$clock.running} />
 	</section>
 {:else}
 	<section class="content" style="display: flex;">
@@ -507,7 +507,7 @@
 		border-style: dotted;
 		transform: scale3d(1.09, 1.09, 1);
 	}
-	.thumbnail--construction img:not(.grayscale) {
+	.thumbnail--under-construction img:not(.grayscale) {
 		animation: rotate-pulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 	}
 	@keyframes rotate-pulse {

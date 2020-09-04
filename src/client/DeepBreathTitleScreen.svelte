@@ -62,8 +62,8 @@
 				Deep Breath is an interactive webpage with a rough sketch of Earth's sea levels if all ice
 				melts, about 60-75 meters above 2020's oceans. Some estimates are higher. The code and image
 				data are
-				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>
-				. See the credits below for more.
+				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>.
+				See the credits below for more.
 			</p>
 			<p>Please be aware that the data is imperfect. Some errors:</p>
 			<ul>
@@ -74,7 +74,7 @@
 				</li>
 				<li>
 					Landlocked areas below sea level fill with water even though they probably won't flood
-					because they don't border the oceans. Including them could be misleading but I find them
+					because they don't border the oceans. They could be misleading but I find them
 					interesting. The most prominent examples are central Australia and the Aral Sea.
 				</li>
 			</ul>
