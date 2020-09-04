@@ -5,11 +5,11 @@ export interface SettingsState {
 	audioEnabled: boolean;
 	devMode: boolean;
 	recordingMode: boolean;
+	timeToGoIdle: number;
 }
 
 export interface SettingsStore {
 	subscribe: Writable<SettingsState>['subscribe'];
-	set: Writable<SettingsState>['set'];
 	update: Writable<SettingsState>['update'];
 }
 
@@ -18,11 +18,12 @@ export const createSettingsStore = (initialState: Partial<SettingsState>): Setti
 		audioEnabled: true,
 		devMode: false,
 		recordingMode: false,
+		timeToGoIdle: 6000,
 		...initialState,
 	});
-	// TODO we probably do not want to expose `set` and `update`, but for now it's fine
-	const {subscribe, set, update} = store;
-	return {subscribe, set, update};
+	// TODO we might not want to expose `update` directly, but for now it's fine
+	const {subscribe, update} = store;
+	return {subscribe, update};
 };
 
 export const settingsContextKey = {};

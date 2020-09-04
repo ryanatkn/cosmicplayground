@@ -35,6 +35,7 @@
 		audioEnabled: true,
 		devMode: false,
 		recordingMode: false,
+		timeToGoIdle: 6000,
 	});
 
 	// views:
@@ -49,7 +50,7 @@
 	};
 
 	const isIdle = writable(false);
-	$: timeToGoIdle = $settings.devMode ? 99999999999 : 6000;
+	$: timeToGoIdle = $settings.devMode ? 99999999999 : $settings.timeToGoIdle;
 
 	const viewsWithGalaxyBg = new Set([
 		'portals',
