@@ -7,7 +7,7 @@ import sourcemapCodec from 'sourcemap-codec';
 import {Style} from 'svelte/types/compiler/interfaces.js';
 import svelteCompiler from 'svelte/compiler.js';
 const {walk} = svelteCompiler;
-import * as cssTreeGenerator from 'css-tree/lib/generator/index.js'; // TODO import directly - maybe lazily?
+import cssTreeGenerator from 'css-tree/lib/generator/index.js'; // TODO import directly - maybe lazily?
 const {translate} = cssTreeGenerator;
 import cssTreeConvertor from 'css-tree/lib/convertor/index.js';
 const {fromPlainObject} = cssTreeConvertor;
@@ -180,7 +180,17 @@ const toFinalCode = (
 				if (!parent) {
 					throw Error(`Expected to have a parent`);
 				}
-				if (selectorList.children && selectorList.children.getSize() === 1) {
+				if (selectorList.children) {
+					console.log(selectorList.children.getSize, (selectorList.children as any).length);
+				}
+				// TODO temp hack to unbreak the build -
+				// `getSize` is undefined.. always? did a dep change?
+				const childCount =
+					selectorList.children &&
+					(selectorList.children.getSize
+						? selectorList.children.getSize()
+						: (selectorList.children as any).length);
+				if (childCount === 1) {
 					rulesToRemove.add(rule);
 				} else {
 					selectorsToRemove.add(parent);
