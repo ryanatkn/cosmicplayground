@@ -249,9 +249,9 @@
 	const getColor = (index, opacity = 0.8) => `hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 </script>
 
-<div class="max-column-width" style="display: flex; flex-wrap: wrap; margin: auto;">
+<div class="easing-aud-viz">
 	<section>
-		<section class="controls" style="padding-left: 90px;">
+		<section class="controls">
 			<div class="controls-group {muted ? 'disabled' : ''}">
 				<button on:click={() => (muted = !muted)}>{muted ? '🔇' : '🔊'}</button>
 				<input
@@ -314,23 +314,23 @@
 			<label class="active-tween-name" style="color: {getColor(activeEasingIndex)};">
 				{activeEasing.name}
 			</label>
-			<div style="position: relative;">
+			<div class="chart">
 				<div
-					style="position: absolute; left: 0; top: 0; transform: translate3d({chartX0 + xPct * chartWidth - chartAxisLineWidth / 2}px,
-					{chartY0 - chartAxisLineWidth / 2}px, 0); background-color: rgba(255, 255, 255, 0.6);
-					width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
+					class="absolute l-0 t-0"
+					style="transform: translate3d({chartX0 + xPct * chartWidth - chartAxisLineWidth / 2}px, {chartY0 - chartAxisLineWidth / 2}px,
+					0); background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
 				/>
 				<div
-					style="position: absolute; left: 0; top: 0; transform: translate3d({chartX0 - chartAxisLineWidth / 2}px,
-					{chartY0 - yPct * chartHeight - chartAxisLineWidth / 2}px, 0); background-color: rgba(255,
-					255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
+					class="absolute l-0 t-0"
+					style="transform: translate3d({chartX0 - chartAxisLineWidth / 2}px, {chartY0 - yPct * chartHeight - chartAxisLineWidth / 2}px,
+					0); background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
 				/>
 				<canvas class="relative z-1" bind:this={chartCanvas} />
 				<div
-					style="position: absolute; left: 0; top: 0; background-color: {getColor(activeEasingIndex)};
-					transform: translate3d({chartX0 + xPct * chartWidth - chartLineHighlightWidth / 2}px, {chartY0 - yPct * chartHeight - chartLineHighlightWidth / 2}px,
-					0); width: {chartLineHighlightWidth}px; height: {chartLineHighlightWidth}px;
-					border-radius: 50%;"
+					class="absolute l-0 t-0"
+					style="background-color: {getColor(activeEasingIndex)}; transform: translate3d({chartX0 + xPct * chartWidth - chartLineHighlightWidth / 2}px,
+					{chartY0 - yPct * chartHeight - chartLineHighlightWidth / 2}px, 0); width: {chartLineHighlightWidth}px;
+					height: {chartLineHighlightWidth}px; border-radius: 50%;"
 				/>
 			</div>
 			<div
@@ -343,18 +343,14 @@
 				/>
 			</div>
 			<div style="display: flex;">
-				<div
-					style="display: flex; align-items: center; justify-content: center; width: {translateWidth / 2}px"
-				>
+				<div class="flex items-center justify-center" style="width: {translateWidth / 2}px">
 					<div
 						class="active-tween-graphic-rotate"
 						style="transform: rotate({tweenAlternating * 180}deg); height: {graphic2Height}px;
 						background-color: {getColor(activeEasingIndex)};"
 					/>
 				</div>
-				<div
-					style="display: flex; align-items: center; justify-content: center; width: {translateWidth / 2}px"
-				>
+				<div class="flex items-center justify-center" style="width: {translateWidth / 2}px">
 					<div
 						class="active-tween-graphic-scale"
 						style="transform: scale3d({tweenAlternating}, {tweenAlternating}, 1); width: {graphic2Width}px;
@@ -364,8 +360,8 @@
 			</div>
 			<div>
 				<div
-					style="display: flex; align-items: center; justify-content: center; width: {translateWidth / 2}px;
-					padding: 36px 36px 0;"
+					class="flex items-center justify-center"
+					style="width: {translateWidth / 2}px; padding: 36px 36px 0;"
 				>
 					<div
 						style="transform: skew({tweenAlternating * 80 - 25}deg, {tweenAlternating * 10 - 2}deg);
@@ -376,7 +372,7 @@
 		</section>
 	</section>
 
-	<section class="tweens" style="flex-grow: 1; flex-basis: 440px;">
+	<section class="tweens">
 		{#each easings as easing, i (easing.name)}
 			<label
 				class="tween-radio"
@@ -391,9 +387,16 @@
 </div>
 
 <style>
+	.easing-aud-viz {
+		max-width: 1337px;
+		display: flex;
+		flex-wrap: wrap;
+		margin: auto;
+	}
 	.controls {
 		display: flex;
 		flex-direction: column;
+		padding-left: 90px;
 	}
 	.controls-group {
 		display: flex;
@@ -422,6 +425,8 @@
 	.tweens {
 		display: flex;
 		flex-wrap: wrap;
+		flex-grow: 1;
+		flex-basis: 440px;
 	}
 	.tween-radio {
 		display: flex;
@@ -432,6 +437,9 @@
 	}
 	.tween-radio.active input {
 		opacity: 1;
+	}
+	.chart {
+		position: relative;
 	}
 	section {
 		color: rgba(255, 255, 255, 0.8);
