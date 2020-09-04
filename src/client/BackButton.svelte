@@ -1,8 +1,10 @@
 <script>
+	import {scale} from 'svelte/transition';
+
 	export let isIdle = false;
 </script>
 
-<a href="#portals" class:idle={isIdle}>⇦</a>
+<a href="#portals" class:idle={isIdle} in:scale={{duration: 167}} aria-label="go back">⇦</a>
 
 <style>
 	a {

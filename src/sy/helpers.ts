@@ -1,5 +1,6 @@
+import {UnreachableError} from '@feltcoop/gro/dist/utils/error.js';
+
 import {SyDef, CssClass, CssSelector, CssDeclaration, SyConfig} from './sy.js';
-import {UnreachableError} from '../utils/types.js';
 
 export const classDef = (className: CssClass, declaration: CssDeclaration): SyDef => {
 	return {

@@ -1,13 +1,28 @@
-import {writable, get} from 'svelte/store';
+import {writable, get, Writable} from 'svelte/store';
 
 // I tried to avoid using `get`, but there's one place where it's used.
 // Subscribing to the `running` value seems to add a lot of complexity
 // to get it working correctly.
 // If the store is subscribed to in the function that creates it,
 // it'll never reach 0 subscribers and be cleaned up,
-// creating a memory leak. There might be better ways to do this.
+// creating a memory leak. There are probably better ways to do this.
 
-export const createClock = (initialState: {time?: number; running?: boolean} = {}) => {
+export interface ClockState {
+	time: number;
+	running: boolean;
+	dt: number;
+}
+
+export interface ClockStore {
+	subscribe: Writable<ClockState>['subscribe'];
+	set: Writable<ClockState>['set'];
+	update: Writable<ClockState>['update'];
+	resume: () => void;
+	pause: () => void;
+	toggle: () => void;
+}
+
+export const createClock = (initialState: {time?: number; running?: boolean} = {}): ClockStore => {
 	let lastTime: number | undefined;
 	let reqId: number | undefined;
 
@@ -67,13 +82,15 @@ export const createClock = (initialState: {time?: number; running?: boolean} = {
 const logDroppedFrames = (dt: number): void => {
 	const expectedFps = 60;
 	const expectedMsPerFrame = 1000 / expectedFps;
-	if (dt > expectedMsPerFrame + 5) {
+	if (dt > expectedMsPerFrame * 2 - 5) {
 		const droppedFrameCount =
 			Math.round((10 * (dt - expectedMsPerFrame)) / expectedMsPerFrame) / 10;
-		console.warn(
-			`(╯°□°)╯︵ ┻━┻ ${droppedFrameCount} frame${
-				droppedFrameCount === 1 ? '' : 's'
-			} over ${dt.toFixed(1)}ms`,
-		);
+		(window as any).droppedFrameCount =
+			((window as any).droppedFrameCount || 0) + droppedFrameCount;
+		// console.warn(
+		// 	`(╯°□°)╯︵ ┻━┻ ${droppedFrameCount} frame${
+		// 		droppedFrameCount === 1 ? '' : 's'
+		// 	} over ${dt.toFixed(1)}ms`,
+		// );
 	}
 };

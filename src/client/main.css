@@ -3,7 +3,21 @@ html {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
-	font-family: sans-serif;
+	font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell,
+		Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	--clickable_text_shadow: 1px 1px 4px #000, 1px 1px 1px #000, 1px 1px 9px #000;
+	--ocean_color: #1b4780;
+	--land_color: #1b7e23;
+	--text_color: #dbdbdb;
+	--ocean_text_color: hsl(214, 65%, 50%);
+	--land_text_color: hsl(125, 65%, 50%);
+	--color_2: #7094db; /* TODO probably make this a lighter shade of `--ocean_color` */
+	--color_3: #9470db; /*  TODO probably make this a lighter shade of the primary color */
+	--portal_border: 3px dashed rgba(255, 255, 255, 0.15);
+	--portal_border_radius: 7px;
+	--panel_border: 5px dashed rgba(255, 255, 255, 0.15);
+	--panel_border_radius: 15px;
+	--bg_2: rgba(255, 255, 255, 0.04);
 }
 
 /* border-box all the things, but let parents override children */
@@ -18,11 +32,20 @@ body {
 	padding: 0;
 	margin: 0;
 	background-color: #000;
+	color: var(--text_color);
+	font-size: 18px;
 }
 
 #root {
 	height: 100%;
 	position: relative;
+}
+
+hr {
+	background: none;
+	border-top: 2px solid rgba(0, 0, 0, 0.4);
+	/* border-bottom: 1px solid rgba(255, 255, 255, 0.18); */
+	border-bottom: var(--portal_border);
 }
 
 img,
@@ -44,4 +67,60 @@ video {
 
 a {
 	text-decoration: none;
+	color: var(--ocean_text_color);
+}
+
+/* TODO should clickable things scale or use these border and text shadow visuals? */
+.clickable {
+	color: #fff;
+	font-size: 48px;
+	font-weight: 100;
+	opacity: 0.4;
+	text-shadow: var(--clickable_text_shadow);
+	border-bottom: 5px solid transparent;
+	user-select: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	white-space: nowrap;
+}
+.clickable:hover {
+	opacity: 0.8;
+	cursor: pointer;
+	border-bottom-style: dotted;
+	border-color: #fff;
+	text-shadow: var(--clickable_text_shadow), 1px 1px 19px #000, 2px 2px #000;
+}
+.clickable:active {
+	opacity: 1;
+	border-bottom-style: dashed;
+	border-color: #fff;
+	text-shadow: -1px -1px 9px #000, -2px -2px 1px #000;
+}
+.clickable.clickable--active {
+	opacity: 1;
+	border-bottom-style: dashed;
+	border-color: #fff;
+	text-shadow: -1px -1px 9px #000, -1px -1px 1px #000;
+}
+
+.clickable.clickable--active:hover {
+	border-bottom-style: solid;
+	text-shadow: -1px -1px 1px #000, 1px 1px 19px #000;
+}
+.clickable.clickable--active:active {
+	border-bottom-style: dashed;
+	text-shadow: -1px -1px 7px #000, -2px -2px 1px #000;
+}
+
+.clickable-icon {
+	width: 100px;
+	height: 100px;
+	font-size: 72px;
+}
+
+.big-button {
+	font-size: 48px;
+	padding: 15px 30px;
+	font-weight: 100;
 }

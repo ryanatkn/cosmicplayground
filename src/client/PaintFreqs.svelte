@@ -231,7 +231,14 @@
 		bind:clientHeight={height}
 	/>
 	<div id="controls" class="absolute z-4 b-0 l-0">
-		<div class="button" on:click|stopPropagation|preventDefault={clear}>↻</div>
+		<div
+			class="clickable clickable-icon"
+			role="button"
+			aria-label="clear"
+			on:click|stopPropagation|preventDefault={clear}
+		>
+			↻
+		</div>
 	</div>
 </div>
 
@@ -263,22 +270,5 @@
 	}
 	.unit {
 		opacity: 0.6;
-	}
-	.button {
-		cursor: pointer;
-		font-size: 80px;
-		opacity: 0.6;
-		padding: 0 10px;
-		color: hsla(130, 20%, 90%, 0.9);
-		transition: transform 0.06s ease-out;
-		transform-origin: center center;
-	}
-	.button:hover {
-		opacity: 0.8;
-		transform: scale3d(1.2, 1.2, 1);
-	}
-	.button:active {
-		opacity: 0.95;
-		transform: scale3d(1.42, 1.42, 1);
 	}
 </style>

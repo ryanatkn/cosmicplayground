@@ -2,8 +2,7 @@ import svelteCompiler from 'svelte/compiler.js';
 const {walk} = svelteCompiler;
 import {Plugin} from 'rollup';
 import {cyan} from '@feltcoop/gro/dist/colors/terminal.js';
-import * as cssTree from 'css-tree';
-const {parse} = cssTree;
+import cssTree from 'css-tree';
 import {TemplateNode, Style, Script} from 'svelte/types/compiler/interfaces.js';
 import {printPath} from '@feltcoop/gro/dist/utils/print.js';
 import {GroSvelteCompilation} from '@feltcoop/gro/dist/project/rollup-plugin-gro-svelte.js';
@@ -141,7 +140,7 @@ const extractCssClassesFromStyles = async (
 				node.type === 'Raw'
 			) {
 				// handle `:global(selectors)` because they're not parsed by svelte
-				const parsedAst = parse(node.value, {
+				const parsedAst = cssTree.parse(node.value, {
 					context: 'selectorList',
 					positions: false,
 				});

@@ -92,7 +92,7 @@ export const createConfig = async (partial: Partial<SyConfig> = {}): Promise<SyC
 			// width
 			...spacings.map((i) => classDef(`w-${i}`, `width: ${spacingVar(i)}`)),
 			classDef('w-100', 'width: 100%'), // TODO hmm..this is a little ambiguous
-			classDef('max-column-width', 'max-width: 980px'), // TODO refactor? rename?
+			classDef('max-column-width', 'max-width: 900px'), // TODO refactor? rename?
 
 			// height
 			...spacings.map((i) => classDef(`h-${i}`, `height: ${spacingVar(i)}`)),

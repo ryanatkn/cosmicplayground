@@ -1,14 +1,21 @@
 <script>
 	import ImgLink from './ImgLink.svelte';
 	import CreditsItem from './CreditsItem.svelte';
+	import DeepBreathCredits from './DeepBreathCredits.svelte';
+	import CreditsPersonalSignature from './CreditsPersonalSignature.svelte';
+	import EarthThumbnail from './EarthThumbnail.svelte';
 </script>
 
-<h3>credits</h3>
+<h3>Credits</h3>
 <section>
 	<CreditsItem>
-		CPG's code and original assets are permissively licensed under the permissive
+		<a href="https://github.com/ryanatkn/cosmicplayground">
+			<em>cosmicplayground</em>
+			's code
+		</a>
+		and original assets are licensed under the permissive
 		<a href="https://github.com/ryanatkn/cosmicplayground/tree/master/license">ISC license</a>
-		. The project also uses the assets listed below. See the included links for more about the
+		. The project also uses the assets listed below - see the included links for more about the
 		copyright holders.
 	</CreditsItem>
 	<CreditsItem>
@@ -19,9 +26,8 @@
 				imgStyle="width: 200px;"
 			/>
 		</div>
-		<em>galaxies background image credit:</em>
 		<a href="https://www.spacetelescope.org/images/heic0406a/">Hubble sees galaxies galore</a>
-		-
+		by
 		<a href="https://www.nasa.gov/">NASA</a>
 		,
 		<a href="https://www.esa.int/">ESA</a>
@@ -34,8 +40,13 @@
 			<ImgLink alt="construction idea" src="assets/construction/person-dig-idea.gif" />
 			<ImgLink alt="construction mammal" src="assets/construction/mammal.gif" />
 		</div>
-		<em>under construction gifs credit:</em>
-		<a href="http://textfiles.com/underconstruction/">http://textfiles.com/underconstruction/</a>
+		<a href="#construction">
+			<em>under construction</em>
+		</a>
+		gifs from
+		<a href="http://textfiles.com/underconstruction/">textfiles.com/underconstruction</a>
+		, salvaged from Geocities by
+		<a href="https://www.archiveteam.org/">Archive Team</a>
 	</CreditsItem>
 	<CreditsItem>
 		<div>
@@ -43,18 +54,28 @@
 		</div>
 		<div>
 			Cosmic Kitty pounced out of
-			<em>
-				<a href="#paint_freqs">paint freqs</a>
-			</em>
+			<a href="#paint_freqs">
+				<em>paint freqs</em>
+			</a>
 			.. mreow
 		</div>
 		<div>
-			<em>credit:</em>
-			Lisa Atkinson
+			by Lisa Atkinson,
+			<a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 license</a>
 		</div>
-		<div>
-			<em>license:</em>
-			<a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>
-		</div>
+	</CreditsItem>
+	<CreditsItem>
+		<EarthThumbnail width={600} height={300} animationDuration="45s" />
+		<a href="#deep_breath">
+			<em>deep breath</em>
+		</a>
+		inhales
+		<a href="https://earthobservatory.nasa.gov/image-use-policy">NASA imagery</a>
+		and music from
+		<a href="https://www.serpentsoundstudios.com">Alexander Nakarada</a>
+		<DeepBreathCredits />
+	</CreditsItem>
+	<CreditsItem>
+		<CreditsPersonalSignature />
 	</CreditsItem>
 </section>

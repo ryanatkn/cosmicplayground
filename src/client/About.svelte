@@ -1,7 +1,6 @@
 <script>
 	import ImgLink from './ImgLink.svelte';
 	import Credits from './Credits.svelte';
-	import {GR2i} from '../utils/math.js';
 	import {cls} from './sy.config.js';
 
 	export let name;
@@ -16,16 +15,18 @@
 	- make `{name}` responsive - right now it only works for large screens
 
 	*/
-	// TODO give this a max width (option to the Overlay wrapper component, probably)
+	// TODO give this a max width (option to the Panel wrapper component, probably)
 </script>
 
 <section class="flex">
-	<h1 class="flex-1 {headerClass}">{name}</h1>
+	<h1 class="flex-1 {headerClass}" style="font-weight: 100; white-space: nowrap; font-size: 106px;">
+		{name}
+	</h1>
 	<div class="flex flex-col">
 		<ImgLink
 			src="assets/characters/twit.png"
-			alt="@cpg_org on twitter"
-			href="https://twitter.com/cpg_org"
+			alt="@cosmicplaygroun on twitter"
+			href="https://twitter.com/cosmicplaygroun"
 			linkClass="w-16"
 			imgClass="mix-blend-difference"
 		/>
@@ -36,13 +37,14 @@
 		href="https://github.com/ryanatkn/cosmicplayground"
 		linkClass="w-30"
 		imgClass="mix-blend-difference"
+		linkStyle="min-width: 24px;"
 	/>
 </section>
 <div>
 	<em>tools and toys for expanding minds</em>
 	<p>
-		<em>current status:</em>
-		there's barely anything here yet, but there's not *nothing*
+		source code at
+		<a href="https://github.com/ryanatkn/cosmicplayground">github.com/ryanatkn/cosmicplayground</a>
 	</p>
 </div>
 <slot />
@@ -53,12 +55,4 @@
 	alt="spider"
 	imgClass="absolute -t-1 -r-3"
 	linkClass="block relative h-0 cursor-none"
-/>
-<ImgLink
-	href="https://github.com/ryanatkn/cosmicplayground"
-	src="assets/characters/cosm.png"
-	alt="@ryanatkn/cosmicplayground on github"
-	imgClass="w-100 pixelated"
-	linkClass="block mx-auto"
-	linkStyle="width: {(100 * GR2i) | 0}%;"
 />

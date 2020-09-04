@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "tools and toys for expanding minds 🌌",
   "license": "ISC",
-  "homepage": "https://cosmicplayground.org",
+  "homepage": "https://www.cosmicplayground.org",
   "type": "module",
   "scripts": {
     "start": "gro dev",
@@ -37,7 +37,7 @@
     "@types/prettier": "^2.0.2",
     "css-tree": "^1.0.0-alpha22",
     "prettier": "^2.0.5",
-    "prettier-plugin-svelte": "^1.1.0",
+    "prettier-plugin-svelte": "^1.1.1",
     "rollup": "^2.22.1",
     "sourcemap-codec": "^1.4.8",
     "svelte": "^3.24.0",

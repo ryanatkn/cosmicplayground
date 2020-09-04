@@ -2,7 +2,7 @@
 	import {writable} from 'svelte/store';
 
 	import {createClock} from './clock.js';
-	import Overlay from './Overlay.svelte';
+	import Panel from './Panel.svelte';
 	import GalaxyBg from './GalaxyBg.svelte';
 	import Construction from './Construction.svelte';
 	import BundleVision from './BundleVision.svelte';
@@ -17,6 +17,8 @@
 	import EasingViz from './EasingViz.svelte';
 	import EasingAudViz from './EasingAudViz.svelte';
 	import StarlitHammock from './StarlitHammock.svelte';
+	import DeepBreath from './DeepBreath.svelte';
+	import EarthThumbnail from './EarthThumbnail.svelte';
 	import {mix} from '../utils/math.js';
 	import {initAudioCtx} from '../audio/audioCtx.js';
 	import {trackIdleState} from './trackIdleState.js';
@@ -31,13 +33,16 @@
 	// views:
 	// portals | about | freq_speed | freq_speeds | construction | bundle_vision |
 	// hearing_test | transition_designer | easing_viz | easing_aud_viz | paint_freqs
-	// starlit_hammock
+	// starlit_hammock | deep_breath
 	let hash = typeof window === 'undefined' ? '' : window.location.hash;
 	const DEFAULT_VIEW = 'portals';
 	$: view = hash.slice(1) || DEFAULT_VIEW;
 	const onHashChange = (e) => {
 		hash = window.location.hash;
 	};
+
+	const isIdle = writable(false);
+	const timeToGoIdle = 6000; // TODO set with devMode (add to context)
 
 	const viewsWithGalaxyBg = new Set([
 		'portals',
@@ -51,7 +56,9 @@
 		'easing_viz',
 		'easing_aud_viz',
 		'paint_freqs',
+		'deep_breath', // TODO hide this during the tour
 	]);
+	$: showGalaxyBg = viewsWithGalaxyBg.has(view);
 
 	initAudioCtx(); // allows components to do `const audioCtx = useAudioCtx();` which uses svelte's `getContext`
 
@@ -83,17 +90,22 @@
 		ctx.stroke();
 	};
 
-	const isIdle = writable(false);
+	const onKeyDown = (e) => {
+		if (e.key === '`') {
+			if (!e.target.closest('input')) clock.toggle();
+		}
+	};
 </script>
 
 <svelte:window
 	bind:innerWidth={windowWidth}
 	bind:innerHeight={windowHeight}
 	on:hashchange={onHashChange}
-	use:trackIdleState={{isIdle, timeToGoIdle: 6000, idleIntervalTime: 1000}}
+	use:trackIdleState={{isIdle, timeToGoIdle, idleIntervalTime: 1000}}
+	on:keydown={onKeyDown}
 />
 
-{#if viewsWithGalaxyBg.has(view)}
+{#if showGalaxyBg}
 	<section class="bg w-100 z-0">
 		<GalaxyBg running={$clock.running} width={windowWidth} height={windowHeight} />
 	</section>
@@ -104,23 +116,46 @@
 		<nav class="thumbnails">
 			<a class="thumbnail" href="#about">
 				<div style="padding: 4px; display: flex; flex-direction: column; align-items: center;">
-					<div style="font-size: 30px; margin: 5px 0; display: flex; align-items: center;">
-						<img
-							src="assets/characters/cosm.png"
-							alt="cosm"
-							class="pixelated"
-							style="width: 32px; height: 32px; margin-right: 10px;"
-						/>
+					<div
+						style="font-size: 48px; font-weight: 100; margin: 5px 0; display: flex; align-items:
+						center;"
+					>
 						{name}
-						<img
-							src="assets/characters/cosm.png"
-							alt="cosm"
-							class="pixelated"
-							style="width: 32px; height: 32px; margin-left: 10px; transform: scale3d(-1, 1, 1);"
-						/>
 					</div>
-					<small>help . about . credits</small>
+					<div>
+						<small>
+							help
+							<img
+								src="assets/characters/cosm.png"
+								alt="cosm"
+								class="pixelated"
+								style="opacity: 0.6; width: 16px; height: 16px; margin: 0 10px;"
+							/>
+							about
+							<img
+								src="assets/characters/cosm.png"
+								alt="cosm"
+								class="pixelated"
+								style="opacity: 0.6; width: 16px; height: 16px; margin: 0 10px;"
+							/>
+							credits
+						</small>
+					</div>
 				</div>
+			</a>
+			<a
+				class="thumbnail thumbnail--deep-breath"
+				href="#deep_breath"
+				style="width: 326px; height: 166px;"
+			>
+				<EarthThumbnail
+					width={320}
+					height={160}
+					animationDuration="45s"
+					running={$clock.running}
+					text="deep breath"
+					styles="position: absolute;"
+				/>
 			</a>
 			<a class="thumbnail" href="#paint_freqs">
 				<div style="font-size: 20px; margin-bottom: 7px;">paint freqs</div>
@@ -133,11 +168,11 @@
 					/>
 				</div>
 			</a>
-			<a class="thumbnail" href="#starlit_hammock" style="width: 320px; height: 180px;">
+			<a class="thumbnail" href="#starlit_hammock" style="width: 260px; height: 200px;">
 				<div class="relative z-1">starlit hammock</div>
 				<GalaxyBg
-					width={320}
-					height={180}
+					width={260}
+					height={200}
 					opacity={0.6}
 					animationDuration="45s"
 					running={$clock.running}
@@ -227,13 +262,13 @@
 				/>
 			</a>
 			<a class="thumbnail" href="#bundle_vision">{'{ bundle vision }'}</a>
-			<a class="thumbnail" href="#construction">
+			<a class="thumbnail thumbnail--construction" href="#construction">
 				{#if $clock.running}
 					<img
 						src="assets/construction/person-rock.gif"
 						alt="under construction: person rock"
 						style="width: 162px; height: 100px;"
-						class="pixelated thumbnail-construction"
+						class="pixelated"
 					/>
 				{:else}
 					<img
@@ -251,25 +286,23 @@
 		<div class="back-button-wrapper">
 			<BackButton />
 		</div>
-		<div class="max-column-width" style="margin: 90px auto 0; padding: 20px;">
-			<Overlay contentClass="p-5">
-				<About {name}>
-					<div style="display: flex; align-items: center;">
-						<div
-							style="padding: 12px; border: 3px dashed rgba(0, 0, 0, 0.3); background: rgba(0, 0, 0,
-							0.15); display: flex;"
-						>
-							<ClockControls
-								time={$clock.time}
-								running={$clock.running}
-								pause={clock.pause}
-								resume={clock.resume}
-							/>
-						</div>
+		<Panel contentClasses="p-5">
+			<About {name}>
+				<div style="display: flex; align-items: center;">
+					<div
+						style="padding: 12px; border: 3px dashed rgba(0, 0, 0, 0.3); background: rgba(0, 0, 0,
+						0.15); display: flex;"
+					>
+						<ClockControls
+							time={$clock.time}
+							running={$clock.running}
+							pause={clock.pause}
+							resume={clock.resume}
+						/>
 					</div>
-				</About>
-			</Overlay>
-		</div>
+				</div>
+			</About>
+		</Panel>
 	</section>
 {:else if view === 'easing_aud_viz'}
 	<section class="content">
@@ -305,6 +338,10 @@
 			<BackButton isIdle={$isIdle} />
 		</div>
 		<StarlitHammock width={windowWidth} height={windowHeight} />
+	</section>
+{:else if view === 'deep_breath'}
+	<section class="content" class:cursor-none={$isIdle}>
+		<DeepBreath {clock} width={windowWidth} height={windowHeight} {isIdle} />
 	</section>
 {:else if view === 'hearing_test'}
 	<section class="content">
@@ -413,12 +450,12 @@
 	</section>
 {:else}
 	<section class="content" style="display: flex;">
-		<Overlay>
+		<Panel>
 			<div class="back-button-wrapper">
 				<BackButton />
 			</div>
 			<h2>unknown view: {view}</h2>
-		</Overlay>
+		</Panel>
 	</section>
 {/if}
 
@@ -449,8 +486,8 @@
 		position: relative;
 		z-index: 2;
 		padding: 12px;
-		border: 3px dashed rgba(255, 255, 255, 0.3);
-		border-radius: 2px;
+		border: var(--portal_border);
+		border-radius: var(--portal_border_radius);
 		margin: 12px;
 		font-size: 20px;
 		text-align: center;
@@ -464,27 +501,28 @@
 	}
 	.thumbnail:hover {
 		transform: scale3d(1.03, 1.03, 1);
-		border-width: 5px;
-		padding: 10px;
-		/* TODO the padding needs to be reduced as the border increases - should do this with some code instead of manually - PostCSS? */
+		border-style: double;
 	}
 	.thumbnail:active {
 		border-style: dotted;
 		transform: scale3d(1.09, 1.09, 1);
 	}
-	.thumbnail-construction {
+	.thumbnail--construction img:not(.grayscale) {
 		animation: rotate-pulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 	}
 	@keyframes rotate-pulse {
 		0% {
-			transform: rotate3d(-0.51, 0.49, 0.19, 27deg);
+			transform: rotate3d(-0.51, 0.49, 0.19, 27deg) scale3d(0.85, 0.85, 0.85);
 		}
 		66% {
-			transform: rotate3d(0.65, 0.06, -0.07, 40deg) scale3d(1.12, 1.12, 1.12);
+			transform: rotate3d(0.65, 0.06, -0.07, 40deg) scale3d(1.2, 1.2, 1.2);
 		}
 		100% {
-			transform: rotate3d(-0.51, 0.49, 0.19, 27deg);
+			transform: rotate3d(-0.51, 0.49, 0.19, 27deg) scale3d(0.85, 0.85, 0.85);
 		}
+	}
+	.thumbnail--deep-breath {
+		border-color: #1b4780;
 	}
 	.easing-viz-slider-wrapper {
 		margin-top: 3px;
@@ -495,7 +533,7 @@
 		animation: easing-viz-slide 5s cubic-bezier(0.645, 0.045, 0.355, 1) infinite alternate;
 		width: 12px;
 		height: 12px;
-		background-color: hsla(260deg, 60%, 65%, 1); /* #6342a6 */
+		background-color: var(--color_3);
 	}
 	@keyframes easing-viz-slide {
 		0% {
@@ -527,7 +565,7 @@
 		position: absolute;
 		left: 0;
 		top: 0;
-		background-color: hsla(220deg, 60%, 65%, 1);
+		background-color: var(--color_2);
 		animation: rotate-360 0.5s linear reverse infinite;
 		transform-origin: middle middle;
 	}
@@ -543,7 +581,7 @@
 		position: absolute;
 		left: 0;
 		top: 0;
-		background-color: hsla(220deg, 60%, 65%, 1);
+		background-color: var(--color_2);
 		animation: rotate-360 0.5s linear reverse infinite;
 		transform-origin: middle middle;
 	}
@@ -587,14 +625,14 @@
 		z-index: 10;
 	}
 	#cosmic-kitty {
-		animation: rotate-kitty 5s ease-in-out infinite alternate;
+		animation: rotate-kitty 2.5s cubic-bezier(0.77, 0, 0.18, 1) infinite alternate;
 	}
 	@keyframes rotate-kitty {
 		0% {
-			transform: rotate3d(0, 0, 0, -3deg);
+			transform: rotate3d(0, 0, 1, -2deg);
 		}
 		100% {
-			transform: rotate3d(0, 0, 1, 8deg);
+			transform: rotate3d(0, 0, 1, 6deg);
 		}
 	}
 </style>
