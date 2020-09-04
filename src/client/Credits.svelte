@@ -40,10 +40,10 @@
 	<div class="image-wrapper">
 		<ImgLink
 			src="assets/earth/night_lights_1.png"
-			alt="city lights of Africa, Europe, and the Middle East"
+			alt="night lights of Africa, Europe, and the Middle East"
 		/>
-		<ImgLink src="assets/earth/night_lights_2.png" alt="city lights the Americas" />
-		<ImgLink src="assets/earth/night_lights_3.png" alt="city lights of Asia and Australia" />
+		<ImgLink src="assets/earth/night_lights_2.png" alt="night lights the Americas" />
+		<ImgLink src="assets/earth/night_lights_3.png" alt="night lights of Asia and Australia" />
 	</div>
 	<a href="https://earthobservatory.nasa.gov/features/NightLights">Earth at Night</a>
 	by

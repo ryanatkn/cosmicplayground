@@ -21,13 +21,16 @@
 	$: bgSizeStr = bgSizePct * 100 + '%';
 
 	export let running = true;
-	$: animation = running ? '' : 'animation: none;';
 </script>
 
-<div class="w-100 h-100 absolute overflow-hidden z-0" style="opacity: {opacity};">
+<div
+	class="w-100 h-100 absolute overflow-hidden z-0"
+	style="opacity: {opacity};"
+	class:paused={!running}
+>
 	<div
 		class="bg"
-		style="{animation} width: {bgWidth}px; height: {bgHeight}px; background-image: url({imageUrl});
+		style="width: {bgWidth}px; height: {bgHeight}px; background-image: url({imageUrl});
 		background-size: {bgSizeStr}; animation-duration: {animationDuration};"
 	/>
 </div>
@@ -39,7 +42,9 @@
 		animation-timing-function: linear;
 		animation-iteration-count: infinite;
 	}
-
+	.paused .bg {
+		animation-play-state: paused;
+	}
 	@keyframes scroll-bg {
 		0% {
 			transform: translate3d(0, 0, 0);

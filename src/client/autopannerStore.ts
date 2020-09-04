@@ -44,7 +44,6 @@ export const createAutopannerStore = (options: AutopannerOptions): AutopannerSto
 		},
 		() => {
 			return () => {
-				console.log('CLEAR TIMEOUT UNSUB');
 				clearTimeout(timeout);
 			};
 		},

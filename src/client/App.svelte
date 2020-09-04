@@ -48,6 +48,8 @@
 		hash = window.location.hash;
 	};
 
+	let showMorePortals = false; // toggle showing portals to the less interesting projects
+
 	const isIdle = writable(false);
 	$: timeToGoIdle = $settings.devMode ? 99999999999 : $settings.timeToGoIdle;
 
@@ -120,7 +122,7 @@
 {/if}
 
 {#if view === 'portals'}
-	<section>
+	<section class="portals" class:paused={!$clock.running}>
 		<nav class="thumbnails">
 			<a class="thumbnail" href="#about">
 				<div style="padding: 4px; display: flex; flex-direction: column; align-items: center;">
@@ -164,7 +166,7 @@
 				<div style="font-size: 20px; margin-bottom: 7px;">paint freqs</div>
 				<div class="overflow-hidden" style="width: 192px; height: 192px; border-radius: 50%;">
 					<img
-						id="cosmic-kitty"
+						class="cosmic-kitty"
 						src="assets/characters/cosmic-kitty.jpg"
 						style="width: 192px; height: 192px;"
 						alt="Cosmic Kitty"
@@ -229,61 +231,83 @@
 					<div class="easing-viz-slider-graphic" />
 				</div>
 			</a>
-			<a class="thumbnail" href="#transition-designer">
-				<div class="rotating-text">transition designer</div>
-			</a>
 			<a class="thumbnail" href="#hearing-test">
 				<div>🐶 hearing test 🐶</div>
 				<div>
 					<small style="color: hsla(40deg, 60%, 65%, 1);">🐾 🐕 beware ye, creature 🐕 🐾</small>
 				</div>
 			</a>
-			<a class="thumbnail" href="#freq-speeds" style="display: flex; flex-direction: column;">
-				<FreqSpeeds
-					elapsedTime={$clock.time}
-					width={300}
-					height={75}
-					hzItems={[4]}
-					lowestHzItemCount={2}
-				/>
-				<FreqSpeeds
-					elapsedTime={$clock.time}
-					width={300}
-					height={75}
-					hzItems={[4]}
-					lowestHzItemCount={2}
-					style="transform: rotate(180deg);"
-				/>
-			</a>
-			<a class="thumbnail" href="#freq-spectacle" style="display: flex;">
-				<FreqSpectacle
-					elapsedTime={$clock.time}
-					width={150}
-					height={75}
-					hzItems={[2, 3, 4]}
-					lowestHzItemCount={1}
-				/>
-			</a>
-			<a class="thumbnail" href="#bundle-vision">{'{ bundle vision }'}</a>
-			<a class="thumbnail" href="#clocks">{'🕓 clocks 🕑'}</a>
 			<a class="thumbnail thumbnail--under-construction" href="#under-construction">
-				{#if $clock.running}
-					<img
-						src="assets/construction/person-rock.gif"
-						alt="under construction: person rock"
-						style="width: 162px; height: 100px;"
-						class="pixelated"
-					/>
-				{:else}
-					<img
-						src="assets/construction/person-rock-pause.png"
-						alt="under construction: person rock"
-						style="width: 162px; height: 100px;"
-						class="pixelated grayscale"
-					/>
-				{/if}
+				<img
+					src={$clock.running ? 'assets/construction/person-rock.gif' : 'assets/construction/person-rock-pause.png'}
+					alt="under construction: person rock"
+					style="width: 162px; height: 100px;"
+					class="pixelated"
+				/>
 			</a>
+			<div class="thumbnail" on:click={() => (showMorePortals = !showMorePortals)}>
+				<div>
+					show
+					{#if showMorePortals}less{:else}more{/if}
+				</div>
+				<div>
+					<img
+						src="assets/earth/night_lights_1.png"
+						alt="night lights of Africa, Europe, and the Middle East"
+						style="width: 100px; height: 100px;"
+						class="mr-2"
+					/>
+					<img
+						src="assets/earth/night_lights_2.png"
+						alt="night lights of the Americas"
+						style="width: 100px; height: 100px;"
+						class="mr-2"
+					/>
+					<img
+						src="assets/earth/night_lights_3.png"
+						alt="night lights of Asia and Australia"
+						style="width: 100px; height: 100px;"
+					/>
+				</div>
+			</div>
 		</nav>
+		{#if showMorePortals}
+			<nav class="thumbnails">
+				<!-- putting them in a separate div so showing them doesn't move the toggle,
+				but this is begging for a better design with animations -->
+				<a class="thumbnail" href="#freq-speeds" style="display: flex; flex-direction: column;">
+					<FreqSpeeds
+						elapsedTime={$clock.time}
+						width={300}
+						height={75}
+						hzItems={[4]}
+						lowestHzItemCount={2}
+					/>
+					<FreqSpeeds
+						elapsedTime={$clock.time}
+						width={300}
+						height={75}
+						hzItems={[4]}
+						lowestHzItemCount={2}
+						style="transform: rotate(180deg);"
+					/>
+				</a>
+				<a class="thumbnail" href="#transition-designer">
+					<div class="rotating-text">transition designer</div>
+				</a>
+				<a class="thumbnail" href="#bundle-vision">{'{ bundle vision }'}</a>
+				<a class="thumbnail" href="#clocks">{'🕓 clocks 🕑'}</a>
+				<a class="thumbnail" href="#freq-spectacle" style="display: flex;">
+					<FreqSpectacle
+						elapsedTime={$clock.time}
+						width={150}
+						height={75}
+						hzItems={[2, 3, 4]}
+						lowestHzItemCount={1}
+					/>
+				</a>
+			</nav>
+		{/if}
 	</section>
 {:else if view === 'about'}
 	<section class="content" style="height: initial;">
@@ -475,13 +499,16 @@
 		display: flex;
 		align-items: center;
 	}
+	.paused {
+		filter: grayscale();
+	}
 	.thumbnails {
-		list-style-type: none;
 		margin: 0;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
+		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
 	}
 	.thumbnail {
 		cursor: pointer;
@@ -509,8 +536,11 @@
 		border-style: dotted;
 		transform: scale3d(1.09, 1.09, 1);
 	}
-	.thumbnail--under-construction img:not(.grayscale) {
+	.thumbnail--under-construction img {
 		animation: rotate-pulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+	}
+	.paused .thumbnail--under-construction img {
+		animation-play-state: paused;
 	}
 	@keyframes rotate-pulse {
 		0% {
@@ -537,6 +567,9 @@
 		height: 12px;
 		background-color: var(--color_3);
 	}
+	.paused .easing-viz-slider-graphic {
+		animation-play-state: paused;
+	}
 	@keyframes easing-viz-slide {
 		0% {
 			transform: translate3d(0, 0, 0);
@@ -549,6 +582,9 @@
 		position: relative;
 		margin-top: 10px;
 		animation: easing-aud-viz-wrapper-warp 5s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;
+	}
+	.paused .easing-aud-viz-wrapper {
+		animation-play-state: paused;
 	}
 	@keyframes easing-aud-viz-wrapper-warp {
 		0% {
@@ -563,6 +599,9 @@
 		animation: easing-aud-viz-dance 10s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
 		transform-origin: middle middle;
 	}
+	.paused .easing-aud-viz-mouth-wrapper {
+		animation-play-state: paused;
+	}
 	.easing-aud-viz-mouth {
 		position: absolute;
 		left: 0;
@@ -574,10 +613,16 @@
 	.easing-aud-viz-mouth:nth-child(2) {
 		animation: rotate-360 0.5s linear infinite;
 	}
+	.paused .easing-aud-viz-mouth {
+		animation-play-state: paused;
+	}
 	.easing-aud-viz-tail-wrapper {
 		position: absolute;
 		animation: easing-aud-viz-dance 10s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
 		transform-origin: middle middle;
+	}
+	.paused .easing-aud-viz-tail-wrapper {
+		animation-play-state: paused;
 	}
 	.easing-aud-viz-tail {
 		position: absolute;
@@ -589,6 +634,9 @@
 	}
 	.easing-aud-viz-tail:nth-child(2) {
 		animation: rotate-360 0.5s linear infinite;
+	}
+	.paused .easing-aud-viz-tail {
+		animation-play-state: paused;
 	}
 	@keyframes rotate-360 {
 		0% {
@@ -612,6 +660,9 @@
 	.rotating-text {
 		animation: rotate-text 2.5s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite alternate;
 	}
+	.paused .rotating-text {
+		animation-play-state: paused;
+	}
 	@keyframes rotate-text {
 		0% {
 			transform: rotate3d(-1.35, 4.06, -0.37, 22deg);
@@ -626,8 +677,11 @@
 		top: 0;
 		z-index: 10;
 	}
-	#cosmic-kitty {
+	.cosmic-kitty {
 		animation: rotate-kitty 2.5s cubic-bezier(0.77, 0, 0.18, 1) infinite alternate;
+	}
+	.paused .cosmic-kitty {
+		animation-play-state: paused;
 	}
 	@keyframes rotate-kitty {
 		0% {

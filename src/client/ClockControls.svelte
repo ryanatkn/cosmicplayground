@@ -10,7 +10,7 @@
 	export let resume;
 </script>
 
-<div class="flex flex-wrap items-center justify-center">
+<div class="clock-controls" class:paused={!running}>
 	{#if running}
 		<img
 			on:click={pause}
@@ -27,7 +27,7 @@
 			on:click={resume}
 			src="assets/construction/person-rock-pause.png"
 			alt="under construction: person rock pause"
-			class="rock pixelated grayscale"
+			class="rock pixelated"
 		/>
 		<button type="button" class="w-50 h-20" on:click={resume}>
 			<div style="font-size: 24px">▶</div>
@@ -46,6 +46,15 @@
 </div>
 
 <style>
+	.clock-controls {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+	}
+	.paused {
+		filter: grayscale();
+	}
 	.rock {
 		width: 120px;
 		height: 80px;

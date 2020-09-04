@@ -50,7 +50,6 @@
 		href="https://spiderspace.org"
 		src="assets/characters/spider.png"
 		alt="spider"
-		data-spiderspace="do not click the spider"
 		imgClass="absolute t-8 -r-12"
 		linkClass="block relative h-0 cursor-none"
 	/>

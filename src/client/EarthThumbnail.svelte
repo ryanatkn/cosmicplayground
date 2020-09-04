@@ -5,7 +5,7 @@
 	export let opacity = 1.0;
 	export let animationDuration = '360s';
 	export let fontSize = 48;
-	export let text;
+	export let text = null;
 	export let styles = '';
 	export let running = true;
 
@@ -23,18 +23,17 @@
 	// TODO support customizing this?
 	const bgSizePct = 0.5;
 	$: bgSizeStr = bgSizePct * 100 + '%';
-
-	$: animation = running ? '' : 'animation: none;';
 </script>
 
 <div
 	class="earth-thumbnail"
+	class:paused={!running}
 	style="width: {width}px; height: {height}px; opacity: {opacity}; {styles}"
 >
 	<div
 		class="bg"
 		class:grayscale={!running}
-		style="{animation} width: {bgWidth}px; height: {bgHeight}px; background-image: url({imageUrl});
+		style="width: {bgWidth}px; height: {bgHeight}px; background-image: url({imageUrl});
 		background-size: {bgSizeStr}; animation-duration: {animationDuration};"
 	/>
 	{#if text}
@@ -67,6 +66,9 @@
 		animation-timing-function: linear;
 		animation-iteration-count: infinite;
 		background-position-x: 60%;
+	}
+	.paused .bg {
+		animation-play-state: paused;
 	}
 
 	@keyframes scroll-bg {

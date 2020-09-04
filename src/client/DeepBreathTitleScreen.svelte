@@ -36,7 +36,7 @@
 <div class="back-button-wrapper">
 	<BackButton />
 </div>
-<div class="deep-breath-title-screen">
+<div class="deep-breath-title-screen" class:paused={!$clock.running}>
 	<div
 		class="thumbnail"
 		style="width: {earthWidth + titleBorderWidth * 2}px; height: {earthWidth / 2 + titleBorderWidth * 2}px;
@@ -127,6 +127,9 @@
 		justify-content: center;
 		align-items: center;
 		animation: breathing-earth 6s ease-in-out infinite alternate;
+	}
+	.paused .thumbnail {
+		animation-play-state: paused;
 	}
 
 	.thumbnail.clickable-to-load:hover {
