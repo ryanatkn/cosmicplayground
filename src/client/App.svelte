@@ -19,12 +19,11 @@
 	import StarlitHammock from './StarlitHammock.svelte';
 	import DeepBreath from './DeepBreath.svelte';
 	import EarthThumbnail from './EarthThumbnail.svelte';
+	import Clocks from './Clocks.svelte';
 	import {mix} from '../utils/math.js';
 	import {initAudioCtx} from '../audio/audioCtx.js';
 	import {trackIdleState} from './trackIdleState.js';
 	import {initSettings} from './settingsStore.js';
-
-	export let name;
 
 	export let windowWidth = window.innerWidth;
 	export let windowHeight = window.innerHeight;
@@ -39,7 +38,7 @@
 	});
 
 	// views:
-	// portals | about | freq-spectacle | freq-speeds | under-construction | bundle-vision |
+	// portals | about | freq-spectacle | freq-speeds | under-construction | bundle-vision | clocks |
 	// hearing-test | transition-designer | easings-1 | easings-2 | paint-freqs
 	// starlit-hammock | deep-breath
 	let hash = typeof window === 'undefined' ? '' : window.location.hash;
@@ -59,6 +58,7 @@
 		'freq-speeds',
 		'under-construction',
 		'bundle-vision',
+		'clocks',
 		'hearing-test',
 		'transition-designer',
 		'easings-1',
@@ -124,12 +124,7 @@
 		<nav class="thumbnails">
 			<a class="thumbnail" href="#about">
 				<div style="padding: 4px; display: flex; flex-direction: column; align-items: center;">
-					<div
-						style="font-size: 48px; font-weight: 100; margin: 5px 0; display: flex; align-items:
-						center;"
-					>
-						{name}
-					</div>
+					<h1>cosmicplayground</h1>
 					<div>
 						<small>
 							help
@@ -270,6 +265,7 @@
 				/>
 			</a>
 			<a class="thumbnail" href="#bundle-vision">{'{ bundle vision }'}</a>
+			<a class="thumbnail" href="#clocks">{'🕓 clocks 🕑'}</a>
 			<a class="thumbnail thumbnail--under-construction" href="#under-construction">
 				{#if $clock.running}
 					<img
@@ -290,26 +286,12 @@
 		</nav>
 	</section>
 {:else if view === 'about'}
-	<section class="content" style="padding: 20px;">
+	<section class="content" style="height: initial;">
 		<div class="back-button-wrapper">
 			<BackButton />
 		</div>
 		<Panel contentClasses="p-5">
-			<About {name}>
-				<div style="display: flex; align-items: center;">
-					<div
-						style="padding: 12px; border: 3px dashed rgba(0, 0, 0, 0.3); background: rgba(0, 0, 0,
-						0.15); display: flex;"
-					>
-						<ClockControls
-							time={$clock.time}
-							running={$clock.running}
-							pause={clock.pause}
-							resume={clock.resume}
-						/>
-					</div>
-				</div>
-			</About>
+			<About />
 		</Panel>
 	</section>
 {:else if view === 'easings-2'}
@@ -449,6 +431,13 @@
 		</div>
 		<BundleVision url="/bundle.stats.json" />
 	</section>
+{:else if view === 'clocks'}
+	<section class="content">
+		<div class="back-button-wrapper">
+			<BackButton />
+		</div>
+		<Clocks {clock} />
+	</section>
 {:else if view === 'under-construction'}
 	<section class="content">
 		<div class="back-button-wrapper">
@@ -480,6 +469,11 @@
 		height: 100%;
 		display: flex;
 		flex-direction: column;
+	}
+	h1 {
+		margin-bottom: 5px;
+		display: flex;
+		align-items: center;
 	}
 	.thumbnails {
 		list-style-type: none;

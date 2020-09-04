@@ -8,9 +8,7 @@ if (!root) throw Error(`Cannot find app target element with id '${rootElId}'`);
 
 export const app = new App({
 	target: root,
-	props: {
-		name: 'cosmicplayground',
-	},
+	props: {},
 });
 
 (window as any).app = app;

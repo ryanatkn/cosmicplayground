@@ -14,7 +14,7 @@
 	.panel {
 		border: var(--panel_border);
 		border-radius: var(--panel_border_radius);
-		margin: 50px auto 0;
+		margin: 50px auto;
 		padding: 20px;
 	}
 	.content {

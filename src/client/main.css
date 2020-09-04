@@ -54,6 +54,30 @@ video {
 	height: auto;
 }
 
+code {
+	/* TODO reuse ocean_text_color */
+	background: rgb(27, 71, 128, 0.3);
+	padding: 2px 8px;
+}
+
+h1 {
+	font-size: 48px;
+	font-weight: 100;
+	margin: 0;
+}
+
+h2 {
+	font-size: 32px;
+	font-weight: 300;
+	margin: 0;
+}
+
+h3 {
+	font-size: 21px;
+	font-weight: 300;
+	margin: 0;
+}
+
 .pixelated {
 	image-rendering: -webkit-optimize-contrast; /* Safari */
 	image-rendering: -o-crisp-edges; /* OS X & Windows Opera (12.02+) */

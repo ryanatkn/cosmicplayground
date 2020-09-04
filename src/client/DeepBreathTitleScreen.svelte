@@ -7,6 +7,7 @@
 	import Panel from './Panel.svelte';
 	import DeepBreathCredits from './DeepBreathCredits.svelte';
 	import CreditsPersonalSignature from './CreditsPersonalSignature.svelte';
+	import CreditsProjectSignature from './CreditsProjectSignature.svelte';
 
 	export let resources;
 	export let clock;
@@ -62,8 +63,8 @@
 				Deep Breath is an interactive webpage with a rough sketch of Earth's sea levels if all ice
 				melts, about 60-75 meters above 2020's oceans. Some estimates are higher. The code and image
 				data are
-				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>.
-				See the credits below for more.
+				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>
+				. See the credits below for more.
 			</p>
 			<p>Please be aware that the data is imperfect. Some errors:</p>
 			<ul>
@@ -99,7 +100,12 @@
 		</section>
 		<hr />
 		<section>
-			<CreditsPersonalSignature />
+			<div>
+				<CreditsPersonalSignature />
+			</div>
+			<div>
+				<CreditsProjectSignature />
+			</div>
 		</section>
 	</Panel>
 </div>
@@ -109,7 +115,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding: 50px 0;
+		padding-top: 50px;
 	}
 
 	/* TODO this is mostly copy pasted from App.svelte, could clean up, maybe via a Thumbnail component */

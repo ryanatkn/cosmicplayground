@@ -50,8 +50,8 @@ Made with [Svelte](https://github.com/sveltejs/svelte) ∙
 ## license :bird:
 
 code license is [ISC](license)
-<sub>permissive <3 [learn more at Wikipedia](https://en.wikipedia.org/wiki/ISC_license)</sub>
 
 See [cosmicplayground.org/#about](https://www.cosmicplayground.org/#about)
-for the licenses of the graphics, audio, and other non-code assets.
-Usage may be restricted.
+for license and copyright info of the graphics, audio, and other non-code assets.
+Usage may be restricted. All original assets are licensed
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) unless otherwise specified.

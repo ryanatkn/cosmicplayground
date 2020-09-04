@@ -1,58 +1,73 @@
 <script>
 	import ImgLink from './ImgLink.svelte';
 	import Credits from './Credits.svelte';
-	import {cls} from './sy.config.js';
-
-	export let name;
-
-	// initial test for class extraction helper
-	// see the comments on the helper for more
-	const headerClass = cls('pr-7');
+	import CreditsPersonalSignature from './CreditsPersonalSignature.svelte';
+	import CreditsProjectSignature from './CreditsProjectSignature.svelte';
 
 	/*
 
-	ideas
-	- make `{name}` responsive - right now it only works for large screens
+	TODO
+	- make responsive - right now it only works for large screens
 
 	*/
-	// TODO give this a max width (option to the Panel wrapper component, probably)
 </script>
 
-<section class="flex">
-	<h1 class="flex-1 {headerClass}" style="font-weight: 100; white-space: nowrap; font-size: 106px;">
-		{name}
-	</h1>
-	<div class="flex flex-col">
-		<ImgLink
-			src="assets/characters/twit.png"
-			alt="@cosmicplaygroun on twitter"
-			href="https://twitter.com/cosmicplaygroun"
-			linkClass="w-16"
-			imgClass="mix-blend-difference"
-		/>
+<section>
+	<h1 class="title">cosmicplayground</h1>
+	<h2 class="caption">tools and toys for expanding minds</h2>
+</section>
+<section>
+	<p>
+		<a href="https://www.cosmicplayground.org">cosmicplayground.org</a>
+		is a collection of loosely related projects created by
+		<a href="https://www.ryanatkn.com">Ryan Atkinson</a>
+		. Everything here is free and
+		<a href="https://github.com/ryanatkn/cosmicplayground">open source</a>
+		and mostly a work-in-progress (fancy talk for half-broken or poorly-conceived:). The first
+		project that I think is worth sharing is
+		<a href="#deep-breath">"Deep Breath"</a>
+		, and there's hopefully more to come!
+	</p>
+	<div>
+		<CreditsPersonalSignature />
+	</div>
+	<div>
+		<CreditsProjectSignature />
+	</div>
+</section>
+<section>
+	<Credits />
+</section>
+<section>
+	<h2>Contact</h2>
+	<div>
+		<CreditsPersonalSignature />
+	</div>
+	<div>
+		<CreditsProjectSignature />
 	</div>
 	<ImgLink
-		src="assets/characters/octocat.png"
-		alt="@ryanatkn/cosmicplayground on github"
-		href="https://github.com/ryanatkn/cosmicplayground"
-		linkClass="w-30"
-		imgClass="mix-blend-difference"
-		linkStyle="min-width: 24px;"
+		href="https://spiderspace.org"
+		src="assets/characters/spider.png"
+		alt="spider"
+		data-spiderspace="do not click the spider"
+		imgClass="absolute t-8 -r-12"
+		linkClass="block relative h-0 cursor-none"
 	/>
 </section>
-<div>
-	<em>tools and toys for expanding minds</em>
-	<p>
-		source code at
-		<a href="https://github.com/ryanatkn/cosmicplayground">github.com/ryanatkn/cosmicplayground</a>
-	</p>
-</div>
-<slot />
-<Credits />
-<ImgLink
-	href="https://spiderspace.org"
-	src="assets/characters/spider.png"
-	alt="spider"
-	imgClass="absolute -t-1 -r-3"
-	linkClass="block relative h-0 cursor-none"
-/>
+
+<style>
+	.title {
+		font-size: 106px;
+		white-space: nowrap;
+	}
+	.caption {
+		text-align: center;
+	}
+	section {
+		margin-bottom: 64px;
+	}
+	section:last-child {
+		margin-bottom: 0;
+	}
+</style>

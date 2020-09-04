@@ -33,7 +33,7 @@
 			imgClass="w-10 ml-1"
 			imgStyle="margin-right: 16px; opacity: 0.8;"
 		/>
-		<a href="https://ryanatkn.com">ryanatkn.com</a>
+		<a href="https://www.ryanatkn.com">ryanatkn.com</a>
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 1, amount: blurAmount}}>
 		<h2>interactive webpage</h2>
