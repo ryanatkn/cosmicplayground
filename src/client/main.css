@@ -18,6 +18,7 @@ html {
 	--panel_border: 5px dashed rgba(255, 255, 255, 0.15);
 	--panel_border_radius: 15px;
 	--bg_2: rgba(255, 255, 255, 0.04);
+	--bg_dark: rgba(0, 0, 0, 0.6);
 }
 
 /* border-box all the things, but let parents override children */

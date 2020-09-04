@@ -16,6 +16,7 @@
 		border-radius: var(--panel_border_radius);
 		margin: 50px auto;
 		padding: 20px;
+		background-color: var(--bg_dark);
 	}
 	.content {
 		background-color: var(--bg_2);
