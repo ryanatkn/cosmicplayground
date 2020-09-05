@@ -19,7 +19,7 @@
 	- possibly make a different verison that disallows lifting the pointer (or add a toggle)
   - support painting with a closed shape, not just lines
 		- negative space?
-	- volume controls
+	- volume controls (I think it's too quiet atm?)
   - are there other interesting ways to convey octave differences?
   - interval bands? maybe separate button half into chunky intervals
 	- blended colors instead of nearest chroma?
@@ -178,7 +178,7 @@
 </script>
 
 <div class="relative w-100 h-100 overflow-hidden">
-	{#if $spotPosition}
+	{#if fgDataUrl}
 		<svg class="absolute0 z-2 w-100 h-100">
 			<!--
 				Chrome doesn't appear to support setting a canvas mask to an svg (it works in Firefox)
