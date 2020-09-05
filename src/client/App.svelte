@@ -127,25 +127,23 @@
 			<a class="thumbnail" href="#about">
 				<div style="padding: 4px; display: flex; flex-direction: column; align-items: center;">
 					<h1>cosmicplayground</h1>
-					<div>
-						<small>
-							help
-							<img
-								src="assets/characters/cosm.png"
-								alt="cosm"
-								class="pixelated"
-								style="opacity: 0.6; width: 16px; height: 16px; margin: 0 10px;"
-							/>
-							about
-							<img
-								src="assets/characters/cosm.png"
-								alt="cosm"
-								class="pixelated"
-								style="opacity: 0.6; width: 16px; height: 16px; margin: 0 10px;"
-							/>
-							credits
-						</small>
-					</div>
+					<h3>
+						help
+						<img
+							src="assets/characters/cosm.png"
+							alt="cosm"
+							class="pixelated"
+							style="opacity: 0.6; width: 16px; height: 16px; margin: 0 10px;"
+						/>
+						about
+						<img
+							src="assets/characters/cosm.png"
+							alt="cosm"
+							class="pixelated"
+							style="opacity: 0.6; width: 16px; height: 16px; margin: 0 10px;"
+						/>
+						credits
+					</h3>
 				</div>
 			</a>
 			<a
@@ -163,7 +161,7 @@
 				/>
 			</a>
 			<a class="thumbnail" href="#paint-freqs">
-				<div style="font-size: 20px; margin-bottom: 7px;">paint freqs</div>
+				<h2 style="margin-bottom: 7px;">paint freqs</h2>
 				<div class="overflow-hidden" style="width: 192px; height: 192px; border-radius: 50%;">
 					<img
 						class="cosmic-kitty"
@@ -174,7 +172,7 @@
 				</div>
 			</a>
 			<a class="thumbnail" href="#starlit-hammock" style="width: 260px; height: 200px;">
-				<div class="relative z-1">starlit hammock</div>
+				<h2 class="relative z-1">starlit hammock</h2>
 				<GalaxyBg
 					width={260}
 					height={200}
@@ -184,7 +182,8 @@
 				/>
 			</a>
 			<a class="thumbnail" href="#easings-2">
-				<div>easing function audioizations and visualizations</div>
+				<h2>easing function</h2>
+				<h2>audioizations and visualizations</h2>
 				<div class="easing-aud-viz-wrapper">
 					<canvas bind:this={easingAudVizCanvas} />
 					<div
@@ -226,16 +225,14 @@
 				</div>
 			</a>
 			<a class="thumbnail" href="#easings-1">
-				<div>easing function visualizations</div>
+				<h2>easing function visualizations</h2>
 				<div class="easing-viz-slider-wrapper">
 					<div class="easing-viz-slider-graphic" />
 				</div>
 			</a>
 			<a class="thumbnail" href="#hearing-test">
-				<div>🐶 hearing test 🐶</div>
-				<div>
-					<small style="color: hsla(40deg, 60%, 65%, 1);">🐾 🐕 beware ye, creature 🐕 🐾</small>
-				</div>
+				<h2>🐶 hearing test 🐶</h2>
+				<h3 style="color: hsla(40deg, 60%, 65%, 1);">🐾 🐕 beware ye, creature 🐕 🐾</h3>
 			</a>
 			<a class="thumbnail thumbnail--under-construction" href="#under-construction">
 				<img
@@ -246,10 +243,10 @@
 				/>
 			</a>
 			<div class="thumbnail" on:click={() => (showMorePortals = !showMorePortals)}>
-				<div>
+				<h2>
 					show
 					{#if showMorePortals}less{:else}more{/if}
-				</div>
+				</h2>
 				<div>
 					<img
 						src="assets/earth/night_lights_1.png"
@@ -293,10 +290,14 @@
 					/>
 				</a>
 				<a class="thumbnail" href="#transition-designer">
-					<div class="rotating-text">transition designer</div>
+					<h2 class="rotating-text">transition designer</h2>
 				</a>
-				<a class="thumbnail" href="#bundle-vision">{'{ bundle vision }'}</a>
-				<a class="thumbnail" href="#clocks">{'🕓 clocks 🕑'}</a>
+				<a class="thumbnail" href="#bundle-vision">
+					<h2 style="font-family: monospace;">{'{ bundle vision }'}</h2>
+				</a>
+				<a class="thumbnail" href="#clocks">
+					<h2>{'🕓 clocks 🕑'}</h2>
+				</a>
 				<a class="thumbnail" href="#freq-spectacle" style="display: flex;">
 					<FreqSpectacle
 						elapsedTime={$clock.time}
@@ -518,9 +519,8 @@
 		border: var(--portal_border);
 		border-radius: var(--portal_border_radius);
 		margin: 12px;
-		font-size: 20px;
 		text-align: center;
-		color: #fff;
+		color: var(--text_color);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
