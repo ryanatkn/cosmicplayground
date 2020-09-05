@@ -32,10 +32,8 @@ This project relies on open source software and
 like [NASA's Hubble imagery](https://www.spacetelescope.org)
 and the music of [Alexander Nakarada](https://www.serpentsoundstudios.com).
 See [cosmicplayground.org/#about](https://www.cosmicplayground.org/#about)
-for the complete list of non-software assets and their credits,
-[package.json](package.json) for the code powering things,
-and [docs/contributors.md](docs/contributors.md)
-for the list of people helping it all go.
+for the complete list of non-software assets and their credits
+and [package.json](package.json) for the code powering things.
 
 Made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [TypeScript](https://github.com/microsoft/TypeScript) ∙
