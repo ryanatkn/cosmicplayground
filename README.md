@@ -8,12 +8,13 @@
 [cosmicplayground.org](https://www.cosmicplayground.org)
 is a collection of loosely related projects
 that try to be useful or interesting in some way.
-There's not much here yet:
+Here's what I got so far:
 
 - [Deep Breath](https://www.cosmicplayground.org/#deep-breath),
   an interactive map of Earth that asks the question
   "if all ice on Earth melts, how will sea levels change?"
-- several unfinished and or weird things
+- several unfinished and/or weird things
+  (warning: may induce ear discomfort or pain, OKAY??)
 - an in-progress ear training game on the `earworm` branch
   that I theoretically want to continue making one day
 
