@@ -4,14 +4,18 @@
 
 > tools and toys for expanding minds
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
-> :dragon: work in progress
 
-**current status** — there's a few weird things
-and an in-progress ear training game on the `earworm` branch
+[cosmicplayground.org](https://www.cosmicplayground.org)
+is a collection of loosely related projects
+that try to be useful or interesting in some way.
+There's not much here yet:
 
-_[cosmicplayground.org](https://www.cosmicplayground.org)_
-is an experimental **work in progress** website exploring
-various ideas with over-engineered web tech.
+- [Deep Breath](https://www.cosmicplayground.org/#deep-breath),
+  an interactive map of Earth that asks the question
+  "if all ice on Earth melts, how will sea levels change?"
+- several unfinished and or weird things
+- an in-progress ear training game on the `earworm` branch
+  that I theoretically want to continue making one day
 
 ![galaxies](/src/assets/space/galaxies-banner.jpg)
 
@@ -35,13 +39,13 @@ See [cosmicplayground.org/#about](https://www.cosmicplayground.org/#about)
 for the complete list of non-software assets and their credits
 and [package.json](package.json) for the code powering things.
 
-Made with [Svelte](https://github.com/sveltejs/svelte) ∙
+made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [TypeScript](https://github.com/microsoft/TypeScript) ∙
 [Rollup](https://github.com/rollup/rollup) ∙
 [Gro](https://github.com/feltcoop/gro) ∙
 [Prettier](https://github.com/prettier/prettier) ∙
 [Node](https://nodejs.org) ∙
-[GitHub](https://github.com) ∙ [Git](https://git-scm.com/) and more
+[GitHub](https://github.com) ∙ [Git](https://git-scm.com/) & more
 
 > :rainbow::sparkles: did you know? emoji can be punctuation :snail: neat huh
 
