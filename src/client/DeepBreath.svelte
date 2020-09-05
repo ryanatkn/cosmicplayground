@@ -21,6 +21,7 @@
 	import DeepBreathTourTitle from './DeepBreathTourTitle.svelte';
 	import DeepBreathTourCredits from './DeepBreathTourCredits.svelte';
 	import {useSettings} from './settingsStore.js';
+	import {resetRenderStats, getRenderStats} from './renderStats.js';
 
 	export let width;
 	export let height;
@@ -250,7 +251,6 @@
 	const tourTitleTotalDuration =
 		tourTitleTransitionDuration * 2 + tourTitleMaxDelay + tourTitlePauseDuration;
 	const beginTour = () => {
-		window.droppedFrameCount = 0;
 		if (tour) {
 			tour.cancel();
 		}
@@ -259,73 +259,73 @@
 		}
 		const oceanWavesPlayStep = tourData.steps.find((s) => s.name === 'playOceanWavesSound'); // TODO or get from event handler?
 		const tourSongPlayStep = tourData.steps.find((s) => s.name === 'playSong'); // TODO or get from event handler?
-		if (!tour) {
-			tour = createTourStore(tourData, clock, {
-				pan: (xTarget, yTarget, duration, easing) => {
-					updatePanTweens(xTarget, yTarget, duration, easing);
-				},
-				zoom: (scaleTarget, duration, easing) => {
-					updateScaleTween(scaleTarget, duration, easing);
-				},
-				event: async (name, _data) => {
-					if (name.startsWith('debug')) {
-						console.log(name, $tour.currentTime);
+		tour = createTourStore(tourData, clock, {
+			pan: (xTarget, yTarget, duration, easing) => {
+				updatePanTweens(xTarget, yTarget, duration, easing);
+			},
+			zoom: (scaleTarget, duration, easing) => {
+				updateScaleTween(scaleTarget, duration, easing);
+			},
+			event: async (name, _data) => {
+				if (name.startsWith('debug')) {
+					console.log(name, $tour.currentTime);
+					return;
+				}
+				switch (name) {
+					case 'load': {
+						return tourResources.load(); // is idempotent
+					}
+					case 'playOceanWavesSound': {
+						oceanWavesSound.audio.currentTime = 0;
+						if (audioEnabled) oceanWavesSound.audio.play();
 						return;
 					}
-					switch (name) {
-						case 'load': {
-							return tourResources.load(); // is idempotent
-						}
-						case 'playOceanWavesSound': {
-							oceanWavesSound.audio.currentTime = 0;
-							if (audioEnabled) oceanWavesSound.audio.play();
-							return;
-						}
-						case 'playSong': {
-							tourSong.audio.currentTime = 0;
-							if (audioEnabled) tourSong.audio.play();
-							return;
-						}
-						case 'showIntro': {
-							showTourIntro = true;
-							return;
-						}
-						case 'showTitle': {
-							showTourTitle = true;
-							return;
-						}
-						case 'showCredits': {
-							showTourCredits = true;
-							return;
-						}
-						default: {
-							throw Error(`Unknown pause name '${name}'`);
-						}
+					case 'playSong': {
+						tourSong.audio.currentTime = 0;
+						if (audioEnabled) tourSong.audio.play();
+						return;
 					}
-				},
-				seek: (currentTime, _currentStepIndex) => {
-					// TODO this hacky code could be replaced by adding abstractions to the tour
-					// to manage things like audio and displaying specific content for a time window
-					updateAudioOnSeek(oceanWavesSound.audio, oceanWavesPlayStep, currentTime);
-					updateAudioOnSeek(tourSong.audio, tourSongPlayStep, currentTime);
-					showTourIntro = false;
-					showTourTitle = false;
-					showTourCredits = false;
-				},
-				done: (_completed) => {
-					tour = null;
-					showTourIntro = false;
-					showTourTitle = false;
-					showTourCredits = false;
-					resetTweens();
-					if ($scale > 50) $scale = 50; // TODO tween
-					if (tourSong.audio && !tourSong.audio.paused) tourSong.audio.pause();
-					if (oceanWavesSound.audio && !oceanWavesSound.audio.paused) oceanWavesSound.audio.pause();
-				},
-			});
-			if (devMode && debugStartTime) {
-				setTimeout(() => tour.seekTimeTo(debugStartTime), 50);
-			}
+					case 'showIntro': {
+						showTourIntro = true;
+						return;
+					}
+					case 'showTitle': {
+						showTourTitle = true;
+						return;
+					}
+					case 'showCredits': {
+						showTourCredits = true;
+						return;
+					}
+					default: {
+						throw Error(`Unknown pause name '${name}'`);
+					}
+				}
+			},
+			seek: (currentTime, _currentStepIndex) => {
+				// TODO this hacky code could be replaced by adding abstractions to the tour
+				// to manage things like audio and displaying specific content for a time window
+				updateAudioOnSeek(oceanWavesSound.audio, oceanWavesPlayStep, currentTime);
+				updateAudioOnSeek(tourSong.audio, tourSongPlayStep, currentTime);
+				showTourIntro = false;
+				showTourTitle = false;
+				showTourCredits = false;
+			},
+			done: (_completed) => {
+				tour = null;
+				showTourIntro = false;
+				showTourTitle = false;
+				showTourCredits = false;
+				resetTweens();
+				if ($scale > 50) $scale = 50; // TODO tween
+				if (tourSong.audio && !tourSong.audio.paused) tourSong.audio.pause();
+				if (oceanWavesSound.audio && !oceanWavesSound.audio.paused) oceanWavesSound.audio.pause();
+				if (devMode) console.log('render stats', getRenderStats());
+			},
+		});
+		if (devMode) {
+			resetRenderStats();
+			if (debugStartTime) setTimeout(() => tour.seekTimeTo(debugStartTime), 50);
 		}
 	};
 	const updateAudioOnSeek = (audio, step, currentTime) => {

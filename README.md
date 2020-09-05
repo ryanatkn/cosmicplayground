@@ -11,7 +11,7 @@ that try to be useful or interesting in some way.
 Here's what I got so far:
 
 - [Deep Breath](https://www.cosmicplayground.org/#deep-breath),
-  an interactive map of Earth that asks the question
+  an interactive map of Earth with a rough answer to the question
   "if all ice on Earth melts, how will sea levels change?"
 - several unfinished and/or weird things
   (warning: may induce ear discomfort or pain, OKAY??)

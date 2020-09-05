@@ -24,11 +24,13 @@
 	import {initAudioCtx} from '../audio/audioCtx.js';
 	import {trackIdleState} from './trackIdleState.js';
 	import {initSettings} from './settingsStore.js';
+	import {updateRenderStats} from './renderStats.js';
 
 	export let windowWidth = window.innerWidth;
 	export let windowHeight = window.innerHeight;
 
 	export let clock = createClock();
+	$: updateRenderStats($clock.dt);
 
 	const settings = initSettings({
 		audioEnabled: true,

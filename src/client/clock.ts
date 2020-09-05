@@ -41,7 +41,6 @@ export const createClock = (initialState: {time?: number; running?: boolean} = {
 	const {subscribe, set, update} = clock;
 
 	const onTimer = (dt: number): void => {
-		logDroppedFrames(dt);
 		update((c) => ({...c, time: c.time + dt, dt}));
 	};
 
@@ -77,20 +76,4 @@ export const createClock = (initialState: {time?: number; running?: boolean} = {
 	}
 
 	return {subscribe, set, update, resume, pause, toggle};
-};
-
-const logDroppedFrames = (dt: number): void => {
-	const expectedFps = 60;
-	const expectedMsPerFrame = 1000 / expectedFps;
-	if (dt > expectedMsPerFrame * 2 - 5) {
-		const droppedFrameCount =
-			Math.round((10 * (dt - expectedMsPerFrame)) / expectedMsPerFrame) / 10;
-		(window as any).droppedFrameCount =
-			((window as any).droppedFrameCount || 0) + droppedFrameCount;
-		// console.warn(
-		// 	`(╯°□°)╯︵ ┻━┻ ${droppedFrameCount} frame${
-		// 		droppedFrameCount === 1 ? '' : 's'
-		// 	} over ${dt.toFixed(1)}ms`,
-		// );
-	}
 };
