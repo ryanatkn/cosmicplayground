@@ -12,7 +12,7 @@
 </a>
 •
 <a href="https://github.com/ryanatkn/cosmicplayground">
-	source code on GitHub
+	source code
 	<img
 		src="assets/characters/octocat.png"
 		alt="cosmicplayground source code on GitHub"
