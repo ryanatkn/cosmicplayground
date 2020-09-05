@@ -101,7 +101,7 @@
 	};
 
 	const onKeyDown = (e) => {
-		if (e.key === '`') {
+		if ($settings.devMode && e.key === '`') {
 			if (!e.target.closest('input')) clock.toggle();
 		}
 	};
