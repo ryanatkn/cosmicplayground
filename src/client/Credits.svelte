@@ -18,7 +18,8 @@
 		<code>src/assets</code>
 		directory
 	</a>
-	for the complete source data.
+	for the complete source data. Code is licensed
+	<a href="https://github.com/ryanatkn/cosmicplayground/blob/master/LICENSE">AGPL-3.0-only</a>.
 </CreditsItem>
 <CreditsItem>
 	<div class="image-wrapper">
@@ -30,12 +31,9 @@
 	</div>
 	<a href="https://www.spacetelescope.org/images/heic0406a/">Hubble sees galaxies galore</a>
 	by
-	<a href="https://www.nasa.gov/">NASA</a>
-	,
-	<a href="https://www.esa.int/">ESA</a>
-	, and S. Beckwith (
-	<a href="https://www.stsci.edu/">STScI</a>
-	) and the HUDF Team
+	<a href="https://www.nasa.gov/">NASA</a>,
+	<a href="https://www.esa.int/">ESA</a>, and S. Beckwith (<a href="https://www.stsci.edu/">STScI</a>)
+	and the HUDF Team
 </CreditsItem>
 <CreditsItem>
 	<div class="image-wrapper">
@@ -72,8 +70,8 @@
 	image by Robert Simmon, using
 	<a href="http://npp.gsfc.nasa.gov/viirs.html">Suomi NPP VIIRS</a>
 	data provided courtesy of Chris Elvidge (NOAA
-	<a href="http://www.ngdc.noaa.gov/dmsp/dmsp.html">National Geophysical Data Center</a>
-	). Suomi NPP is the result of a partnership between NASA, NOAA, and the Department of Defense.
+	<a href="http://www.ngdc.noaa.gov/dmsp/dmsp.html">National Geophysical Data Center</a>).
+	Suomi NPP is the result of a partnership between NASA, NOAA, and the Department of Defense.
 </CreditsItem>
 <CreditsItem>
 	<div class="image-wrapper">
@@ -82,8 +80,8 @@
 	</div>
 	<PortalLink name="under-construction" />
 	gifs from
-	<a href="http://textfiles.com/underconstruction/">textfiles.com/underconstruction</a>
-	, salvaged from Geocities by
+	<a href="http://textfiles.com/underconstruction/">textfiles.com/underconstruction</a>,
+	salvaged from Geocities by
 	<a href="https://www.archiveteam.org/">Archive Team</a>
 </CreditsItem>
 <CreditsItem>

@@ -49,9 +49,14 @@ Made with [Svelte](https://github.com/sveltejs/svelte) ∙
 
 ## license :bird:
 
-code license is [ISC](license)
+Copyright (c) Ryan Atkinson <mail@ryanatkn.com>
+[ryanatkn.com](https://www.ryanatkn.com)
 
-See [cosmicplayground.org/#about](https://www.cosmicplayground.org/#about)
-for license and copyright info of the graphics, audio, and other non-code assets.
-Usage may be restricted. All original assets are licensed
-[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) unless otherwise specified.
+Code is licensed [AGPL-3.0-only](LICENSE).
+
+For the licenses and copyright info of the
+graphics, audio, and other non-code assets,
+see [cosmicplayground.org/#about](https://www.cosmicplayground.org/#about).
+All original assets are licensed
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+unless otherwise specified.

@@ -2,7 +2,7 @@
   "name": "cosmicplayground",
   "version": "0.1.0",
   "description": "tools and toys for expanding minds 🌌",
-  "license": "ISC",
+  "license": "AGPL-3.0-only",
   "homepage": "https://www.cosmicplayground.org",
   "type": "module",
   "scripts": {
@@ -23,8 +23,8 @@
   ],
   "author": {
     "name": "Ryan Atkinson",
-    "email": "ryanatkn@gmail.com",
-    "url": "https://ryanatkn.com"
+    "email": "mail@ryanatkn.com",
+    "url": "https://www.ryanatkn.com"
   },
   "engines": {
     "node": ">=14"
