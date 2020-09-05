@@ -5,6 +5,7 @@
 	import CreditsPersonalSignature from './CreditsPersonalSignature.svelte';
 	import CreditsProjectSignature from './CreditsProjectSignature.svelte';
 	import EarthThumbnail from './EarthThumbnail.svelte';
+	import PortalLink from './PortalLink.svelte';
 </script>
 
 <h2>Credits</h2>
@@ -79,7 +80,7 @@
 		<ImgLink alt="construction idea" src="assets/construction/person-dig-idea.gif" />
 		<ImgLink alt="construction mammal" src="assets/construction/mammal.gif" />
 	</div>
-	<a href="#under-construction">"Under Construction"</a>
+	<PortalLink name="under-construction" />
 	gifs from
 	<a href="http://textfiles.com/underconstruction/">textfiles.com/underconstruction</a>
 	, salvaged from Geocities by
@@ -91,7 +92,7 @@
 	</div>
 	<div>
 		Cosmic Kitty pounced out of
-		<a href="#paint-freqs">"Paint Freqs"</a>
+		<PortalLink name="paint-freqs" />
 		.. mreow
 	</div>
 	<div>
@@ -101,7 +102,7 @@
 </CreditsItem>
 <CreditsItem>
 	<EarthThumbnail width={600} height={300} animationDuration="45s" />
-	<a href="#deep-breath">"Deep Breath"</a>
+	<PortalLink name="deep-breath" />
 	inhales
 	<a href="https://earthobservatory.nasa.gov/image-use-policy">NASA imagery</a>
 	and music from

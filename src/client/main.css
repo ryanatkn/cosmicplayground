@@ -10,15 +10,19 @@ html {
 	--land_color: #1b7e23;
 	--text_color: #dbdbdb;
 	--ocean_text_color: hsl(214, 65%, 50%);
-	--land_text_color: hsl(125, 65%, 50%);
+	--land_text_color: hsl(125, 65%, 35%);
 	--color_2: #7094db; /* TODO probably make this a lighter shade of `--ocean_color` */
 	--color_3: #9470db; /*  TODO probably make this a lighter shade of the primary color */
 	--portal_border: 3px dashed rgba(255, 255, 255, 0.15);
 	--portal_border_radius: 7px;
 	--panel_border: 5px dashed rgba(255, 255, 255, 0.15);
 	--panel_border_radius: 15px;
-	--bg_2: rgba(255, 255, 255, 0.04);
+	/* TODO reuse --ocean_color and --land_color, maybe using the substitution trick */
+	--bg_1: rgb(27, 71, 128, 0.3);
+	--bg_2: rgb(27, 126, 35, 0.25);
+	--bg_light: rgba(255, 255, 255, 0.04);
 	--bg_dark: rgba(0, 0, 0, 0.6);
+	--text_shadow: 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 /* border-box all the things, but let parents override children */
@@ -56,9 +60,9 @@ video {
 }
 
 code {
-	/* TODO reuse ocean_text_color */
-	background: rgb(27, 71, 128, 0.3);
-	padding: 2px 8px;
+	background: var(--bg_1);
+	padding: 1px 8px;
+	text-shadow: var(--text_shadow);
 }
 
 h1 {

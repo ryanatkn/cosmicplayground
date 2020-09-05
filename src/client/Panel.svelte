@@ -19,6 +19,6 @@
 		background-color: var(--bg_dark);
 	}
 	.content {
-		background-color: var(--bg_2);
+		background-color: var(--bg_light);
 	}
 </style>
