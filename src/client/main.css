@@ -12,14 +12,15 @@ html {
 	--ocean_text_color: hsl(214, 65%, 50%);
 	--land_text_color: hsl(125, 65%, 35%);
 	--color_2: #7094db; /* TODO probably make this a lighter shade of `--ocean_color` */
-	--color_3: #9470db; /*  TODO probably make this a lighter shade of the primary color */
+	--color_3: hsl(260, 60%, 65%); /*  TODO probably make this a lighter shade of the primary color */
 	--portal_border: 3px dashed rgba(255, 255, 255, 0.15);
 	--portal_border_radius: 7px;
 	--panel_border: 5px dashed rgba(255, 255, 255, 0.15);
 	--panel_border_radius: 15px;
 	/* TODO reuse --ocean_color and --land_color, maybe using the substitution trick */
-	--bg_1: rgb(27, 71, 128, 0.3);
-	--bg_2: rgb(27, 126, 35, 0.25);
+	--bg_1: rgba(27, 71, 128, 0.3);
+	--bg_2: rgba(27, 126, 35, 0.25);
+	--bg_3: hsla(260, 50%, 55%, 0.3);
 	--bg_light: rgba(255, 255, 255, 0.04);
 	--bg_dark: rgba(0, 0, 0, 0.6);
 	--text_shadow: 1px 2px rgba(0, 0, 0, 0.6);

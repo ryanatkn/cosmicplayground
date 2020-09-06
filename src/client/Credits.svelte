@@ -78,7 +78,7 @@
 		<ImgLink alt="construction idea" src="assets/construction/person-dig-idea.gif" />
 		<ImgLink alt="construction mammal" src="assets/construction/mammal.gif" />
 	</div>
-	<PortalLink name="under-construction" />
+	<PortalLink slug="under-construction" />
 	gifs from
 	<a href="http://textfiles.com/underconstruction/">textfiles.com/underconstruction</a>,
 	salvaged from Geocities by
@@ -90,7 +90,7 @@
 	</div>
 	<div>
 		Cosmic Kitty pounced out of
-		<PortalLink name="paint-freqs" />
+		<PortalLink slug="paint-freqs" />
 		.. mreow
 	</div>
 	<div>
@@ -100,7 +100,7 @@
 </CreditsItem>
 <CreditsItem>
 	<EarthThumbnail width={600} height={300} animationDuration="45s" />
-	<PortalLink name="deep-breath" />
+	<PortalLink slug="deep-breath" />
 	inhales
 	<a href="https://earthobservatory.nasa.gov/image-use-policy">NASA imagery</a>
 	and music from

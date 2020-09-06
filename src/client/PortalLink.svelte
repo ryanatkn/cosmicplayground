@@ -1,26 +1,28 @@
 <script>
-	export let name; // TODO validate against the portal data or something
+	import {usePortals, findPortalBySlug} from './portalsStore.js';
 
-	// TODO lookup from portal data
-	const toPortalTitle = (name) =>
-		name
-			.split('-')
-			.map((s) => `${s[0].toUpperCase()}${s.slice(1)}`)
-			.join(' ');
+	export let slug;
 
-	$: title = toPortalTitle(name);
+	const portals = usePortals();
+	$: portal = findPortalBySlug($portals, slug);
 </script>
 
-<a href={`#${name}`}>{title}</a>
+<a href={`#${slug}`}>
+	{portal.title}
+	<!-- TODO I don't have a usecase for this yet,
+		but a slot with default content might be nice:
+		<slot {portal}>{portal.title}</slot>
+	-->
+</a>
 
 <style>
 	a {
-		background-color: var(--bg_2);
+		background-color: var(--bg_3);
 		padding: 0 8px;
 		border-radius: 5px;
-		color: var(--land_text_color);
+		color: var(--color_3);
 		font-weight: bold;
-		border: 1px dashed var(--land_text_color);
+		border: 1px dashed var(--color_3);
 		text-shadow: var(--text_shadow);
 	}
 	a:hover {

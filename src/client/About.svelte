@@ -22,12 +22,12 @@
 		<a href="https://www.cosmicplayground.org">cosmicplayground.org</a>
 		is a collection of loosely related projects created by
 		<a href="https://www.ryanatkn.com">Ryan Atkinson</a>.
-		Hi that's me, I like making web things and apparently I have a thing for space? Everything
+		Hi that's me, I enjoy making web things and apparently I have a thing for space? Everything
 		here is free and
 		<a href="https://github.com/ryanatkn/cosmicplayground">open source</a>
-		and mostly a work-in-progress (fancy talk for half-broken or half-baked:). The first
-		project that I think is worth sharing is
-		<PortalLink name="deep-breath" />
+		and mostly a work-in-progress (fancy talk for half-broken or half-baked:). The first project
+		that I think is worth sharing is
+		<PortalLink slug="deep-breath" />
 		and there's hopefully more to come!
 	</p>
 	<div>

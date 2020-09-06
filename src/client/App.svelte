@@ -25,6 +25,8 @@
 	import {trackIdleState} from './trackIdleState.js';
 	import {initSettings} from './settingsStore.js';
 	import {updateRenderStats} from './renderStats.js';
+	import {initPortals, findPortalBySlug} from './portalsStore.js';
+	import {portalData} from './portalData.js';
 
 	export let windowWidth = window.innerWidth;
 	export let windowHeight = window.innerHeight;
@@ -39,38 +41,29 @@
 		timeToGoIdle: 6000,
 	});
 
-	// views:
-	// portals | about | freq-spectacle | freq-speeds | under-construction | bundle-vision | clocks |
-	// hearing-test | transition-designer | easings-1 | easings-2 | paint-freqs
-	// starlit-hammock | deep-breath
 	let hash = typeof window === 'undefined' ? '' : window.location.hash;
-	const DEFAULT_VIEW = 'portals';
-	$: view = hash.slice(1) || DEFAULT_VIEW;
+	const DEFAULT_PORTAL_SLUG = 'portals';
+	$: activePortalSlug = hash.slice(1) || DEFAULT_PORTAL_SLUG;
 	const onHashChange = (e) => {
 		hash = window.location.hash;
 	};
 
+	// TODO do we want maps of portal slugs to thumbnail and view components?
+	const portals = initPortals(portalData);
+	const PORTAL_COOLNESS_VISIBILITY_THRESHOLD = 3;
+	// TODO use this to display the active portal generically
+	$: activePortal = findPortalBySlug($portals, activePortalSlug);
+	// TODO use these to display the thumbnails generically
+	// $: coolPortals = $portals.all.filter(
+	// 	(p) => !p.unlisted && p.coolness > PORTAL_COOLNESS_VISIBILITY_THRESHOLD,
+	// );
+	// $: lessCoolPortals = $portals.all.filter(
+	// 	(p) => !p.unlisted && p.coolness <= PORTAL_COOLNESS_VISIBILITY_THRESHOLD,
+	// );
 	let showMorePortals = false; // toggle showing portals to the less interesting projects
 
 	const isIdle = writable(false);
 	$: timeToGoIdle = $settings.devMode ? 99999999999 : $settings.timeToGoIdle;
-
-	const viewsWithGalaxyBg = new Set([
-		'portals',
-		'about',
-		'freq-spectacle',
-		'freq-speeds',
-		'under-construction',
-		'bundle-vision',
-		'clocks',
-		'hearing-test',
-		'transition-designer',
-		'easings-1',
-		'easings-2',
-		'paint-freqs',
-		'deep-breath', // TODO hide this during the tour
-	]);
-	$: showGalaxyBg = viewsWithGalaxyBg.has(view);
 
 	initAudioCtx(); // allows components to do `const audioCtx = useAudioCtx();` which uses svelte's `getContext`
 
@@ -117,13 +110,13 @@
 	on:keydown={onKeyDown}
 />
 
-{#if showGalaxyBg}
-	<section class="bg w-100 z-0">
+{#if activePortal.showBackground}
+	<section class="bg">
 		<GalaxyBg running={$clock.running} width={windowWidth} height={windowHeight} />
 	</section>
 {/if}
 
-{#if view === 'portals'}
+{#if activePortalSlug === 'portals'}
 	<section class="portals" class:paused={!$clock.running}>
 		<nav class="thumbnails">
 			<a class="thumbnail" href="#about">
@@ -312,7 +305,7 @@
 			</nav>
 		{/if}
 	</section>
-{:else if view === 'about'}
+{:else if activePortalSlug === 'about'}
 	<section class="content" style="height: initial;">
 		<div class="back-button-wrapper">
 			<BackButton />
@@ -321,53 +314,53 @@
 			<About />
 		</Panel>
 	</section>
-{:else if view === 'easings-2'}
+{:else if activePortalSlug === 'easings-2'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton />
 		</div>
 		<EasingAudViz />
 	</section>
-{:else if view === 'easings-1'}
+{:else if activePortalSlug === 'easings-1'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton />
 		</div>
 		<EasingViz />
 	</section>
-{:else if view === 'transition-designer'}
+{:else if activePortalSlug === 'transition-designer'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton />
 		</div>
 		<TransitionDesigner />
 	</section>
-{:else if view === 'paint-freqs'}
+{:else if activePortalSlug === 'paint-freqs'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton />
 		</div>
 		<PaintFreqs />
 	</section>
-{:else if view === 'starlit-hammock'}
+{:else if activePortalSlug === 'starlit-hammock'}
 	<section class="content" class:cursor-none={$isIdle}>
 		<div class="back-button-wrapper">
 			<BackButton isIdle={$isIdle} />
 		</div>
 		<StarlitHammock width={windowWidth} height={windowHeight} />
 	</section>
-{:else if view === 'deep-breath'}
+{:else if activePortalSlug === 'deep-breath'}
 	<section class="content" class:cursor-none={$isIdle}>
 		<DeepBreath {clock} width={windowWidth} height={windowHeight} {isIdle} />
 	</section>
-{:else if view === 'hearing-test'}
+{:else if activePortalSlug === 'hearing-test'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton />
 		</div>
 		<HearingTest />
 	</section>
-{:else if view === 'freq-spectacle'}
+{:else if activePortalSlug === 'freq-spectacle'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton isIdle={$isIdle} />
@@ -427,7 +420,7 @@
 			</div>
 		</div>
 	</section>
-{:else if view === 'freq-speeds'}
+{:else if activePortalSlug === 'freq-speeds'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton isIdle={$isIdle} />
@@ -450,7 +443,7 @@
 			/>
 		</div>
 	</section>
-{:else if view === 'bundle-vision'}
+{:else if activePortalSlug === 'bundle-vision'}
 	<!-- // TODO path - see `src/project/paths.ts` for more -->
 	<section class="content">
 		<div class="back-button-wrapper">
@@ -458,14 +451,14 @@
 		</div>
 		<BundleVision url="/bundle.stats.json" />
 	</section>
-{:else if view === 'clocks'}
+{:else if activePortalSlug === 'clocks'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton />
 		</div>
 		<Clocks {clock} />
 	</section>
-{:else if view === 'under-construction'}
+{:else if activePortalSlug === 'under-construction'}
 	<section class="content">
 		<div class="back-button-wrapper">
 			<BackButton isIdle={$isIdle} />
@@ -478,7 +471,7 @@
 			<div class="back-button-wrapper">
 				<BackButton />
 			</div>
-			<h2>unknown view: {view}</h2>
+			<h2>unknown portal: {activePortalSlug}</h2>
 		</Panel>
 	</section>
 {/if}
@@ -488,7 +481,9 @@
 		position: fixed;
 		top: 0;
 		left: 0;
+		width: 100%;
 		height: 100%;
+		z-index: 0;
 	}
 	.content {
 		position: relative;
