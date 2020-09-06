@@ -18,7 +18,7 @@ Here's what I got so far:
 - an in-progress ear training game on the `earworm` branch
   that I theoretically want to continue making one day
 
-![galaxies](/src/assets/space/galaxies-banner.jpg)
+[![galaxies](/src/assets/space/galaxies-banner.jpg)](/src/assets/space/galaxies.jpg)
 
 ## develop
 
@@ -64,4 +64,4 @@ All original assets are licensed
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 unless otherwise specified.
 
-![galaxies](/src/assets/space/galaxies-banner.jpg)
+[![galaxies](/src/assets/space/galaxies-banner.jpg)](/src/assets/space/galaxies.jpg)
