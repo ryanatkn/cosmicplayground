@@ -80,7 +80,7 @@ but it is already being used on deployed websites.
 
 > TODO improve with inline example, including plugins
 
-See [`src/client/sy.config.ts`](../client/sy.config.ts),
+See [`src/app/sy.config.ts`](../app/sy.config.ts),
 [`rollup-plugin-sy`](../project/build/rollup-plugin-sy.ts),
 [`src/project/build/build.ts`](../project/build/build.ts),
 [`rollup-plugin-extract-svelte-css-classes`](../project/build/rollup-plugin-extract-svelte-css-classes.ts),

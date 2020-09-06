@@ -13,11 +13,11 @@ export interface BundleStats {
 export interface ChunkStats {
 	name: string; // e.g. "main"
 	fileName: string; // e.g. "bundle.js"
-	pkg: string; // e.g. "client"
-	path: string; // e.g. "client/main.ts"
+	pkg: string; // e.g. "app"
+	path: string; // e.g. "app/main.ts"
 	srcPath: string; // e.g. "/home/name/dev/cosmicplayground/src/"
 	externalsPath: string; // e.g. "/home/name/dev/cosmicplayground/node_modules/"
-	facadeModuleId: string | null; // e.g. "/home/name/dev/cosmicplayground/src/client/main.ts"
+	facadeModuleId: string | null; // e.g. "/home/name/dev/cosmicplayground/src/app/main.ts"
 	isEntry: boolean;
 	isDynamicEntry: boolean;
 	dynamicImports: string[];
@@ -42,11 +42,11 @@ const chunkStatsKeyOrder: (keyof ChunkStats)[] = [
 	'modules',
 ];
 export interface ModuleStats {
-	id: string; // e.g. "/home/name/dev/cosmicplayground/src/client/foo/bar.ts"
+	id: string; // e.g. "/home/name/dev/cosmicplayground/src/app/foo/bar.ts"
 	fileName: string; // e.g. "bar.ts"
-	pkg: string; // e.g. "client"
-	dir: string; // e.g. "client/foo"
-	path: string; // e.g. "client/foo/bar.ts"
+	pkg: string; // e.g. "app"
+	dir: string; // e.g. "app/foo"
+	path: string; // e.g. "app/foo/bar.ts"
 	external?: true; // is `true` if in `node_modules`, omitted property otherwise
 	originalLength: number;
 	removedExports: string[];
