@@ -60,8 +60,8 @@
 			<h2>If all ice on Earth melts, how will sea levels change?</h2>
 			<p>
 				Deep Breath is an interactive webpage with a rough sketch of Earth's sea levels if all ice
-				melts, about 60-75 meters above 2020's oceans. Some estimates are higher. The code and image
-				data are
+				melts, about 60-75 meters above 2020's oceans. Some estimates are higher.
+				The purpose is feelings not science. The code and image data are
 				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>.
 				See the credits below for more.
 			</p>

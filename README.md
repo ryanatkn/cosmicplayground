@@ -13,6 +13,7 @@ Here's what I got so far:
 - [Deep Breath](https://www.cosmicplayground.org/#deep-breath),
   an interactive map of Earth with a rough answer to the question
   "if all ice on Earth melts, how will sea levels change?"
+  The purpose is feelings not science.
 - several unfinished and/or weird things
   (warning: may induce ear discomfort or pain, OKAY??)
 - an in-progress ear training game on the `earworm` branch
