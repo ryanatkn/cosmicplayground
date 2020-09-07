@@ -10,7 +10,7 @@
 
 <h2>Credits</h2>
 <CreditsItem>
-	This project relies on lots of amazing freely licensed content. Below are all of the credits with
+	This project relies on lots of amazing freely licensed content. The credits are below with
 	links and copyright info. All original assets are licensed
 	<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
 	unless otherwise specified. See the source respository's
@@ -19,8 +19,7 @@
 		directory
 	</a>
 	for the complete source data. Code is licensed
-	<a href="https://github.com/ryanatkn/cosmicplayground/blob/master/LICENSE">AGPL-3.0-only</a>
-	.
+	<a href="https://github.com/ryanatkn/cosmicplayground/blob/master/LICENSE">AGPL-3.0-only</a>.
 </CreditsItem>
 <CreditsItem>
 	<div class="image-wrapper">
