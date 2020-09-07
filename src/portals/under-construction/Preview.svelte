@@ -1,0 +1,34 @@
+<script>
+	import {useClock} from '../../app/clock.js';
+
+	export const portal = undefined;
+
+	const clock = useClock();
+</script>
+
+<img
+	src={$clock.running ? 'assets/construction/person-rock.gif' : 'assets/construction/person-rock-pause.png'}
+	alt="under construction: person rock"
+	style="width: 162px; height: 100px;"
+	class="pixelated"
+/>
+
+<style>
+	img {
+		animation: rotate-pulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+	}
+	:global(.paused) img {
+		animation-play-state: paused;
+	}
+	@keyframes rotate-pulse {
+		0% {
+			transform: rotate3d(-0.51, 0.49, 0.19, 27deg) scale3d(0.65, 0.65, 0.65);
+		}
+		66% {
+			transform: rotate3d(0.65, 0.06, -0.07, 40deg) scale3d(1.2, 1.2, 1.2);
+		}
+		100% {
+			transform: rotate3d(-0.51, 0.49, 0.19, 27deg) scale3d(0.65, 0.65, 0.65);
+		}
+	}
+</style>

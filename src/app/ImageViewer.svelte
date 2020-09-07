@@ -74,7 +74,7 @@
 	on:wheel={onWheel}
 >
 	<div
-		class="content"
+		class="image-wrapper"
 		style="transform: scale3d({scale}, {scale}, 1) translate3d({x}px, {y}px, 0); width: {width}px;
 		height: {height}px;"
 	>
@@ -87,7 +87,7 @@
 		overflow: hidden;
 		user-select: none;
 	}
-	.content {
+	.image-wrapper {
 		transform-origin: center;
 	}
 </style>

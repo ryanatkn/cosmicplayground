@@ -24,11 +24,9 @@ export const resetRenderStats = (): RenderStats => (renderStats = defaultRenderS
 
 export const getRenderStats = (): RenderStats => renderStats;
 
-(window as any).getRenderStats = getRenderStats; // TODO do this only in devMode?
-
-export const logRenderStats = (): void => {
-	console.log('render states');
-};
+// TODO do this only in devMode?
+// we don't support `process.env.NODE_ENV` yet!!
+(window as any).getRenderStats = getRenderStats;
 
 const expectedFps = 60; // TODO support other framerates?
 const expectedMsPerFrame = 1000 / expectedFps;

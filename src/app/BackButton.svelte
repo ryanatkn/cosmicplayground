@@ -1,15 +1,15 @@
 <script>
 	import {scale} from 'svelte/transition';
 
-	export let isIdle = false;
+	// TODO maybe rename this `HomeButton`? or take slug as param?
 </script>
 
-<a href="#portals" class:idle={isIdle} in:scale={{duration: 167}} aria-label="go back">⇦</a>
+<a href="#home" in:scale={{duration: 167}} aria-label="go back home">⇦</a>
 
 <style>
 	a {
 		display: block;
-		cursor: pointer;
+		cursor: default;
 		font-size: 80px;
 		opacity: 0.6;
 		color: hsla(130, 20%, 90%, 0.9);
@@ -25,7 +25,7 @@
 		opacity: 0.95;
 		transform: scale3d(1.42, 1.42, 1);
 	}
-	.idle {
+	:global(.idle) a {
 		opacity: 0;
 	}
 </style>

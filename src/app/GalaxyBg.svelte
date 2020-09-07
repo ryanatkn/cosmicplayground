@@ -24,8 +24,8 @@
 </script>
 
 <div
-	class="w-100 h-100 absolute overflow-hidden z-0"
-	style="opacity: {opacity};"
+	class="galaxy-bg"
+	style="width: {width}px; height: {height}px; opacity: {opacity};"
 	class:paused={!running}
 >
 	<div
@@ -36,6 +36,9 @@
 </div>
 
 <style>
+	.galaxy-bg {
+		overflow: hidden;
+	}
 	.bg {
 		background-repeat: repeat;
 		animation-name: scroll-bg;

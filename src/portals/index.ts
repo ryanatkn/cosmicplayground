@@ -1,0 +1,164 @@
+import {PortalsData, PortalData} from './portal.js';
+
+import AboutView from './about/View.svelte';
+import AboutPreview from './about/Preview.svelte';
+import BundleVisionView from './bundle-vision/View.svelte';
+import BundleVisionPreview from './bundle-vision/Preview.svelte';
+import ClocksView from './clocks/View.svelte';
+import ClocksPreview from './clocks/Preview.svelte';
+import DeepBreathView from './deep-breath/View.svelte';
+import DeepBreathPreview from './deep-breath/Preview.svelte';
+import Easings1View from './easings-1/View.svelte';
+import Easings1Preview from './easings-1/Preview.svelte';
+import Easings2View from './easings-2/View.svelte';
+import Easings2Preview from './easings-2/Preview.svelte';
+import FreqSpectacleView from './freq-spectacle/View.svelte';
+import FreqSpectaclePreview from './freq-spectacle/Preview.svelte';
+import FreqSpeedsView from './freq-speeds/View.svelte';
+import FreqSpeedsPreview from './freq-speeds/Preview.svelte';
+import HearingTestView from './hearing-test/View.svelte';
+import HearingTestPreview from './hearing-test/Preview.svelte';
+import HomeView from './home/View.svelte';
+import HomePreview from './home/Preview.svelte';
+import PaintFreqsView from './paint-freqs/View.svelte';
+import PaintFreqsPreview from './paint-freqs/Preview.svelte';
+import StarlitHammockView from './starlit-hammock/View.svelte';
+import StarlitHammockPreview from './starlit-hammock/Preview.svelte';
+import TransitionDesignerView from './transition-designer/View.svelte';
+import TransitionDesignerPreview from './transition-designer/Preview.svelte';
+import UnderConstructionView from './under-construction/View.svelte';
+import UnderConstructionPreview from './under-construction/Preview.svelte';
+
+const portals: PortalData[] = [
+	{
+		slug: 'about',
+		View: AboutView,
+		Preview: AboutPreview,
+		title: 'about',
+		coolness: 4,
+		showBackground: true,
+		showBackButton: true,
+	},
+	{
+		slug: 'bundle-vision',
+		View: BundleVisionView,
+		Preview: BundleVisionPreview,
+		title: 'bundle vision',
+		coolness: 1,
+		showBackground: true,
+		showBackButton: true,
+	},
+	{
+		slug: 'clocks',
+		View: ClocksView,
+		Preview: ClocksPreview,
+		title: 'clocks',
+		coolness: 1,
+		showBackground: true,
+		showBackButton: true,
+	},
+	{
+		slug: 'deep-breath',
+		View: DeepBreathView,
+		Preview: DeepBreathPreview,
+		title: 'deep breath',
+		coolness: 7,
+		showBackground: true,
+		showBackButton: false,
+	},
+	{
+		slug: 'easings-1',
+		View: Easings1View,
+		Preview: Easings1Preview,
+		title: 'easing function visualizations',
+		coolness: 4,
+		showBackground: true,
+		showBackButton: true,
+	},
+	{
+		slug: 'easings-2',
+		View: Easings2View,
+		Preview: Easings2Preview,
+		title: 'easing function visualizations and audioizations',
+		coolness: 5,
+		showBackground: true,
+		showBackButton: true,
+	},
+	{
+		slug: 'freq-spectacle',
+		View: FreqSpectacleView,
+		Preview: FreqSpectaclePreview,
+		title: 'freq spectacle',
+		coolness: 1,
+		showBackground: true,
+		showBackButton: true,
+	},
+	{
+		slug: 'freq-speeds',
+		View: FreqSpeedsView,
+		Preview: FreqSpeedsPreview,
+		title: 'freq speeds',
+		coolness: 3,
+		showBackground: true,
+		showBackButton: true,
+	},
+	{
+		slug: 'hearing-test',
+		View: HearingTestView,
+		Preview: HearingTestPreview,
+		title: 'hearing test',
+		coolness: 4,
+		showBackground: true,
+		showBackButton: true,
+	},
+	{
+		slug: 'home',
+		View: HomeView,
+		Preview: HomePreview,
+		title: 'home',
+		coolness: 11,
+		showBackground: true,
+		showBackButton: false,
+	},
+	{
+		slug: 'paint-freqs',
+		View: PaintFreqsView,
+		Preview: PaintFreqsPreview,
+		title: 'paint freqs',
+		coolness: 5,
+		showBackground: true,
+		showBackButton: true,
+	},
+	{
+		slug: 'starlit-hammock',
+		View: StarlitHammockView,
+		Preview: StarlitHammockPreview,
+		title: 'starlit hammock',
+		coolness: 4,
+		showBackground: false,
+		showBackButton: true,
+	},
+	{
+		slug: 'transition-designer',
+		View: TransitionDesignerView,
+		Preview: TransitionDesignerPreview,
+		title: 'transition designer',
+		coolness: 1,
+		showBackground: true,
+		showBackButton: true,
+	},
+	{
+		slug: 'under-construction',
+		View: UnderConstructionView,
+		Preview: UnderConstructionPreview,
+		title: 'under construction',
+		coolness: 4,
+		showBackground: true,
+		showBackButton: true,
+	},
+];
+
+export const portalsData: PortalsData = {
+	portals,
+	portalsBySlug: new Map(portals.map((p) => [p.slug, p])),
+};

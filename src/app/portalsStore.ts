@@ -1,19 +1,10 @@
 import {writable, Writable} from 'svelte/store';
 import {setContext, getContext} from 'svelte';
 
-export interface PortalData {
-	slug: string;
-	title: string;
-	coolness: number;
-	showBackground: boolean; // show the universal background when the portal is active?
-	unlisted?: boolean; // does the portal appear on the main menu?
-	// TODO do we want a width/height for thumbnails here?
-	// thumbnailWidth: number;
-	// thumbnailHeight: number;
-}
+import {PortalsData, PortalData} from '../portals/portal.js';
 
 export interface PortalsState {
-	all: PortalData[]; // TODO rename?
+	data: PortalsData;
 }
 
 export interface PortalsStore {
@@ -21,15 +12,15 @@ export interface PortalsStore {
 	update: Writable<PortalsState>['update'];
 }
 
-export const createPortalsStore = (initialPortalData: PortalData[]): PortalsStore => {
-	const store = writable({all: initialPortalData});
+export const createPortalsStore = (initialPortalsData: PortalsData): PortalsStore => {
+	const store = writable({data: initialPortalsData});
 	// TODO we might not want to expose `update` directly, but for now it's fine
 	const {subscribe, update} = store;
 	return {subscribe, update};
 };
 
 export const findPortalBySlug = ($portals: PortalsState, slug: string): PortalData => {
-	const portal = $portals.all.find((p) => p.slug === slug);
+	const portal = $portals.data.portalsBySlug.get(slug);
 	if (!portal) {
 		throw Error(`No portal found with slug "${slug}"`);
 	}
@@ -38,8 +29,8 @@ export const findPortalBySlug = ($portals: PortalsState, slug: string): PortalDa
 
 export const portalsContextKey = {};
 export const usePortals = (): PortalsStore => getContext(portalsContextKey);
-export const initPortals = (initialPortalData: PortalData[]): PortalsStore => {
-	const portals = createPortalsStore(initialPortalData);
+export const initPortals = (initialPortalsData: PortalsData): PortalsStore => {
+	const portals = createPortalsStore(initialPortalsData);
 	setContext(portalsContextKey, portals);
 	return portals;
 };

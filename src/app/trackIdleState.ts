@@ -1,29 +1,29 @@
 import {Writable} from 'svelte/store';
 
 interface TrackIdleStateOptions {
-	isIdle: Writable<boolean>;
+	idle: Writable<boolean>;
 	timeToGoIdle: number;
 	idleIntervalTime: number;
 }
 
 export const trackIdleState = (
 	el: HTMLElement,
-	{isIdle, timeToGoIdle, idleIntervalTime}: TrackIdleStateOptions,
+	{idle, timeToGoIdle, idleIntervalTime}: TrackIdleStateOptions,
 ) => {
 	let interval: any; // TODO type for browser only? should be `number`
 	let idleTimer = 0;
 
-	let $isIdle: boolean;
-	const onChange = (_$isIdle: boolean) => {
-		$isIdle = _$isIdle;
+	let $idle: boolean;
+	const onChange = (_$idle: boolean) => {
+		$idle = _$idle;
 	};
-	let unsubscribe = isIdle.subscribe(onChange);
+	let unsubscribe = idle.subscribe(onChange);
 
 	const updateIdleState = () => {
-		if ($isIdle) return;
+		if ($idle) return;
 		idleTimer += idleIntervalTime;
 		if (idleTimer >= timeToGoIdle) {
-			isIdle.set(true);
+			idle.set(true);
 		}
 	};
 
@@ -35,17 +35,17 @@ export const trackIdleState = (
 
 	const resetIdleState = () => {
 		idleTimer = 0;
-		if ($isIdle) isIdle.set(false);
+		if ($idle) idle.set(false);
 	};
 
 	el.addEventListener('mousemove', resetIdleState);
 	el.addEventListener('keydown', resetIdleState);
 
 	return {
-		update: ({isIdle, idleIntervalTime, timeToGoIdle: _timeToGoIdle}: TrackIdleStateOptions) => {
+		update: ({idle, idleIntervalTime, timeToGoIdle: _timeToGoIdle}: TrackIdleStateOptions) => {
 			timeToGoIdle = _timeToGoIdle;
 			unsubscribe();
-			unsubscribe = isIdle.subscribe(onChange);
+			unsubscribe = idle.subscribe(onChange);
 			startInterval(idleIntervalTime);
 		},
 		destroy: () => {

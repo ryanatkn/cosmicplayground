@@ -6,7 +6,6 @@
 	export let animationDuration = '360s';
 	export let fontSize = 48;
 	export let text = null;
-	export let styles = '';
 	export let running = true;
 
 	// TODO get from loaded image
@@ -28,7 +27,7 @@
 <div
 	class="earth-thumbnail"
 	class:paused={!running}
-	style="width: {width}px; height: {height}px; opacity: {opacity}; {styles}"
+	style="width: {width}px; height: {height}px; opacity: {opacity};"
 >
 	<div
 		class="bg"

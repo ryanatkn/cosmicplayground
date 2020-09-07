@@ -1,4 +1,5 @@
 import {writable, get, Writable} from 'svelte/store';
+import {getContext, setContext} from 'svelte';
 
 // I tried to avoid using `get`, but there's one place where it's used.
 // Subscribing to the `running` value seems to add a lot of complexity
@@ -22,23 +23,24 @@ export interface ClockStore {
 	toggle: () => void;
 }
 
-export const createClock = (initialState: {time?: number; running?: boolean} = {}): ClockStore => {
+// TODO do we want `createClockStore` and `clockStore.ts`, or without the "Store"?
+export const createClock = (initialState?: Partial<ClockState>): ClockStore => {
+	const finalInitialState: ClockState = {
+		time: 0,
+		running: false, // see below for where `finalInitialState.running` is used - the initializing `resume` call expects `running` to be false
+		dt: 0,
+		...initialState,
+	};
+
 	let lastTime: number | undefined;
 	let reqId: number | undefined;
 
-	const clock = writable(
-		{
-			time: initialState.time || 0,
-			running: false, // see below for where `initialState.running` is used - the initializing `resume` call expects `running` to be false
-			dt: 0,
-		},
-		() => {
-			return () => {
-				pause();
-			};
-		},
-	);
-	const {subscribe, set, update} = clock;
+	const store = writable(finalInitialState, () => {
+		return () => {
+			pause();
+		};
+	});
+	const {subscribe, set, update} = store;
 
 	const onTimer = (dt: number): void => {
 		update((c) => ({...c, time: c.time + dt, dt}));
@@ -68,12 +70,20 @@ export const createClock = (initialState: {time?: number; running?: boolean} = {
 		});
 	};
 	const toggle = (): void => {
-		get(clock).running ? pause() : resume();
+		get(store).running ? pause() : resume();
 	};
 
-	if (initialState.running !== false) {
+	if (!initialState || initialState.running) {
 		resume();
 	}
 
 	return {subscribe, set, update, resume, pause, toggle};
+};
+
+export const clockContextKey = {};
+export const useClock = (): ClockStore => getContext(clockContextKey);
+export const initClock = (initialState: Partial<ClockState>): ClockStore => {
+	const clock = createClock(initialState);
+	setContext(clockContextKey, clock);
+	return clock;
 };
