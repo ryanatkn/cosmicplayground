@@ -53,7 +53,9 @@
 			</p>
 			<p>Please be aware that the data is imperfect:</p>
 			<ul>
-				<li>The elevation data is low resolution and it may be inaccurate in some places.</li>
+				<li>
+					The elevation data is low resolution and the highest sea level is an approximation.
+				</li>
 				<li>
 					Ice remains visible when sea levels rise, even though sea level rise implies the ice has
 					melted. This could be fixed by faking the revealed terrain.

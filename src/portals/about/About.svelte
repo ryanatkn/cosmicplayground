@@ -47,7 +47,7 @@
 	<p>
 		This website tracks nothing and the only server it talks to is
 		<a href="https://pages.github.com/">GitHub Pages</a>
-		to serve all of the static files. It makes no third party network requests. See
+		to serve static files. It makes no third party network requests. See
 		<a href="https://github.com/ryanatkn/cosmicplayground">the source code</a>
 		for more.
 	</p>
