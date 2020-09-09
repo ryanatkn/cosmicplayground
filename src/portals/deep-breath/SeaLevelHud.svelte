@@ -1,7 +1,7 @@
 <script>
 	export let seaLevel;
 	export let seaIndexMax;
-	export let selectedSeaLevel;
+	export let selectedSeaLevel; // number | null
 	export let selectSeaLevel;
 	export let hoverSeaLevel;
 
@@ -20,6 +20,7 @@
 <div
 	class="water-level"
 	bind:this={waterLevelEl}
+	class:selected={selectedSeaLevel !== null}
 	on:click={(e) => selectSeaLevel(selectedSeaLevel === null ? getSeaLevel(e.clientY) : null)}
 	on:mouseenter={(e) => hoverSeaLevel(getSeaLevel(e.clientY))}
 	on:mousemove={(e) => hoverSeaLevel(getSeaLevel(e.clientY))}
@@ -45,7 +46,13 @@
 		width: 7px;
 		background-color: var(--ocean_color);
 		position: absolute;
-		opacity: 0.6;
+		opacity: 0.65;
 		box-shadow: 1px 0 2px 1px #000, 2px 0 7px #000;
+	}
+	.selected .water-level-fill {
+		box-shadow: -1px 0 2px 1px var(--ocean_text_color), -2px 0 7px #000;
+	}
+	.water-level:active .water-level-fill {
+		opacity: 1;
 	}
 </style>
