@@ -1,4 +1,6 @@
 <script>
+	import FloatingTextButton from './FloatingTextButton.svelte';
+
 	export let tour;
 	export let debugStartTime;
 
@@ -21,11 +23,9 @@
 
 <svelte:window on:keydown={onKeyDown} />
 
-<div class="clickable">time: {Math.round($tour.currentTime)}</div>
-<div
-	class="clickable"
-	role="button"
-	on:click|stopPropagation|preventDefault={() => {
+<FloatingTextButton>time: {Math.round($tour.currentTime)}</FloatingTextButton>
+<FloatingTextButton
+	on:click={() => {
 		const index = Number(prompt('index?', $tour.currentStepIndex));
 		if (!Number.isNaN(index)) {
 			tour.seekIndexTo(index);
@@ -33,67 +33,53 @@
 	}}
 >
 	index: {$tour.currentStepIndex}
-</div>
-<div
-	class="clickable"
-	role="button"
-	on:click|stopPropagation|preventDefault={() => {
+</FloatingTextButton>
+<FloatingTextButton
+	on:click={() => {
 		tour.seekTimeTo(debugStartTime);
 	}}
 >
 	seek to {Math.round(debugStartTime / 1000)}s
-</div>
-<div
-	class="clickable"
-	role="button"
-	on:click|stopPropagation|preventDefault={() => {
+</FloatingTextButton>
+<FloatingTextButton
+	on:click={() => {
 		tour.seekTimeBy(1000);
 	}}
 >
 	seek +1s
-</div>
-<div
-	class="clickable"
-	role="button"
-	on:click|stopPropagation|preventDefault={() => {
+</FloatingTextButton>
+<FloatingTextButton
+	on:click={() => {
 		tour.seekTimeBy(-1000);
 	}}
 >
 	seek -1s
-</div>
-<div
-	class="clickable"
-	role="button"
-	on:click|stopPropagation|preventDefault={() => {
+</FloatingTextButton>
+<FloatingTextButton
+	on:click={() => {
 		tour.seekTimeBy(10000);
 	}}
 >
 	seek +10s
-</div>
-<div
-	class="clickable"
-	role="button"
-	on:click|stopPropagation|preventDefault={() => {
+</FloatingTextButton>
+<FloatingTextButton
+	on:click={() => {
 		tour.seekTimeBy(-10000);
 	}}
 >
 	seek -10s
-</div>
-<div
-	class="clickable"
-	role="button"
-	on:click|stopPropagation|preventDefault={() => {
+</FloatingTextButton>
+<FloatingTextButton
+	on:click={() => {
 		tour.seekTimeBy(100000);
 	}}
 >
 	seek +100s
-</div>
-<div
-	class="clickable"
-	role="button"
-	on:click|stopPropagation|preventDefault={() => {
+</FloatingTextButton>
+<FloatingTextButton
+	on:click={() => {
 		tour.seekTimeBy(-100000);
 	}}
 >
 	seek -100s
-</div>
+</FloatingTextButton>

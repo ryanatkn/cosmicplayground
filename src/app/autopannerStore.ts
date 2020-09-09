@@ -64,9 +64,9 @@ export const createAutopannerStore = (options: AutopannerOptions): AutopannerSto
 			const transitionDuration =
 				forcedTransitionDuration === undefined
 					? newState.options.transitionDuration
-					: forcedTransitionDuration;
+					: forcedTransitionDuration; // TODO nullish coalescing
 			const pauseDuration =
-				forcedPauseDuration === undefined ? newState.options.pauseDuration : forcedPauseDuration;
+				forcedPauseDuration === undefined ? newState.options.pauseDuration : forcedPauseDuration; // TODO nullish coalescing
 
 			newState.lastTransitionDuration = transitionDuration;
 

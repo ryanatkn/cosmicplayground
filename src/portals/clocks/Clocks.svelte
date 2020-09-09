@@ -21,9 +21,6 @@
 		align-items: center;
 		justify-content: center;
 	}
-	:global(.idle) .clocks {
-		cursor: none;
-	}
 	.controls {
 		padding: 12px;
 		border: 3px dashed rgba(0, 0, 0, 0.3);

@@ -7,12 +7,13 @@
 	import {randomFloat} from '@feltcoop/gro/dist/utils/random.js';
 
 	import DeepBreathTitleScreen from './DeepBreathTitleScreen.svelte';
-	import DeepBreathZodiac from './DeepBreathZodiac.svelte';
-	import DeepBreathSeaLevel from './DeepBreathSeaLevel.svelte';
+	import ZodiacHud from './ZodiacHud.svelte';
+	import SeaLevelHud from './SeaLevelHud.svelte';
 	import ImageViewer from '../../app/ImageViewer.svelte';
-	import BackButton from '../../app/BackButton.svelte';
-	import BlendedImagesCycle from '../../app/BlendedImagesCycle.svelte';
-	import BlendedImagesContinuum from '../../app/BlendedImagesContinuum.svelte';
+	import Hud from '../../app/Hud.svelte';
+	import HomeButton from '../../app/HomeButton.svelte';
+	import EarthViewerDom from './EarthViewerDom.svelte';
+	import EarthViewerPixi from './EarthViewerPixi.svelte';
 	import {createResourcesStore} from '../../app/resourcesStore.js';
 	import {createDeepBreathTour} from './deepBreathTour.js';
 	import {createTourStore} from '../../app/tourStore.js';
@@ -22,6 +23,8 @@
 	import DeepBreathTourCredits from './DeepBreathTourCredits.svelte';
 	import {useSettings} from '../../app/settingsStore.js';
 	import {resetRenderStats, getRenderStats} from '../../app/renderStats.js';
+	import FloatingIconButton from '../../app/FloatingIconButton.svelte';
+	import FloatingTextButton from '../../app/FloatingTextButton.svelte';
 
 	export let width;
 	export let height;
@@ -46,6 +49,8 @@
 	const toggleHud = (value = !showHud) => {
 		showHud = value;
 	};
+
+	let enablePixiEarthViewer = true; // old slow DOM version is available
 
 	// pan and zoom controls
 	// use stores for x/y/scale so they can be easily swapped with tweens
@@ -179,9 +184,6 @@
 	const hoverSeaLevel = (value) => {
 		hoveredSeaLevel = value;
 	};
-
-	$: imageViewerX = $x * -1 + width / 2;
-	$: imageViewerY = $y * -1 + height / 2;
 
 	// Make the two Earths tile seamlessly when possible.
 	// We render only 2 instances as a balance between performance and UX.
@@ -363,27 +365,41 @@
 
 <div class="deep-breath">
 	{#if !showTitleScreen && $resources.status === AsyncState.Success}
-		<ImageViewer
-			{width}
-			{height}
-			x={imageViewerX}
-			y={imageViewerY}
-			scale={$scale}
-			{moveCamera}
-			{zoomCamera}
-			{inputEnabled}
-		>
-			<div class="earths">
-				<div class="earth" style="left: {earth1LeftOffset}px">
-					<BlendedImagesCycle alt="Earth's land" images={landImages} value={activeLandValue} />
-					<BlendedImagesContinuum alt="Earth's oceans" images={seaImages} value={activeSeaLevel} />
-				</div>
-				<div class="earth" style="left: {earth2LeftOffset}px">
-					<BlendedImagesCycle alt="Earth's land" images={landImages} value={activeLandValue} />
-					<BlendedImagesContinuum alt="Earth's oceans" images={seaImages} value={activeSeaLevel} />
-				</div>
-			</div>
-		</ImageViewer>
+		{#if enablePixiEarthViewer}
+			<EarthViewerPixi
+				{landImages}
+				{seaImages}
+				{activeLandValue}
+				{activeSeaLevel}
+				{width}
+				{height}
+				{x}
+				{y}
+				{scale}
+				{moveCamera}
+				{zoomCamera}
+				{inputEnabled}
+				{imageWidth}
+				{imageHeight}
+			/>
+		{:else}
+			<EarthViewerDom
+				{width}
+				{height}
+				{x}
+				{y}
+				{scale}
+				{moveCamera}
+				{zoomCamera}
+				{inputEnabled}
+				{earth1LeftOffset}
+				{earth2LeftOffset}
+				{landImages}
+				{seaImages}
+				{activeLandValue}
+				{activeSeaLevel}
+			/>
+		{/if}
 		{#if tour}
 			{#if showTourIntro}
 				<DeepBreathTourIntro
@@ -406,56 +422,44 @@
 				<DeepBreathTourCredits transitionDuration={tourTitleTransitionDuration} />
 			{/if}
 		{/if}
-		<div class="hud">
-			<!-- TODO make these buttons, but styling is wonky -->
+		<Hud>
 			{#if tour}
-				<div
-					class="clickable clickable-icon"
-					role="button"
-					aria-label="cancel tour"
-					on:click={tour.cancel}
-				>
-					🗙
-				</div>
+				<FloatingIconButton label="cancel tour" on:click={tour.cancel}>🗙</FloatingIconButton>
 			{:else}
-				<div
-					class="hud-toggle clickable"
-					class:clickable--active={showHud}
-					role="button"
-					aria-label="toggle hud controls"
+				<FloatingIconButton
+					pressed={showHud}
+					label="toggle hud controls"
 					on:click={onClickHudToggle}
 				>
-					...
-				</div>
+					∙∙∙
+				</FloatingIconButton>
 			{/if}
 			{#if !tour || devMode}
 				{#if showHud}
 					<div class="hud-top-controls">
-						<div
-							class="clickable clickable-icon"
-							role="button"
-							aria-label="go back"
-							on:click={returnToTitleScreen}
-						>
+						<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
 							⇦
-						</div>
-						<div class="clickable" role="button" on:click={beginTour}>begin tour</div>
+						</FloatingIconButton>
+						<FloatingTextButton on:click={beginTour}>begin tour</FloatingTextButton>
 					</div>
 					<div class="hud-left-controls">
 						{#if devMode}
-							<div
-								class="clickable"
-								role="button"
-								on:click|stopPropagation|preventDefault={() => {
+							<FloatingTextButton
+								on:click={() => {
+									enablePixiEarthViewer = !enablePixiEarthViewer;
+								}}
+							>
+								{enablePixiEarthViewer ? 'webgl' : 'dom'}
+							</FloatingTextButton>
+							<FloatingTextButton
+								on:click={() => {
 									$scale = Number(prompt('🔎', $scale)) || $scale;
 								}}
 							>
 								scale: {Math.round($scale * 10) / 10}
-							</div>
-							<div
-								class="clickable"
-								role="button"
-								on:click|stopPropagation|preventDefault={() => {
+							</FloatingTextButton>
+							<FloatingTextButton
+								on:click={() => {
 									const inputValue = Number(prompt('x', $x));
 									if (!Number.isNaN(inputValue)) {
 										$x = inputValue;
@@ -463,11 +467,9 @@
 								}}
 							>
 								x: {Math.round($x)}
-							</div>
-							<div
-								class="clickable"
-								role="button"
-								on:click|stopPropagation|preventDefault={() => {
+							</FloatingTextButton>
+							<FloatingTextButton
+								on:click={() => {
 									const inputValue = Number(prompt('y', $y));
 									if (!Number.isNaN(inputValue)) {
 										$y = inputValue;
@@ -475,7 +477,7 @@
 								}}
 							>
 								y: {Math.round($y)}
-							</div>
+							</FloatingTextButton>
 							{#if tour}
 								<TourControls {tour} {debugStartTime} />
 							{/if}
@@ -483,14 +485,9 @@
 					</div>
 					{#if !tour}
 						<div class="zodiac-wrapper">
-							<DeepBreathZodiac
-								{activeLandIndex}
-								{selectedLandIndex}
-								{selectLandIndex}
-								{hoverLandIndex}
-							/>
+							<ZodiacHud {activeLandIndex} {selectedLandIndex} {selectLandIndex} {hoverLandIndex} />
 						</div>
-						<DeepBreathSeaLevel
+						<SeaLevelHud
 							seaLevel={activeSeaLevel}
 							{seaIndexMax}
 							{selectedSeaLevel}
@@ -500,9 +497,9 @@
 					{/if}
 				{/if}
 			{/if}
-		</div>
+		</Hud>
 	{:else}
-		<DeepBreathTitleScreen {resources} {clock} {proceed} />
+		<DeepBreathTitleScreen {resources} {proceed} />
 	{/if}
 	<!-- {#if devMode}
 		<div
@@ -516,65 +513,17 @@
 	.deep-breath {
 		position: relative;
 	}
-	:global(.idle) .deep-breath {
-		cursor: none;
-	}
-	.earths {
-		width: 100%;
-		height: 100%;
-		position: relative;
-	}
-	.earth {
-		width: 100%;
-		height: 100%;
-		position: absolute;
-		top: 0;
-		left: 0;
-	}
 
-	.hud {
-		position: absolute;
-		left: 0;
-		top: 0;
-		transition: opacity 0.5s linear;
-		opacity: 1;
-		display: flex;
-		flex-direction: column;
-		--hud-column-width: 100px;
-	}
-	:global(.idle) .hud {
-		opacity: 0;
-	}
-	.hud-left-controls :global(.clickable) {
-		/* TODO hmm, global is a smell, `.clickable` should probably not align things */
-		justify-content: flex-start;
-	}
-	.hud-toggle {
-		padding: 0 20px 20px;
-		width: var(--hud-column-width);
-		height: var(--hud-column-width);
-		text-align: center;
-	}
-	.hud-toggle.clickable.clickable--active {
-		border-bottom-color: transparent;
-	}
-	.hud-toggle.clickable.clickable--active:hover {
-		border-bottom-color: #fff;
-		border-bottom-style: dotted;
-	}
-	.hud-toggle.clickable.clickable--active:active {
-		border-bottom-style: dashed;
-	}
 	.hud-top-controls {
 		position: absolute;
-		left: var(--hud-column-width);
+		left: var(--hud_element_size);
 		top: 0;
 		display: flex;
 	}
 	.hud-left-controls {
 		position: absolute;
 		left: 0;
-		top: var(--hud-column-width);
+		top: var(--hud_element_size);
 		font-size: 72px;
 	}
 
@@ -583,6 +532,6 @@
 		position: fixed;
 		bottom: 0;
 		left: 0;
-		width: calc(100% - var(--hud-column-width));
+		width: calc(100% - var(--hud_element_size));
 	}
 </style>

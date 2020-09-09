@@ -23,13 +23,13 @@
 		border-radius: 5px;
 		color: var(--color_3);
 		font-weight: bold;
-		border: 1px dashed var(--color_3);
-		text-shadow: var(--text_shadow);
+		border: 1px var(--clickable_border_style_sm) var(--color_3);
+		text-shadow: var(--text_shadow_sm);
 	}
 	a:hover {
-		border-style: solid; /* too small for double */
+		border-style: var(--clickable_border_style_sm__hover);
 	}
 	a:active {
-		border-style: dotted;
+		border-style: var(--clickable_border_style_sm__active);
 	}
 </style>

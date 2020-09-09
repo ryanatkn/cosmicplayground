@@ -22,9 +22,6 @@
 
   */
 
-	import * as easing from 'svelte/easing';
-	import {tweened} from 'svelte/motion';
-	import {loop} from 'svelte/internal';
 	import {onDestroy} from 'svelte';
 
 	import {svelteEasings} from '../../app/easings.js';
@@ -34,6 +31,9 @@
 	import {midiNames} from '../../music/notes.js';
 	import {midiToFreq} from '../../music/midi.js';
 	import {DEFAULT_TUNING} from '../../music/constants.js';
+	import FloatingIconButton from '../../app/FloatingIconButton.svelte';
+
+	export let clock;
 
 	const easings = svelteEasings;
 
@@ -43,31 +43,35 @@
 	let destroyed = false; // TODO is there a better way to do this? `useLoop`?
 	onDestroy(() => {
 		destroyed = true; // TODO is there a better way to do this? `useLoop`?
-		if (osc) osc.stop();
+		stopAudio();
 	});
 
-	let timeNow, timeLast, timeElapsed, timeTarget, tween, tweenAlternating, xPct, yPct;
+	let timeNow = 0;
+	let timeLast, timeElapsed, timeTarget, tween, tweenAlternating, xPct, yPct;
 	// TODO refactor `loopState` to a state machine? xstate? microstate?
 	// this looks a little more complicated than it needs to be,
 	// and the variable names are tattered in spots
 	let loopState = 'waitingLeft'; // 'waitingLeft' | 'movingRight' | 'waitingRight' | 'movingLeft'
 	let timePct = 0; // % of the way to `TimeTarget`, when the next state transition will occur
 	let loopPct = 0; // % of the alternating loop
-	loop((now) => {
-		// TODO use clock? somethig like...
-		// useClock({timeNow, timeElapsed, timeLast, timeTarget}) // clock state should be a singleton context object
-		timeNow = now;
+	$: if ($clock.running) {
+		update($clock.dt);
+	} else {
+		stopAudio();
+	}
+	const update = (dt) => {
+		timeLast = timeNow;
+		timeNow += dt;
 		if (timeTarget === undefined) {
 			timeTarget = timeNow + calcTimeTarget(loopState);
 		}
-		if (timeLast !== undefined) {
-			timeElapsed = now - timeLast;
+		if (timeLast !== 0) {
+			timeElapsed = timeNow - timeLast;
 			updateTime();
 			updateAudioization();
 		}
-		timeLast = now;
 		return !destroyed;
-	});
+	};
 	const updateTime = () => {
 		if (timeNow >= timeTarget) {
 			loopState = getNextLoopState(loopState);
@@ -253,14 +257,16 @@
 	<section>
 		<section class="controls">
 			<div class="controls-group {muted ? 'disabled' : ''}">
-				<button on:click={() => (muted = !muted)}>{muted ? '🔇' : '🔊'}</button>
+				<FloatingIconButton label={muted ? 'unmute' : 'mute'} on:click={() => (muted = !muted)}>
+					{muted ? '🔇' : '🔊'}
+				</FloatingIconButton>
 				<input
 					type="range"
 					bind:value={volume}
 					min={0}
 					max={1}
 					step={0.01}
-					style="width: 260px;"
+					style="width: 200px;"
 					disabled={muted}
 				/>
 				<div>
@@ -460,9 +466,6 @@
 	}
 	input[type='radio']:active {
 		opacity: 1;
-	}
-	button {
-		height: 40px;
 	}
 	.disabled {
 		opacity: 0.6;

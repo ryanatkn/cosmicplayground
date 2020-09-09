@@ -9,7 +9,7 @@
 	// or maybe a portal store, similar to Sapper's page store?
 	// portal = {data, width, height}
 	// {portalData, portalWidth, portalHeight} = portalStores()
-	// what about a `showBackground` store taking null|false|true, so portals can override as needed
+	// what about a `showHomeButton` store taking null|false|true, so portals can override as needed
 
 	const portals = usePortals();
 
@@ -142,16 +142,16 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		transition: transform 0.06s ease-out;
+		transition: var(--clickable_transition);
 		transform: scale3d(1, 1, 1);
 	}
 	.portal-preview:hover {
-		transform: scale3d(1.03, 1.03, 1);
-		border-style: double;
+		border-style: var(--clickable_border_style__hover);
+		transform: var(--clickable_transform_sm__hover);
 	}
 	.portal-preview:active {
-		border-style: dotted;
-		transform: scale3d(1.09, 1.09, 1);
+		border-style: var(--clickable_border_style__active);
+		transform: var(--clickable_transform_sm__active);
 	}
 	/* TODO how to do this? data with a css variable? `color: 'ocean_color'`
 	or is this the right time to add CSS variables to JS? */

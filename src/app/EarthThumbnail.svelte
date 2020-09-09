@@ -31,7 +31,6 @@
 >
 	<div
 		class="bg"
-		class:grayscale={!running}
 		style="width: {bgWidth}px; height: {bgHeight}px; background-image: url({imageUrl});
 		background-size: {bgSizeStr}; animation-duration: {animationDuration};"
 	/>
@@ -44,6 +43,7 @@
 	.earth-thumbnail {
 		position: relative;
 		overflow: hidden;
+		user-select: none;
 	}
 	.text {
 		font-weight: 900;

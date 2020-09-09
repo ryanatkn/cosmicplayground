@@ -1,16 +1,18 @@
 <script>
 	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
 
-	import EarthThumbnail from '../../app/EarthThumbnail.svelte';
-	import BackButton from '../../app/BackButton.svelte';
+	import DeepBreathThumbnail from './DeepBreathThumbnail.svelte';
+	import Hud from '../../app/Hud.svelte';
+	import HomeButton from '../../app/HomeButton.svelte';
+	import PortalLink from '../../app/PortalLink.svelte';
 	import ResourcesLoadingProgress from '../../app/ResourcesLoadingProgress.svelte';
 	import Panel from '../../app/Panel.svelte';
+	import ChunkyButton from '../../app/ChunkyButton.svelte';
 	import DeepBreathCredits from './DeepBreathCredits.svelte';
 	import CreditsPersonalSignature from '../about/CreditsPersonalSignature.svelte';
 	import CreditsProjectSignature from '../about/CreditsProjectSignature.svelte';
 
 	export let resources;
-	export let clock;
 	export let proceed;
 
 	// The user can click the title image to load the interactive,
@@ -19,7 +21,7 @@
 	// because the download size is so large.
 	const HAS_LOADED_KEY = 'cpg__hasLoadedDeepBreath';
 	let hasLoaded = !!localStorage.getItem(HAS_LOADED_KEY);
-	$: enableLoadingByClickingTitleImage = hasLoaded;
+	$: enableLoadingByClickingThumbnail = hasLoaded;
 
 	const load = async () => {
 		await resources.load();
@@ -28,42 +30,24 @@
 			proceed();
 		}
 	};
-
-	const earthWidth = 600;
-	const titleBorderWidth = 5; // TODO is a CSS var
 </script>
 
-<div class="back-button-wrapper">
-	<BackButton />
-</div>
-<div class="deep-breath-title-screen" class:paused={!$clock.running}>
-	<div
-		class="thumbnail"
-		style="width: {earthWidth + titleBorderWidth * 2}px; height: {earthWidth / 2 + titleBorderWidth * 2}px;
-		margin: 0 auto; border-radius: {earthWidth / 4}px; border-width: {titleBorderWidth}px;"
-		role={enableLoadingByClickingTitleImage ? 'button' : undefined}
-		aria-label={enableLoadingByClickingTitleImage ? 'proceed' : undefined}
-		on:click={enableLoadingByClickingTitleImage ? load : undefined}
-		class:clickable-to-load={enableLoadingByClickingTitleImage}
-	>
-		<EarthThumbnail
-			width={earthWidth}
-			height={earthWidth / 2}
-			animationDuration="45s"
-			running={$clock.running}
-			fontSize={84}
-			text="deep breath"
-		/>
-	</div>
+<Hud>
+	<HomeButton />
+</Hud>
+<div class="deep-breath-title-screen">
+	<DeepBreathThumbnail onClick={enableLoadingByClickingThumbnail ? load : null} />
 	<Panel>
 		<section>
 			<h2>If all ice on Earth melts, how will sea levels change?</h2>
 			<p>
-				Deep Breath is an interactive webpage with a rough sketch of Earth's sea levels if all ice
-				melts, about 60-75 meters above 2020's oceans. Some estimates are higher.
-				The purpose is feelings not science. The code and image data are
-				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>.
-				See the credits below for more.
+				<PortalLink slug="deep-breath" />
+				is an interactive webpage with a rough sketch of Earth's sea levels if all ice melts, about
+				60-75 meters above 2020's oceans. Some estimates are higher. The project tries to be
+				interesting and visually pleasing, but compared to similar tools it has little scientific
+				usefulness. The code and image data are
+				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>
+				. See the credits below for more.
 			</p>
 			<p>Please be aware that the data is imperfect. Some errors:</p>
 			<ul>
@@ -80,19 +64,18 @@
 			</ul>
 			<p>
 				<strong>This page is not mobile friendly!</strong>
-				It probably won't work correctly on your phone. It may also be really slow depending on your
-				hardware and browser. For my desktop on Windows, Firefox works well but Chrome and Edge are
-				choppy, seemingly because they're shy about using more GPU resources. I plan to replace the
-				rendering strategy soon with WebGL to improve performance.
+				It may also be really slow depending on your hardware and browser.
 			</p>
+			<hr />
 			<p>The download is about 75MB of images. If that's cool with you, click the button below!</p>
 		</section>
 		{#if $resources.status === AsyncState.Pending || $resources.status === AsyncState.Failure}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
-			<button class="big-button" on:click={load}>proceed with 75MB download</button>
+			<ChunkyButton on:click={load}>proceed with 75MB download</ChunkyButton>
 		{/if}
-		<hr />
+	</Panel>
+	<Panel>
 		<section>
 			<h2>Credits</h2>
 			<DeepBreathCredits />
@@ -114,60 +97,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding-top: 50px;
-	}
-
-	/* TODO this is mostly copy pasted from App.svelte, could clean up, maybe via a Thumbnail component */
-	.thumbnail {
-		position: relative;
-		cursor: default;
-		border-color: var(--ocean_color);
-		overflow: hidden;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		animation: breathing-earth 6s ease-in-out infinite alternate;
-	}
-	.paused .thumbnail {
-		animation-play-state: paused;
-	}
-
-	.thumbnail.clickable-to-load:hover {
-		border-style: double; /* TODO reusable class */
-	}
-	.thumbnail.clickable-to-load:active {
-		border-style: dotted; /* TODO reusable class */
-	}
-
-	/* TODO restyle this thing */
-	.big-button {
-		/* TODO content sections should probably do this instead */
-		margin: 30px auto 40px;
-		display: block;
-		background-color: transparent;
-		color: var(--ocean_text_color);
-		border-radius: 10px;
-		border: 5px dashed var(--ocean_color);
-	}
-	.big-button:hover {
-		border-style: double; /* TODO reusable class */
-	}
-	.big-button:active {
-		border-style: dotted; /* TODO reusable class */
-	}
-
-	.back-button-wrapper {
-		position: absolute;
-		left: var(--hud-column-width);
-		top: 0;
-	}
-
-	@keyframes breathing-earth {
-		0% {
-			transform: rotate3d(1, 0, 0, -30deg);
-		}
-		100% {
-			transform: rotate3d(1, 0, 0, 30deg);
-		}
+		padding-top: var(--spacing_lg);
 	}
 </style>

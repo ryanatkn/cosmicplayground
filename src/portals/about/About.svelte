@@ -1,4 +1,5 @@
 <script>
+	import Panel from '../../app/Panel.svelte';
 	import ImgLink from '../../app/ImgLink.svelte';
 	import Credits from './Credits.svelte';
 	import CreditsPersonalSignature from './CreditsPersonalSignature.svelte';
@@ -14,10 +15,11 @@
 </script>
 
 <header>
-	<h1 class="title">cosmicplayground</h1>
-	<h2 class="caption">tools and toys for expanding minds</h2>
+	<h1>cosmicplayground</h1>
+	<h2>tools and toys for expanding minds</h2>
 </header>
-<section>
+<Panel>
+	<h2>About</h2>
 	<p>
 		<a href="https://www.cosmicplayground.org">cosmicplayground.org</a>
 		is a collection of loosely related projects created by
@@ -25,22 +27,23 @@
 		Hi that's me, I enjoy making web things and apparently I have a thing for space? Everything
 		here is free and
 		<a href="https://github.com/ryanatkn/cosmicplayground">open source</a>
-		and mostly a work-in-progress (fancy talk for half-broken or half-baked:). The first project
-		that I think is worth sharing is
+		and mostly a work-in-progress (aka half-broken or half-baked:). The first project that I think
+		is worth sharing is
 		<PortalLink slug="deep-breath" />
 		and there's hopefully more to come!
 	</p>
+	<hr />
 	<div>
 		<CreditsPersonalSignature />
 	</div>
 	<div>
 		<CreditsProjectSignature />
 	</div>
-</section>
-<section>
+</Panel>
+<Panel>
 	<Credits />
-</section>
-<section>
+</Panel>
+<Panel>
 	<h2>Contact</h2>
 	<div>
 		<CreditsPersonalSignature />
@@ -55,20 +58,22 @@
 		imgClass="absolute t-8 -r-12"
 		linkClass="block relative h-0 cursor-none"
 	/>
-</section>
+</Panel>
+<Panel>
+	<h2>Privacy</h2>
+	<p>
+		This website tracks nothing and the only server it talks to is
+		<a href="https://pages.github.com/">GitHub Pages</a>
+		to serve all of the static content. (including images, HTML, CSS, JavaScript, audio.. am I
+		forgetting anything?)
+	</p>
+</Panel>
 
 <style>
-	.title {
-		font-size: 106px;
-		white-space: nowrap;
-	}
-	.caption {
+	header {
 		text-align: center;
 	}
-	section {
-		margin-bottom: 64px;
-	}
-	section:last-child {
-		margin-bottom: 0;
+	h1 {
+		font-size: 106px;
 	}
 </style>

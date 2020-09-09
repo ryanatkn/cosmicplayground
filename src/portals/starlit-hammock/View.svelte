@@ -6,12 +6,4 @@
 	export let height;
 </script>
 
-<div class="view">
-	<StarlitHammock {width} {height} />
-</div>
-
-<style>
-	:global(.idle) .view {
-		cursor: none;
-	}
-</style>
+<StarlitHammock {width} {height} />

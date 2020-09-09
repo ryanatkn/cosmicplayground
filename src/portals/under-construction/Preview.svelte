@@ -1,5 +1,5 @@
 <script>
-	import {useClock} from '../../app/clock.js';
+	import {useClock} from '../../app/clockStore.js';
 
 	export const portal = undefined;
 
@@ -15,7 +15,7 @@
 
 <style>
 	img {
-		animation: rotate-pulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+		animation: rotate-pulse 5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 	}
 	:global(.paused) img {
 		animation-play-state: paused;

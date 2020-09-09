@@ -3,8 +3,7 @@ import {PortalBaseData} from '../portal.js';
 const data: PortalBaseData = {
 	title: 'about',
 	coolness: 4,
-	showBackground: true,
-	showBackButton: true,
+	showHomeButton: true,
 };
 
 export default data;

@@ -4,6 +4,7 @@ import {copy} from '@feltcoop/gro/dist/fs/nodeFs.js';
 import {toDistId} from '@feltcoop/gro/dist/paths.js';
 import {GroSveltePlugin} from '@feltcoop/gro/dist/project/rollup-plugin-gro-svelte.js';
 import {join} from 'path';
+import resolvePlugin from '@rollup/plugin-node-resolve';
 
 import {paths} from './paths.js';
 import {bundleWriterPlugin} from './project/build/rollup-plugin-bundle-writer.js';
@@ -37,6 +38,7 @@ const mapInputOptions: MapInputOptions = (inputOptions, {dev, cssCache}) => {
 	const oldPlugins = inputOptions.plugins!;
 	const plainCssPluginIndex = oldPlugins.findIndex((p) => p.name === 'plain-css');
 	const groOutputCssPluginIndex = oldPlugins.findIndex((p) => p.name === 'output-css')!;
+	const nodeResolvePluginIndex = oldPlugins.findIndex((p) => p.name === 'node-resolve')!;
 	// TODO what's a better way to get plugins in a typesafe, ergonomic way, with good runtime errors?
 	// ideally we don't resort to using classes
 	const groSveltePluginInstance: GroSveltePlugin = oldPlugins.find(
@@ -71,6 +73,9 @@ const mapInputOptions: MapInputOptions = (inputOptions, {dev, cssCache}) => {
 	const warnUndefinedClasses = true;
 
 	const cssClasses = createCssClassesCache({logLevel});
+
+	// TODO should this be upstreamed?
+	oldPlugins[nodeResolvePluginIndex] = resolvePlugin({preferBuiltins: false});
 
 	// TODO do we want to completely replace the Gro css plugin with this one?
 	// maybe just to get it to work? and then figure out how to extend?

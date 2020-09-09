@@ -48,6 +48,8 @@
 		color: var(--ocean_text_color);
 		padding-bottom: 40px; /* center the text slightly better */
 		overflow: hidden; /* lazy hack for small screens, assuming 1080p or larger */
+		cursor: default;
+		user-select: none;
 	}
 	.text {
 		animation-name: gently-grow;

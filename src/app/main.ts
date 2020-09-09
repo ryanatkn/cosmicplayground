@@ -11,4 +11,4 @@ export const app = new App({
 	props: {},
 });
 
-(window as any).app = app;
+(window as any).app = app; // TODO dont do this, or at least handle SSR

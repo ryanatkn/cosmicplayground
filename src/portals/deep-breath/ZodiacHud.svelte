@@ -25,18 +25,16 @@
 
 <div class="zodiac">
 	{#each zodiac as zodiacSymbol, i (zodiacSymbol)}
-		<div
-			class="clickable"
-			class:clickable--active={i === activeLandIndex}
+		<button
+			class:active={i === activeLandIndex}
 			class:selected={i === selectedLandIndex}
-			role="button"
 			aria-label="select month {i + 1}"
 			on:click={() => toggleIndex(i)}
 			on:mouseenter={() => hoverLandIndex(i)}
 			on:mouseleave={() => hoverLandIndex(null)}
 		>
 			{zodiacSymbol}
-		</div>
+		</button>
 	{/each}
 </div>
 
@@ -45,21 +43,35 @@
 		width: 100%;
 		display: flex;
 	}
-	.zodiac .clickable {
-		height: var(--hud-column-width);
+	button {
+		height: var(--hud_element_size);
+		font-size: var(--font_size_lg);
 		flex: 1;
 		transition: opacity 0.15s linear;
+		text-shadow: var(--text_shadow_sm);
+		opacity: 0.4;
+		border: none;
 	}
-	.zodiac .clickable:hover {
+	button:hover {
+		opacity: 0.7;
 		transition-duration: 0s;
+		text-shadow: var(--text_shadow_sm), 1px 1px 19px #000, 2px 2px #000;
 	}
-	.zodiac .clickable.clickable--active {
-		/* the border is a bit too heavy and choppy an animation */
+	button:active {
+		text-shadow: -1px -1px 9px #000, -2px -2px 1px #000;
+	}
+	button.active {
+		opacity: 1;
 		border-bottom-color: transparent;
 		transition-duration: 0s;
+		text-shadow: -1px -1px 9px #000, -1px -1px 1px #000;
 	}
-	.zodiac .clickable.selected,
-	.zodiac .clickable.clickable--active:hover {
+	button.selected,
+	.zodiac button.active:hover {
 		border-bottom-color: #fff;
+		text-shadow: -1px -1px 1px #000, 1px 1px 19px #000;
+	}
+	button.active:active {
+		text-shadow: -1px -1px 7px #000, -2px -2px 1px #000;
 	}
 </style>

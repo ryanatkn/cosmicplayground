@@ -1,27 +1,47 @@
 <script>
 	import {writable} from 'svelte/store';
+	import * as PIXI from 'pixi.js';
 
-	import GalaxyBg from './GalaxyBg.svelte';
-	import BackButton from './BackButton.svelte';
-	import {initAudioCtx} from '../audio/audioCtx.js';
-	import {initClock} from './clock.js';
-	import {initSettings} from './settingsStore.js';
-	import {initPortals, findPortalBySlug} from './portalsStore.js';
+	import PixiView from './PixiView.svelte';
+	import Hud from './Hud.svelte';
+	import HomeButton from './HomeButton.svelte';
+	import {provideAudioCtx} from '../audio/audioCtx.js';
+	import {provideClock} from './clockStore.js';
+	import {provideSettings} from './settingsStore.js';
+	import {providePortals, findPortalBySlug} from './portalsStore.js';
 	import {trackIdleState} from './trackIdleState.js';
 	import {updateRenderStats} from './renderStats.js';
 	import {portalsData} from '../portals/index.js';
+	import {PixiApp, providePixi} from './pixi.js';
+	import {createPixiBgStore} from './pixiBgStore.js';
 
 	let width = window.innerWidth;
 	let height = window.innerHeight;
 
-	const clock = initClock();
-
-	const settings = initSettings({
+	const settings = provideSettings({
 		audioEnabled: true,
 		devMode: false,
 		recordingMode: false,
-		timeToGoIdle: 6000,
+		timeToGoIdle: 6000000,
 	});
+
+	const clock = provideClock(); // TODO integrate with Pixi ticker?
+	$: updateRenderStats($clock.dt);
+
+	const pixi = new PixiApp({width, height});
+	providePixi(pixi);
+	window['pixi'] = pixi; // TODO dont do this, or at least handle SSR
+
+	const bg = createPixiBgStore(
+		pixi.loader,
+		pixi.defaultScene,
+		'/assets/space/galaxies.jpg',
+		width,
+		height,
+	);
+	bg.loadResources();
+	$: bg.updateDimensions(width, height);
+	$: bg.tick($clock.dt);
 
 	let hash = typeof window === 'undefined' ? '' : window.location.hash;
 	const DEFAULT_PORTAL_SLUG = 'home';
@@ -30,13 +50,13 @@
 		hash = window.location.hash;
 	};
 
-	const portals = initPortals(portalsData);
+	const portals = providePortals(portalsData);
 	$: activePortal = findPortalBySlug($portals, activePortalSlug);
 
 	const idle = writable(false);
 	$: timeToGoIdle = $settings.devMode ? 99999999999 : $settings.timeToGoIdle;
 
-	initAudioCtx(); // allows components to do `const audioCtx = useAudioCtx();` which uses svelte's `getContext`
+	provideAudioCtx(); // allows components to do `const audioCtx = useAudioCtx();` which uses svelte's `getContext`
 
 	const onKeyDown = (e) => {
 		// TODO main menu!
@@ -54,18 +74,15 @@
 	on:keydown={onKeyDown}
 />
 
-{#if activePortal.showBackground}
-	<!-- TODO should this NOT be a "section"? -->
-	<section class="bg">
-		<GalaxyBg running={$clock.running} {width} {height} />
-	</section>
-{/if}
+<div class="pixi-wrapper" style="width: {width}px; height: {height}px;">
+	<PixiView {pixi} {width} {height} />
+</div>
 
 <main class:paused={!$clock.running} class:idle={$idle}>
-	{#if activePortal.showBackButton}
-		<div class="back-button-wrapper">
-			<BackButton />
-		</div>
+	{#if activePortal.showHomeButton}
+		<Hud>
+			<HomeButton />
+		</Hud>
 	{/if}
 	<svelte:component this={activePortal.View} portal={activePortal} {width} {height} />
 </main>
@@ -73,29 +90,19 @@
 <!-- TODO should we have a `<Portals/>` component that the `App` mounts? -->
 
 <style>
-	.bg {
+	.pixi-wrapper {
 		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
 		z-index: 0;
+		left: 0;
+		top: 0;
 	}
 	main {
 		position: relative;
 		z-index: 1;
-		height: 100%; /* TODO need to fix with "initial" usage */
 		display: flex;
 		flex-direction: column;
 	}
 	.paused {
 		filter: grayscale();
-	}
-
-	.back-button-wrapper {
-		position: absolute;
-		left: 0;
-		top: 0;
-		z-index: 10;
 	}
 </style>

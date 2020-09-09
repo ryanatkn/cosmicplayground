@@ -1,7 +1,7 @@
 import {writable, Writable, get} from 'svelte/store';
 import {UnreachableError} from '@feltcoop/gro/dist/utils/error.js';
 
-import {ClockStore} from './clock.js';
+import {ClockStore} from './clockStore.js';
 
 // TODO rotation!
 

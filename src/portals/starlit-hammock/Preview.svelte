@@ -1,6 +1,6 @@
 <script>
-	import GalaxyBg from '../../app/GalaxyBg.svelte';
-	import {useClock} from '../../app/clock.js';
+	import GalaxyBg from './GalaxyBg.svelte';
+	import {useClock} from '../../app/clockStore.js';
 
 	export const portal = undefined;
 

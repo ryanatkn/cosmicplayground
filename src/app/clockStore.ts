@@ -23,8 +23,7 @@ export interface ClockStore {
 	toggle: () => void;
 }
 
-// TODO do we want `createClockStore` and `clockStore.ts`, or without the "Store"?
-export const createClock = (initialState?: Partial<ClockState>): ClockStore => {
+export const createClockStore = (initialState?: Partial<ClockState>): ClockStore => {
 	const finalInitialState: ClockState = {
 		time: 0,
 		running: false, // see below for where `finalInitialState.running` is used - the initializing `resume` call expects `running` to be false
@@ -82,8 +81,8 @@ export const createClock = (initialState?: Partial<ClockState>): ClockStore => {
 
 export const clockContextKey = {};
 export const useClock = (): ClockStore => getContext(clockContextKey);
-export const initClock = (initialState: Partial<ClockState>): ClockStore => {
-	const clock = createClock(initialState);
+export const provideClock = (initialState: Partial<ClockState>): ClockStore => {
+	const clock = createClockStore(initialState);
 	setContext(clockContextKey, clock);
 	return clock;
 };

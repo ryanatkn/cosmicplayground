@@ -22,8 +22,7 @@ export interface PortalBaseData {
 	title: string;
 	coolness: number;
 	// TODO should we make this optional and flip it? `disableBackground`
-	showBackground: boolean; // show the universal background when the portal is active?
-	showBackButton: boolean; // TODO ?
+	showHomeButton: boolean; // TODO ?
 	// TODO do we want a width/height for previews here?
 	// previewWidth: number;
 	// previewHeight: number;

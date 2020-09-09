@@ -13,11 +13,12 @@ Here's what I got so far:
 - [Deep Breath](https://www.cosmicplayground.org/#deep-breath),
   an interactive map of Earth with a rough answer to the question
   "if all ice on Earth melts, how will sea levels change?"
-  The purpose is feelings not science.
+  The project tries to be interesting and visually pleasing,
+  but compared to similar tools it has little scientific usefulness.
 - several unfinished and/or weird things
   (warning: may induce ear discomfort or pain, OKAY??)
 - an in-progress ear training game on the `earworm` branch
-  that I theoretically want to continue making one day
+  that I might continue making one day
 
 [![galaxies](/src/assets/space/galaxies-banner.jpg)](/src/assets/space/galaxies.jpg)
 

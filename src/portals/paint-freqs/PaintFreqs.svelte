@@ -8,11 +8,13 @@
 	import {hslToRgb} from '../../utils/colors.js';
 	import {freqToMidi} from '../../music/midi.js';
 	import {DEFAULT_TUNING} from '../../music/constants.js';
+	import FloatingIconButton from '../../app/FloatingIconButton.svelte';
 
 	/*
 
-  ideas
-   - holding shift/alt should follow spectrum, not cardinal vectors
+	ideas
+	- brushes that change the line and texture of the sound
+  - holding shift/alt should follow spectrum, not cardinal vectors
 	- add button to lock pointer down
 	  - visualize pointer down
 	- investigate the perf issues
@@ -34,9 +36,11 @@
 
   */
 
+	export let width;
+	export let height;
+
 	let pointerX = -300;
 	let pointerY = -300;
-	let width, height;
 	let canvas, canvasCtx, canvasData, fgDataUrl;
 	$: if (canvas && width && height) updateCanvas();
 
@@ -177,9 +181,9 @@
 	};
 </script>
 
-<div class="paint-freqs">
+<div class="paint-freqs" style="width: {width}px; height: {height}px;">
 	{#if fgDataUrl}
-		<svg class="absolute0 z-2 w-100 h-100">
+		<svg class="drawing">
 			<!--
 				Chrome doesn't appear to support setting a canvas mask to an svg (it works in Firefox)
 				so we use an svg `image` with a `dataUrl` instead.
@@ -209,7 +213,7 @@
 		<canvas class="bg-canvas" bind:this={canvas} />
 	{/if}
 	{#if displayedFreq}
-		<div class="freq w-100 absolute z-1 flex items-start justify-center l-0 b-4">
+		<div class="freq idle-fade">
 			<div>
 				{displayedFreq}
 				<span class="unit">hz</span>
@@ -217,7 +221,7 @@
 		</div>
 	{/if}
 	<div
-		class="absolute z-3 w-100 h-100"
+		class="interaction-surface"
 		on:mousedown|stopPropagation|preventDefault={handlePointerDown}
 		on:mouseup|stopPropagation|preventDefault={handlePointerUp}
 		on:mouseleave|stopPropagation|preventDefault={handlePointerUp}
@@ -226,30 +230,33 @@
 		on:touchend|stopPropagation|preventDefault={handlePointerUp}
 		on:touchcancel|stopPropagation|preventDefault={handlePointerUp}
 		on:touchmove|stopPropagation|preventDefault={handlePointerMove}
-		bind:clientWidth={width}
-		bind:clientHeight={height}
 	/>
-	<div id="controls" class="absolute z-4 b-0 l-0">
-		<div
-			class="clickable clickable-icon"
-			role="button"
-			aria-label="clear"
-			on:click|stopPropagation|preventDefault={clear}
-		>
-			↻
-		</div>
+	<div class="controls idle-fade">
+		<!-- TODO this is a good candidate for the Hud component -->
+		<FloatingIconButton label="reset" on:click={clear}>↻</FloatingIconButton>
 	</div>
 </div>
 
 <style>
 	.paint-freqs {
 		position: relative;
-		width: 100%;
-		height: 100%;
 		overflow: hidden;
 	}
-	:global(.idle) .paint-freqs {
-		cursor: none;
+	.drawing {
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 2;
+		width: 100%;
+		height: 100%;
+	}
+	.interaction-surface {
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 3;
+		width: 100%;
+		height: 100%;
 	}
 	.bg-canvas {
 		opacity: 0.25;
@@ -279,8 +286,22 @@
 	.freq {
 		font-size: 50px;
 		color: #fff;
+		width: 100%;
+		position: absolute;
+		z-index: 1;
+		display: flex;
+		align-items: start;
+		justify-content: center;
+		left: 0;
+		bottom: var(--spacing-4);
 	}
 	.unit {
 		opacity: 0.6;
+	}
+	.controls {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		z-index: 4;
 	}
 </style>

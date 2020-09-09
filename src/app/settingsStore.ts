@@ -28,7 +28,7 @@ export const createSettingsStore = (initialState: Partial<SettingsState>): Setti
 
 export const settingsContextKey = {};
 export const useSettings = (): SettingsStore => getContext(settingsContextKey);
-export const initSettings = (initialState: Partial<SettingsState>): SettingsStore => {
+export const provideSettings = (initialState: Partial<SettingsState>): SettingsStore => {
 	const settings = createSettingsStore(initialState);
 	setContext(settingsContextKey, settings);
 	return settings;

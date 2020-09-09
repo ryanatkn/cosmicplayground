@@ -1,7 +1,7 @@
 // TODO make this a store instead of non-reactive singleton?
 // this module is a haphazard mess but that's ok for now
 
-let verboseLogging = false; // TODO settings? log level?
+let verboseLogging = true; // TODO settings? log level?
 
 interface RenderStats {
 	totalTime: number;
@@ -16,17 +16,17 @@ export const updateRenderStats = (dt: number): void => {
 	const droppedFrames = computeDroppedFrames(dt);
 	// TODO mutate like this or not?
 	renderStats.totalTime += dt;
-	renderStats.droppedFrames += droppedFrames;
-	if (verboseLogging) logDroppedFrames(dt, droppedFrames); // TODO move flag to settings?
+	if (droppedFrames) {
+		renderStats.droppedFrames += droppedFrames;
+		if (verboseLogging) logDroppedFrames(dt, droppedFrames); // TODO move flag to settings?
+	}
 };
 
 export const resetRenderStats = (): RenderStats => (renderStats = defaultRenderStats());
 
 export const getRenderStats = (): RenderStats => renderStats;
 
-// TODO do this only in devMode?
-// we don't support `process.env.NODE_ENV` yet!!
-(window as any).getRenderStats = getRenderStats;
+(window as any).getRenderStats = getRenderStats; // TODO dont do this, or at least handle SSR
 
 const expectedFps = 60; // TODO support other framerates?
 const expectedMsPerFrame = 1000 / expectedFps;

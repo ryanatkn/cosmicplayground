@@ -5,7 +5,8 @@ html {
 	box-sizing: border-box;
 	font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell,
 		Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-	--clickable_text_shadow: 1px 1px 4px #000, 1px 1px 1px #000, 1px 1px 9px #000;
+	--font_size_xl: 72px;
+	--font_size_lg: 48px;
 	--ocean_color: #1b4780;
 	--land_color: #1b7e23;
 	--text_color: #dbdbdb;
@@ -17,14 +18,34 @@ html {
 	--portal_border_radius: 7px;
 	--portal_padding: 12px; /* TODO maybe swap for spacing_3 */
 	--panel_border: 5px dashed rgba(255, 255, 255, 0.15);
-	--panel_border_radius: 15px;
+	--border_radius_lg: 15px;
+	--border_radius_md: 7px;
 	/* TODO reuse --ocean_color and --land_color, maybe using the substitution trick */
 	--bg_1: rgba(27, 71, 128, 0.3);
 	--bg_2: rgba(27, 126, 35, 0.25);
 	--bg_3: hsla(260, 50%, 55%, 0.3);
 	--bg_light: rgba(255, 255, 255, 0.04);
 	--bg_dark: rgba(0, 0, 0, 0.6);
-	--text_shadow: 1px 2px rgba(0, 0, 0, 0.6);
+	--text_shadow_sm: 1px 2px rgba(0, 0, 0, 0.6);
+	--spacing_lg: 64px;
+	--spacing_xl: 100px;
+	--hud_element_size: var(--spacing_xl);
+	--clickable_border_style: dashed;
+	--clickable_border_style__hover: double;
+	--clickable_border_style__active: dotted;
+	--clickable_border_style_sm: dashed;
+	--clickable_border_style_sm__hover: solid; /* too small for double */
+	--clickable_border_style_sm__active: dotted;
+	--clickable_transform: scale3d(1, 1, 1);
+	--clickable_transform__hover: scale3d(1.2, 1.2, 1);
+	--clickable_transform__active: scale3d(1.42, 1.42, 1);
+	--clickable_transform_sm__hover: scale3d(1.03, 1.03, 1);
+	--clickable_transform_sm__active: scale3d(1.09, 1.09, 1);
+	--clickable_transition: transform 0.06s ease-out;
+	--clickable_opacity: 0.6;
+	--clickable_opacity__hover: 0.8;
+	--clickable_opacity__active: 1;
+	--fade_transition: opacity 0.5s linear;
 }
 
 /* border-box all the things, but let parents override children */
@@ -53,6 +74,7 @@ hr {
 	border-top: 2px solid rgba(0, 0, 0, 0.4);
 	/* border-bottom: 1px solid rgba(255, 255, 255, 0.18); */
 	border-bottom: var(--portal_border);
+	margin: var(--spacing-5) 0;
 }
 
 img,
@@ -64,7 +86,7 @@ video {
 code {
 	background: var(--bg_1);
 	padding: 1px 8px;
-	text-shadow: var(--text_shadow);
+	text-shadow: var(--text_shadow_sm);
 }
 
 h1 {
@@ -100,57 +122,45 @@ a {
 	text-decoration: none;
 	color: var(--ocean_text_color);
 }
+/* 
+TODO
+input {
+	background: transparent;
+	color: var(--text_color);
+}
 
-/* TODO should clickable things scale or use these border and text shadow visuals? */
-.clickable {
-	color: #fff;
-	font-size: 48px;
-	font-weight: 100;
-	opacity: 0.4;
-	text-shadow: var(--clickable_text_shadow);
-	border-bottom: 5px solid transparent;
-	user-select: none;
+select {
+	background: transparent;
+	color: var(--text_color);
+} */
+
+button {
+	color: var(--text_color);
+	font-family: inherit;
+	background: transparent;
 	display: flex;
-	justify-content: center;
 	align-items: center;
-	white-space: nowrap;
-}
-.clickable:hover {
-	opacity: 0.8;
-	border-bottom-style: dotted;
-	border-color: #fff;
-	text-shadow: var(--clickable_text_shadow), 1px 1px 19px #000, 2px 2px #000;
-}
-.clickable:active {
-	opacity: 1;
-	border-bottom-style: dashed;
-	border-color: #fff;
-	text-shadow: -1px -1px 9px #000, -2px -2px 1px #000;
-}
-.clickable.clickable--active {
-	opacity: 1;
-	border-bottom-style: dashed;
-	border-color: #fff;
-	text-shadow: -1px -1px 9px #000, -1px -1px 1px #000;
+	justify-content: center;
+	flex-direction: column;
+	text-align: center;
 }
 
-.clickable.clickable--active:hover {
-	border-bottom-style: solid;
-	text-shadow: -1px -1px 1px #000, 1px 1px 19px #000;
+.idle {
+	cursor: none;
 }
-.clickable.clickable--active:active {
-	border-bottom-style: dashed;
-	text-shadow: -1px -1px 7px #000, -2px -2px 1px #000;
+.idle-fade {
+	transition: var(--fade_transition);
 }
-
-.clickable-icon {
-	width: 100px;
-	height: 100px;
-	font-size: 72px;
+.idle .idle-fade {
+	opacity: 0;
 }
 
-.big-button {
-	font-size: 48px;
-	padding: 15px 30px;
-	font-weight: 100;
+.mirror-x {
+	transform: scale3d(-1, 1, 1);
+}
+.mirror-y {
+	transform: scale3d(1, -1, 1);
+}
+.mirror-xy {
+	transform: scale3d(1, -1, 1);
 }

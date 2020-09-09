@@ -22,9 +22,6 @@
 </a>
 
 <style>
-	a {
-		cursor: default;
-	}
 	img {
 		transform: scale3d(1, 1, 1);
 		transition: transform 0.08s cubic-bezier(0.23, 1, 0.32, 1);

@@ -6,8 +6,8 @@
 	import {mix} from '../../utils/math.js';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../../audio/utils.js';
 
-	let width;
-	let height;
+	export let width;
+	export let height;
 
 	const audioCtx = useAudioCtx();
 
@@ -92,7 +92,7 @@
 	};
 </script>
 
-<div class="hearing-test">
+<div class="hearing-test" style="width: {width}px; height: {height}px;">
 	{#if $spotPosition}
 		<svg class="absolute0 w-100 h-100 z-2">
 			<filter id="blurOuter" height="200%" width="200%" y="-50%" x="-50%">
@@ -134,20 +134,13 @@
 		on:touchend|stopPropagation|preventDefault={handlePointerUp}
 		on:touchcancel|stopPropagation|preventDefault={handlePointerUp}
 		on:touchmove|stopPropagation|preventDefault={handlePointerMove}
-		bind:clientWidth={width}
-		bind:clientHeight={height}
 	/>
 </div>
 
 <style>
 	.hearing-test {
 		position: relative;
-		width: 100%;
-		height: 100%;
 		overflow: hidden;
-	}
-	:global(.idle) .hearing-test {
-		cursor: none;
 	}
 	circle.outer {
 		fill: rgba(226, 182, 255, 0.4);

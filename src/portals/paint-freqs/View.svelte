@@ -2,8 +2,8 @@
 	import PaintFreqs from './PaintFreqs.svelte';
 
 	export const portal = undefined;
-	export const width = undefined;
-	export const height = undefined;
+	export let width;
+	export let height;
 </script>
 
-<PaintFreqs />
+<PaintFreqs {width} {height} />

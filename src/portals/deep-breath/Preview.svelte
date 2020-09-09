@@ -1,6 +1,6 @@
 <script>
 	import EarthThumbnail from '../../app/EarthThumbnail.svelte';
-	import {useClock} from '../../app/clock.js';
+	import {useClock} from '../../app/clockStore.js';
 
 	export const portal = undefined;
 

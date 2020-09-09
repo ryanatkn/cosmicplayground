@@ -14,8 +14,8 @@ import {
 import {TourData} from '../../app/tourStore.js';
 import {createTourBuilder} from '../../app/tourBuilder.js';
 
-// This was tedious to author and the output could be better,
-// but it's good enough.
+// This was tedious to author and the output could be better, but it's good enough.
+// There's some jankiness between some tweens that could be polished, but shrug.
 // If I do something similar in the future,
 // I'll probably make a visual authoring tool,
 // maybe with bezier curves or camera physics.

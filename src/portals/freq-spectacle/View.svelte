@@ -1,6 +1,6 @@
 <script>
 	import FreqSpectacle from './FreqSpectacle.svelte';
-	import {useClock} from '../../app/clock.js';
+	import {useClock} from '../../app/clockStore.js';
 
 	export const portal = undefined;
 	export let width;

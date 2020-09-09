@@ -1,20 +1,16 @@
 <script>
-	export let running;
+	export let width;
+	export let height;
 
-	let wrapperWidth, clientWidth, clientHeight;
 	const maxWidth = 1667;
 	const maxHeight = 781;
-	$: width = Math.min(clientWidth, maxWidth);
-	$: height = Math.min(clientHeight, maxHeight);
 	$: xScale = Math.min(1, width / maxWidth);
 	$: yScale = Math.min(1, height / maxHeight);
 	$: scale = Math.min(xScale, yScale);
 </script>
 
-<div class="under-construction" bind:clientWidth bind:clientHeight>
-	<div
-		style={`transform: scale3d(${scale}, ${scale}, 1); ${running ? '' : 'filter: grayscale();'}`}
-	>
+<div class="under-construction" style="width: {width}px; height: {height}px;">
+	<div style={`transform: scale3d(${scale}, ${scale}, 1);`}>
 		<div style={`width: ${maxWidth}px; height: ${maxHeight}px;`}>
 			<img
 				src="assets/construction/line-1.gif"
@@ -225,15 +221,10 @@
 
 <style>
 	.under-construction {
-		width: 100%;
-		height: 100%;
 		position: relative;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
-	}
-	:global(.idle) .under-construction {
-		cursor: none;
 	}
 </style>

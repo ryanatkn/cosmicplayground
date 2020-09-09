@@ -11,7 +11,7 @@ export const audioCtxKey = {};
 export const useAudioCtx = () => getContext(audioCtxKey)();
 
 // Puts a lazy getter for `AudioContext` into the component's context.
-export const initAudioCtx = (): (() => AudioContext) => {
+export const provideAudioCtx = (): (() => AudioContext) => {
 	let audioCtx: AudioContext | undefined;
 	const getAudioCtx = () => {
 		if (!audioCtx) audioCtx = createAudioCtx();

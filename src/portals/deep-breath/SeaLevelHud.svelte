@@ -5,6 +5,8 @@
 	export let selectSeaLevel;
 	export let hoverSeaLevel;
 
+	// TODO style when selected
+
 	let waterLevelEl;
 
 	const getSeaLevel = (y) => {
@@ -32,8 +34,8 @@
 		position: fixed;
 		top: 0;
 		right: 0;
-		width: var(--hud-column-width);
-		height: calc(100% - var(--hud-column-width)); /* TODO */
+		width: var(--hud_element_size);
+		height: calc(100% - var(--hud_element_size)); /* TODO */
 		display: flex;
 		flex-direction: column;
 		align-items: center;

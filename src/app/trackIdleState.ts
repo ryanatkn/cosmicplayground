@@ -38,8 +38,8 @@ export const trackIdleState = (
 		if ($idle) idle.set(false);
 	};
 
-	el.addEventListener('mousemove', resetIdleState);
-	el.addEventListener('keydown', resetIdleState);
+	el.addEventListener('mousemove', resetIdleState, {capture: true});
+	el.addEventListener('keydown', resetIdleState, {capture: true});
 
 	return {
 		update: ({idle, idleIntervalTime, timeToGoIdle: _timeToGoIdle}: TrackIdleStateOptions) => {

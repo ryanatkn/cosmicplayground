@@ -61,9 +61,6 @@
 		overflow: hidden;
 		position: relative;
 	}
-	:global(.idle) .viewport {
-		cursor: none;
-	}
 	img {
 		position: absolute;
 		left: 0;

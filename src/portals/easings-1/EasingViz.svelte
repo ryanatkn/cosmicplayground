@@ -10,6 +10,9 @@
   https://svelte.dev/tutorial/tweened -
   which also links the Penner easing equations - http://robertpenner.com/easing/
 
+	possible improvements
+	- easily filter by "In", "Out", and "InOut"
+
   notes
   - there are some really weird visual artifacts when values are near 0
     in Chrome (both versions 74 on Windows and 73 on Linux), but not Firefox
@@ -30,6 +33,7 @@
 	import {onDestroy} from 'svelte';
 
 	import {createTweens} from '../../app/tweens.js';
+	import FloatingTextButton from '../../app/FloatingTextButton.svelte';
 
 	let duration = 1500;
 	//$: console.log('duration changed', duration);
@@ -100,10 +104,10 @@
 
 <section class="controls">
 	<div class="controls-group">
-		<button class="loop-button" on:click={() => (playing = !playing)} type="button">
+		<FloatingTextButton on:click={() => (playing = !playing)}>
 			{playing ? 'pause' : 'play'}
-		</button>
-		<button class="toggle-button" on:click={() => (toggle = !toggle)} type="button">toggle</button>
+		</FloatingTextButton>
+		<FloatingTextButton on:click={() => (toggle = !toggle)}>toggle</FloatingTextButton>
 		<select class="pl-2" bind:value={view}>
 			{#each views as view (view)}
 				<option value={view}>view {view}</option>
@@ -162,18 +166,6 @@
 		display: flex;
 		align-items: center;
 	}
-	.loop-button {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 75px;
-	}
-	.toggle-button {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 75px;
-	}
 	.item {
 		position: relative;
 		display: flex;
@@ -223,9 +215,6 @@
 	}
 	select {
 		width: 150px;
-		height: 40px;
-	}
-	button {
 		height: 40px;
 	}
 </style>

@@ -4,6 +4,7 @@
 	export let imageUrl = '/assets/space/galaxies.jpg';
 	export let opacity = 0.2;
 	export let animationDuration = '360s';
+	export let running = true;
 
 	// TODO get from loaded image
 	let imageWidth = 2560;
@@ -19,8 +20,6 @@
 	// TODO support customizing this?
 	const bgSizePct = 0.5;
 	$: bgSizeStr = bgSizePct * 100 + '%';
-
-	export let running = true;
 </script>
 
 <div
