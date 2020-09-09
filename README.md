@@ -49,15 +49,15 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 
 [PixiJS](https://github.com/pixijs/pixi.js) was first added as a dependency to improve
 the rendering performance of [Deep Breath](https://www.cosmicplayground.org/#deep-breath),
-which animates [fifteen 4096x2048 images](/src/assets/earth/) of Earth
+which animates [fifteen 4096x2048 images of Earth](/src/assets/earth/)
 layered together with opacity, scaling, and movement.
 The [original DOM implementation](/src/portals/deep-breath/EarthViewerDom.svelte)
 has performance problems that range from moderate to severe
 and chews up far more GPU resources than necessary. (to the surprise of nobody)
 
 > Firefox runs the DOM version pretty okay on my machine,
-> but Chrome chugs and seems shy about using the GPU.
-> Pixi makes it smooth on both and gives us access to wonderful goodies like the
+> but Chrome chugs and seems shy about using more GPU.
+> Pixi makes it smooth on both and provides wonderful goodies like the
 > [TilingSprite](http://pixijs.download/release/docs/PIXI.TilingSprite.html)
 > and [RenderTexture](http://pixijs.download/release/docs/PIXI.RenderTexture.html)
 > which are used in
@@ -68,10 +68,11 @@ to a total of about 600KB.
 The rest of the website uses [Svelte](https://svelte.dev),
 whose tiny bundles make this dependency painful in comparison,
 but Pixi delivers graphics performance that the DOM and 2d canvas cannot.
+I'm no WebGL wizard and Pixi is fast, mature, and well maintained.
 
 The Responsible web developer would load code only when needed through code splitting,
 but Pixi proved helpful to render the app's global background image
-with buttery smooth animation and lower resource usage,
+with buttery smooth animation and low resource usage,
 and I plan to use it in many more places.
 Code splitting the remaining third of the JavaScript payload
 isn't going to give us the slim bundles we're after, so I'm punting the task.
