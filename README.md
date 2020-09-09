@@ -7,13 +7,12 @@
 
 [cosmicplayground.org](https://www.cosmicplayground.org)
 is a collection of web projects that try to be useful or interesting.
-Here's what I got so far:
 
-- [Deep Breath](https://www.cosmicplayground.org/#deep-breath),
-  an interactive map of Earth with a rough answer to the question
+- [Deep Breath](https://www.cosmicplayground.org/#deep-breath)
+  is an interactive map of Earth with a rough answer to the question
   _"If all ice on Earth melts, how will sea levels change?"_
   The project tries to be interesting and visually pleasing,
-  but compared to similar tools it has limited scientific usefulness.
+  but compared to related tools it has limited scientific usefulness.
 - Two tools for understanding the tweens in [Svelte](https://github.com/sveltejs/svelte):
   - [Easing Function Visualizations](https://www.cosmicplayground.org/#easings-1)
     compares all tweens on a single screen
@@ -31,8 +30,7 @@ This project relies on open source software and
 like [NASA's Hubble imagery](https://www.spacetelescope.org)
 and the music of [Alexander Nakarada](https://www.serpentsoundstudios.com).
 See [cosmicplayground.org/#about](https://www.cosmicplayground.org/#about)
-for the complete list of non-software assets and their credits
-and [package.json](package.json) for the code powering things.
+for the complete list of non-software assets and their credits.
 
 made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [PixiJS](https://github.com/pixijs/pixi.js) ∙
@@ -41,7 +39,7 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [Gro](https://github.com/feltcoop/gro) ∙
 [Prettier](https://github.com/prettier/prettier) ∙
 [Node](https://nodejs.org) ∙
-[GitHub](https://github.com) ∙ [Git](https://git-scm.com/) & more
+[GitHub](https://github.com) ∙ [Git](https://git-scm.com/) & [more](package.json)
 
 > :rainbow::sparkles: did you know? emoji can be punctuation :snail: neat huh
 
@@ -62,15 +60,14 @@ and chews up far more GPU resources than necessary. (to the surprise of nobody)
 > Pixi makes it smooth on both and gives us access to wonderful goodies like the
 > [TilingSprite](http://pixijs.download/release/docs/PIXI.TilingSprite.html)
 > and [RenderTexture](http://pixijs.download/release/docs/PIXI.RenderTexture.html)
-> which are used to great effect in
+> which are used in
 > [the Pixi implementation of the Earth map](/src/portals/deep-breath/EarthViewerPixi.svelte).
 
 Pixi is a hefty dependency and roughly tripled the website's JavaScript bundle size
 to a total of about 600KB.
 The rest of the website uses [Svelte](https://svelte.dev),
 whose tiny bundles make this dependency painful in comparison,
-but Pixi delivers graphics performance that the DOM and 2d canvas cannot,
-so the tradeoff is worth it for this app.
+but Pixi delivers graphics performance that the DOM and 2d canvas cannot.
 
 The Responsible web developer would load code only when needed through code splitting,
 but Pixi proved helpful to render the app's global background image
@@ -84,7 +81,7 @@ but for now, enjoy clicking around with loadless transitions!
 In summary:
 
 - WebGL is good stuff, and Pixi is lovely, but one day I want to explore replacing Pixi
-  with [the experimental Svelte compiler for WebGL](https://github.com/sveltejs/gl)
+  with [a Svelte compiler for WebGL](https://github.com/sveltejs/gl)
 - this app is not representative of Svelte's ability to gracefully scale its JS bundle sizes
 
 ### develop
