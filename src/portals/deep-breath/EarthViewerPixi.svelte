@@ -21,8 +21,8 @@
 	export let moveCamera;
 	export let zoomCamera;
 	export let inputEnabled;
-	export let landImages; // not reactive! should they be?
-	export let seaImages; // not reactive! should they be?
+	export let landImages; // not reactive
+	export let seaImages; // not reactive
 	export let activeLandValue;
 	export let activeSeaLevel;
 	export let imageWidth; // not reactive
@@ -32,8 +32,8 @@
 
 	let destroyed = false;
 
-	const landSprites = []; // not reactive! should they be?
-	const seaSprites = []; // not reactive! should they be?
+	const landSprites = []; // not reactive
+	const seaSprites = []; // not reactive
 	let scene;
 	let mapContainer;
 	let landContainer;
@@ -103,9 +103,6 @@
 		}
 	};
 
-	// TODO this breaks when the component is mounted for a second time (maybe just check the pixi loader to see if the resources are ready?)
-	// TODO do we want to track loading here?
-	// Or keep the resource loading logic and UX out of Pixi, currently in the title screen?
 	const init = () => {
 		const shouldLoadResources = !pixi.loader.resources[landImages[0]]; // TODO cleaner detection?
 		if (shouldLoadResources) {
