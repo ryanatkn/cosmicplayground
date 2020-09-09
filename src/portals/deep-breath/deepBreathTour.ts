@@ -289,13 +289,13 @@ export const createDeepBreathTour = (
 	b.pan(3589, 1332, tMove);
 	b.zoom(2.8, tMove, backInOut);
 	b.wait();
-	b.zoomBy(0.99, tIdle, sineOut);
+	b.zoomBy(0.98, tIdle, sineOut);
 	b.panBy(1, 3, tIdle, sineOut);
 	b.wait(tIdle);
 
 	// -> Polynesia (not all of it unfortunately, and zoomed out - resolution is too coarse for a good experience)
-	b.pan(4177, 1357, tMove);
-	b.zoom(2.3, tMove, backInOut);
+	b.pan(4118, 1385, tMove);
+	b.zoom(2.9, tMove, backInOut);
 	b.wait();
 	b.zoomBy(1.02, tIdle, sineOut);
 	b.panBy(3, 0, tIdle, sineOut);
