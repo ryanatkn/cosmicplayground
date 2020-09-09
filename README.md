@@ -12,12 +12,13 @@ is a collection of web projects that try to be useful or interesting.
   is an interactive map of Earth with a rough answer to the question
   _"If all ice on Earth melts, how will sea levels change?"_
   The project tries to be interesting and visually pleasing,
-  but compared to related tools it has limited scientific usefulness.
-- Two tools for understanding the tweens in [Svelte](https://github.com/sveltejs/svelte):
+  but its scientific usefulness is limited.
+- Two tools for understanding
+  [the easing functions in Svelte](https://svelte.dev/docs#svelte_easing):
   - [Easing Function Visualizations](https://www.cosmicplayground.org/#easings-1)
-    compares all tweens on a single screen
+    compares all easings on a single screen
   - [Easing Function Visualizations and Auralizations](https://www.cosmicplayground.org/#easings-2)
-    focuses on one tween at a time with bigger visuals and a tweakable audio representation
+    focuses on one function at a time with bigger visuals and a tweakable audio representation
     ([auralization](https://en.wikipedia.org/wiki/Auralization))
 - several odd and/or unfinished things
 
