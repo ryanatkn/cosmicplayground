@@ -82,7 +82,7 @@ but for now, enjoy clicking around with loadless transitions!
 In summary:
 
 - WebGL is good stuff, and Pixi is lovely, but one day I want to explore replacing Pixi
-  with [a Svelte compiler for WebGL](https://github.com/sveltejs/gl)
+  with [Svelte for WebGL](https://github.com/sveltejs/gl)
 - this app is not representative of Svelte's ability to gracefully scale its JS bundle sizes
 
 ### develop
