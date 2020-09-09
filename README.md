@@ -65,25 +65,27 @@ The [original DOM implementation](/src/portals/deep-breath/EarthViewerDom.svelte
 has performance problems that range from moderate to severe
 and chews up far more GPU resources than necessary. (to the surprise of nobody)
 
-> Firefox runs it pretty okay on my machine, but Chrome chugs and seems shy about using the GPU.
+> Firefox runs the DOM version pretty okay on my machine,
+> but Chrome chugs and seems shy about using the GPU.
 > Pixi makes it smooth on both and gives us access to wonderful goodies like the
 > [TilingSprite](http://pixijs.download/release/docs/PIXI.TilingSprite.html)
 > and [RenderTexture](http://pixijs.download/release/docs/PIXI.RenderTexture.html)
 > which are used to great effect in
-> [the Pixi implementation](/src/portals/deep-breath/EarthViewerPixi.svelte).
+> [the Pixi implementation of the Earth map](/src/portals/deep-breath/EarthViewerPixi.svelte).
 
 Pixi is a hefty dependency and roughly tripled the website's JavaScript bundle size
 to a total of about 600KB.
-The rest of the website uses Svelte, whose tiny bundles make this comparison quite painful,
+The rest of the website uses [Svelte](https://svelte.dev),
+whose tiny bundles make this comparison quite painful,
 but Pixi delivers graphics that smother the DOM and 2d canvas,
 so the tradeoff is well worth it for this app.
 
 The Responsible web developer would perform code splitting and load code only when needed,
 but Pixi has already proven useful to render
-the app's global background image with a buttery smooth animation,
+the app's global background image with buttery smooth animation,
 so code splitting isn't going to slim down the bundle sizes to any relative usefulness.
-Eventually, I'll probably make it load non-Pixi code more efficiently,
-but for now, enjoy clicking around the app with loadless transitions!
+Eventually, I'll probably make the app load non-Pixi code more efficiently,
+but for now, enjoy clicking around with loadless transitions!
 
 In summary:
 
