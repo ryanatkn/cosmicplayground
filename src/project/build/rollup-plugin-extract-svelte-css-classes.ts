@@ -87,7 +87,10 @@ const extractCssClassesFromMarkup = (
 ): void => {
 	walk(ast, {
 		enter(node, _parent, _prop, _index) {
-			if (node.type === 'Attribute' && classAttrMatcher.test(node.name)) {
+			if (
+				(node.type === 'Attribute' && classAttrMatcher.test(node.name)) ||
+				node.type === 'Class'
+			) {
 				// TODO can we grab basic identifiers without the `classFnMatcher`?
 				extractCssClassesFromNode(node, classes, log);
 			}
@@ -179,6 +182,11 @@ const extractCssClassesFromNode = (node: TemplateNode, classes: Set<CssClass>, l
 			for (const v of node.value) {
 				extractCssClassesFromNode(v, classes, log);
 			}
+			break;
+		}
+		// the Svelte `class:foo` markup construct
+		case 'Class': {
+			addClasses(node.name);
 			break;
 		}
 		// estree types

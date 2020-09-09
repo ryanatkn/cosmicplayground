@@ -14,10 +14,6 @@
 	import {portalsData} from '../portals/index.js';
 	import {PixiApp, providePixi} from './pixi.js';
 	import {createPixiBgStore} from './pixiBgStore.js';
-	import {cls} from './sy.config.js';
-
-	// TODO hack to fix lack of `class:foo` support in rollup-plugin-extract-svelte-css-classes
-	cls('mirror-y');
 
 	let width = window.innerWidth;
 	let height = window.innerHeight;
