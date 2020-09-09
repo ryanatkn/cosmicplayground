@@ -22,7 +22,7 @@
 		audioEnabled: true,
 		devMode: false,
 		recordingMode: false,
-		timeToGoIdle: 6000000,
+		timeToGoIdle: 6000,
 	});
 
 	const clock = provideClock(); // TODO integrate with Pixi ticker?

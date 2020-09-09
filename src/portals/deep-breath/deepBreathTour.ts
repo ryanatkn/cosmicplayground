@@ -1,14 +1,14 @@
 import {
-	quartOut,
-	quartIn,
 	backInOut,
 	backOut,
 	backIn,
 	sineOut,
 	sineIn,
 	quadInOut,
-	quintIn,
-	quintOut,
+	cubicIn,
+	cubicOut,
+	quartIn,
+	cubicInOut,
 } from 'svelte/easing';
 
 import {TourData} from '../../app/tourStore.js';
@@ -146,10 +146,10 @@ export const createDeepBreathTour = (
 
 	// -> north central Africa
 	b.pan(2203, 789, tMove);
-	b.zoom(2.7, tMove, quartIn);
+	b.zoom(2.7, tMove, cubicIn);
 	b.wait();
-	b.zoomBy(0.95, tIdle, quartOut);
-	b.panBy(-10, -5, tIdle, quartOut);
+	b.zoomBy(0.95, tIdle, cubicOut);
+	b.panBy(-10, -5, tIdle, cubicOut);
 	b.wait(tIdle);
 
 	// -> north east Africa
@@ -209,14 +209,14 @@ export const createDeepBreathTour = (
 
 	// -> northwest Mediterranean
 	b.pan(2176, 510, tMove, quadInOut);
-	b.zoom(10.5, tMove + tIdle, quartIn);
+	b.zoom(10.5, tMove + tIdle, cubicIn);
 	b.wait(tMove);
 	b.panBy(1, 4, tIdle, sineOut);
 	b.wait(tIdle);
 
 	// -> Mediterranean zoomed out
 	b.pan(2223, 574, tMove);
-	b.zoom(3.8, tMove, quartOut);
+	b.zoom(3.8, tMove, cubicOut);
 	b.wait();
 	b.zoomBy(0.98, tIdle, sineOut);
 	b.panBy(3, 5, tIdle, sineOut);
@@ -335,18 +335,17 @@ export const createDeepBreathTour = (
 
 	// -> Hawaii
 	b.pan(4359, 788, tMove);
-	b.zoom(13, tMove, quintIn);
+	b.zoom(13, tMove, quartIn);
 	b.wait();
 	b.zoomBy(1.22, tIdle, sineOut);
 	b.panBy(2, 0, tIdle, sineOut);
 	b.wait(tIdle);
 
 	// -> Bering Strait
-	b.pan(4136, 306, tMove);
-	b.zoom(3, tMove, quintOut);
-	b.wait();
+	b.pan(4136, 306, tMove + tIdle, cubicInOut);
+	b.zoom(3, tMove, cubicOut);
+	b.wait(tMove);
 	b.zoomBy(0.98, tIdle, sineOut);
-	b.panBy(-2, -7, tIdle, sineOut);
 	b.wait(tIdle);
 
 	// -> north Canada
@@ -359,7 +358,7 @@ export const createDeepBreathTour = (
 
 	// -> pacific Northwest
 	b.pan(4743, 478, tMove);
-	b.zoom(9.1, tMove, quintIn);
+	b.zoom(9.1, tMove, quartIn);
 	b.wait();
 	b.zoomBy(1.02, tIdle, sineOut);
 	b.panBy(-1, 3, tIdle, sineOut);
