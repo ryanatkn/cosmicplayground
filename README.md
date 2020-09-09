@@ -6,32 +6,23 @@
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
 
 [cosmicplayground.org](https://www.cosmicplayground.org)
-is a collection of loosely related projects that try to be useful or interesting.
+is a collection of web projects that try to be useful or interesting.
 Here's what I got so far:
 
 - [Deep Breath](https://www.cosmicplayground.org/#deep-breath),
   an interactive map of Earth with a rough answer to the question
-  "if all ice on Earth melts, how will sea levels change?"
+  _"If all ice on Earth melts, how will sea levels change?"_
   The project tries to be interesting and visually pleasing,
   but compared to similar tools it has limited scientific usefulness.
 - Two tools for understanding the tweens in [Svelte](https://github.com/sveltejs/svelte):
-  - [easings-1](https://www.cosmicplayground.org/#easings-1) compares all tweens on a single screen
-  - [easings-2](https://www.cosmicplayground.org/#easings-2) focuses on one tween at a time
-    with bigger visuals and a tweakable audio representation
-    ([auralization](https://en.wikipedia.org/wiki/Auralization)) of the tween
+  - [Easing Function Visualizations](https://www.cosmicplayground.org/#easings-1)
+    compares all tweens on a single screen
+  - [Easing Function Visualizations and Auralizations](https://www.cosmicplayground.org/#easings-2)
+    focuses on one tween at a time with bigger visuals and a tweakable audio representation
+    ([auralization](https://en.wikipedia.org/wiki/Auralization))
 - several odd and/or unfinished things
 
 [![galaxies](/src/assets/space/galaxies-banner.jpg)](/src/assets/space/galaxies.jpg)
-
-## develop
-
-To play with the code, you'll need Node 14+;
-
-```bash
-npm i
-npm start
-# open your browser to localhost:8999
-```
 
 ## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
 
@@ -95,6 +86,16 @@ In summary:
 - WebGL is good stuff, and Pixi is lovely, but one day I want to explore replacing Pixi
   with [the experimental Svelte compiler for WebGL](https://github.com/sveltejs/gl)
 - this app is not representative of Svelte's ability to gracefully scale its JS bundle sizes
+
+### develop
+
+To play with the code, you'll need Node 14+;
+
+```bash
+npm i
+npm start
+# open your browser to localhost:8999
+```
 
 ## license :bird:
 
