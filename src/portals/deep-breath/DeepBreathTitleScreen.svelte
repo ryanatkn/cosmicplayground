@@ -44,10 +44,10 @@
 				<PortalLink slug="deep-breath" />
 				is an interactive webpage with a rough sketch of Earth's sea levels if all ice melts, about
 				60-75 meters above 2020's oceans. Some estimates are higher. The project tries to be
-				interesting and visually pleasing, but compared to similar tools it has little scientific
+				interesting and visually pleasing, but compared to similar tools it has limited scientific
 				usefulness. The code and image data are
-				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>
-				. See the credits below for more.
+				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>.
+				See the credits below for more.
 			</p>
 			<p>Please be aware that the data is imperfect. Some errors:</p>
 			<ul>
