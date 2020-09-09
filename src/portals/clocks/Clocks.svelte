@@ -22,9 +22,7 @@
 		justify-content: center;
 	}
 	.controls {
-		padding: 12px;
-		border: 3px dashed rgba(0, 0, 0, 0.3);
-		background: rgba(0, 0, 0, 0.15);
+		padding: var(--spacing-5);
 		display: flex;
 	}
 </style>

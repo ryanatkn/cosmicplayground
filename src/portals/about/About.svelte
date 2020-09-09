@@ -27,8 +27,7 @@
 		Hi that's me, I enjoy making web things and apparently I have a thing for space? Everything
 		here is free and
 		<a href="https://github.com/ryanatkn/cosmicplayground">open source</a>
-		and mostly a work-in-progress (aka half-broken or half-baked:). The first project that I think
-		is worth sharing is
+		and mostly a work-in-progress. The first project that I think is worth sharing is
 		<PortalLink slug="deep-breath" />
 		and there's hopefully more to come!
 	</p>
@@ -42,6 +41,16 @@
 </Panel>
 <Panel>
 	<Credits />
+</Panel>
+<Panel>
+	<h2>Privacy</h2>
+	<p>
+		This website tracks nothing and the only server it talks to is
+		<a href="https://pages.github.com/">GitHub Pages</a>
+		to serve all of the static files. It makes no third party network requests. See
+		<a href="https://github.com/ryanatkn/cosmicplayground">the source code</a>
+		for more.
+	</p>
 </Panel>
 <Panel>
 	<h2>Contact</h2>
@@ -58,15 +67,6 @@
 		imgClass="absolute t-8 -r-12"
 		linkClass="block relative h-0 cursor-none"
 	/>
-</Panel>
-<Panel>
-	<h2>Privacy</h2>
-	<p>
-		This website tracks nothing and the only server it talks to is
-		<a href="https://pages.github.com/">GitHub Pages</a>
-		to serve all of the static content. (including images, HTML, CSS, JavaScript, audio.. am I
-		forgetting anything?)
-	</p>
 </Panel>
 
 <style>

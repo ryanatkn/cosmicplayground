@@ -1,5 +1,6 @@
 <script>
 	import {usePortals} from '../../app/portalsStore.js';
+	import PortalPreview from './PortalPreview.svelte';
 
 	export let portal;
 	export const width = undefined;
@@ -74,15 +75,11 @@
   https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role
   -->
 	{#each superCoolPortals as portal (portal.slug)}
-		<!-- TODO remove this interpolated class, or at least clean it up (needs sy rollup plugin fix) -->
-		<a class="portal-preview {`portal-preview--${portal.slug}`}" href="#{portal.slug}">
+		<PortalPreview href="#{portal.slug}" classes="portal-preview--{portal.slug}">
 			<svelte:component this={portal.Preview} {portal} />
-		</a>
+		</PortalPreview>
 	{/each}
-	<button
-		class="portal-preview show-more-button"
-		on:click={() => (showMorePortals = !showMorePortals)}
-	>
+	<PortalPreview classes="show-more-button" onClick={() => (showMorePortals = !showMorePortals)}>
 		<h2>
 			show
 			{#if showMorePortals}less{:else}more{/if}
@@ -106,17 +103,16 @@
 				style="width: 100px; height: 100px;"
 			/>
 		</div>
-	</button>
+	</PortalPreview>
 </nav>
 {#if showMorePortals}
 	<!-- TODO should there be just a single nav instead?
     and fix the styling somehow with an inner wrapper? -->
 	<nav class="portal-previews">
 		{#each coolPortals as portal (portal.slug)}
-			<!-- TODO remove this interpolated class, or at least clean it up (needs sy rollup plugin fix) -->
-			<a class="portal-preview {`portal-preview--${portal.slug}`}" href="#{portal.slug}">
+			<PortalPreview href="#{portal.slug}" classes="portal-preview--{portal.slug}">
 				<svelte:component this={portal.Preview} {portal} />
-			</a>
+			</PortalPreview>
 		{/each}
 	</nav>
 {/if}
@@ -130,35 +126,14 @@
 		justify-content: center;
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
 	}
-	.portal-preview {
-		cursor: default;
-		background: transparent;
-		border: var(--portal_border);
-		border-radius: var(--portal_border_radius);
-		margin: 12px;
-		text-align: center;
-		color: var(--text_color);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		transition: var(--clickable_transition);
-		transform: scale3d(1, 1, 1);
+
+	:global(.show-more-button) {
+		padding: var(--portal_padding);
 	}
-	.portal-preview:hover {
-		border-style: var(--clickable_border_style__hover);
-		transform: var(--clickable_transform_sm__hover);
-	}
-	.portal-preview:active {
-		border-style: var(--clickable_border_style__active);
-		transform: var(--clickable_transform_sm__active);
-	}
+
 	/* TODO how to do this? data with a css variable? `color: 'ocean_color'`
 	or is this the right time to add CSS variables to JS? */
-	.portal-preview--deep-breath {
-		border-color: #1b4780;
-	}
-	.show-more-button {
-		padding: var(--portal_padding);
+	:global(.portal-preview--deep-breath) {
+		border-color: #1b4780 !important;
 	}
 </style>

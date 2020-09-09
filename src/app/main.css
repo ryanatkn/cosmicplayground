@@ -7,29 +7,23 @@ html {
 		Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 	--font_size_xl: 72px;
 	--font_size_lg: 48px;
+	/* TODO clean up color consistency between names, color_, bg_, _text_, etc */
 	--ocean_color: #1b4780;
+	--space_color: hsl(260, 65%, 55%);
 	--land_color: #1b7e23;
 	--text_color: #dbdbdb;
 	--ocean_text_color: hsl(214, 65%, 50%);
 	--land_text_color: hsl(125, 65%, 35%);
 	--color_2: #7094db; /* TODO probably make this a lighter shade of `--ocean_color` */
 	--color_3: hsl(260, 60%, 65%); /*  TODO probably make this a lighter shade of the primary color */
-	--portal_border: 3px dashed rgba(255, 255, 255, 0.15);
-	--portal_border_radius: 7px;
-	--portal_padding: 12px; /* TODO maybe swap for spacing_3 */
-	--panel_border: 5px dashed rgba(255, 255, 255, 0.15);
-	--border_radius_lg: 15px;
-	--border_radius_md: 7px;
+	--light_border_color: rgba(255, 255, 255, 0.13);
 	/* TODO reuse --ocean_color and --land_color, maybe using the substitution trick */
 	--bg_1: rgba(27, 71, 128, 0.3);
 	--bg_2: rgba(27, 126, 35, 0.25);
 	--bg_3: hsla(260, 50%, 55%, 0.3);
 	--bg_light: rgba(255, 255, 255, 0.04);
 	--bg_dark: rgba(0, 0, 0, 0.6);
-	--text_shadow_sm: 1px 2px rgba(0, 0, 0, 0.6);
-	--spacing_lg: 64px;
-	--spacing_xl: 100px;
-	--hud_element_size: var(--spacing_xl);
+	--bg_dark_lighter: rgba(0, 0, 0, 0.35);
 	--clickable_border_style: dashed;
 	--clickable_border_style__hover: double;
 	--clickable_border_style__active: dotted;
@@ -46,6 +40,19 @@ html {
 	--clickable_opacity__hover: 0.8;
 	--clickable_opacity__active: 1;
 	--fade_transition: opacity 0.5s linear;
+	--border_width_md: 3px;
+	--border_width_lg: 5px;
+	--portal_border: var(--border_width_md) var(--clickable_border_style) var(--light_border_color);
+	--portal_border_radius: 7px;
+	--dark_border_md: var(--border_width_md) var(--clickable_border_style) var(--bg_dark_lighter);
+	--portal_padding: 12px; /* TODO maybe swap for spacing_3 */
+	--panel_border: var(--border_width_lg) var(--clickable_border_style) var(--light_border_color);
+	--border_radius_lg: 15px;
+	--border_radius_md: 7px;
+	--text_shadow_sm: 1px 2px rgba(0, 0, 0, 0.6);
+	--spacing_lg: 64px;
+	--spacing_xl: 100px;
+	--hud_element_size: var(--spacing_xl);
 }
 
 /* border-box all the things, but let parents override children */
@@ -71,9 +78,11 @@ body {
 
 hr {
 	background: none;
-	border-top: 2px solid rgba(0, 0, 0, 0.4);
-	/* border-bottom: 1px solid rgba(255, 255, 255, 0.18); */
+	/* TODO vars? */
+	border-top: var(--dark_border_md);
 	border-bottom: var(--portal_border);
+	border-left: none;
+	border-right: none;
 	margin: var(--spacing-5) 0;
 }
 

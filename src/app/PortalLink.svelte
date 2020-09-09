@@ -23,8 +23,9 @@
 		border-radius: 5px;
 		color: var(--color_3);
 		font-weight: bold;
-		border: 1px var(--clickable_border_style_sm) var(--color_3);
+		border: 1px var(--clickable_border_style_sm) var(--space_color);
 		text-shadow: var(--text_shadow_sm);
+		white-space: nowrap;
 	}
 	a:hover {
 		border-style: var(--clickable_border_style_sm__hover);

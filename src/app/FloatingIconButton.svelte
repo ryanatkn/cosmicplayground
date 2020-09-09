@@ -2,8 +2,8 @@
 	export let label; // required for a11y
 	export let pressed = undefined;
 	export let type = 'button'; // avoid submit behavior in forms
-	export let classes = ''; // TODO not sure about this pattern, not used atm
-	export let style = ''; // TODO not sure about this pattern, not used atm
+	export let classes = null; // TODO not sure about this pattern, not used atm
+	export let style = null; // TODO not sure about this pattern, not used atm
 </script>
 
 <button class={classes} {type} aria-label={label} aria-pressed={pressed} on:click {style}>

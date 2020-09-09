@@ -11,6 +11,8 @@
 	import DeepBreathCredits from './DeepBreathCredits.svelte';
 	import CreditsPersonalSignature from '../about/CreditsPersonalSignature.svelte';
 	import CreditsProjectSignature from '../about/CreditsProjectSignature.svelte';
+	import AboutPortalPreview from '../about/Preview.svelte';
+	import PortalPreview from '../home/PortalPreview.svelte';
 
 	export let resources;
 	export let proceed;
@@ -49,17 +51,17 @@
 				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>.
 				See the credits below for more.
 			</p>
-			<p>Please be aware that the data is imperfect. Some errors:</p>
+			<p>Please be aware that the data is imperfect:</p>
 			<ul>
-				<li>The elevation data is imprecise and it may be inaccurate in some places.</li>
+				<li>The elevation data is low resolution and it may be inaccurate in some places.</li>
 				<li>
 					Ice remains visible when sea levels rise, even though sea level rise implies the ice has
 					melted. This could be fixed by faking the revealed terrain.
 				</li>
 				<li>
 					Landlocked areas below sea level fill with water even though they probably won't flood
-					because they don't border the oceans. They could be misleading but I find them
-					interesting. The most prominent examples are central Australia and the Aral Sea.
+					because they don't border the oceans. I find them interesting so I left them in, but they
+					could be misleading. The most prominent examples are central Australia and the Aral Sea.
 				</li>
 			</ul>
 			<p>
@@ -90,6 +92,12 @@
 			</div>
 		</section>
 	</Panel>
+	<!-- TODO pull this href from portal data? -->
+	<section>
+		<PortalPreview href="#about">
+			<AboutPortalPreview />
+		</PortalPreview>
+	</section>
 </div>
 
 <style>
@@ -97,6 +105,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding-top: var(--spacing_lg);
+		padding: var(--spacing_lg) 0;
 	}
 </style>
