@@ -33,7 +33,7 @@
 
 <div class="preview">
 	<h2>easing function</h2>
-	<h2>audioizations and visualizations</h2>
+	<h2>visualizations and auralizations</h2>
 	<div class="wrapper">
 		<canvas bind:this={canvas} />
 		<div

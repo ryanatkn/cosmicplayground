@@ -75,7 +75,7 @@ const portals: PortalData[] = [
 		slug: 'easings-2',
 		View: Easings2View,
 		Preview: Easings2Preview,
-		title: 'easing function visualizations and audioizations',
+		title: 'easing function visualizations and auralizations',
 		coolness: 5,
 		showHomeButton: true,
 	},

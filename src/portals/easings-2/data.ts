@@ -1,7 +1,7 @@
 import {PortalBaseData} from '../portal.js';
 
 const data: PortalBaseData = {
-	title: 'easing function visualizations and audioizations',
+	title: 'easing function visualizations and auralizations',
 	coolness: 5,
 	showHomeButton: true,
 };

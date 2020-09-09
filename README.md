@@ -6,8 +6,7 @@
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
 
 [cosmicplayground.org](https://www.cosmicplayground.org)
-is a collection of loosely related projects
-that try to be useful or interesting in some way.
+is a collection of loosely related projects that try to be useful or interesting.
 Here's what I got so far:
 
 - [Deep Breath](https://www.cosmicplayground.org/#deep-breath),
@@ -15,10 +14,12 @@ Here's what I got so far:
   "if all ice on Earth melts, how will sea levels change?"
   The project tries to be interesting and visually pleasing,
   but compared to similar tools it has limited scientific usefulness.
-- several unfinished and/or weird things
-  (warning: may induce ear discomfort or pain, OKAY??)
-- an in-progress ear training game on the `earworm` branch
-  that I might continue making one day
+- Two tools for understanding the tweens in [Svelte](https://github.com/sveltejs/svelte):
+  - [easings-1](https://www.cosmicplayground.org/#easings-1) compares all tweens on a single screen
+  - [easings-2](https://www.cosmicplayground.org/#easings-2) focuses on one tween at a time
+    with bigger visuals and a tweakable audio representation
+    ([auralization](https://en.wikipedia.org/wiki/Auralization)) of the tween
+- several odd and/or unfinished things
 
 [![galaxies](/src/assets/space/galaxies-banner.jpg)](/src/assets/space/galaxies.jpg)
 
@@ -27,7 +28,7 @@ Here's what I got so far:
 To play with the code, you'll need Node 14+;
 
 ```bash
-npm install
+npm i
 npm start
 # open your browser to localhost:8999
 ```
@@ -76,22 +77,24 @@ and chews up far more GPU resources than necessary. (to the surprise of nobody)
 Pixi is a hefty dependency and roughly tripled the website's JavaScript bundle size
 to a total of about 600KB.
 The rest of the website uses [Svelte](https://svelte.dev),
-whose tiny bundles make this comparison quite painful,
-but Pixi delivers graphics that smother the DOM and 2d canvas,
-so the tradeoff is well worth it for this app.
+whose tiny bundles make this dependency painful in comparison,
+but Pixi delivers graphics performance that the DOM and 2d canvas cannot,
+so the tradeoff is worth it for this app.
 
-The Responsible web developer would perform code splitting and load code only when needed,
-but Pixi has already proven useful to render
-the app's global background image with buttery smooth animation,
-so code splitting isn't going to slim down the bundle sizes to any relative usefulness.
-Eventually, I'll probably make the app load non-Pixi code more efficiently,
+The Responsible web developer would load code only when needed through code splitting,
+but Pixi proved helpful to render the app's global background image
+with buttery smooth animation and lower resource usage,
+and I plan to use it in many more places.
+Code splitting the remaining third of the JavaScript payload
+isn't going to give us the slim bundles we're after, so I'm punting the task.
+Eventually I'll probably make the app load non-Pixi code more efficiently,
 but for now, enjoy clicking around with loadless transitions!
 
 In summary:
 
-- don't judge Svelte's ability to deliver small websites by looking at this project
 - WebGL is good stuff, and Pixi is lovely, but one day I want to explore replacing Pixi
-  with [the experimental SvelteJS compiler for WebGL](https://github.com/sveltejs/gl)
+  with [the experimental Svelte compiler for WebGL](https://github.com/sveltejs/gl)
+- this app is not representative of Svelte's ability to gracefully scale its JS bundle sizes
 
 ## license :bird:
 
