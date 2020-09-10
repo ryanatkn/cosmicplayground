@@ -4,7 +4,6 @@
 </script>
 
 <div class="p-2">
-
 	<!-- TODO await? -->
 	{#if json}
 		<pre>{jsonStr}</pre>

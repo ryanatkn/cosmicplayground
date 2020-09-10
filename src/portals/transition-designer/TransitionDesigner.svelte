@@ -150,14 +150,8 @@
 
 <section class="flex flex-wrap items-start justify-center">
 	<section class="p-2">
-		<label>
-			<input type="number" bind:value={durationIn} />
-			<small>duration in</small>
-		</label>
-		<label>
-			<input type="number" bind:value={durationOut} />
-			<small>duration out</small>
-		</label>
+		<label><input type="number" bind:value={durationIn} /> <small>duration in</small></label>
+		<label><input type="number" bind:value={durationOut} /> <small>duration out</small></label>
 	</section>
 
 	<section class="p-2">
@@ -243,7 +237,6 @@
 			<small>deg2</small>
 		</label>
 	</section>
-
 </section>
 
 <style>

@@ -117,10 +117,7 @@
 	<div class="controls-group">
 		<input type="range" bind:value={duration} min={(2 * 1000) / 60} max={6000} step={1000 / 60} />
 		<div class="pl-2">
-			<div>
-				{Math.round(duration)}
-				<small>ms</small>
-			</div>
+			<div>{Math.round(duration)}<small>ms</small></div>
 			<small>duration</small>
 		</div>
 	</div>

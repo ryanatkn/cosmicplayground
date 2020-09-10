@@ -209,15 +209,10 @@
 			<circle class="inner" cx={$spotPosition.x} cy={$spotPosition.y} r={2} />
 		</svg>
 	{/if}
-	{#if width !== undefined}
-		<canvas class="bg-canvas" bind:this={canvas} />
-	{/if}
+	{#if width !== undefined}<canvas class="bg-canvas" bind:this={canvas} />{/if}
 	{#if displayedFreq}
 		<div class="freq idle-fade">
-			<div>
-				{displayedFreq}
-				<span class="unit">hz</span>
-			</div>
+			<div>{displayedFreq}<span class="unit">hz</span></div>
 		</div>
 	{/if}
 	<div

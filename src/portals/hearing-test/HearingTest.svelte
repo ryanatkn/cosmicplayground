@@ -110,18 +110,12 @@
 	{/if}
 	{#if volume !== undefined}
 		<div class="volume h-100 absolute z-1 t-0 flex items-center justify-start">
-			<div>
-				{displayedVolume}
-				<span class="unit">%</span>
-			</div>
+			<div>{displayedVolume}<span class="unit">%</span></div>
 		</div>
 	{/if}
 	{#if freq !== undefined}
 		<div class="freq absolute z-1 w-100 l-0 flex items-start justify-center">
-			<div>
-				{displayedFreq}
-				<span class="unit">hz</span>
-			</div>
+			<div>{displayedFreq}<span class="unit">hz</span></div>
 		</div>
 	{/if}
 	<div

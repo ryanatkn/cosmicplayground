@@ -47,15 +47,13 @@
 				is an interactive webpage with a rough sketch of Earth's sea levels if all ice melts, about
 				60-75 meters above 2020's oceans. Some estimates are higher. The project tries to be
 				interesting and visually pleasing, but compared to related tools it has limited scientific
-				usefulness. The code and image data are
-				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>.
-				See the credits below for more.
+				usefulness. The code and image data are <a
+					href="https://github.com/ryanatkn/cosmicplayground"
+				>open source on GitHub</a>. See the credits below for more.
 			</p>
 			<p>Please be aware that the data is imperfect:</p>
 			<ul>
-				<li>
-					The elevation data is low resolution and the highest sea level is an approximation.
-				</li>
+				<li>The elevation data is low resolution and the highest sea level is an approximation.</li>
 				<li>
 					Ice remains visible when sea levels rise, even though sea level rise implies the ice has
 					melted. This could be fixed by faking the revealed terrain.
@@ -67,8 +65,8 @@
 				</li>
 			</ul>
 			<p>
-				<strong>This page is not mobile friendly!</strong>
-				It may also be really slow depending on your hardware and browser.
+				<strong>This page is not mobile friendly!</strong> It may also be really slow depending on your
+				hardware and browser.
 			</p>
 			<hr />
 			<p>The download is about 75MB of images. If that's cool with you, click the button below!</p>

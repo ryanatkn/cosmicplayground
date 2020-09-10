@@ -35,9 +35,7 @@
 <div class="tour-title" out:blur={{duration: transitionOutDuration, amount: blurAmount}}>
 	<div class="text" style={textStyle}>
 		<div in:blur={{duration: transitionInDuration, amount: blurAmount}}>
-			If all ice on
-			<span class="earth-text">Earth</span>
-			melts,
+			If all ice on <span class="earth-text">Earth</span> melts,
 		</div>
 	</div>
 	<div class="text" style={textStyle}>

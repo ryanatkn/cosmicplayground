@@ -82,8 +82,7 @@
 	{/each}
 	<PortalPreview classes="show-more-button" onClick={() => (showMorePortals = !showMorePortals)}>
 		<h2>
-			show
-			{#if showMorePortals}less{:else}more{/if}
+			show {#if showMorePortals}less{:else}more{/if}
 		</h2>
 		<div>
 			<img

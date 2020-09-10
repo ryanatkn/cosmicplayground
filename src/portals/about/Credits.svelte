@@ -9,18 +9,18 @@
 
 <h2>Credits</h2>
 <section>
-	This project relies on lots of amazing freely licensed content. The credits are below with
-	links and copyright info. All original assets are licensed
-	<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
-	unless otherwise specified. See the source respository's
-	<a href="https://github.com/ryanatkn/cosmicplayground/tree/master/src/assets">
-		<code>src/assets</code>
-		directory
-	</a>
-	for the complete source data. Code is licensed
-	<a href="https://github.com/ryanatkn/cosmicplayground/blob/master/LICENSE">AGPL-3.0-only</a>.
+	This project relies on lots of amazing freely licensed content. The credits are below with links
+	and copyright info. All original assets are licensed <a
+		href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+	>CC BY-NC-SA 4.0</a> unless otherwise specified. See the source respository's <a
+		href="https://github.com/ryanatkn/cosmicplayground/tree/master/src/assets"
+	>
+		<code>src/assets</code> directory
+	</a> for the complete source data. Code is licensed <a
+		href="https://github.com/ryanatkn/cosmicplayground/blob/master/LICENSE"
+	>AGPL-3.0-only</a>.
 </section>
-<hr/>
+<hr />
 <section>
 	<div class="image-wrapper">
 		<ImgLink
@@ -29,13 +29,13 @@
 			imgStyle="width: 200px;"
 		/>
 	</div>
-	<a href="https://www.spacetelescope.org/images/heic0406a/">Hubble sees galaxies galore</a>
-	by
-	<a href="https://www.nasa.gov/">NASA</a>,
-	<a href="https://www.esa.int/">ESA</a>, and S. Beckwith
-	(<a href="https://www.stsci.edu/">STScI</a>) and the HUDF Team
+	<a href="https://www.spacetelescope.org/images/heic0406a/">Hubble sees galaxies galore</a> by <a
+		href="https://www.nasa.gov/"
+	>NASA</a>, <a href="https://www.esa.int/">ESA</a>, and S. Beckwith (<a
+		href="https://www.stsci.edu/"
+	>STScI</a>) and the HUDF Team
 </section>
-<hr/>
+<hr />
 <section>
 	<div class="image-wrapper">
 		<ImgLink
@@ -45,9 +45,9 @@
 		<ImgLink src="assets/earth/night_lights_2.png" alt="night lights the Americas" />
 		<ImgLink src="assets/earth/night_lights_3.png" alt="night lights of Asia and Australia" />
 	</div>
-	<a href="https://earthobservatory.nasa.gov/features/NightLights">Earth at Night</a>
-	by
-	<a href="https://www.nasa.gov/">NASA</a>
+	<a href="https://earthobservatory.nasa.gov/features/NightLights">Earth at Night</a> by <a
+		href="https://www.nasa.gov/"
+	>NASA</a>
 	<ul>
 		<li>
 			<a
@@ -67,26 +67,22 @@
 			</a>
 		</li>
 	</ul>
-	<a href="https://earthobservatory.nasa.gov">NASA Earth Observatory</a>
-	image by Robert Simmon, using
-	<a href="http://npp.gsfc.nasa.gov/viirs.html">Suomi NPP VIIRS</a>
-	data provided courtesy of Chris Elvidge (NOAA
-	<a href="http://www.ngdc.noaa.gov/dmsp/dmsp.html">National Geophysical Data Center</a>).
+	<a href="https://earthobservatory.nasa.gov">NASA Earth Observatory</a> image by Robert Simmon, using
+	<a href="http://npp.gsfc.nasa.gov/viirs.html">Suomi NPP VIIRS</a> data provided courtesy of Chris Elvidge
+	(NOAA <a href="http://www.ngdc.noaa.gov/dmsp/dmsp.html">National Geophysical Data Center</a>).
 	Suomi NPP is the result of a partnership between NASA, NOAA, and the Department of Defense.
 </section>
-<hr/>
+<hr />
 <section>
 	<div class="image-wrapper">
 		<ImgLink alt="construction idea" src="assets/construction/person-dig-idea.gif" />
 		<ImgLink alt="construction mammal" src="assets/construction/mammal.gif" />
 	</div>
 	<PortalLink slug="under-construction" />
-	gifs from
-	<a href="http://textfiles.com/underconstruction/">textfiles.com/underconstruction</a>,
-	salvaged from Geocities by
-	<a href="https://www.archiveteam.org/">Archive Team</a>
+	gifs from <a href="http://textfiles.com/underconstruction/">textfiles.com/underconstruction</a>,
+	salvaged from Geocities by <a href="https://www.archiveteam.org/">Archive Team</a>
 </section>
-<hr/>
+<hr />
 <section>
 	<div class="image-wrapper">
 		<ImgLink alt="Cosmic Kitty" src="assets/characters/cosmic-kitty.jpg" />
@@ -97,17 +93,14 @@
 		.. mreow
 	</div>
 	<div>
-		by Lisa Atkinson,
-		<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+		by Lisa Atkinson, <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
 	</div>
 </section>
-<hr/>
+<hr />
 <section>
 	<DeepBreathThumbnail />
 	<PortalLink slug="deep-breath" />
-	inhales
-	<a href="https://earthobservatory.nasa.gov/image-use-policy">NASA imagery</a>
-	and music from
+	inhales <a href="https://earthobservatory.nasa.gov/image-use-policy">NASA imagery</a> and music from
 	<a href="https://www.serpentsoundstudios.com">Alexander Nakarada</a>
 	<DeepBreathCredits />
 </section>

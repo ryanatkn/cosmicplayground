@@ -269,24 +269,15 @@
 					style="width: 200px;"
 					disabled={muted}
 				/>
-				<div>
-					{Math.round(volume * 100)}
-					<span>%</span>
-				</div>
+				<div>{Math.round(volume * 100)}<span>%</span></div>
 			</div>
 			<label class="controls-group">
 				<input type="range" bind:value={startNote} min={lowestNote} max={highestNote} step={1} />
-				<div>
-					{midiNames[startNote]}
-					<span style="font-size: 24px;">♪</span>
-				</div>
+				<div>{midiNames[startNote]}<span style="font-size: 24px;">♪</span></div>
 			</label>
 			<label class="controls-group">
 				<input type="range" bind:value={endNote} min={lowestNote} max={highestNote} step={1} />
-				<div>
-					{midiNames[endNote]}
-					<span style="font-size: 24px;">♪</span>
-				</div>
+				<div>{midiNames[endNote]}<span style="font-size: 24px;">♪</span></div>
 			</label>
 			<label class="controls-group">
 				<input
@@ -297,29 +288,23 @@
 					step={1000 / 60}
 				/>
 				<div>
-					<div>
-						{Math.round(duration)}
-						<small>ms</small>
-					</div>
+					<div>{Math.round(duration)}<small>ms</small></div>
 					<small>duration</small>
 				</div>
 			</label>
 			<label class="controls-group">
 				<input type="range" bind:value={waitTime} min={0} max={2001} step={1000 / 60} />
 				<div>
-					<div>
-						{Math.round(waitTime)}
-						<small>ms</small>
-					</div>
+					<div>{Math.round(waitTime)}<small>ms</small></div>
 					<small>waitTime</small>
 				</div>
 			</label>
 		</section>
 
 		<section class="active-tween">
-			<label class="active-tween-name" style="color: {getColor(activeEasingIndex)};">
+			<div class="active-tween-name" style="color: {getColor(activeEasingIndex)};">
 				{activeEasing.name}
-			</label>
+			</div>
 			<div class="chart">
 				<div
 					class="absolute l-0 t-0"
