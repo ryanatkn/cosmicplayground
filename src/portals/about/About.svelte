@@ -49,7 +49,7 @@
 		<a href="https://pages.github.com/">GitHub Pages</a>
 		to serve static files. It makes no third party network requests. See
 		<a href="https://github.com/ryanatkn/cosmicplayground">the source code</a>
-		for more.
+		for more. WHO ARE YOU?? I may never know.. as it should be.
 	</p>
 </Panel>
 <Panel>
