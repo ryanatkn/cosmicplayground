@@ -5,6 +5,7 @@
 	import PixiView from './PixiView.svelte';
 	import Hud from './Hud.svelte';
 	import HomeButton from './HomeButton.svelte';
+	import {provideRouter} from './routerStore.js';
 	import {provideAudioCtx} from '../audio/audioCtx.js';
 	import {provideClock} from './clockStore.js';
 	import {provideSettings} from './settingsStore.js';
@@ -43,15 +44,10 @@
 	$: bg.updateDimensions(width, height);
 	$: bg.tick($clock.dt);
 
-	let hash = typeof window === 'undefined' ? '' : window.location.hash;
-	const DEFAULT_PORTAL_SLUG = 'home';
-	$: activePortalSlug = hash.slice(1) || DEFAULT_PORTAL_SLUG;
-	const onHashChange = (e) => {
-		hash = window.location.hash;
-	};
+	const router = provideRouter();
 
 	const portals = providePortals(portalsData);
-	$: activePortal = findPortalBySlug($portals, activePortalSlug);
+	$: activePortal = findPortalBySlug($portals, $router.slug);
 
 	const idle = writable(false);
 	$: timeToGoIdle = $settings.devMode ? 99999999999 : $settings.timeToGoIdle;
@@ -69,7 +65,6 @@
 <svelte:window
 	bind:innerWidth={width}
 	bind:innerHeight={height}
-	on:hashchange={onHashChange}
 	use:trackIdleState={{idle, timeToGoIdle, idleIntervalTime: 1000}}
 	on:keydown={onKeyDown}
 />

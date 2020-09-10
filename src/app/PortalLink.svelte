@@ -23,11 +23,12 @@
 		border-radius: 5px;
 		color: var(--color_3);
 		font-weight: bold;
-		border: 1px var(--clickable_border_style_sm) var(--space_color);
+		border: var(--border_width_sm) solid transparent;
 		text-shadow: var(--text_shadow_sm);
 		white-space: nowrap;
 	}
 	a:hover {
+		border-color: var(--space_color);
 		border-style: var(--clickable_border_style_sm__hover);
 	}
 	a:active {

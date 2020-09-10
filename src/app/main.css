@@ -40,6 +40,7 @@ html {
 	--clickable_opacity__hover: 0.8;
 	--clickable_opacity__active: 1;
 	--fade_transition: opacity 0.5s linear;
+	--border_width_sm: 1px;
 	--border_width_md: 3px;
 	--border_width_lg: 5px;
 	--portal_border: var(--border_width_md) var(--clickable_border_style) var(--light_border_color);
