@@ -8,7 +8,7 @@ import {setContext, getContext} from 'svelte';
 export const audioCtxKey = {};
 
 // Components can do `const audioCtx = useAudioCtx();`
-export const useAudioCtx = () => getContext(audioCtxKey)();
+export const useAudioCtx = (): AudioContext => getContext(audioCtxKey)();
 
 // Puts a lazy getter for `AudioContext` into the component's context.
 export const provideAudioCtx = (): (() => AudioContext) => {
