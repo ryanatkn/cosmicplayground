@@ -27,8 +27,7 @@ is a collection of web projects that try to be useful or interesting.
 ## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
 
 This project relies on open source software and
-[free cultural works](https://creativecommons.org/share-your-work/public-domain/freeworks/)
-like [NASA's Hubble imagery](https://www.spacetelescope.org)
+freely licensed content like [NASA's Hubble imagery](https://www.spacetelescope.org)
 and the music of [Alexander Nakarada](https://www.serpentsoundstudios.com).
 See [cosmicplayground.org/#about](https://www.cosmicplayground.org/#about)
 for the complete list of non-software assets and their credits.
