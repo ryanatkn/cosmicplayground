@@ -29,6 +29,8 @@ import TransitionDesignerView from './transition-designer/View.svelte';
 import TransitionDesignerPreview from './transition-designer/Preview.svelte';
 import UnderConstructionView from './under-construction/View.svelte';
 import UnderConstructionPreview from './under-construction/Preview.svelte';
+import VoidView from './void/View.svelte';
+import VoidPreview from './void/Preview.svelte';
 
 const portals: PortalData[] = [
 	{
@@ -141,6 +143,14 @@ const portals: PortalData[] = [
 		Preview: UnderConstructionPreview,
 		title: 'under construction',
 		coolness: 4,
+		showHomeButton: true,
+	},
+	{
+		slug: 'void',
+		View: VoidView,
+		Preview: VoidPreview,
+		title: 'void',
+		coolness: 0,
 		showHomeButton: true,
 	},
 ];

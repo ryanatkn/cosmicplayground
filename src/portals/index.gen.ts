@@ -4,7 +4,7 @@ import {readdirSync} from 'fs';
 import {stat} from '@feltcoop/gro/dist/fs/nodeFs.js';
 import {toBuildId, toRootPath} from '@feltcoop/gro/dist/paths.js';
 
-import {PortalBaseData} from './portal.js';
+import {PortalBaseData, VOID_PORTAL_SLUG} from './portal.js';
 
 // TODO ideally we lazy load all of the actual `View` code for each portal,
 // and only eagerly load the `Preview` code and metadata,
@@ -31,6 +31,10 @@ const slugToName = (slug: string): string =>
 export const gen: Gen = async ({originId}) => {
 	const originDir = dirname(originId);
 	const portalSlugs = await readDirs(originDir);
+
+	if (!portalSlugs.includes(VOID_PORTAL_SLUG)) {
+		throw Error(`Void portal slug "${VOID_PORTAL_SLUG}" does not exist`);
+	}
 
 	const namesBySlug = new Map(portalSlugs.map((slug) => [slug, slugToName(slug)]));
 	const dataBySlug = new Map<string, PortalBaseData>(

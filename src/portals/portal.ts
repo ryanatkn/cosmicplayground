@@ -28,3 +28,5 @@ export interface PortalBaseData {
 	// previewHeight: number;
 	// slugAliases: string[]; // TODO if we ever change a portal slug, support redirects, and maybe add some Easter eggs
 }
+
+export const VOID_PORTAL_SLUG = 'void';

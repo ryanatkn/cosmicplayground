@@ -1,6 +1,7 @@
 <script>
 	import {usePortals} from '../../app/portalsStore.js';
 	import PortalPreview from './PortalPreview.svelte';
+	import {VOID_PORTAL_SLUG} from '../portal.js';
 
 	export let portal;
 	export const width = undefined;
@@ -15,7 +16,7 @@
 	const portals = usePortals();
 
 	const COOLNESS_VISIBILITY_THRESHOLD = 3;
-	const unlistedPortals = new Set([portal.slug]);
+	const unlistedPortals = new Set([portal.slug, VOID_PORTAL_SLUG]);
 
 	const sortOrderBySlug = new Map(
 		[

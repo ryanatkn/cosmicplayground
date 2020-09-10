@@ -71,7 +71,7 @@ whose tiny bundles make this dependency painful in comparison,
 but Pixi delivers graphics performance that the DOM and 2d canvas cannot.
 I'm no WebGL wizard and Pixi is fast, mature, and well maintained.
 
-The Responsible web developer would load code only when needed through code splitting,
+The Responsible web developer loads code only when needed through code splitting,
 but Pixi proved helpful to render the app's global background image
 with buttery smooth animation and low resource usage,
 and I plan to use it in many more places.

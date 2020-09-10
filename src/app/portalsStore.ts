@@ -1,7 +1,7 @@
 import {writable, Writable} from 'svelte/store';
 import {setContext, getContext} from 'svelte';
 
-import {PortalsData, PortalData} from '../portals/portal.js';
+import {PortalsData, PortalData, VOID_PORTAL_SLUG} from '../portals/portal.js';
 
 export interface PortalsState {
 	data: PortalsData;
@@ -19,13 +19,8 @@ export const createPortalsStore = (initialPortalsData: PortalsData): PortalsStor
 	return {subscribe, update};
 };
 
-export const findPortalBySlug = ($portals: PortalsState, slug: string): PortalData => {
-	const portal = $portals.data.portalsBySlug.get(slug);
-	if (!portal) {
-		throw Error(`No portal found with slug "${slug}"`);
-	}
-	return portal;
-};
+export const findPortalBySlug = ($portals: PortalsState, slug: string): PortalData =>
+	$portals.data.portalsBySlug.get(slug) || $portals.data.portalsBySlug.get(VOID_PORTAL_SLUG)!;
 
 export const portalsContextKey = {};
 export const usePortals = (): PortalsStore => getContext(portalsContextKey);
