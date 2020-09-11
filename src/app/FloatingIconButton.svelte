@@ -22,7 +22,8 @@
 		border: none;
 		padding: 0;
 	}
-	button:hover {
+	button:hover,
+	button:focus {
 		transform: var(--clickable_transform__hover);
 		opacity: var(--clickable_opacity__hover);
 	}

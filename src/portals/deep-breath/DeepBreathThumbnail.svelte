@@ -41,6 +41,10 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 		align-items: center;
 		margin: 0 auto;
 	}
+	.deep-breath-thumbnail:focus {
+		/* TODO hack, see global `button:focus` style for more */
+		outline: none;
+	}
 	.thumbnail-text {
 		position: absolute;
 		left: 0;

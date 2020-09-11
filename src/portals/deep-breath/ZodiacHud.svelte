@@ -52,7 +52,8 @@
 		opacity: 0.4;
 		border: none;
 	}
-	button:hover {
+	button:hover,
+	button:focus {
 		opacity: 0.7;
 		transition-duration: 0s;
 		text-shadow: var(--text_shadow_sm), 1px 1px 19px #000, 2px 2px #000;

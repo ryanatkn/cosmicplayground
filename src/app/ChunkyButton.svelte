@@ -23,7 +23,8 @@
 		margin: 30px auto 40px;
 		text-shadow: var(--text_shadow_sm);
 	}
-	button:hover {
+	button:hover,
+	button:focus {
 		border-style: var(--clickable_border_style__hover);
 	}
 	button:active,

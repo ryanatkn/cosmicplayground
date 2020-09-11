@@ -38,7 +38,8 @@
 		transition: var(--clickable_transition);
 		transform: scale3d(1, 1, 1);
 	}
-	.portal-preview:hover {
+	.portal-preview:hover,
+	.portal-preview:focus {
 		border-style: var(--clickable_border_style__hover);
 		transform: var(--clickable_transform_sm__hover);
 	}
