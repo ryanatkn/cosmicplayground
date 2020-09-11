@@ -1,6 +1,6 @@
 <script>
-	export let activeLandIndex;
-	export let selectedLandIndex;
+	export let activeLandIndex; // active is the hover state or "current" when automatically cycling
+	export let selectedLandIndex; // selected is the "current" non-cycling state (confusing yes)
 	export let selectLandIndex;
 	export let hoverLandIndex;
 
@@ -23,7 +23,7 @@
 	};
 </script>
 
-<div class="zodiac">
+<div class="zodiac-hud">
 	{#each zodiac as zodiacSymbol, i (zodiacSymbol)}
 		<button
 			class:active={i === activeLandIndex}
@@ -39,7 +39,7 @@
 </div>
 
 <style>
-	.zodiac {
+	.zodiac-hud {
 		width: 100%;
 		display: flex;
 	}
@@ -52,27 +52,20 @@
 		opacity: 0.4;
 		border: none;
 	}
-	button:hover,
-	button:focus {
-		opacity: 0.7;
-		transition-duration: 0s;
-		text-shadow: var(--text_shadow_sm), 1px 1px 19px #000, 2px 2px #000;
-	}
-	button:active {
-		text-shadow: -1px -1px 9px #000, -2px -2px 1px #000;
-	}
 	button.active {
 		opacity: 1;
-		border-bottom-color: transparent;
 		transition-duration: 0s;
-		text-shadow: -1px -1px 9px #000, -1px -1px 1px #000;
+		text-shadow: var(--text_shadow_sm);
+	}
+	button:active {
+		opacity: 0.7;
+		text-shadow: var(--text_shadow_reverse_sm);
 	}
 	button.selected,
-	.zodiac button.active:hover {
-		border-bottom-color: #fff;
-		text-shadow: -1px -1px 1px #000, 1px 1px 19px #000;
-	}
 	button.active:active {
-		text-shadow: -1px -1px 7px #000, -2px -2px 1px #000;
+		text-shadow: var(--text_shadow_reverse_sm);
+	}
+	button.selected:active {
+		text-shadow: var(--text_shadow_sm);
 	}
 </style>
