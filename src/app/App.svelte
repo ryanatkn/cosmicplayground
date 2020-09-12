@@ -62,11 +62,23 @@
 	const enableGlobalHotkeys = (e) => !e.target.closest('input');
 	const onKeyDown = (e) => {
 		// TODO main menu!
+
+		// toggle dev mode
+		if (e.key === '~' && e.shiftKey && e.ctrlKey) {
+			settings.update((s) => ({...s, devMode: !s.devMode}));
+			console.log('dev mode is now', $settings.devMode);
+		}
+		// dev mode hotkeys
 		if ($settings.devMode) {
-			if (e.key === '`') {
-				if (enableGlobalHotkeys(e)) clock.toggle();
-			} else if (e.key === '-') {
-				if (enableGlobalHotkeys(e)) settings.update((s) => ({...s, idleMode: !s.idleMode}));
+			if (e.key === '`' && enableGlobalHotkeys(e)) {
+				clock.toggle();
+				console.log('clock is now', $clock.running ? 'running' : 'paused');
+			} else if (e.key === '-' && enableGlobalHotkeys(e)) {
+				settings.update((s) => ({...s, idleMode: !s.idleMode}));
+				console.log('idle mode is now', $settings.idleMode);
+			} else if (e.key === '=' && enableGlobalHotkeys(e)) {
+				settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
+				console.log('recording mode is now', $settings.recordingMode);
 			}
 		}
 	};
