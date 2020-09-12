@@ -4,17 +4,20 @@
 	export let tour;
 	export let debugStartTime;
 
-	const TIME_SMALL_DELTA = 1000;
-	const TIME_LARGE_DELTA = 10000;
+	const TIME_DELTA_SM = 1000;
+	const TIME_DELTA_MD = 10000;
+	const TIME_DELTA_LG = 100000;
 
 	const onKeyDown = (e) => {
 		switch (e.key) {
 			case 'ArrowLeft': {
-				tour.seekTimeBy(e.shiftKey ? -TIME_LARGE_DELTA : -TIME_SMALL_DELTA);
+				tour.seekTimeBy(
+					e.shiftKey ? (e.ctrlKey ? -TIME_DELTA_LG : -TIME_DELTA_MD) : -TIME_DELTA_SM,
+				);
 				break;
 			}
 			case 'ArrowRight': {
-				tour.seekTimeBy(e.shiftKey ? TIME_LARGE_DELTA : TIME_SMALL_DELTA);
+				tour.seekTimeBy(e.shiftKey ? (e.ctrlKey ? TIME_DELTA_LG : TIME_DELTA_MD) : TIME_DELTA_SM);
 				break;
 			}
 		}
