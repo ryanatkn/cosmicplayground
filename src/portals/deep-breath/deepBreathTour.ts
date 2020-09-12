@@ -312,8 +312,8 @@ export const createDeepBreathTour = (
 	b.pan(3335, 675, tMove);
 	b.zoom(3.5, tMove);
 	b.wait();
-	b.zoomBy(1.02, tIdle, sineOut);
-	b.panBy(-1, -2, tIdle, sineOut);
+	b.zoomBy(1.04, tIdle, sineOut);
+	b.panBy(-2, -6, tIdle, sineOut);
 	b.wait(tIdle);
 
 	// -> north east east Asia
@@ -344,18 +344,22 @@ export const createDeepBreathTour = (
 	b.pan(4136, 306, tMove + tIdle, cubicInOut);
 	b.zoom(3, tMove, cubicOut);
 	b.wait(tMove);
-	b.zoomBy(0.98, tIdle, sineOut);
-	b.wait(tIdle);
+	b.zoom(3.3, tIdle / 2);
+	b.wait(tIdle / 2);
+	b.zoom(2.9, tIdle / 2);
+	b.wait(tIdle / 2);
 
 	// -> north Canada
-	b.pan(5043, 281, tMove + tIdle); // move a tad slower, this is a rough one, pls don't get seasick
-	b.zoom(2, tMove + tIdle, backInOut);
-	b.wait();
+	b.pan(5043, 281, tMove + tIdle, quadInOut); // move a tad slower, this is a rough one, pls don't get seasick
+	b.zoom(2.4, tIdle);
+	b.wait(tIdle);
+	b.zoom(2, tMove, backInOut);
+	b.wait(tMove);
 	b.zoomBy(1.03, tIdle, sineOut);
 	b.panBy(4, 0, tIdle, sineOut);
 	b.wait(tIdle);
 
-	// -> pacific Northwest
+	// -> north west North America
 	b.pan(4743, 478, tMove);
 	b.zoom(9.1, tMove, quartIn);
 	b.wait();
@@ -371,7 +375,7 @@ export const createDeepBreathTour = (
 	b.panBy(0, 3, tIdle, sineOut);
 	b.wait(tIdle);
 
-	// -> southwest North America
+	// -> south west North America
 	b.pan(4833, 674, tMove);
 	b.zoom(4.2, tMove);
 	b.wait();
@@ -426,7 +430,7 @@ export const createDeepBreathTour = (
 	b.panBy(3, 0, tIdle, sineOut);
 	b.wait(tIdle);
 
-	// -> Brazil
+	// -> central South America
 	b.pan(5510, 1052, tMove);
 	b.zoom(5.1, tMove, backInOut);
 	b.wait();
@@ -435,17 +439,17 @@ export const createDeepBreathTour = (
 	b.wait(tIdle);
 
 	// -> north South America and Central America zoomed out
-	b.pan(5413, 1001, tMove);
-	b.zoom(2.2, tMove);
+	b.pan(5414, 1011, tMove);
+	b.zoom(2, tMove);
 	b.wait();
 	b.zoomBy(0.97, tIdle, sineOut);
 	b.wait(tIdle);
 
 	// -> south Source America
-	b.pan(5523, 1450, tMove);
-	b.zoom(2.6, tMove);
+	b.pan(5538, 1416, tMove);
+	b.zoom(2.2, tMove, backInOut);
 	b.wait();
-	b.zoomBy(1.02, tIdle, sineOut);
+	b.zoomBy(0.98, tIdle, sineOut);
 	b.panBy(1, 4, tIdle, sineOut);
 	b.wait(tIdle);
 
@@ -456,7 +460,7 @@ export const createDeepBreathTour = (
 
 	// -> disappear zooming into the Mariana Trench
 	// TODO validate that there's enough time to finish the end sequence
-	b.pan(7764, 895, tEndSequence);
+	b.pan(7764, 895, tEndSequence, quadInOut);
 	b.zoom(0.66, tMove);
 	b.wait(tMove);
 	b.zoom(0.56, tMove);
