@@ -25,6 +25,7 @@
 	import {resetRenderStats, getRenderStats} from '../../app/renderStats.js';
 	import FloatingIconButton from '../../app/FloatingIconButton.svelte';
 	import FloatingTextButton from '../../app/FloatingTextButton.svelte';
+	import DeepBreathDevHud from './DeepBreathDevHud.svelte';
 
 	export let width;
 	export let height;
@@ -444,43 +445,15 @@
 					</div>
 					<div class="hud-left-controls">
 						{#if devMode}
-							<FloatingTextButton
-								on:click={() => {
-									enablePixiEarthViewer = !enablePixiEarthViewer;
-								}}
-							>
-								{enablePixiEarthViewer ? 'webgl' : 'dom'}
-							</FloatingTextButton>
-							<FloatingTextButton
-								on:click={() => {
-									$scale = Number(prompt('🔎', $scale)) || $scale;
-								}}
-							>
-								scale: {Math.round($scale * 10) / 10}
-							</FloatingTextButton>
-							<FloatingTextButton
-								on:click={() => {
-									const inputValue = Number(prompt('x', $x));
-									if (!Number.isNaN(inputValue)) {
-										$x = inputValue;
-									}
-								}}
-							>
-								x: {Math.round($x)}
-							</FloatingTextButton>
-							<FloatingTextButton
-								on:click={() => {
-									const inputValue = Number(prompt('y', $y));
-									if (!Number.isNaN(inputValue)) {
-										$y = inputValue;
-									}
-								}}
-							>
-								y: {Math.round($y)}
-							</FloatingTextButton>
-							{#if tour}
-								<TourControls {tour} {debugStartTime} />
-							{/if}
+							<DeepBreathDevHud
+								{tour}
+								{x}
+								{y}
+								{scale}
+								togglePixiEarthViewer={(v) => (enablePixiEarthViewer = v)}
+								{enablePixiEarthViewer}
+								{debugStartTime}
+							/>
 						{/if}
 					</div>
 					{#if !tour}

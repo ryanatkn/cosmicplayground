@@ -1,0 +1,52 @@
+<script>
+	import FloatingTextButton from '../../app/FloatingTextButton.svelte';
+	import TourControls from '../../app/TourControls.svelte';
+
+	export let tour;
+	export let x;
+	export let y;
+	export let scale;
+	export let togglePixiEarthViewer;
+	export let enablePixiEarthViewer;
+	export let debugStartTime;
+
+	// TODO smaller buttons! size prop?
+</script>
+
+<FloatingTextButton
+	on:click={() => {
+		togglePixiEarthViewer(!enablePixiEarthViewer);
+	}}
+>
+	{enablePixiEarthViewer ? 'webgl' : 'dom'}
+</FloatingTextButton>
+<FloatingTextButton
+	on:click={() => {
+		$scale = Number(prompt('🔎', $scale)) || $scale;
+	}}
+>
+	scale: {Math.round($scale * 10) / 10}
+</FloatingTextButton>
+<FloatingTextButton
+	on:click={() => {
+		const inputValue = Number(prompt('x', $x));
+		if (!Number.isNaN(inputValue)) {
+			$x = inputValue;
+		}
+	}}
+>
+	x: {Math.round($x)}
+</FloatingTextButton>
+<FloatingTextButton
+	on:click={() => {
+		const inputValue = Number(prompt('y', $y));
+		if (!Number.isNaN(inputValue)) {
+			$y = inputValue;
+		}
+	}}
+>
+	y: {Math.round($y)}
+</FloatingTextButton>
+{#if tour}
+	<TourControls {tour} {debugStartTime} />
+{/if}
