@@ -127,24 +127,19 @@ export const createDeepBreathTour = (
 	b.pan(2110, 995, tMove * 3 - tIdle); // provides a music syncing fudge factor
 	b.zoom(6.9, tMove * 2 - tIdle); // provides a music syncing fudge factor
 	b.wait();
-
-	// -> west north west Africa
-	b.pan(2060, 889, tMove);
-	b.zoom(2.9, tMove);
-	b.wait();
-	b.zoomBy(0.98, tIdle, sineOut);
+	b.zoomBy(1.02, tIdle, sineOut);
 	b.panBy(-1, -1, tIdle, sineOut);
 	b.wait(tIdle);
 
-	// -> west west Africa
-	b.pan(1882, 852, tMove);
-	b.zoom(5.4, tMove);
+	// -> west Africa
+	b.pan(1894, 875, tMove);
+	b.zoom(4.1, tMove);
 	b.wait();
-	b.zoomBy(1.02, tIdle, sineOut);
-	b.panBy(-2, -1, tIdle, sineOut);
+	b.zoomBy(0.97, tIdle, sineOut);
+	b.panBy(-4, -1, tIdle, sineOut);
 	b.wait(tIdle);
 
-	// -> north central Africa
+	// -> north central Africa zoomed out
 	b.pan(2203, 789, tMove);
 	b.zoom(2.7, tMove, cubicIn);
 	b.wait();
@@ -293,17 +288,21 @@ export const createDeepBreathTour = (
 	b.panBy(1, 3, tIdle, sineOut);
 	b.wait(tIdle);
 
-	// -> Polynesia (not all of it unfortunately, and zoomed out - resolution is too coarse for a good experience)
-	b.pan(4118, 1385, tMove);
-	b.zoom(2.9, tMove, backInOut);
+	// -> New Zealand
+	b.pan(4014, 1489, tMove);
+	b.zoom(7, tMove, cubicIn);
 	b.wait();
 	b.zoomBy(1.02, tIdle, sineOut);
 	b.panBy(3, 0, tIdle, sineOut);
 	b.wait(tIdle);
 
+	// -> Polynesia zoomed out (not all of it unfortunately - resolution is too coarse for a good experience)
+	b.pan(4059, 1229, tMove);
+	b.zoom(1.4, tMove * 2);
+	b.wait(tMove);
+
 	// south east Asia and Australia zoomed out
-	b.pan(3600, 1107, tMove, sineIn);
-	b.zoom(1.2, tMove);
+	b.pan(3611, 1184, tMove);
 	b.wait();
 	b.zoomBy(0.97, tIdle, sineOut);
 	b.panBy(-16, -16, tIdle, sineOut);
@@ -435,8 +434,8 @@ export const createDeepBreathTour = (
 	b.panBy(1, 1, tIdle, sineOut);
 	b.wait(tIdle);
 
-	// -> north South America zoomed out
-	b.pan(5444, 1123, tMove);
+	// -> north South America and Central America zoomed out
+	b.pan(5413, 1001, tMove);
 	b.zoom(2.2, tMove);
 	b.wait();
 	b.zoomBy(0.97, tIdle, sineOut);
