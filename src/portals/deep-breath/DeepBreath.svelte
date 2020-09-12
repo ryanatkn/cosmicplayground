@@ -2,7 +2,7 @@
 	import {tweened} from 'svelte/motion';
 	import {cubicInOut, sineInOut} from 'svelte/easing';
 	import {writable} from 'svelte/store';
-	import {onDestroy} from 'svelte';
+	import {onDestroy, onMount} from 'svelte';
 	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
 	import {randomFloat} from '@feltcoop/gro/dist/utils/random.js';
 
@@ -31,7 +31,6 @@
 	export let height;
 
 	const settings = useSettings();
-	let {devMode} = $settings; // needed for lexical scoping
 	$: devMode = $settings.devMode;
 	$: audioEnabled = $settings.audioEnabled;
 
@@ -346,8 +345,7 @@
 	};
 
 	// in dev mode, bypass the title screen for convenience
-	if (devMode) resources.load();
-	let showTitleScreen = !devMode;
+	let showTitleScreen = true;
 	const proceed = () => {
 		showTitleScreen = false;
 	};
@@ -355,6 +353,13 @@
 		if (tour) tour.cancel();
 		showTitleScreen = true;
 	};
+	onMount(() => {
+		// in dev mode, bypass the title screen for convenience
+		if (devMode) {
+			showTitleScreen = false;
+			resources.load();
+		}
+	});
 	onDestroy(() => {
 		if (tour) tour.cancel();
 	});
