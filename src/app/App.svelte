@@ -20,7 +20,7 @@
 	let height = window.innerHeight;
 
 	const settings = provideSettings({
-		audioEnabled: true,
+		audioEnabled: true, // TODO make this work everywhere? hmm. global mute/volume?
 		devMode: false,
 		recordingMode: false,
 		timeToGoIdle: 6000,
@@ -50,7 +50,11 @@
 	$: activePortal = findPortalBySlug($portals, $router.slug);
 
 	const idle = writable(false);
-	$: timeToGoIdle = $settings.devMode ? 99999999999 : $settings.timeToGoIdle;
+	$: timeToGoIdle = $settings.devMode
+		? 99999999999
+		: $settings.recordingMode
+		? 500
+		: $settings.timeToGoIdle;
 
 	provideAudioCtx(); // allows components to do `const audioCtx = useAudioCtx();` which uses svelte's `getContext`
 
