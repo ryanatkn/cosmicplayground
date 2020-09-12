@@ -258,7 +258,7 @@ export const createDeepBreathTour = (
 	b.panBy(2, 1, tIdle, sineOut);
 	b.wait(tIdle);
 
-	// -> Bangladesh
+	// -> east south Asia
 	b.pan(3097, 770, tMove);
 	b.zoom(6.7, tMove, backInOut);
 	b.wait();
@@ -266,19 +266,19 @@ export const createDeepBreathTour = (
 	b.zoomBy(0.98, tIdle, sineOut);
 	b.wait(tIdle);
 
-	// -> south Asia
-	b.pan(3191, 870, tMove);
-	b.zoom(3.3, tMove);
+	// -> south east Asia
+	b.pan(3216, 835, tMove);
+	b.zoom(4.3, tMove);
 	b.wait();
 	b.zoomBy(0.98, tIdle, sineOut);
 	b.panBy(2, 2, tIdle, sineOut);
 	b.wait(tIdle);
 
 	// -> south east Asia and Melanesia
-	b.pan(3514, 984, tMove * 2);
+	b.pan(3511, 984, tMove * 2);
 	b.zoom(2.45, tMove * 2, backInOut);
 	b.wait();
-	b.zoomBy(1.01, tIdle, sineOut);
+	b.zoomBy(1.02, tIdle, sineOut);
 	b.panBy(2, 1, tIdle, sineOut);
 	b.wait(tIdle);
 
@@ -301,10 +301,10 @@ export const createDeepBreathTour = (
 	// -> Polynesia zoomed out (not all of it unfortunately - resolution is too coarse for a good experience)
 	b.pan(4059, 1229, tMove);
 	b.zoom(1.4, tMove * 2);
-	b.wait(tMove);
+	b.wait(tMove + tIdle / 2);
 
 	// south east Asia and Australia zoomed out
-	b.pan(3611, 1184, tMove);
+	b.pan(3772, 1199, tMove - tIdle / 2, quadInOut);
 	b.wait();
 	b.zoomBy(0.97, tIdle, sineOut);
 	b.panBy(-16, -16, tIdle, sineOut);
