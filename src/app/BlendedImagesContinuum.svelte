@@ -4,12 +4,13 @@
 	export let images;
 	export let value; // `1.6` is 60% opacity of index 2 and 100% opacity of index 1
 	export let alt;
+	export let zIndex = 1;
 
 	$: opacities = computeBlendedImagesContinuumOpacities(images.length, value);
 </script>
 
 {#each images as image, i (image)}
-	<img src={image} {alt} style="opacity: {opacities[i]}; z-index: 3;" />
+	<img src={image} {alt} style="opacity: {opacities[i]}; z-index: {zIndex};" />
 {/each}
 
 <style>

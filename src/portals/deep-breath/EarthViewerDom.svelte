@@ -49,11 +49,21 @@ and it may be interesting to see how its performance compares on various devices
 	<div class="earths pixelated">
 		<div class="earth" style="left: {earth1LeftOffset}px">
 			<BlendedImagesCycle alt="Earth's land" images={landImages} value={activeLandValue} />
-			<BlendedImagesContinuum alt="Earth's oceans" images={seaImages} value={activeSeaLevel} />
+			<BlendedImagesContinuum
+				alt="Earth's oceans"
+				images={seaImages}
+				value={activeSeaLevel}
+				zIndex={100}
+			/>
 		</div>
 		<div class="earth" style="left: {earth2LeftOffset}px">
 			<BlendedImagesCycle alt="Earth's land" images={landImages} value={activeLandValue} />
-			<BlendedImagesContinuum alt="Earth's oceans" images={seaImages} value={activeSeaLevel} />
+			<BlendedImagesContinuum
+				alt="Earth's oceans"
+				images={seaImages}
+				value={activeSeaLevel}
+				zIndex={100}
+			/>
 		</div>
 	</div>
 </ImageViewer>
