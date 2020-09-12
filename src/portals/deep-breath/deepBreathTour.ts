@@ -8,7 +8,9 @@ import {
 	cubicIn,
 	cubicOut,
 	quartIn,
-	cubicInOut,
+	quintIn,
+	quintInOut,
+	quintOut,
 } from 'svelte/easing';
 
 import {TourData} from '../../app/tourStore.js';
@@ -180,8 +182,8 @@ export const createDeepBreathTour = (
 	b.wait(tIdle);
 
 	// -> Iceland
-	b.pan(1834, 285, tMove);
-	b.zoom(13.2, tMove, backIn);
+	b.pan(1843, 290, tMove);
+	b.zoom(11, tMove, backIn);
 	b.wait();
 	b.zoomBy(1.04, tIdle, backOut);
 	b.wait(tIdle);
@@ -266,7 +268,7 @@ export const createDeepBreathTour = (
 
 	// -> south Asia
 	b.pan(3191, 870, tMove);
-	b.zoom(3.3, tMove, sineOut);
+	b.zoom(3.3, tMove);
 	b.wait();
 	b.zoomBy(0.98, tIdle, sineOut);
 	b.panBy(2, 2, tIdle, sineOut);
@@ -333,18 +335,19 @@ export const createDeepBreathTour = (
 	b.wait(tIdle);
 
 	// -> Hawaii
-	b.pan(4359, 788, tMove);
-	b.zoom(13, tMove, quartIn);
+	b.pan(4359, 788, tMove, quintInOut);
+	b.zoom(13, tMove, quintIn);
 	b.wait();
 	b.zoomBy(1.22, tIdle, sineOut);
 	b.panBy(2, 0, tIdle, sineOut);
 	b.wait(tIdle);
 
 	// -> Bering Strait
-	b.pan(4136, 306, tMove + tIdle, cubicInOut);
-	b.zoom(3, tMove, cubicOut);
+	b.pan(4136, 306, tMove);
+	b.zoom(3, tMove, quintOut);
 	b.wait(tMove);
-	b.zoom(3.3, tIdle / 2);
+	b.panBy(10, 15, tIdle);
+	b.zoom(2.8, tIdle / 2);
 	b.wait(tIdle / 2);
 	b.zoom(2.9, tIdle / 2);
 	b.wait(tIdle / 2);
@@ -359,31 +362,31 @@ export const createDeepBreathTour = (
 	b.panBy(4, 0, tIdle, sineOut);
 	b.wait(tIdle);
 
-	// -> north west North America
+	// -> north west North America zoomed in
 	b.pan(4743, 478, tMove);
 	b.zoom(9.1, tMove, quartIn);
 	b.wait();
 	b.zoomBy(1.02, tIdle, sineOut);
-	b.panBy(-1, 3, tIdle, sineOut);
+	b.panBy(-2, 3, tIdle, sineOut);
 	b.wait(tIdle);
 
-	// -> west North America
+	// -> west North America zoomed in
 	b.pan(4775, 578, tMove);
 	b.zoom(10.1, tMove);
 	b.wait();
-	b.zoomBy(1.05, tIdle, sineOut);
+	b.zoomBy(1.03, tIdle, sineOut);
 	b.panBy(0, 3, tIdle, sineOut);
 	b.wait(tIdle);
 
-	// -> south west North America
-	b.pan(4833, 674, tMove);
-	b.zoom(4.2, tMove);
+	// -> west North America zoomed out
+	b.pan(4695, 602, tMove);
+	b.zoom(3, tMove);
 	b.wait();
 	b.zoomBy(0.98, tIdle, sineOut);
 	b.panBy(1, 1, tIdle, sineOut);
 	b.wait(tIdle);
 
-	// -> Mexico
+	// -> Gulf of Mexico
 	b.pan(4999, 732, tMove);
 	b.zoom(4.6, tMove, backInOut);
 	b.wait();
@@ -395,15 +398,16 @@ export const createDeepBreathTour = (
 	b.pan(5160, 673, tMove);
 	b.zoom(6.8, tMove);
 	b.wait();
-	b.zoomBy(1.03, tIdle, sineOut);
+	b.zoomBy(1.04, tIdle, sineOut);
+	b.panBy(3, 0, tIdle, sineOut);
 	b.wait(tIdle);
 
 	// -> north east North America
 	b.pan(5297, 549, tMove);
-	b.zoom(4.7, tMove, backInOut);
+	b.zoom(4.7, tMove);
 	b.wait();
-	b.zoomBy(1.02, tIdle, sineOut);
-	b.panBy(1, -4, tIdle, sineOut);
+	b.zoomBy(0.98, tIdle, sineOut);
+	b.panBy(2, -3, tIdle, sineOut);
 	b.wait(tIdle);
 
 	// -> Carribbean
@@ -434,8 +438,8 @@ export const createDeepBreathTour = (
 	b.pan(5510, 1052, tMove);
 	b.zoom(5.1, tMove, backInOut);
 	b.wait();
-	b.zoomBy(0.98, tIdle, sineOut);
-	b.panBy(1, 1, tIdle, sineOut);
+	b.zoomBy(1.04, tIdle, sineOut);
+	b.panBy(1, 2, tIdle, sineOut);
 	b.wait(tIdle);
 
 	// -> north South America and Central America zoomed out
@@ -454,8 +458,11 @@ export const createDeepBreathTour = (
 	b.wait(tIdle);
 
 	// -> equator zoomed out
-	b.pan(5163, 1016, tMove * 2, backInOut);
-	b.zoom(0.6, tMove * 2);
+	b.pan(5163, 1016, tMove * 2 - tIdle / 2, backInOut);
+	b.zoom(0.6, tMove * 2 - tIdle / 2);
+	b.wait();
+	b.zoomBy(0.985, tIdle / 2, sineOut);
+	b.panBy(7, -6, tIdle / 2, sineOut);
 	b.wait();
 
 	// -> disappear zooming into the Mariana Trench
