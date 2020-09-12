@@ -10,7 +10,6 @@ import {
 	quartIn,
 	quintIn,
 	quintInOut,
-	quintOut,
 } from 'svelte/easing';
 
 import {TourData} from '../../app/tourStore.js';
@@ -343,8 +342,8 @@ export const createDeepBreathTour = (
 	b.wait(tIdle);
 
 	// -> Bering Strait
-	b.pan(4136, 306, tMove);
-	b.zoom(3, tMove, quintOut);
+	b.pan(4136, 306, tMove, cubicIn);
+	b.zoom(3, tMove, cubicOut);
 	b.wait(tMove);
 	b.panBy(10, 15, tIdle);
 	b.zoom(2.8, tIdle / 2);
