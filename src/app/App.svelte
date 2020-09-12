@@ -23,6 +23,7 @@
 		audioEnabled: true, // TODO make this work everywhere? hmm. global mute/volume?
 		devMode: false,
 		recordingMode: false,
+		idleMode: false,
 		timeToGoIdle: 6000,
 	});
 
@@ -58,10 +59,15 @@
 
 	provideAudioCtx(); // allows components to do `const audioCtx = useAudioCtx();` which uses svelte's `getContext`
 
+	const enableGlobalHotkeys = (e) => !e.target.closest('input');
 	const onKeyDown = (e) => {
 		// TODO main menu!
-		if ($settings.devMode && e.key === '`') {
-			if (!e.target.closest('input')) clock.toggle();
+		if ($settings.devMode) {
+			if (e.key === '`') {
+				if (enableGlobalHotkeys(e)) clock.toggle();
+			} else if (e.key === '-') {
+				if (enableGlobalHotkeys(e)) settings.update((s) => ({...s, idleMode: !s.idleMode}));
+			}
 		}
 	};
 </script>
@@ -77,7 +83,7 @@
 	<PixiView {pixi} {width} {height} />
 </div>
 
-<main class:paused={!$clock.running} class:idle={$idle}>
+<main class:paused={!$clock.running} class:idle={$idle || $settings.idleMode}>
 	{#if activePortal.showHomeButton}
 		<Hud>
 			<HomeButton />
