@@ -95,10 +95,9 @@
 		margin-top: 0;
 	}
 	h2 {
-		text-transform: uppercase;
 		font-weight: normal;
 		font-size: 20px;
-		opacity: 0.6;
+		opacity: 0.5;
 		margin-bottom: 14px;
 	}
 	.tour-credits.displayForVideo h2 {
