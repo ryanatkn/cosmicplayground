@@ -1,5 +1,4 @@
 <script>
-	import {onMount, onDestroy} from 'svelte';
 	import * as PIXI from 'pixi.js';
 
 	import {computeBlendedImagesContinuumOpacities} from '../../app/blendedImagesContinuum.js';
@@ -7,7 +6,7 @@
 		computeBlendedImagesCycleOpacities,
 		computeBlendedImagesCycleZIndex,
 	} from '../../app/blendedImagesCycle.js';
-	import {usePixi} from '../../app/pixi.js';
+	import {usePixiScene} from '../../app/pixi.js';
 	import InteractiveSurface from '../../app/InteractiveSurface.svelte';
 
 	// TODO should we cache stuff at the module scope? mainly thinking of the render textures
@@ -28,13 +27,47 @@
 	export let imageWidth; // not reactive
 	export let imageHeight; // not reactive
 
-	const pixi = usePixi();
+	const pixi = usePixiScene({
+		load: (loader) => {
+			if (loader.resources[landImages[0]]) return; // TODO cleaner detection?
+			for (const landImage of landImages) {
+				loader.add(landImage);
+			}
+			for (const seaImage of seaImages) {
+				loader.add(seaImage);
+			}
+		},
+		loaded: (scene, resources, _loader) => {
+			mapContainer = new PIXI.Container();
+			scene.addChild(mapContainer);
 
-	let destroyed = false;
+			landContainer = new PIXI.Container();
+			mapContainer.addChild(landContainer);
+			landContainer.sortableChildren = true;
+			for (const landImage of landImages) {
+				const sprite = createMapSprite(resources[landImage].texture);
+				landContainer.addChild(sprite);
+				landSprites.push(sprite);
+			}
+			updateSpriteTransforms(landSprites, tilePositionX, tilePositionY, $scale);
+
+			seaContainer = new PIXI.Container();
+			mapContainer.addChild(seaContainer);
+			for (const seaImage of seaImages) {
+				const sprite = createMapSprite(resources[seaImage].texture);
+				seaContainer.addChild(sprite);
+				seaSprites.push(sprite);
+			}
+			updateSpriteTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
+		},
+		destroy: (_scene, _loader) => {
+			console.log('destroyed earth');
+			// k
+		},
+	});
 
 	const landSprites = []; // not reactive
 	const seaSprites = []; // not reactive
-	let scene;
 	let mapContainer;
 	let landContainer;
 	let seaContainer;
@@ -103,49 +136,6 @@
 		}
 	};
 
-	const init = () => {
-		const shouldLoadResources = !pixi.loader.resources[landImages[0]]; // TODO cleaner detection?
-		if (shouldLoadResources) {
-			for (const landImage of landImages) {
-				pixi.loader.add(landImage);
-			}
-			for (const seaImage of seaImages) {
-				pixi.loader.add(seaImage);
-			}
-		}
-		// TODO show progress? or expect title screen to make these gtg?
-		pixi.loader.load(onLoad);
-	};
-	const onLoad = (loader, resources) => {
-		if (destroyed) return; // in case the component unmounts before loading finishes
-
-		console.log('LOADED', loader, resources);
-		scene = new PIXI.Container();
-		pixi.mountScene(scene);
-
-		mapContainer = new PIXI.Container();
-		scene.addChild(mapContainer);
-
-		landContainer = new PIXI.Container();
-		mapContainer.addChild(landContainer);
-		landContainer.sortableChildren = true;
-		for (const landImage of landImages) {
-			const sprite = createMapSprite(resources[landImage].texture);
-			landContainer.addChild(sprite);
-			landSprites.push(sprite);
-		}
-		updateSpriteTransforms(landSprites, tilePositionX, tilePositionY, $scale);
-
-		seaContainer = new PIXI.Container();
-		mapContainer.addChild(seaContainer);
-		for (const seaImage of seaImages) {
-			const sprite = createMapSprite(resources[seaImage].texture);
-			seaContainer.addChild(sprite);
-			seaSprites.push(sprite);
-		}
-		updateSpriteTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
-	};
-
 	const createMapSprite = (texture) => {
 		const tempSprite1 = new PIXI.Sprite(texture);
 		const tempSprite2 = new PIXI.Sprite(texture);
@@ -160,27 +150,6 @@
 		pixi.renderer.render(tempTextureContainer, renderTexture);
 		return new PIXI.TilingSprite(renderTexture, width, height);
 	};
-
-	const destroy = () => {
-		if (destroyed) throw Error('Already destroyed');
-		if (scene) {
-			pixi.unmountScene(scene);
-			scene.destroy({
-				children: true,
-				// TODO should we destroy the textures too?
-				// I'm not sure of the best balance for UX and resource usage concerns.
-				// Do we want it to be snappy if users navigate back to the page?
-				// What if some textures are used in other areas of the app?
-				// Do we want some custom heuristic, like nagivating away from this portal?
-				texture: false,
-				baseTexture: false,
-			});
-		}
-		destroyed = true;
-	};
-
-	onMount(init);
-	onDestroy(destroy);
 </script>
 
 <InteractiveSurface {width} {height} scale={$scale} {moveCamera} {zoomCamera} {inputEnabled} />

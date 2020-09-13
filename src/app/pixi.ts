@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import {getContext, setContext} from 'svelte';
+import {getContext, setContext, onMount, onDestroy} from 'svelte';
 
 if (typeof window !== 'undefined') window['PIXI'] = PIXI; // TODO dont do this, or at least handle SSR
 
@@ -69,3 +69,56 @@ interface PixiApplicationOptions {
 	sharedLoader?: boolean;
 	resizeTo?: Window | HTMLElement;
 }
+
+export interface PixiSceneHooks {
+	load: (loader: PIXI.Loader) => void;
+	loaded: (
+		scene: PIXI.Container,
+		resources: Partial<Record<string, PIXI.LoaderResource>>, // TODO PIXI.IResourceDictionary ? why is it partial?
+		loader: PIXI.Loader,
+	) => void;
+	destroy: (scene: PIXI.Container | null, loader: PIXI.Loader) => void;
+}
+
+// TODO do we want a return value? is this a custom store? or should we pass a function that gets callbacks to control it?
+// we'll probably want to give more over what gets destroyed, but we'll do that when we have a usecase
+// const pixiScene = usePixiScene(...?)
+export const usePixiScene = (hooks: PixiSceneHooks, pixi = usePixi()): PixiApp => {
+	let scene: PIXI.Container | null = null;
+	let destroyed = false; // TODO good for store state?
+	// TODO maybe add an `AsyncState` status for loading? return in store state?
+
+	onMount(() => {
+		hooks.load(pixi.loader);
+
+		// TODO show progress? or expect title screen to make these gtg?
+		pixi.loader.load((loader, resources) => {
+			if (destroyed) return; // in case the scene is destroyed before loading finishes
+			scene = new PIXI.Container();
+			pixi.mountScene(scene);
+			hooks.loaded(scene, resources, loader);
+		});
+	});
+
+	onDestroy(() => {
+		if (destroyed) throw Error('Already destroyed'); // TODO probably remove this
+		hooks.destroy(scene, pixi.loader);
+		destroyed = true;
+		if (scene) {
+			pixi.unmountScene(scene);
+			scene.destroy({
+				children: true,
+				// TODO should we destroy the textures too?
+				// I'm not sure of the best balance for UX and resource usage concerns.
+				// Do we want it to be snappy if users navigate back to the page?
+				// What if some textures are used in other areas of the app?
+				// Do we want some custom heuristic, like nagivating away from this portal?
+				texture: false,
+				baseTexture: false,
+			});
+			scene = null;
+		}
+	});
+
+	return pixi;
+};
