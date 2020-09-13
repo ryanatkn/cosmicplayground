@@ -23,8 +23,8 @@
 		margin: 30px auto 40px;
 		text-shadow: var(--text_shadow_sm);
 	}
-	button:hover,
-	button:focus {
+	/* TODO a11y hostile, keyboards too :| --- see `button:focus` in main.css */
+	button:hover {
 		border-style: var(--clickable_border_style__hover);
 	}
 	button:active,

@@ -161,8 +161,8 @@ button {
 	text-align: center;
 }
 button:focus {
-	/* TODO this is a hack for Chrome but bad for a11y/keyboard nav, need to figure out better...
-	for now, I'm manually adding `:focus` to button `:hover` styles to unbreak a11y/keyboard */
+	/* TODO this is a hack for Chrome but bad for a11y/keyboard nav,
+	need to figure out better styles that don't uglify the general case... */
 	outline: none;
 }
 

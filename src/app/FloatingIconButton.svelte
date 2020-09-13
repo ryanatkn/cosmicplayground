@@ -22,8 +22,8 @@
 		border: none;
 		padding: 0;
 	}
-	button:hover,
-	button:focus {
+	/* TODO a11y hostile, keyboards too :| --- see `button:focus` in main.css */
+	button:hover {
 		transform: var(--clickable_transform__hover);
 		opacity: var(--clickable_opacity__hover);
 	}

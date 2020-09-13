@@ -42,7 +42,7 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 		margin: 0 auto;
 	}
 	.deep-breath-thumbnail:focus {
-		/* TODO hack, see global `button:focus` style for more */
+		/* TODO hack, see global `button:focus` style for more in main.css */
 		outline: none;
 	}
 	.thumbnail-text {

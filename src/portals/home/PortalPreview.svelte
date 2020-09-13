@@ -38,6 +38,9 @@
 		transition: var(--clickable_transition);
 		transform: scale3d(1, 1, 1);
 	}
+	/* in other places we don't use :focus like this to duplicate the hover style,
+	but here it works alright because the action navigates away -
+	see `button:focus` in main.css for more */
 	.portal-preview:hover,
 	.portal-preview:focus {
 		border-style: var(--clickable_border_style__hover);
