@@ -71,7 +71,7 @@
 			<hr />
 			<p>The download is about 75MB of images. If that's cool with you, click the button below!</p>
 		</section>
-		{#if $resources.status === AsyncState.Pending || $resources.status === AsyncState.Failure}
+		{#if $resources.status !== AsyncState.Initial}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
 			<ChunkyButton on:click={load}>proceed with 75MB download</ChunkyButton>

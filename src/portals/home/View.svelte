@@ -131,9 +131,9 @@
 		padding: var(--portal_padding);
 	}
 
-	/* TODO how to do this? data with a css variable? `color: 'ocean_color'`
+	/* TODO how to do this? data with a css variable?
 	or is this the right time to add CSS variables to JS? */
 	:global(.portal-preview--deep-breath) {
-		border-color: #1b4780 !important;
+		border-color: var(--ocean_color) !important;
 	}
 </style>

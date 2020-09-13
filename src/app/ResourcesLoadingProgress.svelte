@@ -1,5 +1,6 @@
 <script>
 	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
+	import WaitingAnimation from './WaitingAnimation.svelte';
 
 	export let resources;
 
@@ -25,11 +26,15 @@
 			/>
 		{/each}
 	</div>
+	<div class="waiting-animation-wrapper">
+		<WaitingAnimation status={$resources.status} />
+	</div>
 </div>
 
 <style>
 	h2 {
-		font-weight: 100;
+		margin-bottom: 10px;
+		font-size: var(--font_size_lg);
 	}
 	.resources-loading-progress {
 		display: flex;
@@ -46,17 +51,19 @@
 		width: 48px;
 		height: 48px;
 		border-radius: 11px;
-		box-shadow: 2px 4px 10px 2px rgba(0, 0, 0, 0.4) inset, 1px 2px 2px rgba(0, 0, 0, 0.4) inset;
-		border: 1px solid #000;
+		margin: 0 2px;
 	}
 	.pending {
-		background-color: yellow;
+		background-color: var(--pending_color);
 	}
 	.failure {
-		background-color: red;
+		background-color: var(--failure_color);
 		cursor: pointer;
 	}
 	.success {
-		background-color: green;
+		background-color: var(--success_color);
+	}
+	.waiting-animation-wrapper {
+		font-size: var(--font_size_xl);
 	}
 </style>

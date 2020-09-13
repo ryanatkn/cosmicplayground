@@ -9,6 +9,7 @@ if (typeof window !== 'undefined') window['PIXI'] = PIXI; // TODO dont do this, 
 // `resources.bg.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.LINEAR;`
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
+// TODO maybe don't extend the application?
 export class PixiApp extends PIXI.Application {
 	defaultScene: PIXI.Container;
 	currentScene: PIXI.Container;
