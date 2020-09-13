@@ -43,11 +43,10 @@
 		<section>
 			<h2>If all ice on Earth melts, how will sea levels change?</h2>
 			<p>
-				<PortalLink slug="deep-breath" />
-				is an interactive webpage with a rough sketch of Earth's sea levels if all ice melts, about
-				60-75 meters above 2020's oceans. Some estimates are higher. The project tries to be
-				interesting and visually pleasing, but compared to related tools it has limited scientific
-				usefulness. The code and image data are <a
+				Deep Breath is an interactive webpage with a rough sketch of Earth's sea levels if all ice
+				melts, about 60-75 meters above 2020's oceans. Some estimates are higher. The project tries
+				to be interesting and visually pleasing, but compared to related tools it has limited
+				scientific usefulness. The code and image data are <a
 					href="https://github.com/ryanatkn/cosmicplayground"
 				>open source on GitHub</a>. See the credits below for more.
 			</p>
@@ -74,7 +73,7 @@
 		{#if $resources.status !== AsyncState.Initial}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
-			<ChunkyButton on:click={load}>proceed with 75MB download</ChunkyButton>
+			<ChunkyButton on:click={load}>continue with 75MB download!</ChunkyButton>
 		{/if}
 	</Panel>
 	<Panel>
