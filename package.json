@@ -2,8 +2,8 @@
   "name": "cosmicplayground",
   "version": "0.1.0",
   "description": "tools and toys for expanding minds 🌌",
-  "license": "ISC",
-  "homepage": "https://cosmicplayground.org",
+  "license": "AGPL-3.0-only",
+  "homepage": "https://www.cosmicplayground.org",
   "type": "module",
   "scripts": {
     "start": "gro dev",
@@ -18,31 +18,33 @@
     "url": "https://github.com/ryanatkn/cosmicplayground/issues"
   },
   "keywords": [
+    "space",
     "web",
-    "space"
+    "svelte"
   ],
   "author": {
     "name": "Ryan Atkinson",
-    "email": "ryanatkn@gmail.com",
-    "url": "https://ryanatkn.com"
+    "email": "mail@ryanatkn.com",
+    "url": "https://www.ryanatkn.com"
   },
   "engines": {
     "node": ">=14"
   },
   "devDependencies": {
-    "@feltcoop/gro": "^0.2.10",
-    "@rollup/pluginutils": "^3.1.0",
+    "@feltcoop/gro": "^0.3.0",
+    "@rollup/pluginutils": "^4.0.0",
     "@types/css-tree": "^1.0.0",
     "@types/node": "^14.0.23",
-    "@types/prettier": "^2.0.2",
+    "@types/prettier": "^2.1.0",
     "css-tree": "^1.0.0-alpha22",
-    "prettier": "^2.0.5",
-    "prettier-plugin-svelte": "^1.1.0",
-    "rollup": "^2.22.1",
+    "pixi.js": "^5.3.3",
+    "prettier": "^2.1.1",
+    "prettier-plugin-svelte": "^1.2.1",
+    "rollup": "^2.26.11",
     "sourcemap-codec": "^1.4.8",
-    "svelte": "^3.24.0",
-    "tslib": "^2.0.0",
-    "typescript": "^3.9.7"
+    "svelte": "^3.24.1",
+    "tslib": "^2.0.1",
+    "typescript": "^4.0.2"
   },
   "dependencies": {},
   "prettier": {
