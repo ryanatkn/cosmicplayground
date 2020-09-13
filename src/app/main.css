@@ -36,8 +36,8 @@ html {
 	--clickable_border_style_sm__hover: solid; /* too small for double */
 	--clickable_border_style_sm__active: dotted;
 	--clickable_transform: scale3d(1, 1, 1);
-	--clickable_transform__hover: scale3d(1.2, 1.2, 1);
-	--clickable_transform__active: scale3d(1.42, 1.42, 1);
+	--clickable_transform__hover: scale3d(1.1, 1.1, 1);
+	--clickable_transform__active: scale3d(1.2, 1.2, 1);
 	--clickable_transform_sm__hover: scale3d(1.03, 1.03, 1);
 	--clickable_transform_sm__active: scale3d(1.09, 1.09, 1);
 	--clickable_transition: transform 0.06s ease-out;
