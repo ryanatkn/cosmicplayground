@@ -167,7 +167,7 @@ button:focus {
 }
 
 .idle {
-	cursor: none;
+	cursor: none !important;
 }
 .idle-fade {
 	transition: var(--fade_transition);
