@@ -5,14 +5,17 @@
 
 	/*
 
-This is the original implementation of the renderer for the animated Earth sea levels.
-Using the normal DOM `<img>` ended up being slow and wasteful
-compared to using WebGL, so we introduced pixi.js as a dependency to handle rendering.
-See `./EarthViewerPixi.svelte` for that implementation.
-This DOM version remains for posterity,
-and it may be interesting to see how its performance compares on various devices and browsers.
+	This is the original implementation of the renderer for the animated Earth sea levels.
+	Using the normal DOM `<img>` ended up being slow and wasteful
+	compared to using WebGL, so we introduced pixi.js as a dependency to handle rendering.
+	See `./EarthViewerPixi.svelte` for that implementation.
+	This DOM version remains for posterity,
+	and it may be interesting to see how its performance compares on various devices and browsers.
+	On my machine, Firefox can render this and drop about 10% of frames,
+	while Chrome and Edge get severe framerate issues
+	seemingly because they're shy about using more GPU.
 
-*/
+	*/
 
 	export let width;
 	export let height;
@@ -31,9 +34,6 @@ and it may be interesting to see how its performance compares on various devices
 
 	$: imageViewerX = $x * -1 + width / 2;
 	$: imageViewerY = $y * -1 + height / 2;
-
-	// TODO what calculations should be moved here?
-	// do this after finishing the `EarthViewerPixi` implementation
 </script>
 
 <ImageViewer
