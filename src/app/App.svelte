@@ -64,7 +64,7 @@
 		// TODO main menu!
 
 		// toggle dev mode
-		if (e.key === '~' && e.shiftKey && e.ctrlKey) {
+		if (e.key === '`' && e.ctrlKey) {
 			settings.update((s) => ({...s, devMode: !s.devMode}));
 			console.log('dev mode is now', $settings.devMode);
 		}

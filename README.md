@@ -53,7 +53,9 @@ which animates [fifteen 4096x2048 images of Earth](/src/assets/earth/)
 layered together with opacity, scaling, and movement.
 The [original DOM implementation](/src/portals/deep-breath/EarthViewerDom.svelte)
 has performance problems that range from moderate to severe
-and chews up far more GPU resources than necessary. (to the surprise of nobody)
+and chews up far more GPU resources than necessary.
+(to the surprise of nobody -
+you can test the difference on the map by pressing `ctrl+backtick` and clicking "webgl")
 
 > Firefox runs the DOM version pretty okay on my machine,
 > but Chrome chugs and seems shy about using more GPU.
