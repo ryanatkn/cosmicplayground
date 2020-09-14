@@ -15,6 +15,11 @@
 	while Chrome and Edge get severe framerate issues
 	seemingly because they're shy about using more GPU.
 
+	To toggle on the DOM version of the EarthViewer,
+	you need to be in devMode -
+	see src/app/App.svelte or press ctrl+shift+backtick (i.e. ctrl+tilde)
+	and then click "webgl" in the top left.
+
 	*/
 
 	export let width;
