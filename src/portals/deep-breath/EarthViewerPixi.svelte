@@ -27,7 +27,7 @@
 	export let imageWidth; // not reactive
 	export let imageHeight; // not reactive
 
-	const pixi = usePixiScene({
+	const [pixi] = usePixiScene({
 		load: (loader) => {
 			if (loader.resources[landImages[0]]) return; // TODO cleaner detection?
 			for (const landImage of landImages) {

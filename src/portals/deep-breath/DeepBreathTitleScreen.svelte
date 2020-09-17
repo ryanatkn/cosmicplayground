@@ -43,12 +43,12 @@
 		<section>
 			<h2>If all ice on Earth melts, how will sea levels change?</h2>
 			<p>
-				Deep Breath is an interactive webpage with a rough sketch of Earth's sea levels if all ice
-				melts, about 60-75 meters above 2020's oceans. Some estimates are higher. The project tries
-				to be interesting and visually pleasing, but compared to related tools it has limited
-				scientific usefulness. The code and image data are <a
-					href="https://github.com/ryanatkn/cosmicplayground"
-				>open source on GitHub</a>. See the credits below for more.
+				Deep Breath is an interactive webpage with a rough sketch of Earth's coastlines if all ice
+				on the planet melts. Most estimates range from 60 to 75 meters above 2020's oceans (some are
+				higher), and this shows about 65 meters. The project tries to be interesting and visually
+				pleasing, but compared to related tools it has limited scientific usefulness. The code and
+				image data are <a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>.
+				See the credits below for more.
 			</p>
 			<p>Please be aware that the data is imperfect:</p>
 			<ul>
@@ -83,12 +83,8 @@
 		</section>
 		<hr />
 		<section>
-			<div>
-				<CreditsPersonalSignature />
-			</div>
-			<div>
-				<CreditsProjectSignature />
-			</div>
+			<CreditsPersonalSignature />
+			<CreditsProjectSignature />
 		</section>
 	</Panel>
 	<!-- TODO pull this href from portal data? -->

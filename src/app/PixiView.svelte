@@ -2,6 +2,11 @@
 	import * as PIXI from 'pixi.js';
 	import {onDestroy, onMount} from 'svelte';
 
+	// TODO detect if WebGL is available and display an error if not
+	// TODO detect max texture and disable images that don't work
+	// `const gl = document.createElement('canvas').getContext('webgl');`
+	// `console.log(gl.getParameter(gl.MAX_TEXTURE_SIZE))`
+
 	export let pixi;
 	export let width;
 	export let height;
@@ -9,8 +14,6 @@
 	$: if (width !== pixi.renderer.width || height !== pixi.renderer.height) {
 		pixi.renderer.resize(width, height);
 	}
-
-	$: mountView(pixi);
 
 	let el;
 	const mountView = (pixi) => {
@@ -26,6 +29,7 @@
 		el.appendChild(pixi.view);
 	};
 
+	$: mountView(pixi);
 	onMount(() => mountView(pixi));
 	onDestroy(() => el.removeChild(pixi.view));
 </script>

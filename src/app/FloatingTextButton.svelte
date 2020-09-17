@@ -14,13 +14,14 @@
 		height: var(--hud_element_size);
 		font-size: var(--font_size_lg);
 		font-weight: 300;
+		text-shadow: var(--text_shadow_sm);
 		white-space: nowrap;
 		transition: var(--clickable_transition);
 		opacity: var(--clickable_opacity);
 		transform-origin: center;
 		transform: var(--clickable_transform);
 		border: none;
-		padding: 0 var(--spacing-5);
+		padding: 0 var(--spacing-7);
 	}
 	/* TODO a11y hostile, keyboards too :| --- see `button:focus` in main.css */
 	button:hover {
@@ -32,5 +33,6 @@
 	.pressed {
 		transform: var(--clickable_transform__active);
 		opacity: var(--clickable_opacity__active);
+		text-shadow: var(--text_shadow_reverse_sm);
 	}
 </style>

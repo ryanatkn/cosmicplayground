@@ -51,9 +51,6 @@
 		display: flex;
 		justify-content: center;
 	}
-	ul {
-		list-style: none;
-	}
 	li {
 		padding: var(--spacing-3);
 	}

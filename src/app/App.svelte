@@ -1,6 +1,8 @@
 <script>
+	import {onMount} from 'svelte';
 	import {writable} from 'svelte/store';
 	import * as PIXI from 'pixi.js';
+	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
 
 	import PixiView from './PixiView.svelte';
 	import Hud from './Hud.svelte';
@@ -15,6 +17,7 @@
 	import {portalsData} from '../portals/index.js';
 	import {PixiApp, providePixi} from './pixi.js';
 	import {createPixiBgStore} from './pixiBgStore.js';
+	import WaitingScreen from './WaitingScreen.svelte';
 
 	let width = window.innerWidth;
 	let height = window.innerHeight;
@@ -32,18 +35,22 @@
 
 	const pixi = new PixiApp({width, height});
 	providePixi(pixi);
-	window['pixi'] = pixi; // TODO dont do this, or at least handle SSR
+	window['pixi'] = pixi; // TODO improve this pattern
 
-	const bg = createPixiBgStore(
-		pixi.loader,
-		pixi.defaultScene,
-		'/assets/space/galaxies.jpg',
-		width,
-		height,
-	);
-	bg.loadResources();
-	$: bg.updateDimensions(width, height);
-	$: bg.tick($clock.dt);
+	const bgImageUrl = '/assets/space/galaxies.jpg';
+	let bg;
+	$: bg && bg.updateDimensions(width, height);
+	$: bg && bg.tick($clock.dt);
+
+	let loadingStatus = AsyncState.Initial;
+	const loadInitialResources = () => {
+		pixi.loader.add(bgImageUrl).load(() => {
+			bg = createPixiBgStore(pixi.loader.resources[bgImageUrl].texture, width, height);
+			pixi.defaultScene.addChild($bg.sprite);
+			loadingStatus = AsyncState.Success;
+		});
+		loadingStatus = AsyncState.Pending;
+	};
 
 	const router = provideRouter();
 
@@ -70,18 +77,22 @@
 		}
 		// dev mode hotkeys
 		if ($settings.devMode) {
-			if (e.key === '`' && enableGlobalHotkeys(e)) {
+			if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e)) {
 				clock.toggle();
 				console.log('clock is now', $clock.running ? 'running' : 'paused');
-			} else if (e.key === '-' && enableGlobalHotkeys(e)) {
+			} else if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e)) {
 				settings.update((s) => ({...s, idleMode: !s.idleMode}));
 				console.log('idle mode is now', $settings.idleMode);
-			} else if (e.key === '=' && enableGlobalHotkeys(e)) {
+			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e)) {
 				settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
 				console.log('recording mode is now', $settings.recordingMode);
 			}
 		}
 	};
+
+	onMount(() => {
+		loadInitialResources();
+	});
 </script>
 
 <svelte:window
@@ -91,18 +102,21 @@
 	on:keydown={onKeyDown}
 />
 
-<div class="pixi-wrapper" style="width: {width}px; height: {height}px;">
-	<PixiView {pixi} {width} {height} />
-</div>
-
-<main class:paused={!$clock.running} class:idle={$idle || $settings.idleMode}>
-	{#if activePortal.showHomeButton}
-		<Hud>
-			<HomeButton />
-		</Hud>
-	{/if}
-	<svelte:component this={activePortal.View} portal={activePortal} {width} {height} />
-</main>
+{#if loadingStatus !== AsyncState.Success}
+	<WaitingScreen status={loadingStatus} />
+{:else}
+	<div class="pixi-wrapper fade-in" style="width: {width}px; height: {height}px;">
+		<PixiView {pixi} {width} {height} />
+	</div>
+	<main class="fade-in" class:paused={!$clock.running} class:idle={$idle || $settings.idleMode}>
+		{#if activePortal.showHomeButton}
+			<Hud>
+				<HomeButton />
+			</Hud>
+		{/if}
+		<svelte:component this={activePortal.View} portal={activePortal} {width} {height} />
+	</main>
+{/if}
 
 <!-- TODO should we have a `<Portals/>` component that the `App` mounts? -->
 

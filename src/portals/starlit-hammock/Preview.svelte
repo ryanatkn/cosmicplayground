@@ -7,12 +7,13 @@
 	const clock = useClock();
 </script>
 
-<h2>starlit hammock</h2>
+<h1>starlit hammock</h1>
 <GalaxyBg width={260} height={200} opacity={0.6} animationDuration="45s" running={$clock.running} />
 
 <style>
-	h2 {
+	h1 {
 		position: absolute;
 		z-index: 1;
+		color: var(--space_text_color);
 	}
 </style>

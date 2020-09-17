@@ -3,7 +3,6 @@ import * as PIXI from 'pixi.js';
 
 export interface PixiBgState {
 	sprite: PIXI.TilingSprite | null;
-	url: string;
 	width: number;
 	height: number;
 	x: number;
@@ -12,7 +11,6 @@ export interface PixiBgState {
 
 export interface PixiBgStore {
 	subscribe: Writable<PixiBgState>['subscribe'];
-	loadResources: () => void;
 	updateDimensions: (width: number, height: number) => void;
 	tick: (dt: number) => void;
 }
@@ -20,36 +18,22 @@ export interface PixiBgStore {
 const BG_DRIFT_SPEED = 0.01;
 
 export const createPixiBgStore = (
-	loader: PIXI.Loader,
-	scene: PIXI.Container,
-	url: string,
+	texture: PIXI.Texture,
 	width: number,
 	height: number,
 	x = 0,
 	y = 0,
 	alpha = 0.2,
 	driftSpeed = BG_DRIFT_SPEED,
-	scaleMode = PIXI.SCALE_MODES.LINEAR,
 ): PixiBgStore => {
-	const {subscribe, update} = writable<PixiBgState>({sprite: null, url, width, height, x, y});
+	texture.baseTexture.setStyle(PIXI.SCALE_MODES.LINEAR); // make it scroll smoothly
+	const sprite = new PIXI.TilingSprite(texture, width, height);
+	sprite.alpha = alpha;
 
-	const onLoad = (
-		_loader: PIXI.Loader,
-		resources: Partial<Record<string, PIXI.LoaderResource>>,
-	) => {
-		const {texture} = resources[url]!;
-		texture.baseTexture.scaleMode = scaleMode;
-		const sprite = new PIXI.TilingSprite(texture, width, height);
-		sprite.alpha = alpha;
-		scene.addChild(sprite);
-		update((state) => ({...state, sprite}));
-	};
+	const {subscribe, update} = writable<PixiBgState>({sprite, width, height, x, y});
 
 	return {
 		subscribe,
-		loadResources: (): void => {
-			loader.add(url).load(onLoad);
-		},
 		updateDimensions: (width: number, height: number): void => {
 			update((state) => {
 				const {sprite} = state;

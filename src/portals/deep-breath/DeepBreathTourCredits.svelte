@@ -1,7 +1,6 @@
 <script>
 	import {blur} from 'svelte/transition';
 
-	import ImgLink from '../../app/ImgLink.svelte';
 	import {useSettings} from '../../app/settingsStore.js';
 
 	const settings = useSettings();
@@ -18,21 +17,17 @@
 	<section in:blur={{duration: transitionDuration, amount: blurAmount}}>
 		<h2>created by</h2>
 		Ryan Atkinson <br />
-		<a href="https://twitter.com/ryanatkn">@ryanatkn</a>
-		<ImgLink
-			src="assets/characters/twit.png"
-			alt="@ryanatkn on Twitter"
-			href="https://twitter.com/ryanatkn"
-			imgClass="w-16"
-			imgStyle="opacity: 0.8;"
-		/>
-		<ImgLink
-			src="assets/characters/octocat.png"
-			alt="@ryanatkn/cosmicplayground on GitHub"
-			href="https://github.com/ryanatkn/cosmicplayground"
-			imgClass="w-10 ml-1"
-			imgStyle="margin-right: 16px; opacity: 0.8;"
-		/>
+		<a href="https://twitter.com/ryanatkn">
+			@ryanatkn <img src="/assets/characters/twit.png" alt="@ryanatkn on Twitter" class="w-16" style="opacity: 0.8;" />
+		</a>
+		<a href="https://github.com/ryanatkn/cosmicplayground">
+			<img
+				src="/assets/characters/octocat.png"
+				alt="@ryanatkn/cosmicplayground on GitHub"
+				class="w-10 ml-1"
+				style="margin-right: 16px; opacity: 0.8;"
+			/>
+		</a>
 		<a href="https://www.ryanatkn.com">ryanatkn.com</a>
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 1, amount: blurAmount}}>

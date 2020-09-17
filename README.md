@@ -11,8 +11,11 @@ is a collection of web projects that try to be useful or interesting.
 - [Deep Breath](https://www.cosmicplayground.org/#deep-breath)
   is an interactive map of Earth with a rough answer to the question
   _"If all ice on Earth melts, how will sea levels change?"_
-  The project tries to be interesting and visually pleasing,
-  but its scientific usefulness is limited.
+  It tries to be an intriguing visual feast, but its scientific usefulness is limited.
+- [Starlit Hammock](https://www.cosmicplayground.org/#starlit-hammock)
+  displays images from Hubble ([spacetelescope.org](https://www.spacetelescope.org/about/)).
+  It invites you to sit back and soak in the staggering beauty of space
+  as it slowly surveys the skies, and you can zoom and pan around to explore on your own.
 - Two tools for understanding
   [the easing functions in Svelte](https://svelte.dev/docs#svelte_easing):
   - [Easing Function Visualizations](https://www.cosmicplayground.org/#easings-1)

@@ -1,7 +1,10 @@
 import {writable, Writable} from 'svelte/store';
 import {randomFloat} from '@feltcoop/gro/dist/utils/random.js';
 
-// TODO support retries
+// This is the old version of the autopanner that relied on CSS transitions for movement.
+// The newer version has an `update` function that handles time deltas.
+
+// TODO delete this module?
 
 export interface AutopannerStore {
 	subscribe: Writable<AutopannerState>['subscribe'];

@@ -1,6 +1,5 @@
 <script>
 	import Panel from '../../app/Panel.svelte';
-	import ImgLink from '../../app/ImgLink.svelte';
 	import Credits from './Credits.svelte';
 	import CreditsPersonalSignature from './CreditsPersonalSignature.svelte';
 	import CreditsProjectSignature from './CreditsProjectSignature.svelte';
@@ -21,21 +20,18 @@
 <Panel>
 	<h2>About</h2>
 	<p>
-		<a href="https://www.cosmicplayground.org">cosmicplayground.org</a> is a collection of loosely related
-		projects created by <a href="https://www.ryanatkn.com">Ryan Atkinson</a>. Hi that's me, I enjoy
-		making web things and apparently I have a thing for space? Everything here is free and <a
-			href="https://github.com/ryanatkn/cosmicplayground"
-		>open source</a> and mostly a work-in-progress. The first project that I think is worth sharing is
+		<strong>cosmicplayground.org</strong> is a collection of loosely related projects created by <a
+			href="https://www.ryanatkn.com"
+		>Ryan Atkinson</a>. Hi that's me, I enjoy making web things and apparently I have a thing for
+		space? Everything here is free and <a href="https://github.com/ryanatkn/cosmicplayground">open
+			source</a> and mostly a work-in-progress. The first projects that I think are worth sharing are
 		<PortalLink slug="deep-breath" />
-		and there's hopefully more to come!
+		and
+		<PortalLink slug="starlit-hammock" />, and there's hopefully more to come!
 	</p>
 	<hr />
-	<div>
-		<CreditsPersonalSignature />
-	</div>
-	<div>
-		<CreditsProjectSignature />
-	</div>
+	<CreditsPersonalSignature />
+	<CreditsProjectSignature />
 </Panel>
 <Panel>
 	<Credits />
@@ -47,24 +43,16 @@
 			href="https://pages.github.com/"
 		>GitHub Pages</a> to serve static files. It makes no third party network requests. See <a
 			href="https://github.com/ryanatkn/cosmicplayground"
-		>the source code</a> for more. WHO ARE YOU?? I may never know.. as it should be.
+		>the source code</a> for more. Who are you???? I may never know.. maybe that's how it should be?
 	</p>
 </Panel>
 <Panel>
 	<h2>Contact</h2>
-	<div>
-		<CreditsPersonalSignature />
-	</div>
-	<div>
-		<CreditsProjectSignature />
-	</div>
-	<ImgLink
-		href="https://spiderspace.org"
-		src="assets/characters/spider.png"
-		alt="spider"
-		imgClass="absolute t-8 -r-12"
-		linkClass="block relative h-0 cursor-none"
-	/>
+	<CreditsPersonalSignature />
+	<CreditsProjectSignature />
+	<a href="https://spiderspace.org" class="block relative h-0 cursor-none">
+		<img src="/assets/characters/spider.png" alt="spider" class="absolute t-8 -r-12" />
+	</a>
 </Panel>
 
 <style>

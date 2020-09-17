@@ -7,7 +7,7 @@
 	<div class="cardboard-box">
 		<img
 			class="cosmic-kitty"
-			src="assets/characters/cosmic-kitty.jpg"
+			src="/assets/characters/cosmic-kitty.jpg"
 			style="width: 192px; height: 192px;"
 			alt="Cosmic Kitty"
 		/>

@@ -1,4 +1,5 @@
 html {
+	background-color: #000;
 	height: 100%;
 	padding: 0;
 	margin: 0;
@@ -8,17 +9,18 @@ html {
 	--font_size_xl: 72px;
 	--font_size_lg: 48px;
 	/* TODO clean up color consistency between names, color_, bg_, _text_, etc */
-	--ocean_color: #1b4780;
-	--land_color: #1b7e23;
-	--space_color: hsl(260, 65%, 55%);
+	--ocean_color: hsl(214, 65%, 30%);
+	--land_color: hsl(125, 65%, 30%);
+	--space_color: hsl(260, 40%, 55%);
 	--lava_color: hsl(0, 65%, 55%);
 	--error_color: var(--lava_color);
 	--pending_color: var(--ocean_color);
 	--success_color: var(--land_color);
 	--failure_color: var(--error_color);
 	--text_color: #dbdbdb;
-	--ocean_text_color: hsl(214, 65%, 50%);
+	--ocean_text_color: hsl(214, 65%, 55%);
 	--land_text_color: hsl(125, 65%, 35%);
+	--space_text_color: hsl(260, 40%, 62%);
 	--color_2: #7094db; /* TODO probably make this a lighter shade of `--ocean_color` */
 	--color_3: hsl(260, 60%, 65%); /*  TODO probably make this a lighter shade of the primary color */
 	--light_border_color: rgba(255, 255, 255, 0.13);
@@ -29,12 +31,10 @@ html {
 	--bg_light: rgba(255, 255, 255, 0.04);
 	--bg_dark: rgba(0, 0, 0, 0.6);
 	--bg_dark_lighter: rgba(0, 0, 0, 0.35);
-	--clickable_border_style: dashed;
-	--clickable_border_style__hover: double;
+	--clickable_border_style: double;
+	--clickable_border_style__hover: dashed;
 	--clickable_border_style__active: dotted;
-	--clickable_border_style_sm: dashed;
-	--clickable_border_style_sm__hover: solid; /* too small for double */
-	--clickable_border_style_sm__active: dotted;
+	--clickable_border_style_sm: solid; /* too small for double, also `_sm` hover/active styles are not needed */
 	--clickable_transform: scale3d(1, 1, 1);
 	--clickable_transform__hover: scale3d(1.1, 1.1, 1);
 	--clickable_transform__active: scale3d(1.2, 1.2, 1);
@@ -55,11 +55,12 @@ html {
 	--panel_border: var(--border_width_lg) var(--clickable_border_style) var(--light_border_color);
 	--border_radius_lg: 15px;
 	--border_radius_md: 7px;
-	--text_shadow_sm: 1px 2px rgba(0, 0, 0, 0.6);
-	--text_shadow_reverse_sm: -1px -2px rgba(0, 0, 0, 0.6);
+	--text_shadow_sm: 1px 1px rgba(0, 0, 0, 0.6);
+	--text_shadow_reverse_sm: -1px -1px rgba(0, 0, 0, 0.6);
 	--spacing_lg: 64px;
 	--spacing_xl: 100px;
 	--hud_element_size: var(--spacing_xl);
+	--waiting_animation_duration: 1.5s;
 }
 
 /* border-box all the things, but let parents override children */
@@ -105,6 +106,33 @@ code {
 	text-shadow: var(--text_shadow_sm);
 }
 
+ul {
+	list-style: none; /* see `.formatted-content` */
+	padding-left: 0;
+	margin: var(--spacing-5) 0 0 0; /* TODO hacky, maybe we want a <ContentSpacer/>? */
+}
+
+p {
+	margin: var(--spacing-5) 0 0 0; /* TODO hacky, maybe we want a <ContentSpacer/>? */
+}
+
+.formatted-content ul {
+	list-style: initial;
+	padding-left: var(--spacing-8);
+}
+
+/* TODO this assumes a horizontal layout - maybe make a component from this with a layout prop? */
+figure {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	align-items: center;
+}
+figcaption {
+	flex: 1;
+	padding-left: var(--spacing-5);
+}
+
 h1 {
 	font-size: 48px;
 	font-weight: 100;
@@ -112,13 +140,13 @@ h1 {
 }
 
 h2 {
-	font-size: 32px;
+	font-size: 36px;
 	font-weight: 300;
 	margin: 0;
 }
 
 h3 {
-	font-size: 21px;
+	font-size: 28px;
 	font-weight: 300;
 	margin: 0;
 }
@@ -167,13 +195,19 @@ button:focus {
 }
 
 .idle {
-	cursor: none !important;
+	cursor: none;
 }
 .idle-fade {
 	transition: var(--fade_transition);
 }
 .idle .idle-fade {
 	opacity: 0;
+	cursor: none;
+}
+.idle .idle-fade button {
+	/* kind of a hack, but putting `idle-fade` on every button is no good -
+	what other elements should be selected as well? */
+	cursor: none;
 }
 
 .mirror-x {
@@ -184,4 +218,27 @@ button:focus {
 }
 .mirror-xy {
 	transform: scale3d(1, -1, 1);
+}
+
+summary {
+	cursor: default;
+	opacity: 0.6;
+}
+summary:hover {
+	opacity: 0.8;
+}
+summary:active {
+	opacity: 1;
+}
+
+.fade-in {
+	animation: fade-in 1s linear;
+}
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }

@@ -15,14 +15,14 @@
 	{#if running}
 		<img
 			on:click={pause}
-			src="assets/construction/person-rock.gif"
+			src="/assets/construction/person-rock.gif"
 			alt="under construction: person rock"
 			class="rock pixelated"
 		/>
 	{:else}
 		<img
 			on:click={resume}
-			src="assets/construction/person-rock-pause.png"
+			src="/assets/construction/person-rock-pause.png"
 			alt="under construction: person rock pause"
 			class="rock pixelated"
 		/>

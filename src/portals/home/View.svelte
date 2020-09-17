@@ -22,8 +22,8 @@
 		[
 			'about',
 			'deep-breath',
-			'paint-freqs',
 			'starlit-hammock',
+			'paint-freqs',
 			'easings-2',
 			'easings-1',
 			'hearing-test',
@@ -86,19 +86,19 @@
 		</h2>
 		<div>
 			<img
-				src="assets/earth/night_lights_1.png"
+				src="/assets/earth/night_lights_1.png"
 				alt="night lights of Africa, Europe, and the Middle East"
 				style="width: 100px; height: 100px;"
 				class="mr-2"
 			/>
 			<img
-				src="assets/earth/night_lights_2.png"
+				src="/assets/earth/night_lights_2.png"
 				alt="night lights of the Americas"
 				style="width: 100px; height: 100px;"
 				class="mr-2"
 			/>
 			<img
-				src="assets/earth/night_lights_3.png"
+				src="/assets/earth/night_lights_3.png"
 				alt="night lights of Asia and Australia"
 				style="width: 100px; height: 100px;"
 			/>
@@ -135,5 +135,8 @@
 	or is this the right time to add CSS variables to JS? */
 	:global(.portal-preview--deep-breath) {
 		border-color: var(--ocean_color) !important;
+	}
+	:global(.portal-preview--starlit-hammock) {
+		border-color: var(--space_color) !important;
 	}
 </style>

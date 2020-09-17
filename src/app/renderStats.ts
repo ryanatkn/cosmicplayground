@@ -1,7 +1,7 @@
 // TODO make this a store instead of non-reactive singleton?
 // this module is a haphazard mess but that's ok for now
 
-let verboseLogging = true; // TODO settings? log level?
+let verboseLogging = false; // TODO settings? log level?
 
 interface RenderStats {
 	totalTime: number;

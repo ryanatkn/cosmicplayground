@@ -16,7 +16,7 @@
 <style>
 	.dot {
 		opacity: 0;
-		animation: dot 1.5s infinite;
+		animation: dot var(--waiting_animation_duration) infinite;
 		color: var(--pending_color);
 	}
 	.success .dot {

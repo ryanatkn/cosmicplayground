@@ -15,6 +15,8 @@
 		width: var(--hud_element_size);
 		height: var(--hud_element_size);
 		font-size: var(--font_size_xl);
+		font-weight: 300;
+		text-shadow: var(--text_shadow_sm);
 		transition: var(--clickable_transition);
 		opacity: var(--clickable_opacity);
 		transform-origin: center;
@@ -30,5 +32,6 @@
 	button:active {
 		transform: var(--clickable_transform__active);
 		opacity: var(--clickable_opacity__active);
+		text-shadow: var(--text_shadow_reverse_sm);
 	}
 </style>

@@ -29,9 +29,9 @@
 	}
 	a:hover {
 		border-color: var(--space_color);
-		border-style: var(--clickable_border_style_sm__hover);
+		border-style: var(--clickable_border_style__hover);
 	}
 	a:active {
-		border-style: var(--clickable_border_style_sm__active);
+		border-style: var(--clickable_border_style__active);
 	}
 </style>
