@@ -755,8 +755,18 @@
         ],
         "renderedLength": 47557
       },
+      "/home/ryan/dev/cosmicplayground/node_modules/@feltcoop/gro/dist/utils/async.js": {
+        "originalLength": 433,
+        "removedExports": [
+          "wait"
+        ],
+        "renderedExports": [
+          "AsyncState"
+        ],
+        "renderedLength": 297
+      },
       "/home/ryan/dev/cosmicplayground/src/app/PixiView.svelte": {
-        "originalLength": 818,
+        "originalLength": 1074,
         "removedExports": [],
         "renderedExports": [
           "default"
@@ -772,12 +782,12 @@
         "renderedLength": 1412
       },
       "/home/ryan/dev/cosmicplayground/src/app/FloatingIconButton.svelte": {
-        "originalLength": 974,
+        "originalLength": 1141,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 3344
+        "renderedLength": 3342
       },
       "/home/ryan/dev/cosmicplayground/src/app/HomeButton.svelte": {
         "originalLength": 188,
@@ -860,14 +870,14 @@
         "renderedLength": 1452
       },
       "/home/ryan/dev/cosmicplayground/src/app/renderStats.ts": {
-        "originalLength": 1478,
+        "originalLength": 1479,
         "removedExports": [],
         "renderedExports": [
           "updateRenderStats",
           "resetRenderStats",
           "getRenderStats"
         ],
-        "renderedLength": 1176
+        "renderedLength": 933
       },
       "/home/ryan/dev/cosmicplayground/src/app/Panel.svelte": {
         "originalLength": 609,
@@ -876,14 +886,6 @@
           "default"
         ],
         "renderedLength": 3019
-      },
-      "/home/ryan/dev/cosmicplayground/src/app/ImgLink.svelte": {
-        "originalLength": 743,
-        "removedExports": [],
-        "renderedExports": [
-          "default"
-        ],
-        "renderedLength": 2645
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/DeepBreathCredits.svelte": {
         "originalLength": 1363,
@@ -894,20 +896,20 @@
         "renderedLength": 2410
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsPersonalSignature.svelte": {
-        "originalLength": 523,
+        "originalLength": 836,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 1644
+        "renderedLength": 1161
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsProjectSignature.svelte": {
-        "originalLength": 543,
+        "originalLength": 862,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 1546
+        "renderedLength": 1183
       },
       "/home/ryan/dev/cosmicplayground/src/app/EarthThumbnail.svelte": {
         "originalLength": 1889,
@@ -918,7 +920,7 @@
         "renderedLength": 5339
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/DeepBreathThumbnail.svelte": {
-        "originalLength": 2186,
+        "originalLength": 2198,
         "removedExports": [],
         "renderedExports": [
           "default"
@@ -926,28 +928,92 @@
         "renderedLength": 4171
       },
       "/home/ryan/dev/cosmicplayground/src/app/PortalLink.svelte": {
-        "originalLength": 824,
+        "originalLength": 818,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
         "renderedLength": 1417
       },
-      "/home/ryan/dev/cosmicplayground/src/portals/about/Credits.svelte": {
-        "originalLength": 4014,
+      "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsDeepBreath.svelte": {
+        "originalLength": 477,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 12835
+        "renderedLength": 2284
+      },
+      "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsPaintFreqs.svelte": {
+        "originalLength": 434,
+        "removedExports": [],
+        "renderedExports": [
+          "default"
+        ],
+        "renderedLength": 1780
+      },
+      "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsNightLights.svelte": {
+        "originalLength": 1511,
+        "removedExports": [],
+        "renderedExports": [
+          "default"
+        ],
+        "renderedLength": 1878
+      },
+      "/home/ryan/dev/cosmicplayground/src/app/images.ts": {
+        "originalLength": 15123,
+        "removedExports": [],
+        "renderedExports": [
+          "spaceImages"
+        ],
+        "renderedLength": 16523
+      },
+      "/home/ryan/dev/cosmicplayground/src/app/ImageCreditsCaption.svelte": {
+        "originalLength": 138,
+        "removedExports": [],
+        "renderedExports": [
+          "default"
+        ],
+        "renderedLength": 1555
+      },
+      "/home/ryan/dev/cosmicplayground/src/app/ImageCredits.svelte": {
+        "originalLength": 311,
+        "removedExports": [],
+        "renderedExports": [
+          "default"
+        ],
+        "renderedLength": 2603
+      },
+      "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsSpaceImages.svelte": {
+        "originalLength": 1034,
+        "removedExports": [],
+        "renderedExports": [
+          "default"
+        ],
+        "renderedLength": 8365
+      },
+      "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsUnderConstruction.svelte": {
+        "originalLength": 558,
+        "removedExports": [],
+        "renderedExports": [
+          "default"
+        ],
+        "renderedLength": 2201
+      },
+      "/home/ryan/dev/cosmicplayground/src/portals/about/Credits.svelte": {
+        "originalLength": 1705,
+        "removedExports": [],
+        "renderedExports": [
+          "default"
+        ],
+        "renderedLength": 5381
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/About.svelte": {
-        "originalLength": 1991,
+        "originalLength": 1904,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 9590
+        "renderedLength": 9426
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/View.svelte": {
         "originalLength": 169,
@@ -958,12 +1024,12 @@
         "renderedLength": 1049
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/Preview.svelte": {
-        "originalLength": 555,
+        "originalLength": 557,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 1010
+        "renderedLength": 1012
       },
       "/home/ryan/dev/cosmicplayground/src/app/JsonExplorer.svelte": {
         "originalLength": 243,
@@ -979,7 +1045,7 @@
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 5344
+        "renderedLength": 5356
       },
       "/home/ryan/dev/cosmicplayground/src/portals/bundle-vision/BundleSummary.svelte": {
         "originalLength": 347,
@@ -1112,10 +1178,10 @@
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 9195
+        "renderedLength": 9207
       },
       "/home/ryan/dev/cosmicplayground/src/app/FloatingTextButton.svelte": {
-        "originalLength": 1009,
+        "originalLength": 1156,
         "removedExports": [],
         "renderedExports": [
           "default"
@@ -1123,12 +1189,12 @@
         "renderedLength": 3223
       },
       "/home/ryan/dev/cosmicplayground/src/portals/clocks/ClockControls.svelte": {
-        "originalLength": 1796,
+        "originalLength": 1798,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 8917
+        "renderedLength": 8919
       },
       "/home/ryan/dev/cosmicplayground/src/portals/clocks/Clocks.svelte": {
         "originalLength": 434,
@@ -1200,29 +1266,18 @@
         ],
         "renderedLength": 6884
       },
-      "/home/ryan/dev/cosmicplayground/node_modules/@feltcoop/gro/dist/utils/async.js": {
-        "originalLength": 433,
-        "removedExports": [
-          "wait"
-        ],
-        "renderedExports": [
-          "AsyncState"
-        ],
-        "renderedLength": 297
-      },
       "/home/ryan/dev/cosmicplayground/node_modules/@feltcoop/gro/dist/utils/random.js": {
         "originalLength": 270,
-        "removedExports": [
+        "removedExports": [],
+        "renderedExports": [
+          "randomFloat",
           "randomInt",
           "randomItem"
         ],
-        "renderedExports": [
-          "randomFloat"
-        ],
-        "renderedLength": 68
+        "renderedLength": 214
       },
       "/home/ryan/dev/cosmicplayground/src/app/WaitingAnimation.svelte": {
-        "originalLength": 892,
+        "originalLength": 921,
         "removedExports": [],
         "renderedExports": [
           "default"
@@ -1238,15 +1293,15 @@
         "renderedLength": 5663
       },
       "/home/ryan/dev/cosmicplayground/src/app/ChunkyButton.svelte": {
-        "originalLength": 977,
+        "originalLength": 1040,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 3211
+        "renderedLength": 3209
       },
       "/home/ryan/dev/cosmicplayground/src/portals/home/PortalPreview.svelte": {
-        "originalLength": 1449,
+        "originalLength": 1636,
         "removedExports": [],
         "renderedExports": [
           "default"
@@ -1254,12 +1309,12 @@
         "renderedLength": 6179
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/DeepBreathTitleScreen.svelte": {
-        "originalLength": 3851,
+        "originalLength": 3845,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 14964
+        "renderedLength": 13731
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/ZodiacHud.svelte": {
         "originalLength": 1475,
@@ -1327,7 +1382,7 @@
         "renderedLength": 3447
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/EarthViewerDom.svelte": {
-        "originalLength": 2105,
+        "originalLength": 2313,
         "removedExports": [],
         "renderedExports": [
           "default"
@@ -1335,23 +1390,24 @@
         "renderedLength": 9687
       },
       "/home/ryan/dev/cosmicplayground/src/app/pixi.ts": {
-        "originalLength": 2358,
+        "originalLength": 4911,
         "removedExports": [],
         "renderedExports": [
           "PixiApp",
           "pixiContextKey",
           "usePixi",
-          "providePixi"
+          "providePixi",
+          "usePixiScene"
         ],
-        "renderedLength": 1706
+        "renderedLength": 4109
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/EarthViewerPixi.svelte": {
-        "originalLength": 6391,
+        "originalLength": 5468,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 10618
+        "renderedLength": 9735
       },
       "/home/ryan/dev/cosmicplayground/src/app/resourcesStore.ts": {
         "originalLength": 5273,
@@ -1426,12 +1482,12 @@
         "renderedLength": 3427
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/DeepBreathTourCredits.svelte": {
-        "originalLength": 3395,
+        "originalLength": 3296,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 7281
+        "renderedLength": 5969
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/DeepBreathDevHud.svelte": {
         "originalLength": 1115,
@@ -1642,7 +1698,7 @@
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 9297
+        "renderedLength": 9299
       },
       "/home/ryan/dev/cosmicplayground/src/portals/freq-speeds/View.svelte": {
         "originalLength": 668,
@@ -1650,7 +1706,7 @@
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 3067
+        "renderedLength": 3069
       },
       "/home/ryan/dev/cosmicplayground/src/portals/freq-speeds/Preview.svelte": {
         "originalLength": 424,
@@ -1658,7 +1714,7 @@
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 2101
+        "renderedLength": 2103
       },
       "/home/ryan/dev/cosmicplayground/src/portals/hearing-test/HearingTest.svelte": {
         "originalLength": 4350,
@@ -1666,7 +1722,7 @@
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 10584
+        "renderedLength": 10586
       },
       "/home/ryan/dev/cosmicplayground/src/portals/hearing-test/View.svelte": {
         "originalLength": 176,
@@ -1674,7 +1730,7 @@
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 1509
+        "renderedLength": 1511
       },
       "/home/ryan/dev/cosmicplayground/src/portals/hearing-test/Preview.svelte": {
         "originalLength": 179,
@@ -1682,15 +1738,15 @@
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 725
+        "renderedLength": 727
       },
       "/home/ryan/dev/cosmicplayground/src/portals/home/View.svelte": {
-        "originalLength": 4302,
+        "originalLength": 4400,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 16967
+        "renderedLength": 16972
       },
       "/home/ryan/dev/cosmicplayground/src/portals/home/Preview.svelte": {
         "originalLength": 97,
@@ -1717,36 +1773,44 @@
         "renderedLength": 1497
       },
       "/home/ryan/dev/cosmicplayground/src/portals/paint-freqs/Preview.svelte": {
-        "originalLength": 782,
+        "originalLength": 783,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 935
+        "renderedLength": 936
       },
-      "/home/ryan/dev/cosmicplayground/src/app/autopannerStore.ts": {
-        "originalLength": 2559,
+      "/home/ryan/dev/cosmicplayground/src/app/WaitingScreen.svelte": {
+        "originalLength": 718,
         "removedExports": [],
         "renderedExports": [
-          "createAutopannerStore"
+          "default"
         ],
-        "renderedLength": 2042
+        "renderedLength": 1402
       },
       "/home/ryan/dev/cosmicplayground/src/portals/starlit-hammock/StarlitHammock.svelte": {
-        "originalLength": 1823,
+        "originalLength": 2763,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 4753
+        "renderedLength": 5063
+      },
+      "/home/ryan/dev/cosmicplayground/src/app/ImagePicker.svelte": {
+        "originalLength": 834,
+        "removedExports": [],
+        "renderedExports": [
+          "default"
+        ],
+        "renderedLength": 3730
       },
       "/home/ryan/dev/cosmicplayground/src/portals/starlit-hammock/View.svelte": {
-        "originalLength": 185,
+        "originalLength": 8919,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 1553
+        "renderedLength": 21183
       },
       "/home/ryan/dev/cosmicplayground/src/portals/starlit-hammock/GalaxyBg.svelte": {
         "originalLength": 1449,
@@ -1757,20 +1821,20 @@
         "renderedLength": 4095
       },
       "/home/ryan/dev/cosmicplayground/src/portals/starlit-hammock/Preview.svelte": {
-        "originalLength": 366,
+        "originalLength": 400,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 1615
+        "renderedLength": 1616
       },
       "/home/ryan/dev/cosmicplayground/src/portals/transition-designer/TransitionDesigner.svelte": {
-        "originalLength": 6194,
+        "originalLength": 6195,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 22130
+        "renderedLength": 22131
       },
       "/home/ryan/dev/cosmicplayground/src/portals/transition-designer/View.svelte": {
         "originalLength": 208,
@@ -1789,12 +1853,12 @@
         "renderedLength": 774
       },
       "/home/ryan/dev/cosmicplayground/src/portals/under-construction/UnderConstruction.svelte": {
-        "originalLength": 6298,
+        "originalLength": 6338,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 15885
+        "renderedLength": 15925
       },
       "/home/ryan/dev/cosmicplayground/src/portals/under-construction/View.svelte": {
         "originalLength": 194,
@@ -1805,20 +1869,20 @@
         "renderedLength": 1597
       },
       "/home/ryan/dev/cosmicplayground/src/portals/under-construction/Preview.svelte": {
-        "originalLength": 799,
+        "originalLength": 801,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 1401
+        "renderedLength": 1405
       },
       "/home/ryan/dev/cosmicplayground/src/portals/void/View.svelte": {
-        "originalLength": 1443,
+        "originalLength": 1414,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 8792
+        "renderedLength": 8755
       },
       "/home/ryan/dev/cosmicplayground/src/portals/void/Preview.svelte": {
         "originalLength": 17,
@@ -1837,20 +1901,20 @@
         "renderedLength": 2765
       },
       "/home/ryan/dev/cosmicplayground/src/app/pixiBgStore.ts": {
-        "originalLength": 1955,
+        "originalLength": 1576,
         "removedExports": [],
         "renderedExports": [
           "createPixiBgStore"
         ],
-        "renderedLength": 1655
+        "renderedLength": 1360
       },
       "/home/ryan/dev/cosmicplayground/src/app/App.svelte": {
-        "originalLength": 3577,
+        "originalLength": 4186,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 9628
+        "renderedLength": 12956
       },
       "/home/ryan/dev/cosmicplayground/src/app/main.ts": {
         "originalLength": 366,
