@@ -903,22 +903,6 @@
         ],
         "renderedLength": 2410
       },
-      "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsPersonalSignature.svelte": {
-        "originalLength": 836,
-        "removedExports": [],
-        "renderedExports": [
-          "default"
-        ],
-        "renderedLength": 1161
-      },
-      "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsProjectSignature.svelte": {
-        "originalLength": 862,
-        "removedExports": [],
-        "renderedExports": [
-          "default"
-        ],
-        "renderedLength": 1183
-      },
       "/home/ryan/dev/cosmicplayground/src/app/EarthThumbnail.svelte": {
         "originalLength": 1889,
         "removedExports": [],
@@ -944,12 +928,12 @@
         "renderedLength": 1417
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsDeepBreath.svelte": {
-        "originalLength": 477,
+        "originalLength": 489,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 2284
+        "renderedLength": 2186
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsPaintFreqs.svelte": {
         "originalLength": 434,
@@ -1008,12 +992,28 @@
         "renderedLength": 2201
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/Credits.svelte": {
-        "originalLength": 1705,
+        "originalLength": 1350,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
         "renderedLength": 5381
+      },
+      "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsPersonalSignature.svelte": {
+        "originalLength": 836,
+        "removedExports": [],
+        "renderedExports": [
+          "default"
+        ],
+        "renderedLength": 1161
+      },
+      "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsProjectSignature.svelte": {
+        "originalLength": 862,
+        "removedExports": [],
+        "renderedExports": [
+          "default"
+        ],
+        "renderedLength": 1183
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/About.svelte": {
         "originalLength": 1904,
@@ -1317,12 +1317,12 @@
         "renderedLength": 6179
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/DeepBreathTitleScreen.svelte": {
-        "originalLength": 3845,
+        "originalLength": 4209,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 13731
+        "renderedLength": 15509
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/ZodiacHud.svelte": {
         "originalLength": 1475,
@@ -1456,7 +1456,7 @@
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 13352
+        "renderedLength": 13356
       },
       "/home/ryan/dev/cosmicplayground/node_modules/svelte/transition/index.mjs": {
         "originalLength": 6788,
