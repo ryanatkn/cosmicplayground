@@ -43,10 +43,7 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [Rollup](https://github.com/rollup/rollup) ∙
 [Gro](https://github.com/feltcoop/gro) ∙
 [Prettier](https://github.com/prettier/prettier) ∙
-[Node](https://nodejs.org) ∙
-[GitHub](https://github.com) ∙ [Git](https://git-scm.com/) & [more](package.json)
-
-> :rainbow::sparkles: did you know? emoji can be punctuation :snail: neat huh
+[Node](https://nodejs.org) & [more](package.json)
 
 ## technical notes
 
@@ -104,7 +101,7 @@ npm start
 
 ## license :bird:
 
-Copyright (c) Ryan Atkinson <mail@ryanatkn.com>
+Copyright (c) Ryan Atkinson ∙ <mail@ryanatkn.com> ∙
 [ryanatkn.com](https://www.ryanatkn.com)
 
 Code is licensed [AGPL-3.0-only](LICENSE).
