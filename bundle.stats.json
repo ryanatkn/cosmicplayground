@@ -1317,12 +1317,12 @@
         "renderedLength": 6179
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/DeepBreathTitleScreen.svelte": {
-        "originalLength": 4209,
+        "originalLength": 4187,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 15509
+        "renderedLength": 15490
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/ZodiacHud.svelte": {
         "originalLength": 1475,
