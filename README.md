@@ -15,9 +15,9 @@ is a collection of web projects that try to be useful or interesting.
   [a video on YouTube with a 6 minute tour](https://www.youtube.com/watch?v=7xEPqg-Kyg4)
   set to music. Its scentific usefulness is limited but it makes me feel things.
 - [Starlit Hammock](https://www.cosmicplayground.org/#starlit-hammock)
-  displays images from Hubble ([spacetelescope.org](https://www.spacetelescope.org/about/)).
-  It invites you to sit back and soak in the staggering beauty of space
+  invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies, and you can zoom and pan around to explore on your own.
+  It displays images from Hubble, [spacetelescope.org](https://www.spacetelescope.org/about/).
 - Two tools for understanding
   [the easing functions in Svelte](https://svelte.dev/docs#svelte_easing):
   - [Easing Function Visualizations](https://www.cosmicplayground.org/#easings-1)
