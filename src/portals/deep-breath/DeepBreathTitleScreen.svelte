@@ -49,10 +49,10 @@
 			</p>
 			<p>
 				There's <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">a video on YouTube with a 6
-					minute tour</a>, and you can get the same experience by clicking "begin tour" on the map.
-				(the visual quality is way better here than in the video) The code and image data are <a
-					href="https://github.com/ryanatkn/cosmicplayground"
-				>open source on GitHub</a>. Credits are below.
+					minute tour</a> set to music, and you can get the same experience by clicking "begin tour"
+				on the map. (the visual quality is way better here than in the video) The code and image data
+				are <a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>.
+				Credits are below.
 			</p>
 			<p>Please be aware that the data is imperfect:</p>
 			<ul>
