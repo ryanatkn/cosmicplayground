@@ -5,6 +5,7 @@
 	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
 
 	import PixiView from './PixiView.svelte';
+	import PortalView from './PortalView.svelte';
 	import Hud from './Hud.svelte';
 	import HomeButton from './HomeButton.svelte';
 	import {provideRouter} from './routerStore.js';
@@ -114,7 +115,7 @@
 				<HomeButton />
 			</Hud>
 		{/if}
-		<svelte:component this={activePortal.View} portal={activePortal} {width} {height} />
+		<PortalView portal={activePortal} {width} {height} />
 	</main>
 {/if}
 
