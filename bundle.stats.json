@@ -805,6 +805,14 @@
         ],
         "renderedLength": 1473
       },
+      "/home/ryan/dev/cosmicplayground/src/app/Panel.svelte": {
+        "originalLength": 679,
+        "removedExports": [],
+        "renderedExports": [
+          "default"
+        ],
+        "renderedLength": 3027
+      },
       "/home/ryan/dev/cosmicplayground/src/app/routerStore.ts": {
         "originalLength": 1315,
         "removedExports": [],
@@ -886,14 +894,6 @@
           "getRenderStats"
         ],
         "renderedLength": 933
-      },
-      "/home/ryan/dev/cosmicplayground/src/app/Panel.svelte": {
-        "originalLength": 679,
-        "removedExports": [],
-        "renderedExports": [
-          "default"
-        ],
-        "renderedLength": 3027
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/DeepBreathCredits.svelte": {
         "originalLength": 1363,
@@ -1917,12 +1917,12 @@
         "renderedLength": 1360
       },
       "/home/ryan/dev/cosmicplayground/src/app/App.svelte": {
-        "originalLength": 4202,
+        "originalLength": 4874,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 12014
+        "renderedLength": 15942
       },
       "/home/ryan/dev/cosmicplayground/src/app/main.ts": {
         "originalLength": 366,
