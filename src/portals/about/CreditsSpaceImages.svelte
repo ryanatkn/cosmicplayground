@@ -13,7 +13,7 @@ gently swings under these wondrous views from <a
 	href="https://www.spacetelescope.org/copyright/"
 >Hubble</a>, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
 
-<div>
+<div class="credits-space-images">
 	<ul>
 		{#each visibleImages as image (image.info.url)}
 			<li>
@@ -39,7 +39,11 @@ gently swings under these wondrous views from <a
 </div>
 
 <style>
-	li {
+	.credits-space-images ul {
+		padding-left: 0;
+	}
+	.credits-space-images li {
 		margin-bottom: var(--spacing-3);
+		list-style: none;
 	}
 </style>

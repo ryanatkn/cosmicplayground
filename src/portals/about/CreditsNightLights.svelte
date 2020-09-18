@@ -17,7 +17,7 @@
 		width="100"
 		height="100"
 	/>
-	<figcaption class="formatted-content">
+	<figcaption>
 		<h3>
 			<a href="https://earthobservatory.nasa.gov/features/NightLights">Earth at Night</a> by <a
 				href="https://www.nasa.gov/"
