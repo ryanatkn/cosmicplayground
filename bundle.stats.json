@@ -944,12 +944,12 @@
         "renderedLength": 1780
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsNightLights.svelte": {
-        "originalLength": 1511,
+        "originalLength": 1485,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 1878
+        "renderedLength": 1852
       },
       "/home/ryan/dev/cosmicplayground/src/app/images.ts": {
         "originalLength": 15123,
@@ -976,12 +976,12 @@
         "renderedLength": 2603
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsSpaceImages.svelte": {
-        "originalLength": 1034,
+        "originalLength": 1155,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 8365
+        "renderedLength": 8504
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsUnderConstruction.svelte": {
         "originalLength": 558,
