@@ -8,6 +8,7 @@
 	import PortalView from './PortalView.svelte';
 	import Hud from './Hud.svelte';
 	import HomeButton from './HomeButton.svelte';
+	import Panel from './Panel.svelte';
 	import {provideRouter} from './routerStore.js';
 	import {provideAudioCtx} from '../audio/audioCtx.js';
 	import {provideClock} from './clockStore.js';
@@ -34,7 +35,15 @@
 	const clock = provideClock(); // TODO integrate with Pixi ticker?
 	$: updateRenderStats($clock.dt);
 
-	const pixi = new PixiApp({width, height});
+	let supportsWebGL = null;
+	let pixi;
+	try {
+		pixi = new PixiApp({width, height});
+		supportsWebGL = true;
+	} catch (err) {
+		supportsWebGL = false; // usually probably correct to infer this
+		console.error(err);
+	}
 	providePixi(pixi);
 	window['pixi'] = pixi; // TODO improve this pattern
 
@@ -103,20 +112,35 @@
 	on:keydown={onKeyDown}
 />
 
-{#if loadingStatus !== AsyncState.Success}
-	<WaitingScreen status={loadingStatus} />
+{#if supportsWebGL}
+	{#if loadingStatus !== AsyncState.Success}
+		<WaitingScreen status={loadingStatus} />
+	{:else}
+		<div class="pixi-wrapper fade-in" style="width: {width}px; height: {height}px;">
+			<PixiView {pixi} {width} {height} />
+		</div>
+		<main class="fade-in" class:paused={!$clock.running} class:idle={$idle || $settings.idleMode}>
+			{#if activePortal.showHomeButton}
+				<Hud>
+					<HomeButton />
+				</Hud>
+			{/if}
+			<PortalView portal={activePortal} {width} {height} />
+		</main>
+	{/if}
+{:else if supportsWebGL === null}
+	<!-- render nothing yet -->
 {:else}
-	<div class="pixi-wrapper fade-in" style="width: {width}px; height: {height}px;">
-		<PixiView {pixi} {width} {height} />
-	</div>
-	<main class="fade-in" class:paused={!$clock.running} class:idle={$idle || $settings.idleMode}>
-		{#if activePortal.showHomeButton}
-			<Hud>
-				<HomeButton />
-			</Hud>
-		{/if}
-		<PortalView portal={activePortal} {width} {height} />
-	</main>
+	<Panel>
+		<h1>oh no :(</h1>
+		<p>
+			It looks like your browser doesn't support WebGL, and sadly this website requires it. I'm
+			sorry, please try another browser or device if you can. (or enable it?)
+		</p>
+		<p>
+			source code is at <a href="https://github.com/ryanatkn/cosmicplayground">github.com/ryanatkn/cosmicplayground</a>
+		</p>
+	</Panel>
 {/if}
 
 <!-- TODO should we have a `<Portals/>` component that the `App` mounts? -->
