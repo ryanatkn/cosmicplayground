@@ -24,7 +24,7 @@
 			href="https://www.ryanatkn.com"
 		>Ryan Atkinson</a>. Hi that's me, I enjoy making web things and apparently I have a thing for
 		space? Everything here is free and <a href="https://github.com/ryanatkn/cosmicplayground">open
-			source</a> and mostly a work-in-progress. The first projects that I think are worth sharing are
+			source</a> and mostly a work in progress. The first projects that I think are worth sharing are
 		<PortalLink slug="deep-breath" />
 		and
 		<PortalLink slug="starlit-hammock" />, and there's hopefully more to come!

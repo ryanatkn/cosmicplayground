@@ -47,6 +47,16 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 
 ## technical notes
 
+### develop
+
+To play with the code, you'll need Node 14+;
+
+```bash
+npm i
+npm start
+# open your browser to localhost:8999
+```
+
 ### WebGL, Pixi, and bundle sizes
 
 [PixiJS](https://github.com/pixijs/pixi.js) was first added as a dependency to improve
@@ -88,16 +98,6 @@ In summary:
 - WebGL is good stuff, and Pixi is lovely, but one day I want to explore replacing Pixi
   with [Svelte for WebGL](https://github.com/sveltejs/gl)
 - this app is not representative of Svelte's ability to gracefully scale its JS bundle sizes
-
-### develop
-
-To play with the code, you'll need Node 14+;
-
-```bash
-npm i
-npm start
-# open your browser to localhost:8999
-```
 
 ## license :bird:
 
