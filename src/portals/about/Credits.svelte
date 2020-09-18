@@ -1,14 +1,9 @@
 <script>
-	import DeepBreathCredits from '../deep-breath/DeepBreathCredits.svelte';
-	import CreditsPersonalSignature from './CreditsPersonalSignature.svelte';
-	import CreditsProjectSignature from './CreditsProjectSignature.svelte';
 	import CreditsDeepBreath from './CreditsDeepBreath.svelte';
 	import CreditsPaintFreqs from './CreditsPaintFreqs.svelte';
 	import CreditsNightLights from './CreditsNightLights.svelte';
 	import CreditsSpaceImages from './CreditsSpaceImages.svelte';
 	import CreditsUnderConstruction from './CreditsUnderConstruction.svelte';
-	import DeepBreathThumbnail from '../deep-breath/DeepBreathThumbnail.svelte';
-	import PortalLink from '../../app/PortalLink.svelte';
 
 	// TODO should credits be a portal convention? `/src/portals/{slug}/Credits.svelte`
 </script>

@@ -45,17 +45,23 @@
 			<p>
 				Deep Breath is an interactive webpage with a rough sketch of Earth's coastlines if all ice
 				on the planet melts. Most estimates range from 60 to 75 meters above 2020's oceans (some are
-				higher), and this shows about 65 meters. The project tries to be interesting and visually
-				pleasing, but compared to related tools it has limited scientific usefulness. The code and
-				image data are <a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>.
-				See the credits below for more.
+				higher), and this shows about 65 meters. Its scentific usefulness is limited but it makes me
+				feel things.
+			</p>
+			<p>
+				It includes <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">a video on YouTube with a
+					6 minute tour</a>, and you can get the same experience by clicking "begin tour" on the
+				map. (the visual quality here is way better than the video) The code and image data are <a
+					href="https://github.com/ryanatkn/cosmicplayground"
+				>open source on GitHub</a>. Credits are below.
 			</p>
 			<p>Please be aware that the data is imperfect:</p>
 			<ul>
 				<li>The elevation data is low resolution and the highest sea level is an approximation.</li>
 				<li>
-					Ice remains visible when sea levels rise, even though sea level rise implies the ice has
-					melted. This could be fixed by faking the revealed terrain.
+					Ice remains visible in places like Greenland and Antarctica when sea levels rise, even
+					though sea level rise implies the ice has melted. This could be fixed by faking the
+					revealed terrain.
 				</li>
 				<li>
 					Landlocked areas below sea level fill with water even though they probably won't flood
