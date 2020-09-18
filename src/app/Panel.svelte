@@ -4,8 +4,8 @@
 	export let contentClasses = '';
 </script>
 
-<section class="panel max-column-width p-3 {classes}" on:click|stopPropagation>
-	<div class="content p-5 {contentClasses}" style={contentStyle}>
+<section class="panel max-column-width {classes}" on:click|stopPropagation>
+	<div class="formatted-content {contentClasses}" style={contentStyle}>
 		<slot />
 	</div>
 </section>
@@ -17,11 +17,13 @@
 		margin: var(--spacing_lg) auto;
 		padding: 20px;
 		background-color: var(--bg_dark);
+		padding: var(--spacing-3);
 	}
 	.panel + .panel {
 		margin-top: 0;
 	}
-	.content {
+	.formatted-content {
+		padding: var(--spacing-5);
 		background-color: var(--bg_light);
 		border-radius: var(--border_radius_md);
 	}
