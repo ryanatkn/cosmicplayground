@@ -51,7 +51,7 @@
 			<p>
 				It includes <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">a video on YouTube with a
 					6 minute tour</a>, and you can get the same experience by clicking "begin tour" on the
-				map. (the visual quality here is way better than the video) The code and image data are <a
+				map. (the visual quality is way better here than in the video) The code and image data are <a
 					href="https://github.com/ryanatkn/cosmicplayground"
 				>open source on GitHub</a>. Credits are below.
 			</p>
@@ -74,11 +74,13 @@
 				hardware and browser.
 			</p>
 			<hr />
-			<p>The download is about 75MB of images. If that's cool with you, click the button below!</p>
 		</section>
-		{#if $resources.status !== AsyncState.Initial}
+		{#if $resources.status === AsyncState.Success}
+			<ChunkyButton on:click={proceed}>back to the map!</ChunkyButton>
+		{:else if $resources.status !== AsyncState.Initial}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
+			<p>The download is about 75MB of images. If that's cool with you, click the button below!</p>
 			<ChunkyButton on:click={load}>continue with 75MB download!</ChunkyButton>
 		{/if}
 	</Panel>
