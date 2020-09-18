@@ -22,7 +22,6 @@
           "add_location",
           "add_resize_listener",
           "add_transform",
-          "afterUpdate",
           "append_dev",
           "attr_dev",
           "beforeUpdate",
@@ -92,6 +91,7 @@
           "SvelteComponent",
           "action_destroyer",
           "add_render_callback",
+          "afterUpdate",
           "append",
           "assign",
           "attr",
@@ -165,7 +165,7 @@
           "update_slot",
           "xlink_attr"
         ],
-        "renderedLength": 22470
+        "renderedLength": 22553
       },
       "/home/ryan/dev/cosmicplayground/node_modules/svelte/store/index.mjs": {
         "originalLength": 3298,
@@ -773,6 +773,14 @@
         ],
         "renderedLength": 2133
       },
+      "/home/ryan/dev/cosmicplayground/src/app/PortalView.svelte": {
+        "originalLength": 1532,
+        "removedExports": [],
+        "renderedExports": [
+          "default"
+        ],
+        "renderedLength": 4394
+      },
       "/home/ryan/dev/cosmicplayground/src/app/Hud.svelte": {
         "originalLength": 715,
         "removedExports": [],
@@ -880,12 +888,12 @@
         "renderedLength": 933
       },
       "/home/ryan/dev/cosmicplayground/src/app/Panel.svelte": {
-        "originalLength": 609,
+        "originalLength": 679,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 3019
+        "renderedLength": 3027
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/DeepBreathCredits.svelte": {
         "originalLength": 1363,
@@ -1690,7 +1698,7 @@
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 1415
+        "renderedLength": 1417
       },
       "/home/ryan/dev/cosmicplayground/src/portals/freq-speeds/FreqSpeeds.svelte": {
         "originalLength": 1792,
@@ -1778,7 +1786,7 @@
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 936
+        "renderedLength": 938
       },
       "/home/ryan/dev/cosmicplayground/src/app/WaitingScreen.svelte": {
         "originalLength": 718,
@@ -1909,12 +1917,12 @@
         "renderedLength": 1360
       },
       "/home/ryan/dev/cosmicplayground/src/app/App.svelte": {
-        "originalLength": 4186,
+        "originalLength": 4202,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 12956
+        "renderedLength": 12014
       },
       "/home/ryan/dev/cosmicplayground/src/app/main.ts": {
         "originalLength": 366,
