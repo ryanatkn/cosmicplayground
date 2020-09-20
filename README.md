@@ -18,6 +18,7 @@ is a collection of web projects that try to be useful or interesting.
   invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies, and you can zoom and pan around to explore on your own.
   It displays images from Hubble, [spacetelescope.org](https://www.spacetelescope.org/about/).
+  Why? For me mostly vibes.
 - Two tools for understanding
   [the easing functions in Svelte](https://svelte.dev/docs#svelte_easing):
   - [Easing Function Visualizations](https://www.cosmicplayground.org/#easings-1)
