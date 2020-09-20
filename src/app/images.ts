@@ -52,6 +52,10 @@ const NASA = '<a href="https://www.nasa.gov/">NASA</a>';
 const Hubble = '<a href="https://www.spacetelescope.org/">Hubble</a>';
 const STScI = '<a href="https://www.stsci.edu/">STScI</a>';
 const AURA = '<a href="https://www.aura-astronomy.org/">AURA</a>';
+const GSFC = '<a href="https://www.nasa.gov/goddard">GSFC</a>';
+const HUDF = '<a href="https://www.spacetelescope.org/science/deep_fields/">HUDF Team</a>';
+const HubbleHeritageTeam =
+	'<a href="https://hubblesite.org/resource-gallery/learning-resources/hubble-heritage">Hubble Heritage Team</a>';
 
 export const spaceImages: ImageMeta[] = [
 	{
@@ -60,7 +64,7 @@ export const spaceImages: ImageMeta[] = [
 		thumbnail: {url: '/assets/space/heic0406a_thumbnail.webp', width: 300, height: 300},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic0406a/',
-			attribution: `${NASA}, ${ESA}, and S. Beckwith (${STScI}) and the HUDF Team, ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and S. Beckwith (${STScI}) and the ${HUDF}, ${imageProcessingCredit}`,
 		},
 	},
 	{
@@ -133,7 +137,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		thumbnail: {url: '/assets/space/heic0707a_thumbnail.webp', width: 300, height: 145},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic0707a/',
-			attribution: `${NASA}, ${ESA}, N. Smith (University of California, Berkeley), and the Hubble Heritage Team (${STScI}/${AURA})`,
+			attribution: `${NASA}, ${ESA}, N. Smith (University of California, Berkeley), and the ${HubbleHeritageTeam} (${STScI}/${AURA})`,
 		},
 	},
 	{
@@ -142,7 +146,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		thumbnail: {url: '/assets/space/heic1608a_thumbnail.webp', width: 300, height: 285},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic1608a/',
-			attribution: `${NASA}, ${ESA}, and the Hubble Heritage Team (${STScI}/${AURA})`,
+			attribution: `${NASA}, ${ESA}, and the ${HubbleHeritageTeam} (${STScI}/${AURA})`,
 		},
 	},
 	{
@@ -151,7 +155,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		thumbnail: {url: '/assets/space/heic1501a_thumbnail.webp', width: 288, height: 300},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic1501a/',
-			attribution: `${NASA}, ${ESA}/${Hubble}, and the Hubble Heritage Team (${AURA}/${STScI})`,
+			attribution: `${NASA}, ${ESA}/${Hubble}, and the ${HubbleHeritageTeam} (${AURA}/${STScI})`,
 		},
 	},
 	{
@@ -169,7 +173,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		thumbnail: {url: '/assets/space/heic1302a_thumbnail.webp', width: 300, height: 234},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic1302a/',
-			attribution: `${NASA}, ${ESA}, the Hubble Heritage Team (${STScI}/${AURA}), and R. Gendler (for the Hubble Heritage Team)<br/>
+			attribution: `${NASA}, ${ESA}, the ${HubbleHeritageTeam} (${STScI}/${AURA}), and R. Gendler (for the ${HubbleHeritageTeam})<br/>
 Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		},
 	},
@@ -179,7 +183,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		thumbnail: {url: '/assets/space/heic0506a_thumbnail.webp', width: 300, height: 208},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic0506a/',
-			attribution: `${NASA}, ${ESA}, and S. Beckwith (${STScI}), and the Hubble Heritage Team (${STScI}/${AURA}), ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and S. Beckwith (${STScI}), and the ${HubbleHeritageTeam} (${STScI}/${AURA}), ${imageProcessingCredit}`,
 		},
 	},
 	{
@@ -205,7 +209,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		info: {url: '/assets/space/opo0501a.webp', width: 6637, height: 3787},
 		thumbnail: {url: '/assets/space/opo0501a_thumbnail.webp', width: 300, height: 171},
 		credits: {
-			attribution: `${NASA}, ${ESA}, and the Hubble Heritage Team (${STScI}/${AURA}), ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and the ${HubbleHeritageTeam} (${STScI}/${AURA}), ${imageProcessingCredit}`,
 			url: 'https://www.spacetelescope.org/images/opo0501a/',
 		},
 	},
@@ -224,7 +228,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		thumbnail: {url: '/assets/space/heic1520a_thumbnail.webp', width: 300, height: 200},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic1520a/',
-			attribution: `${NASA}, ${ESA}, and the Hubble Heritage Team (${AURA}/${STScI})`,
+			attribution: `${NASA}, ${ESA}, and the ${HubbleHeritageTeam} (${AURA}/${STScI})`,
 		},
 	},
 	{
@@ -242,7 +246,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		thumbnail: {url: '/assets/space/heic1307a_thumbnail.webp', width: 287, height: 300},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic1307a/',
-			attribution: `${NASA}, ${ESA}, and the Hubble Heritage Team (${AURA}/${STScI})`,
+			attribution: `${NASA}, ${ESA}, and the ${HubbleHeritageTeam} (${AURA}/${STScI})`,
 		},
 	},
 	{
@@ -269,8 +273,8 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		thumbnail: {url: '/assets/space/heic1509a_thumbnail.webp', width: 300, height: 225},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic1509a/',
-			attribution: `${NASA}, ${ESA}, the Hubble Heritage Team (${STScI}/${AURA}), A. Nota (${ESA}/${STScI}), and the Westerlund 2 Science Team<br/>
-The original observations of Westerlund 2 were obtained by the science team: Antonella Nota (${ESA}}/${STScI}), Elena Sabbi (${STScI}), Eva Grebel and Peter Zeidler (Astronomisches Rechen-Institut Heidelberg), Monica Tosi (INAF, Osservatorio Astronomico di Bologna), Alceste Bonanos (National Observatory of Athens, Astronomical Institute), Carol Christian (${STScI}/${AURA}) and Selma de Mink (University of Amsterdam). Follow-up observations were made by the Hubble Heritage team: Zoltan Levay (${STScI}), Max Mutchler, Jennifer Mack, Lisa Frattare, Shelly Meyett, Mario Livio, Carol Christian (${STScI}/${AURA}), and Keith Noll (NASA/GSFC).`,
+			attribution: `${NASA}, ${ESA}, the ${HubbleHeritageTeam} (${STScI}/${AURA}), A. Nota (${ESA}/${STScI}), and the Westerlund 2 Science Team<br/>
+The original observations of Westerlund 2 were obtained by the science team: Antonella Nota (${ESA}}/${STScI}), Elena Sabbi (${STScI}), Eva Grebel and Peter Zeidler (Astronomisches Rechen-Institut Heidelberg), Monica Tosi (INAF, Osservatorio Astronomico di Bologna), Alceste Bonanos (National Observatory of Athens, Astronomical Institute), Carol Christian (${STScI}/${AURA}) and Selma de Mink (University of Amsterdam). Follow-up observations were made by the ${HubbleHeritageTeam}: Zoltan Levay (${STScI}), Max Mutchler, Jennifer Mack, Lisa Frattare, Shelly Meyett, Mario Livio, Carol Christian (${STScI}/${AURA}), and Keith Noll (${NASA}/${GSFC}).`,
 		},
 	},
 	{
@@ -279,7 +283,7 @@ The original observations of Westerlund 2 were obtained by the science team: Ant
 		thumbnail: {url: '/assets/space/opo0415a_thumbnail.webp', width: 300, height: 195},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic0406a/',
-			attribution: `${NASA}, ${ESA}, and the Hubble Heritage Team (${AURA}/${STScI}), ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and the ${HubbleHeritageTeam} (${AURA}/${STScI}), ${imageProcessingCredit}`,
 		},
 	},
 	{
@@ -298,7 +302,7 @@ The original observations of Westerlund 2 were obtained by the science team: Ant
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic0206a/',
 			attribution: `${NASA}, Holland Ford (JHU), the ACS Science Team and ${ESA}<br/>
-Image credit: ${NASA}, the ACS Science Team (H. Ford, G. Illingworth, M. Clampin, G. Hartig, T. Allen, K. Anderson, F. Bartko, N. Benitez, J. Blakeslee, R. Bouwens, T. Broadhurst, R. Brown, C. Burrows, D. Campbell, E. Cheng, N. Cross, P. Feldman, M. Franx, D. Golimowski, C. Gronwall, R. Kimble, J. Krist, M. Lesser, D. Magee, A. Martel, W. J. McCann, G. Meurer, G. Miley, M. Postman, P. Rosati, M. Sirianni, W. Sparks, P. Sullivan, H. Tran, Z. Tsvetanov, R. White, and R. Woodruff) and https://www.esa.int/, ${imageProcessingCredit}`,
+Image credit: ${NASA}, the ACS Science Team (H. Ford, G. Illingworth, M. Clampin, G. Hartig, T. Allen, K. Anderson, F. Bartko, N. Benitez, J. Blakeslee, R. Bouwens, T. Broadhurst, R. Brown, C. Burrows, D. Campbell, E. Cheng, N. Cross, P. Feldman, M. Franx, D. Golimowski, C. Gronwall, R. Kimble, J. Krist, M. Lesser, D. Magee, A. Martel, W. J. McCann, G. Meurer, G. Miley, M. Postman, P. Rosati, M. Sirianni, W. Sparks, P. Sullivan, H. Tran, Z. Tsvetanov, R. White, and R. Woodruff) and ${ESA}, ${imageProcessingCredit}`,
 		},
 	},
 	{
@@ -307,7 +311,7 @@ Image credit: ${NASA}, the ACS Science Team (H. Ford, G. Illingworth, M. Clampin
 		thumbnail: {url: '/assets/space/heic1107a_thumbnail.webp', width: 296, height: 300},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic1107a/',
-			attribution: `${NASA}, ${ESA}, and the Hubble Heritage Team (${STScI}/${AURA}), ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and the ${HubbleHeritageTeam} (${STScI}/${AURA}), ${imageProcessingCredit}`,
 		},
 	},
 	{
