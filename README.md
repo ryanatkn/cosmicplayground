@@ -106,7 +106,7 @@ In summary:
 ## license :bird:
 
 Copyright (c) Ryan Atkinson <mail@ryanatkn.com>
-[ryanatkn.com](https://www.ryanatkn.com)
+([ryanatkn.com](https://www.ryanatkn.com))
 
 Code is licensed [AGPL-3.0-only](LICENSE).
 
