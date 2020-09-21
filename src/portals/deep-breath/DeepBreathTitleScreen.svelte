@@ -44,8 +44,9 @@
 			<h2>If all ice on Earth melts, how will sea levels change?</h2>
 			<p>
 				Deep Breath is an interactive webpage with a rough sketch of Earth's coastlines if all ice
-				melts. Most estimates range from 60 to 75 meters above 2020's oceans (some are higher), and
-				this shows about 65 meters. Its scentific usefulness is limited but it makes me feel things.
+				melts. Most estimates range from 60 to 75 meters above 2020's oceans—some are higher—and
+				this map shows about 65 meters. Its scentific usefulness is limited but it makes me feel
+				things.
 			</p>
 			<p>
 				There's <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">a video on YouTube with a 6
@@ -69,8 +70,8 @@
 				</li>
 			</ul>
 			<p>
-				<strong>This page is not mobile friendly!</strong> It may also be really slow depending on your
-				hardware and browser.
+				This page is not mobile friendly! It may also be really slow depending on your hardware and
+				browser.
 			</p>
 			<hr />
 		</section>

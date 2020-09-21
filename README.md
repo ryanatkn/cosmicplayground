@@ -13,12 +13,15 @@ is a collection of web projects that try to be useful or interesting.
   _"If all ice on Earth melts, how will sea levels change?"_
   There's also
   [a video on YouTube with a 6 minute tour](https://www.youtube.com/watch?v=7xEPqg-Kyg4)
-  set to music. Its scentific usefulness is limited but it makes me feel things.
+  around the planet set to music.
+  You can get the same experience with better visual quality by clicking "begin tour" on the map.
+  (but it's not mobile friendly)
+  Its scentific usefulness is limited but it makes me feel things.
 - [Starlit Hammock](https://www.cosmicplayground.org/#starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies, and you can zoom and pan around to explore on your own.
   It displays images from Hubble, [spacetelescope.org](https://www.spacetelescope.org/about/).
-  Why? For me mostly vibes.
+  Why? For me mostly vibes. Looks nice on an idle screen.
 - Two tools for understanding
   [the easing functions in Svelte](https://svelte.dev/docs#svelte_easing):
   - [Easing Function Visualizations](https://www.cosmicplayground.org/#easings-1)
@@ -26,14 +29,14 @@ is a collection of web projects that try to be useful or interesting.
   - [Easing Function Visualizations and Auralizations](https://www.cosmicplayground.org/#easings-2)
     focuses on one function at a time with bigger visuals and a tweakable audio representation
     ([auralization](https://en.wikipedia.org/wiki/Auralization))
-- several odd and/or unfinished things
+- several odd and/or partially finished things; some require audio to make sense
 
 [![galaxies](/src/assets/space/galaxies-banner.jpg)](/src/assets/space/galaxies.jpg)
 
 ## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
 
 This project relies on open source software and
-freely licensed content like [NASA's Hubble imagery](https://www.spacetelescope.org)
+freely licensed content like [ESA/NASA's Hubble imagery](https://www.spacetelescope.org)
 and the music of [Alexander Nakarada](https://www.serpentsoundstudios.com).
 See [cosmicplayground.org/#about](https://www.cosmicplayground.org/#about)
 for the complete list of non-software assets and their credits.
@@ -96,7 +99,7 @@ but for now, enjoy clicking around with loadless transitions!
 
 In summary:
 
-- WebGL is good stuff, and Pixi is lovely, but one day I want to explore replacing Pixi
+- WebGL is good stuff, and Pixi is super, but one day I want to explore replacing Pixi
   with [Svelte for WebGL](https://github.com/sveltejs/gl)
 - this app is not representative of Svelte's ability to gracefully scale its JS bundle sizes
 

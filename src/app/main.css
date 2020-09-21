@@ -41,8 +41,8 @@ html {
 	--clickable_transform_sm__hover: scale3d(1.03, 1.03, 1);
 	--clickable_transform_sm__active: scale3d(1.09, 1.09, 1);
 	--clickable_transition: transform 0.06s ease-out;
-	--clickable_opacity: 0.6;
-	--clickable_opacity__hover: 0.8;
+	--clickable_opacity: 0.7;
+	--clickable_opacity__hover: 0.85;
 	--clickable_opacity__active: 1;
 	--fade_transition: opacity 0.5s linear;
 	--border_width_sm: 1px;

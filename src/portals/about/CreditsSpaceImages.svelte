@@ -22,6 +22,7 @@ gently swings under these wondrous views from <a
 		{/each}
 	</ul>
 
+	<!-- TODO replace with a <Details /> component that lazily renders its contents, this causes a ton of unnecessary image requests -->
 	{#if hiddenImages.length}
 		<details>
 			<summary>

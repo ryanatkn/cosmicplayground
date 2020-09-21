@@ -20,7 +20,7 @@
 <Panel>
 	<h2>About</h2>
 	<p>
-		<strong>cosmicplayground.org</strong> is a collection of loosely related projects created by <a
+		cosmicplayground.org is a collection of loosely related projects created by <a
 			href="https://www.ryanatkn.com"
 		>Ryan Atkinson</a>. Hi that's me, I enjoy making web things and apparently I have a thing for
 		space? Everything here is free and <a href="https://github.com/ryanatkn/cosmicplayground">open

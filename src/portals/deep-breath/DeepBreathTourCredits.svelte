@@ -49,13 +49,13 @@
 			Blue Marble Next Generation
 		</a> by Reto Stöckli <br />
 		<a href="https://visibleearth.nasa.gov">NASA Visible Earth</a> and <a
-			href="https://earthobservatory.nasa.gov/image-use-policy"
+			href="https://earthobservatory.nasa.gov"
 		>NASA Earth Observatory</a> (2004) <br />
 		<br /> Earth <a href="https://visibleearth.nasa.gov/images/73934/topography">topography</a> and <a
 			href="https://visibleearth.nasa.gov/images/73963/bathymetry"
 		>bathymetry</a> by Jesse Allen <br />
 		<a href="https://visibleearth.nasa.gov">NASA Visible Earth</a> and <a
-			href="https://earthobservatory.nasa.gov/image-use-policy"
+			href="https://earthobservatory.nasa.gov"
 		>NASA Earth Observatory</a>
 		<br /> using data from the <a href="https://www.gebco.net/">General Bathymetric Chart of the
 			Oceans</a>
@@ -77,7 +77,7 @@
 		font-size: 28px;
 		font-weight: 300;
 		text-align: center;
-		text-shadow: 1px 2px rgba(0, 0, 0, 0.6);
+		text-shadow: 1px 2px rgba(0, 0, 0, 0.8);
 	}
 	.tour-credits.displayForVideo a {
 		color: var(--text_color);
