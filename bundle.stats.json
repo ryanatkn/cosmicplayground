@@ -960,12 +960,12 @@
         "renderedLength": 16822
       },
       "/home/ryan/dev/cosmicplayground/src/app/Details.svelte": {
-        "originalLength": 293,
+        "originalLength": 269,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 3758
+        "renderedLength": 3681
       },
       "/home/ryan/dev/cosmicplayground/src/app/ImageCreditsCaption.svelte": {
         "originalLength": 138,
@@ -984,12 +984,12 @@
         "renderedLength": 2603
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsSpaceImages.svelte": {
-        "originalLength": 1340,
+        "originalLength": 1368,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 9725
+        "renderedLength": 9801
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsUnderConstruction.svelte": {
         "originalLength": 558,
@@ -1056,12 +1056,12 @@
         "renderedLength": 1694
       },
       "/home/ryan/dev/cosmicplayground/src/portals/bundle-vision/BundleChunkSummary.svelte": {
-        "originalLength": 1157,
+        "originalLength": 1495,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 5356
+        "renderedLength": 5582
       },
       "/home/ryan/dev/cosmicplayground/src/portals/bundle-vision/BundleSummary.svelte": {
         "originalLength": 347,
@@ -1757,12 +1757,12 @@
         "renderedLength": 727
       },
       "/home/ryan/dev/cosmicplayground/src/portals/home/View.svelte": {
-        "originalLength": 4400,
+        "originalLength": 4510,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 16972
+        "renderedLength": 17069
       },
       "/home/ryan/dev/cosmicplayground/src/portals/home/Preview.svelte": {
         "originalLength": 97,
