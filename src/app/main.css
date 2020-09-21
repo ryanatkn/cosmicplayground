@@ -4,7 +4,7 @@ html {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
-	font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell,
+	font-family: Segoe UI, Roboto, -apple-system, BlinkMacSystemFont, Oxygen, Ubuntu, Cantarell,
 		Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 	--font_size_xl: 72px;
 	--font_size_lg: 48px;
