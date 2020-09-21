@@ -7,6 +7,6 @@
 <details bind:open>
 	<slot name="summary" />
 	{#if open}
-		<slot name="content" />
+		<slot name="details" />
 	{/if}
 </details>
