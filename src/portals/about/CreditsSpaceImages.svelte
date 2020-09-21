@@ -26,7 +26,9 @@ gently swings under these wondrous views from <a
 	<!-- TODO replace with a <Details /> component that lazily renders its contents, this causes a ton of unnecessary image requests -->
 	{#if hiddenImages.length}
 		<Details>
-			<h3 slot="summary" class="inline">see {hiddenImages.length} more images</h3>
+			<summary slot="summary">
+				<h3 class="inline">see {hiddenImages.length} more images</h3>
+			</summary>
 			<ul slot="content">
 				{#each hiddenImages as image (image.info.url)}
 					<li>

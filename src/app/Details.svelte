@@ -5,9 +5,7 @@
 </script>
 
 <details bind:open>
-	<summary>
-		<slot name="summary" />
-	</summary>
+	<slot name="summary" />
 	{#if open}
 		<slot name="content" />
 	{/if}
