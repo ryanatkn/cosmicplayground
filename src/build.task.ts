@@ -15,6 +15,8 @@ import {LogLevel} from './project/logger.js';
 import {createCssClassesCache} from './project/build/cssClassesCache.js';
 import {outputCssPlugin} from './project/build/rollup-plugin-output-css.js';
 
+// TODO needs heavy refactoring, was converted from a standalone build system to use Gro
+
 export const task: Task = {
 	description: 'build the project',
 	run: async ({args, invokeTask}): Promise<void> => {
