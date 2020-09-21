@@ -1,6 +1,7 @@
 <script>
 	import {spaceImages} from '../../app/images.js';
 	import PortalLink from '../../app/PortalLink.svelte';
+	import Details from '../../app/Details.svelte';
 	import ImageCredits from '../../app/ImageCredits.svelte';
 
 	const visibleCount = 2; // TODO increase
@@ -24,18 +25,16 @@ gently swings under these wondrous views from <a
 
 	<!-- TODO replace with a <Details /> component that lazily renders its contents, this causes a ton of unnecessary image requests -->
 	{#if hiddenImages.length}
-		<details>
-			<summary>
-				<h3 class="inline">see {hiddenImages.length} more images</h3>
-			</summary>
-			<ul>
+		<Details>
+			<h3 slot="summary" class="inline">see {hiddenImages.length} more images</h3>
+			<ul slot="content">
 				{#each hiddenImages as image (image.info.url)}
 					<li>
 						<ImageCredits {image} />
 					</li>
 				{/each}
 			</ul>
-		</details>
+		</Details>
 	{/if}
 </div>
 
