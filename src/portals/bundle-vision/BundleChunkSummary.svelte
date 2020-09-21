@@ -14,6 +14,10 @@
 	$: maxLength = Math.max(maxOriginalLength, maxRenderedLength);
 
 	const toLengthPct = (n) => (100 * n) / maxLength;
+
+	// TODO this is just a quick and dirty hack
+	const APP_PATH = '/home/ryan/dev/cosmicplayground/';
+	const toAppPath = (path) => (path.startsWith(APP_PATH) ? path.slice(APP_PATH.length) : path);
 </script>
 
 <div>
@@ -31,8 +35,18 @@
 					class="absolute h-100"
 				/>
 			</div>
-			<div class="flex-1">{mod.path}</div>
+			<div class="path">{toAppPath(mod.path)}</div>
 			<div>{mod.originalLength} → {mod.renderedLength}</div>
 		</div>
 	{/each}
 </div>
+
+<style>
+	.path {
+		flex: 1;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		padding-right: 20px;
+	}
+</style>

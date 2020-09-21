@@ -36,11 +36,11 @@
 		].map((slug, i) => [slug, i]),
 	);
 	// TODO remove this in prod NODE_ENV, or consider generating a type with all of the portal slugs?
-	for (const slug of sortOrderBySlug.keys()) {
-		if (!$portals.data.portalsBySlug.has(slug)) {
-			throw Error(`Unknown portal slug "${slug}"`);
-		}
-	}
+	// for (const slug of sortOrderBySlug.keys()) {
+	// 	if (!$portals.data.portalsBySlug.has(slug)) {
+	// 		throw Error(`Unknown portal slug "${slug}"`);
+	// 	}
+	// }
 	const getSortOrderForSlug = (slug) => {
 		const sortOrder = sortOrderBySlug.get(slug);
 		// TODO nullish coalescing
@@ -53,7 +53,10 @@
 
 	$: coolPortals = sortPortals(
 		$portals.data.portals.filter(
-			(p) => !unlistedPortals.has(p.slug) && p.coolness <= COOLNESS_VISIBILITY_THRESHOLD,
+			(p) =>
+				!unlistedPortals.has(p.slug) &&
+				p.coolness <= COOLNESS_VISIBILITY_THRESHOLD &&
+				p.slug !== 'bundle-vision', // TODO temporarily disabling because it's too techy
 		),
 	);
 
