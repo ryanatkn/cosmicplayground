@@ -9,13 +9,13 @@
 is a collection of web projects that try to be useful or interesting.
 
 - [Deep Breath](https://www.cosmicplayground.org/#deep-breath)
-  is an interactive map of Earth with a rough answer to the question
+  is an interactive map with a rough answer to the question
   _"If all ice on Earth melts, how will sea levels change?"_
   There's also
   [a video on YouTube with a 6 minute tour](https://www.youtube.com/watch?v=7xEPqg-Kyg4)
   around the planet set to music.
   You can get the same experience with better visual quality by clicking "begin tour" on the map.
-  (but it's not mobile friendly)
+  (but it's not mobile friendly and may be slow or broken depending on your hardware)
   Its scentific usefulness is limited but it makes me feel things.
 - [Starlit Hammock](https://www.cosmicplayground.org/#starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
