@@ -896,12 +896,12 @@
         "renderedLength": 933
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/DeepBreathCredits.svelte": {
-        "originalLength": 1363,
+        "originalLength": 1329,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 2410
+        "renderedLength": 2376
       },
       "/home/ryan/dev/cosmicplayground/src/app/EarthThumbnail.svelte": {
         "originalLength": 1889,
@@ -959,6 +959,14 @@
         ],
         "renderedLength": 16822
       },
+      "/home/ryan/dev/cosmicplayground/src/app/Details.svelte": {
+        "originalLength": 293,
+        "removedExports": [],
+        "renderedExports": [
+          "default"
+        ],
+        "renderedLength": 3758
+      },
       "/home/ryan/dev/cosmicplayground/src/app/ImageCreditsCaption.svelte": {
         "originalLength": 138,
         "removedExports": [],
@@ -976,12 +984,12 @@
         "renderedLength": 2603
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsSpaceImages.svelte": {
-        "originalLength": 1155,
+        "originalLength": 1340,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 8504
+        "renderedLength": 9725
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/CreditsUnderConstruction.svelte": {
         "originalLength": 558,
@@ -1016,12 +1024,12 @@
         "renderedLength": 1183
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/About.svelte": {
-        "originalLength": 1904,
+        "originalLength": 1887,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 9426
+        "renderedLength": 9328
       },
       "/home/ryan/dev/cosmicplayground/src/portals/about/View.svelte": {
         "originalLength": 169,
@@ -1317,12 +1325,12 @@
         "renderedLength": 6179
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/DeepBreathTitleScreen.svelte": {
-        "originalLength": 4198,
+        "originalLength": 4186,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 15511
+        "renderedLength": 15500
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/ZodiacHud.svelte": {
         "originalLength": 1475,
@@ -1490,12 +1498,12 @@
         "renderedLength": 3427
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/DeepBreathTourCredits.svelte": {
-        "originalLength": 3296,
+        "originalLength": 3262,
         "removedExports": [],
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 5969
+        "renderedLength": 5935
       },
       "/home/ryan/dev/cosmicplayground/src/portals/deep-breath/DeepBreathDevHud.svelte": {
         "originalLength": 1115,
@@ -1690,7 +1698,7 @@
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 7344
+        "renderedLength": 7346
       },
       "/home/ryan/dev/cosmicplayground/src/portals/freq-spectacle/Preview.svelte": {
         "originalLength": 302,
@@ -1778,7 +1786,7 @@
         "renderedExports": [
           "default"
         ],
-        "renderedLength": 1497
+        "renderedLength": 1499
       },
       "/home/ryan/dev/cosmicplayground/src/portals/paint-freqs/Preview.svelte": {
         "originalLength": 783,
