@@ -199,6 +199,7 @@
 		earth2LeftOffset = earth1LeftOffset + imageWidth * (xOffsetOverflow < 0.5 ? -1 : 1);
 	}
 
+	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
 	const resources = createResourcesStore();
 	landImages.forEach((url) => resources.addResource('image', url));
 	seaImages.forEach((url) => resources.addResource('image', url));

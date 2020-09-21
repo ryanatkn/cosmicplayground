@@ -2,6 +2,17 @@ import {writable, Writable} from 'svelte/store';
 import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
 import {UnreachableError} from '@feltcoop/gro/dist/utils/error.js';
 
+/*
+
+This module was quickly thrown together to centralize some basic loading tasks,
+but the later introduction of Pixi and its loader makes it redundant.
+Pixi's loader API has been difficult to work with for some tasks,
+but it's better than this half-baked implementation
+and I don't want to go plumbing through Pixi to make it work with an external loader.
+So this module should probably be removed, and its usage replaced with Pixi's loader.
+
+*/
+
 // TODO support retries
 
 export interface ResourcesStore {
