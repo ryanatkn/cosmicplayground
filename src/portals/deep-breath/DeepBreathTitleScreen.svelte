@@ -70,7 +70,7 @@
 				</li>
 			</ul>
 			<p>
-				This page is not mobile friendly! It may also be really slow depending on your hardware and
+				This page is not mobile friendly! It may also be slow depending on your hardware and
 				browser.
 			</p>
 			<hr />
