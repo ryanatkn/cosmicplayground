@@ -9,7 +9,7 @@
 is a collection of web projects that try to be useful or interesting.
 
 - [Deep Breath](https://www.cosmicplayground.org/#deep-breath)
-  is an interactive map with a rough answer to the question
+  is an interactive map with a rough answer to the extreme hypothetical
   _"If all ice on Earth melts, how will sea levels change?"_
   There's also
   [a video on YouTube with a 6 minute tour](https://www.youtube.com/watch?v=7xEPqg-Kyg4)
