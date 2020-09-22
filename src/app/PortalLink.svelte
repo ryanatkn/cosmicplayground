@@ -30,6 +30,7 @@
 	a:hover {
 		border-color: var(--space_color);
 		border-style: var(--clickable_border_style__hover);
+		text-decoration: none !important;
 	}
 	a:active {
 		border-style: var(--clickable_border_style__active);
