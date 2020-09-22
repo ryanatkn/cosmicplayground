@@ -51,9 +51,11 @@
 			<p>
 				There's <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">a video on YouTube with a 6
 					minute tour</a> set to music, and you can get the same experience by clicking "begin tour"
-				on the map. (the visual quality is way better here than in the video) The code and image data
-				are <a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>.
-				Credits are below.
+				on the map. The visuals are higher quality here than in the video, but the video is recommended
+				for mobile devices, older hardware, and screens smaller than 1080p. (it doesn't currently scale
+				the resolution) The code and image data are <a
+					href="https://github.com/ryanatkn/cosmicplayground"
+				>open source on GitHub</a>. Credits are below.
 			</p>
 			<p>Please be aware that the data is imperfect:</p>
 			<ul>
@@ -71,7 +73,8 @@
 			</ul>
 			<p>
 				This page is not mobile friendly! It may also be slow depending on your hardware and
-				browser.
+				browser. See <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">the video</a> if it doesn't
+				work.
 			</p>
 			<hr />
 		</section>
