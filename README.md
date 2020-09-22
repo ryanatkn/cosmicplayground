@@ -22,6 +22,8 @@ is a collection of web projects that try to be useful or interesting.
   as it slowly surveys the skies, and you can zoom and pan around to explore on your own.
   It displays images from Hubble, [spacetelescope.org](https://www.spacetelescope.org/about/).
   Why? For me mostly vibes. Looks nice on an idle screen.
+  - Safari users: Starlit Hammock only works on iOS 14 and macOS Big Sur
+    because it uses webp instead of jpg for better image quality and compression
 - Two tools for understanding
   [the easing functions in Svelte](https://svelte.dev/docs#svelte_easing):
   - [Easing Function Visualizations](https://www.cosmicplayground.org/#easings-1)
