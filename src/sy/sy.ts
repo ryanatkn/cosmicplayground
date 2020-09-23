@@ -5,13 +5,12 @@
 */
 
 export const sy = (config: SyConfig): SyBuild => {
-	const {defs, banner, footer} = config;
+	const {defs} = config;
+	const banner = config.banner || defaultBanner;
+	const footer = config.footer || defaultFooter;
 	return {
 		defs,
-		styles:
-			(banner || defaultBanner)(config) +
-			defs.map((d) => d.rule).join('') +
-			(footer || defaultFooter)(config),
+		styles: banner(config) + defs.map((d) => d.rule).join('') + footer(config),
 	};
 };
 
