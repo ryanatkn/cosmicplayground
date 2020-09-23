@@ -29,28 +29,26 @@ export type CssBundle = {
 	changedIds: Set<string>;
 };
 
-export interface PluginOptions {
+export interface Options {
 	getCssBundles(): Map<string, GroCssBundle>;
 	sourcemap: boolean; // TODO consider per-bundle options
 	logLevel: LogLevel;
 	cssClasses: CssClassesCache | undefined;
 }
-export type RequiredPluginOptions = 'getCssBundles';
-export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
-export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
+export type RequiredOptions = 'getCssBundles';
+export type InitialOptions = PartialExcept<Options, RequiredOptions>;
+export const initOptions = (opts: InitialOptions): Options => ({
 	sourcemap: false,
 	logLevel: LogLevel.Info,
 	cssClasses: undefined,
-	...omitUndefined(initialOptions),
+	...omitUndefined(opts),
 });
-
-export interface PlainCssPlugin extends Plugin {}
 
 export const name = 'output-css';
 
 // TODO this really just outputs css - but it'll probably be refactored
-export const outputCssPlugin = (pluginOptions: InitialPluginOptions): PlainCssPlugin => {
-	const {getCssBundles, sourcemap, logLevel, cssClasses} = defaultPluginOptions(pluginOptions);
+export const outputCssPlugin = (opts: InitialOptions): Plugin => {
+	const {getCssBundles, sourcemap, logLevel, cssClasses} = initOptions(opts);
 
 	const log = logger(logLevel, [blue(`[${name}]`)]);
 	const {info} = log;

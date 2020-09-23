@@ -6,24 +6,24 @@ import {omitUndefined} from '@feltcoop/gro/dist/utils/object.js';
 import {LogLevel, logger} from '../logger.js';
 import {toBundleData, BundleData} from '../../bundle/bundleData.js';
 
-export interface PluginOptions {
+export interface Options {
 	srcPath: string;
 	externalsPath: string;
 	output: string | ((bundleString: string, bundle: BundleData) => Promise<void>);
 	logLevel: LogLevel;
 }
-export type RequiredPluginOptions = 'srcPath' | 'externalsPath';
-export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
-export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
+export type RequiredOptions = 'srcPath' | 'externalsPath';
+export type InitialOptions = PartialExcept<Options, RequiredOptions>;
+export const initOptions = (opts: InitialOptions): Options => ({
 	output: 'bundle.json',
 	logLevel: LogLevel.Info,
-	...omitUndefined(initialOptions),
+	...omitUndefined(opts),
 });
 
-const name = 'bundle-writer';
+export const name = 'bundle-writer';
 
-export const bundleWriterPlugin = (pluginOptions: InitialPluginOptions): Plugin => {
-	const {srcPath, externalsPath, output, logLevel} = defaultPluginOptions(pluginOptions);
+export const bundleWriterPlugin = (opts: InitialOptions): Plugin => {
+	const {srcPath, externalsPath, output, logLevel} = initOptions(opts);
 
 	const {info} = logger(logLevel, [gray(`[${name}]`)]);
 

@@ -13,7 +13,7 @@ import {LogLevel, logger, Logger} from '../logger.js';
 import {CssClassesCache} from './cssClassesCache.js';
 import {SyCssBuild} from './rollup-plugin-output-css.js';
 
-export interface PluginOptions {
+export interface Options {
 	getCssBuild(id: string): SyCssBuild;
 	cssClasses: CssClassesCache;
 	removeUnusedClasses: boolean;
@@ -21,27 +21,22 @@ export interface PluginOptions {
 	exclude: string | RegExp | (string | RegExp)[] | null;
 	logLevel: LogLevel;
 }
-export type RequiredPluginOptions = 'getCssBuild' | 'cssClasses';
-export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
-export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
+export type RequiredOptions = 'getCssBuild' | 'cssClasses';
+export type InitialOptions = PartialExcept<Options, RequiredOptions>;
+export const initOptions = (opts: InitialOptions): Options => ({
 	removeUnusedClasses: false,
 	include: '**/*.css',
 	exclude: null,
 	logLevel: LogLevel.Info,
-	...omitUndefined(initialOptions),
+	...omitUndefined(opts),
 });
 
 export const name = 'extract-plain-css-classes';
 
-export const extractPlainCssClassesPlugin = (pluginOptions: InitialPluginOptions): Plugin => {
-	const {
-		getCssBuild,
-		cssClasses,
-		removeUnusedClasses,
-		include,
-		exclude,
-		logLevel,
-	} = defaultPluginOptions(pluginOptions);
+export const extractPlainCssClassesPlugin = (opts: InitialOptions): Plugin => {
+	const {getCssBuild, cssClasses, removeUnusedClasses, include, exclude, logLevel} = initOptions(
+		opts,
+	);
 
 	const log = logger(logLevel, [green(`[${name}]`)]);
 	const {info} = log;

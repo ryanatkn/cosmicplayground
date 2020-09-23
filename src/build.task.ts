@@ -2,18 +2,27 @@ import {Task} from '@feltcoop/gro/dist/task/task.js';
 import {MapInputOptions} from '@feltcoop/gro/dist/project/build.js';
 import {copy} from '@feltcoop/gro/dist/fs/nodeFs.js';
 import {toDistId} from '@feltcoop/gro/dist/paths.js';
-import {GroSveltePlugin} from '@feltcoop/gro/dist/project/rollup-plugin-gro-svelte.js';
+import {
+	GroSveltePlugin,
+	name as groSveltePluginName,
+} from '@feltcoop/gro/dist/project/rollup-plugin-gro-svelte.js';
 import {join} from 'path';
 import resolvePlugin from '@rollup/plugin-node-resolve';
 
 import {paths} from './paths.js';
 import {bundleWriterPlugin} from './project/build/rollup-plugin-bundle-writer.js';
-import {extractPlainCssClassesPlugin} from './project/build/rollup-plugin-extract-plain-css-classes.js';
+import {
+	extractPlainCssClassesPlugin,
+	name as plainCssPluginName,
+} from './project/build/rollup-plugin-extract-plain-css-classes.js';
 import {syPlugin} from './project/build/rollup-plugin-sy.js';
 import {extractSvelteCssClassesPlugin} from './project/build/rollup-plugin-extract-svelte-css-classes.js';
 import {LogLevel} from './project/logger.js';
 import {createCssClassesCache} from './project/build/cssClassesCache.js';
-import {outputCssPlugin} from './project/build/rollup-plugin-output-css.js';
+import {
+	outputCssPlugin,
+	name as outputCssPluginName,
+} from './project/build/rollup-plugin-output-css.js';
 
 // TODO needs heavy refactoring, was converted from a standalone build system to use Gro
 
@@ -38,13 +47,13 @@ export const task: Task = {
 
 const mapInputOptions: MapInputOptions = (inputOptions, {dev, cssCache}) => {
 	const oldPlugins = inputOptions.plugins!;
-	const plainCssPluginIndex = oldPlugins.findIndex((p) => p.name === 'plain-css');
-	const groOutputCssPluginIndex = oldPlugins.findIndex((p) => p.name === 'output-css')!;
+	const plainCssPluginIndex = oldPlugins.findIndex((p) => p.name === plainCssPluginName);
+	const groOutputCssPluginIndex = oldPlugins.findIndex((p) => p.name === outputCssPluginName)!;
 	const nodeResolvePluginIndex = oldPlugins.findIndex((p) => p.name === 'node-resolve')!;
 	// TODO what's a better way to get plugins in a typesafe, ergonomic way, with good runtime errors?
 	// ideally we don't resort to using classes
 	const groSveltePluginInstance: GroSveltePlugin = oldPlugins.find(
-		(p) => p.name === 'gro-svelte',
+		(p) => p.name === groSveltePluginName,
 	) as any;
 
 	// TODO do this correctly (and replace this project's logger with Gro's)

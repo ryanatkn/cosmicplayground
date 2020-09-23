@@ -23,32 +23,32 @@ import {CssClassesCache} from './cssClassesCache.js';
 // TODO simple identifers?
 // TODO investigate using workers to speed this up
 
-export interface PluginOptions {
+export interface Options {
 	cssClasses: CssClassesCache;
 	classAttrMatcher: RegExp;
 	classFnMatcher: RegExp;
 	getSvelteCompilation: (id: string) => GroSvelteCompilation | undefined;
 	logLevel: LogLevel;
 }
-export type RequiredPluginOptions = 'cssClasses' | 'getSvelteCompilation';
-export type InitialPluginOptions = PartialExcept<PluginOptions, RequiredPluginOptions>;
-export const defaultPluginOptions = (initialOptions: InitialPluginOptions): PluginOptions => ({
+export type RequiredOptions = 'cssClasses' | 'getSvelteCompilation';
+export type InitialOptions = PartialExcept<Options, RequiredOptions>;
+export const initOptions = (opts: InitialOptions): Options => ({
 	classAttrMatcher: new RegExp(/^(class|.+Class)$/),
 	classFnMatcher: new RegExp(/^(cls)$/), // TODO consider renaming: sy, cn, ..
 	logLevel: LogLevel.Info,
-	...omitUndefined(initialOptions),
+	...omitUndefined(opts),
 });
 
 export const name = 'extract-svelte-css-classes';
 
-export const extractSvelteCssClassesPlugin = (pluginOptions: InitialPluginOptions): Plugin => {
+export const extractSvelteCssClassesPlugin = (opts: InitialOptions): Plugin => {
 	const {
 		cssClasses,
 		classAttrMatcher,
 		classFnMatcher,
 		getSvelteCompilation,
 		logLevel,
-	} = defaultPluginOptions(pluginOptions);
+	} = initOptions(opts);
 
 	const log = logger(logLevel, [cyan(`[${name}]`)]);
 	const {info} = log;
