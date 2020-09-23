@@ -40,10 +40,9 @@
 	const imageWidth = 4096;
 	const imageHeight = 2048;
 
+	// TODO use pixi for loading resources
 	// TODO add auto pan button - share logic with Starlit Hanmmock
-	// TODO show tour loading animation
 	// TODO pause music with clock
-	// TODO title screen - include video, improve loading visuals
 	// TODO bottom+right controls - draw the curve in 2d space to create a custom loop of months+sealevel (with smoothing?)
 
 	let showHud = true;

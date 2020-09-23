@@ -2,7 +2,6 @@
 	import * as PIXI from 'pixi.js';
 	import {onDestroy, onMount} from 'svelte';
 
-	// TODO detect if WebGL is available and display an error if not
 	// TODO detect max texture and disable images that don't work
 	// `const gl = document.createElement('canvas').getContext('webgl');`
 	// `console.log(gl.getParameter(gl.MAX_TEXTURE_SIZE))`
