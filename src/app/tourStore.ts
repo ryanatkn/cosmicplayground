@@ -94,7 +94,7 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 			}
 			// Apply this step.
 			const duration = step.duration - (currentTime - step.startTime);
-			console.log('tour step and duration', duration, step);
+			// console.log('tour step and duration', duration, step);
 			switch (step.type) {
 				case 'pan': {
 					hooks.pan(step.x, step.y, duration, step.easing);
