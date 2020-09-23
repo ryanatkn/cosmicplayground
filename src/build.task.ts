@@ -6,15 +6,13 @@ import {
 	GroSveltePlugin,
 	name as groSveltePluginName,
 } from '@feltcoop/gro/dist/project/rollup-plugin-gro-svelte.js';
+import {name as plainCssPluginName} from '@feltcoop/gro/dist/project/rollup-plugin-plain-css.js';
 import {join} from 'path';
 import resolvePlugin from '@rollup/plugin-node-resolve';
 
 import {paths} from './paths.js';
 import {bundleWriterPlugin} from './project/build/rollup-plugin-bundle-writer.js';
-import {
-	extractPlainCssClassesPlugin,
-	name as plainCssPluginName,
-} from './project/build/rollup-plugin-extract-plain-css-classes.js';
+import {extractPlainCssClassesPlugin} from './project/build/rollup-plugin-extract-plain-css-classes.js';
 import {syPlugin} from './project/build/rollup-plugin-sy.js';
 import {extractSvelteCssClassesPlugin} from './project/build/rollup-plugin-extract-svelte-css-classes.js';
 import {LogLevel} from './project/logger.js';

@@ -41,11 +41,7 @@
 	// 		throw Error(`Unknown portal slug "${slug}"`);
 	// 	}
 	// }
-	const getSortOrderForSlug = (slug) => {
-		const sortOrder = sortOrderBySlug.get(slug);
-		// TODO nullish coalescing
-		return sortOrder === undefined ? Infinity : sortOrder;
-	};
+	const getSortOrderForSlug = (slug) => sortOrderBySlug.get(slug) ?? Infinity;
 	const sortPortals = (portals) => {
 		portals.sort((a, b) => (getSortOrderForSlug(a.slug) > getSortOrderForSlug(b.slug) ? 1 : -1));
 		return portals;

@@ -149,21 +149,10 @@
 
 	let selectedSeaLevel = null;
 	let hoveredSeaLevel = null;
-	$: activeSeaLevel =
-		hoveredSeaLevel === null
-			? selectedSeaLevel === null
-				? $seaLevel
-				: selectedSeaLevel
-			: hoveredSeaLevel;
+	$: activeSeaLevel = hoveredSeaLevel ?? selectedSeaLevel ?? $seaLevel;
 	let selectedLandIndex = null;
 	let hoveredLandIndex = null;
-	// TODO use nullish coalescing
-	$: activeLandIndex =
-		hoveredLandIndex === null
-			? selectedLandIndex === null
-				? cycledLandIndex
-				: selectedLandIndex
-			: hoveredLandIndex;
+	$: activeLandIndex = hoveredLandIndex ?? selectedLandIndex ?? cycledLandIndex;
 	$: activeLandValue = activeLandIndex === cycledLandIndex ? cycledLandValue : activeLandIndex;
 
 	const setCycledLandValue = (value) => {
