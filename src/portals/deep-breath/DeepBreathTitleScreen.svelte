@@ -1,6 +1,4 @@
 <script>
-	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
-
 	import DeepBreathThumbnail from './DeepBreathThumbnail.svelte';
 	import Hud from '../../app/Hud.svelte';
 	import HomeButton from '../../app/HomeButton.svelte';
@@ -27,7 +25,7 @@
 
 	const load = async () => {
 		await resources.load();
-		if ($resources.status === AsyncState.Success) {
+		if ($resources.status === 'success') {
 			if (!hasLoaded) localStorage.setItem(HAS_LOADED_KEY, 'true');
 			proceed();
 		}
@@ -79,9 +77,9 @@
 			</p>
 			<hr />
 		</section>
-		{#if $resources.status === AsyncState.Success}
+		{#if $resources.status === 'success'}
 			<ChunkyButton on:click={proceed}>back to the map!</ChunkyButton>
-		{:else if $resources.status !== AsyncState.Initial}
+		{:else if $resources.status !== 'initial'}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
 			<p>The download is about 75MB of images. If that's cool with you, click the button below!</p>

@@ -2,7 +2,6 @@
 	import {onMount} from 'svelte';
 	import {writable} from 'svelte/store';
 	import * as PIXI from 'pixi.js';
-	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
 
 	import PixiView from './PixiView.svelte';
 	import PortalView from './PortalView.svelte';
@@ -52,14 +51,14 @@
 	$: bg && bg.updateDimensions(width, height);
 	$: bg && bg.tick($clock.dt);
 
-	let loadingStatus = AsyncState.Initial;
+	let loadingStatus = 'initial';
 	const loadInitialResources = () => {
 		pixi.loader.add(bgImageUrl).load(() => {
 			bg = createPixiBgStore(pixi.loader.resources[bgImageUrl].texture, width, height);
 			pixi.defaultScene.addChild($bg.sprite);
-			loadingStatus = AsyncState.Success;
+			loadingStatus = 'success';
 		});
-		loadingStatus = AsyncState.Pending;
+		loadingStatus = 'pending';
 	};
 
 	const router = provideRouter();
@@ -113,7 +112,7 @@
 />
 
 {#if supportsWebGL}
-	{#if loadingStatus !== AsyncState.Success}
+	{#if loadingStatus !== 'success'}
 		<WaitingScreen status={loadingStatus} />
 	{:else}
 		<div class="pixi-wrapper fade-in" style="width: {width}px; height: {height}px;">

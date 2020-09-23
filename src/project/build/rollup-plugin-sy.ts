@@ -3,7 +3,7 @@ import {cyan, gray, yellow} from '@feltcoop/gro/dist/colors/terminal.js';
 import {createFilter} from '@rollup/pluginutils';
 import prettier from 'prettier';
 import {toBuildId} from '@feltcoop/gro/dist/paths.js';
-import {replaceExt} from '@feltcoop/gro/dist/utils/path.js';
+import {replaceExtension} from '@feltcoop/gro/dist/utils/path.js';
 import {omitUndefined} from '@feltcoop/gro/dist/utils/object.js';
 
 import {logger, LogLevel, Logger, fmtCauses} from '../logger.js';
@@ -80,7 +80,7 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 			if (!filter(id)) return null;
 			info('transform', id);
 
-			const cssId = replaceExt(id, cssExt);
+			const cssId = replaceExtension(id, cssExt);
 
 			// TODO optimize - this reads from disk when we already have the source text. (`_code` arg)
 			// how to execute the source script to ge the result? ts-node?
@@ -106,76 +106,81 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 			// for now I'm leaving it broken until I understand the clean fix
 			if (!changedCssIds.size) return;
 			info('generateBundle', isWrite);
-			// TODO should this work be done elsewhere, not `generateBundle`?
-			// its interaction with `rolup-plugin-plain-css` isn't great.
-			// It adds css to that plugin's bundles at the end here.
-			for (const cssId of changedCssIds) {
-				const config = configs.get(cssId);
-				if (!config) throw Error(`Cannot find config for cssId ${cssId}`);
 
-				// This relies on `classes` which isn't ready until
-				// all svelte has been transformed,
-				// so it needs to go here and not the `load` hook or `transform` hooks.
+			try {
+				// TODO should this work be done elsewhere, not `generateBundle`?
+				// its interaction with `rolup-plugin-plain-css` isn't great.
+				// It adds css to that plugin's bundles at the end here.
+				for (const cssId of changedCssIds) {
+					const config = configs.get(cssId);
+					if (!config) throw Error(`Cannot find config for cssId ${cssId}`);
 
-				info('creating sy build...');
-				info('loaded config', cssId);
+					// This relies on `classes` which isn't ready until
+					// all svelte has been transformed,
+					// so it needs to go here and not the `load` hook or `transform` hooks.
 
-				const usedClasses = cssClasses.getUsedCssClasses();
+					info('creating sy build...');
+					info('loaded config', cssId);
 
-				// remove unused classes
-				if (removeUnusedClasses && !usedClasses.size) {
-					warn(
-						'',
-						// TODO improve this error message
-						'Option `removeUnusedClasses` is true but no classes were provided.' +
-							' Is the plugin providing `getUsedCssClasses` included in the build?' +
-							' Or maybe there are just no classes yet!',
-					);
-				}
-				const finalConfig = removeUnusedClasses ? removeClasses(config, usedClasses) : config;
+					const usedClasses = cssClasses.getUsedCssClasses();
 
-				// warn about undefined classes
-				if (warnUndefinedClasses && !usedClasses.size) {
-					warn(
-						'',
-						// TODO improve this error message
-						'Option `warnUndefinedClasses` is true but no classes were provided.' +
-							' Is the plugin providing `getUsedCssClasses` included in the build?' +
-							' Or maybe there are just no classes yet!',
-					);
-				}
-				if (warnUndefinedClasses) {
-					const undefinedClasses = cssClasses.getUndefinedCssClasses();
-					const {size} = undefinedClasses;
-					if (size) {
+					// remove unused classes
+					if (removeUnusedClasses && !usedClasses.size) {
 						warn(
-							`Undefined css class${size === 1 ? '' : 'es'}: ${yellow(
-								Array.from(undefinedClasses).join(' '),
-							)}` +
-								fmtCauses([
-									'misspelled class in markup or scripts',
-									'misspelled or missing rule in css or sy config',
-									'missing or broken css file import',
-									'outdated/unused class that can be deleted :D',
-								]),
-						); // TODO better message - could standardize a format of "here are possible causes/solutions:"
+							'',
+							// TODO improve this error message
+							'Option `removeUnusedClasses` is true but no classes were provided.' +
+								' Is the plugin providing `getUsedCssClasses` included in the build?' +
+								' Or maybe there are just no classes yet!',
+						);
 					}
+					const finalConfig = removeUnusedClasses ? removeClasses(config, usedClasses) : config;
+
+					// warn about undefined classes
+					if (warnUndefinedClasses && !usedClasses.size) {
+						warn(
+							'',
+							// TODO improve this error message
+							'Option `warnUndefinedClasses` is true but no classes were provided.' +
+								' Is the plugin providing `getUsedCssClasses` included in the build?' +
+								' Or maybe there are just no classes yet!',
+						);
+					}
+					if (warnUndefinedClasses) {
+						const undefinedClasses = cssClasses.getUndefinedCssClasses();
+						const {size} = undefinedClasses;
+						if (size) {
+							warn(
+								`Undefined css class${size === 1 ? '' : 'es'}: ${yellow(
+									Array.from(undefinedClasses).join(' '),
+								)}` +
+									fmtCauses([
+										'misspelled class in markup or scripts',
+										'misspelled or missing rule in css or sy config',
+										'missing or broken css file import',
+										'outdated/unused class that can be deleted :D',
+									]),
+							); // TODO better message - could standardize a format of "here are possible causes/solutions:"
+						}
+					}
+
+					info(
+						'final config\n',
+						gray('  removing unused classes: ') + removeUnusedClasses + '\n',
+						gray('  # generated classes: ') + config.defs.length + '\n',
+						gray('  # svelte classes: ') + (usedClasses.size || 0) + '\n',
+						gray('  # used generated classes: ') + finalConfig.defs.length,
+					);
+
+					const build = createSyBuild(finalConfig, dev, log, prettierOptions);
+					builds.set(cssId, build);
+					// TODO rewrite when the emit file API is ready https://github.com/rollup/rollup/issues/2938
+					cacheCss({id: cssId, sourceId: cssId, code: build.styles, map: undefined, sortIndex: 0});
 				}
-
-				info(
-					'final config\n',
-					gray('  removing unused classes: ') + removeUnusedClasses + '\n',
-					gray('  # generated classes: ') + config.defs.length + '\n',
-					gray('  # svelte classes: ') + (usedClasses.size || 0) + '\n',
-					gray('  # used generated classes: ') + finalConfig.defs.length,
-				);
-
-				const build = createSyBuild(finalConfig, dev, log, prettierOptions);
-				builds.set(cssId, build);
-				// TODO rewrite when the emit file API is ready https://github.com/rollup/rollup/issues/2938
-				cacheCss({id: cssId, sourceId: cssId, code: build.styles, map: undefined, sortIndex: 0});
+				changedCssIds.clear();
+			} catch (err) {
+				console.log('err', err.stack);
 			}
-			changedCssIds.clear();
 		},
 		buildEnd() {
 			if (!configs.size) {
