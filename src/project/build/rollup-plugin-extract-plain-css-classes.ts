@@ -61,7 +61,8 @@ export const extractPlainCssClassesPlugin = (opts: InitialOptions): Plugin => {
 			// doing this seems like we're mixing concerns across files though
 
 			// TODO with the file emit api, we'll want to return this AST from this `transform` fn
-			const parsedAst = parse(code, {positions: false});
+			// TODO can we `if (!code) return '';` and not mess anything up?
+			const parsedAst = parse(code || '', {positions: false});
 			// TODO consider changing this - could walk once for example, but then the AST is incompatible with svelte's
 			// maybe JSON.parse(JSON.stringify()) performs ok? maybe not lol. PR to svelte if significant?
 			// https://github.com/csstree/csstree/issues/47

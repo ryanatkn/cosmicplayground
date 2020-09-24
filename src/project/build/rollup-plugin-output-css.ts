@@ -138,7 +138,7 @@ const toFinalCode = (
 	{code, ast, removeUnusedClasses}: SyCssBuild,
 	cssClasses: CssClassesCache | undefined,
 	{trace, warn}: Logger,
-): string => {
+): string | null => {
 	if (!removeUnusedClasses) return code;
 	if (!ast) {
 		warn(`Expected AST with 'removeUnusedClasses'`);

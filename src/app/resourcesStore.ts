@@ -63,7 +63,7 @@ export const createResourcesStore = (): ResourcesStore => {
 		let shouldResolve = false;
 		update((state) => {
 			let successCount = 0;
-			const resources = state.resources.map((resource) => {
+			const resources: Resource[] = state.resources.map((resource) => {
 				if (resource.url === resourceUrl) {
 					successCount++;
 					return {...resource, status: 'success'};
@@ -88,7 +88,7 @@ export const createResourcesStore = (): ResourcesStore => {
 
 	const onError = (resourceUrl: string) => {
 		update((state) => {
-			const resources = state.resources.map((resource) => {
+			const resources: Resource[] = state.resources.map((resource) => {
 				if (resource.url === resourceUrl) {
 					return {...resource, status: 'failure'};
 				} else {
