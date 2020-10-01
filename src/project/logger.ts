@@ -7,9 +7,8 @@ import {
 	bgRed,
 	white,
 } from '@feltcoop/gro/dist/colors/terminal.js';
-
-import {noop} from '../utils/fn.js';
-import {round} from '../utils/math.js';
+import {noop} from '@feltcoop/gro/dist/utils/function.js';
+import {round} from '@feltcoop/gro/dist/utils/math.js';
 
 export type Log = (...args: any[]) => void;
 

@@ -23,10 +23,10 @@
   */
 
 	import {onDestroy} from 'svelte';
+	import {mix} from '@feltcoop/gro/dist/utils/math.js';
 
 	import {svelteEasings} from '../../app/easings.js';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../../audio/utils.js';
-	import {mix} from '../../utils/math.js';
 	import {useAudioCtx} from '../../audio/audioCtx.js';
 	import {midiNames} from '../../music/notes.js';
 	import {midiToFreq} from '../../music/midi.js';

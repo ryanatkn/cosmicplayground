@@ -1,9 +1,9 @@
 <script>
 	import {spring} from 'svelte/motion';
 	import {onMount, onDestroy} from 'svelte';
+	import {mix} from '@feltcoop/gro/dist/utils/math.js';
 
 	import {useAudioCtx} from '../../audio/audioCtx.js';
-	import {mix} from '../../utils/math.js';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../../audio/utils.js';
 	import {hslToRgb} from '../../utils/colors.js';
 	import {freqToMidi} from '../../music/midi.js';

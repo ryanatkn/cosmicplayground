@@ -1,5 +1,3 @@
-import {identity} from './fn.js';
-
 // Like `range` but accepts a mapping `fn` instead of a min or step,
 // like `Array.from` but with a nicer shorthand.
 // If no `fn` is provided, the array's values match its index,
@@ -30,7 +28,3 @@ export const flatMap = <T, U>(arr: T[], fn: (t: T, i: number) => U | U[]): U[] =
 	}
 	return result;
 };
-
-export const flatten = <T>(arr: (T | T[])[]): T[] => flatMap(arr, identity);
-
-export const last = <T>(arr: T[]): T => arr[arr.length - 1];

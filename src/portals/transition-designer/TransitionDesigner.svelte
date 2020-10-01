@@ -7,7 +7,7 @@
 <script>
 	import {onMount, onDestroy} from 'svelte';
 	import {fade} from 'svelte/transition';
-	import {mix} from '../../utils/math.js';
+	import {mix} from '@feltcoop/gro/dist/utils/math.js';
 
 	//  possible improvements
 	//  - control the time indicator (it's read-only atm)

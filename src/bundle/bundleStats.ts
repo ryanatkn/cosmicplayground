@@ -1,7 +1,8 @@
-import {BundleData, isBundleChunk, BundleChunk, BundleAsset} from './bundleData.js';
+import {last} from '@feltcoop/gro/dist/utils/array.js';
+import {stripStart, stripEnd} from '@feltcoop/gro/dist/utils/string.js';
+
 import {reorder} from '../utils/obj.js';
-import {stripStart, stripEnd} from '../utils/str.js';
-import {last} from '../utils/arr.js';
+import {BundleData, isBundleChunk, BundleChunk, BundleAsset} from './bundleData.js';
 
 // `BundleStats` an expanded transformation of `BundleStats` that provides
 // a more ergonomic runtime data representation.
@@ -127,7 +128,7 @@ export const toModuleStats = ({srcPath, externalsPath, modules}: BundleChunk): M
 	return moduleStats;
 };
 
-export const toFileName = (id: string): string => last(id.split('/'));
+export const toFileName = (id: string): string => last(id.split('/'))!;
 export const toPkg = (path: string): string => path.split('/')[0];
 // TODO think about if we'd prefer to always have dirs end with a /
 export const toDir = (path: string): string => stripEnd(stripEnd(path, toFileName(path)), '/');

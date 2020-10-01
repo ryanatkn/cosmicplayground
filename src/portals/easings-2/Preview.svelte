@@ -1,5 +1,5 @@
 <script>
-	import {mix} from '../../utils/math.js';
+	import {mix} from '@feltcoop/gro/dist/utils/math.js';
 
 	export const portal = undefined;
 
