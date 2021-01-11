@@ -5,8 +5,9 @@ yarn-error.log
 
 .env
 
-/build
+/.gro
 /dist
 
 *.ignore
 *.ignore.*
+ignore/

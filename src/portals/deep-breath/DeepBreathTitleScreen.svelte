@@ -1,6 +1,4 @@
 <script>
-	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
-
 	import DeepBreathThumbnail from './DeepBreathThumbnail.svelte';
 	import Hud from '../../app/Hud.svelte';
 	import HomeButton from '../../app/HomeButton.svelte';
@@ -27,7 +25,7 @@
 
 	const load = async () => {
 		await resources.load();
-		if ($resources.status === AsyncState.Success) {
+		if ($resources.status === 'success') {
 			if (!hasLoaded) localStorage.setItem(HAS_LOADED_KEY, 'true');
 			proceed();
 		}
@@ -45,18 +43,20 @@
 			<p>
 				Deep Breath is an interactive webpage with a rough sketch of Earth's coastlines if all ice
 				melts. Most estimates range from 60 to 75 meters above 2020's oceans—some are higher—and
-				this map shows about 65 meters. This is an extreme hypothetical - <a
-					href="https://en.wikipedia.org/wiki/Sea_level_rise"
-				>Wikipedia can help put it into perspective</a>.
+				this map shows about 65 meters. This is an extreme hypothetical -
+				<a href="https://en.wikipedia.org/wiki/Sea_level_rise">Wikipedia can help put it into
+					perspective</a>.
 			</p>
 			<p>
-				There's <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">a video on YouTube with a 6
-					minute tour</a> set to music, and you can get the same experience by clicking "begin tour"
-				on the map. The visuals are higher quality here than in the video, but the video is recommended
-				for mobile devices, older hardware, and screens smaller than 1080p. (it doesn't currently scale
-				the resolution) The code and image data are <a
-					href="https://github.com/ryanatkn/cosmicplayground"
-				>open source on GitHub</a>. Credits are below.
+				There's
+				<a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">a video on YouTube with a 6 minute
+					tour</a>
+				set to music, and you can get the same experience by clicking "begin tour" on the map. The
+				visuals are higher quality here than in the video, but the video is recommended for mobile
+				devices, older hardware, and screens smaller than 1080p. (it doesn't currently scale the
+				resolution) The code and image data are
+				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>. Credits
+				are below.
 			</p>
 			<p>Please be aware that the data is imperfect:</p>
 			<ul>
@@ -74,14 +74,15 @@
 			</ul>
 			<p>
 				This page is not mobile friendly! It may also be slow depending on your hardware and
-				browser. See <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">the video</a> if it doesn't
-				work.
+				browser. See
+				<a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">the video</a>
+				if it doesn't work.
 			</p>
 			<hr />
 		</section>
-		{#if $resources.status === AsyncState.Success}
+		{#if $resources.status === 'success'}
 			<ChunkyButton on:click={proceed}>back to the map!</ChunkyButton>
-		{:else if $resources.status !== AsyncState.Initial}
+		{:else if $resources.status !== 'initial'}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
 			<p>The download is about 75MB of images. If that's cool with you, click the button below!</p>

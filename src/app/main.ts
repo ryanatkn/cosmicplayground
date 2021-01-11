@@ -1,6 +1,6 @@
+import '@feltcoop/gro/dist/frontend/devtools.js';
 import App from './App.svelte';
-import './main.css';
-import './sy.config.js';
+import './sy.config.js'; // TODO ? how to make sy work?
 
 const rootElId = 'root';
 const root = document.getElementById(rootElId);

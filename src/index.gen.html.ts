@@ -18,6 +18,7 @@ export const gen: Gen = () => {
     />
 		<link rel="shortcut icon" href="/favicon.png" />
     <!-- TODO generate these dynamically and combine in prod -->
+    <link rel="stylesheet" href="/app/main.css" />
 		<link rel="stylesheet" href="/bundle.svelte.css" />
 		<link rel="stylesheet" href="/bundle.sy.css" />
 		<link rel="stylesheet" href="/bundle.plain.css" />

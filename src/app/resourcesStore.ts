@@ -1,5 +1,5 @@
 import {writable, Writable} from 'svelte/store';
-import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
+import {AsyncStatus} from '@feltcoop/gro/dist/utils/async.js';
 import {UnreachableError} from '@feltcoop/gro/dist/utils/error.js';
 
 /*
@@ -22,7 +22,7 @@ export interface ResourcesStore {
 }
 
 export interface ResourcesState {
-	status: AsyncState;
+	status: AsyncStatus;
 	progress: number;
 	resources: Resource[];
 	promise: Promise<void> | null;
@@ -32,13 +32,13 @@ export type Resource = ImageResource | AudioResource;
 export type ImageResource = {
 	type: 'image';
 	url: string;
-	status: AsyncState;
+	status: AsyncStatus;
 	image: HTMLImageElement | null; // TODO maybe make this a union so `null` appears only with initial status?
 };
 export type AudioResource = {
 	type: 'audio';
 	url: string;
-	status: AsyncState;
+	status: AsyncStatus;
 	audio: HTMLAudioElement | null; // TODO maybe make this a union so `null` appears only with initial status?
 };
 export type ResourceType = Resource['type'];
@@ -52,7 +52,7 @@ export const createResourcesStore = (): ResourcesStore => {
 	let promise: Promise<void> | null = null;
 
 	const store = writable<ResourcesState>({
-		status: AsyncState.Initial,
+		status: 'initial',
 		progress: 0,
 		resources: [],
 		promise,
@@ -66,9 +66,9 @@ export const createResourcesStore = (): ResourcesStore => {
 			const resources = state.resources.map((resource) => {
 				if (resource.url === resourceUrl) {
 					successCount++;
-					return {...resource, status: AsyncState.Success};
+					return {...resource, status: 'success' as const};
 				} else {
-					if (resource.status === AsyncState.Success) successCount++;
+					if (resource.status === 'success') successCount++;
 					return resource;
 				}
 			});
@@ -77,12 +77,7 @@ export const createResourcesStore = (): ResourcesStore => {
 			return {
 				...state,
 				progress,
-				status:
-					state.status === AsyncState.Failure
-						? AsyncState.Failure
-						: progress === 1
-						? AsyncState.Success
-						: AsyncState.Pending,
+				status: state.status === 'failure' ? 'failure' : progress === 1 ? 'success' : 'pending',
 				resources,
 			};
 		});
@@ -95,14 +90,14 @@ export const createResourcesStore = (): ResourcesStore => {
 		update((state) => {
 			const resources = state.resources.map((resource) => {
 				if (resource.url === resourceUrl) {
-					return {...resource, status: AsyncState.Failure};
+					return {...resource, status: 'failure' as const};
 				} else {
 					return resource;
 				}
 			});
 			return {
 				...state,
-				status: AsyncState.Failure,
+				status: 'failure' as const,
 				resources,
 			};
 		});
@@ -113,7 +108,7 @@ export const createResourcesStore = (): ResourcesStore => {
 		subscribe,
 		addResource: (type: ResourceType, url: string): void => {
 			update((state) => {
-				if (state.status !== AsyncState.Initial) {
+				if (state.status !== 'initial') {
 					// TODO maybe change this API to support this?
 					throw Error(`Cannot add resources after loading: ${url}`);
 				}
@@ -127,7 +122,7 @@ export const createResourcesStore = (): ResourcesStore => {
 							resources: state.resources.concat({
 								type,
 								url,
-								status: AsyncState.Initial,
+								status: 'initial',
 								image: null,
 							}),
 						};
@@ -138,7 +133,7 @@ export const createResourcesStore = (): ResourcesStore => {
 							resources: state.resources.concat({
 								type,
 								url,
-								status: AsyncState.Initial,
+								status: 'initial',
 								audio: null,
 							}),
 						};
@@ -162,7 +157,7 @@ export const createResourcesStore = (): ResourcesStore => {
 							image.addEventListener('error', () => onError(resource.url), {once: true});
 							resources.push({
 								...resource,
-								status: AsyncState.Pending,
+								status: 'pending',
 								image,
 							});
 							break;
@@ -173,7 +168,7 @@ export const createResourcesStore = (): ResourcesStore => {
 							audio.addEventListener('error', () => onError(resource.url), {once: true});
 							resources.push({
 								...resource,
-								status: AsyncState.Pending,
+								status: 'pending',
 								audio,
 							});
 							break;
@@ -205,7 +200,7 @@ export const createResourcesStore = (): ResourcesStore => {
 				}, 0);
 				return {
 					...state,
-					status: AsyncState.Pending,
+					status: 'pending',
 					resources,
 					promise,
 				};

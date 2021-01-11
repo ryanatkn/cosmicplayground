@@ -1,7 +1,18 @@
 {
-	"typescript.tsdk": "./node_modules/typescript/lib",
-	"files.exclude": {
-		"**/.git": true,
-		"**/.DS_Store": true
-	}
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true
+  },
+  "files.watcherExclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.gro": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.gro": true
+  }
 }
