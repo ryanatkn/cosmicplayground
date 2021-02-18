@@ -18,7 +18,7 @@ is a collection of web projects that try to be useful or interesting.
   the visual quality is better on the website but it's not mobile friendly.
 - [Starlit Hammock](https://www.cosmicplayground.org/#starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
-  as it slowly surveys the skies, and you can zoom and pan around to explore on your own.
+  as it slowly surveys the skies, or zoom and pan around to explore on your own.
   It displays images from Hubble, [spacetelescope.org](https://www.spacetelescope.org/about/).
   Why? For me mostly vibes. Looks nice on an idle screen.
   - Safari users: Starlit Hammock uses the modern image format webp instead of jpg,
