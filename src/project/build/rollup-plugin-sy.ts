@@ -3,7 +3,7 @@ import {cyan, gray, yellow} from '@feltcoop/gro/dist/colors/terminal.js';
 import {createFilter} from '@rollup/pluginutils';
 import prettier from 'prettier';
 import {toBuildId} from '@feltcoop/gro/dist/paths.js';
-import {replaceExt} from '@feltcoop/gro/dist/utils/path.js';
+import {replaceExtension} from '@feltcoop/gro/dist/utils/path.js';
 import {omitUndefined} from '@feltcoop/gro/dist/utils/object.js';
 
 import {logger, LogLevel, Logger, fmtCauses} from '../logger.js';
@@ -80,7 +80,7 @@ export const syPlugin = (pluginOptions: InitialPluginOptions): SyPlugin => {
 			if (!filter(id)) return null;
 			info('transform', id);
 
-			const cssId = replaceExt(id, cssExt);
+			const cssId = replaceExtension(id, cssExt);
 
 			// TODO optimize - this reads from disk when we already have the source text. (`_code` arg)
 			// how to execute the source script to ge the result? ts-node?
