@@ -19,7 +19,7 @@
 	.slider-wrapper {
 		margin-top: 3px;
 		width: 300px;
-		background-color: hsla(260deg, 60%, 65%, 0.15);
+		background-color: hsla(var(--space_hue), 60%, 65%, 0.15);
 	}
 	.slider-graphic {
 		animation: slide 5s cubic-bezier(0.645, 0.045, 0.355, 1) infinite alternate;
