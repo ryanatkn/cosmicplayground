@@ -31,8 +31,8 @@ is a collection of web projects that try to be useful or interesting.
   - [Easing Function Visualizations and Auralizations](https://www.cosmicplayground.org/#easings-2)
     focuses on one function at a time with bigger visuals and a tweakable audio representation
     ([auralization](https://en.wikipedia.org/wiki/Auralization))
-- several odd and partially finished things, some of which require audio to make sense
-  - please mind your pets when clicking things, some things emit pitches only they can hear!
+- several odd and partially finished things, some of which require audio to make sense,
+  and some might not work (or not well) on mobile
 
 [![galaxies](/src/assets/space/galaxies-banner.jpg)](/src/assets/space/galaxies.jpg)
 
