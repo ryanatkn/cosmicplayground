@@ -18,11 +18,12 @@ is a collection of web projects that try to be useful or interesting.
   the visual quality is better on the website but it's not mobile friendly.
 - [Starlit Hammock](https://www.cosmicplayground.org/#starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
-  as it slowly surveys the skies, or zoom and pan around to explore on your own.
+  as it slowly surveys the skies.
+  Zoom and pan around to explore on your own—try to spot your atoms' cousins!
   It displays images from Hubble, [spacetelescope.org](https://www.spacetelescope.org/about/).
-  Why? For me mostly vibes. Looks nice on an idle screen.
+  Try it on an idle screen but be mindful of the power usage. :]
   - Safari users: Starlit Hammock uses the modern image format webp instead of jpg,
-    which means it only works on iOS 14 and macOS Big Sur or later
+    which means it only works on iOS 14 & macOS Big Sur or later
 - Two tools for understanding
   [the easing functions in Svelte](https://svelte.dev/docs#svelte_easing):
   - [Easing Function Visualizations](https://www.cosmicplayground.org/#easings-1)
@@ -31,6 +32,7 @@ is a collection of web projects that try to be useful or interesting.
     focuses on one function at a time with bigger visuals and a tweakable audio representation
     ([auralization](https://en.wikipedia.org/wiki/Auralization))
 - several odd and partially finished things, some of which require audio to make sense
+  (please mind your pets when clicking things)
 
 [![galaxies](/src/assets/space/galaxies-banner.jpg)](/src/assets/space/galaxies.jpg)
 
