@@ -15,7 +15,7 @@ export interface PixiBgStore {
 	tick: (dt: number) => void;
 }
 
-const BG_DRIFT_SPEED = 0.01;
+const BG_DRIFT_SPEED = 0.0033;
 
 export const createPixiBgStore = (
 	texture: PIXI.Texture,

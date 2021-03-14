@@ -48,7 +48,8 @@ html {
 	--border_width_sm: 1px;
 	--border_width_md: 3px;
 	--border_width_lg: 5px;
-	--portal_border: var(--border_width_md) var(--clickable_border_style) var(--light_border_color);
+	--border_width_xl: 7px;
+	--portal_border: var(--border_width_xl) var(--clickable_border_style) var(--light_border_color);
 	--portal_border_radius: 7px;
 	--dark_border_md: var(--border_width_md) var(--clickable_border_style) var(--bg_dark_lighter);
 	--portal_padding: 12px; /* TODO maybe swap for spacing_3 */

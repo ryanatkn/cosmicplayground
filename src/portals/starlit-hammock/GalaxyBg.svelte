@@ -16,10 +16,6 @@
 	$: useWidthDimension = width / imageAspectRatio > height;
 	$: bgWidth = 2 * (useWidthDimension ? width : height * imageAspectRatio);
 	$: bgHeight = 2 * (useWidthDimension ? width / imageAspectRatio : height);
-
-	// TODO support customizing this?
-	const bgSizePct = 0.5;
-	$: bgSizeStr = bgSizePct * 100 + '%';
 </script>
 
 <div
@@ -30,7 +26,7 @@
 	<div
 		class="bg"
 		style="width: {bgWidth}px; height: {bgHeight}px; background-image: url({imageUrl});
-		background-size: {bgSizeStr}; animation-duration: {animationDuration};"
+		animation-duration: {animationDuration};"
 	/>
 </div>
 
@@ -39,6 +35,7 @@
 		overflow: hidden;
 	}
 	.bg {
+		background-size: 50%;
 		background-repeat: repeat;
 		animation-name: scroll-bg;
 		animation-timing-function: linear;
@@ -49,10 +46,10 @@
 	}
 	@keyframes scroll-bg {
 		0% {
-			transform: translate3d(0, 0, 0);
+			transform: translate3d(-50%, 0, 0);
 		}
 		100% {
-			transform: translate3d(-50%, -50%, 0);
+			transform: translate3d(0, -50%, 0);
 		}
 	}
 </style>

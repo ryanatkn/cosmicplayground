@@ -8,7 +8,13 @@
 </script>
 
 <h1>starlit hammock</h1>
-<GalaxyBg width={260} height={200} opacity={0.6} animationDuration="45s" running={$clock.running} />
+<GalaxyBg
+	width={260}
+	height={200}
+	opacity={0.6}
+	animationDuration="180s"
+	running={$clock.running}
+/>
 
 <style>
 	h1 {

@@ -15,7 +15,7 @@
 
 <style>
 	img {
-		animation: rotate-pulse 5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+		animation: rotate-pulse 10s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 	}
 	:global(.paused) img {
 		animation-play-state: paused;

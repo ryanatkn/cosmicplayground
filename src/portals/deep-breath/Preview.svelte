@@ -11,7 +11,7 @@
 <EarthThumbnail
 	width={320}
 	height={160}
-	animationDuration="45s"
+	animationDuration="90s"
 	running={$clock.running}
 	text="deep breath"
 />
