@@ -30,7 +30,7 @@ export const gen: Gen = () => {
           style="border-radius: 50%;"
         >
           <img
-            src="/assets/characters/cosmic-kitty.jpg"
+            src="/assets/characters/cosmic-kitty.webp"
             class="w-50 h-50"
             alt="Cosmic Kitty"
           />

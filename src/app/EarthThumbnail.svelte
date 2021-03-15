@@ -48,7 +48,7 @@
 	.text {
 		font-weight: 900;
 		white-space: nowrap;
-		color: var(--ocean_color);
+		color: var(--ocean_text_color);
 		height: 100%;
 		width: 100%;
 		position: absolute;

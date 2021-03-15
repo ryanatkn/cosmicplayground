@@ -30,7 +30,7 @@
 		border-radius: var(--portal_border_radius);
 		margin: 12px;
 		text-align: center;
-		color: var(--text_color);
+		color: var(--text_color_dark);
 		display: flex;
 		flex-direction: column;
 		align-items: center;

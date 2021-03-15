@@ -3,7 +3,7 @@
 </script>
 
 <figure>
-	<img alt="Cosmic Kitty" src="/assets/characters/cosmic-kitty.jpg" width="192" height="192" />
+	<img alt="Cosmic Kitty" src="/assets/characters/cosmic-kitty.webp" width="192" height="192" />
 	<figcaption>
 		<div>
 			Cosmic Kitty pounced out of

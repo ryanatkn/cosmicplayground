@@ -27,5 +27,6 @@
 		margin-bottom: 5px;
 		display: flex;
 		align-items: center;
+		color: var(--text_color);
 	}
 </style>
