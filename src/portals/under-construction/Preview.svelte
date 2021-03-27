@@ -25,7 +25,7 @@
 			transform: rotate3d(-0.51, 0.49, 0.19, 27deg) scale3d(0.65, 0.65, 0.65);
 		}
 		66% {
-			transform: rotate3d(0.65, 0.06, -0.07, 40deg) scale3d(1.2, 1.2, 1.2);
+			transform: rotate3d(0.65, 0.06, -0.07, 40deg) scale3d(1.42, 1.42, 1.42);
 		}
 		100% {
 			transform: rotate3d(-0.51, 0.49, 0.19, 27deg) scale3d(0.65, 0.65, 0.65);
