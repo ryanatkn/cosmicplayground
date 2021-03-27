@@ -5,6 +5,7 @@ import {toDistId} from '@feltcoop/gro/dist/paths.js';
 import {GroSveltePlugin} from '@feltcoop/gro/dist/project/rollup-plugin-gro-svelte.js';
 import {join} from 'path';
 import resolvePlugin from '@rollup/plugin-node-resolve';
+import {getPackageJson} from '@feltcoop/gro/dist/project/pkg.js';
 
 import {paths} from './paths.js';
 import {bundleWriterPlugin} from './project/build/rollup-plugin-bundle-writer.js';
@@ -50,26 +51,7 @@ const mapInputOptions: MapInputOptions = (inputOptions, {dev, cssCache}) => {
 	// TODO do this correctly (and replace this project's logger with Gro's)
 	const logLevel = LogLevel.Trace;
 
-	// TODO do this correctly
-	// const pkg = require('../../../package.json'); // TODO import differently?
-	// const prettierOptions: prettier.Options = pkg.prettier;
-	const prettierOptions = {
-		useTabs: true,
-		printWidth: 100,
-		singleQuote: true,
-		trailingComma: 'all',
-		bracketSpacing: false,
-		svelteSortOrder: 'scripts-markup-styles',
-		svelteBracketNewLine: true,
-		overrides: [
-			{
-				files: '*.json',
-				options: {
-					useTabs: false,
-				},
-			},
-		],
-	} as const;
+	const pkg = getPackageJson();
 
 	const removeUnusedClasses = !dev;
 	const warnUndefinedClasses = true;
@@ -132,7 +114,7 @@ const mapInputOptions: MapInputOptions = (inputOptions, {dev, cssCache}) => {
 			cacheCss: cacheSyCss,
 			cssClasses,
 			removeUnusedClasses,
-			prettierOptions,
+			prettierOptions: pkg.prettier as any,
 			logLevel,
 		}),
 
