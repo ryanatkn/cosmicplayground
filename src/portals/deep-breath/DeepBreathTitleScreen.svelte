@@ -45,7 +45,7 @@
 			<p>
 				Deep Breath is an interactive webpage with a rough sketch of Earth's coastlines if all ice
 				melts. Most estimates range from 60 to 75 meters above 2020's oceans—some are higher—and
-				this map shows about 65 meters. This is an extreme hypothetical - <a
+				this map shows about 65 meters. This is an extreme hypothetical: <a
 					href="https://en.wikipedia.org/wiki/Sea_level_rise"
 				>Wikipedia can help put it into perspective</a>.
 			</p>
