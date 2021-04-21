@@ -62,6 +62,7 @@ To play with the code, you'll need Node 14+;
 npm i
 npm start
 # open your browser to localhost:8999
+npm run build # for production
 ```
 
 ### WebGL, Pixi, and bundle sizes
