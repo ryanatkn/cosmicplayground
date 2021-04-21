@@ -26,7 +26,7 @@ export const gen: Gen = () => {
     <div id="root">
       <noscript>
         <div
-          class="overflow-hidden my-0 mx-auto w-50 h-50"
+          class="overflow-hidden my-0 mx-auto w-50 h-50 flex justify-center"
           style="border-radius: 50%;"
         >
           <img
