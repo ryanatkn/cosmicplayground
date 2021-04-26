@@ -107,18 +107,19 @@ In summary:
   with [Svelte for WebGL](https://github.com/sveltejs/gl)
 - this app is not representative of Svelte's ability to gracefully scale its JS bundle sizes
 
-## license :bird:
+## license 🐦
 
-Copyright (c) Ryan Atkinson <mail@ryanatkn.com>
-([ryanatkn.com](https://www.ryanatkn.com))
-
-Code is licensed [AGPL-3.0-only](LICENSE).
+code is public domain ([The Unlicense](license))
 
 For the licenses and copyright info of the
 graphics, audio, and other non-code assets,
 see [cosmicplayground.org/#about](https://www.cosmicplayground.org/#about).
+
 All original assets are licensed
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 unless otherwise specified.
+
+made by Ryan Atkinson <mail@ryanatkn.com>
+([ryanatkn.com](https://www.ryanatkn.com)) with the help of infinite turtles
 
 [![galaxies](/src/assets/space/galaxies-banner.jpg)](/src/assets/space/galaxies.jpg)

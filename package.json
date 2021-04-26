@@ -1,9 +1,9 @@
 {
   "name": "cosmicplayground",
-  "version": "0.1.0",
   "description": "tools and toys for expanding minds 🌌",
-  "license": "AGPL-3.0-only",
   "homepage": "https://www.cosmicplayground.org",
+  "license": "Unlicense",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "start": "gro dev",
@@ -46,7 +46,6 @@
     "tslib": "^2.0.1",
     "typescript": "^4.0.2"
   },
-  "dependencies": {},
   "prettier": {
     "useTabs": true,
     "printWidth": 100,

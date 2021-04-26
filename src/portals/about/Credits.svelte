@@ -19,7 +19,7 @@
 		<code>src/assets</code> directory
 	</a> for the complete source data. Code is licensed <a
 		href="https://github.com/ryanatkn/cosmicplayground/blob/master/LICENSE"
-	>AGPL-3.0-only</a>.
+	>public domain (The Unlicense)</a>.
 </section>
 <hr />
 <section>
