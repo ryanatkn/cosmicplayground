@@ -119,7 +119,7 @@ All original assets are licensed
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 unless otherwise specified.
 
-made by Ryan Atkinson <mail@ryanatkn.com>
-([ryanatkn.com](https://www.ryanatkn.com)) with the help of infinite turtles
+made with the help of infinite turtles
+<mail@ryanatkn.com> ([ryanatkn.com](https://www.ryanatkn.com))
 
 [![galaxies](/src/assets/space/galaxies-banner.jpg)](/src/assets/space/galaxies.jpg)
