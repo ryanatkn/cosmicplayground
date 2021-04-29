@@ -1,6 +1,6 @@
 <div class="credits-project-signature">
 	<div class="item">
-		✉ <a href="mailto:cosmicplayground.org@gmail.com">cosmicplayground.org@gmail.com</a> &nbsp;&nbsp;
+		✉ <a href="mailto:void@cosmicplayground.org">void@cosmicplayground.org</a> &nbsp;&nbsp;
 	</div>
 	<div class="item">
 		<a href="https://twitter.com/cosmicplaygroun">@cosmicplaygroun <img src="/assets/characters/twit.png" alt="@cosmicplaygroun on Twitter" class="w-16
