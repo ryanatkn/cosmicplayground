@@ -24,6 +24,7 @@
     // "diagnostics": false, // Show diagnostic information.
     // "incremental": true, // Enable incremental compilation by reading/writing information from prior compilations to a file on disk.
     // "isolatedModules": false, // Transpile each file as a separate module (similar to 'ts.transpileModule').
+    "importsNotUsedAsValues": "error", // This flag controls how imports work. When set to `remove`, imports that only reference types are dropped. When set to `preserve`, imports are never dropped. When set to `error`, imports that can be replaced with `import type` will result in a compiler error. Requires TypeScript version 3.8 or later.
     // "listEmittedFiles": false, // Print names of generated files part of the compilation.
     // "listFiles": true, // Print names of files part of the compilation.
     // "noErrorTruncation": false, // Do not truncate error messages.

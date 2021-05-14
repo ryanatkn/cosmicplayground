@@ -1,4 +1,4 @@
-import {Writable} from 'svelte/store';
+import type {Writable} from 'svelte/store';
 
 interface TrackIdleStateOptions {
 	idle: Writable<boolean>;

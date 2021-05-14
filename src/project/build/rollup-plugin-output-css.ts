@@ -1,22 +1,23 @@
-import {Plugin} from 'rollup';
+import type {Plugin} from 'rollup';
 import {outputFile} from '@feltcoop/gro/dist/fs/nodeFs.js';
 import {blue, gray} from '@feltcoop/gro/dist/colors/terminal.js';
 import * as fp from 'path';
-import sourcemapCodec, {SourceMapSegment} from 'sourcemap-codec';
-import {Style} from 'svelte/types/compiler/interfaces.js';
+import sourcemapCodec from 'sourcemap-codec';
+import type {SourceMapSegment} from 'sourcemap-codec';
+import type {Style} from 'svelte/types/compiler/interfaces.js';
 import svelteCompiler from 'svelte/compiler.js';
 const {walk} = svelteCompiler;
 import cssTreeGenerator from 'css-tree/lib/generator/index.js'; // TODO import directly - maybe lazily?
 const {translate} = cssTreeGenerator;
 import cssTreeConvertor from 'css-tree/lib/convertor/index.js';
 const {fromPlainObject} = cssTreeConvertor;
-import {CssNode} from 'css-tree';
-import {GroCssBundle, GroCssBuild} from '@feltcoop/gro/dist/project/types.js';
+import type {CssNode} from 'css-tree';
+import type {GroCssBundle, GroCssBuild} from '@feltcoop/gro/dist/project/types.js';
 import {dirname} from 'path';
 import {omitUndefined} from '@feltcoop/gro/dist/utils/object.js';
 
 import {LogLevel, logger, Logger} from '../logger.js';
-import {CssClassesCache} from './cssClassesCache.js';
+import type {CssClassesCache} from './cssClassesCache.js';
 
 export interface SyCssBuild extends GroCssBuild {
 	ast?: Style;

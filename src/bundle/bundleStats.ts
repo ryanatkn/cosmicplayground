@@ -2,7 +2,8 @@ import {last} from '@feltcoop/gro/dist/utils/array.js';
 import {stripStart, stripEnd} from '@feltcoop/gro/dist/utils/string.js';
 
 import {reorder} from '../utils/obj.js';
-import {BundleData, isBundleChunk, BundleChunk, BundleAsset} from './bundleData.js';
+import {isBundleChunk} from './bundleData.js';
+import type {BundleData, BundleChunk, BundleAsset} from './bundleData.js';
 
 // `BundleStats` an expanded transformation of `BundleStats` that provides
 // a more ergonomic runtime data representation.

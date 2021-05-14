@@ -1,4 +1,5 @@
-import {writable, get, Writable} from 'svelte/store';
+import {writable, get} from 'svelte/store';
+import type {Writable} from 'svelte/store';
 import {getContext, setContext} from 'svelte';
 
 // I tried to avoid using `get`, but there's one place where it's used.

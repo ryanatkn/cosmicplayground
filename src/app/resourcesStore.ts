@@ -1,4 +1,5 @@
-import {writable, Writable} from 'svelte/store';
+import {writable} from 'svelte/store';
+import type {Writable} from 'svelte/store';
 import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
 import {UnreachableError} from '@feltcoop/gro/dist/utils/error.js';
 

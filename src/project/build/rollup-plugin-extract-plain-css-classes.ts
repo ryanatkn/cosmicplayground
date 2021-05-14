@@ -1,17 +1,17 @@
 import svelteCompiler from 'svelte/compiler.js';
 const {walk} = svelteCompiler;
-import {Plugin} from 'rollup';
+import type {Plugin} from 'rollup';
 import {green, gray} from '@feltcoop/gro/dist/colors/terminal.js';
 import parse from 'css-tree/lib/parser/index.js';
 import cssTreeConvertor from 'css-tree/lib/convertor/index.js';
 const {toPlainObject} = cssTreeConvertor;
 import {createFilter} from '@rollup/pluginutils';
-import {Style} from 'svelte/types/compiler/interfaces.js';
+import type {Style} from 'svelte/types/compiler/interfaces.js';
 import {omitUndefined} from '@feltcoop/gro/dist/utils/object.js';
 
 import {LogLevel, logger, Logger} from '../logger.js';
-import {CssClassesCache} from './cssClassesCache.js';
-import {SyCssBuild} from './rollup-plugin-output-css.js';
+import type {CssClassesCache} from './cssClassesCache.js';
+import type {SyCssBuild} from './rollup-plugin-output-css.js';
 
 export interface PluginOptions {
 	getCssBuild(id: string): SyCssBuild;

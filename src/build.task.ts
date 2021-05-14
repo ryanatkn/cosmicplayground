@@ -1,8 +1,8 @@
-import {Task} from '@feltcoop/gro/dist/task/task.js';
-import {MapInputOptions} from '@feltcoop/gro/dist/project/build.js';
+import type {Task} from '@feltcoop/gro/dist/task/task.js';
+import type {MapInputOptions} from '@feltcoop/gro/dist/project/build.js';
 import {copy} from '@feltcoop/gro/dist/fs/nodeFs.js';
 import {toDistId} from '@feltcoop/gro/dist/paths.js';
-import {GroSveltePlugin} from '@feltcoop/gro/dist/project/rollup-plugin-gro-svelte.js';
+import type {GroSveltePlugin} from '@feltcoop/gro/dist/project/rollup-plugin-gro-svelte.js';
 import {join} from 'path';
 import resolvePlugin from '@rollup/plugin-node-resolve';
 import {getPackageJson} from '@feltcoop/gro/dist/project/pkg.js';

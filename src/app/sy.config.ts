@@ -1,4 +1,4 @@
-import {SyConfig} from '../sy/sy.js';
+import type {SyConfig} from '../sy/sy.js';
 import {classDef, classDefs, selectorDef, selectorDefs, propsToClassDefs} from '../sy/helpers.js';
 import {arrayOf, flatMap} from '../utils/arr.js';
 import {blendModes} from '../css/blendModes.js';

@@ -1,7 +1,7 @@
 import {gray, green} from '@feltcoop/gro/dist/colors/terminal.js';
 import {omitUndefined} from '@feltcoop/gro/dist/utils/object.js';
 
-import {CssClass} from '../../sy/sy.js';
+import type {CssClass} from '../../sy/sy.js';
 import {LogLevel, logger} from '../logger.js';
 
 export interface CssClassesCache {

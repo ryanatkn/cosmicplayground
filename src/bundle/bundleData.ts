@@ -1,4 +1,4 @@
-import {OutputBundle, OutputChunk, OutputAsset} from 'rollup';
+import type {OutputBundle, OutputChunk, OutputAsset} from 'rollup';
 import {mapRecord, reorder} from '@feltcoop/gro/dist/utils/object.js';
 
 import {omit} from '../utils/obj.js';

@@ -1,17 +1,17 @@
 import svelteCompiler from 'svelte/compiler.js';
 const {walk} = svelteCompiler;
-import {Plugin} from 'rollup';
+import type {Plugin} from 'rollup';
 import {cyan} from '@feltcoop/gro/dist/colors/terminal.js';
 import cssTree from 'css-tree';
-import {TemplateNode, Style, Script} from 'svelte/types/compiler/interfaces.js';
+import type {TemplateNode, Style, Script} from 'svelte/types/compiler/interfaces.js';
 import {printPath} from '@feltcoop/gro/dist/utils/print.js';
-import {GroSvelteCompilation} from '@feltcoop/gro/dist/project/rollup-plugin-gro-svelte.js';
+import type {GroSvelteCompilation} from '@feltcoop/gro/dist/project/rollup-plugin-gro-svelte.js';
 import {createStopwatch} from '@feltcoop/gro/dist/utils/time.js';
 import {omitUndefined} from '@feltcoop/gro/dist/utils/object.js';
 
-import {CssClass} from '../../sy/sy.js';
+import type {CssClass} from '../../sy/sy.js';
 import {LogLevel, logger, Logger, fmtVal, fmtMs} from '../logger.js';
-import {CssClassesCache} from './cssClassesCache.js';
+import type {CssClassesCache} from './cssClassesCache.js';
 
 // TODO remove unused plain css classes in prod (groundwork is now laid with `cssClassesCache`)
 // TODO class directives! `class:active={isActive}`

@@ -1,4 +1,4 @@
-import {Frequency} from '../audio/types.js';
+import type {Frequency} from '../audio/types.js';
 
 // This project uses `Midi`, the midi number,
 // as the standard musical note identity.

@@ -1,4 +1,4 @@
-import {SvelteComponent} from 'svelte';
+import type {SvelteComponent} from 'svelte';
 
 // TODO is this the right file name? `Portal.ts`? `portalData.ts`? `portalsData.js`? `data.js`? `types.ts`?
 // does it even belong in this directory?

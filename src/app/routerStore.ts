@@ -1,4 +1,5 @@
-import {writable, Writable} from 'svelte/store';
+import {writable} from 'svelte/store';
+import type {Writable} from 'svelte/store';
 import {setContext, getContext} from 'svelte';
 
 // TODO currently this store is readonly,

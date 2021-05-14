@@ -1,4 +1,4 @@
-import {Plugin} from 'rollup';
+import type {Plugin} from 'rollup';
 import {cyan, gray, yellow} from '@feltcoop/gro/dist/colors/terminal.js';
 import {createFilter} from '@rollup/pluginutils';
 import prettier from 'prettier';
@@ -7,10 +7,11 @@ import {replaceExt} from '@feltcoop/gro/dist/utils/path.js';
 import {omitUndefined} from '@feltcoop/gro/dist/utils/object.js';
 
 import {logger, LogLevel, Logger, fmtCauses} from '../logger.js';
-import {sy, SyBuild, SyConfig} from '../../sy/sy.js';
+import {sy} from '../../sy/sy.js';
+import type {SyBuild, SyConfig} from '../../sy/sy.js';
 import {removeClasses} from '../../sy/helpers.js';
-import {SyCssBuild} from './rollup-plugin-output-css.js';
-import {CssClassesCache} from './cssClassesCache.js';
+import type {SyCssBuild} from './rollup-plugin-output-css.js';
+import type {CssClassesCache} from './cssClassesCache.js';
 
 export interface PluginOptions {
 	dev: boolean;

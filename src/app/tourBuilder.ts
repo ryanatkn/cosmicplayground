@@ -1,14 +1,8 @@
 import {sineInOut} from 'svelte/easing';
 import {} from '@feltcoop/gro';
 
-import {
-	TourData,
-	TourStep,
-	TourStepType,
-	findMostRecentStepOfType,
-	PanTourStep,
-	ZoomTourStep,
-} from './tourStore.js';
+import {findMostRecentStepOfType} from './tourStore.js';
+import type {TourData, TourStep, TourStepType, PanTourStep, ZoomTourStep} from './tourStore.js';
 
 type Easing = (t: number) => number;
 

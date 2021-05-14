@@ -1,4 +1,4 @@
-import {Gen} from '@feltcoop/gro';
+import type {Gen} from '@feltcoop/gro';
 import {renderNoscriptSection} from '@feltcoop/gro/dist/gen/helpers/html.js';
 
 // If this file or one of its dependencies change, be sure to run `gro gen`.
