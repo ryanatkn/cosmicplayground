@@ -194,14 +194,12 @@
 					alt="under construction: mammal"
 					class="pixelated"
 				/>
-				<a href="https://spiderspace.org" class="cursor-none">
-					<img
-						src="/assets/characters/spider.png"
-						alt="spider"
-						class="absolute"
-						style="left: 56px; top: 68px;"
-					/>
-				</a>
+				<img
+					src="/assets/characters/spider.png"
+					alt="spider"
+					class="absolute cursor-none"
+					style="left: 56px; top: 68px;"
+				/>
 			</div>
 			<img
 				src="/assets/construction/line-2.gif"

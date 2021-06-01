@@ -50,9 +50,9 @@
 	<h2>Contact</h2>
 	<CreditsPersonalSignature />
 	<CreditsProjectSignature />
-	<a href="https://spiderspace.org" class="block relative h-0 cursor-none">
+	<div class="relative h-0 cursor-none">
 		<img src="/assets/characters/spider.png" alt="spider" class="absolute t-8 -r-12" />
-	</a>
+	</div>
 </Panel>
 
 <style>
