@@ -2,8 +2,8 @@
 	import Panel from '../../app/Panel.svelte';
 	import ChunkyButton from '../../app/ChunkyButton.svelte';
 	import FloatingIconButton from '../../app/FloatingIconButton.svelte';
-	import {useRouter} from '../../app/routerStore.js';
-	import {usePortals} from '../../app/portalsStore.js';
+	import {get_router} from '../../app/routerStore.js';
+	import {get_portals} from '../../app/portalsStore.js';
 	import PortalLink from '../../app/PortalLink.svelte';
 	import {VOID_PORTAL_SLUG} from '../portal.js';
 
@@ -11,8 +11,8 @@
 	export const width = undefined;
 	export const height = undefined;
 
-	const router = useRouter();
-	const portals = usePortals();
+	const router = get_router();
+	const portals = get_portals();
 
 	$: portalList = $portals.data.portals.filter((p) => p.slug !== VOID_PORTAL_SLUG);
 </script>

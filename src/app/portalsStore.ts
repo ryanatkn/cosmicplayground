@@ -24,8 +24,8 @@ export const findPortalBySlug = ($portals: PortalsState, slug: string): PortalDa
 	$portals.data.portalsBySlug.get(slug) || $portals.data.portalsBySlug.get(VOID_PORTAL_SLUG)!;
 
 export const portalsContextKey = {};
-export const usePortals = (): PortalsStore => getContext(portalsContextKey);
-export const providePortals = (initialPortalsData: PortalsData): PortalsStore => {
+export const get_portals = (): PortalsStore => getContext(portalsContextKey);
+export const set_portals = (initialPortalsData: PortalsData): PortalsStore => {
 	const portals = createPortalsStore(initialPortalsData);
 	setContext(portalsContextKey, portals);
 	return portals;

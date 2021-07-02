@@ -1,12 +1,12 @@
 <script>
 	import FreqSpeeds from './FreqSpeeds.svelte';
-	import {useClock} from '../../app/clockStore.js';
+	import {get_clock} from '../../app/clockStore.js';
 
 	export const portal = undefined;
 	export let width;
 	export let height;
 
-	const clock = useClock();
+	const clock = get_clock();
 
 	const hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60];
 </script>

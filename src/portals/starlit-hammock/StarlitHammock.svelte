@@ -1,7 +1,7 @@
 <script>
 	import {AsyncState} from '@feltcoop/gro/dist/utils/async';
 
-	import {usePixiScene} from '../../app/pixi.js';
+	import {get_pixi_scene} from '../../app/pixi.js';
 	import WaitingScreen from '../../app/WaitingScreen.svelte';
 
 	// TODO This code is hacky and complex because the Pixi loader API is a headache :/
@@ -9,7 +9,7 @@
 	// Maybe we could look in `PIXI.BaseTextureCache`
 	// and be aggressive about calling `loader.reset`?
 	// But then we'll throw away loading assets if they're not done. (does the browser cache tho?)
-	// Probably want to encapsulate this possibly-concurrent loader logic, maybe in `usePixiScene`?
+	// Probably want to encapsulate this possibly-concurrent loader logic, maybe in `get_pixi_scene`?
 
 	export let cameraX;
 	export let cameraY;
@@ -20,7 +20,7 @@
 	let sprite = null;
 	let destroyed = false;
 
-	const [pixi, scene] = usePixiScene({
+	const [pixi, scene] = get_pixi_scene({
 		loaded: () => {
 			updateSprite(imageUrl); // this *might* handle a corner case bug due to the fact that we're not reactively listening to the loader
 		},

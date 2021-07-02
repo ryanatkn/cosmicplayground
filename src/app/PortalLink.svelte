@@ -1,9 +1,9 @@
 <script>
-	import {usePortals, findPortalBySlug} from './portalsStore.js';
+	import {get_portals, findPortalBySlug} from './portalsStore.js';
 
 	export let slug;
 
-	const portals = usePortals();
+	const portals = get_portals();
 	$: portal = findPortalBySlug($portals, slug);
 </script>
 

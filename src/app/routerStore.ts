@@ -37,8 +37,8 @@ const DEFAULT_PORTAL_SLUG = 'home';
 const parseSlug = (hash: string): string => hash.slice(1) || DEFAULT_PORTAL_SLUG;
 
 export const routerContextKey = {};
-export const useRouter = (): RouterStore => getContext(routerContextKey);
-export const provideRouter = (router = createRouterStore()): RouterStore => {
+export const get_router = (): RouterStore => getContext(routerContextKey);
+export const set_router = (router = createRouterStore()): RouterStore => {
 	setContext(routerContextKey, router);
 	return router;
 };

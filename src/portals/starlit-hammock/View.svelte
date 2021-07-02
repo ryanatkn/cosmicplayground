@@ -6,7 +6,7 @@
 	import ImagePicker from '../../app/ImagePicker.svelte';
 	import FloatingTextButton from '../../app/FloatingTextButton.svelte';
 	import {spaceImages} from '../../app/images.js';
-	import {useClock} from '../../app/clockStore.js';
+	import {get_clock} from '../../app/clockStore.js';
 	import ImageCreditsCaption from '../../app/ImageCreditsCaption.svelte';
 	import InteractiveSurface from '../../app/InteractiveSurface.svelte';
 	import Panel from '../../app/Panel.svelte';
@@ -34,7 +34,7 @@
 
 	let activeImage = randomItem(spaceImages);
 
-	const clock = useClock();
+	const clock = get_clock();
 
 	const pickImage = (image) => {
 		activeImage = image;

@@ -1,5 +1,5 @@
 <script>
-	import {usePortals} from '../../app/portalsStore.js';
+	import {get_portals} from '../../app/portalsStore.js';
 	import PortalPreview from './PortalPreview.svelte';
 	import {VOID_PORTAL_SLUG} from '../portal.js';
 
@@ -13,7 +13,7 @@
 	// {portalData, portalWidth, portalHeight} = portalStores()
 	// what about a `showHomeButton` store taking null|false|true, so portals can override as needed
 
-	const portals = usePortals();
+	const portals = get_portals();
 
 	const COOLNESS_VISIBILITY_THRESHOLD = 3;
 	const unlistedPortals = new Set([portal.slug, VOID_PORTAL_SLUG]);

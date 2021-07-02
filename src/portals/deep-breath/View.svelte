@@ -1,6 +1,6 @@
 <script>
 	import DeepBreath from './DeepBreath.svelte';
-	import {useClock} from '../../app/clockStore.js';
+	import {get_clock} from '../../app/clockStore.js';
 
 	export const portal = undefined;
 	export let width;
@@ -15,7 +15,7 @@
 	// const {width, height} = portalStores();
 	// const {width, height} = usePortal();
 
-	const clock = useClock();
+	const clock = get_clock();
 </script>
 
 <DeepBreath {clock} {width} {height} />

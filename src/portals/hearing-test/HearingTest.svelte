@@ -3,13 +3,13 @@
 	import {onDestroy} from 'svelte';
 	import {mix} from '@feltcoop/gro/dist/utils/math.js';
 
-	import {useAudioCtx} from '../../audio/audioCtx.js';
+	import {get_audio_ctx} from '../../audio/audioCtx.js';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../../audio/utils.js';
 
 	export let width;
 	export let height;
 
-	const audioCtx = useAudioCtx();
+	const audioCtx = get_audio_ctx();
 
 	let pointerX = -300;
 	let pointerY = -300;

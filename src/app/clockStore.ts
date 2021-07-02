@@ -81,8 +81,8 @@ export const createClockStore = (initialState?: Partial<ClockState>): ClockStore
 };
 
 export const clockContextKey = {};
-export const useClock = (): ClockStore => getContext(clockContextKey);
-export const provideClock = (initialState: Partial<ClockState>): ClockStore => {
+export const get_clock = (): ClockStore => getContext(clockContextKey);
+export const set_clock = (initialState: Partial<ClockState>): ClockStore => {
 	const clock = createClockStore(initialState);
 	setContext(clockContextKey, clock);
 	return clock;

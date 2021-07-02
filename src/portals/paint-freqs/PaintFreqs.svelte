@@ -3,7 +3,7 @@
 	import {onMount, onDestroy} from 'svelte';
 	import {mix} from '@feltcoop/gro/dist/utils/math.js';
 
-	import {useAudioCtx} from '../../audio/audioCtx.js';
+	import {get_audio_ctx} from '../../audio/audioCtx.js';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../../audio/utils.js';
 	import {hslToRgb} from '../../utils/colors.js';
 	import {freqToMidi} from '../../music/midi.js';
@@ -96,7 +96,7 @@
 		lines = lines.slice();
 	};
 
-	const audioCtx = useAudioCtx();
+	const audioCtx = get_audio_ctx();
 
 	let spotPosition = spring(
 		{x: pointerX, y: pointerY},

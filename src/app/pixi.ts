@@ -54,8 +54,8 @@ export class PixiApp extends PIXI.Application {
 }
 
 export const pixiContextKey = {};
-export const usePixi = (): PixiApp => getContext(pixiContextKey);
-export const providePixi = (pixi: PixiApp): PixiApp => {
+export const get_pixi = (): PixiApp => getContext(pixiContextKey);
+export const set_pixi = (pixi: PixiApp): PixiApp => {
 	setContext(pixiContextKey, pixi);
 	return pixi;
 };
@@ -90,9 +90,9 @@ export interface PixiSceneHooks {
 	destroy?: (scene: PIXI.Container | null, loader: PIXI.Loader) => void;
 }
 
-export const usePixiScene = (
+export const get_pixi_scene = (
 	hooks: PixiSceneHooks,
-	pixi = usePixi(),
+	pixi = get_pixi(),
 ): [PixiApp, PIXI.Container] => {
 	// Mount the scene right away. When loading, we'll show a black background
 	// and the scene component can display whatever it wants.

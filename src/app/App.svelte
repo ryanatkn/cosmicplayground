@@ -9,22 +9,22 @@
 	import Hud from './Hud.svelte';
 	import HomeButton from './HomeButton.svelte';
 	import Panel from './Panel.svelte';
-	import {provideRouter} from './routerStore.js';
-	import {provideAudioCtx} from '../audio/audioCtx.js';
-	import {provideClock} from './clockStore.js';
-	import {provideSettings} from './settingsStore.js';
-	import {providePortals, findPortalBySlug} from './portalsStore.js';
+	import {set_router} from './routerStore.js';
+	import {set_audio_ctx} from '../audio/audioCtx.js';
+	import {set_clock} from './clockStore.js';
+	import {set_settings} from './settingsStore.js';
+	import {set_portals, findPortalBySlug} from './portalsStore.js';
 	import {trackIdleState} from './trackIdleState.js';
 	import {updateRenderStats} from './renderStats.js';
 	import {portalsData} from '../portals/index.js';
-	import {PixiApp, providePixi} from './pixi.js';
+	import {PixiApp, set_pixi} from './pixi.js';
 	import {createPixiBgStore} from './pixiBgStore.js';
 	import WaitingScreen from './WaitingScreen.svelte';
 
 	let width = window.innerWidth;
 	let height = window.innerHeight;
 
-	const settings = provideSettings({
+	const settings = set_settings({
 		audioEnabled: true, // TODO make this work everywhere? hmm. global mute/volume?
 		devMode: false,
 		recordingMode: false,
@@ -32,7 +32,7 @@
 		timeToGoIdle: 6000,
 	});
 
-	const clock = provideClock(); // TODO integrate with Pixi ticker?
+	const clock = set_clock(); // TODO integrate with Pixi ticker?
 	$: updateRenderStats($clock.dt);
 
 	let supportsWebGL = null;
@@ -44,7 +44,7 @@
 		supportsWebGL = false; // usually probably correct to infer this
 		console.error(err);
 	}
-	providePixi(pixi);
+	set_pixi(pixi);
 	window['pixi'] = pixi; // TODO improve this pattern
 
 	const bgImageUrl = '/assets/space/galaxies.jpg';
@@ -62,9 +62,9 @@
 		loadingStatus = AsyncState.Pending;
 	};
 
-	const router = provideRouter();
+	const router = set_router();
 
-	const portals = providePortals(portalsData);
+	const portals = set_portals(portalsData);
 	$: activePortal = findPortalBySlug($portals, $router.slug);
 
 	const idle = writable(false);
@@ -74,7 +74,7 @@
 		? 500
 		: $settings.timeToGoIdle;
 
-	provideAudioCtx(); // allows components to do `const audioCtx = useAudioCtx();` which uses svelte's `getContext`
+	set_audio_ctx(); // allows components to do `const audioCtx = get_audio_ctx();` which uses svelte's `getContext`
 
 	const enableGlobalHotkeys = (e) => !e.target.closest('input');
 	const onKeyDown = (e) => {

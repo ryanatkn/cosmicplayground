@@ -1,9 +1,9 @@
 <script>
 	import {blur} from 'svelte/transition';
 
-	import {useSettings} from '../../app/settingsStore.js';
+	import {get_settings} from '../../app/settingsStore.js';
 
-	const settings = useSettings();
+	const settings = get_settings();
 	$: displayForVideo = $settings.recordingMode;
 
 	export let transitionDuration;
