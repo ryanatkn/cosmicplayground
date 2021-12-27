@@ -47,16 +47,19 @@
 				melts. Most estimates range from 60 to 75 meters above 2020's oceans—some are higher—and
 				this map shows about 65 meters. This is an extreme hypothetical: <a
 					href="https://en.wikipedia.org/wiki/Sea_level_rise"
-				>Wikipedia can help put it into perspective</a>.
+					>Wikipedia can help put it into perspective</a
+				>.
 			</p>
 			<p>
-				There's <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">a video on YouTube with a 6
-					minute tour</a> set to music, and you can get the same experience by clicking "begin tour"
-				on the map. The visuals are higher quality here than in the video, but the video is recommended
-				for mobile devices, older hardware, and screens smaller than 1080p. (it doesn't currently scale
-				the resolution) The code and image data are <a
-					href="https://github.com/ryanatkn/cosmicplayground"
-				>open source on GitHub</a>. Credits are below.
+				There's <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4"
+					>a video on YouTube with a 6 minute tour</a
+				>
+				set to music, and you can get the same experience by clicking "begin tour" on the map. The
+				visuals are higher quality here than in the video, but the video is recommended for mobile
+				devices, older hardware, and screens smaller than 1080p. (it doesn't currently scale the
+				resolution) The code and image data are
+				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>. Credits
+				are below.
 			</p>
 			<p>Please be aware that the data is imperfect:</p>
 			<ul>

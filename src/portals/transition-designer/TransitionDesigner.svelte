@@ -136,7 +136,9 @@
 		<div
 			class="time"
 			style="width: {timeSliderWidth}px; height: {timeIndicatorSize + timeSliderBorderWidth * 2}px;
-			border-width: {timeSliderBorderWidth}px; border-radius: {(timeIndicatorSize + timeSliderBorderWidth * 2) / 2}px;"
+			border-width: {timeSliderBorderWidth}px; border-radius: {(timeIndicatorSize +
+				timeSliderBorderWidth * 2) /
+				2}px;"
 		>
 			<div
 				class="time-indicator"

@@ -51,7 +51,9 @@
 	<nav class="flex mb-4" style="background-color: #171314;">
 		{#each views as view (view.name)}
 			<div
-				class="flex-1 flex justify-center py-2 cursor-pointer {activeView === view.name ? 'font-bold' : ''}"
+				class="flex-1 flex justify-center py-2 cursor-pointer {activeView === view.name
+					? 'font-bold'
+					: ''}"
 				on:click={() => (activeView = view.name)}
 				class:active={activeView === view.name}
 			>

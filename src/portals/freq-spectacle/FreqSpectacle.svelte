@@ -27,7 +27,9 @@
 							y={i * hzItemHeight}
 							width={hzItemWidths[i]}
 							height={hzItemHeight}
-							fill="hsl({35 + 360 * (j / hzItem)}, {j % 2 ? '25%' : '30%'}, {j % 2 ? '30%' : '28%'})"
+							fill="hsl({35 + 360 * (j / hzItem)}, {j % 2 ? '25%' : '30%'}, {j % 2
+								? '30%'
+								: '28%'})"
 						/>
 					{/if}
 				{/each}

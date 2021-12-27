@@ -138,13 +138,14 @@
 			sorry, please try another browser or device if you can. (or enable it?)
 		</p>
 		<p>
-			source code is at <a href="https://github.com/ryanatkn/cosmicplayground">github.com/ryanatkn/cosmicplayground</a>
+			source code is at <a href="https://github.com/ryanatkn/cosmicplayground"
+				>github.com/ryanatkn/cosmicplayground</a
+			>
 		</p>
 	</Panel>
 {/if}
 
 <!-- TODO should we have a `<Portals/>` component that the `App` mounts? -->
-
 <style>
 	.pixi-wrapper {
 		position: fixed;

@@ -28,7 +28,7 @@
     "url": "https://www.ryanatkn.com"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16.6"
   },
   "devDependencies": {
     "@feltcoop/gro": "^0.3.0",
@@ -38,8 +38,8 @@
     "@types/prettier": "^2.1.0",
     "css-tree": "^1.0.0-alpha22",
     "pixi.js": "^5.3.3",
-    "prettier": "^2.1.1",
-    "prettier-plugin-svelte": "^1.2.1",
+    "prettier": "^2.5.1",
+    "prettier-plugin-svelte": "^2.5.1",
     "rollup": "^2.26.11",
     "sourcemap-codec": "^1.4.8",
     "svelte": "^3.24.1",
@@ -52,11 +52,9 @@
     "singleQuote": true,
     "trailingComma": "all",
     "bracketSpacing": false,
-    "svelteSortOrder": "scripts-markup-styles",
-    "svelteBracketNewLine": true,
     "overrides": [
       {
-        "files": "*.json",
+        "files": "package.json",
         "options": {
           "useTabs": false
         }

@@ -308,19 +308,27 @@
 			<div class="chart">
 				<div
 					class="absolute l-0 t-0"
-					style="transform: translate3d({chartX0 + xPct * chartWidth - chartAxisLineWidth / 2}px, {chartY0 - chartAxisLineWidth / 2}px,
+					style="transform: translate3d({chartX0 +
+						xPct * chartWidth -
+						chartAxisLineWidth / 2}px, {chartY0 - chartAxisLineWidth / 2}px,
 					0); background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
 				/>
 				<div
 					class="absolute l-0 t-0"
-					style="transform: translate3d({chartX0 - chartAxisLineWidth / 2}px, {chartY0 - yPct * chartHeight - chartAxisLineWidth / 2}px,
+					style="transform: translate3d({chartX0 - chartAxisLineWidth / 2}px, {chartY0 -
+						yPct * chartHeight -
+						chartAxisLineWidth / 2}px,
 					0); background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
 				/>
 				<canvas class="relative z-1" bind:this={chartCanvas} />
 				<div
 					class="absolute l-0 t-0"
-					style="background-color: {getColor(activeEasingIndex)}; transform: translate3d({chartX0 + xPct * chartWidth - chartLineHighlightWidth / 2}px,
-					{chartY0 - yPct * chartHeight - chartLineHighlightWidth / 2}px, 0); width: {chartLineHighlightWidth}px;
+					style="background-color: {getColor(activeEasingIndex)}; transform: translate3d({chartX0 +
+						xPct * chartWidth -
+						chartLineHighlightWidth / 2}px,
+					{chartY0 -
+						yPct * chartHeight -
+						chartLineHighlightWidth / 2}px, 0); width: {chartLineHighlightWidth}px;
 					height: {chartLineHighlightWidth}px; border-radius: 50%;"
 				/>
 			</div>
@@ -329,7 +337,8 @@
 				margin-bottom: 24px;"
 			>
 				<div
-					style="transform: translate3d({tweenAlternating * translateDistance}px, 0, 0); width: {graphic1Width}px;
+					style="transform: translate3d({tweenAlternating *
+						translateDistance}px, 0, 0); width: {graphic1Width}px;
 					height: {graphic1Height}px; background-color: {getColor(activeEasingIndex)};"
 				/>
 			</div>
@@ -356,7 +365,9 @@
 				>
 					<div
 						style="transform: skew({tweenAlternating * 80 - 25}deg, {tweenAlternating * 10 - 2}deg);
-						width: {graphic2Width}px; height: {graphic2Height}px; background-color: {getColor(activeEasingIndex)};"
+						width: {graphic2Width}px; height: {graphic2Height}px; background-color: {getColor(
+							activeEasingIndex,
+						)};"
 					/>
 				</div>
 			</div>
@@ -368,7 +379,9 @@
 			<label
 				class="tween-radio"
 				class:active={easing === activeEasing}
-				style="color: {getColor(i)}; border-color: {easing === activeEasing ? getColor(i) : 'transparent'}"
+				style="color: {getColor(i)}; border-color: {easing === activeEasing
+					? getColor(i)
+					: 'transparent'}"
 			>
 				<input type="radio" bind:group={activeEasingIndex} value={i} />
 				{easing.name}

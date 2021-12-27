@@ -19,9 +19,8 @@
 	/>
 	<figcaption>
 		<h3>
-			<a href="https://earthobservatory.nasa.gov/features/NightLights">Earth at Night</a> by <a
-				href="https://www.nasa.gov/"
-			>NASA</a>
+			<a href="https://earthobservatory.nasa.gov/features/NightLights">Earth at Night</a> by
+			<a href="https://www.nasa.gov/">NASA</a>
 		</h3>
 		<ul>
 			<li>
@@ -45,9 +44,9 @@
 		<p>
 			<a href="https://earthobservatory.nasa.gov">NASA Earth Observatory</a> image by Robert Simmon,
 			using <a href="http://npp.gsfc.nasa.gov/viirs.html">Suomi NPP VIIRS</a> data provided courtesy
-			of Chris Elvidge (NOAA <a href="http://www.ngdc.noaa.gov/dmsp/dmsp.html">National Geophysical
-				Data Center</a>). Suomi NPP is the result of a partnership between NASA, NOAA, and the
-			Department of Defense.
+			of Chris Elvidge (NOAA
+			<a href="http://www.ngdc.noaa.gov/dmsp/dmsp.html">National Geophysical Data Center</a>). Suomi
+			NPP is the result of a partnership between NASA, NOAA, and the Department of Defense.
 		</p>
 	</figcaption>
 </figure>

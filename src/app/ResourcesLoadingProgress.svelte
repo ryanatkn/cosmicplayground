@@ -22,7 +22,11 @@
 						window.location.reload();
 					}
 				}}
-				title={resource.status === AsyncState.Failure ? 'click to reload' : resource.status === AsyncState.Success ? 'resource loaded' : 'resource loading'}
+				title={resource.status === AsyncState.Failure
+					? 'click to reload'
+					: resource.status === AsyncState.Success
+					? 'resource loaded'
+					: 'resource loading'}
 			/>
 		{/each}
 	</div>

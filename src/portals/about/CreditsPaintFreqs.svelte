@@ -11,7 +11,9 @@
 			.. mreow
 		</div>
 		<div>
-			by Lisa Atkinson, <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+			by Lisa Atkinson, <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+				>CC BY-NC-SA 4.0</a
+			>
 		</div>
 	</figcaption>
 </figure>

@@ -10,7 +10,9 @@
 			alt="cosm"
 			class="pixelated"
 			style="width: 16px; height: 16px; margin: 0 10px;"
-		/> credits <img
+		/>
+		credits
+		<img
 			src="/assets/characters/cosm.png"
 			alt="cosm"
 			class="pixelated"

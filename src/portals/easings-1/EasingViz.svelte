@@ -138,7 +138,8 @@
 					background-color: {getColor(i)};"
 				/>
 				<div
-					style="transform: translate3d({item.value * translateDistance}px, 0, 0); width: {graphicWidth}px;
+					style="transform: translate3d({item.value *
+						translateDistance}px, 0, 0); width: {graphicWidth}px;
 					height: {graphicHeight}px; background-color: {getColor(i)};"
 				/>
 				<label class="item-label" style="color: {getColor(i)};">

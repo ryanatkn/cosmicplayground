@@ -15,7 +15,11 @@
 	<img
 		src={image}
 		{alt}
-		style="opacity: {opacities[i]}; z-index: {computeBlendedImagesCycleZIndex(images.length, i, opacities[i])};"
+		style="opacity: {opacities[i]}; z-index: {computeBlendedImagesCycleZIndex(
+			images.length,
+			i,
+			opacities[i],
+		)};"
 	/>
 {/each}
 

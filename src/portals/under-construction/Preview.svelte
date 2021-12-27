@@ -7,7 +7,9 @@
 </script>
 
 <img
-	src={$clock.running ? '/assets/construction/person-dig-idea.gif' : '/assets/construction/person-dig-idea.gif'}
+	src={$clock.running
+		? '/assets/construction/person-dig-idea.gif'
+		: '/assets/construction/person-dig-idea.gif'}
 	alt="under construction: person rock"
 	style="width: 96px; height: 96px;"
 	class="pixelated"

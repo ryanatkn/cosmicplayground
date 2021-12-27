@@ -16,9 +16,14 @@
 <div class="tour-credits" class:displayForVideo>
 	<section in:blur={{duration: transitionDuration, amount: blurAmount}}>
 		<h2>created by</h2>
-		Ryan Atkinson <br />
+		Ryan Atkinson<br />
 		<a href="https://twitter.com/ryanatkn">
-			@ryanatkn <img src="/assets/characters/twit.png" alt="@ryanatkn on Twitter" class="w-16" style="opacity: 0.8;" />
+			@ryanatkn <img
+				src="/assets/characters/twit.png"
+				alt="@ryanatkn on Twitter"
+				class="w-16"
+				style="opacity: 0.8;"
+			/>
 		</a>
 		<a href="https://github.com/ryanatkn/cosmicplayground">
 			<img
@@ -40,25 +45,25 @@
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 3, amount: blurAmount}}>
 		<h2>music</h2>
-		"Winter" by Alexander Nakarada <br />
+		"Winter" by Alexander Nakarada<br />
 		<a href="https://www.serpentsoundstudios.com">serpentsoundstudios.com</a>
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 4, amount: blurAmount}}>
 		<h2>imagery & data</h2>
 		<a href="https://visibleearth.nasa.gov/collection/1484/blue-marble">
 			Blue Marble Next Generation
-		</a> by Reto Stöckli <br />
-		<a href="https://visibleearth.nasa.gov">NASA Visible Earth</a> and <a
-			href="https://earthobservatory.nasa.gov"
-		>NASA Earth Observatory</a> (2004) <br />
-		<br /> Earth <a href="https://visibleearth.nasa.gov/images/73934/topography">topography</a> and <a
-			href="https://visibleearth.nasa.gov/images/73963/bathymetry"
-		>bathymetry</a> by Jesse Allen <br />
-		<a href="https://visibleearth.nasa.gov">NASA Visible Earth</a> and <a
-			href="https://earthobservatory.nasa.gov"
-		>NASA Earth Observatory</a>
-		<br /> using data from the <a href="https://www.gebco.net/">General Bathymetric Chart of the
-			Oceans</a>
+		</a>
+		by Reto Stöckli <br />
+		<a href="https://visibleearth.nasa.gov">NASA Visible Earth</a> and
+		<a href="https://earthobservatory.nasa.gov">NASA Earth Observatory</a>
+		(2004) <br />
+		<br /> Earth <a href="https://visibleearth.nasa.gov/images/73934/topography">topography</a> and
+		<a href="https://visibleearth.nasa.gov/images/73963/bathymetry">bathymetry</a>
+		by Jesse Allen <br />
+		<a href="https://visibleearth.nasa.gov">NASA Visible Earth</a> and
+		<a href="https://earthobservatory.nasa.gov">NASA Earth Observatory</a>
+		<br /> using data from the
+		<a href="https://www.gebco.net/">General Bathymetric Chart of the Oceans</a>
 		<br /> produced by the <a href="https://www.bodc.ac.uk/">British Oceanographic Data Centre</a> (2005)
 	</section>
 </div>
