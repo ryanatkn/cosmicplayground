@@ -19,6 +19,7 @@ export const createSettingsStore = (initialState: Partial<SettingsState>): Setti
 		audioEnabled: true,
 		devMode: false,
 		recordingMode: false,
+		idleMode: false,
 		timeToGoIdle: 6000,
 		...initialState,
 	});
