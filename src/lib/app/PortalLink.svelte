@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {get_portals, findPortalBySlug} from '$lib/app/portalsStore.js';
 
-	export let slug;
+	export let slug: string;
 
 	const portals = get_portals();
 	$: portal = findPortalBySlug($portals, slug);

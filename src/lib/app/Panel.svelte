@@ -19,7 +19,8 @@
 		background-color: var(--bg_dark);
 		padding: var(--spacing-3);
 	}
-	.panel + .panel {
+	/* TODO the `:global` was added without checking that it works as expected */
+	.panel + :global(.panel) {
 		margin-top: 0;
 	}
 	.formatted-content {

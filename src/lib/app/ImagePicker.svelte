@@ -1,6 +1,8 @@
 <script lang="ts">
-	export let images;
-	export let pickImage;
+	import {type ImageMeta} from '$lib/app/images';
+
+	export let images: ImageMeta[];
+	export let pickImage: (image: ImageMeta) => void;
 </script>
 
 <div class="image-picker">

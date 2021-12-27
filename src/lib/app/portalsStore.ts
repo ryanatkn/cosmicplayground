@@ -1,7 +1,7 @@
 import {writable, type Writable} from 'svelte/store';
 import {setContext, getContext} from 'svelte';
 
-import {PortalsData, PortalData, VOID_PORTAL_SLUG} from '$lib/portals/portals/portal.js';
+import {type PortalsData, type PortalData, VOID_PORTAL_SLUG} from '$lib/portals/portal.js';
 
 export interface PortalsState {
 	data: PortalsData;

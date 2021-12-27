@@ -9,7 +9,7 @@
 	const TIME_DELTA_MD = 10000;
 	const TIME_DELTA_LG = 100000;
 
-	const onKeyDown = (e) => {
+	const onKeyDown = (e: KeyboardEvent) => {
 		switch (e.key) {
 			case 'ArrowLeft': {
 				tour.seekTimeBy(
@@ -30,7 +30,7 @@
 <FloatingTextButton>time: {Math.round($tour.currentTime)}</FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {
-		const index = Number(prompt('index?', $tour.currentStepIndex));
+		const index = Number(prompt('index?', $tour.currentStepIndex + ''));
 		if (!Number.isNaN(index)) {
 			tour.seekIndexTo(index);
 		}

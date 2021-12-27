@@ -5,7 +5,7 @@
 	export let opacity = 1.0;
 	export let animationDuration = '360s';
 	export let fontSize = 48;
-	export let text = null;
+	export let text: string | null = null;
 	export let running = true;
 
 	// TODO get from loaded image
