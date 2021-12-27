@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import {spring} from 'svelte/motion';
 	import {onDestroy} from 'svelte';
 	import {mix} from '@feltcoop/felt/util/math.js';
@@ -92,6 +92,45 @@
 	};
 </script>
 
+<div class="hearing-test" style="width: {width}px; height: {height}px;">
+	{#if $spotPosition}
+		<svg class="absolute0 w-100 h-100 z-2">
+			<filter id="blurOuter" height="200%" width="200%" y="-50%" x="-50%">
+				<feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+			</filter>
+			<circle
+				class="outer"
+				cx={$spotPosition.x}
+				cy={$spotPosition.y}
+				r={20}
+				filter="url(#blurOuter)"
+			/>
+			<circle class="inner" cx={$spotPosition.x} cy={$spotPosition.y} r={2} />
+		</svg>
+	{/if}
+	{#if volume !== undefined}
+		<div class="volume h-100 absolute z-1 t-0 flex items-center justify-start">
+			<div>{displayedVolume}<span class="unit">%</span></div>
+		</div>
+	{/if}
+	{#if freq !== undefined}
+		<div class="freq absolute z-1 w-100 l-0 flex items-start justify-center">
+			<div>{displayedFreq}<span class="unit">hz</span></div>
+		</div>
+	{/if}
+	<div
+		class="absolute z-3 w-100 h-100"
+		on:mousedown|stopPropagation|preventDefault={handlePointerDown}
+		on:mouseup|stopPropagation|preventDefault={handlePointerUp}
+		on:mouseleave|stopPropagation|preventDefault={handlePointerUp}
+		on:mousemove|stopPropagation|preventDefault={handlePointerMove}
+		on:touchstart|stopPropagation|preventDefault={handlePointerDown}
+		on:touchend|stopPropagation|preventDefault={handlePointerUp}
+		on:touchcancel|stopPropagation|preventDefault={handlePointerUp}
+		on:touchmove|stopPropagation|preventDefault={handlePointerMove}
+	/>
+</div>
+
 <style>
 	.hearing-test {
 		position: relative;
@@ -117,40 +156,3 @@
 		opacity: 0.6;
 	}
 </style>
-
-<div class="hearing-test" style="width: {width}px; height: {height}px;">
-	{#if $spotPosition}
-		<svg class="absolute0 w-100 h-100 z-2">
-			<filter id="blurOuter" height="200%" width="200%" y="-50%" x="-50%">
-				<feGaussianBlur in="SourceGraphic" stdDeviation="10" />
-			</filter>
-			<circle
-				class="outer"
-				cx={$spotPosition.x}
-				cy={$spotPosition.y}
-				r={20}
-				filter="url(#blurOuter)" />
-			<circle class="inner" cx={$spotPosition.x} cy={$spotPosition.y} r={2} />
-		</svg>
-	{/if}
-	{#if volume !== undefined}
-		<div class="volume h-100 absolute z-1 t-0 flex items-center justify-start">
-			<div>{displayedVolume}<span class="unit">%</span></div>
-		</div>
-	{/if}
-	{#if freq !== undefined}
-		<div class="freq absolute z-1 w-100 l-0 flex items-start justify-center">
-			<div>{displayedFreq}<span class="unit">hz</span></div>
-		</div>
-	{/if}
-	<div
-		class="absolute z-3 w-100 h-100"
-		on:mousedown|stopPropagation|preventDefault={handlePointerDown}
-		on:mouseup|stopPropagation|preventDefault={handlePointerUp}
-		on:mouseleave|stopPropagation|preventDefault={handlePointerUp}
-		on:mousemove|stopPropagation|preventDefault={handlePointerMove}
-		on:touchstart|stopPropagation|preventDefault={handlePointerDown}
-		on:touchend|stopPropagation|preventDefault={handlePointerUp}
-		on:touchcancel|stopPropagation|preventDefault={handlePointerUp}
-		on:touchmove|stopPropagation|preventDefault={handlePointerMove} />
-</div>

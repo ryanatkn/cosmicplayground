@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import {afterUpdate} from 'svelte';
 
 	export let portal;

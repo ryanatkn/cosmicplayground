@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	/*
 
   Svelte has built-in support for ergonomic and high performance animations.

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import {get_clock} from '../../app/clockStore.js';
 
 	export const portal = undefined;

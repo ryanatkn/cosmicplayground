@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import TransitionDesigner from './TransitionDesigner.svelte';
 
 	export const portal = undefined;

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import FloatingIconButton from './FloatingIconButton.svelte';
 </script>
 

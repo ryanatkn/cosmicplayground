@@ -1,6 +1,4 @@
-<script>
-	import {AsyncState} from '@feltcoop/gro/dist/utils/async';
-
+<script lang="ts">
 	import {get_pixi_scene} from '../../app/pixi.js';
 	import WaitingScreen from '../../app/WaitingScreen.svelte';
 
@@ -79,9 +77,9 @@
 	$: updateSprite(imageUrl);
 
 	// TODO handle failure and initial?
-	$: loadingStatus = sprite ? AsyncState.Success : AsyncState.Pending;
+	$: loadingStatus = sprite ? 'success' : 'pending';
 </script>
 
-{#if loadingStatus !== AsyncState.Success}
+{#if loadingStatus !== 'success'}
 	<WaitingScreen status={loadingStatus} />
 {/if}

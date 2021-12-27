@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import EasingViz from './EasingViz.svelte';
 
 	export const portal = undefined;

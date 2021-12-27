@@ -1,10 +1,10 @@
-<script>
-	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
+<script lang="ts">
+	import {type AsyncStatus} from '@feltcoop/felt';
 
-	export let status = AsyncState.Pending; // Initial is unhandled
+	export let status: AsyncStatus = 'pending'; // 'initial' is unhandled
 
-	$: success = status === AsyncState.Success;
-	$: failure = status === AsyncState.Failure;
+	$: success = status === 'success';
+	$: failure = status === 'failure';
 </script>
 
 <span class:success class:failure>

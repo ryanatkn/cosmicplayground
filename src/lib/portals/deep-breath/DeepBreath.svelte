@@ -1,9 +1,8 @@
-<script>
+<script lang="ts">
 	import {tweened} from 'svelte/motion';
 	import {cubicInOut, sineInOut} from 'svelte/easing';
 	import {writable} from 'svelte/store';
 	import {onDestroy, onMount} from 'svelte';
-	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
 	import {randomFloat} from '@feltcoop/gro/dist/utils/random.js';
 
 	import DeepBreathTitleScreen from './DeepBreathTitleScreen.svelte';
@@ -371,7 +370,7 @@
 <svelte:window on:keydown={onKeyDown} />
 
 <div class="deep-breath">
-	{#if !showTitleScreen && $resources.status === AsyncState.Success}
+	{#if !showTitleScreen && $resources.status === 'success'}
 		{#if enablePixiEarthViewer}
 			<EarthViewerPixi
 				{landImages}

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import WaitingAnimation from './WaitingAnimation.svelte';
 
 	export let status;

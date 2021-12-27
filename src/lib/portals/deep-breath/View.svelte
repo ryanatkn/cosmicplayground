@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import DeepBreath from './DeepBreath.svelte';
 	import {get_clock} from '../../app/clockStore.js';
 

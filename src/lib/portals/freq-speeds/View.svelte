@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import FreqSpeeds from './FreqSpeeds.svelte';
 	import {get_clock} from '../../app/clockStore.js';
 

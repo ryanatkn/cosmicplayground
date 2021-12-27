@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import {blur} from 'svelte/transition';
 
 	import {get_settings} from '../../app/settingsStore.js';

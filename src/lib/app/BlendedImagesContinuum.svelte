@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import {computeBlendedImagesContinuumOpacities} from './blendedImagesContinuum.js';
 
 	export let images;

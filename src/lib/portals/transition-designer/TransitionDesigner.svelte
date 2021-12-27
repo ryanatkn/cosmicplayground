@@ -4,7 +4,7 @@
 	let rotateStep = 0.01;
 </script>
 
-<script>
+<script lang="ts">
 	import {onMount, onDestroy} from 'svelte';
 	import {fade} from 'svelte/transition';
 	import {mix} from '@feltcoop/felt/util/math.js';
@@ -102,6 +102,145 @@
 	$: rotate3d2 = `rotate3d(${rotate3dX2}, ${rotate3dY2}, ${rotate3dZ2}, ${rotate3dDeg2}deg)`;
 </script>
 
+<section class="h-25 flex items-center justify-center">
+	<img
+		src={imgSrc}
+		alt="styler target"
+		class="pixelated h-25 mr-12"
+		style="width: 162px; transform: {rotate3d1};"
+	/>
+	<img
+		src={imgSrc}
+		alt="styler target"
+		class="pixelated h-25"
+		style="width: 162px; transform: {rotate3d2}"
+	/>
+</section>
+<section class="h-50 flex items-center justify-center">
+	<div class="inline-block h-25" style="width: 162px;">
+		{#if visible}
+			<img
+				in:transition={{duration: durationIn}}
+				out:transition={{duration: durationOut}}
+				src={imgSrc}
+				alt="styler target"
+				class="pixelated h-25"
+				style="width: 162px;"
+			/>
+		{/if}
+	</div>
+</section>
+
+<section class="flex flex-wrap items-start justify-center">
+	{#if visible}
+		<div
+			class="time"
+			style="width: {timeSliderWidth}px; height: {timeIndicatorSize + timeSliderBorderWidth * 2}px;
+			border-width: {timeSliderBorderWidth}px; border-radius: {(timeIndicatorSize +
+				timeSliderBorderWidth * 2) /
+				2}px;"
+		>
+			<div
+				class="time-indicator"
+				style="width: {timeIndicatorSize}px; height: {timeIndicatorSize}px;"
+				in:timeTransition={{duration: durationIn}}
+				out:timeTransition={{duration: durationOut}}
+			/>
+		</div>
+	{/if}
+</section>
+
+<section class="flex flex-wrap items-start justify-center">
+	<section class="p-2">
+		<label><input type="number" bind:value={durationIn} /> <small>duration in</small></label>
+		<label><input type="number" bind:value={durationOut} /> <small>duration out</small></label>
+	</section>
+
+	<section class="p-2">
+		<pre>{rotate3d1}</pre>
+		<label>
+			<input
+				type="range"
+				bind:value={rotate3dX1}
+				min={rotateMin}
+				max={rotateMax}
+				step={rotateStep}
+			/>
+			{rotate3dX1}
+			<small>x1</small>
+		</label>
+		<label>
+			<input
+				type="range"
+				bind:value={rotate3dY1}
+				min={rotateMin}
+				max={rotateMax}
+				step={rotateStep}
+			/>
+			{rotate3dY1}
+			<small>y1</small>
+		</label>
+		<label>
+			<input
+				type="range"
+				bind:value={rotate3dZ1}
+				min={rotateMin}
+				max={rotateMax}
+				step={rotateStep}
+			/>
+			{rotate3dZ1}
+			<small>z1</small>
+		</label>
+		<label>
+			<input type="range" bind:value={rotate3dDeg1} min={-360} max={360} step={1} />
+			{rotate3dDeg1}
+			<small>deg1</small>
+		</label>
+	</section>
+
+	<section class="p-2">
+		<pre>{rotate3d2}</pre>
+		<label>
+			<input
+				type="range"
+				bind:value={rotate3dX2}
+				min={rotateMin}
+				max={rotateMax}
+				step={rotateStep}
+			/>
+			{rotate3dX2}
+			<small>x2</small>
+		</label>
+		<label>
+			<input
+				type="range"
+				bind:value={rotate3dY2}
+				min={rotateMin}
+				max={rotateMax}
+				step={rotateStep}
+			/>
+			{rotate3dY2}
+			<small>y2</small>
+		</label>
+		<label>
+			<input
+				type="range"
+				bind:value={rotate3dZ2}
+				min={rotateMin}
+				max={rotateMax}
+				step={rotateStep}
+			/>
+			{rotate3dZ2}
+			<small>z2</small>
+		</label>
+		<label>
+			<input type="range" bind:value={rotate3dDeg2} min={-360} max={360} step={1} />
+			{rotate3dDeg2}
+			<small>deg2</small>
+		</label>
+	</section>
+</section>
+
 <style>
 	section {
 		margin-top: 10px;
@@ -132,129 +271,3 @@
 		background-color: rgba(255, 215, 235, 0.6);
 	}
 </style>
-
-<section class="h-25 flex items-center justify-center">
-	<img
-		src={imgSrc}
-		alt="styler target"
-		class="pixelated h-25 mr-12"
-		style="width: 162px; transform: {rotate3d1};" />
-	<img
-		src={imgSrc}
-		alt="styler target"
-		class="pixelated h-25"
-		style="width: 162px; transform: {rotate3d2}" />
-</section>
-<section class="h-50 flex items-center justify-center">
-	<div class="inline-block h-25" style="width: 162px;">
-		{#if visible}
-			<img
-				in:transition={{duration: durationIn}}
-				out:transition={{duration: durationOut}}
-				src={imgSrc}
-				alt="styler target"
-				class="pixelated h-25"
-				style="width: 162px;" />
-		{/if}
-	</div>
-</section>
-
-<section class="flex flex-wrap items-start justify-center">
-	{#if visible}
-		<div
-			class="time"
-			style="width: {timeSliderWidth}px; height: {timeIndicatorSize + timeSliderBorderWidth * 2}px;
-			border-width: {timeSliderBorderWidth}px; border-radius: {(timeIndicatorSize + timeSliderBorderWidth * 2) / 2}px;">
-			<div
-				class="time-indicator"
-				style="width: {timeIndicatorSize}px; height: {timeIndicatorSize}px;"
-				in:timeTransition={{duration: durationIn}}
-				out:timeTransition={{duration: durationOut}} />
-		</div>
-	{/if}
-</section>
-
-<section class="flex flex-wrap items-start justify-center">
-	<section class="p-2">
-		<label><input type="number" bind:value={durationIn} /> <small>duration in</small></label>
-		<label><input type="number" bind:value={durationOut} /> <small>duration out</small></label>
-	</section>
-
-	<section class="p-2">
-		<pre>{rotate3d1}</pre>
-		<label>
-			<input
-				type="range"
-				bind:value={rotate3dX1}
-				min={rotateMin}
-				max={rotateMax}
-				step={rotateStep} />
-			{rotate3dX1}
-			<small>x1</small>
-		</label>
-		<label>
-			<input
-				type="range"
-				bind:value={rotate3dY1}
-				min={rotateMin}
-				max={rotateMax}
-				step={rotateStep} />
-			{rotate3dY1}
-			<small>y1</small>
-		</label>
-		<label>
-			<input
-				type="range"
-				bind:value={rotate3dZ1}
-				min={rotateMin}
-				max={rotateMax}
-				step={rotateStep} />
-			{rotate3dZ1}
-			<small>z1</small>
-		</label>
-		<label>
-			<input type="range" bind:value={rotate3dDeg1} min={-360} max={360} step={1} />
-			{rotate3dDeg1}
-			<small>deg1</small>
-		</label>
-	</section>
-
-	<section class="p-2">
-		<pre>{rotate3d2}</pre>
-		<label>
-			<input
-				type="range"
-				bind:value={rotate3dX2}
-				min={rotateMin}
-				max={rotateMax}
-				step={rotateStep} />
-			{rotate3dX2}
-			<small>x2</small>
-		</label>
-		<label>
-			<input
-				type="range"
-				bind:value={rotate3dY2}
-				min={rotateMin}
-				max={rotateMax}
-				step={rotateStep} />
-			{rotate3dY2}
-			<small>y2</small>
-		</label>
-		<label>
-			<input
-				type="range"
-				bind:value={rotate3dZ2}
-				min={rotateMin}
-				max={rotateMax}
-				step={rotateStep} />
-			{rotate3dZ2}
-			<small>z2</small>
-		</label>
-		<label>
-			<input type="range" bind:value={rotate3dDeg2} min={-360} max={360} step={1} />
-			{rotate3dDeg2}
-			<small>deg2</small>
-		</label>
-	</section>
-</section>

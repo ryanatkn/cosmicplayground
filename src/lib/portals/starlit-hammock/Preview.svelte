@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import GalaxyBg from './GalaxyBg.svelte';
 	import {get_clock} from '../../app/clockStore.js';
 

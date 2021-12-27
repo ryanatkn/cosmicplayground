@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import {spaceImages} from '../../app/images.js';
 	import PortalLink from '../../app/PortalLink.svelte';
 	import Details from '../../app/Details.svelte';

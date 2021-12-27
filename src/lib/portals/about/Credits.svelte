@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import CreditsDeepBreath from './CreditsDeepBreath.svelte';
 	import CreditsPaintFreqs from './CreditsPaintFreqs.svelte';
 	import CreditsNightLights from './CreditsNightLights.svelte';

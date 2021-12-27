@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import EarthThumbnail from '../../app/EarthThumbnail.svelte';
 	import {get_clock} from '../../app/clockStore.js';
 

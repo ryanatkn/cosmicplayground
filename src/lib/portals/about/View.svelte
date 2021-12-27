@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import About from './About.svelte';
 
 	export const portal = undefined;

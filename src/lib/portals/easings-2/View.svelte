@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import EasingAudViz from './EasingAudViz.svelte';
 	import {get_clock} from '../../app/clockStore.js';
 

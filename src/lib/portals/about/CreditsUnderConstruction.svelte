@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import PortalLink from '../../app/PortalLink.svelte';
 </script>
 

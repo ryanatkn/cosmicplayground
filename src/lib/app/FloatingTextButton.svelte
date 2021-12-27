@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	export let pressed = undefined;
 	export let type = 'button'; // avoid submit behavior in forms
 	export let classes = null; // TODO not sure about this pattern, not used atm

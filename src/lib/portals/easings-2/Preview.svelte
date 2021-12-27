@@ -1,21 +1,21 @@
-<script>
+<script lang="ts">
 	import {mix} from '@feltcoop/felt/util/math.js';
 
 	export const portal = undefined;
 
-	let canvas = null;
-	$: canvas && drawCanvas();
+	let canvas: HTMLCanvasElement | null = null;
+	$: canvas && drawCanvas(canvas);
 	const canvasWidth = 240;
 	const canvasHeight = 24;
 	const mouthSize = 16;
 	const tailSize = 10;
-	const drawCanvas = () => {
+	const drawCanvas = (canvas: HTMLCanvasElement) => {
 		// TODO can remove these temp vars after refactoring into a standalone component - names should be shortened
 		const width = canvasWidth;
 		const height = canvasHeight;
 		if (canvas.width !== width) canvas.width = width;
 		if (canvas.height !== height) canvas.height = height;
-		const ctx = canvas.getContext('2d');
+		const ctx = canvas.getContext('2d')!;
 		const lineWidth = 2;
 		const h = height - lineWidth * 2;
 		ctx.clearRect(0, 0, width, height);
@@ -30,6 +30,35 @@
 		ctx.stroke();
 	};
 </script>
+
+<div class="preview">
+	<h2>easing function</h2>
+	<h2>visualizations and auralizations</h2>
+	<div class="wrapper">
+		<canvas bind:this={canvas} />
+		<div
+			class="mouth-wrapper"
+			style="left: {-mouthSize / 2}px; top: {canvasHeight / 2 -
+				mouthSize / 2}px; width: {mouthSize}px;
+			height: {mouthSize}px;"
+		>
+			<div class="mouth" style="width: {mouthSize}px; height: {mouthSize}px;" />
+			<div class="mouth" style="width: {mouthSize}px; height: {mouthSize}px;" />
+			<div style="width: {mouthSize}px; height: {mouthSize}px; border-radius: 50%;" />
+		</div>
+		<div
+			class="tail-wrapper"
+			style="right: {-tailSize / 2}px; top: {8 +
+				canvasHeight / 2 -
+				tailSize / 2}px; width: {tailSize}px;
+			height: {tailSize}px;"
+		>
+			<div class="tail" style="width: {tailSize}px; height: {tailSize}px;" />
+			<div class="tail" style="width: {tailSize}px; height: {tailSize}px;" />
+			<div style="width: {tailSize / 2}px; height: {tailSize / 2}px; border-radius: 50%;" />
+		</div>
+	</div>
+</div>
 
 <style>
 	.preview {
@@ -118,27 +147,3 @@
 		}
 	}
 </style>
-
-<div class="preview">
-	<h2>easing function</h2>
-	<h2>visualizations and auralizations</h2>
-	<div class="wrapper">
-		<canvas bind:this={canvas} />
-		<div
-			class="mouth-wrapper"
-			style="left: {-mouthSize / 2}px; top: {canvasHeight / 2 - mouthSize / 2}px; width: {mouthSize}px;
-			height: {mouthSize}px;">
-			<div class="mouth" style="width: {mouthSize}px; height: {mouthSize}px;" />
-			<div class="mouth" style="width: {mouthSize}px; height: {mouthSize}px;" />
-			<div style="width: {mouthSize}px; height: {mouthSize}px; border-radius: 50%;" />
-		</div>
-		<div
-			class="tail-wrapper"
-			style="right: {-tailSize / 2}px; top: {8 + canvasHeight / 2 - tailSize / 2}px; width: {tailSize}px;
-			height: {tailSize}px;">
-			<div class="tail" style="width: {tailSize}px; height: {tailSize}px;" />
-			<div class="tail" style="width: {tailSize}px; height: {tailSize}px;" />
-			<div style="width: {tailSize / 2}px; height: {tailSize / 2}px; border-radius: 50%;" />
-		</div>
-	</div>
-</div>

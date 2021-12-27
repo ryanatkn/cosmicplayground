@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import FloatingTextButton from '../../app/FloatingTextButton.svelte';
 	import TourControls from '../../app/TourControls.svelte';
 

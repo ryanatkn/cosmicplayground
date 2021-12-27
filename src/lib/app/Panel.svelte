@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	export let classes = '';
 	export let contentStyle = '';
 	export let contentClasses = '';

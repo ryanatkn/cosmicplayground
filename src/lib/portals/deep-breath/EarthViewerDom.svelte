@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import ImageViewer from '../../app/ImageViewer.svelte';
 	import BlendedImagesCycle from '../../app/BlendedImagesCycle.svelte';
 	import BlendedImagesContinuum from '../../app/BlendedImagesContinuum.svelte';

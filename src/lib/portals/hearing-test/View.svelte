@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import HearingTest from './HearingTest.svelte';
 
 	export const portal = undefined;

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	// The native `<details>` tag eagerly renders its content to the DOM,
 	// and this component lazily mounts its content instead.
 	let open = false;

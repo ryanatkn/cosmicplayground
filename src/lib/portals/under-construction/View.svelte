@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import UnderConstruction from './UnderConstruction.svelte';
 
 	export const portal = undefined;

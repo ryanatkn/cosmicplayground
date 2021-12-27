@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import FloatingTextButton from './FloatingTextButton.svelte';
 
 	export let tour;

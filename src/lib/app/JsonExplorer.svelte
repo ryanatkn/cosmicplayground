@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	export let json;
 	export let jsonStr; // this is more verbose for efficiency - probably a more ergonomic way to make it optional tho
 </script>

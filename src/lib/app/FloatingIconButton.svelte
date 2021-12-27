@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	export let label; // required for a11y
 	export let pressed = undefined;
 	export let type = 'button'; // avoid submit behavior in forms

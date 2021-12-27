@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	export let seaLevel;
 	export let seaIndexMax;
 	export let selectedSeaLevel; // number | null

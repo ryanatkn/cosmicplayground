@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import {onDestroy, onMount} from 'svelte';
 	import {blur} from 'svelte/transition';
 

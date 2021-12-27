@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import FreqSpectacle from '../freq-spectacle/FreqSpectacle.svelte';
 	import FloatingTextButton from '../../app/FloatingTextButton.svelte';
 

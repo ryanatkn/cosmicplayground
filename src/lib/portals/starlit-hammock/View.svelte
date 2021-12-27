@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import {randomItem, randomFloat} from '@feltcoop/gro/dist/utils/random.js';
 	import {sineInOut} from 'svelte/easing';
 

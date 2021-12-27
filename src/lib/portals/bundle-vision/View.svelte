@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import BundleVision from './BundleVision.svelte';
 
 	export const portal = undefined;

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Panel from '../../app/Panel.svelte';
 	import Credits from './Credits.svelte';
 	import CreditsPersonalSignature from './CreditsPersonalSignature.svelte';

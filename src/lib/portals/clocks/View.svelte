@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Clocks from './Clocks.svelte';
 	import {get_clock} from '../../app/clockStore.js';
 

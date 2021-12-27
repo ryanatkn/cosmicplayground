@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	export let width;
 	export let height;
 	export let imageUrl = '/assets/space/galaxies.jpg';

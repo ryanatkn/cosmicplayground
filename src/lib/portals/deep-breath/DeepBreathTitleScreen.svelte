@@ -1,10 +1,7 @@
-<script>
-	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
-
+<script lang="ts">
 	import DeepBreathThumbnail from './DeepBreathThumbnail.svelte';
 	import Hud from '../../app/Hud.svelte';
 	import HomeButton from '../../app/HomeButton.svelte';
-	import PortalLink from '../../app/PortalLink.svelte';
 	import ResourcesLoadingProgress from '../../app/ResourcesLoadingProgress.svelte';
 	import Panel from '../../app/Panel.svelte';
 	import ChunkyButton from '../../app/ChunkyButton.svelte';
@@ -27,7 +24,7 @@
 
 	const load = async () => {
 		await resources.load();
-		if ($resources.status === AsyncState.Success) {
+		if ($resources.status === 'success') {
 			if (!hasLoaded) localStorage.setItem(HAS_LOADED_KEY, 'true');
 			proceed();
 		}
@@ -54,10 +51,10 @@
 				There's <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4"
 					>a video on YouTube with a 6 minute tour</a
 				>
-				set to music, and you can get the same experience by clicking "begin tour" on the map. The
-				visuals are higher quality here than in the video, but the video is recommended for mobile
-				devices, older hardware, and screens smaller than 1080p. (it doesn't currently scale the
-				resolution) The code and image data are
+				set to music, and you can get the same experience by clicking "begin tour" on the map. The visuals
+				are higher quality here than in the video, but the video is recommended for mobile devices, older
+				hardware, and screens smaller than 1080p. (it doesn't currently scale the resolution) The code
+				and image data are
 				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>. Credits
 				are below.
 			</p>
@@ -82,9 +79,9 @@
 			</p>
 			<hr />
 		</section>
-		{#if $resources.status === AsyncState.Success}
+		{#if $resources.status === 'success'}
 			<ChunkyButton on:click={proceed}>back to the map!</ChunkyButton>
-		{:else if $resources.status !== AsyncState.Initial}
+		{:else if $resources.status !== 'initial'}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
 			<p>The download is about 75MB of images. If that's cool with you, click the button below!</p>

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Panel from '../../app/Panel.svelte';
 	import ChunkyButton from '../../app/ChunkyButton.svelte';
 	import FloatingIconButton from '../../app/FloatingIconButton.svelte';

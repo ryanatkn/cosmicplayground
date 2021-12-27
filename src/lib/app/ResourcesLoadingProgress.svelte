@@ -1,5 +1,4 @@
-<script>
-	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
+<script lang="ts">
 	import WaitingAnimation from './WaitingAnimation.svelte';
 
 	export let resources;
@@ -14,17 +13,17 @@
 		{#each $resources.resources as resource (resource.url)}
 			<div
 				class="resource"
-				class:success={resource.status === AsyncState.Success}
-				class:pending={resource.status === AsyncState.Pending}
-				class:failure={resource.status === AsyncState.Failure}
+				class:success={resource.status === 'success'}
+				class:pending={resource.status === 'pending'}
+				class:failure={resource.status === 'failure'}
 				on:click={() => {
-					if (resource.status === AsyncState.Failure) {
+					if (resource.status === 'failure') {
 						window.location.reload();
 					}
 				}}
-				title={resource.status === AsyncState.Failure
+				title={resource.status === 'failure'
 					? 'click to reload'
-					: resource.status === AsyncState.Success
+					: resource.status === 'success'
 					? 'resource loaded'
 					: 'resource loading'}
 			/>
