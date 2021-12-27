@@ -1,6 +1,6 @@
 import App from './App.svelte';
-import './main.css';
-import './sy.config.js';
+import './style.css';
+import './style-utilities.css';
 
 const rootElId = 'root';
 const root = document.getElementById(rootElId);
