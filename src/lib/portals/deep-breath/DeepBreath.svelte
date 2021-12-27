@@ -3,20 +3,17 @@
 	import {cubicInOut, sineInOut} from 'svelte/easing';
 	import {writable} from 'svelte/store';
 	import {onDestroy, onMount} from 'svelte';
-	import {randomFloat} from '@feltcoop/gro/dist/utils/random.js';
+	import {randomFloat} from '@feltcoop/felt/util/random.js';
 
 	import DeepBreathTitleScreen from './DeepBreathTitleScreen.svelte';
 	import ZodiacHud from './ZodiacHud.svelte';
 	import SeaLevelHud from './SeaLevelHud.svelte';
-	import ImageViewer from '$lib/app/ImageViewer.svelte';
 	import Hud from '$lib/app/Hud.svelte';
-	import HomeButton from '$lib/app/HomeButton.svelte';
 	import EarthViewerDom from './EarthViewerDom.svelte';
 	import EarthViewerPixi from './EarthViewerPixi.svelte';
 	import {createResourcesStore} from '$lib/app/resourcesStore.js';
 	import {createDeepBreathTour} from './deepBreathTour.js';
 	import {createTourStore} from '$lib/app/tourStore.js';
-	import TourControls from '$lib/app/TourControls.svelte';
 	import DeepBreathTourIntro from './DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from './DeepBreathTourTitle.svelte';
 	import DeepBreathTourCredits from './DeepBreathTourCredits.svelte';
@@ -25,6 +22,7 @@
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import DeepBreathDevHud from './DeepBreathDevHud.svelte';
+	import {type ClockStore} from '$lib/app/clockStore';
 
 	export let width: number;
 	export let height: number;
@@ -58,7 +56,11 @@
 	let y = writable(randomFloat(height / 2, imageHeight - height / 2)); // TODO account for different starting scale
 	let scale = writable(1);
 	const SCALE_FACTOR = 1.1;
-	const zoomCamera = (zoomDirection, screenPivotX = width / 2, screenPivotY = height / 2) => {
+	const zoomCamera = (
+		zoomDirection: number,
+		screenPivotX: number = width / 2,
+		screenPivotY: number = height / 2,
+	) => {
 		if (zoomDirection === 0) return;
 		const scaleAmount = zoomDirection > 0 ? 1 / SCALE_FACTOR : SCALE_FACTOR;
 		const oldScale = $scale;
@@ -74,14 +76,14 @@
 		const dy = (mouseDistY * scaleRatio) / newScale;
 		moveCamera(dx, dy);
 	};
-	const moveCamera = (dx, dy) => {
+	const moveCamera = (dx: number, dy: number) => {
 		$x += dx;
 		$y += dy;
 	};
 
-	export let clock;
+	export let clock: ClockStore;
 
-	const onKeyDown = (e) => {
+	const onKeyDown = (e: KeyboardEvent) => {
 		if (tour && e.key === 'Escape') {
 			tour.cancel();
 			return;
@@ -126,12 +128,9 @@
 		$seaLevel = newSeaIndex;
 	};
 
-	let elapsed = 0;
 	$: {
 		// update every clock tick
 		const {dt} = $clock;
-
-		elapsed += dt;
 
 		if (selectedLandIndex === null && hoveredLandIndex === null) {
 			landTimer += dt;
@@ -147,16 +146,16 @@
 		}
 	}
 
-	let selectedSeaLevel = null;
-	let hoveredSeaLevel = null;
+	let selectedSeaLevel: number | null = null;
+	let hoveredSeaLevel: number | null = null;
 	$: activeSeaLevel =
 		hoveredSeaLevel === null
 			? selectedSeaLevel === null
 				? $seaLevel
 				: selectedSeaLevel
 			: hoveredSeaLevel;
-	let selectedLandIndex = null;
-	let hoveredLandIndex = null;
+	let selectedLandIndex: number | null = null;
+	let hoveredLandIndex: number | null = null;
 	// TODO use nullish coalescing
 	$: activeLandIndex =
 		hoveredLandIndex === null
@@ -166,21 +165,21 @@
 			: hoveredLandIndex;
 	$: activeLandValue = activeLandIndex === cycledLandIndex ? cycledLandValue : activeLandIndex;
 
-	const setCycledLandValue = (value) => {
+	const setCycledLandValue = (value: number) => {
 		landTimer = landDelay * value;
 	};
-	const selectLandIndex = (index) => {
+	const selectLandIndex = (index: number | null) => {
 		selectedLandIndex = index;
 		if (index !== null) setCycledLandValue(index);
 	};
-	const hoverLandIndex = (index) => {
+	const hoverLandIndex = (index: number | null) => {
 		hoveredLandIndex = index;
 		if (index !== null) setCycledLandValue(index);
 	};
-	const selectSeaLevel = (value) => {
+	const selectSeaLevel = (value: number | null) => {
 		selectedSeaLevel = value;
 	};
-	const hoverSeaLevel = (value) => {
+	const hoverSeaLevel = (value: number | null) => {
 		hoveredSeaLevel = value;
 	};
 

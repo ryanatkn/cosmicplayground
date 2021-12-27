@@ -1,7 +1,8 @@
 <script lang="ts">
 	import WaitingAnimation from '$lib/app/WaitingAnimation.svelte';
+	import {type AsyncStatus} from '@feltcoop/felt';
 
-	export let status;
+	export let status: AsyncStatus;
 </script>
 
 <div class="waiting-screen fade-in">

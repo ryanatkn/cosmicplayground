@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {type Readable} from 'svelte/store';
+
 	import ImageViewer from '$lib/app/ImageViewer.svelte';
 	import BlendedImagesCycle from '$lib/app/BlendedImagesCycle.svelte';
 	import BlendedImagesContinuum from '$lib/app/BlendedImagesContinuum.svelte';
@@ -22,18 +24,22 @@
 
 	export let width: number;
 	export let height: number;
-	export let x;
-	export let y;
-	export let scale;
-	export let moveCamera;
-	export let zoomCamera;
-	export let inputEnabled;
-	export let earth1LeftOffset;
-	export let earth2LeftOffset;
-	export let landImages;
-	export let seaImages;
-	export let activeLandValue;
-	export let activeSeaLevel;
+	export let x: Readable<number>;
+	export let y: Readable<number>;
+	export let scale: Readable<number>;
+	export let moveCamera: (dx: number, dy: number) => void;
+	export let zoomCamera: (
+		zoomDirection: number,
+		screenPivotX: number,
+		screenPivotY: number,
+	) => void;
+	export let inputEnabled: boolean;
+	export let earth1LeftOffset: number;
+	export let earth2LeftOffset: number;
+	export let landImages: string[];
+	export let seaImages: string[];
+	export let activeLandValue: number;
+	export let activeSeaLevel: number;
 
 	$: imageViewerX = $x * -1 + width / 2;
 	$: imageViewerY = $y * -1 + height / 2;

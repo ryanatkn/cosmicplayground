@@ -4,9 +4,9 @@
 		computeBlendedImagesCycleZIndex,
 	} from '$lib/app/blendedImagesCycle.js';
 
-	export let images;
-	export let value; // float, where `0 <= value < images.length`
-	export let alt;
+	export let images: string[];
+	export let value: number; // float, where `0 <= value < images.length`
+	export let alt: string;
 
 	$: opacities = computeBlendedImagesCycleOpacities(images.length, value);
 </script>

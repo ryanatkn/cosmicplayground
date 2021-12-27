@@ -17,7 +17,7 @@
 	import {updateRenderStats} from '$lib/app/renderStats.js';
 	import {portalsData} from '$lib/portals/index.js';
 	import {PixiApp, set_pixi} from '$lib/app/pixi.js';
-	import {createPixiBgStore} from '$lib/app/pixiBgStore.js';
+	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBgStore.js';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 
 	let width = window.innerWidth;
@@ -48,7 +48,7 @@
 	(window as any).pixi = pixi; // TODO improve this pattern
 
 	const bgImageUrl = '/assets/space/galaxies.jpg';
-	let bg;
+	let bg: PixiBgStore;
 	$: bg && bg.updateDimensions(width, height);
 	$: bg && bg.tick($clock.dt);
 
@@ -76,8 +76,8 @@
 
 	set_audio_ctx(); // allows components to do `const audioCtx = get_audio_ctx();` which uses svelte's `getContext`
 
-	const enableGlobalHotkeys = (e) => !e.target.closest('input');
-	const onKeyDown = (e) => {
+	const enableGlobalHotkeys = (target: HTMLElement) => !target.closest('input');
+	const onKeyDown = (e: KeyboardEvent) => {
 		// TODO main menu!
 
 		// toggle dev mode
@@ -87,13 +87,13 @@
 		}
 		// dev mode hotkeys
 		if ($settings.devMode) {
-			if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e)) {
+			if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target as any)) {
 				clock.toggle();
 				console.log('clock is now', $clock.running ? 'running' : 'paused');
-			} else if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e)) {
+			} else if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e.target as any)) {
 				settings.update((s) => ({...s, idleMode: !s.idleMode}));
 				console.log('idle mode is now', $settings.idleMode);
-			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e)) {
+			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e.target as any)) {
 				settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
 				console.log('recording mode is now', $settings.recordingMode);
 			}

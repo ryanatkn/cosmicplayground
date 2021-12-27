@@ -3,11 +3,15 @@
 
 	export let width: number;
 	export let height: number;
-	export let x;
-	export let y;
-	export let scale;
-	export let zoomCamera; // TODO this API is wonky, maybe change to a camera store
-	export let moveCamera;
+	export let x: number;
+	export let y: number;
+	export let scale: number;
+	export let zoomCamera: (
+		zoomDirection: number,
+		screenPivotX: number,
+		screenPivotY: number,
+	) => void; // TODO this API is wonky, maybe change to a camera store
+	export let moveCamera: (dx: number, dy: number) => void;
 	export let inputEnabled = true;
 </script>
 

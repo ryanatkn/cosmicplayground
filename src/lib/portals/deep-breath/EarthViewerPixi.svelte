@@ -14,12 +14,16 @@
 
 	export let width: number;
 	export let height: number;
-	export let x;
-	export let y;
-	export let scale;
-	export let moveCamera;
-	export let zoomCamera;
-	export let inputEnabled;
+	export let x: number;
+	export let y: number;
+	export let scale: number;
+	export let moveCamera: (dx: number, dy: number) => void;
+	export let zoomCamera: (
+		zoomDirection: number,
+		screenPivotX: number,
+		screenPivotY: number,
+	) => void;
+	export let inputEnabled: boolean;
 	export let landImages; // not reactive
 	export let seaImages; // not reactive
 	export let activeLandValue;

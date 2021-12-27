@@ -1,14 +1,17 @@
 <script lang="ts">
+	import {type Writable} from 'svelte/store';
+
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import TourControls from '$lib/app/TourControls.svelte';
+	import {type TourStore} from '$lib/app/tourStore';
 
-	export let tour;
-	export let x;
-	export let y;
-	export let scale;
-	export let togglePixiEarthViewer;
-	export let enablePixiEarthViewer;
-	export let debugStartTime;
+	export let tour: TourStore;
+	export let x: Writable<number>;
+	export let y: Writable<number>;
+	export let scale: Writable<number>;
+	export let togglePixiEarthViewer: (visible: boolean) => void;
+	export let enablePixiEarthViewer: boolean;
+	export let debugStartTime: number;
 
 	// TODO smaller buttons! size prop?
 </script>
@@ -22,14 +25,14 @@
 </FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {
-		$scale = Number(prompt('🔎', $scale)) || $scale;
+		$scale = Number(prompt('🔎', $scale + '')) || $scale;
 	}}
 >
 	scale: {Math.round($scale * 10) / 10}
 </FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {
-		const inputValue = Number(prompt('x', $x));
+		const inputValue = Number(prompt('x', $x + ''));
 		if (!Number.isNaN(inputValue)) {
 			$x = inputValue;
 		}

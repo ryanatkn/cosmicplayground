@@ -1,8 +1,9 @@
 <script lang="ts">
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
+	import {type TourStore} from '$lib/app/tourStore';
 
-	export let tour;
-	export let debugStartTime;
+	export let tour: TourStore;
+	export let debugStartTime: number;
 
 	const TIME_DELTA_SM = 1000;
 	const TIME_DELTA_MD = 10000;

@@ -2,7 +2,7 @@ import {writable, type Writable} from 'svelte/store';
 import * as PIXI from 'pixi.js';
 
 export interface PixiBgState {
-	sprite: PIXI.TilingSprite | null;
+	sprite: PIXI.TilingSprite;
 	width: number;
 	height: number;
 	x: number;

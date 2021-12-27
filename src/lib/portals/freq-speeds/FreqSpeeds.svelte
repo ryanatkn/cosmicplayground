@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let elapsedTime;
-	export let style = null;
+	export let style: string | null = null;
 	export let lowestHzValue = 1000; // the half cycle should be a multiple of this
 	export let lowestHzItemCount = 2; // value range: [1, N] where N is an integer - the # of items that will appear for the lowest hz value
 	$: halfCycleLength = lowestHzValue * lowestHzItemCount;

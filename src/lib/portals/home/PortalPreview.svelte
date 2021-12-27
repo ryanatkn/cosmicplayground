@@ -2,7 +2,7 @@
 	export let href = null; // one of `href` and `onClick` is required
 	export let onClick = null; // one of `href` and `onClick` is required
 	export let classes = '';
-	export let style = null;
+	export let style: string | null = null;
 
 	// This check and the whole component are both a bit weird,
 	// not sure of a better way to share styles and behaviors.

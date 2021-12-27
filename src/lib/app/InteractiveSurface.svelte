@@ -1,9 +1,13 @@
 <script lang="ts">
 	export let width: number;
 	export let height: number;
-	export let scale;
-	export let zoomCamera;
-	export let moveCamera;
+	export let scale: number;
+	export let zoomCamera: (
+		zoomDirection: number,
+		screenPivotX: number,
+		screenPivotY: number,
+	) => void;
+	export let moveCamera: (dx: number, dy: number) => void;
 	export let inputEnabled = true;
 
 	let dragging = false;

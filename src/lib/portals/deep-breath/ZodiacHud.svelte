@@ -1,8 +1,8 @@
 <script lang="ts">
-	export let activeLandIndex; // active is the hover state or "current" when automatically cycling
-	export let selectedLandIndex; // selected is the "current" non-cycling state (confusing yes)
-	export let selectLandIndex;
-	export let hoverLandIndex;
+	export let activeLandIndex: number; // active is the hover state or "current" when automatically cycling
+	export let selectedLandIndex: number; // selected is the "current" non-cycling state (confusing yes)
+	export let selectLandIndex: (value: number | null) => void;
+	export let hoverLandIndex: (value: number | null) => void;
 
 	const zodiac = [
 		'♑︎',
@@ -18,7 +18,7 @@
 		'♏︎',
 		'♐︎',
 	];
-	const toggleIndex = (index) => {
+	const toggleIndex = (index: number) => {
 		selectLandIndex(selectedLandIndex === index ? null : index);
 	};
 </script>

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import {randomItem, randomFloat} from '@feltcoop/gro/dist/utils/random.js';
+	import {randomItem, randomFloat} from '@feltcoop/felt/util/random.js';
 	import {sineInOut} from 'svelte/easing';
 
 	import StarlitHammock from './StarlitHammock.svelte';
 	import ImagePicker from '$lib/app/ImagePicker.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import {spaceImages} from '$lib/app/images.js';
-	import {get_clock} from '$lib/app/clockStore.js';
+	import {spaceImages, type ImageMeta} from '$lib/app/images';
+	import {get_clock} from '$lib/app/clockStore';
 	import ImageCreditsCaption from '$lib/app/ImageCreditsCaption.svelte';
 	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
 	import Panel from '$lib/app/Panel.svelte';
@@ -36,7 +36,7 @@
 
 	const clock = get_clock();
 
-	const pickImage = (image) => {
+	const pickImage = (image: ImageMeta) => {
 		activeImage = image;
 		showPicker = false;
 	};
@@ -166,7 +166,11 @@
 
 	// TODO extract camera store, copypasted from deep-breath
 	const SCALE_FACTOR = 1.1;
-	const zoomCamera = (zoomDirection, screenPivotX = width / 2, screenPivotY = height / 2) => {
+	const zoomCamera = (
+		zoomDirection: number,
+		screenPivotX: number = width / 2,
+		screenPivotY: number = height / 2,
+	) => {
 		if (zoomDirection === 0) return;
 		const scaleAmount = zoomDirection > 0 ? 1 / SCALE_FACTOR : SCALE_FACTOR;
 		const oldScale = scale;
@@ -182,7 +186,7 @@
 		const dy = (mouseDistY * scaleRatio) / newScale;
 		moveCamera(dx, dy);
 	};
-	const moveCamera = (dx, dy) => {
+	const moveCamera = (dx: number, dy: number) => {
 		x += dx;
 		y += dy;
 

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import * as PIXI from 'pixi.js';
 	import {onDestroy, onMount} from 'svelte';
+	import {PixiApp} from '$lib/app/pixi';
 
 	// TODO detect max texture and disable images that don't work
 	// `const gl = document.createElement('canvas').getContext('webgl');`
 	// `console.log(gl.getParameter(gl.MAX_TEXTURE_SIZE))`
 
-	export let pixi;
+	export let pixi: PixiApp;
 	export let width: number;
 	export let height: number;
 
@@ -14,8 +14,8 @@
 		pixi.renderer.resize(width, height);
 	}
 
-	let el;
-	const mountView = (pixi) => {
+	let el: HTMLElement;
+	const mountView = (pixi: PixiApp) => {
 		if (!el) return; // not ready
 		const {firstChild} = el;
 		if (firstChild) {
