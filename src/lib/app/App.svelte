@@ -1,7 +1,6 @@
 <script>
 	import {onMount} from 'svelte';
 	import {writable} from 'svelte/store';
-	import * as PIXI from 'pixi.js';
 	import {AsyncState} from '@feltcoop/gro/dist/utils/async.js';
 
 	import PixiView from './PixiView.svelte';
