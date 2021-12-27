@@ -1,15 +1,15 @@
 <script lang="ts">
-	export let seaLevel;
-	export let seaIndexMax;
-	export let selectedSeaLevel; // number | null
-	export let selectSeaLevel;
-	export let hoverSeaLevel;
+	export let seaLevel: number;
+	export let seaIndexMax: number;
+	export let selectedSeaLevel: number | null;
+	export let selectSeaLevel: (value: number | null) => void;
+	export let hoverSeaLevel: (value: number | null) => void;
 
 	// TODO style when selected
 
-	let waterLevelEl;
+	let waterLevelEl: HTMLElement;
 
-	const getSeaLevel = (y) => {
+	const getSeaLevel = (y: number): number => {
 		const rect = waterLevelEl.getBoundingClientRect();
 		const height = rect.bottom - rect.top;
 		const value = (1 - y / height) * seaIndexMax;
