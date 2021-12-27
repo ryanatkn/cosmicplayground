@@ -26,7 +26,7 @@
 	let visible = true;
 	let durationIn = 1000;
 	let durationOut = 2000;
-	let timeout;
+	let timeout: any;
 
 	const queueTimeout = (time = visible ? durationIn : durationOut) => {
 		if (timeout) return;
@@ -44,16 +44,11 @@
 		clearTimeout(timeout);
 	});
 
-	const resetTimeout = () => {
-		clearTimeout(timeout);
-		timeout = undefined;
-	};
-
-	const transition = (node, {delay = 0, duration = 1000}) => {
+	const transition = (_node: Element, {delay = 0, duration = 1000}) => {
 		return {
 			delay,
 			duration,
-			css: (t, u) =>
+			css: (t: number) =>
 				`transform: ${computeRotation(
 					t,
 					rotate3dX1,
@@ -68,7 +63,17 @@
 		};
 	};
 
-	const computeRotation = (t, x1, x2, y1, y2, z1, z2, deg1, deg2) => {
+	const computeRotation = (
+		t: number,
+		x1: number,
+		x2: number,
+		y1: number,
+		y2: number,
+		z1: number,
+		z2: number,
+		deg1: number,
+		deg2: number,
+	) => {
 		return `rotate3d(${mix(x1, x2, t)}, ${mix(y1, y2, t)}, ${mix(z1, z2, t)}, ${mix(
 			deg1,
 			deg2,
@@ -79,11 +84,11 @@
 	const timeSliderWidth = 300;
 	const timeSliderBorderWidth = 3;
 	const timeIndicatorSize = 20;
-	const timeTransition = (node, {delay = 0, duration = 1000}) => {
+	const timeTransition = (_node: Element, {delay = 0, duration = 1000}) => {
 		return {
 			delay,
 			duration,
-			css: (t, u) =>
+			css: (t: number) =>
 				`transform: translate3d(${(timeSliderWidth - timeIndicatorSize) * t}px, 0, 0);`,
 		};
 	};

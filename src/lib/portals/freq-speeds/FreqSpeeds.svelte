@@ -1,8 +1,8 @@
 <script lang="ts">
-	export let elapsedTime;
+	export let elapsedTime: number;
 	export let style: string | null = null;
-	export let lowestHzValue = 1000; // the half cycle should be a multiple of this
-	export let lowestHzItemCount = 2; // value range: [1, N] where N is an integer - the # of items that will appear for the lowest hz value
+	export let lowestHzValue: number = 1000; // the half cycle should be a multiple of this
+	export let lowestHzItemCount: number = 2; // value range: [1, N] where N is an integer - the # of items that will appear for the lowest hz value
 	$: halfCycleLength = lowestHzValue * lowestHzItemCount;
 	$: halfCycleTime = elapsedTime % halfCycleLength;
 	$: halfCyclePct = halfCycleTime / halfCycleLength;
@@ -11,14 +11,14 @@
 	$: fullCyclePct = fullCycleTime / fullCycleLength;
 	$: cycleReversing = fullCyclePct > 0.5;
 	$: relativeCyclePct = cycleReversing ? 1 - halfCyclePct : halfCyclePct;
-	export let height = 600;
-	export let width = 1000;
-	export let hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]; // correspond to a # of hz - `halfCycleLength` needs to be evenly divisible, or we get visual bugs
+	export let height: number = 600;
+	export let width: number = 1000;
+	export let hzItems: number[] = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]; // correspond to a # of hz - `halfCycleLength` needs to be evenly divisible, or we get visual bugs
 	// TODO are there any low-hanging high-impact optimizations here? maybe not re-allocating arrays each tick?
 	$: hzItemCounts = hzItems.map((v) => (v * halfCycleLength) / 1000);
 	$: hzItemActiveIndices = hzItemCounts.map((v) => Math.floor(relativeCyclePct * v));
 	$: hzItemHeight = height / hzItems.length;
-	$: hzItemWidths = hzItems.map((v, i) => width / hzItemCounts[i]);
+	$: hzItemWidths = hzItems.map((_v, i) => width / hzItemCounts[i]);
 </script>
 
 <svg {width} {height} {style}>

@@ -1,4 +1,4 @@
-import type {PortalBaseData} from '$lib/portals/portal.js';
+import type {PortalBaseData} from '$lib/portals/portal';
 
 const data: PortalBaseData = {
 	title: 'hearing test',

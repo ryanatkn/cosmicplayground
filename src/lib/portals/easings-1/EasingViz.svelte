@@ -32,7 +32,7 @@
 
 	import {onDestroy} from 'svelte';
 
-	import {createTweens} from '$lib/app/tweens';
+	import {createTweens, type Tween} from '$lib/app/tweens';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 
 	let duration = 1500;
@@ -41,9 +41,9 @@
 	let toggle = false;
 	//$: console.log('toggle changed', toggle);
 
-	let timeout;
+	let timeout: any;
 	const loopPadding = 300; // time to wait between loops
-	const loop = (time) => {
+	const loop = (time: number): void => {
 		timeout = setTimeout(() => {
 			toggle = !toggle;
 			loop(duration + loopPadding);
@@ -63,6 +63,7 @@
 	const tweens = createTweens(duration, undefined, 1);
 	$: tweens.set(toggle ? 1 : 0, {duration}); //, console.log('tweens.set()');
 
+	let selected: {[key: string]: boolean};
 	$: selected = tweens.easings.reduce((v = {}, {name}) => {
 		if (!(name in v)) v[name] = true;
 		return v;
@@ -74,7 +75,7 @@
 	const translateWidth = 300;
 	const translateDistance = translateWidth - graphicWidth;
 
-	const isVisible = (tween) => {
+	const isVisible = (tween: Tween): boolean => {
 		//console.log("isVisible", view);
 		switch (view) {
 			case 'all':
@@ -83,9 +84,11 @@
 				return selected[tween.name];
 			case 'unselected':
 				return !selected[tween.name];
+			default:
+				throw Error();
 		}
 	};
-	const getColor = (index, opacity = 0.8) => `hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
+	const getColor = (index: number, opacity = 0.8) => `hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 
 	/*
   let filteredTweens;

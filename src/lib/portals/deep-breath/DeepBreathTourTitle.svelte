@@ -13,7 +13,7 @@
 	$: animationDuration = transitionDuration * 2 + pauseDuration;
 	$: textStyle = `animation-duration: ${animationDuration}ms;`;
 
-	let timeout;
+	let timeout: any;
 	onMount(() => {
 		timeout = setTimeout(() => hide(), transitionDuration + maxDelay + pauseDuration);
 	});
