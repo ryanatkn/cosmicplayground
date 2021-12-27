@@ -32,8 +32,8 @@
 
 	import {onDestroy} from 'svelte';
 
-	import {createTweens} from '../../app/tweens.js';
-	import FloatingTextButton from '../../app/FloatingTextButton.svelte';
+	import {createTweens} from '$lib/app/tweens.js';
+	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 
 	let duration = 1500;
 	//$: console.log('duration changed', duration);

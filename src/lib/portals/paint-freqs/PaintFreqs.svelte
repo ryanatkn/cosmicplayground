@@ -8,7 +8,7 @@
 	import {hslToRgb} from '../../utils/colors.js';
 	import {freqToMidi} from '../../music/midi.js';
 	import {DEFAULT_TUNING} from '../../music/constants.js';
-	import FloatingIconButton from '../../app/FloatingIconButton.svelte';
+	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 
 	/*
 
@@ -36,8 +36,8 @@
 
   */
 
-	export let width;
-	export let height;
+	export let width: number;
+	export let height: number;
 
 	let pointerX = -300;
 	let pointerY = -300;

@@ -7,8 +7,8 @@
 	// `console.log(gl.getParameter(gl.MAX_TEXTURE_SIZE))`
 
 	export let pixi;
-	export let width;
-	export let height;
+	export let width: number;
+	export let height: number;
 
 	$: if (width !== pixi.renderer.width || height !== pixi.renderer.height) {
 		pixi.renderer.resize(width, height);

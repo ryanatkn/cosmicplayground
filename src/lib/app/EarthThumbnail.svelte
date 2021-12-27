@@ -1,6 +1,6 @@
 <script lang="ts">
-	export let width;
-	export let height;
+	export let width: number;
+	export let height: number;
 	export let imageUrl = '/assets/earth/seas.png';
 	export let opacity = 1.0;
 	export let animationDuration = '360s';

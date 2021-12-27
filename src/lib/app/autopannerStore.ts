@@ -1,5 +1,4 @@
-import {writable} from 'svelte/store';
-import type {Writable} from 'svelte/store';
+import {writable, type Writable} from 'svelte/store';
 import {randomFloat} from '@feltcoop/gro/dist/utils/random.js';
 
 // This is the old version of the autopanner that relied on CSS transitions for movement.

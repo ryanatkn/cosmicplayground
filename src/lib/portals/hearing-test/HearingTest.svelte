@@ -6,8 +6,8 @@
 	import {get_audio_ctx} from '../../audio/audioCtx.js';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../../audio/utils.js';
 
-	export let width;
-	export let height;
+	export let width: number;
+	export let height: number;
 
 	const audioCtx = get_audio_ctx();
 

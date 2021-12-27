@@ -1,10 +1,10 @@
 <script lang="ts">
 	import FreqSpeeds from './FreqSpeeds.svelte';
-	import {get_clock} from '../../app/clockStore.js';
+	import {get_clock} from '$lib/app/clockStore.js';
 
 	export const portal = undefined;
-	export let width;
-	export let height;
+	export let width: number;
+	export let height: number;
 
 	const clock = get_clock();
 

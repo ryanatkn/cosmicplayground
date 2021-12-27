@@ -1,7 +1,8 @@
 <script lang="ts">
-	import WaitingAnimation from './WaitingAnimation.svelte';
+	import {type ResourcesStore} from '$lib/app/resourcesStore';
+	import WaitingAnimation from '$lib/app/WaitingAnimation.svelte';
 
-	export let resources;
+	export let resources: ResourcesStore;
 
 	// TODO improve styling
 	// TODO allow clicking each to retry the request (`resourcesStore` needs an API for that)

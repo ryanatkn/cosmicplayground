@@ -1,9 +1,10 @@
 <script lang="ts">
+	import {type PortalData} from '$lib/portals/portal';
 	import {afterUpdate} from 'svelte';
 
-	export let portal;
-	export let width;
-	export let height;
+	export let portal: PortalData;
+	export let width: number;
+	export let height: number;
 
 	// TODO probably want to extract this logic
 	// TODO this is hardcoded to restoring scroll on the `window` object,
@@ -15,7 +16,11 @@
 	// so it gets flushed in `afterUpdate`.
 	// Less hacky than doing `await tick()` after a slug change.
 	let shouldRestoreScrollPosition = false;
-	const scrollPositionsBySlug = new Map();
+	interface ScrollPosition {
+		x: number;
+		y: number;
+	}
+	const scrollPositionsBySlug: Map<string, ScrollPosition> = new Map();
 	$: portal.slug, (shouldRestoreScrollPosition = true);
 	afterUpdate(() => {
 		if (shouldRestoreScrollPosition) {
@@ -23,7 +28,10 @@
 			shouldRestoreScrollPosition = false;
 		}
 	});
-	const restoreScrollPosition = (scrollPositionsBySlug, slug) => {
+	const restoreScrollPosition = (
+		scrollPositionsBySlug: Map<string, ScrollPosition>,
+		slug: string,
+	) => {
 		const scrollPosition = scrollPositionsBySlug.get(slug);
 		const x = scrollPosition ? scrollPosition.x : 0;
 		const y = scrollPosition ? scrollPosition.y : 0;

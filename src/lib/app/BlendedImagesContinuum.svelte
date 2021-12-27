@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {computeBlendedImagesContinuumOpacities} from './blendedImagesContinuum.js';
+	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum.js';
 
 	export let images;
 	export let value; // `1.6` is 60% opacity of index 2 and 100% opacity of index 1

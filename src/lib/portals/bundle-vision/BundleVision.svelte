@@ -1,9 +1,9 @@
 <script lang="ts">
 	import {onMount} from 'svelte';
 
-	import JsonExplorer from '../../app/JsonExplorer.svelte';
+	import JsonExplorer from '$lib/app/JsonExplorer.svelte';
 	import BundleSummary from './BundleSummary.svelte';
-	import LoadingIndicator from '../../app/LoadingIndicator.svelte';
+	import LoadingIndicator from '$lib/app/LoadingIndicator.svelte';
 	import {toBundleStats} from '../../bundle/bundleStats.js';
 
 	/*

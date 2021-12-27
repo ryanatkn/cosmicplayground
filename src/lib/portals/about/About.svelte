@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Panel from '../../app/Panel.svelte';
+	import Panel from '$lib/app/Panel.svelte';
 	import Credits from './Credits.svelte';
 	import CreditsPersonalSignature from './CreditsPersonalSignature.svelte';
 	import CreditsProjectSignature from './CreditsProjectSignature.svelte';
-	import PortalLink from '../../app/PortalLink.svelte';
+	import PortalLink from '$lib/app/PortalLink.svelte';
 
 	/*
 

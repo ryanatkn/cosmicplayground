@@ -1,6 +1,6 @@
 <script lang="ts">
-	export let width;
-	export let height;
+	export let width: number;
+	export let height: number;
 	export let imageUrl = '/assets/space/galaxies.jpg';
 	export let opacity = 0.2;
 	export let animationDuration = '360s';

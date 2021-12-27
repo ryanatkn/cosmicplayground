@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ImageCreditsCaption from './ImageCreditsCaption.svelte';
+	import ImageCreditsCaption from '$lib/app/ImageCreditsCaption.svelte';
 
 	export let image;
 </script>

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Panel from '../../app/Panel.svelte';
-	import ChunkyButton from '../../app/ChunkyButton.svelte';
-	import FloatingIconButton from '../../app/FloatingIconButton.svelte';
-	import {get_router} from '../../app/routerStore.js';
-	import {get_portals} from '../../app/portalsStore.js';
-	import PortalLink from '../../app/PortalLink.svelte';
-	import {VOID_PORTAL_SLUG} from '../portal.js';
+	import Panel from '$lib/app/Panel.svelte';
+	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
+	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
+	import {get_router} from '$lib/app/routerStore.js';
+	import {get_portals} from '$lib/app/portalsStore.js';
+	import PortalLink from '$lib/app/PortalLink.svelte';
+	import {VOID_PORTAL_SLUG} from '$lib/portals/portal.js';
 
 	export const portal = undefined;
 	export const width = undefined;

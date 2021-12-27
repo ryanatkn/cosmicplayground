@@ -1,7 +1,6 @@
 import type {Gen} from '@feltcoop/gro/dist/gen/gen.js';
 import {dirname, join} from 'path';
-import {readdirSync} from 'fs';
-import {stat} from '@feltcoop/gro/dist/fs/nodeFs.js';
+import {statSync, readdirSync} from 'fs';
 import {toBuildId, toRootPath} from '@feltcoop/gro/dist/paths.js';
 
 import type {PortalBaseData} from './portal.js';
@@ -16,9 +15,7 @@ import {VOID_PORTAL_SLUG} from './portal.js';
 const readDirs = async (dir: string): Promise<string[]> =>
 	(
 		await Promise.all(
-			readdirSync(dir).map(async (path) =>
-				(await stat(join(dir, path))).isDirectory() ? path : null,
-			),
+			readdirSync(dir).map(async (path) => (statSync(join(dir, path)).isDirectory() ? path : null)),
 		)
 	).filter(Boolean) as string[];
 

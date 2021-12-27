@@ -1,5 +1,5 @@
 <script lang="ts">
-	import FloatingTextButton from './FloatingTextButton.svelte';
+	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 
 	export let tour;
 	export let debugStartTime;

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import InteractiveSurface from './InteractiveSurface.svelte';
+	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
 
-	export let width;
-	export let height;
+	export let width: number;
+	export let height: number;
 	export let x;
 	export let y;
 	export let scale;

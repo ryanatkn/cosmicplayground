@@ -1,8 +1,8 @@
 <script lang="ts">
-	import {spaceImages} from '../../app/images.js';
-	import PortalLink from '../../app/PortalLink.svelte';
-	import Details from '../../app/Details.svelte';
-	import ImageCredits from '../../app/ImageCredits.svelte';
+	import {spaceImages} from '$lib/app/images.js';
+	import PortalLink from '$lib/app/PortalLink.svelte';
+	import Details from '$lib/app/Details.svelte';
+	import ImageCredits from '$lib/app/ImageCredits.svelte';
 
 	const visibleCount = 2; // TODO increase
 	$: visibleImages = spaceImages.slice(0, visibleCount);

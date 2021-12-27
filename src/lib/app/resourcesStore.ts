@@ -1,7 +1,6 @@
-import {writable} from 'svelte/store';
-import type {Writable} from 'svelte/store';
-import {type AsyncStatus} from '@feltcoop/felt/util/async.js';
-import {UnreachableError} from '@feltcoop/gro/dist/utils/error.js';
+import {writable, type Writable} from 'svelte/store';
+import {type AsyncStatus} from '@feltcoop/felt';
+import {UnreachableError} from '@feltcoop/felt/util/error.js';
 
 /*
 

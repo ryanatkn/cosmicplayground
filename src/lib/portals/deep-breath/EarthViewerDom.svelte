@@ -1,7 +1,7 @@
 <script lang="ts">
-	import ImageViewer from '../../app/ImageViewer.svelte';
-	import BlendedImagesCycle from '../../app/BlendedImagesCycle.svelte';
-	import BlendedImagesContinuum from '../../app/BlendedImagesContinuum.svelte';
+	import ImageViewer from '$lib/app/ImageViewer.svelte';
+	import BlendedImagesCycle from '$lib/app/BlendedImagesCycle.svelte';
+	import BlendedImagesContinuum from '$lib/app/BlendedImagesContinuum.svelte';
 
 	/*
 
@@ -20,8 +20,8 @@
 
 	*/
 
-	export let width;
-	export let height;
+	export let width: number;
+	export let height: number;
 	export let x;
 	export let y;
 	export let scale;

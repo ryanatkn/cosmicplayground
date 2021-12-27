@@ -2,7 +2,7 @@
 	import {
 		computeBlendedImagesCycleOpacities,
 		computeBlendedImagesCycleZIndex,
-	} from './blendedImagesCycle.js';
+	} from '$lib/app/blendedImagesCycle.js';
 
 	export let images;
 	export let value; // float, where `0 <= value < images.length`

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import DeepBreathCredits from '../deep-breath/DeepBreathCredits.svelte';
 	import DeepBreathThumbnail from '../deep-breath/DeepBreathThumbnail.svelte';
-	import PortalLink from '../../app/PortalLink.svelte';
+	import PortalLink from '$lib/app/PortalLink.svelte';
 </script>
 
 <DeepBreathThumbnail />

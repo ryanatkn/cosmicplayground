@@ -1,23 +1,24 @@
 <script lang="ts">
 	import {onMount} from 'svelte';
 	import {writable} from 'svelte/store';
+	import {type AsyncStatus} from '@feltcoop/felt';
 
-	import PixiView from './PixiView.svelte';
-	import PortalView from './PortalView.svelte';
-	import Hud from './Hud.svelte';
-	import HomeButton from './HomeButton.svelte';
-	import Panel from './Panel.svelte';
-	import {set_router} from './routerStore.js';
+	import PixiView from '$lib/app/PixiView.svelte';
+	import PortalView from '$lib/app/PortalView.svelte';
+	import Hud from '$lib/app/Hud.svelte';
+	import HomeButton from '$lib/app/HomeButton.svelte';
+	import Panel from '$lib/app/Panel.svelte';
+	import {set_router} from '$lib/app/routerStore.js';
 	import {set_audio_ctx} from '../audio/audioCtx.js';
-	import {set_clock} from './clockStore.js';
-	import {set_settings} from './settingsStore.js';
-	import {set_portals, findPortalBySlug} from './portalsStore.js';
-	import {trackIdleState} from './trackIdleState.js';
-	import {updateRenderStats} from './renderStats.js';
-	import {portalsData} from '../portals/index.js';
-	import {PixiApp, set_pixi} from './pixi.js';
-	import {createPixiBgStore} from './pixiBgStore.js';
-	import WaitingScreen from './WaitingScreen.svelte';
+	import {set_clock} from '$lib/app/clockStore.js';
+	import {set_settings} from '$lib/app/settingsStore.js';
+	import {set_portals, findPortalBySlug} from '$lib/app/portalsStore.js';
+	import {trackIdleState} from '$lib/app/trackIdleState.js';
+	import {updateRenderStats} from '$lib/app/renderStats.js';
+	import {portalsData} from '$lib/portals/index.js';
+	import {PixiApp, set_pixi} from '$lib/app/pixi.js';
+	import {createPixiBgStore} from '$lib/app/pixiBgStore.js';
+	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 
 	let width = window.innerWidth;
 	let height = window.innerHeight;
@@ -33,24 +34,25 @@
 	const clock = set_clock(); // TODO integrate with Pixi ticker?
 	$: updateRenderStats($clock.dt);
 
-	let supportsWebGL = null;
-	let pixi;
+	let supportsWebGL: boolean | null = null;
+	let pixi: PixiApp;
 	try {
 		pixi = new PixiApp({width, height});
 		supportsWebGL = true;
 	} catch (err) {
 		supportsWebGL = false; // usually probably correct to infer this
+		pixi = {} as any; // TODO this is just a hack for type safety
 		console.error(err);
 	}
 	set_pixi(pixi);
-	window['pixi'] = pixi; // TODO improve this pattern
+	(window as any).pixi = pixi; // TODO improve this pattern
 
 	const bgImageUrl = '/assets/space/galaxies.jpg';
 	let bg;
 	$: bg && bg.updateDimensions(width, height);
 	$: bg && bg.tick($clock.dt);
 
-	let loadingStatus = 'initial';
+	let loadingStatus: AsyncStatus = 'initial';
 	const loadInitialResources = () => {
 		pixi.loader.add(bgImageUrl).load(() => {
 			bg = createPixiBgStore(pixi.loader.resources[bgImageUrl].texture, width, height);

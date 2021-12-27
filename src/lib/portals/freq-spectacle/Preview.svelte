@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FreqSpectacle from './FreqSpectacle.svelte';
-	import {get_clock} from '../../app/clockStore.js';
+	import {get_clock} from '$lib/app/clockStore.js';
 
 	export const portal = undefined;
 

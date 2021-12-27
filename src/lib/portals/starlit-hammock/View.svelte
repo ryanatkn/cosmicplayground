@@ -3,13 +3,13 @@
 	import {sineInOut} from 'svelte/easing';
 
 	import StarlitHammock from './StarlitHammock.svelte';
-	import ImagePicker from '../../app/ImagePicker.svelte';
-	import FloatingTextButton from '../../app/FloatingTextButton.svelte';
-	import {spaceImages} from '../../app/images.js';
-	import {get_clock} from '../../app/clockStore.js';
-	import ImageCreditsCaption from '../../app/ImageCreditsCaption.svelte';
-	import InteractiveSurface from '../../app/InteractiveSurface.svelte';
-	import Panel from '../../app/Panel.svelte';
+	import ImagePicker from '$lib/app/ImagePicker.svelte';
+	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
+	import {spaceImages} from '$lib/app/images.js';
+	import {get_clock} from '$lib/app/clockStore.js';
+	import ImageCreditsCaption from '$lib/app/ImageCreditsCaption.svelte';
+	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
+	import Panel from '$lib/app/Panel.svelte';
 	import AboutPortalPreview from '../about/Preview.svelte';
 	import PortalPreview from '../home/PortalPreview.svelte';
 
@@ -27,8 +27,8 @@
 	*/
 
 	export const portal = undefined;
-	export let width;
-	export let height;
+	export let width: number;
+	export let height: number;
 
 	let showPicker = false;
 

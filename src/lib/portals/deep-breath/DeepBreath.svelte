@@ -8,26 +8,26 @@
 	import DeepBreathTitleScreen from './DeepBreathTitleScreen.svelte';
 	import ZodiacHud from './ZodiacHud.svelte';
 	import SeaLevelHud from './SeaLevelHud.svelte';
-	import ImageViewer from '../../app/ImageViewer.svelte';
-	import Hud from '../../app/Hud.svelte';
-	import HomeButton from '../../app/HomeButton.svelte';
+	import ImageViewer from '$lib/app/ImageViewer.svelte';
+	import Hud from '$lib/app/Hud.svelte';
+	import HomeButton from '$lib/app/HomeButton.svelte';
 	import EarthViewerDom from './EarthViewerDom.svelte';
 	import EarthViewerPixi from './EarthViewerPixi.svelte';
-	import {createResourcesStore} from '../../app/resourcesStore.js';
+	import {createResourcesStore} from '$lib/app/resourcesStore.js';
 	import {createDeepBreathTour} from './deepBreathTour.js';
-	import {createTourStore} from '../../app/tourStore.js';
-	import TourControls from '../../app/TourControls.svelte';
+	import {createTourStore} from '$lib/app/tourStore.js';
+	import TourControls from '$lib/app/TourControls.svelte';
 	import DeepBreathTourIntro from './DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from './DeepBreathTourTitle.svelte';
 	import DeepBreathTourCredits from './DeepBreathTourCredits.svelte';
-	import {get_settings} from '../../app/settingsStore.js';
-	import {resetRenderStats, getRenderStats} from '../../app/renderStats.js';
-	import FloatingIconButton from '../../app/FloatingIconButton.svelte';
-	import FloatingTextButton from '../../app/FloatingTextButton.svelte';
+	import {get_settings} from '$lib/app/settingsStore.js';
+	import {resetRenderStats, getRenderStats} from '$lib/app/renderStats.js';
+	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
+	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import DeepBreathDevHud from './DeepBreathDevHud.svelte';
 
-	export let width;
-	export let height;
+	export let width: number;
+	export let height: number;
 
 	const settings = get_settings();
 	$: devMode = $settings.devMode;

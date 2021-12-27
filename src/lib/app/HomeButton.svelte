@@ -1,5 +1,5 @@
 <script lang="ts">
-	import FloatingIconButton from './FloatingIconButton.svelte';
+	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 </script>
 
 <a href="#home" class="idle-fade">

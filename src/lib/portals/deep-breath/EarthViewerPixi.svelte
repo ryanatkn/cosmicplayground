@@ -1,19 +1,19 @@
 <script lang="ts">
 	import * as PIXI from 'pixi.js';
 
-	import {computeBlendedImagesContinuumOpacities} from '../../app/blendedImagesContinuum.js';
+	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum.js';
 	import {
 		computeBlendedImagesCycleOpacities,
 		computeBlendedImagesCycleZIndex,
-	} from '../../app/blendedImagesCycle.js';
-	import {get_pixi_scene} from '../../app/pixi.js';
-	import InteractiveSurface from '../../app/InteractiveSurface.svelte';
+	} from '$lib/app/blendedImagesCycle.js';
+	import {get_pixi_scene} from '$lib/app/pixi.js';
+	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
 
 	// TODO should we cache stuff at the module scope? mainly thinking of the render textures
 	// or should we free all resources when this is unmounted? including all base textures?
 
-	export let width;
-	export let height;
+	export let width: number;
+	export let height: number;
 	export let x;
 	export let y;
 	export let scale;

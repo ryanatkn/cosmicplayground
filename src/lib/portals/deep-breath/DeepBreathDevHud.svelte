@@ -1,6 +1,6 @@
 <script lang="ts">
-	import FloatingTextButton from '../../app/FloatingTextButton.svelte';
-	import TourControls from '../../app/TourControls.svelte';
+	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
+	import TourControls from '$lib/app/TourControls.svelte';
 
 	export let tour;
 	export let x;

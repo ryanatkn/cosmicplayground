@@ -25,13 +25,13 @@
 	import {onDestroy} from 'svelte';
 	import {mix} from '@feltcoop/felt/util/math.js';
 
-	import {svelteEasings} from '../../app/easings.js';
+	import {svelteEasings} from '$lib/app/easings.js';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../../audio/utils.js';
 	import {get_audio_ctx} from '../../audio/audioCtx.js';
 	import {midiNames} from '../../music/notes.js';
 	import {midiToFreq} from '../../music/midi.js';
 	import {DEFAULT_TUNING} from '../../music/constants.js';
-	import FloatingIconButton from '../../app/FloatingIconButton.svelte';
+	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 
 	export let clock;
 

@@ -1,7 +1,7 @@
 import {derived} from 'svelte/store';
 import {tweened} from 'svelte/motion';
 
-import {svelteEasings} from './easings.js';
+import {svelteEasings} from '$lib/app/easings.js';
 
 // This is a custom store that internally uses a `derived` store
 // to compose a dynamic list of tweens based on the provided

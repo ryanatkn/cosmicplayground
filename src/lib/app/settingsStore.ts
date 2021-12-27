@@ -1,11 +1,11 @@
-import {writable} from 'svelte/store';
-import type {Writable} from 'svelte/store';
+import {writable, type Writable} from 'svelte/store';
 import {setContext, getContext} from 'svelte';
 
 export interface SettingsState {
 	audioEnabled: boolean;
 	devMode: boolean;
 	recordingMode: boolean;
+	idleMode: boolean;
 	timeToGoIdle: number;
 }
 

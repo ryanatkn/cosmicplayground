@@ -1,5 +1,4 @@
-import {writable} from 'svelte/store';
-import type {Writable} from 'svelte/store';
+import {writable, type Writable} from 'svelte/store';
 import * as PIXI from 'pixi.js';
 
 export interface PixiBgState {

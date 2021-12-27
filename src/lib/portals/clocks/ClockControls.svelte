@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FreqSpectacle from '../freq-spectacle/FreqSpectacle.svelte';
-	import FloatingTextButton from '../../app/FloatingTextButton.svelte';
+	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 
 	// TODO what are the perf characteristics if we use the clock store directly?
 	// will anything get updated unnecessarily every frame?

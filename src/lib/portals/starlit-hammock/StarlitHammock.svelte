@@ -1,6 +1,6 @@
 <script lang="ts">
-	import {get_pixi_scene} from '../../app/pixi.js';
-	import WaitingScreen from '../../app/WaitingScreen.svelte';
+	import {get_pixi_scene} from '$lib/app/pixi.js';
+	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 
 	// TODO This code is hacky and complex because the Pixi loader API is a headache :/
 	// Biggest problem is it throws an error if you add a resource while it's loading.

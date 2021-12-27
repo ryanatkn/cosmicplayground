@@ -1,5 +1,5 @@
 <script lang="ts">
-	import WaitingAnimation from './WaitingAnimation.svelte';
+	import WaitingAnimation from '$lib/app/WaitingAnimation.svelte';
 
 	export let status;
 </script>

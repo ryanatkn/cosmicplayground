@@ -1,4 +1,4 @@
-import type {PortalBaseData} from '../portal.js';
+import type {PortalBaseData} from '$lib/portals/portal.js';
 
 const data: PortalBaseData = {
 	title: 'clocks',

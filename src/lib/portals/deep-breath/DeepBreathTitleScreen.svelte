@@ -1,10 +1,10 @@
 <script lang="ts">
 	import DeepBreathThumbnail from './DeepBreathThumbnail.svelte';
-	import Hud from '../../app/Hud.svelte';
-	import HomeButton from '../../app/HomeButton.svelte';
-	import ResourcesLoadingProgress from '../../app/ResourcesLoadingProgress.svelte';
-	import Panel from '../../app/Panel.svelte';
-	import ChunkyButton from '../../app/ChunkyButton.svelte';
+	import Hud from '$lib/app/Hud.svelte';
+	import HomeButton from '$lib/app/HomeButton.svelte';
+	import ResourcesLoadingProgress from '$lib/app/ResourcesLoadingProgress.svelte';
+	import Panel from '$lib/app/Panel.svelte';
+	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import DeepBreathCredits from './DeepBreathCredits.svelte';
 	import CreditsPersonalSignature from '../about/CreditsPersonalSignature.svelte';
 	import CreditsProjectSignature from '../about/CreditsProjectSignature.svelte';

@@ -1,6 +1,6 @@
 <script lang="ts">
-	export let width;
-	export let height;
+	export let width: number;
+	export let height: number;
 
 	const maxWidth = 1667;
 	const maxHeight = 781;
