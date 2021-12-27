@@ -43,8 +43,8 @@
     "rollup": "^2.26.11",
     "sourcemap-codec": "^1.4.8",
     "svelte": "^3.24.1",
-    "tslib": "^2.0.1",
-    "typescript": "^4.0.2"
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.4"
   },
   "prettier": {
     "useTabs": true,
