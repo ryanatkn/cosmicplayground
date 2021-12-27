@@ -8,16 +8,16 @@
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
 	import Panel from '$lib/app/Panel.svelte';
-	import {set_router} from '$lib/app/routerStore.js';
-	import {set_audio_ctx} from '../audio/audioCtx.js';
-	import {set_clock} from '$lib/app/clockStore.js';
-	import {set_settings} from '$lib/app/settingsStore.js';
-	import {set_portals, findPortalBySlug} from '$lib/app/portalsStore.js';
-	import {trackIdleState} from '$lib/app/trackIdleState.js';
-	import {updateRenderStats} from '$lib/app/renderStats.js';
-	import {portalsData} from '$lib/portals/index.js';
-	import {PixiApp, set_pixi} from '$lib/app/pixi.js';
-	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBgStore.js';
+	import {set_router} from '$lib/app/routerStore';
+	import {set_audio_ctx} from '$lib/audio/audioCtx';
+	import {set_clock} from '$lib/app/clockStore';
+	import {set_settings} from '$lib/app/settingsStore';
+	import {set_portals, findPortalBySlug} from '$lib/app/portalsStore';
+	import {trackIdleState} from '$lib/app/trackIdleState';
+	import {updateRenderStats} from '$lib/app/renderStats';
+	import {portalsData} from '$lib/portals/index';
+	import {PixiApp, set_pixi} from '$lib/app/pixi';
+	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBgStore';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 
 	let width = window.innerWidth;

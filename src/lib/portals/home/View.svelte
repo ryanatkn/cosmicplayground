@@ -1,7 +1,7 @@
 <script lang="ts">
-	import {get_portals} from '$lib/app/portalsStore.js';
+	import {get_portals} from '$lib/app/portalsStore';
 	import PortalPreview from './PortalPreview.svelte';
-	import {VOID_PORTAL_SLUG} from '$lib/portals/portal.js';
+	import {VOID_PORTAL_SLUG} from '$lib/portals/portal';
 
 	export let portal;
 	export const width = undefined;
@@ -30,7 +30,6 @@
 			'under-construction',
 			'freq-speeds',
 			'transition-designer',
-			'bundle-vision',
 			'clocks',
 			'freq-spectacle',
 		].map((slug, i) => [slug, i]),
@@ -53,10 +52,7 @@
 
 	$: coolPortals = sortPortals(
 		$portals.data.portals.filter(
-			(p) =>
-				!unlistedPortals.has(p.slug) &&
-				p.coolness <= COOLNESS_VISIBILITY_THRESHOLD &&
-				p.slug !== 'bundle-vision', // TODO temporarily disabling because it's too techy
+			(p) => !unlistedPortals.has(p.slug) && p.coolness <= COOLNESS_VISIBILITY_THRESHOLD,
 		),
 	);
 

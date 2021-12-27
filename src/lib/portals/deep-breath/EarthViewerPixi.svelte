@@ -1,12 +1,12 @@
 <script lang="ts">
 	import * as PIXI from 'pixi.js';
 
-	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum.js';
+	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum';
 	import {
 		computeBlendedImagesCycleOpacities,
 		computeBlendedImagesCycleZIndex,
-	} from '$lib/app/blendedImagesCycle.js';
-	import {get_pixi_scene} from '$lib/app/pixi.js';
+	} from '$lib/app/blendedImagesCycle';
+	import {get_pixi_scene} from '$lib/app/pixi';
 	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
 
 	// TODO should we cache stuff at the module scope? mainly thinking of the render textures

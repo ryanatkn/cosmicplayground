@@ -1,13 +1,13 @@
 <script lang="ts">
 	import {spring} from 'svelte/motion';
-	import {onMount, onDestroy} from 'svelte';
+	import {onDestroy} from 'svelte';
 	import {mix} from '@feltcoop/felt/util/math.js';
 
-	import {get_audio_ctx} from '../../audio/audioCtx.js';
-	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../../audio/utils.js';
-	import {hslToRgb} from '../../utils/colors.js';
-	import {freqToMidi} from '../../music/midi.js';
-	import {DEFAULT_TUNING} from '../../music/constants.js';
+	import {get_audio_ctx} from '$lib/audio/audioCtx';
+	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
+	import {hslToRgb} from '../../utils/colors';
+	import {freqToMidi} from '../../music/midi';
+	import {DEFAULT_TUNING} from '../../music/constants';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 
 	/*

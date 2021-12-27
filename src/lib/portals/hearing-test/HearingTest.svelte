@@ -3,8 +3,8 @@
 	import {onDestroy} from 'svelte';
 	import {mix} from '@feltcoop/felt/util/math.js';
 
-	import {get_audio_ctx} from '../../audio/audioCtx.js';
-	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../../audio/utils.js';
+	import {get_audio_ctx} from '$lib/audio/audioCtx';
+	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
 
 	export let width: number;
 	export let height: number;

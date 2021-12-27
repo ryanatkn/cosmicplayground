@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FreqSpeeds from './FreqSpeeds.svelte';
-	import {get_clock} from '$lib/app/clockStore.js';
+	import {get_clock} from '$lib/app/clockStore';
 
 	export const portal = undefined;
 

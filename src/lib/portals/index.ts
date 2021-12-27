@@ -3,8 +3,6 @@ import type {PortalsData, PortalData} from './portal.js';
 
 import AboutView from './about/View.svelte';
 import AboutPreview from './about/Preview.svelte';
-import BundleVisionView from './bundle-vision/View.svelte';
-import BundleVisionPreview from './bundle-vision/Preview.svelte';
 import ClocksView from './clocks/View.svelte';
 import ClocksPreview from './clocks/Preview.svelte';
 import DeepBreathView from './deep-breath/View.svelte';
@@ -39,14 +37,6 @@ const portals: PortalData[] = [
 		Preview: AboutPreview,
 		title: 'about',
 		coolness: 4,
-		showHomeButton: true,
-	},
-	{
-		slug: 'bundle-vision',
-		View: BundleVisionView,
-		Preview: BundleVisionPreview,
-		title: 'bundle vision',
-		coolness: 1,
 		showHomeButton: true,
 	},
 	{

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {get_pixi_scene} from '$lib/app/pixi.js';
+	import {get_pixi_scene} from '$lib/app/pixi';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 
 	// TODO This code is hacky and complex because the Pixi loader API is a headache :/

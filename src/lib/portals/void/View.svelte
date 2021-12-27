@@ -2,10 +2,10 @@
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import {get_router} from '$lib/app/routerStore.js';
-	import {get_portals} from '$lib/app/portalsStore.js';
+	import {get_router} from '$lib/app/routerStore';
+	import {get_portals} from '$lib/app/portalsStore';
 	import PortalLink from '$lib/app/PortalLink.svelte';
-	import {VOID_PORTAL_SLUG} from '$lib/portals/portal.js';
+	import {VOID_PORTAL_SLUG} from '$lib/portals/portal';
 
 	export const portal = undefined;
 	export const width = undefined;

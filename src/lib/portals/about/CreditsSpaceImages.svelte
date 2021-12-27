@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {spaceImages} from '$lib/app/images.js';
+	import {spaceImages} from '$lib/app/images';
 	import PortalLink from '$lib/app/PortalLink.svelte';
 	import Details from '$lib/app/Details.svelte';
 	import ImageCredits from '$lib/app/ImageCredits.svelte';

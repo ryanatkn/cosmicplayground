@@ -6,7 +6,6 @@
 
 <script lang="ts">
 	import {onMount, onDestroy} from 'svelte';
-	import {fade} from 'svelte/transition';
 	import {mix} from '@feltcoop/felt/util/math.js';
 
 	//  possible improvements

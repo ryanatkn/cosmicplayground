@@ -1,6 +1,6 @@
 <script lang="ts">
 	import EarthThumbnail from '$lib/app/EarthThumbnail.svelte';
-	import {get_clock} from '$lib/app/clockStore.js';
+	import {get_clock} from '$lib/app/clockStore';
 
 	export let earthWidth = 600;
 	export let label = 'proceed';
