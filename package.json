@@ -31,6 +31,7 @@
     "node": ">=16.6"
   },
   "devDependencies": {
+    "@feltcoop/felt": "^0.15.2",
     "@feltcoop/gro": "^0.47.3",
     "@sveltejs/adapter-static": "^1.0.0-next.23",
     "@sveltejs/kit": "^1.0.0-next.203",

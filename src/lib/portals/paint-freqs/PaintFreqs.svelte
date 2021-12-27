@@ -1,7 +1,7 @@
 <script>
 	import {spring} from 'svelte/motion';
 	import {onMount, onDestroy} from 'svelte';
-	import {mix} from '@feltcoop/gro/dist/utils/math.js';
+	import {mix} from '@feltcoop/felt/util/math.js';
 
 	import {get_audio_ctx} from '../../audio/audioCtx.js';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '../../audio/utils.js';
@@ -181,57 +181,6 @@
 	};
 </script>
 
-<div class="paint-freqs" style="width: {width}px; height: {height}px;">
-	{#if fgDataUrl}
-		<svg class="drawing">
-			<!--
-				Chrome doesn't appear to support setting a canvas mask to an svg (it works in Firefox)
-				so we use an svg `image` with a `dataUrl` instead.
-			-->
-			<image xlink:href={fgDataUrl} {width} {height} mask="url(#linePaths)" />
-			<defs>
-				<mask id="linePaths">
-					{#each lines as line (line.id)}
-						<polyline points={line.points} stroke="white" stroke-width="5" fill="none" />
-					{/each}
-				</mask>
-			</defs>
-			<filter id="blurOuter" height="300%" width="300%" y="-50%" x="-50%">
-				<feGaussianBlur in="SourceGraphic" stdDeviation="15" />
-			</filter>
-			<circle
-				class="outer"
-				cx={$spotPosition.x}
-				cy={$spotPosition.y}
-				r={30}
-				filter="url(#blurOuter)"
-			/>
-			<circle class="inner" cx={$spotPosition.x} cy={$spotPosition.y} r={2} />
-		</svg>
-	{/if}
-	{#if width !== undefined}<canvas class="bg-canvas" bind:this={canvas} />{/if}
-	{#if displayedFreq}
-		<div class="freq idle-fade">
-			<div>{displayedFreq}<span class="unit">hz</span></div>
-		</div>
-	{/if}
-	<div
-		class="interaction-surface"
-		on:mousedown|stopPropagation|preventDefault={handlePointerDown}
-		on:mouseup|stopPropagation|preventDefault={handlePointerUp}
-		on:mouseleave|stopPropagation|preventDefault={handlePointerUp}
-		on:mousemove|stopPropagation|preventDefault={handlePointerMove}
-		on:touchstart|stopPropagation|preventDefault={handlePointerDown}
-		on:touchend|stopPropagation|preventDefault={handlePointerUp}
-		on:touchcancel|stopPropagation|preventDefault={handlePointerUp}
-		on:touchmove|stopPropagation|preventDefault={handlePointerMove}
-	/>
-	<div class="controls idle-fade">
-		<!-- TODO this is a good candidate for the Hud component -->
-		<FloatingIconButton label="reset" on:click={clear}>↻</FloatingIconButton>
-	</div>
-</div>
-
 <style>
 	.paint-freqs {
 		position: relative;
@@ -300,3 +249,52 @@
 		z-index: 4;
 	}
 </style>
+
+<div class="paint-freqs" style="width: {width}px; height: {height}px;">
+	{#if fgDataUrl}
+		<svg class="drawing">
+			<!--
+				Chrome doesn't appear to support setting a canvas mask to an svg (it works in Firefox)
+				so we use an svg `image` with a `dataUrl` instead.
+			-->
+			<image xlink:href={fgDataUrl} {width} {height} mask="url(#linePaths)" />
+			<defs>
+				<mask id="linePaths">
+					{#each lines as line (line.id)}
+						<polyline points={line.points} stroke="white" stroke-width="5" fill="none" />
+					{/each}
+				</mask>
+			</defs>
+			<filter id="blurOuter" height="300%" width="300%" y="-50%" x="-50%">
+				<feGaussianBlur in="SourceGraphic" stdDeviation="15" />
+			</filter>
+			<circle
+				class="outer"
+				cx={$spotPosition.x}
+				cy={$spotPosition.y}
+				r={30}
+				filter="url(#blurOuter)" />
+			<circle class="inner" cx={$spotPosition.x} cy={$spotPosition.y} r={2} />
+		</svg>
+	{/if}
+	{#if width !== undefined}<canvas class="bg-canvas" bind:this={canvas} />{/if}
+	{#if displayedFreq}
+		<div class="freq idle-fade">
+			<div>{displayedFreq}<span class="unit">hz</span></div>
+		</div>
+	{/if}
+	<div
+		class="interaction-surface"
+		on:mousedown|stopPropagation|preventDefault={handlePointerDown}
+		on:mouseup|stopPropagation|preventDefault={handlePointerUp}
+		on:mouseleave|stopPropagation|preventDefault={handlePointerUp}
+		on:mousemove|stopPropagation|preventDefault={handlePointerMove}
+		on:touchstart|stopPropagation|preventDefault={handlePointerDown}
+		on:touchend|stopPropagation|preventDefault={handlePointerUp}
+		on:touchcancel|stopPropagation|preventDefault={handlePointerUp}
+		on:touchmove|stopPropagation|preventDefault={handlePointerMove} />
+	<div class="controls idle-fade">
+		<!-- TODO this is a good candidate for the Hud component -->
+		<FloatingIconButton label="reset" on:click={clear}>↻</FloatingIconButton>
+	</div>
+</div>

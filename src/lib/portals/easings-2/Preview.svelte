@@ -1,5 +1,5 @@
 <script>
-	import {mix} from '@feltcoop/gro/dist/utils/math.js';
+	import {mix} from '@feltcoop/felt/util/math.js';
 
 	export const portal = undefined;
 
@@ -30,35 +30,6 @@
 		ctx.stroke();
 	};
 </script>
-
-<div class="preview">
-	<h2>easing function</h2>
-	<h2>visualizations and auralizations</h2>
-	<div class="wrapper">
-		<canvas bind:this={canvas} />
-		<div
-			class="mouth-wrapper"
-			style="left: {-mouthSize / 2}px; top: {canvasHeight / 2 -
-				mouthSize / 2}px; width: {mouthSize}px;
-			height: {mouthSize}px;"
-		>
-			<div class="mouth" style="width: {mouthSize}px; height: {mouthSize}px;" />
-			<div class="mouth" style="width: {mouthSize}px; height: {mouthSize}px;" />
-			<div style="width: {mouthSize}px; height: {mouthSize}px; border-radius: 50%;" />
-		</div>
-		<div
-			class="tail-wrapper"
-			style="right: {-tailSize / 2}px; top: {8 +
-				canvasHeight / 2 -
-				tailSize / 2}px; width: {tailSize}px;
-			height: {tailSize}px;"
-		>
-			<div class="tail" style="width: {tailSize}px; height: {tailSize}px;" />
-			<div class="tail" style="width: {tailSize}px; height: {tailSize}px;" />
-			<div style="width: {tailSize / 2}px; height: {tailSize / 2}px; border-radius: 50%;" />
-		</div>
-	</div>
-</div>
 
 <style>
 	.preview {
@@ -147,3 +118,27 @@
 		}
 	}
 </style>
+
+<div class="preview">
+	<h2>easing function</h2>
+	<h2>visualizations and auralizations</h2>
+	<div class="wrapper">
+		<canvas bind:this={canvas} />
+		<div
+			class="mouth-wrapper"
+			style="left: {-mouthSize / 2}px; top: {canvasHeight / 2 - mouthSize / 2}px; width: {mouthSize}px;
+			height: {mouthSize}px;">
+			<div class="mouth" style="width: {mouthSize}px; height: {mouthSize}px;" />
+			<div class="mouth" style="width: {mouthSize}px; height: {mouthSize}px;" />
+			<div style="width: {mouthSize}px; height: {mouthSize}px; border-radius: 50%;" />
+		</div>
+		<div
+			class="tail-wrapper"
+			style="right: {-tailSize / 2}px; top: {8 + canvasHeight / 2 - tailSize / 2}px; width: {tailSize}px;
+			height: {tailSize}px;">
+			<div class="tail" style="width: {tailSize}px; height: {tailSize}px;" />
+			<div class="tail" style="width: {tailSize}px; height: {tailSize}px;" />
+			<div style="width: {tailSize / 2}px; height: {tailSize / 2}px; border-radius: 50%;" />
+		</div>
+	</div>
+</div>
