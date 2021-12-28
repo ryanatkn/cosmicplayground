@@ -1,9 +1,7 @@
 import {mapRecord} from '@feltcoop/felt/util/object.js';
 
-import {hslToStr} from '$lib/utils/colors.js'; // TODO maybe this belongs somewhere elase - a `colorsAndMusic` module?
-import type {Hsl, Hue} from '$lib/utils/colors.js'; // TODO maybe this belongs somewhere elase - a `colorsAndMusic` module?
-import {midis, isMidi} from '$lib/music/midi.js';
-import type {Midi} from '$lib/music/midi.js';
+import {hslToStr, type Hsl, type Hue} from '$lib/utils/colors.js'; // TODO maybe this belongs somewhere elase - a `colorsAndMusic` module?
+import {midis, isMidi, type Midi} from '$lib/music/midi.js';
 
 export const NOTE_FLAT_SYMBOL = '♭';
 export const NOTE_SHARP_SYMBOL = '♯';
