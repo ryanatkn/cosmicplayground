@@ -23,9 +23,9 @@ html {
 	--failure_color: var(--error_color);
 	--text_color: hsl(0, 0%, 80%);
 	--text_color_dark: hsl(0, 0%, 60%);
-	--ocean_text_color: hsl(var(--ocean_hue), 65%, 40%);
-	--land_text_color: hsl(var(--land_hue), 65%, 40%);
-	--space_text_color: hsl(var(--space_hue), 45%, 40%);
+	--ocean_text_color: hsl(var(--ocean_hue), 65%, 50%);
+	--land_text_color: hsl(var(--land_hue), 65%, 50%);
+	--space_text_color: hsl(var(--space_hue), 45%, 50%);
 	--color_2: #7094db; /* TODO probably make this a lighter shade of `--ocean_color` */
 	--color_3: hsl(
 		var(--space_hue),
@@ -177,6 +177,7 @@ h3 {
 }
 
 a {
+	cursor: pointer;
 	text-decoration: none;
 	color: var(--ocean_text_color);
 }
@@ -193,6 +194,7 @@ select {
 } */
 
 button {
+	cursor: pointer;
 	color: var(--text_color);
 	font-family: inherit;
 	background: transparent;
@@ -235,7 +237,6 @@ button:focus {
 }
 
 summary {
-	cursor: default;
 	opacity: 0.6;
 }
 summary:hover {

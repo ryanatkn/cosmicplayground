@@ -17,7 +17,6 @@
 
 <style>
 	a {
-		cursor: default;
 		background-color: var(--bg_3);
 		padding: 0 8px;
 		border-radius: 5px;

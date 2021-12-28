@@ -35,7 +35,6 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 <style>
 	.deep-breath-thumbnail {
 		position: relative;
-		cursor: default;
 		display: flex;
 		justify-content: center;
 		align-items: center;

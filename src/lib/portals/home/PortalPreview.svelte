@@ -24,7 +24,6 @@
 
 <style>
 	.portal-preview {
-		cursor: default;
 		background: transparent;
 		border: var(--portal_border);
 		border-radius: var(--portal_border_radius);
