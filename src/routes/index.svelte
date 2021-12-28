@@ -1,5 +1,14 @@
 <script lang="ts">
-	import App from '$lib/app/App.svelte';
+	import HomeView from '$lib/portals/home/View.svelte';
+	import {type PortalData} from '$lib/portals/portal';
+
+	export let portal: PortalData;
+	export let width: number;
+	export let height: number;
 </script>
 
-<App />
+<!-- TODO how to handle portals? -->
+
+<!-- TODO width/height shouldn't be props -->
+
+<HomeView {portal} {width} {height} />
