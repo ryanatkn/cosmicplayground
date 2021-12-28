@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {type AsyncStatus} from '@feltcoop/felt';
+
 	import {get_pixi_scene} from '$lib/app/pixi';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 
@@ -9,13 +11,13 @@
 	// But then we'll throw away loading assets if they're not done. (does the browser cache tho?)
 	// Probably want to encapsulate this possibly-concurrent loader logic, maybe in `get_pixi_scene`?
 
-	export let cameraX;
-	export let cameraY;
-	export let cameraScale;
-	export let imageUrl;
+	export let cameraX: number;
+	export let cameraY: number;
+	export let cameraScale: number;
+	export let imageUrl: string;
 
 	const camera = new PIXI.Container();
-	let sprite = null;
+	let sprite: PIXI.Sprite | null = null;
 	let destroyed = false;
 
 	const [pixi, scene] = get_pixi_scene({
@@ -28,7 +30,7 @@
 	});
 	scene.addChild(camera);
 
-	const updateSprite = async (url) => {
+	const updateSprite = async (url: string) => {
 		if (destroyed || url !== imageUrl) return;
 		const resource = pixi.loader.resources[url];
 		if (!resource) {
@@ -53,7 +55,7 @@
 		}
 	};
 
-	const createSprite = (texture) => {
+	const createSprite = (texture: PIXI.Texture) => {
 		if (sprite) destroySprite();
 		// I think I'd prefer nearest neighbor, but that causes weird artifacts with slow animation
 		texture.baseTexture.setStyle(PIXI.SCALE_MODES.LINEAR); // TODO where to do this? ideally on load
@@ -62,6 +64,7 @@
 	};
 
 	const destroySprite = () => {
+		if (!sprite) return;
 		camera.removeChild(sprite);
 		sprite.destroy();
 		sprite = null;
@@ -69,7 +72,7 @@
 
 	// TODO copied from `EarthPixiViewer`, extract camera store (see also `View.svelte` parent component)
 	$: updateCamera(camera, cameraX, cameraY, cameraScale);
-	const updateCamera = (camera, x, y, scale) => {
+	const updateCamera = (camera: PIXI.Container, x: number, y: number, scale: number) => {
 		camera.scale.set(scale);
 		camera.position.set(x, y);
 	};
@@ -77,6 +80,7 @@
 	$: updateSprite(imageUrl);
 
 	// TODO handle failure and initial?
+	let loadingStatus: AsyncStatus;
 	$: loadingStatus = sprite ? 'success' : 'pending';
 </script>
 

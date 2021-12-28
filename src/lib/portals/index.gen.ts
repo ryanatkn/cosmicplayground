@@ -1,7 +1,7 @@
 import type {Gen} from '@feltcoop/gro/dist/gen/gen.js';
 import {dirname, join} from 'path';
 import {statSync, readdirSync} from 'fs';
-import {toBuildId, toRootPath} from '@feltcoop/gro/dist/paths.js';
+import {toImportId, toRootPath} from '@feltcoop/gro/dist/paths.js';
 
 import type {PortalBaseData} from './portal';
 import {VOID_PORTAL_SLUG} from './portal';
@@ -39,7 +39,7 @@ export const gen: Gen = async ({originId}) => {
 		await Promise.all(
 			portalSlugs.map(async (slug) => [
 				slug,
-				(await import(toBuildId(join(originDir, slug, 'data.ts')))).default,
+				(await import(toImportId(join(originDir, slug, 'data.ts'), true, 'system'))).default,
 			]) as any,
 		),
 	);

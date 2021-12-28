@@ -23,8 +23,8 @@
 	);
 	$: spotPosition.set({x: pointerX, y: pointerY});
 
-	let osc;
-	let gain;
+	let osc: OscillatorNode | undefined;
+	let gain: GainNode | undefined;
 
 	$: freq = pointerX >= 0 && width ? calcFreq(pointerX, width) : undefined;
 	$: displayedFreq = freq === undefined ? '' : Math.round(freq);
@@ -33,7 +33,7 @@
 	}
 	const freqMin = 0;
 	const freqMax = 25000;
-	const calcFreq = (value, max) => {
+	const calcFreq = (value: number, max: number) => {
 		return mix(freqMin, freqMax, value / max);
 	};
 
@@ -48,7 +48,7 @@
 	}
 	const volumeMin = 0;
 	const volumeMax = 1;
-	const calcVolume = (value, max) => {
+	const calcVolume = (value: number, max: number) => {
 		return mix(volumeMin, volumeMax, 1 - value / max);
 	};
 
@@ -64,7 +64,7 @@
 	};
 	const stop = () => {
 		if (!osc) return;
-		gain.gain.setTargetAtTime(0, audioCtx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
+		gain!.gain.setTargetAtTime(0, audioCtx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
 		osc.stop(audioCtx.currentTime + SMOOTH_GAIN_TIME_CONSTANT * 2);
 		osc = undefined;
 		gain = undefined;
@@ -74,18 +74,20 @@
 
 	// TODO more cleanly handle touch/click - pointer events with polyfill for Safari? (probably using Svelte actions)
 	// or maybe support multiple touches? yeah...that makes sense here.
-	const pointerEventX = (e) => (e.touches && e.touches.length ? e.touches[0].clientX : e.clientX);
-	const pointerEventY = (e) => (e.touches && e.touches.length ? e.touches[0].clientY : e.clientY);
-	const handlePointerDown = (e) => {
+	const pointerEventX = (e: TouchEvent | MouseEvent) =>
+		'touches' in e && e.touches.length ? e.touches[0].clientX : (e as MouseEvent).clientX;
+	const pointerEventY = (e: TouchEvent | MouseEvent) =>
+		'touches' in e && e.touches.length ? e.touches[0].clientY : (e as MouseEvent).clientY;
+	const handlePointerDown = (e: TouchEvent | MouseEvent) => {
 		start();
 		pointerX = pointerEventX(e);
 		pointerY = pointerEventY(e);
 	};
-	const handlePointerUp = (e) => {
+	const handlePointerUp = () => {
 		if (!audioCtx || !osc) return;
 		stop();
 	};
-	const handlePointerMove = (e) => {
+	const handlePointerMove = (e: TouchEvent | MouseEvent) => {
 		if (!audioCtx || !osc) return;
 		pointerX = pointerEventX(e);
 		pointerY = pointerEventY(e);

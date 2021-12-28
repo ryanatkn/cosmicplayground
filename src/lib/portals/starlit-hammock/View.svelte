@@ -70,7 +70,6 @@
 	const transitionDuration = 60000;
 	const WAIT_AFTER_INTERACTION = 1000; // TODO increase
 	// const pauseDuration = 0;
-	const easing = sineInOut;
 
 	// TODO refactor, probably into a tween store with an external `update` function
 	let x: number;
@@ -106,7 +105,7 @@
 		}
 		updateTransform(transitionTime, transitionDuration);
 	};
-	const updateTransform = (currentTime, duration) => {
+	const updateTransform = (currentTime: number, duration: number) => {
 		// TODO could make this a pure function that returns `[x, y, scale]`
 		// but currently don't need it, and it'd create a lot of garbage
 		const easedValue = sineInOut(currentTime / duration);
@@ -114,7 +113,7 @@
 		y = startY + easedValue * (targetY - startY);
 		scale = startScale + easedValue * (targetScale - startScale);
 	};
-	const randomize = (imageWidth, imageHeight) => {
+	const randomize = (imageWidth: number, imageHeight: number) => {
 		// console.log('randomize', width, height, imageWidth, imageHeight);
 		[x, y, scale] = randomTransform(width, height, imageWidth, imageHeight, scaleMin, scaleMax);
 		startX = x;
@@ -130,7 +129,14 @@
 			scaleMax,
 		);
 	};
-	const randomTransform = (width, height, imageWidth, imageHeight, scaleMin, scaleMax) => {
+	const randomTransform = (
+		width: number,
+		height: number,
+		imageWidth: number,
+		imageHeight: number,
+		scaleMin: number,
+		scaleMax: number,
+	) => {
 		// images may be smaller than our values allow,
 		// so these calculations ensure it's at least fullscreen with some zoom room
 		const actualScaleMin = Math.max(scaleMin, Math.max(width / imageWidth, height / imageHeight));
@@ -146,7 +152,7 @@
 	// $: clampTarget(width, height); // TODO
 	$: !showPicker && update($clock.dt);
 
-	const onKeyDown = (e) => {
+	const onKeyDown = (e: KeyboardEvent) => {
 		switch (e.key) {
 			case 'Escape':
 				showPicker = !showPicker;
