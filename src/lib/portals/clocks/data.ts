@@ -1,7 +1,7 @@
 import {type PortalBaseData} from '$lib/portals/portal';
 
 const data: PortalBaseData = {
-	title: 'clocks',
+	name: 'clocks',
 	coolness: 1,
 	showHomeButton: true,
 };

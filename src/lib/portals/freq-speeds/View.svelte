@@ -1,13 +1,9 @@
 <script lang="ts">
 	import FreqSpeeds from './FreqSpeeds.svelte';
 	import {getClock} from '$lib/app/clockStore';
-	import {type PortalData} from '$lib/portals/portal';
+	import {getDimensions} from '$lib/app/dimensions';
 
-	export let portal: PortalData;
-	export let width: number;
-	export let height: number;
-
-	portal;
+	const dimensions = getDimensions();
 
 	const clock = getClock();
 
@@ -16,15 +12,15 @@
 
 <div class="view" on:click={clock.toggle}>
 	<FreqSpeeds
-		{width}
-		height={height / 2}
+		width={$dimensions.width}
+		height={$dimensions.height / 2}
 		elapsedTime={$clock.time}
 		lowestHzItemCount={2}
 		{hzItems}
 	/>
 	<FreqSpeeds
-		{width}
-		height={height / 2}
+		width={$dimensions.width}
+		height={$dimensions.height / 2}
 		style="transform: rotate(180deg);"
 		elapsedTime={$clock.time}
 		lowestHzItemCount={2}

@@ -5,23 +5,10 @@
 	import PortalPreview from './PortalPreview.svelte';
 	import {VOID_PORTAL_SLUG, type PortalData} from '$lib/portals/portal';
 
-	export let portal: PortalData;
-	export let width: number;
-	export let height: number;
-	// TODO is there a better way to do this so we avoid the catch-22 unused/unknown warnings?
-	// maybe we should remove props and move them to context?
-	// or maybe a portal store, similar to Sapper's page store?
-	// portal = {data, width, height}
-	// {portalData, portalWidth, portalHeight} = portalStores()
-	// what about a `showHomeButton` store taking null|false|true, so portals can override as needed
-
-	width;
-	height;
-
 	const portals = getPortals();
 
 	const COOLNESS_VISIBILITY_THRESHOLD = 3;
-	const unlistedPortals = new Set([portal.slug, VOID_PORTAL_SLUG]);
+	const unlistedPortals = new Set(['home', VOID_PORTAL_SLUG]);
 
 	const sortOrderBySlug = new Map(
 		[

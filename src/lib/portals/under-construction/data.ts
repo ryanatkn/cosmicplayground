@@ -1,7 +1,7 @@
 import {type PortalBaseData} from '$lib/portals/portal';
 
 const data: PortalBaseData = {
-	title: 'under construction',
+	name: 'under construction',
 	coolness: 4,
 	showHomeButton: true,
 };

@@ -21,9 +21,13 @@
 	import {portalsData} from '$lib/portals/index';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 	import {setAudioCtx} from '$lib/audio/audioCtx';
+	import {setDimensions} from '$lib/app/dimensions';
 
-	let width = browser ? window.innerWidth : 0;
-	let height = browser ? window.innerHeight : 0;
+	const dimensions = writable({
+		width: browser ? window.innerWidth : 0,
+		height: browser ? window.innerHeight : 0,
+	});
+	setDimensions(dimensions);
 
 	let pixijs: typeof PIXI;
 
@@ -35,26 +39,30 @@
 
 	const bgImageUrl = '/assets/space/galaxies.jpg';
 	let bg: PixiBgStore;
-	$: bg && bg.updateDimensions(width, height);
+	$: bg && bg.updateDimensions($dimensions.width, $dimensions.height);
 	$: bg && bg.tick($clock.dt);
 
 	let loadingStatus: AsyncStatus = 'initial';
 
 	onMount(async () => {
 		loadingStatus = 'pending';
+		// TODO importing PIXI async due to this issue: https://github.com/sveltejs/kit/issues/1650
 		pixijs = await import('pixi.js');
 		try {
-			if (!browser) throw Error('TODO better way to do this?');
-			pixi = new PixiApp({width, height});
+			pixi = new PixiApp({width: $dimensions.width, height: $dimensions.height}); // TODO does this need to be reactive?
 			supportsWebGL = true;
 		} catch (err) {
-			console.log('err', err);
+			console.error('failed to create PixiApp', err);
 			supportsWebGL = false; // usually probably correct to infer this
 			pixi = {} as any; // TODO this is just a hack for type safety
 			console.error(err);
 		}
 		pixi.loader.add(bgImageUrl).load(() => {
-			bg = createPixiBgStore(pixi.loader.resources[bgImageUrl].texture, width, height);
+			bg = createPixiBgStore(
+				pixi.loader.resources[bgImageUrl].texture,
+				$dimensions.width,
+				$dimensions.height,
+			);
 			pixi.defaultScene.addChild($bg.sprite);
 			loadingStatus = 'success';
 		});
@@ -113,8 +121,7 @@
 </svelte:head>
 
 <svelte:window
-	bind:innerWidth={width}
-	bind:innerHeight={height}
+	on:resize={() => ($dimensions = {width: window.innerWidth, height: window.innerHeight})}
 	use:trackIdleState={{idle, timeToGoIdle, idleIntervalTime: 1000}}
 	on:keydown={onKeyDown}
 />
@@ -123,8 +130,11 @@
 	{#if loadingStatus !== 'success'}
 		<WaitingScreen status={loadingStatus} />
 	{:else}
-		<div class="pixi-wrapper fade-in" style="width: {width}px; height: {height}px;">
-			<PixiView {pixi} {width} {height} />
+		<div
+			class="pixi-wrapper fade-in"
+			style="width: {$dimensions.width}px; height: {$dimensions.height}px;"
+		>
+			<PixiView {pixi} width={$dimensions.width} height={$dimensions.height} />
 		</div>
 		<main class="fade-in" class:paused={!$clock.running} class:idle={$idle || $settings.idleMode}>
 			{#if activePortal.showHomeButton}
@@ -132,7 +142,7 @@
 					<HomeButton />
 				</Hud>
 			{/if}
-			<slot portal={activePortal} {width} {height} />
+			<slot />
 		</main>
 	{/if}
 {:else if supportsWebGL === null}

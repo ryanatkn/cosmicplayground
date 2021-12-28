@@ -19,7 +19,7 @@ export interface PortalData extends PortalBaseData {
 
 // These properties are defined explicitly for each portal.
 export interface PortalBaseData {
-	title: string;
+	name: string;
 	coolness: number;
 	// TODO should we make this optional and flip it? `disableBackground`
 	showHomeButton: boolean; // TODO ?

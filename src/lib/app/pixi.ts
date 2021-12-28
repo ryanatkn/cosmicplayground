@@ -93,7 +93,7 @@ export interface PixiSceneHooks {
 
 export const getPixiScene = (
 	hooks: PixiSceneHooks,
-	pixi = getPixi(),
+	pixi: PixiApp = getPixi(),
 ): [PixiApp, PIXI.Container] => {
 	// Mount the scene right away. When loading, we'll show a black background
 	// and the scene component can display whatever it wants.

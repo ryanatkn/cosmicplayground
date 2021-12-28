@@ -23,9 +23,11 @@
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import DeepBreathDevHud from './DeepBreathDevHud.svelte';
 	import {type ClockStore} from '$lib/app/clockStore';
+	import {getDimensions} from '$lib/app/dimensions';
 
-	export let width: number;
-	export let height: number;
+	const dimensions = getDimensions();
+	$: width = $dimensions.width;
+	$: height = $dimensions.height;
 
 	const settings = getSettings();
 	$: devMode = $settings.devMode;

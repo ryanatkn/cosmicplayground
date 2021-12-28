@@ -1,7 +1,7 @@
 import {type PortalBaseData} from '$lib/portals/portal';
 
 const data: PortalBaseData = {
-	title: 'easing function visualizations and auralizations',
+	name: 'easing function visualizations and auralizations',
 	coolness: 5,
 	showHomeButton: true,
 };

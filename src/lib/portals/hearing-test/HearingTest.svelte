@@ -5,9 +5,9 @@
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
+	import {getDimensions} from '$lib/app/dimensions';
 
-	export let width: number;
-	export let height: number;
+	const dimensions = getDimensions();
 
 	const audioCtx = getAudioCtx();
 
@@ -26,7 +26,7 @@
 	let osc: OscillatorNode | undefined;
 	let gain: GainNode | undefined;
 
-	$: freq = pointerX >= 0 && width ? calcFreq(pointerX, width) : undefined;
+	$: freq = pointerX >= 0 && $dimensions.width ? calcFreq(pointerX, $dimensions.width) : undefined;
 	$: displayedFreq = freq === undefined ? '' : Math.round(freq);
 	$: if (osc && freq !== undefined) {
 		osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
@@ -37,7 +37,8 @@
 		return mix(freqMin, freqMax, value / max);
 	};
 
-	$: volume = pointerY >= 0 && height ? calcVolume(pointerY, height) : undefined;
+	$: volume =
+		pointerY >= 0 && $dimensions.height ? calcVolume(pointerY, $dimensions.height) : undefined;
 	$: displayedVolume = volume === undefined ? '' : Math.round(volume * 100);
 	$: if (gain && volume !== undefined) {
 		gain.gain.setTargetAtTime(
@@ -94,7 +95,7 @@
 	};
 </script>
 
-<div class="hearing-test" style="width: {width}px; height: {height}px;">
+<div class="hearing-test" style="width: {$dimensions.width}px; height: {$dimensions.height}px;">
 	{#if $spotPosition}
 		<svg class="absolute0 w-100 h-100 z-2">
 			<filter id="blurOuter" height="200%" width="200%" y="-50%" x="-50%">

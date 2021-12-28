@@ -1,7 +1,7 @@
 import {type PortalBaseData} from '$lib/portals/portal';
 
 const data: PortalBaseData = {
-	title: 'starlit hammock',
+	name: 'starlit hammock',
 	coolness: 6,
 	showHomeButton: true,
 };

@@ -9,6 +9,7 @@
 	import {freqToMidi} from '$lib/music/midi';
 	import {DEFAULT_TUNING} from '$lib/music/constants';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
+	import {getDimensions} from '$lib/app/dimensions';
 
 	/*
 
@@ -36,8 +37,9 @@
 
   */
 
-	export let width: number;
-	export let height: number;
+	const dimensions = getDimensions();
+	$: width = $dimensions.width;
+	$: height = $dimensions.height;
 
 	let pointerX = -300;
 	let pointerY = -300;

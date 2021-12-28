@@ -1,7 +1,7 @@
 import {type PortalBaseData} from '$lib/portals/portal';
 
 const data: PortalBaseData = {
-	title: 'about',
+	name: 'about',
 	coolness: 4,
 	showHomeButton: true,
 };

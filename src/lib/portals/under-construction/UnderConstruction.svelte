@@ -1,15 +1,19 @@
 <script lang="ts">
-	export let width: number;
-	export let height: number;
+	import {getDimensions} from '$lib/app/dimensions';
+
+	const dimensions = getDimensions();
 
 	const maxWidth = 1667;
 	const maxHeight = 781;
-	$: xScale = Math.min(1, width / maxWidth);
-	$: yScale = Math.min(1, height / maxHeight);
+	$: xScale = Math.min(1, $dimensions.width / maxWidth);
+	$: yScale = Math.min(1, $dimensions.height / maxHeight);
 	$: scale = Math.min(xScale, yScale);
 </script>
 
-<div class="under-construction" style="width: {width}px; height: {height}px;">
+<div
+	class="under-construction"
+	style="width: {$dimensions.width}px; height: {$dimensions.height}px;"
+>
 	<div style={`transform: scale3d(${scale}, ${scale}, 1);`}>
 		<div style={`width: ${maxWidth}px; height: ${maxHeight}px;`}>
 			<img

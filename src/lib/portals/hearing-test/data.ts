@@ -1,7 +1,7 @@
 import {type PortalBaseData} from '$lib/portals/portal';
 
 const data: PortalBaseData = {
-	title: 'hearing test',
+	name: 'hearing test',
 	coolness: 4,
 	showHomeButton: true,
 };
