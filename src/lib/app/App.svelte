@@ -2,6 +2,7 @@
 	import {onMount} from 'svelte';
 	import {writable} from 'svelte/store';
 	import {type AsyncStatus} from '@feltcoop/felt';
+	import {browser} from '$app/env';
 
 	import PixiView from '$lib/app/PixiView.svelte';
 	import PortalView from '$lib/app/PortalView.svelte';
@@ -20,8 +21,8 @@
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBgStore';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 
-	let width = window.innerWidth;
-	let height = window.innerHeight;
+	let width = browser ? window.innerWidth : 0;
+	let height = browser ? window.innerHeight : 0;
 
 	const settings = set_settings({
 		audioEnabled: true, // TODO make this work everywhere? hmm. global mute/volume?
@@ -45,7 +46,6 @@
 		console.error(err);
 	}
 	set_pixi(pixi);
-	(window as any).pixi = pixi; // TODO improve this pattern
 
 	const bgImageUrl = '/assets/space/galaxies.jpg';
 	let bg: PixiBgStore;

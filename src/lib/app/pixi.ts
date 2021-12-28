@@ -1,7 +1,8 @@
 import * as PIXI from 'pixi.js';
 import {getContext, setContext, onMount, onDestroy} from 'svelte';
+import {browser} from '$app/env';
 
-if (typeof window !== 'undefined') window['PIXI'] = PIXI; // TODO dont do this, or at least handle SSR
+if (browser) window.PIXI = PIXI;
 
 // Tell PIXI to use pixelated image scaling by default. CHONKY pixels!!
 // Unfortunately this can cause choppy movement. We may want to revert this global default.

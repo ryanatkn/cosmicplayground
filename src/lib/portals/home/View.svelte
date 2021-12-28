@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {browser} from '$app/env';
+
 	import {get_portals} from '$lib/app/portalsStore';
 	import PortalPreview from './PortalPreview.svelte';
 	import {VOID_PORTAL_SLUG, type PortalData} from '$lib/portals/portal';
@@ -67,9 +69,9 @@
 
 	// TODO what's the best way to persist this? uiStore? data per portal?
 	// this is just a TEMP HACK!
-	let showMorePortals = (window as any).TODO_showMorePortals || false; // toggle showing projects that are less cool but still cool
+	let showMorePortals = browser ? (window as any).TODO_showMorePortals || false : false; // toggle showing projects that are less cool but still cool
 	$: {
-		(window as any).TODO_showMorePortals = showMorePortals;
+		if (browser) (window as any).TODO_showMorePortals = showMorePortals;
 	}
 </script>
 

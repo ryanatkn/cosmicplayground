@@ -26,8 +26,6 @@ export const resetRenderStats = (): RenderStats => (renderStats = defaultRenderS
 
 export const getRenderStats = (): RenderStats => renderStats;
 
-(window as any).getRenderStats = getRenderStats; // TODO dont do this, or at least handle SSR
-
 const expectedFps = 60; // TODO support other framerates?
 const expectedMsPerFrame = 1000 / expectedFps;
 
