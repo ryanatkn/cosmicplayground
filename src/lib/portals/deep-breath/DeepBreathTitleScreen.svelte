@@ -10,9 +10,10 @@
 	import CreditsProjectSignature from '$lib/portals/about/CreditsProjectSignature.svelte';
 	import AboutPortalPreview from '$lib/portals/about/Preview.svelte';
 	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
+	import {type ResourcesStore} from '$lib/app/resourcesStore';
 
-	export let resources;
-	export let proceed;
+	export let resources: ResourcesStore;
+	export let proceed: () => void;
 
 	// The user can click the title image to load the interactive,
 	// but only if the user has clicked the load button directly before.

@@ -2,10 +2,10 @@
 	import {onDestroy, onMount} from 'svelte';
 	import {blur} from 'svelte/transition';
 
-	export let hide;
-	export let transitionDuration;
-	export let pauseDuration;
-	export let maxDelay;
+	export let hide: () => void;
+	export let transitionDuration: number;
+	export let pauseDuration: number;
+	export let maxDelay: number;
 
 	// transition vars
 	const blurAmount = 99;

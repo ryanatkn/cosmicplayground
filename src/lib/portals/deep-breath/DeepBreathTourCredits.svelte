@@ -6,7 +6,7 @@
 	const settings = get_settings();
 	$: displayForVideo = $settings.recordingMode;
 
-	export let transitionDuration;
+	export let transitionDuration: number;
 
 	// transition vars
 	const delay = 250;

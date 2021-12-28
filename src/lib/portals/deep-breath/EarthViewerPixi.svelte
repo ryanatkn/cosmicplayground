@@ -1,5 +1,6 @@
 <script lang="ts">
 	import * as PIXI from 'pixi.js';
+	import {type Readable} from 'svelte/store';
 
 	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum';
 	import {
@@ -14,9 +15,9 @@
 
 	export let width: number;
 	export let height: number;
-	export let x: number;
-	export let y: number;
-	export let scale: number;
+	export let x: Readable<number>;
+	export let y: Readable<number>;
+	export let scale: Readable<number>;
 	export let moveCamera: (dx: number, dy: number) => void;
 	export let zoomCamera: (
 		zoomDirection: number,
@@ -24,12 +25,12 @@
 		screenPivotY: number,
 	) => void;
 	export let inputEnabled: boolean;
-	export let landImages; // not reactive
-	export let seaImages; // not reactive
-	export let activeLandValue;
-	export let activeSeaLevel;
-	export let imageWidth; // not reactive
-	export let imageHeight; // not reactive
+	export let landImages: string[]; // not reactive
+	export let seaImages: string[]; // not reactive
+	export let activeLandValue: number;
+	export let activeSeaLevel: number;
+	export let imageWidth: number; // not reactive
+	export let imageHeight: number; // not reactive
 
 	const [pixi] = get_pixi_scene({
 		load: (loader) => {
@@ -49,7 +50,7 @@
 			mapContainer.addChild(landContainer);
 			landContainer.sortableChildren = true;
 			for (const landImage of landImages) {
-				const sprite = createMapSprite(resources[landImage].texture);
+				const sprite = createMapSprite(resources[landImage]!.texture);
 				landContainer.addChild(sprite);
 				landSprites.push(sprite);
 			}
@@ -58,7 +59,7 @@
 			seaContainer = new PIXI.Container();
 			mapContainer.addChild(seaContainer);
 			for (const seaImage of seaImages) {
-				const sprite = createMapSprite(resources[seaImage].texture);
+				const sprite = createMapSprite(resources[seaImage]!.texture);
 				seaContainer.addChild(sprite);
 				seaSprites.push(sprite);
 			}
@@ -70,8 +71,8 @@
 		},
 	});
 
-	const landSprites = []; // not reactive
-	const seaSprites = []; // not reactive
+	const landSprites: PIXI.TilingSprite[] = []; // not reactive
+	const seaSprites: PIXI.TilingSprite[] = []; // not reactive
 	let mapContainer;
 	let landContainer;
 	let seaContainer;
@@ -81,7 +82,7 @@
 
 	$: updateSpriteDimensions(landSprites, width, height);
 	$: updateSpriteDimensions(seaSprites, width, height);
-	const updateSpriteDimensions = (sprites, width, height) => {
+	const updateSpriteDimensions = (sprites: PIXI.TilingSprite[], width: number, height: number) => {
 		for (const sprite of sprites) {
 			sprite.width = width;
 			sprite.height = height;
@@ -89,7 +90,12 @@
 	};
 	$: updateSpriteTransforms(landSprites, tilePositionX, tilePositionY, $scale);
 	$: updateSpriteTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
-	const updateSpriteTransforms = (sprites, tilePositionX, tilePositionY, $scale) => {
+	const updateSpriteTransforms = (
+		sprites: PIXI.TilingSprite[],
+		tilePositionX: number,
+		tilePositionY: number,
+		$scale: number,
+	) => {
 		for (const sprite of sprites) {
 			sprite.tileScale.set($scale);
 			sprite.tilePosition.set(tilePositionX, tilePositionY);
@@ -103,7 +109,7 @@
 
 	const seaOpacities = new Array(seaImages.length);
 	$: if (seaSprites.length) updateSeaOpacities(activeSeaLevel);
-	const updateSeaOpacities = (activeSeaLevel) => {
+	const updateSeaOpacities = (activeSeaLevel: number) => {
 		computeBlendedImagesContinuumOpacities(
 			seaImages.length,
 			activeSeaLevel,
@@ -115,7 +121,7 @@
 	};
 	const landOpacities = new Array(landImages.length);
 	$: if (landSprites.length) updateLandOpacities(activeLandValue);
-	const updateLandOpacities = (activeLandValue) => {
+	const updateLandOpacities = (activeLandValue: number) => {
 		computeBlendedImagesCycleOpacities(
 			landImages.length,
 			activeLandValue,
@@ -140,9 +146,9 @@
 		}
 	};
 
-	const createMapSprite = (texture) => {
-		const tempSprite1 = new PIXI.Sprite(texture);
-		const tempSprite2 = new PIXI.Sprite(texture);
+	const createMapSprite = (texture: PIXI.Texture) => {
+		const tempSprite1 = new PIXI.TilingSprite(texture);
+		const tempSprite2 = new PIXI.TilingSprite(texture);
 		tempSprite2.angle = 180;
 		tempSprite2.y = imageHeight * 2;
 		tempSprite2.x = imageWidth;

@@ -4,7 +4,7 @@
 
 	export let earthWidth = 600;
 	export let label = 'proceed';
-	export let onClick = null;
+	export let onClick: ((e: MouseEvent) => void) | null = null;
 
 	const clock = get_clock();
 </script>
@@ -17,7 +17,7 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 	style="width: {earthWidth}px; height: {earthWidth / 2}px;"
 	role={onClick ? 'button' : undefined}
 	aria-label={onClick ? label : undefined}
-	tabindex={onClick ? '0' : undefined}
+	tabindex={onClick ? 0 : undefined}
 	on:click={onClick}
 	class:buttonish={onClick}
 >

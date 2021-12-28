@@ -1,6 +1,6 @@
 <script lang="ts">
-	export let activeLandIndex: number; // active is the hover state or "current" when automatically cycling
-	export let selectedLandIndex: number; // selected is the "current" non-cycling state (confusing yes)
+	export let activeLandIndex: number | null; // active is the hover state or "current" when automatically cycling
+	export let selectedLandIndex: number | null; // selected is the "current" non-cycling state (confusing yes)
 	export let selectLandIndex: (value: number | null) => void;
 	export let hoverLandIndex: (value: number | null) => void;
 

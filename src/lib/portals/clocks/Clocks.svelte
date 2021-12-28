@@ -1,7 +1,8 @@
 <script lang="ts">
+	import {type ClockStore} from '$lib/app/clockStore';
 	import ClockControls from './ClockControls.svelte';
 
-	export let clock;
+	export let clock: ClockStore;
 </script>
 
 <div class="clocks">

@@ -1,7 +1,9 @@
 <script lang="ts">
 	import {type PortalData} from '$lib/portals/portal';
 
-	export let portal: PortalData;
+	export let portal: PortalData | undefined = undefined;
+
+	portal;
 </script>
 
 <div class="preview">

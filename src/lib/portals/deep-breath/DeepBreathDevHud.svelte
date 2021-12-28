@@ -5,7 +5,7 @@
 	import TourControls from '$lib/app/TourControls.svelte';
 	import {type TourStore} from '$lib/app/tourStore';
 
-	export let tour: TourStore;
+	export let tour: TourStore | null;
 	export let x: Writable<number>;
 	export let y: Writable<number>;
 	export let scale: Writable<number>;
@@ -42,7 +42,7 @@
 </FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {
-		const inputValue = Number(prompt('y', $y));
+		const inputValue = Number(prompt('y', $y + ''));
 		if (!Number.isNaN(inputValue)) {
 			$y = inputValue;
 		}

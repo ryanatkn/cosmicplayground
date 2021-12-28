@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {tweened} from 'svelte/motion';
+	import {tweened, type Tweened} from 'svelte/motion';
 	import {cubicInOut, sineInOut} from 'svelte/easing';
 	import {writable} from 'svelte/store';
 	import {onDestroy, onMount} from 'svelte';
@@ -11,9 +11,9 @@
 	import Hud from '$lib/app/Hud.svelte';
 	import EarthViewerDom from './EarthViewerDom.svelte';
 	import EarthViewerPixi from './EarthViewerPixi.svelte';
-	import {createResourcesStore} from '$lib/app/resourcesStore';
+	import {createResourcesStore, type AudioResource} from '$lib/app/resourcesStore';
 	import {createDeepBreathTour} from './deepBreathTour';
-	import {createTourStore} from '$lib/app/tourStore';
+	import {createTourStore, type TourData, type TourStep, type TourStore} from '$lib/app/tourStore';
 	import DeepBreathTourIntro from './DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from './DeepBreathTourTitle.svelte';
 	import DeepBreathTourCredits from './DeepBreathTourCredits.svelte';
@@ -90,13 +90,13 @@
 		}
 		if (!inputEnabled) return;
 		if (e.key === 'Escape') {
-			if (!e.target.closest('input')) {
+			if (!(e.target as any).closest('input')) {
 				toggleHud();
 			}
 		}
 	};
 
-	const onClickHudToggle = (e) => {
+	const onClickHudToggle = (e: Event) => {
 		toggleHud();
 		e.preventDefault();
 		e.stopPropagation();
@@ -187,8 +187,8 @@
 	// We render only 2 instances as a balance between performance and UX.
 	// Ideally we'd use WebGL to make rendering multiples much cheaper,
 	// but that's currently out of scope for this project.
-	let earth1LeftOffset;
-	let earth2LeftOffset;
+	let earth1LeftOffset: number;
+	let earth2LeftOffset: number;
 	$: {
 		const xOffsetIndex = Math.floor($x / imageWidth);
 		earth1LeftOffset = xOffsetIndex * imageWidth;
@@ -201,19 +201,24 @@
 	landImages.forEach((url) => resources.addResource('image', url));
 	seaImages.forEach((url) => resources.addResource('image', url));
 
-	let xTween;
-	let yTween;
-	let scaleTween;
-	$: if (xTween) $x = $xTween;
-	$: if (yTween) $y = $yTween;
-	$: if (scaleTween) $scale = $scaleTween;
-	const updatePanTweens = (xTarget, yTarget, duration, easing = sineInOut) => {
+	let xTween: Tweened<number> | null;
+	let yTween: Tweened<number> | null;
+	let scaleTween: Tweened<number> | null;
+	$: if (xTween) $x = $xTween!; // TODO type assertion is needed due to a bug in Svelte language tools
+	$: if (yTween) $y = $yTween!; // TODO type assertion is needed due to a bug in Svelte language tools
+	$: if (scaleTween) $scale = $scaleTween!; // TODO type assertion is needed due to a bug in Svelte language tools
+	const updatePanTweens = (
+		xTarget: number,
+		yTarget: number,
+		duration: number,
+		easing = sineInOut,
+	) => {
 		if (!xTween) xTween = tweened($x);
 		xTween.set(xTarget, {duration, easing});
 		if (!yTween) yTween = tweened($y);
 		yTween.set(yTarget, {duration, easing});
 	};
-	const updateScaleTween = (scaleTarget, duration, easing = sineInOut) => {
+	const updateScaleTween = (scaleTarget: number, duration: number, easing = sineInOut) => {
 		if (!scaleTween) scaleTween = tweened($scale);
 		scaleTween.set(scaleTarget, {duration, easing});
 	};
@@ -222,8 +227,8 @@
 		yTween = null;
 		scaleTween = null;
 	};
-	let tour;
-	let tourData;
+	let tour: TourStore | null = null;
+	let tourData: TourData;
 	let showTourIntro = false;
 	let showTourTitle = false;
 	let showTourCredits = false;
@@ -234,8 +239,10 @@
 	// and then we can remove the next line `$: tourSong = ...`
 	tourResources.addResource('audio', tourSongUrl);
 	tourResources.addResource('audio', oceanWavesSoundUrl);
-	$: tourSong = $tourResources.resources.find((r) => r.url === tourSongUrl); // TODO faster API, or maybe remove (see comment above)
-	$: oceanWavesSound = $tourResources.resources.find((r) => r.url === oceanWavesSoundUrl); // TODO faster API, or maybe remove (see comment above)
+	let tourSong: AudioResource;
+	$: tourSong = $tourResources.resources.find((r) => r.url === tourSongUrl) as any; // TODO faster API, or maybe remove (see comment above)
+	let oceanWavesSound: AudioResource;
+	$: oceanWavesSound = $tourResources.resources.find((r) => r.url === oceanWavesSoundUrl) as any; // TODO faster API, or maybe remove (see comment above)
 	const tourIntroTransitionInDuration = 2000;
 	const tourIntroTransitionOutDuration = 2000;
 	const tourIntroPauseDuration = 3000;
@@ -257,8 +264,10 @@
 		if (!tourData) {
 			tourData = createDeepBreathTour(tourIntroTotalDuration, tourTitleTotalDuration, devMode);
 		}
-		const oceanWavesPlayStep = tourData.steps.find((s) => s.name === 'playOceanWavesSound'); // TODO or get from event handler?
-		const tourSongPlayStep = tourData.steps.find((s) => s.name === 'playSong'); // TODO or get from event handler?
+		const oceanWavesPlayStep = tourData.steps.find(
+			(s) => 'name' in s && s.name === 'playOceanWavesSound',
+		); // TODO or get from event handler?
+		const tourSongPlayStep = tourData.steps.find((s) => 'name' in s && s.name === 'playSong'); // TODO or get from event handler?
 		tour = createTourStore(tourData, clock, {
 			pan: (xTarget, yTarget, duration, easing) => {
 				updatePanTweens(xTarget, yTarget, duration, easing);
@@ -268,7 +277,7 @@
 			},
 			event: async (name, _data) => {
 				if (name.startsWith('debug')) {
-					console.log(name, $tour.currentTime);
+					console.log(name, ($tour as any).currentTime);
 					return;
 				}
 				switch (name) {
@@ -276,13 +285,13 @@
 						return tourResources.load(); // is idempotent
 					}
 					case 'playOceanWavesSound': {
-						oceanWavesSound.audio.currentTime = 0;
-						if (audioEnabled) oceanWavesSound.audio.play();
+						oceanWavesSound.audio!.currentTime = 0;
+						if (audioEnabled) oceanWavesSound.audio!.play();
 						return;
 					}
 					case 'playSong': {
-						tourSong.audio.currentTime = 0;
-						if (audioEnabled) tourSong.audio.play();
+						tourSong.audio!.currentTime = 0;
+						if (audioEnabled) tourSong.audio!.play();
 						return;
 					}
 					case 'showIntro': {
@@ -305,8 +314,8 @@
 			seek: (currentTime, _currentStepIndex) => {
 				// TODO this hacky code could be replaced by adding abstractions to the tour
 				// to manage things like audio and displaying specific content for a time window
-				updateAudioOnSeek(oceanWavesSound.audio, oceanWavesPlayStep, currentTime);
-				updateAudioOnSeek(tourSong.audio, tourSongPlayStep, currentTime);
+				updateAudioOnSeek(oceanWavesSound.audio!, oceanWavesPlayStep!, currentTime);
+				updateAudioOnSeek(tourSong.audio!, tourSongPlayStep!, currentTime);
 				showTourIntro = false;
 				showTourTitle = false;
 				showTourCredits = false;
@@ -325,10 +334,10 @@
 		});
 		if (devMode) {
 			resetRenderStats();
-			if (debugStartTime) setTimeout(() => tour.seekTimeTo(debugStartTime), 50);
+			if (debugStartTime) setTimeout(() => tour!.seekTimeTo(debugStartTime), 50);
 		}
 	};
-	const updateAudioOnSeek = (audio, step, currentTime) => {
+	const updateAudioOnSeek = (audio: HTMLAudioElement, step: TourStep, currentTime: number) => {
 		const stepCurrentTime = currentTime - step.startTime;
 		const audioDuration = audio.duration * 1000;
 		if (stepCurrentTime >= 0 && stepCurrentTime < audioDuration) {

@@ -12,8 +12,8 @@
 
 	let dragging = false;
 	let movedWhileDragging = false;
-	let lastMouseX = null;
-	let lastMouseY = null;
+	let lastMouseX: number | null = null;
+	let lastMouseY: number | null = null;
 
 	const startDragging = () => {
 		dragging = true;
@@ -24,14 +24,14 @@
 		dragging = false;
 		return movedWhileDragging;
 	};
-	const updateDragging = (clientX, clientY) => {
+	const updateDragging = (clientX: number, clientY: number) => {
 		const dx = lastMouseX === null ? 0 : lastMouseX - clientX;
 		const dy = lastMouseY === null ? 0 : lastMouseY - clientY;
 		moveCamera(dx / scale, dy / scale);
 		movedWhileDragging = true;
 	};
 
-	const onMouseMove = (e) => {
+	const onMouseMove = (e: MouseEvent) => {
 		if (!inputEnabled) return;
 		if (dragging) {
 			updateDragging(e.clientX, e.clientY);
@@ -39,27 +39,27 @@
 		lastMouseX = e.clientX;
 		lastMouseY = e.clientY;
 	};
-	const onMouseDown = (e) => {
+	const onMouseDown = (e: MouseEvent) => {
 		if (!inputEnabled) return;
-		startDragging(e.clientX, e.clientY);
+		startDragging();
 		e.preventDefault();
 	};
-	const onMouseUp = (e) => {
+	const onMouseUp = (e: MouseEvent) => {
 		if (!inputEnabled) return;
 		if (stopDragging()) {
 			e.stopPropagation();
 		}
 	};
-	const onMouseEnter = (e) => {
+	const onMouseEnter = () => {
 		if (!inputEnabled) return;
 		// console.log('onMouseEnter', e);
 	};
-	const onMouseLeave = (e) => {
+	const onMouseLeave = () => {
 		if (!inputEnabled) return;
 		stopDragging();
 	};
-	const onWheel = (e) => {
-		if (!inputEnabled) return;
+	const onWheel = (e: WheelEvent) => {
+		if (!inputEnabled || lastMouseX === null || lastMouseY === null) return;
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
 		zoomCamera(scaleDelta, lastMouseX, lastMouseY);
 	};
