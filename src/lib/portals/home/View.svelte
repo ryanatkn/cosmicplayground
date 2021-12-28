@@ -80,7 +80,7 @@
   https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role
   -->
 	{#each superCoolPortals as portal (portal.slug)}
-		<PortalPreview href="#{portal.slug}" classes="portal-preview--{portal.slug}">
+		<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
 			<svelte:component this={portal.Preview} {portal} />
 		</PortalPreview>
 	{/each}
@@ -114,7 +114,7 @@
     and fix the styling somehow with an inner wrapper? -->
 	<nav class="portal-previews">
 		{#each coolPortals as portal (portal.slug)}
-			<PortalPreview href="#{portal.slug}" classes="portal-preview--{portal.slug}">
+			<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
 				<svelte:component this={portal.Preview} {portal} />
 			</PortalPreview>
 		{/each}

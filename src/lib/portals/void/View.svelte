@@ -1,8 +1,11 @@
 <script lang="ts">
+	import {getStores} from '$app/stores';
+
+	const {page} = getStores();
+
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import {get_router} from '$lib/app/routerStore';
 	import {get_portals} from '$lib/app/portalsStore';
 	import PortalLink from '$lib/app/PortalLink.svelte';
 	import {VOID_PORTAL_SLUG} from '$lib/portals/portal';
@@ -16,7 +19,6 @@
 	width;
 	height;
 
-	const router = get_router();
 	const portals = get_portals();
 
 	$: portalList = $portals.data.portals.filter((p) => p.slug !== VOID_PORTAL_SLUG);
@@ -26,7 +28,7 @@
 <section class="view">
 	<Panel>
 		<h1>oh no!</h1>
-		<h3>no portal exists at cosmicplayground.org/#{$router.slug}</h3>
+		<h3>no portal exists at {$page.path}</h3>
 		<a href="#home">
 			<ChunkyButton>go back home</ChunkyButton>
 		</a>

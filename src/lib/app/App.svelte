@@ -3,13 +3,13 @@
 	import {writable} from 'svelte/store';
 	import {type AsyncStatus} from '@feltcoop/felt';
 	import {browser} from '$app/env';
+	import {page} from '$app/stores';
 
 	import PixiView from '$lib/app/PixiView.svelte';
 	import PortalView from '$lib/app/PortalView.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
 	import Panel from '$lib/app/Panel.svelte';
-	import {set_router} from '$lib/app/routerStore';
 	import {set_audio_ctx} from '$lib/audio/audioCtx';
 	import {set_clock} from '$lib/app/clockStore';
 	import {set_settings} from '$lib/app/settingsStore';
@@ -62,10 +62,9 @@
 		loadingStatus = 'pending';
 	};
 
-	const router = set_router();
-
 	const portals = set_portals(portalsData);
-	$: activePortal = findPortalBySlug($portals, $router.slug);
+	console.log('$page.path', $page.path);
+	$: activePortal = findPortalBySlug($portals, $page.path.substring(1) || 'home');
 
 	const idle = writable(false);
 	$: timeToGoIdle = $settings.devMode
