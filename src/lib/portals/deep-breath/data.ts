@@ -1,6 +1,6 @@
-import {type PortalBaseData} from '$lib/portals/portal';
+import {type PortalData} from '$lib/portals/portal';
 
-const data: PortalBaseData = {
+const data: PortalData = {
 	name: 'deep breath',
 	coolness: 7, // TODO maybe hide by default but show when offmap areas are rendered?
 	showHomeButton: false,

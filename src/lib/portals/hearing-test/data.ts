@@ -1,6 +1,6 @@
-import {type PortalBaseData} from '$lib/portals/portal';
+import {type PortalData} from '$lib/portals/portal';
 
-const data: PortalBaseData = {
+const data: PortalData = {
 	name: 'hearing test',
 	coolness: 4,
 	showHomeButton: true,

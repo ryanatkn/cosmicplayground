@@ -8,18 +8,10 @@ export interface PortalsData {
 	portalsBySlug: Map<string, PortalData>;
 }
 
-// `PortalData` extends the explicitly defined `PortalBaseData`
-// with inferred properties added in a codegen step.
-// See `./index.gen.ts` for more.
-export interface PortalData extends PortalBaseData {
-	slug: string; // TODO flavored Slug or PortalSlug type?
-	View: typeof SvelteComponent;
-	Preview: typeof SvelteComponent;
-}
-
 // These properties are defined explicitly for each portal.
-export interface PortalBaseData {
+export interface PortalData {
 	name: string;
+	slug: string;
 	coolness: number;
 	// TODO should we make this optional and flip it? `disableBackground`
 	showHomeButton: boolean; // TODO ?
@@ -27,6 +19,7 @@ export interface PortalBaseData {
 	// previewWidth: number;
 	// previewHeight: number;
 	// slugAliases: string[]; // TODO if we ever change a portal slug, support redirects, and maybe add some Easter eggs
+	Preview: typeof SvelteComponent;
 }
 
 export const VOID_PORTAL_SLUG = 'void';
