@@ -1,5 +1,4 @@
-import {writable, get} from 'svelte/store';
-import type {Writable} from 'svelte/store';
+import {writable, get, type Writable} from 'svelte/store';
 import {UnreachableError} from '@feltcoop/felt/util/error.js';
 
 import type {ClockStore} from '$lib/app/clockStore.js';

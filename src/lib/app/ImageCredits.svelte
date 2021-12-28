@@ -1,7 +1,8 @@
 <script lang="ts">
 	import ImageCreditsCaption from '$lib/app/ImageCreditsCaption.svelte';
+	import {type ImageMeta} from '$lib/app/images';
 
-	export let image;
+	export let image: ImageMeta;
 </script>
 
 <figure>

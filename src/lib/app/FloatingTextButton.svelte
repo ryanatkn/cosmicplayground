@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let pressed = undefined;
+	export let pressed: boolean | undefined = undefined;
 	export let type = 'button'; // avoid submit behavior in forms
 	export let classes: string | null = null; // TODO not sure about this pattern, not used atm
 	export let style: string | null = null; // TODO not sure about this pattern, not used atm

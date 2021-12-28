@@ -1,5 +1,4 @@
 import {sineInOut} from 'svelte/easing';
-import {} from '@feltcoop/gro';
 
 import {findMostRecentStepOfType} from '$lib/app/tourStore.js';
 import type {

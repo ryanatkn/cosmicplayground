@@ -1,4 +1,4 @@
-import {mapRecord} from '@feltcoop/gro/dist/utils/object.js';
+import {mapRecord} from '@feltcoop/felt/util/object.js';
 
 import {hslToStr} from '../utils/colors.js'; // TODO maybe this belongs somewhere elase - a `colorsAndMusic` module?
 import type {Hsl, Hue} from '../utils/colors.js'; // TODO maybe this belongs somewhere elase - a `colorsAndMusic` module?

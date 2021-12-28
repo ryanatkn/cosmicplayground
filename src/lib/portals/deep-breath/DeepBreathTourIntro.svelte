@@ -9,11 +9,11 @@
 	// but I might want to customize behavior further,
 	// and I'm doubting the reusability mileage of that much abstraction.
 
-	export let hide;
-	export let totalDuration;
-	export let transitionInDuration;
-	export let transitionOutDuration;
-	export let maxDelay;
+	export let hide: () => void;
+	export let totalDuration: number;
+	export let transitionInDuration: number;
+	export let transitionOutDuration: number;
+	export let maxDelay: number;
 
 	// TODO better visual effect? typewriter?
 
