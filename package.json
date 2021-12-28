@@ -7,8 +7,10 @@
   "type": "module",
   "scripts": {
     "start": "gro dev",
-    "build": "NODE_ENV=production gro build",
-    "buildDev": "NODE_ENV=development gro build"
+    "dev": "gro dev",
+    "build": "gro build",
+    "test": "gro test",
+    "deploy": "gro deploy"
   },
   "repository": {
     "type": "git",
