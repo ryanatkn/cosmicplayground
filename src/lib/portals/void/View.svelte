@@ -6,10 +6,15 @@
 	import {get_portals} from '$lib/app/portalsStore';
 	import PortalLink from '$lib/app/PortalLink.svelte';
 	import {VOID_PORTAL_SLUG} from '$lib/portals/portal';
+	import {type PortalData} from '$lib/portals/portal';
 
-	export const portal = undefined;
-	export const width = undefined;
-	export const height = undefined;
+	export let portal: PortalData;
+	export let width: number;
+	export let height: number;
+
+	portal;
+	width;
+	height;
 
 	const router = get_router();
 	const portals = get_portals();

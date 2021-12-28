@@ -1,17 +1,20 @@
 <script lang="ts">
 	import {get_portals} from '$lib/app/portalsStore';
 	import PortalPreview from './PortalPreview.svelte';
-	import {VOID_PORTAL_SLUG} from '$lib/portals/portal';
+	import {VOID_PORTAL_SLUG, type PortalData} from '$lib/portals/portal';
 
-	export let portal;
-	export const width = undefined;
-	export const height = undefined;
+	export let portal: PortalData;
+	export let width: number;
+	export let height: number;
 	// TODO is there a better way to do this so we avoid the catch-22 unused/unknown warnings?
 	// maybe we should remove props and move them to context?
 	// or maybe a portal store, similar to Sapper's page store?
 	// portal = {data, width, height}
 	// {portalData, portalWidth, portalHeight} = portalStores()
 	// what about a `showHomeButton` store taking null|false|true, so portals can override as needed
+
+	width;
+	height;
 
 	const portals = get_portals();
 
@@ -40,12 +43,12 @@
 	// 		throw Error(`Unknown portal slug "${slug}"`);
 	// 	}
 	// }
-	const getSortOrderForSlug = (slug) => {
+	const getSortOrderForSlug = (slug: string) => {
 		const sortOrder = sortOrderBySlug.get(slug);
 		// TODO nullish coalescing
 		return sortOrder === undefined ? Infinity : sortOrder;
 	};
-	const sortPortals = (portals) => {
+	const sortPortals = (portals: PortalData[]) => {
 		portals.sort((a, b) => (getSortOrderForSlug(a.slug) > getSortOrderForSlug(b.slug) ? 1 : -1));
 		return portals;
 	};
@@ -64,9 +67,9 @@
 
 	// TODO what's the best way to persist this? uiStore? data per portal?
 	// this is just a TEMP HACK!
-	let showMorePortals = window['TODO_showMorePortals'] || false; // toggle showing projects that are less cool but still cool
+	let showMorePortals = (window as any).TODO_showMorePortals || false; // toggle showing projects that are less cool but still cool
 	$: {
-		window['TODO_showMorePortals'] = showMorePortals;
+		(window as any).TODO_showMorePortals = showMorePortals;
 	}
 </script>
 

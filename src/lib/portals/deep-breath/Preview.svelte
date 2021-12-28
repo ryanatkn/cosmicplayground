@@ -1,8 +1,11 @@
 <script lang="ts">
 	import EarthThumbnail from '$lib/app/EarthThumbnail.svelte';
 	import {get_clock} from '$lib/app/clockStore';
+	import {type PortalData} from '$lib/portals/portal';
 
-	export const portal = undefined;
+	export let portal: PortalData;
+
+	portal;
 
 	const clock = get_clock();
 </script>

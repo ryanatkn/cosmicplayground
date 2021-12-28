@@ -1,5 +1,9 @@
 <script lang="ts">
-	export const portal = undefined;
+	import {type PortalData} from '$lib/portals/portal';
+
+	export let portal: PortalData;
+
+	portal;
 </script>
 
 <!-- TODO where might we display this? -->

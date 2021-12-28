@@ -1,7 +1,10 @@
 <script lang="ts">
 	import {mix} from '@feltcoop/felt/util/math.js';
+	import {type PortalData} from '$lib/portals/portal';
 
-	export const portal = undefined;
+	export let portal: PortalData;
+
+	portal;
 
 	let canvas: HTMLCanvasElement | null = null;
 	$: canvas && drawCanvas(canvas);

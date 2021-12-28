@@ -1,10 +1,13 @@
 <script lang="ts">
 	import FreqSpectacle from './FreqSpectacle.svelte';
 	import {get_clock} from '$lib/app/clockStore';
+	import {type PortalData} from '$lib/portals/portal';
 
-	export const portal = undefined;
+	export let portal: PortalData;
 	export let width: number;
 	export let height: number;
+
+	portal;
 
 	const clock = get_clock();
 

@@ -12,6 +12,7 @@
 	import Panel from '$lib/app/Panel.svelte';
 	import AboutPortalPreview from '../about/Preview.svelte';
 	import PortalPreview from '../home/PortalPreview.svelte';
+	import {type PortalData} from '$lib/portals/portal';
 
 	/*
 	
@@ -26,9 +27,11 @@
 
 	*/
 
-	export const portal = undefined;
+	export let portal: PortalData;
 	export let width: number;
 	export let height: number;
+
+	portal;
 
 	let showPicker = false;
 

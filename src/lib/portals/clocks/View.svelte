@@ -1,10 +1,15 @@
 <script lang="ts">
+	import {type PortalData} from '$lib/portals/portal';
 	import Clocks from './Clocks.svelte';
 	import {get_clock} from '$lib/app/clockStore';
 
-	export const portal = undefined;
-	export const width = undefined;
-	export const height = undefined;
+	export let portal: PortalData;
+	export let width: number;
+	export let height: number;
+
+	portal;
+	width;
+	height;
 
 	const clock = get_clock();
 </script>
