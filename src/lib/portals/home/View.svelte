@@ -3,13 +3,17 @@
 
 	import {getPortals} from '$lib/app/portalsStore';
 	import PortalPreview from './PortalPreview.svelte';
-	import {VOID_PORTAL_SLUG, type PortalData} from '$lib/portals/portal';
+	import {type PortalData} from '$lib/portals/portal';
+	import homePortal from '$lib/portals/home/data';
+	import aboutPortal from '$lib/portals/about/data';
+	import voidPortal from '$lib/portals/void/data';
 
 	const portals = getPortals();
 
 	const COOLNESS_VISIBILITY_THRESHOLD = 3;
-	const unlistedPortals = new Set(['home', VOID_PORTAL_SLUG]);
+	const unlistedPortals = new Set([homePortal.name, aboutPortal.name, voidPortal.name]);
 
+	// TODO shouldn't this be handled by coolness? or maybe just remove that altogether
 	const sortOrderBySlug = new Map(
 		[
 			'about',
@@ -26,17 +30,7 @@
 			'freq-spectacle',
 		].map((slug, i) => [slug, i]),
 	);
-	// TODO remove this in prod NODE_ENV, or consider generating a type with all of the portal slugs?
-	// for (const slug of sortOrderBySlug.keys()) {
-	// 	if (!$portals.data.portalsBySlug.has(slug)) {
-	// 		throw Error(`Unknown portal slug "${slug}"`);
-	// 	}
-	// }
-	const getSortOrderForSlug = (slug: string) => {
-		const sortOrder = sortOrderBySlug.get(slug);
-		// TODO nullish coalescing
-		return sortOrder === undefined ? Infinity : sortOrder;
-	};
+	const getSortOrderForSlug = (slug: string) => sortOrderBySlug.get(slug) ?? Infinity;
 	const sortPortals = (portals: PortalData[]) => {
 		portals.sort((a, b) => (getSortOrderForSlug(a.slug) > getSortOrderForSlug(b.slug) ? 1 : -1));
 		return portals;
@@ -63,9 +57,11 @@
 </script>
 
 <nav class="portal-previews">
-	<!-- TODO buttons or links? both? maybe just the show button should be a link? 
-  https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role
-  -->
+	<header>
+		<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
+			<svelte:component this={aboutPortal.Preview} portal={aboutPortal} />
+		</PortalPreview>
+	</header>
 	{#each superCoolPortals as portal (portal.slug)}
 		<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
 			<svelte:component this={portal.Preview} {portal} />
@@ -109,6 +105,12 @@
 {/if}
 
 <style>
+	header {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		margin-top: 15px;
+	}
 	.portal-previews {
 		margin: 0;
 		display: flex;

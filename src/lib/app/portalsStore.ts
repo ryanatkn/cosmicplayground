@@ -1,7 +1,8 @@
 import {writable, type Writable} from 'svelte/store';
 import {setContext, getContext} from 'svelte';
 
-import {type PortalsData, type PortalData, VOID_PORTAL_SLUG} from '$lib/portals/portal';
+import {type PortalsData, type PortalData} from '$lib/portals/portal';
+import voidPortal from '$lib/portals/void/data';
 
 export interface PortalsState {
 	data: PortalsData;
@@ -20,7 +21,7 @@ export const createPortalsStore = (initialPortalsData: PortalsData): PortalsStor
 };
 
 export const findPortalBySlug = ($portals: PortalsState, slug: string): PortalData =>
-	$portals.data.portalsBySlug.get(slug) || $portals.data.portalsBySlug.get(VOID_PORTAL_SLUG)!;
+	$portals.data.portalsBySlug.get(slug) || $portals.data.portalsBySlug.get(voidPortal.name)!;
 
 export const portalsContextKey = {};
 export const getPortals = (): PortalsStore => getContext(portalsContextKey);

@@ -21,5 +21,3 @@ export interface PortalData {
 	// slugAliases: string[]; // TODO if we ever change a portal slug, support redirects, and maybe add some Easter eggs
 	Preview: typeof SvelteComponent;
 }
-
-export const VOID_PORTAL_SLUG = 'void';

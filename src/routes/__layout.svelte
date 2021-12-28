@@ -22,6 +22,7 @@
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 	import {setAudioCtx} from '$lib/audio/audioCtx';
 	import {setDimensions} from '$lib/app/dimensions';
+	import homePortal from '$lib/portals/home/data';
 
 	const dimensions = writable({
 		width: browser ? window.innerWidth : 0,
@@ -79,7 +80,7 @@
 	$: updateRenderStats($clock.dt);
 
 	const portals = setPortals(portalsData);
-	$: activePortal = findPortalBySlug($portals, $page.path.substring(1) || 'home');
+	$: activePortal = findPortalBySlug($portals, $page.path.substring(1) || homePortal.name);
 
 	const idle = writable(false);
 	$: timeToGoIdle = $settings.devMode

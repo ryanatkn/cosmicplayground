@@ -8,11 +8,11 @@
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import {getPortals} from '$lib/app/portalsStore';
 	import PortalLink from '$lib/app/PortalLink.svelte';
-	import {VOID_PORTAL_SLUG} from '$lib/portals/portal';
+	import voidPortal from '$lib/portals/void/data';
 
 	const portals = getPortals();
 
-	$: portalList = $portals.data.portals.filter((p) => p.slug !== VOID_PORTAL_SLUG);
+	$: portalList = $portals.data.portals.filter((p) => p.slug !== voidPortal.name);
 </script>
 
 <!-- TODO how to handle this? -->
