@@ -10,21 +10,21 @@
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
 	import Panel from '$lib/app/Panel.svelte';
-	import {set_audio_ctx} from '$lib/audio/audioCtx';
-	import {set_clock} from '$lib/app/clockStore';
-	import {set_settings} from '$lib/app/settingsStore';
-	import {set_portals, findPortalBySlug} from '$lib/app/portalsStore';
+	import {setAudioCtx} from '$lib/audio/audioCtx';
+	import {setClock} from '$lib/app/clockStore';
+	import {setSettings} from '$lib/app/settingsStore';
+	import {setPortals, findPortalBySlug} from '$lib/app/portalsStore';
 	import {trackIdleState} from '$lib/app/trackIdleState';
 	import {updateRenderStats} from '$lib/app/renderStats';
 	import {portalsData} from '$lib/portals/index';
-	import {PixiApp, set_pixi} from '$lib/app/pixi';
+	import {PixiApp, setPixi} from '$lib/app/pixi';
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBgStore';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 
 	let width = browser ? window.innerWidth : 0;
 	let height = browser ? window.innerHeight : 0;
 
-	const settings = set_settings({
+	const settings = setSettings({
 		audioEnabled: true, // TODO make this work everywhere? hmm. global mute/volume?
 		devMode: false,
 		recordingMode: false,
@@ -32,20 +32,22 @@
 		timeToGoIdle: 6000,
 	});
 
-	const clock = set_clock(); // TODO integrate with Pixi ticker?
+	const clock = setClock(); // TODO integrate with Pixi ticker?
 	$: updateRenderStats($clock.dt);
 
 	let supportsWebGL: boolean | null = null;
 	let pixi: PixiApp;
 	try {
+		if (!browser) throw Error('TODO better way to do this?');
 		pixi = new PixiApp({width, height});
 		supportsWebGL = true;
 	} catch (err) {
+		console.log('err', err);
 		supportsWebGL = false; // usually probably correct to infer this
 		pixi = {} as any; // TODO this is just a hack for type safety
 		console.error(err);
 	}
-	set_pixi(pixi);
+	setPixi(pixi);
 
 	const bgImageUrl = '/assets/space/galaxies.jpg';
 	let bg: PixiBgStore;
@@ -62,7 +64,7 @@
 		loadingStatus = 'pending';
 	};
 
-	const portals = set_portals(portalsData);
+	const portals = setPortals(portalsData);
 	$: activePortal = findPortalBySlug($portals, $page.path.substring(1) || 'home');
 
 	const idle = writable(false);
@@ -72,7 +74,7 @@
 		? 500
 		: $settings.timeToGoIdle;
 
-	set_audio_ctx(); // allows components to do `const audioCtx = get_audio_ctx();` which uses svelte's `getContext`
+	setAudioCtx(); // allows components to do `const audioCtx = getAudioCtx();` which uses svelte's `getContext`
 
 	const enableGlobalHotkeys = (target: HTMLElement) => !target.closest('input');
 	const onKeyDown = (e: KeyboardEvent) => {

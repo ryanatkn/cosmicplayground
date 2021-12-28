@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FreqSpeeds from './FreqSpeeds.svelte';
-	import {get_clock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clockStore';
 	import {type PortalData} from '$lib/portals/portal';
 
 	export let portal: PortalData;
@@ -9,7 +9,7 @@
 
 	portal;
 
-	const clock = get_clock();
+	const clock = getClock();
 
 	const hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60];
 </script>

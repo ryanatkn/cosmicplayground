@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {browser} from '$app/env';
 
-	import {get_portals} from '$lib/app/portalsStore';
+	import {getPortals} from '$lib/app/portalsStore';
 	import PortalPreview from './PortalPreview.svelte';
 	import {VOID_PORTAL_SLUG, type PortalData} from '$lib/portals/portal';
 
@@ -18,7 +18,7 @@
 	width;
 	height;
 
-	const portals = get_portals();
+	const portals = getPortals();
 
 	const COOLNESS_VISIBILITY_THRESHOLD = 3;
 	const unlistedPortals = new Set([portal.slug, VOID_PORTAL_SLUG]);

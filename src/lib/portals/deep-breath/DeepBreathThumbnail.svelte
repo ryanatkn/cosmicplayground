@@ -1,12 +1,12 @@
 <script lang="ts">
 	import EarthThumbnail from '$lib/app/EarthThumbnail.svelte';
-	import {get_clock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clockStore';
 
 	export let earthWidth = 600;
 	export let label = 'proceed';
 	export let onClick: ((e: MouseEvent) => void) | null = null;
 
-	const clock = get_clock();
+	const clock = getClock();
 </script>
 
 <!-- TODO this isn't always a button so we don't use the button element,

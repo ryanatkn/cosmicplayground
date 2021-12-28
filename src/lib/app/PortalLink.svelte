@@ -1,9 +1,9 @@
 <script lang="ts">
-	import {get_portals, findPortalBySlug} from '$lib/app/portalsStore';
+	import {getPortals, findPortalBySlug} from '$lib/app/portalsStore';
 
 	export let slug: string;
 
-	const portals = get_portals();
+	const portals = getPortals();
 	$: portal = findPortalBySlug($portals, slug);
 </script>
 

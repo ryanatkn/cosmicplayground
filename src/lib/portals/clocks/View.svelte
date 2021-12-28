@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {type PortalData} from '$lib/portals/portal';
 	import Clocks from './Clocks.svelte';
-	import {get_clock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clockStore';
 
 	export let portal: PortalData;
 	export let width: number;
@@ -11,7 +11,7 @@
 	width;
 	height;
 
-	const clock = get_clock();
+	const clock = getClock();
 </script>
 
 <!-- TODO do we want `clock` to be pulled by `Clocks` from context? or keep it a prop? -->

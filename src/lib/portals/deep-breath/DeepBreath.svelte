@@ -17,7 +17,7 @@
 	import DeepBreathTourIntro from './DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from './DeepBreathTourTitle.svelte';
 	import DeepBreathTourCredits from './DeepBreathTourCredits.svelte';
-	import {get_settings} from '$lib/app/settingsStore';
+	import {getSettings} from '$lib/app/settingsStore';
 	import {resetRenderStats, getRenderStats} from '$lib/app/renderStats';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
@@ -27,7 +27,7 @@
 	export let width: number;
 	export let height: number;
 
-	const settings = get_settings();
+	const settings = getSettings();
 	$: devMode = $settings.devMode;
 	$: audioEnabled = $settings.audioEnabled;
 

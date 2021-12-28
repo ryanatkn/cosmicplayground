@@ -1,13 +1,13 @@
 <script lang="ts">
 	import FreqSpeeds from './FreqSpeeds.svelte';
-	import {get_clock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clockStore';
 	import {type PortalData} from '$lib/portals/portal';
 
 	export let portal: PortalData;
 
 	portal;
 
-	const clock = get_clock();
+	const clock = getClock();
 </script>
 
 <FreqSpeeds elapsedTime={$clock.time} width={300} height={75} hzItems={[4]} lowestHzItemCount={2} />

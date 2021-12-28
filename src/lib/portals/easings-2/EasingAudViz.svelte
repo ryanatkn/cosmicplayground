@@ -27,7 +27,7 @@
 
 	import {svelteEasings} from '$lib/app/easings';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
-	import {get_audio_ctx} from '$lib/audio/audioCtx';
+	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {midiNames} from '$lib/music/notes';
 	import {midiToFreq, type Midi} from '$lib/music/midi';
 	import {DEFAULT_TUNING} from '$lib/music/constants';
@@ -137,7 +137,7 @@
 	// TODO refactor to share code with `HearingTest` and `PaintFreqs`
 	let osc: OscillatorNode | undefined;
 	let gain: GainNode | undefined;
-	const audioCtx = get_audio_ctx();
+	const audioCtx = getAudioCtx();
 	let volume = 0.5;
 	let muted = false;
 	$: freqMin = midiToFreq(startNote, DEFAULT_TUNING);

@@ -6,7 +6,7 @@
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import {get_portals} from '$lib/app/portalsStore';
+	import {getPortals} from '$lib/app/portalsStore';
 	import PortalLink from '$lib/app/PortalLink.svelte';
 	import {VOID_PORTAL_SLUG} from '$lib/portals/portal';
 	import {type PortalData} from '$lib/portals/portal';
@@ -19,7 +19,7 @@
 	width;
 	height;
 
-	const portals = get_portals();
+	const portals = getPortals();
 
 	$: portalList = $portals.data.portals.filter((p) => p.slug !== VOID_PORTAL_SLUG);
 </script>

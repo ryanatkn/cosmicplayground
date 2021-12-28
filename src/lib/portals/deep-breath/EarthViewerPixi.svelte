@@ -7,7 +7,7 @@
 		computeBlendedImagesCycleOpacities,
 		computeBlendedImagesCycleZIndex,
 	} from '$lib/app/blendedImagesCycle';
-	import {get_pixi_scene} from '$lib/app/pixi';
+	import {getPixiScene} from '$lib/app/pixi';
 	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
 
 	// TODO should we cache stuff at the module scope? mainly thinking of the render textures
@@ -32,7 +32,7 @@
 	export let imageWidth: number; // not reactive
 	export let imageHeight: number; // not reactive
 
-	const [pixi] = get_pixi_scene({
+	const [pixi] = getPixiScene({
 		load: (loader) => {
 			if (loader.resources[landImages[0]]) return; // TODO cleaner detection?
 			for (const landImage of landImages) {

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import {get_clock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clockStore';
 	import {type PortalData} from '$lib/portals/portal';
 
 	export let portal: PortalData;
 
 	portal;
 
-	const clock = get_clock();
+	const clock = getClock();
 </script>
 
 <img

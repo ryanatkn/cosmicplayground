@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {type AsyncStatus} from '@feltcoop/felt';
 
-	import {get_pixi_scene} from '$lib/app/pixi';
+	import {getPixiScene} from '$lib/app/pixi';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 
 	// TODO This code is hacky and complex because the Pixi loader API is a headache :/
@@ -9,7 +9,7 @@
 	// Maybe we could look in `PIXI.BaseTextureCache`
 	// and be aggressive about calling `loader.reset`?
 	// But then we'll throw away loading assets if they're not done. (does the browser cache tho?)
-	// Probably want to encapsulate this possibly-concurrent loader logic, maybe in `get_pixi_scene`?
+	// Probably want to encapsulate this possibly-concurrent loader logic, maybe in `getPixiScene`?
 
 	export let cameraX: number;
 	export let cameraY: number;
@@ -20,7 +20,7 @@
 	let sprite: PIXI.Sprite | null = null;
 	let destroyed = false;
 
-	const [pixi, scene] = get_pixi_scene({
+	const [pixi, scene] = getPixiScene({
 		loaded: () => {
 			updateSprite(imageUrl); // this *might* handle a corner case bug due to the fact that we're not reactively listening to the loader
 		},
