@@ -102,7 +102,7 @@
 	</Panel>
 	<!-- TODO pull this href from portal data? -->
 	<section>
-		<PortalPreview href="#about">
+		<PortalPreview href="/about">
 			<AboutPortalPreview />
 		</PortalPreview>
 	</section>

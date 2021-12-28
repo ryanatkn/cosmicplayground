@@ -20,7 +20,7 @@
 	<Panel>
 		<h1>oh no!</h1>
 		<h3>no portal exists at {$page.path}</h3>
-		<a href="#home">
+		<a href="/">
 			<ChunkyButton>go back home</ChunkyButton>
 		</a>
 		<h3>if this was my fault im sorry</h3>

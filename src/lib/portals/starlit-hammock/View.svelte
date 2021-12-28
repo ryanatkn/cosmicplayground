@@ -223,7 +223,7 @@
 					<a href="https://www.spacetelescope.org/copyright/">spacetelescope.org/copyright</a>
 				</h2>
 			</Panel>
-			<PortalPreview href="#about">
+			<PortalPreview href="/about">
 				<AboutPortalPreview />
 			</PortalPreview>
 		</footer>
