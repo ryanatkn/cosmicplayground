@@ -29,11 +29,9 @@
 	});
 	setDimensions(dimensions);
 
-	let pixijs: typeof PIXI;
-
 	let supportsWebGL: boolean | null = null;
 
-	let pixi: PixiApp; // TODO does this have to a be a store?
+	let pixi = new PixiApp();
 
 	setPixi(pixi);
 
@@ -47,9 +45,9 @@
 	onMount(async () => {
 		loadingStatus = 'pending';
 		// TODO importing PIXI async due to this issue: https://github.com/sveltejs/kit/issues/1650
-		pixijs = await import('pixi.js');
+		const pixiModule = await import('pixi.js');
 		try {
-			pixi = new PixiApp({width: $dimensions.width, height: $dimensions.height}); // TODO does this need to be reactive?
+			pixi.init(pixiModule, {width: $dimensions.width, height: $dimensions.height}); // TODO do the dimensions need to be reactive?
 			supportsWebGL = true;
 		} catch (err) {
 			console.error('failed to create PixiApp', err);
@@ -57,9 +55,10 @@
 			pixi = {} as any; // TODO this is just a hack for type safety
 			console.error(err);
 		}
-		pixi.loader.add(bgImageUrl).load(() => {
+		pixi.app.loader.add(bgImageUrl).load(() => {
 			bg = createPixiBgStore(
-				pixi.loader.resources[bgImageUrl].texture,
+				pixi.mod,
+				pixi.app.loader.resources[bgImageUrl].texture,
 				$dimensions.width,
 				$dimensions.height,
 			);

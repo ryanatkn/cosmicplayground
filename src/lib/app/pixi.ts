@@ -1,26 +1,26 @@
-import * as PIXI from 'pixi.js';
+import type PIXI from 'pixi.js';
 import {getContext, setContext, onMount, onDestroy} from 'svelte';
-import {browser} from '$app/env';
 
-if (browser) window.PIXI = PIXI;
+// TODO initialized async because of this issue: https://github.com/sveltejs/kit/issues/1650
 
-// Tell PIXI to use pixelated image scaling by default. CHONKY pixels!!
-// Unfortunately this can cause choppy movement. We may want to revert this global default.
-// Here's how to change it back to the default for a resource:
-// `resources.bg.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.LINEAR;`
-PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+export class PixiApp {
+	mod!: typeof PIXI;
+	app!: PIXI.Application;
+	defaultScene!: PIXI.Container;
+	currentScene!: PIXI.Container;
 
-// TODO maybe don't extend the application?
-export class PixiApp extends PIXI.Application {
-	defaultScene: PIXI.Container;
-	currentScene: PIXI.Container;
-
-	constructor(options: PixiApplicationOptions) {
-		super(options);
-		const defaultScene = new PIXI.Container();
+	init(mod: typeof PIXI, options: PixiApplicationOptions) {
+		this.mod = mod;
+		this.app = new mod.Application(options);
+		// Tell PIXI to use pixelated image scaling by default. CHONKY pixels!!
+		// Unfortunately this can cause choppy movement. We may want to revert this global default.
+		// Here's how to change it back to the default for a resource:
+		// `resources.bg.texture.baseTexture.scaleMode = mod.SCALE_MODES.LINEAR;`
+		mod.settings.SCALE_MODE = mod.SCALE_MODES.NEAREST;
+		const defaultScene = new mod.Container();
 		this.defaultScene = defaultScene;
 		this.currentScene = defaultScene;
-		this.stage.addChild(defaultScene);
+		this.app.stage.addChild(defaultScene);
 	}
 
 	mountScene(scene: PIXI.Container): void {
@@ -31,9 +31,9 @@ export class PixiApp extends PIXI.Application {
 		if (this.defaultScene !== scene && this.currentScene !== this.defaultScene) {
 			throw Error(`Cannot replace a scene that is not the default. Reset it first.`);
 		}
-		this.stage.removeChild(this.currentScene);
+		this.app.stage.removeChild(this.currentScene);
 		this.currentScene = scene;
-		this.stage.addChild(scene);
+		this.app.stage.addChild(scene);
 	}
 
 	unmountScene(scene: PIXI.Container): void {
@@ -47,10 +47,10 @@ export class PixiApp extends PIXI.Application {
 	// and we don't want to create multiple loaders or call `reset` for efficiency.
 	// This helper is the first step to wrangling a better API without changing internals.
 	waitForLoad(): Promise<void> {
-		if (!this.loader.loading) {
+		if (!this.app.loader.loading) {
 			throw Error('Called `waitForLoad` when not loading.'); // maybe call `load` automatically instead?
 		}
-		return new Promise((r) => this.loader.onLoad.once(r));
+		return new Promise((r) => this.app.loader.onLoad.once(r));
 	}
 }
 
@@ -97,7 +97,7 @@ export const getPixiScene = (
 ): [PixiApp, PIXI.Container] => {
 	// Mount the scene right away. When loading, we'll show a black background
 	// and the scene component can display whatever it wants.
-	const scene = new PIXI.Container();
+	const scene = new pixi.mod.Container();
 	pixi.mountScene(scene);
 
 	let destroyed = false; // TODO good for store state?
@@ -107,15 +107,15 @@ export const getPixiScene = (
 	// Otherwise, the loader throws error when the new scene calls `loader.add`.
 	// We may want to provide an option to override this.
 	// (or mabye a deeper fix with the loader is in order)
-	if (pixi.loader.loading) {
+	if (pixi.app.loader.loading) {
 		console.log('resetting loader! ack');
-		pixi.loader.reset();
+		pixi.app.loader.reset();
 	}
 
 	onMount(() => {
-		hooks.load && hooks.load(pixi.loader);
+		hooks.load && hooks.load(pixi.app.loader);
 		// TODO show progress? or expect title screen to make these gtg?
-		pixi.loader.load((loader, resources) => {
+		pixi.app.loader.load((loader, resources) => {
 			if (destroyed) return; // in case the scene is destroyed before loading finishes
 			hooks.loaded && hooks.loaded(scene, resources, loader);
 		});
@@ -123,7 +123,7 @@ export const getPixiScene = (
 
 	onDestroy(() => {
 		if (destroyed) throw Error('Already destroyed'); // TODO probably remove this
-		hooks.destroy && hooks.destroy(scene, pixi.loader);
+		hooks.destroy && hooks.destroy(scene, pixi.app.loader);
 		destroyed = true;
 		pixi.unmountScene(scene);
 		scene.destroy({

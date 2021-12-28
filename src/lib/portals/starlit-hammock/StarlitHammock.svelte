@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {type AsyncStatus} from '@feltcoop/felt';
+	import type PIXI from 'pixi.js';
 
 	import {getPixiScene} from '$lib/app/pixi';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
@@ -16,7 +17,6 @@
 	export let cameraScale: number;
 	export let imageUrl: string;
 
-	const camera = new PIXI.Container();
 	let sprite: PIXI.Sprite | null = null;
 	let destroyed = false;
 
@@ -28,19 +28,20 @@
 			destroyed = true;
 		},
 	});
+	const camera = new pixi.mod.Container();
 	scene.addChild(camera);
 
 	const updateSprite = async (url: string) => {
 		if (destroyed || url !== imageUrl) return;
-		const resource = pixi.loader.resources[url];
+		const resource = pixi.app.loader.resources[url];
 		if (!resource) {
 			if (sprite) destroySprite();
-			if (pixi.loader.loading) {
+			if (pixi.app.loader.loading) {
 				await pixi.waitForLoad();
 				updateSprite(url);
 			} else {
-				pixi.loader.add(url);
-				pixi.loader.load();
+				pixi.app.loader.add(url);
+				pixi.app.loader.load();
 				await pixi.waitForLoad();
 				updateSprite(url);
 			}
@@ -58,8 +59,8 @@
 	const createSprite = (texture: PIXI.Texture) => {
 		if (sprite) destroySprite();
 		// I think I'd prefer nearest neighbor, but that causes weird artifacts with slow animation
-		texture.baseTexture.setStyle(PIXI.SCALE_MODES.LINEAR); // TODO where to do this? ideally on load
-		sprite = new PIXI.Sprite(texture);
+		texture.baseTexture.setStyle(pixi.mod.SCALE_MODES.LINEAR); // TODO where to do this? ideally on load
+		sprite = new pixi.mod.Sprite(texture);
 		camera.addChild(sprite);
 	};
 

@@ -10,8 +10,8 @@
 	export let width: number;
 	export let height: number;
 
-	$: if (width !== pixi.renderer.width || height !== pixi.renderer.height) {
-		pixi.renderer.resize(width, height);
+	$: if (width !== pixi.app.renderer.width || height !== pixi.app.renderer.height) {
+		pixi.app.renderer.resize(width, height);
 	}
 
 	let el: HTMLElement;
@@ -19,18 +19,18 @@
 		if (!el) return; // not ready
 		const {firstChild} = el;
 		if (firstChild) {
-			if (pixi.view === firstChild) return; // didn't change
+			if (pixi.app.view === firstChild) return; // didn't change
 			if (el.childNodes.length > 1) {
 				throw Error(`PixiView has ${el.childNodes.length} child nodes! Expected 0 or 1.`);
 			}
 			el.removeChild(firstChild);
 		}
-		el.appendChild(pixi.view);
+		el.appendChild(pixi.app.view);
 	};
 
 	$: mountView(pixi);
 	onMount(() => mountView(pixi));
-	onDestroy(() => el.removeChild(pixi.view));
+	onDestroy(() => el.removeChild(pixi.app.view));
 </script>
 
 <div style="width: {width}px; height: {height}px;" bind:this={el} />

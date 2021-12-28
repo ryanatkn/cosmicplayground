@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as PIXI from 'pixi.js';
 	import {type Readable} from 'svelte/store';
+	import type PIXI from 'pixi.js';
 
 	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum';
 	import {
@@ -43,10 +43,10 @@
 			}
 		},
 		loaded: (scene, resources, _loader) => {
-			mapContainer = new PIXI.Container();
+			mapContainer = new pixi.mod.Container();
 			scene.addChild(mapContainer);
 
-			landContainer = new PIXI.Container();
+			landContainer = new pixi.mod.Container();
 			mapContainer.addChild(landContainer);
 			landContainer.sortableChildren = true;
 			for (const landImage of landImages) {
@@ -56,7 +56,7 @@
 			}
 			updateSpriteTransforms(landSprites, tilePositionX, tilePositionY, $scale);
 
-			seaContainer = new PIXI.Container();
+			seaContainer = new pixi.mod.Container();
 			mapContainer.addChild(seaContainer);
 			for (const seaImage of seaImages) {
 				const sprite = createMapSprite(resources[seaImage]!.texture);
@@ -147,18 +147,21 @@
 	};
 
 	const createMapSprite = (texture: PIXI.Texture) => {
-		const tempSprite1 = new PIXI.TilingSprite(texture);
-		const tempSprite2 = new PIXI.TilingSprite(texture);
+		const tempSprite1 = new pixi.mod.TilingSprite(texture);
+		const tempSprite2 = new pixi.mod.TilingSprite(texture);
 		tempSprite2.angle = 180;
 		tempSprite2.y = imageHeight * 2;
 		tempSprite2.x = imageWidth;
-		const tempTextureContainer = new PIXI.Container();
+		const tempTextureContainer = new pixi.mod.Container();
 		tempTextureContainer.addChild(tempSprite1);
 		tempTextureContainer.addChild(tempSprite2);
 		// TODO cache this at module scope? see comment at top of file
-		const renderTexture = PIXI.RenderTexture.create({width: imageWidth, height: imageHeight * 2});
-		pixi.renderer.render(tempTextureContainer, renderTexture);
-		return new PIXI.TilingSprite(renderTexture, width, height);
+		const renderTexture = pixi.mod.RenderTexture.create({
+			width: imageWidth,
+			height: imageHeight * 2,
+		});
+		pixi.app.renderer.render(tempTextureContainer, renderTexture);
+		return new pixi.mod.TilingSprite(renderTexture, width, height);
 	};
 </script>
 

@@ -1,5 +1,5 @@
 import {writable, type Writable} from 'svelte/store';
-import * as PIXI from 'pixi.js';
+import type PIXI from 'pixi.js';
 
 export interface PixiBgState {
 	sprite: PIXI.TilingSprite;
@@ -18,6 +18,7 @@ export interface PixiBgStore {
 const BG_DRIFT_SPEED = 0.0033;
 
 export const createPixiBgStore = (
+	mod: typeof PIXI,
 	texture: PIXI.Texture,
 	width: number,
 	height: number,
@@ -26,8 +27,8 @@ export const createPixiBgStore = (
 	alpha = 0.2,
 	driftSpeed = BG_DRIFT_SPEED,
 ): PixiBgStore => {
-	texture.baseTexture.setStyle(PIXI.SCALE_MODES.LINEAR); // make it scroll smoothly
-	const sprite = new PIXI.TilingSprite(texture, width, height);
+	texture.baseTexture.setStyle(mod.SCALE_MODES.LINEAR); // make it scroll smoothly
+	const sprite = new mod.TilingSprite(texture, width, height);
 	sprite.alpha = alpha;
 
 	const {subscribe, update} = writable<PixiBgState>({sprite, width, height, x, y});
