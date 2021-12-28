@@ -87,6 +87,7 @@ body {
 	background-color: #000;
 	color: var(--text_color);
 	font-size: 18px;
+	line-height: 1.2;
 }
 
 #root {
