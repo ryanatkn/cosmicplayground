@@ -7,7 +7,7 @@
 	$: portal = findPortalBySlug($portals, slug);
 </script>
 
-<a href={`#${slug}`}>
+<a href={slug}>
 	{portal.name}
 	<!-- TODO I don't have a usecase for this yet,
 		but a slot with default content might be nice:
