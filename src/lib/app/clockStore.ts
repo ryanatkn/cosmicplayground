@@ -1,5 +1,6 @@
 import {writable, get, type Writable} from 'svelte/store';
 import {getContext, setContext} from 'svelte';
+import {browser} from '$app/env';
 
 // I tried to avoid using `get`, but there's one place where it's used.
 // Subscribing to the `running` value seems to add a lot of complexity
@@ -50,14 +51,14 @@ export const createClockStore = (initialState?: Partial<ClockState>): ClockStore
 			onTimer(t - lastTime);
 		}
 		lastTime = t;
-		reqId = requestAnimationFrame(onFrame);
+		reqId = browser ? requestAnimationFrame(onFrame) : undefined;
 	};
 
 	const resume = (): void => {
 		update((c) => {
 			if (c.running) return c;
 			lastTime = undefined;
-			reqId = requestAnimationFrame(onFrame);
+			reqId = browser ? requestAnimationFrame(onFrame) : undefined;
 			return {...c, running: true};
 		});
 	};

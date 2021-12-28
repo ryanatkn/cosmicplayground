@@ -63,7 +63,6 @@
 	};
 
 	const portals = set_portals(portalsData);
-	console.log('$page.path', $page.path);
 	$: activePortal = findPortalBySlug($portals, $page.path.substring(1) || 'home');
 
 	const idle = writable(false);
