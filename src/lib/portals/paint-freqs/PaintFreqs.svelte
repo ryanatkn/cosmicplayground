@@ -5,9 +5,9 @@
 
 	import {get_audio_ctx} from '$lib/audio/audioCtx';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
-	import {hslToRgb} from '../../utils/colors';
-	import {freqToMidi} from '../../music/midi';
-	import {DEFAULT_TUNING} from '../../music/constants';
+	import {hslToRgb} from '$lib/utils/colors';
+	import {freqToMidi} from '$lib/music/midi';
+	import {DEFAULT_TUNING} from '$lib/music/constants';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 
 	/*
@@ -41,7 +41,10 @@
 
 	let pointerX = -300;
 	let pointerY = -300;
-	let canvas, canvasCtx, canvasData, fgDataUrl;
+	let canvas: HTMLCanvasElement;
+	let canvasCtx: CanvasRenderingContext2D | undefined;
+	let canvasData: ImageData | undefined;
+	let fgDataUrl: string | undefined;
 	$: if (canvas && width && height) updateCanvas();
 
 	// TODO move to shared location? src/music/notes? colors?
@@ -54,12 +57,12 @@
 		}
 		if (canvas.width !== width) canvas.width = width;
 		if (canvas.height !== height) canvas.height = height;
-		if (!canvasCtx) canvasCtx = canvas.getContext('2d'); // TODO is it possible this gets stale? I don't think so under current usage - but what if the canvas changes in the future?
+		if (!canvasCtx) canvasCtx = canvas.getContext('2d')!; // TODO is it possible this gets stale? I don't think so under current usage - but what if the canvas changes in the future?
 		canvasCtx.clearRect(0, 0, width, height);
 		canvasData = canvasCtx.createImageData(width, height);
-		drawFreqColors();
+		drawFreqColors(canvasData, canvasCtx);
 	};
-	const drawFreqColors = () => {
+	const drawFreqColors = (canvasData: ImageData, canvasCtx: CanvasRenderingContext2D) => {
 		const {data} = canvasData;
 		for (let i = 0; i < data.length; i += 4) {
 			const n = i / 4;
@@ -67,7 +70,7 @@
 			const y = Math.floor(n / width);
 			const freq = calcFreq(x, y, width, height);
 			const chroma = freqToMidi(freq, DEFAULT_TUNING) % 12;
-			const [r, g, b, a] = colorsByChroma[chroma];
+			const [r, g, b] = colorsByChroma[chroma];
 			data[i] = r;
 			data[i + 1] = g;
 			data[i + 2] = b;
@@ -84,7 +87,7 @@
 	});
 	// this won't work for replaying sounds - we'd need to store lines every frame instead of pointer changes
 	$: if (pointerX >= 0) addPoint(pointerX, pointerY);
-	const addPoint = (x, y) => {
+	const addPoint = (x: number, y: number) => {
 		const point = ` ${x},${y}`;
 		const line = lines[lines.length - 1];
 		if (line.points) {
@@ -107,8 +110,8 @@
 	);
 	$: spotPosition.set({x: pointerX, y: pointerY});
 
-	let osc;
-	let gain;
+	let osc: OscillatorNode | undefined;
+	let gain: GainNode | undefined;
 
 	const VOLUME = 0.35; // TODO probably hook into global settings
 
@@ -132,7 +135,7 @@
 		osc.connect(gain);
 	};
 	const stop = () => {
-		if (!osc) return;
+		if (!osc || !gain) return;
 		gain.gain.setTargetAtTime(0, audioCtx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
 		osc.stop(audioCtx.currentTime + SMOOTH_GAIN_TIME_CONSTANT * 2);
 		osc = undefined;
@@ -145,7 +148,7 @@
 	const freqMax = 6000; // freq is this when x=width
 	const yMultMin = 0.5; // freq is multiplied by this value when y=height
 	const yMultMax = 1.5; // freq is multiplied by this value when y=0
-	const calcFreq = (x, y, w, h) => {
+	const calcFreq = (x: number, y: number, w: number, h: number) => {
 		const yPct = 1 - y / h;
 		// get roughly equal frequency bands on the X axis - dunno what the exact math is
 		const xPct = Math.pow(x / 2 / w + 0.5, 10);
@@ -154,9 +157,11 @@
 
 	// TODO more cleanly handle touch/click - pointer events with polyfill for Safari? (probably using Svelte actions)
 	// or maybe support multiple touches? yeah...that makes sense here.
-	const pointerEventX = (e) => (e.touches && e.touches.length ? e.touches[0].clientX : e.clientX);
-	const pointerEventY = (e) => (e.touches && e.touches.length ? e.touches[0].clientY : e.clientY);
-	const handlePointerDown = (e) => {
+	const pointerEventX = (e: TouchEvent | MouseEvent) =>
+		'touches' in e && e.touches.length ? e.touches[0].clientX : (e as MouseEvent).clientX;
+	const pointerEventY = (e: TouchEvent | MouseEvent) =>
+		'touches' in e && e.touches.length ? e.touches[0].clientY : (e as MouseEvent).clientY;
+	const handlePointerDown = (e: TouchEvent | MouseEvent) => {
 		start();
 		pointerX = pointerEventX(e);
 		pointerY = pointerEventY(e);
@@ -165,11 +170,11 @@
 		lines.push(nextPoint);
 		lines = lines.slice();
 	};
-	const handlePointerUp = (e) => {
+	const handlePointerUp = () => {
 		if (!audioCtx || !osc) return;
 		stop();
 	};
-	const handlePointerMove = (e) => {
+	const handlePointerMove = (e: TouchEvent | MouseEvent) => {
 		if (!audioCtx || !osc) return;
 		if (!e.altKey) pointerX = pointerEventX(e);
 		if (!e.shiftKey) pointerY = pointerEventY(e);

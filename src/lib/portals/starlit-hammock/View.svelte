@@ -10,8 +10,8 @@
 	import ImageCreditsCaption from '$lib/app/ImageCreditsCaption.svelte';
 	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
 	import Panel from '$lib/app/Panel.svelte';
-	import AboutPortalPreview from '../about/Preview.svelte';
-	import PortalPreview from '../home/PortalPreview.svelte';
+	import AboutPortalPreview from '$lib/portals/about/Preview.svelte';
+	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
 	import {type PortalData} from '$lib/portals/portal';
 
 	/*
@@ -73,18 +73,18 @@
 	const easing = sineInOut;
 
 	// TODO refactor, probably into a tween store with an external `update` function
-	let x;
-	let y;
-	let scale;
-	let targetX;
-	let targetY;
-	let targetScale;
-	let startX;
-	let startY;
-	let startScale;
+	let x: number;
+	let y: number;
+	let scale: number;
+	let targetX: number;
+	let targetY: number;
+	let targetScale: number;
+	let startX: number;
+	let startY: number;
+	let startScale: number;
 	let transitionTime = 0;
 	let transitionPauseTimer = 0;
-	const update = (dt) => {
+	const update = (dt: number) => {
 		if (transitionPauseTimer > 0) {
 			transitionPauseTimer -= dt;
 			if (transitionPauseTimer > 0) return;

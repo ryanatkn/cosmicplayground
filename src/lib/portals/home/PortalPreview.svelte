@@ -1,6 +1,6 @@
 <script lang="ts">
-	export let href = null; // one of `href` and `onClick` is required
-	export let onClick = null; // one of `href` and `onClick` is required
+	export let href: string | null = null; // one of `href` and `onClick` is required
+	export let onClick: ((e: MouseEvent) => void) | null = null; // one of `href` and `onClick` is required
 	export let classes = '';
 	export let style: string | null = null;
 

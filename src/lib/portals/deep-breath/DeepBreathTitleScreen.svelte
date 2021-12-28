@@ -6,10 +6,10 @@
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import DeepBreathCredits from './DeepBreathCredits.svelte';
-	import CreditsPersonalSignature from '../about/CreditsPersonalSignature.svelte';
-	import CreditsProjectSignature from '../about/CreditsProjectSignature.svelte';
-	import AboutPortalPreview from '../about/Preview.svelte';
-	import PortalPreview from '../home/PortalPreview.svelte';
+	import CreditsPersonalSignature from '$lib/portals/about/CreditsPersonalSignature.svelte';
+	import CreditsProjectSignature from '$lib/portals/about/CreditsProjectSignature.svelte';
+	import AboutPortalPreview from '$lib/portals/about/Preview.svelte';
+	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
 
 	export let resources;
 	export let proceed;

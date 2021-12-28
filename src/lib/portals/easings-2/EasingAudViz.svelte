@@ -28,12 +28,13 @@
 	import {svelteEasings} from '$lib/app/easings';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
 	import {get_audio_ctx} from '$lib/audio/audioCtx';
-	import {midiNames} from '../../music/notes';
-	import {midiToFreq} from '../../music/midi';
-	import {DEFAULT_TUNING} from '../../music/constants';
+	import {midiNames} from '$lib/music/notes';
+	import {midiToFreq, type Midi} from '$lib/music/midi';
+	import {DEFAULT_TUNING} from '$lib/music/constants';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
+	import {type ClockStore} from '$lib/app/clockStore';
 
-	export let clock;
+	export let clock: ClockStore;
 
 	const easings = svelteEasings;
 
@@ -47,26 +48,30 @@
 	});
 
 	let timeNow = 0;
-	let timeLast, timeElapsed, timeTarget, tween, tweenAlternating, xPct, yPct;
+	let timeLast: number;
+	let timeTarget: number;
+	let tween: number;
+	let tweenAlternating: number;
+	let xPct: number;
+	let yPct: number;
 	// TODO refactor `loopState` to a state machine? xstate? microstate?
 	// this looks a little more complicated than it needs to be,
 	// and the variable names are tattered in spots
-	let loopState = 'waitingLeft'; // 'waitingLeft' | 'movingRight' | 'waitingRight' | 'movingLeft'
+	type LoopState = 'waitingLeft' | 'movingRight' | 'waitingRight' | 'movingLeft';
+	let loopState: LoopState = 'waitingLeft'; //
 	let timePct = 0; // % of the way to `TimeTarget`, when the next state transition will occur
-	let loopPct = 0; // % of the alternating loop
 	$: if ($clock.running) {
 		update($clock.dt);
 	} else {
 		stopAudio();
 	}
-	const update = (dt) => {
+	const update = (dt: number) => {
 		timeLast = timeNow;
 		timeNow += dt;
 		if (timeTarget === undefined) {
 			timeTarget = timeNow + calcTimeTarget(loopState);
 		}
 		if (timeLast !== 0) {
-			timeElapsed = timeNow - timeLast;
 			updateTime();
 			updateAudioization();
 		}
@@ -84,15 +89,15 @@
 		tween = activeEasing.fn(calcTweenPct(loopState, timePct));
 		tweenAlternating = loopState === 'movingLeft' ? 1 - tween : tween;
 	};
-	const getNextLoopState = (loopState) => {
+	const getNextLoopState = (loopState: LoopState): LoopState => {
 		return {
 			waitingLeft: 'movingRight',
 			movingRight: 'waitingRight',
 			waitingRight: 'movingLeft',
 			movingLeft: 'waitingLeft',
-		}[loopState];
+		}[loopState] as LoopState;
 	};
-	const calcTimeTarget = (loopState) => {
+	const calcTimeTarget = (loopState: LoopState) => {
 		return {
 			waitingLeft: waitTime,
 			movingRight: duration,
@@ -100,7 +105,7 @@
 			movingLeft: duration,
 		}[loopState];
 	};
-	const calcTweenPct = (loopState, timePct) => {
+	const calcTweenPct = (loopState: LoopState, timePct: number) => {
 		switch (loopState) {
 			case 'movingRight':
 			case 'movingLeft':
@@ -111,7 +116,7 @@
 				return 1;
 		}
 	};
-	const calcXPct = (loopState, timePct) => {
+	const calcXPct = (loopState: LoopState, timePct: number) => {
 		switch (loopState) {
 			case 'movingLeft':
 			case 'movingRight':
@@ -125,32 +130,33 @@
 	// audio options
 	const lowestNote = 21;
 	const highestNote = 108;
-	let startNote = 42 + ((Math.random() * 6) | 0); // TODO midi picker
-	let endNote = startNote + 12; // TODO midi picker
+	let startNote: Midi = (42 + ((Math.random() * 6) | 0)) as Midi; // TODO midi picker
+	let endNote: Midi = (startNote + 12) as Midi; // TODO midi picker
 
 	// audio playback
 	// TODO refactor to share code with `HearingTest` and `PaintFreqs`
-	let osc, gain;
+	let osc: OscillatorNode | undefined;
+	let gain: GainNode | undefined;
 	const audioCtx = get_audio_ctx();
 	let volume = 0.5;
 	let muted = false;
 	$: freqMin = midiToFreq(startNote, DEFAULT_TUNING);
 	$: freqMax = midiToFreq(endNote, DEFAULT_TUNING);
-	const calcFreq = (pct) => mix(freqMin, freqMax, pct);
-	const updateAudioization = (loopState) => {
+	const calcFreq = (pct: number) => mix(freqMin, freqMax, pct);
+	const updateAudioization = () => {
 		startAudio();
 
 		const freq = calcFreq(tweenAlternating);
-		osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+		osc!.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
 		// TODO volume controls
-		gain.gain.setTargetAtTime(
+		gain!.gain.setTargetAtTime(
 			volumeToGain(getVolume()),
 			audioCtx.currentTime,
 			SMOOTH_GAIN_TIME_CONSTANT,
 		);
 	};
-	const getVolume = () => {
+	const getVolume = (): number => {
 		if (muted) return 0;
 		switch (loopState) {
 			case 'movingLeft':
@@ -159,6 +165,8 @@
 			case 'waitingLeft':
 			case 'waitingRight':
 				return volume;
+			default:
+				throw Error();
 		}
 	};
 	const startAudio = () => {
@@ -173,7 +181,7 @@
 	};
 	const stopAudio = () => {
 		if (!osc) return;
-		gain.gain.setTargetAtTime(0, audioCtx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
+		gain!.gain.setTargetAtTime(0, audioCtx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
 		osc.stop(audioCtx.currentTime + SMOOTH_GAIN_TIME_CONSTANT);
 		osc = undefined;
 		gain = undefined;
@@ -200,7 +208,7 @@
 	const chartHeight = chartCanvasHeight - 2 * canvasChartYPadding;
 	const chartX0 = canvasChartXPadding;
 	const chartY0 = chartHeight + canvasChartYPadding;
-	let chartCanvas, chartCanvasCtx;
+	let chartCanvas: HTMLCanvasElement, chartCanvasCtx: CanvasRenderingContext2D;
 	const chartLineWidth = 3;
 	const chartLineHighlightWidth = 12;
 	const chartAxisLineWidth = 3;
@@ -214,7 +222,7 @@
 		const height = chartCanvasHeight;
 		if (canvas.width !== width) canvas.width = width;
 		if (canvas.height !== height) canvas.height = height;
-		if (!chartCanvasCtx) chartCanvasCtx = canvas.getContext('2d');
+		if (!chartCanvasCtx) chartCanvasCtx = canvas.getContext('2d')!;
 		const ctx = chartCanvasCtx;
 		ctx.clearRect(0, 0, width, height);
 
@@ -250,7 +258,7 @@
 		ctx.stroke();
 	};
 
-	const getColor = (index, opacity = 0.8) => `hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
+	const getColor = (index: number, opacity = 0.8) => `hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 </script>
 
 <div class="easing-aud-viz">
