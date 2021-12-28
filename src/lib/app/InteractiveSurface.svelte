@@ -73,7 +73,7 @@
 	on:mouseup={onMouseUp}
 	on:mouseenter={onMouseEnter}
 	on:mouseleave={onMouseLeave}
-	on:wheel={onWheel}
+	on:wheel|passive={onWheel}
 >
 	<slot />
 </div>
