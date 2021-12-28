@@ -1,11 +1,10 @@
 <div class="credits-personal-signature">
 	<div class="item">
-		<a href="https://www.ryanatkn.com">ryanatkn.com</a> &nbsp;&nbsp; ✉
-		<a href="mailto:mail@ryanatkn.com">mail@ryanatkn.com</a>
+		<a href="https://www.ryanatkn.com">ryanatkn.com</a>
 	</div>
 	<div class="item">
 		@ryanatkn on <a href="https://twitter.com/ryanatkn">
-			Twitter <img
+			<img
 				src="/assets/characters/twit.png"
 				alt="@ryanatkn on Twitter"
 				class="w-16 h-16"
@@ -14,7 +13,7 @@
 		</a>
 		and
 		<a href="https://github.com/ryanatkn">
-			GitHub <img
+			<img
 				src="/assets/characters/octocat.png"
 				alt="@ryanatkn on GitHub"
 				class="w-10
