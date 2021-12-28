@@ -51,7 +51,7 @@ export const createClockStore = (initialState?: Partial<ClockState>): ClockStore
 			onTimer(t - lastTime);
 		}
 		lastTime = t;
-		reqId = browser ? requestAnimationFrame(onFrame) : undefined;
+		reqId = requestAnimationFrame(onFrame);
 	};
 
 	const resume = (): void => {
