@@ -442,7 +442,7 @@
 		{/if}
 		<Hud>
 			{#if tour}
-				<FloatingIconButton label="cancel tour" on:click={tour.cancel}>🗙</FloatingIconButton>
+				<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
 			{:else}
 				<FloatingIconButton
 					pressed={showHud}

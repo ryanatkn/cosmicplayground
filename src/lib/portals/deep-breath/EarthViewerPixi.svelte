@@ -147,8 +147,8 @@
 	};
 
 	const createMapSprite = (texture: PIXI.Texture) => {
-		const tempSprite1 = new pixi.PIXI.TilingSprite(texture);
-		const tempSprite2 = new pixi.PIXI.TilingSprite(texture);
+		const tempSprite1 = new pixi.PIXI.Sprite(texture);
+		const tempSprite2 = new pixi.PIXI.Sprite(texture);
 		tempSprite2.angle = 180;
 		tempSprite2.y = imageHeight * 2;
 		tempSprite2.x = imageWidth;
