@@ -1,12 +1,11 @@
 .DS_Store
-node_modules
-npm-debug.log
-yarn-error.log
-
-.env
-
+/node_modules
+/.svelte-kit
 /build
-/dist
 
+/.gro
+/dist
 *.ignore
 *.ignore.*
+ignore/
+*.pem

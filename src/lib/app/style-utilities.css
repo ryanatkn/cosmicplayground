@@ -1,0 +1,205 @@
+/* TODO delete this file and replace with a more coherent system */
+:root {
+	--spacing: 4px;
+	--spacing-1px: 1px;
+	--spacing-2px: 2px;
+	--spacing-3px: 3px;
+	--spacing-0: calc(0 * var(--spacing));
+	--spacing-1: calc(1 * var(--spacing));
+	--spacing-2: calc(2 * var(--spacing));
+	--spacing-3: calc(3 * var(--spacing));
+	--spacing-4: calc(4 * var(--spacing));
+	--spacing-5: calc(5 * var(--spacing));
+	--spacing-6: calc(6 * var(--spacing));
+	--spacing-7: calc(7 * var(--spacing));
+	--spacing-8: calc(8 * var(--spacing));
+	--spacing-9: calc(9 * var(--spacing));
+	--spacing-10: calc(10 * var(--spacing));
+	--spacing-11: calc(11 * var(--spacing));
+	--spacing-12: calc(12 * var(--spacing));
+	--spacing-13: calc(13 * var(--spacing));
+	--spacing-14: calc(14 * var(--spacing));
+	--spacing-15: calc(15 * var(--spacing));
+	--spacing-16: calc(16 * var(--spacing));
+	--spacing-18: calc(18 * var(--spacing));
+	--spacing-20: calc(20 * var(--spacing));
+	--spacing-22: calc(22 * var(--spacing));
+	--spacing-24: calc(24 * var(--spacing));
+	--spacing-25: calc(25 * var(--spacing));
+	--spacing-26: calc(26 * var(--spacing));
+	--spacing-28: calc(28 * var(--spacing));
+	--spacing-30: calc(30 * var(--spacing));
+	--spacing-32: calc(32 * var(--spacing));
+	--spacing-36: calc(36 * var(--spacing));
+	--spacing-40: calc(40 * var(--spacing));
+	--spacing-50: calc(50 * var(--spacing));
+	--spacing-60: calc(60 * var(--spacing));
+	--spacing-70: calc(70 * var(--spacing));
+	--spacing-80: calc(80 * var(--spacing));
+	--spacing-90: calc(90 * var(--spacing));
+	--spacing-100: calc(100 * var(--spacing));
+	--spacing-110: calc(110 * var(--spacing));
+	--spacing-120: calc(120 * var(--spacing));
+	--spacing-130: calc(130 * var(--spacing));
+	--spacing-140: calc(140 * var(--spacing));
+	--spacing-150: calc(150 * var(--spacing));
+	--spacing-200: calc(200 * var(--spacing));
+}
+.p-2 {
+	padding: var(--spacing-2);
+}
+.pl-2 {
+	padding-left: var(--spacing-2);
+}
+.px-2 {
+	padding-left: var(--spacing-2);
+	padding-right: var(--spacing-2);
+}
+.py-2 {
+	padding-top: var(--spacing-2);
+	padding-bottom: var(--spacing-2);
+}
+.p-5 {
+	padding: var(--spacing-5);
+}
+.py-12 {
+	padding-top: var(--spacing-12);
+	padding-bottom: var(--spacing-12);
+}
+.ml-1 {
+	margin-left: var(--spacing-1);
+}
+.mr-2 {
+	margin-right: var(--spacing-2);
+}
+.mb-4 {
+	margin-bottom: var(--spacing-4);
+}
+.mr-12 {
+	margin-right: var(--spacing-12);
+}
+.mx-auto {
+	margin-left: auto;
+	margin-right: auto;
+}
+.w-10 {
+	width: var(--spacing-10);
+}
+.w-16 {
+	width: var(--spacing-16);
+}
+.w-100 {
+	width: var(--spacing-100);
+}
+.w-100 {
+	width: 100%;
+}
+.max-column-width {
+	max-width: 900px;
+}
+.h-0 {
+	height: var(--spacing-0);
+}
+.h-8 {
+	height: var(--spacing-8);
+}
+.h-10 {
+	height: var(--spacing-10);
+}
+.h-16 {
+	height: var(--spacing-16);
+}
+.h-25 {
+	height: var(--spacing-25);
+}
+.h-50 {
+	height: var(--spacing-50);
+}
+.h-100 {
+	height: var(--spacing-100);
+}
+.h-100 {
+	height: 100%;
+}
+.l-0 {
+	left: var(--spacing-0);
+}
+.t-0 {
+	top: var(--spacing-0);
+}
+.t-8 {
+	top: var(--spacing-8);
+}
+.-r-12 {
+	right: calc(-1 * var(--spacing-12));
+}
+.relative {
+	position: relative;
+}
+.absolute {
+	position: absolute;
+}
+.absolute0 {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.block {
+	display: block;
+}
+.flex {
+	display: flex;
+}
+.inline {
+	display: inline;
+}
+.inline-block {
+	display: inline-block;
+}
+.z-1 {
+	z-index: 1;
+}
+.z-2 {
+	z-index: 2;
+}
+.z-3 {
+	z-index: 3;
+}
+.font-bold {
+	font-weight: bold;
+}
+.flex-1 {
+	flex: 1;
+}
+.justify-start {
+	justify-content: flex-start;
+}
+.justify-center {
+	justify-content: center;
+}
+.items-start {
+	align-items: flex-start;
+}
+.items-center {
+	align-items: center;
+}
+.flex-wrap {
+	flex-wrap: wrap;
+}
+.flex-col {
+	flex-direction: column;
+}
+.cursor-none {
+	cursor: none;
+}
+.cursor-pointer {
+	cursor: pointer;
+}
+h1 {
+	font-size: 55px;
+	margin: 0 0 var(--spacing-7);
+}
+img {
+	vertical-align: middle;
+}
+/* sy */

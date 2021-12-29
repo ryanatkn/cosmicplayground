@@ -1,0 +1,260 @@
+html {
+	background-color: #000;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: Segoe UI, Roboto, -apple-system, BlinkMacSystemFont, Oxygen, Ubuntu, Cantarell,
+		Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	--font_size_xl: 72px;
+	--font_size_lg: 48px;
+	--ocean_hue: 214;
+	--land_hue: 124;
+	--space_hue: 304;
+	/* --orange???_hue: 34; */
+	/* TODO clean up color consistency between names, color_, bg_, _text_, etc */
+	--ocean_color: hsl(var(--ocean_hue), 65%, 30%);
+	--land_color: hsl(var(--land_hue), 65%, 30%);
+	--space_color: hsl(var(--space_hue), 45%, 30%);
+	--lava_color: hsl(0, 65%, 55%);
+	--error_color: var(--lava_color);
+	--pending_color: var(--ocean_color);
+	--success_color: var(--land_color);
+	--failure_color: var(--error_color);
+	--text_color: hsl(0, 0%, 80%);
+	--text_color_dark: hsl(0, 0%, 60%);
+	--ocean_text_color: hsl(var(--ocean_hue), 65%, 50%);
+	--land_text_color: hsl(var(--land_hue), 65%, 50%);
+	--space_text_color: hsl(var(--space_hue), 45%, 50%);
+	--color_2: #7094db; /* TODO probably make this a lighter shade of `--ocean_color` */
+	--color_3: hsl(
+		var(--space_hue),
+		60%,
+		65%
+	); /*  TODO probably make this a lighter shade of the primary color */
+	--light_border_color: rgba(255, 255, 255, 0.13);
+	/* TODO reuse --ocean_color and --land_color, maybe using the substitution trick */
+	--bg_1: rgba(27, 71, 128, 0.3);
+	--bg_2: rgba(27, 126, 35, 0.25);
+	--bg_3: hsla(var(--space_hue), 50%, 55%, 0.3);
+	--bg_light: rgba(255, 255, 255, 0.04);
+	--bg_dark: rgba(0, 0, 0, 0.6);
+	--bg_dark_lighter: rgba(0, 0, 0, 0.35);
+	--clickable_border_style: double;
+	--clickable_border_style__hover: dashed;
+	--clickable_border_style__active: dotted;
+	--clickable_border_style_sm: solid; /* too small for double, also `_sm` hover/active styles are not needed */
+	--clickable_transform: scale3d(1, 1, 1);
+	--clickable_transform__hover: scale3d(1.1, 1.1, 1);
+	--clickable_transform__active: scale3d(1.2, 1.2, 1);
+	--clickable_transform_sm__hover: scale3d(1.03, 1.03, 1);
+	--clickable_transform_sm__active: scale3d(1.09, 1.09, 1);
+	--clickable_transition: transform 0.06s ease-out;
+	--clickable_opacity: 0.7;
+	--clickable_opacity__hover: 0.85;
+	--clickable_opacity__active: 1;
+	--fade_transition: opacity 0.5s linear;
+	--border_width_sm: 1px;
+	--border_width_md: 3px;
+	--border_width_lg: 5px;
+	--border_width_xl: 7px;
+	--portal_border: var(--border_width_xl) var(--clickable_border_style) var(--light_border_color);
+	--portal_border_radius: 7px;
+	--dark_border_md: var(--border_width_md) var(--clickable_border_style) var(--bg_dark_lighter);
+	--portal_padding: 12px; /* TODO maybe swap for spacing_3 */
+	--panel_border: var(--border_width_lg) var(--clickable_border_style) var(--light_border_color);
+	--border_radius_lg: 15px;
+	--border_radius_md: 7px;
+	--text_shadow_sm: 1px 1px rgba(0, 0, 0, 0.6);
+	--text_shadow_reverse_sm: -1px -1px rgba(0, 0, 0, 0.6);
+	--spacing_lg: 64px;
+	--spacing_xl: 100px;
+	--hud_element_size: var(--spacing_xl);
+	--waiting_animation_duration: 1.5s;
+}
+
+/* border-box all the things, but let parents override children */
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+body {
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	background-color: #000;
+	color: var(--text_color);
+	font-size: 18px;
+	line-height: 1.2;
+}
+
+#root {
+	height: 100%;
+	position: relative;
+}
+
+hr {
+	background: none;
+	/* TODO vars? */
+	border-top: var(--dark_border_md);
+	border-bottom: var(--portal_border);
+	border-left: none;
+	border-right: none;
+	margin: var(--spacing-5) 0;
+}
+
+img,
+video {
+	max-width: 100%;
+	height: auto;
+}
+
+code {
+	background: var(--bg_1);
+	padding: 1px 8px;
+	text-shadow: var(--text_shadow_sm);
+}
+
+ul {
+	list-style: none; /* see `.formatted-content` */
+	padding-left: 0;
+	margin: var(--spacing-5) 0 0 0; /* TODO hacky, maybe we want a <ContentSpacer/>? */
+}
+
+p {
+	margin: var(--spacing-5) 0 0 0; /* TODO hacky, maybe we want a <ContentSpacer/>? */
+}
+
+/* TODO maybe rename or rethink `.formatted-content` */
+.formatted-content ul {
+	list-style: initial;
+	padding-left: var(--spacing-8);
+}
+.formatted-content a:hover {
+	text-decoration: underline;
+}
+
+/* TODO this assumes a horizontal layout - maybe make a component from this with a layout prop? */
+figure {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	align-items: center;
+}
+figcaption {
+	flex: 1;
+	padding-left: var(--spacing-5);
+}
+
+h1 {
+	font-size: 48px;
+	font-weight: 100;
+	margin: 0;
+}
+
+h2 {
+	font-size: 36px;
+	font-weight: 300;
+	margin: 0;
+}
+
+h3 {
+	font-size: 28px;
+	font-weight: 300;
+	margin: 0;
+}
+
+.pixelated {
+	image-rendering: -webkit-optimize-contrast; /* Safari */
+	image-rendering: -o-crisp-edges; /* OS X & Windows Opera (12.02+) */
+	image-rendering: pixelated; /* in case crisp-edges isn't supported */
+	image-rendering: crisp-edges; /* the recommended pixel art setting according to MDN */
+}
+
+.grayscale {
+	filter: grayscale(1);
+}
+
+a {
+	cursor: pointer;
+	text-decoration: none;
+	color: var(--ocean_text_color);
+}
+/* 
+TODO
+input {
+	background: transparent;
+	color: var(--text_color);
+}
+
+select {
+	background: transparent;
+	color: var(--text_color);
+} */
+
+button {
+	cursor: pointer;
+	color: var(--text_color);
+	font-family: inherit;
+	background: transparent;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	text-align: center;
+}
+button:focus {
+	/* TODO this is a hack for Chrome but bad for a11y/keyboard nav,
+	need to figure out better styles that don't uglify the general case... */
+	outline: none;
+}
+
+.idle {
+	cursor: none;
+}
+.idle-fade {
+	transition: var(--fade_transition);
+}
+.idle .idle-fade {
+	opacity: 0;
+	cursor: none;
+}
+.idle .idle-fade button {
+	/* kind of a hack, but putting `idle-fade` on every button is no good -
+	what other elements should be selected as well? */
+	cursor: none;
+}
+
+.mirror-x {
+	transform: scale3d(-1, 1, 1);
+}
+.mirror-y {
+	transform: scale3d(1, -1, 1);
+}
+.mirror-xy {
+	transform: scale3d(1, -1, 1);
+}
+
+summary {
+	opacity: 0.6;
+}
+summary:hover {
+	opacity: 0.8;
+}
+summary:active {
+	opacity: 1;
+}
+
+.fade-in {
+	animation: fade-in 1s linear;
+}
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
