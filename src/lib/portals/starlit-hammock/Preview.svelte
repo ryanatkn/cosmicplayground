@@ -10,7 +10,7 @@
 	const clock = getClock();
 </script>
 
-<span>starlit hammock</span>
+<div>starlit hammock</div>
 <GalaxyBg
 	width={260}
 	height={200}
@@ -20,7 +20,7 @@
 />
 
 <style>
-	span {
+	div {
 		font-size: 48px;
 		font-weight: 100;
 		margin-bottom: 10px;
