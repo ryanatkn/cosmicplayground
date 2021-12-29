@@ -8,7 +8,7 @@
 [cosmicplayground.org](https://www.cosmicplayground.org)
 is a collection of web projects that try to be useful or interesting.
 
-- [Deep Breath](https://www.cosmicplayground.org/#deep-breath)
+- [Deep Breath](https://www.cosmicplayground.org/deep-breath)
   is an interactive map with a rough answer to the extreme hypothetical
   _"If all ice on Earth melts, how will sea levels change?"_
   There's also
@@ -16,7 +16,7 @@ is a collection of web projects that try to be useful or interesting.
   around the planet set to music.
   You can get the same experience by clicking "begin tour" on the map -
   the visual quality is better on the website but it's not mobile friendly.
-- [Starlit Hammock](https://www.cosmicplayground.org/#starlit-hammock)
+- [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies.
   Zoom and pan around to explore on your own—try to spot your atoms' cousins!
@@ -26,9 +26,9 @@ is a collection of web projects that try to be useful or interesting.
     which means it only works on iOS 14 & macOS Big Sur or later
 - Two tools for understanding
   [the easing functions in Svelte](https://svelte.dev/docs#svelte_easing):
-  - [Easing Function Visualizations](https://www.cosmicplayground.org/#easings-1)
+  - [Easing Function Visualizations](https://www.cosmicplayground.org/easings-1)
     compares all easings on a single screen
-  - [Easing Function Visualizations and Auralizations](https://www.cosmicplayground.org/#easings-2)
+  - [Easing Function Visualizations and Auralizations](https://www.cosmicplayground.org/easings-2)
     focuses on one function at a time with bigger visuals and a tweakable audio representation
     ([auralization](https://en.wikipedia.org/wiki/Auralization))
 - several odd and partially finished things, some of which require audio to make sense,
@@ -41,7 +41,7 @@ is a collection of web projects that try to be useful or interesting.
 This project relies on open source software and
 freely licensed content like [ESA/NASA's Hubble imagery](https://www.spacetelescope.org)
 and the music of [Alexander Nakarada](https://www.serpentsoundstudios.com).
-See [cosmicplayground.org/#about](https://www.cosmicplayground.org/#about)
+See [cosmicplayground.org/about](https://www.cosmicplayground.org/about)
 for the complete list of non-software assets and their credits.
 
 made with [Svelte](https://github.com/sveltejs/svelte) ∙
@@ -68,7 +68,7 @@ npm run build # for production
 ### WebGL, Pixi, and bundle sizes
 
 [PixiJS](https://github.com/pixijs/pixi.js) was first added as a dependency to improve
-the rendering performance of [Deep Breath](https://www.cosmicplayground.org/#deep-breath),
+the rendering performance of [Deep Breath](https://www.cosmicplayground.org/deep-breath),
 which animates [fifteen 4096x2048 images of Earth](/src/assets/earth/)
 layered together with opacity, scaling, and movement.
 The [original DOM implementation](/src/portals/deep-breath/EarthViewerDom.svelte)
@@ -113,7 +113,7 @@ code is public domain ([The Unlicense](license))
 
 For the licenses and copyright info of the
 graphics, audio, and other non-code assets,
-see [cosmicplayground.org/#about](https://www.cosmicplayground.org/#about).
+see [cosmicplayground.org/about](https://www.cosmicplayground.org/about).
 
 All original assets are licensed
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)

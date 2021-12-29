@@ -37,7 +37,7 @@
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 1, amount: blurAmount}}>
 		<h2>interactive webpage</h2>
-		<a href="https://cosmicplayground.org#deep-breath">cosmicplayground.org/#deep-breath</a>
+		<a href="https://cosmicplayground.org/deep-breath">cosmicplayground.org/deep-breath</a>
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 2, amount: blurAmount}}>
 		<h2>open source code & assets</h2>
