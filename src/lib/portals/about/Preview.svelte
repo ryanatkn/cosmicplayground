@@ -33,6 +33,33 @@
 		margin-bottom: 5px;
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		color: var(--text_color);
+		text-align: center;
+		width: 100%;
+	}
+	@media (max-width: 600px) {
+		h1 {
+			font-size: 40px;
+		}
+		h3 {
+			font-size: 24px;
+		}
+	}
+	@media (max-width: 400px) {
+		h1 {
+			font-size: 32px;
+		}
+		h3 {
+			font-size: 20px;
+		}
+	}
+	@media (max-width: 300px) {
+		h1 {
+			font-size: 26px;
+		}
+		h3 {
+			font-size: 16px;
+		}
 	}
 </style>

@@ -67,5 +67,40 @@
 	}
 	h1 {
 		font-size: 106px;
+		margin-top: 10px;
+	}
+	@media (max-width: 900px) {
+		header h1 {
+			font-size: 80px;
+		}
+		header h2 {
+			font-size: 32px;
+		}
+	}
+	@media (max-width: 700px) {
+		header h1 {
+			font-size: 56px;
+		}
+		header h2 {
+			font-size: 24px;
+		}
+	}
+	@media (max-width: 500px) {
+		header h1 {
+			font-size: 36px;
+			font-weight: 300;
+		}
+		header h2 {
+			font-size: 20px;
+		}
+	}
+	@media (max-width: 350px) {
+		header h1 {
+			font-size: 26px;
+			font-weight: 500;
+		}
+		header h2 {
+			font-size: 16px;
+		}
 	}
 </style>
