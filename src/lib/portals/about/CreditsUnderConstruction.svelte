@@ -12,7 +12,9 @@
 	<img alt="construction mammal" src="/assets/construction/mammal.gif" width="96" height="93" />
 	<figcaption>
 		<PortalLink slug="under-construction" />
-		gifs from <a href="http://textfiles.com/underconstruction/">textfiles.com/underconstruction</a>,
-		salvaged from Geocities by <a href="https://www.archiveteam.org/">Archive Team</a>
+		gifs from
+		<a href="http://textfiles.com/underconstruction/" style="word-break: break-word"
+			>textfiles.com/underconstruction</a
+		>, salvaged from Geocities by <a href="https://www.archiveteam.org/">Archive Team</a>
 	</figcaption>
 </figure>
