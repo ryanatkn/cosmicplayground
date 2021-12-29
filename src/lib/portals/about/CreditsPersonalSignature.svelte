@@ -1,24 +1,22 @@
 <div class="credits-personal-signature">
+	<div class="item" style="padding: 0;">
+		<a class="clickable" href="https://twitter.com/ryanatkn">
+			<img
+				src="/assets/characters/twit.png"
+				alt="@ryanatkn on Twitter"
+				style="width: 64px; height: 64px;"
+			/>
+		</a>
+	</div>
 	<div class="item">
 		<a href="https://www.ryanatkn.com">ryanatkn.com</a>
 	</div>
 	<div class="item">
-		@ryanatkn on <a href="https://twitter.com/ryanatkn">
-			<img
-				src="/assets/characters/twit.png"
-				alt="@ryanatkn on Twitter"
-				class="w-16 h-16"
-				style="opacity: 0.8; margin-left: -8px;"
-			/>
-		</a>
-		and
-		<a href="https://github.com/ryanatkn">
+		<a class="clickable" href="https://github.com/ryanatkn">
 			<img
 				src="/assets/characters/octocat.png"
 				alt="@ryanatkn on GitHub"
-				class="w-10
-					h-10 ml-1"
-				style="opacity: 0.8; margin-right: 4px;"
+				style="width: 40px; height: 40px;"
 			/>
 		</a>
 	</div>
@@ -34,5 +32,14 @@
 	.item {
 		white-space: nowrap;
 		padding: 0 var(--spacing-3);
+	}
+	.clickable img {
+		opacity: 0.75;
+	}
+	.clickable img:hover {
+		opacity: 0.9;
+	}
+	.clickable img:active {
+		opacity: 1;
 	}
 </style>

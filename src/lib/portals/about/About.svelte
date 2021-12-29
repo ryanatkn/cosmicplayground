@@ -51,11 +51,11 @@
 	<h2>Contact</h2>
 	<CreditsPersonalSignature />
 	<CreditsProjectSignature />
-	<div class="relative h-0 cursor-none">
+	<div style="position: relative; cursor: none; height: 0">
 		<img
 			src="/assets/characters/spider.png"
 			alt="spider"
-			class="absolute t-8 -r-12"
+			style="position: absolute; bottom: -33px; right: -29px;"
 			on:click={() => window.open('https://www.spiderspace.org')}
 		/>
 	</div>
@@ -72,6 +72,7 @@
 	@media (max-width: 900px) {
 		header h1 {
 			font-size: 80px;
+			margin-top: 20px;
 		}
 		header h2 {
 			font-size: 32px;
@@ -80,6 +81,7 @@
 	@media (max-width: 700px) {
 		header h1 {
 			font-size: 56px;
+			margin-top: 30px;
 		}
 		header h2 {
 			font-size: 24px;
@@ -89,6 +91,7 @@
 		header h1 {
 			font-size: 36px;
 			font-weight: 300;
+			margin-top: 40px;
 		}
 		header h2 {
 			font-size: 20px;
@@ -98,6 +101,7 @@
 		header h1 {
 			font-size: 26px;
 			font-weight: 500;
+			margin-top: 50px;
 		}
 		header h2 {
 			font-size: 16px;
