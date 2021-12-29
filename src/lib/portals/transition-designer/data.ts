@@ -4,7 +4,6 @@ import Preview from './Preview.svelte';
 const data: PortalData = {
 	name: 'transition designer',
 	slug: 'transition-designer',
-	coolness: 1,
 	showHomeButton: true,
 	Preview,
 };

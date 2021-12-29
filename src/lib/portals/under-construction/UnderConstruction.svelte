@@ -203,6 +203,7 @@
 					alt="spider"
 					class="absolute cursor-none"
 					style="left: 56px; top: 68px;"
+					on:click={() => window.open('https://www.spiderspace.org')}
 				/>
 			</div>
 			<img

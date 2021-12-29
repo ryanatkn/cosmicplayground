@@ -12,7 +12,6 @@ export interface PortalsData {
 export interface PortalData {
 	name: string;
 	slug: string;
-	coolness: number;
 	// TODO should we make this optional and flip it? `disableBackground`
 	showHomeButton: boolean; // TODO ?
 	// TODO do we want a width/height for previews here?

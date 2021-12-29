@@ -7,6 +7,7 @@ export interface SettingsState {
 	recordingMode: boolean;
 	idleMode: boolean;
 	timeToGoIdle: number;
+	showMorePortals: boolean;
 }
 
 export interface SettingsStore {
@@ -21,6 +22,7 @@ export const createSettingsStore = (initialState: Partial<SettingsState>): Setti
 		recordingMode: false,
 		idleMode: false,
 		timeToGoIdle: 6000,
+		showMorePortals: false,
 		...initialState,
 	});
 	// TODO we might not want to expose `update` directly, but for now it's fine

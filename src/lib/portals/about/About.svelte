@@ -52,7 +52,12 @@
 	<CreditsPersonalSignature />
 	<CreditsProjectSignature />
 	<div class="relative h-0 cursor-none">
-		<img src="/assets/characters/spider.png" alt="spider" class="absolute t-8 -r-12" />
+		<img
+			src="/assets/characters/spider.png"
+			alt="spider"
+			class="absolute t-8 -r-12"
+			on:click={() => window.open('https://www.spiderspace.org')}
+		/>
 	</div>
 </Panel>
 

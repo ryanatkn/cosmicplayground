@@ -4,7 +4,6 @@ import Preview from './Preview.svelte';
 const data: PortalData = {
 	name: 'starlit hammock',
 	slug: 'starlit-hammock',
-	coolness: 6,
 	showHomeButton: true,
 	Preview,
 };

@@ -4,7 +4,6 @@ import Preview from './Preview.svelte';
 const data: PortalData = {
 	name: 'paint freqs',
 	slug: 'paint-freqs',
-	coolness: 5,
 	showHomeButton: true,
 	Preview,
 };

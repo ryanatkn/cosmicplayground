@@ -4,7 +4,6 @@ import Preview from './Preview.svelte';
 const data: PortalData = {
 	name: 'under construction',
 	slug: 'under-construction',
-	coolness: 4,
 	showHomeButton: true,
 	Preview,
 };

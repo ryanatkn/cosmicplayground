@@ -1,75 +1,57 @@
 <script lang="ts">
-	import {browser} from '$app/env';
+	import {tick} from 'svelte';
 
-	import {getPortals} from '$lib/app/portalsStore';
 	import PortalPreview from './PortalPreview.svelte';
-	import {type PortalData} from '$lib/portals/portal';
-	import homePortal from '$lib/portals/home/data';
 	import aboutPortal from '$lib/portals/about/data';
-	import voidPortal from '$lib/portals/void/data';
+	import deepBreathPortal from '$lib/portals/deep-breath/data';
+	import starlitHammockPortal from '$lib/portals/starlit-hammock/data';
+	import paintFreqsPortal from '$lib/portals/paint-freqs/data';
+	import easings2Portal from '$lib/portals/easings-2/data';
+	import easings1Portal from '$lib/portals/easings-1/data';
+	import hearingTestPortal from '$lib/portals/hearing-test/data';
+	import underConstructionPortal from '$lib/portals/under-construction/data';
+	import freqSpeedsPortal from '$lib/portals/freq-speeds/data';
+	import transitionDesignerPortal from '$lib/portals/transition-designer/data';
+	import clocksPortal from '$lib/portals/clocks/data';
+	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
+	import {getSettings} from '$lib/app/settingsStore';
 
-	const portals = getPortals();
+	const primaryPortals = [
+		[deepBreathPortal],
+		[starlitHammockPortal],
+		[easings2Portal, paintFreqsPortal, easings1Portal],
+		[hearingTestPortal, underConstructionPortal],
+	];
+	const secondaryPortals = [
+		[freqSpeedsPortal, transitionDesignerPortal, clocksPortal, freqSpectaclePortal],
+	];
 
-	const COOLNESS_VISIBILITY_THRESHOLD = 3;
-	const unlistedPortals = new Set([homePortal.name, aboutPortal.name, voidPortal.name]);
-
-	// TODO shouldn't this be handled by coolness? or maybe just remove that altogether
-	const sortOrderBySlug = new Map(
-		[
-			'about',
-			'deep-breath',
-			'starlit-hammock',
-			'paint-freqs',
-			'easings-2',
-			'easings-1',
-			'hearing-test',
-			'under-construction',
-			'freq-speeds',
-			'transition-designer',
-			'clocks',
-			'freq-spectacle',
-		].map((slug, i) => [slug, i]),
-	);
-	const getSortOrderForSlug = (slug: string) => sortOrderBySlug.get(slug) ?? Infinity;
-	const sortPortals = (portals: PortalData[]) => {
-		portals.sort((a, b) => (getSortOrderForSlug(a.slug) > getSortOrderForSlug(b.slug) ? 1 : -1));
-		return portals;
+	const settings = getSettings();
+	const toggleShowMorePortals = async () => {
+		settings.update(($settings) => ({...$settings, showMorePortals: !$settings.showMorePortals}));
+		await tick();
+		window.scrollTo({left: window.scrollX, top: 9000, behavior: 'smooth'}); // `9000` bc `Infinity` doesn't work and I don't care to calculate it
 	};
-
-	$: coolPortals = sortPortals(
-		$portals.data.portals.filter(
-			(p) => !unlistedPortals.has(p.slug) && p.coolness <= COOLNESS_VISIBILITY_THRESHOLD,
-		),
-	);
-
-	$: superCoolPortals = sortPortals(
-		$portals.data.portals.filter(
-			(p) => !unlistedPortals.has(p.slug) && p.coolness > COOLNESS_VISIBILITY_THRESHOLD,
-		),
-	);
-
-	// TODO what's the best way to persist this? uiStore? data per portal?
-	// this is just a TEMP HACK!
-	let showMorePortals = browser ? (window as any).TODO_showMorePortals || false : false; // toggle showing projects that are less cool but still cool
-	$: {
-		if (browser) (window as any).TODO_showMorePortals = showMorePortals;
-	}
 </script>
 
 <nav class="portal-previews">
-	<header>
+	<header class="portals">
 		<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
 			<svelte:component this={aboutPortal.Preview} portal={aboutPortal} />
 		</PortalPreview>
 	</header>
-	{#each superCoolPortals as portal (portal.slug)}
-		<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
-			<svelte:component this={portal.Preview} {portal} />
-		</PortalPreview>
+	{#each primaryPortals as portals}
+		<ul class="portals">
+			{#each portals as portal}
+				<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
+					<svelte:component this={portal.Preview} {portal} />
+				</PortalPreview>
+			{/each}
+		</ul>
 	{/each}
-	<PortalPreview classes="show-more-button" onClick={() => (showMorePortals = !showMorePortals)}>
+	<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
 		<h2>
-			show {#if showMorePortals}less{:else}more{/if}
+			show {#if $settings.showMorePortals}less{:else}more{/if}
 		</h2>
 		<div>
 			<img
@@ -92,24 +74,32 @@
 		</div>
 	</PortalPreview>
 </nav>
-{#if showMorePortals}
+{#if $settings.showMorePortals}
 	<!-- TODO should there be just a single nav instead?
     and fix the styling somehow with an inner wrapper? -->
 	<nav class="portal-previews">
-		{#each coolPortals as portal (portal.slug)}
-			<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
-				<svelte:component this={portal.Preview} {portal} />
-			</PortalPreview>
+		{#each secondaryPortals as portals}
+			<ul class="portals">
+				{#each portals as portal}
+					<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
+						<svelte:component this={portal.Preview} {portal} />
+					</PortalPreview>
+				{/each}
+			</ul>
 		{/each}
 	</nav>
 {/if}
 
 <style>
 	header {
+		margin-top: 15px;
+	}
+	.portals {
 		width: 100%;
 		display: flex;
 		justify-content: center;
-		margin-top: 15px;
+		align-items: center;
+		flex-wrap: wrap;
 	}
 	.portal-previews {
 		margin: 0;

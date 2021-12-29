@@ -4,7 +4,6 @@ import Preview from './Preview.svelte';
 const data: PortalData = {
 	name: 'hearing test',
 	slug: 'hearing-test',
-	coolness: 4,
 	showHomeButton: true,
 	Preview,
 };
