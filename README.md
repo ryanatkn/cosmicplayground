@@ -1,6 +1,6 @@
 # cosmicplayground
 
-[<img src="/src/assets/characters/cosmic-kitty.webp" align="right" width="100">](https://www.cosmicplayground.org)
+[<img src="/src/static/assets/characters/cosmic-kitty.webp" align="right" width="100">](https://www.cosmicplayground.org)
 
 > tools and toys for expanding minds
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
@@ -34,7 +34,7 @@ is a collection of web projects that try to be useful or interesting.
 - several odd and partially finished things, some of which require audio to make sense,
   and some might not work (or not well) on mobile
 
-[![galaxies](/src/assets/space/galaxies-banner.jpg)](/src/assets/space/galaxies.jpg)
+[![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
 
 ## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
 
@@ -69,7 +69,7 @@ npm run build # for production
 
 [PixiJS](https://github.com/pixijs/pixi.js) was first added as a dependency to improve
 the rendering performance of [Deep Breath](https://www.cosmicplayground.org/deep-breath),
-which animates [fifteen 4096x2048 images of Earth](/src/assets/earth/)
+which animates [fifteen 4096x2048 images of Earth](/src/static/assets/earth/)
 layered together with opacity, scaling, and movement.
 The [original DOM implementation](/src/portals/deep-breath/EarthViewerDom.svelte)
 has performance problems that range from moderate to severe
@@ -122,4 +122,4 @@ unless otherwise specified.
 made with the help of infinite turtles ∙
 <mail@ryanatkn.com> ∙ [ryanatkn.com](https://www.ryanatkn.com)
 
-[![galaxies](/src/assets/space/galaxies-banner.jpg)](/src/assets/space/galaxies.jpg)
+[![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
