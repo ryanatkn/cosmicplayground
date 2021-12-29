@@ -28,7 +28,7 @@
 			destroyed = true;
 		},
 	});
-	const camera = new pixi.mod.Container();
+	const camera = new pixi.PIXI.Container();
 	scene.addChild(camera);
 
 	const updateSprite = async (url: string) => {
@@ -59,8 +59,8 @@
 	const createSprite = (texture: PIXI.Texture) => {
 		if (sprite) destroySprite();
 		// I think I'd prefer nearest neighbor, but that causes weird artifacts with slow animation
-		texture.baseTexture.setStyle(pixi.mod.SCALE_MODES.LINEAR); // TODO where to do this? ideally on load
-		sprite = new pixi.mod.Sprite(texture);
+		texture.baseTexture.setStyle(pixi.PIXI.SCALE_MODES.LINEAR); // TODO where to do this? ideally on load
+		sprite = new pixi.PIXI.Sprite(texture);
 		camera.addChild(sprite);
 	};
 

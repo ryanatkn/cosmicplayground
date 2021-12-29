@@ -4,20 +4,20 @@ import {getContext, setContext, onMount, onDestroy} from 'svelte';
 // TODO initialized async because of this issue: https://github.com/sveltejs/kit/issues/1650
 
 export class PixiApp {
-	mod!: typeof PIXI;
+	PIXI!: typeof PIXI;
 	app!: PIXI.Application;
 	defaultScene!: PIXI.Container;
 	currentScene!: PIXI.Container;
 
-	init(mod: typeof PIXI, options: PixiApplicationOptions) {
-		this.mod = mod;
-		this.app = new mod.Application(options);
+	init(pixiModule: typeof PIXI, options: PixiApplicationOptions) {
+		this.PIXI = pixiModule;
+		this.app = new pixiModule.Application(options);
 		// Tell PIXI to use pixelated image scaling by default. CHONKY pixels!!
 		// Unfortunately this can cause choppy movement. We may want to revert this global default.
 		// Here's how to change it back to the default for a resource:
 		// `resources.bg.texture.baseTexture.scaleMode = mod.SCALE_MODES.LINEAR;`
-		mod.settings.SCALE_MODE = mod.SCALE_MODES.NEAREST;
-		const defaultScene = new mod.Container();
+		pixiModule.settings.SCALE_MODE = pixiModule.SCALE_MODES.NEAREST;
+		const defaultScene = new pixiModule.Container();
 		this.defaultScene = defaultScene;
 		this.currentScene = defaultScene;
 		this.app.stage.addChild(defaultScene);
@@ -97,7 +97,7 @@ export const getPixiScene = (
 ): [PixiApp, PIXI.Container] => {
 	// Mount the scene right away. When loading, we'll show a black background
 	// and the scene component can display whatever it wants.
-	const scene = new pixi.mod.Container();
+	const scene = new pixi.PIXI.Container();
 	pixi.mountScene(scene);
 
 	let destroyed = false; // TODO good for store state?

@@ -43,10 +43,10 @@
 			}
 		},
 		loaded: (scene, resources, _loader) => {
-			mapContainer = new pixi.mod.Container();
+			mapContainer = new pixi.PIXI.Container();
 			scene.addChild(mapContainer);
 
-			landContainer = new pixi.mod.Container();
+			landContainer = new pixi.PIXI.Container();
 			mapContainer.addChild(landContainer);
 			landContainer.sortableChildren = true;
 			for (const landImage of landImages) {
@@ -56,7 +56,7 @@
 			}
 			updateSpriteTransforms(landSprites, tilePositionX, tilePositionY, $scale);
 
-			seaContainer = new pixi.mod.Container();
+			seaContainer = new pixi.PIXI.Container();
 			mapContainer.addChild(seaContainer);
 			for (const seaImage of seaImages) {
 				const sprite = createMapSprite(resources[seaImage]!.texture);
@@ -147,21 +147,21 @@
 	};
 
 	const createMapSprite = (texture: PIXI.Texture) => {
-		const tempSprite1 = new pixi.mod.TilingSprite(texture);
-		const tempSprite2 = new pixi.mod.TilingSprite(texture);
+		const tempSprite1 = new pixi.PIXI.TilingSprite(texture);
+		const tempSprite2 = new pixi.PIXI.TilingSprite(texture);
 		tempSprite2.angle = 180;
 		tempSprite2.y = imageHeight * 2;
 		tempSprite2.x = imageWidth;
-		const tempTextureContainer = new pixi.mod.Container();
+		const tempTextureContainer = new pixi.PIXI.Container();
 		tempTextureContainer.addChild(tempSprite1);
 		tempTextureContainer.addChild(tempSprite2);
 		// TODO cache this at module scope? see comment at top of file
-		const renderTexture = pixi.mod.RenderTexture.create({
+		const renderTexture = pixi.PIXI.RenderTexture.create({
 			width: imageWidth,
 			height: imageHeight * 2,
 		});
 		pixi.app.renderer.render(tempTextureContainer, renderTexture);
-		return new pixi.mod.TilingSprite(renderTexture, width, height);
+		return new pixi.PIXI.TilingSprite(renderTexture, width, height);
 	};
 </script>
 

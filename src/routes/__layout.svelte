@@ -61,7 +61,7 @@
 		}
 		pixi.app.loader.add(bgImageUrl).load(() => {
 			bg = createPixiBgStore(
-				pixi.mod,
+				pixi.PIXI,
 				pixi.app.loader.resources[bgImageUrl].texture,
 				$dimensions.width,
 				$dimensions.height,
