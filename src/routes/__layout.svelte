@@ -62,7 +62,7 @@
 		pixi.app.loader.add(bgImageUrl).load(() => {
 			bg = createPixiBgStore(
 				pixi.PIXI,
-				pixi.app.loader.resources[bgImageUrl].texture,
+				pixi.app.loader.resources[bgImageUrl].texture!,
 				$dimensions.width,
 				$dimensions.height,
 			);

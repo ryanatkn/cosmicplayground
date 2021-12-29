@@ -50,7 +50,7 @@
 			mapContainer.addChild(landContainer);
 			landContainer.sortableChildren = true;
 			for (const landImage of landImages) {
-				const sprite = createMapSprite(resources[landImage]!.texture);
+				const sprite = createMapSprite(resources[landImage]!.texture!);
 				landContainer.addChild(sprite);
 				landSprites.push(sprite);
 			}
@@ -59,7 +59,7 @@
 			seaContainer = new pixi.PIXI.Container();
 			mapContainer.addChild(seaContainer);
 			for (const seaImage of seaImages) {
-				const sprite = createMapSprite(resources[seaImage]!.texture);
+				const sprite = createMapSprite(resources[seaImage]!.texture!);
 				seaContainer.addChild(sprite);
 				seaSprites.push(sprite);
 			}
@@ -160,7 +160,7 @@
 			width: imageWidth,
 			height: imageHeight * 2,
 		});
-		pixi.app.renderer.render(tempTextureContainer, renderTexture);
+		pixi.app.renderer.render(tempTextureContainer, {renderTexture});
 		return new pixi.PIXI.TilingSprite(renderTexture, width, height);
 	};
 </script>

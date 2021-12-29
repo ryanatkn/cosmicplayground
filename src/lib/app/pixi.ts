@@ -9,7 +9,7 @@ export class PixiApp {
 	defaultScene!: PIXI.Container;
 	currentScene!: PIXI.Container;
 
-	init(pixiModule: typeof PIXI, options: PixiApplicationOptions) {
+	init(pixiModule: typeof PIXI, options: PIXI.IApplicationOptions) {
 		this.PIXI = pixiModule;
 		pixiModule.settings.SCALE_MODE = pixiModule.SCALE_MODES.NEAREST;
 		this.app = new pixiModule.Application(options);
@@ -50,7 +50,7 @@ export class PixiApp {
 		if (!this.app.loader.loading) {
 			throw Error('Called `waitForLoad` when not loading.'); // maybe call `load` automatically instead?
 		}
-		return new Promise((r) => this.app.loader.onLoad.once(r));
+		return new Promise((r: () => void) => this.app.loader.onLoad.once(r));
 	}
 }
 
@@ -60,26 +60,6 @@ export const setPixi = (pixi: PixiApp): PixiApp => {
 	setContext(pixiContextKey, pixi);
 	return pixi;
 };
-
-// Unfortunately it seems this type is inaccessible from PIXI itself.
-interface PixiApplicationOptions {
-	autoStart?: boolean;
-	width?: number;
-	height?: number;
-	view?: HTMLCanvasElement;
-	transparent?: boolean;
-	autoDensity?: boolean;
-	antialias?: boolean;
-	preserveDrawingBuffer?: boolean;
-	resolution?: number;
-	forceCanvas?: boolean;
-	backgroundColor?: number;
-	clearBeforeRender?: boolean;
-	powerPreference?: string;
-	sharedTicker?: boolean;
-	sharedLoader?: boolean;
-	resizeTo?: Window | HTMLElement;
-}
 
 export interface PixiSceneHooks {
 	load?: (loader: PIXI.Loader) => void;

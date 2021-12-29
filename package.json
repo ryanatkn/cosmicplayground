@@ -37,7 +37,7 @@
     "@feltcoop/gro": "^0.47.3",
     "@sveltejs/adapter-static": "^1.0.0-next.23",
     "@sveltejs/kit": "^1.0.0-next.203",
-    "pixi.js": "^5.3.11",
+    "pixi.js": "^6.2.1",
     "prettier": "^2.5.1",
     "prettier-plugin-svelte": "^2.5.1",
     "svelte": "^3.44.3",
