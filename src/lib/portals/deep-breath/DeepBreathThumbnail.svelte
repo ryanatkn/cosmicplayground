@@ -1,12 +1,15 @@
 <script lang="ts">
 	import EarthThumbnail from '$lib/app/EarthThumbnail.svelte';
 	import {getClock} from '$lib/app/clockStore';
+	import {THUMBNAIL_WIDTH_DEFAULT} from '$lib/portals/deep-breath/constants';
 
-	export let earthWidth = 600;
+	export let earthWidth = THUMBNAIL_WIDTH_DEFAULT;
 	export let label = 'proceed';
 	export let onClick: ((e: MouseEvent) => void) | null = null;
 
 	const clock = getClock();
+
+	$: textScale = earthWidth / THUMBNAIL_WIDTH_DEFAULT;
 </script>
 
 <!-- TODO this isn't always a button so we don't use the button element,
@@ -29,7 +32,9 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 			running={$clock.running}
 		/>
 	</div>
-	<div class="thumbnail-text">deep breath</div>
+	<div class="thumbnail-text" style="transform: scale3d({textScale}, {textScale}, {textScale})">
+		deep breath
+	</div>
 </div>
 
 <style>

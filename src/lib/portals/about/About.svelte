@@ -51,11 +51,11 @@
 	<h2>Contact</h2>
 	<CreditsPersonalSignature />
 	<CreditsProjectSignature />
-	<div class="relative h-0 cursor-none">
+	<div style="position: relative; cursor: none; height: 0">
 		<img
 			src="/assets/characters/spider.png"
 			alt="spider"
-			class="absolute t-8 -r-12"
+			style="position: absolute; bottom: -33px; right: -29px;"
 			on:click={() => window.open('https://www.spiderspace.org')}
 		/>
 	</div>

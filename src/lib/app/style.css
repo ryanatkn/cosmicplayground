@@ -142,6 +142,7 @@ figure {
 	padding: 0;
 	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
 }
 figcaption {
 	flex: 1;
