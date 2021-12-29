@@ -26,8 +26,8 @@
 	import homePortal from '$lib/portals/home/data';
 
 	const dimensions = writable({
-		width: browser ? window.innerWidth : 0,
-		height: browser ? window.innerHeight : 0,
+		width: browser ? window.innerWidth : 1,
+		height: browser ? window.innerHeight : 1,
 	});
 	setDimensions(dimensions);
 

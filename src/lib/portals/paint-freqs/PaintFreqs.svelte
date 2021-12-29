@@ -38,6 +38,8 @@
   */
 
 	const dimensions = getDimensions();
+	let width = $dimensions.width;
+	let height = $dimensions.height;
 	$: width = $dimensions.width;
 	$: height = $dimensions.height;
 
