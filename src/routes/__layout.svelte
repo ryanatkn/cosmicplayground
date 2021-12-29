@@ -6,6 +6,7 @@
 	import {browser} from '$app/env';
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
+	import {goto} from '$app/navigation';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBgStore';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
@@ -44,6 +45,8 @@
 	let loadingStatus: AsyncStatus = 'initial';
 
 	onMount(async () => {
+		checkLegacyHashRedirect();
+
 		loadingStatus = 'pending';
 		// TODO importing PIXI async due to this issue: https://github.com/sveltejs/kit/issues/1650
 		const pixiModule = await import('pixi.js');
@@ -67,6 +70,15 @@
 			loadingStatus = 'success';
 		});
 	});
+
+	// We used to have routes like `/#deep-breath` and now it's just `/deep-breath`,
+	// so this redirects to the hashless route as needed.
+	const checkLegacyHashRedirect = () => {
+		const {hash} = window.location;
+		if (!hash) return;
+		window.location.hash = '';
+		goto('/' + hash.substring(1), {replaceState: true});
+	};
 
 	const settings = setSettings({
 		audioEnabled: true, // TODO make this work everywhere? hmm. global mute/volume?
