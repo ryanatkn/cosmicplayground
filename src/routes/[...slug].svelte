@@ -16,7 +16,9 @@
 		}
 		// TODO maybe load from cache synchronously?
 		try {
-			const viewModule = await import(`../lib/portals/${slug}/View.svelte`);
+			// TODO brittle handling of the home portal exception
+			const portalPath = slug === homePortal.slug ? homePortal.name : slug;
+			const viewModule = await import(`../lib/portals/${portalPath}/View.svelte`);
 			view = viewModule.default;
 		} catch (err) {
 			console.error('error loading view', err);
@@ -26,9 +28,7 @@
 
 	const portals = getPortals();
 	$: ({selectedPortal} = $portals);
-	$: selectedPortal &&
-		selectedPortal !== homePortal &&
-		loadView($portals.data, selectedPortal.slug);
+	$: selectedPortal && loadView($portals.data, selectedPortal.slug);
 </script>
 
 <!-- TODO loading state? -->
