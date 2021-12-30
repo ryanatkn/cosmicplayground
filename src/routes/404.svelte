@@ -1,1 +1,5 @@
-<span color="white">OH NO A 404</span>
+<script lang="ts">
+	import VoidView from '$lib/portals/void/View.svelte';
+</script>
+
+<VoidView />
