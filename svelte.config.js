@@ -10,9 +10,7 @@ export default {
 		immutable: true,
 	},
 	kit: {
-		// TODO probably don't need fallback if we move the `404.html` manually after building:
-		// https://github.com/sveltejs/kit/issues/1209
-		adapter: static_adapter({fallback: '404.html'}),
+		adapter: static_adapter(),
 		target: '#root',
 		files: {assets: 'src/static'},
 		prerender: {
