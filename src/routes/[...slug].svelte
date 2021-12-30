@@ -20,7 +20,10 @@
 	import voidPortal from '$lib/portals/void/data';
 	import VoidPortalView from '$lib/portals/void/View.svelte';
 
-	let swapped = false; // used to keep the outgoing view mounted in the DOM
+	// `swapped` is used to keep the outgoing view mounted in the DOM
+	// so it doesn't re-render to a new location.
+	// Maybe we want to use the Svelte builtin `crossfade` instead?
+	let swapped = false;
 
 	let view1: typeof SvelteComponent | undefined;
 	let view2: typeof SvelteComponent | undefined;
