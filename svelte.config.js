@@ -14,7 +14,8 @@ export default {
 		target: '#root',
 		files: {assets: 'src/static'},
 		prerender: {
-			// TODO keep in sync with `src/portals/index.ts` until we figure out how to share data
+			// TODO Keep in sync with `src/portals/index.ts` until we figure out how to share data.
+			// This is all necessary because of the dynamic root route `[...slug].svelte`.
 			entries: [
 				'/',
 				'/about',

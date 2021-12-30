@@ -1,6 +1,7 @@
 import {type PortalsData, type PortalData} from '$lib/portals/portal';
 
-// TODO keep in sync with `svelte.config.js` until we figure out how to share data
+// TODO Keep in sync with `svelte.config.js` until we figure out how to share data.
+// This is all necessary because of the dynamic root route `[...slug].svelte`.
 import HomePortalData from './home/data';
 import AboutPortalData from './about/data';
 import DeepBreathPortalData from './deep-breath/data';
