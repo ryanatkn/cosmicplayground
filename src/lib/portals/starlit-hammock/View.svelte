@@ -231,7 +231,6 @@
 		</footer>
 	</div>
 {:else}
-	<!-- TODO use <InteractiveSurface> when we allow manual panning/zooming -->
 	<div class="interaction-surface-wrapper" style="width: {width}px; height: {height}px;">
 		<InteractiveSurface {width} {height} {scale} {zoomCamera} {moveCamera} />
 	</div>
