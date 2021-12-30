@@ -118,7 +118,7 @@ code {
 }
 
 ul {
-	list-style: none; /* see `.formatted-content` */
+	list-style: none;
 	padding-left: 0;
 	margin: var(--spacing-5) 0 0 0; /* TODO hacky, maybe we want a <ContentSpacer/>? */
 }

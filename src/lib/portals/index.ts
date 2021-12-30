@@ -17,19 +17,19 @@ import UnderConstructionPortalData from './under-construction/data';
 import VoidPortalData from './void/data';
 
 const portals: PortalData[] = [
-	AboutPortalData,
-	ClocksPortalData,
-	DeepBreathPortalData,
-	Easings1PortalData,
-	Easings2PortalData,
-	FreqSpectaclePortalData,
-	FreqSpeedsPortalData,
-	HearingTestPortalData,
 	HomePortalData,
-	PaintFreqsPortalData,
+	AboutPortalData,
+	DeepBreathPortalData,
 	StarlitHammockPortalData,
-	TransitionDesignerPortalData,
+	Easings2PortalData,
+	PaintFreqsPortalData,
+	Easings1PortalData,
+	HearingTestPortalData,
 	UnderConstructionPortalData,
+	FreqSpeedsPortalData,
+	TransitionDesignerPortalData,
+	ClocksPortalData,
+	FreqSpectaclePortalData,
 	VoidPortalData,
 ];
 

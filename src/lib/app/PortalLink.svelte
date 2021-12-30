@@ -4,10 +4,10 @@
 	export let slug: string;
 
 	const portals = getPortals();
-	$: portal = findPortalBySlug($portals, slug);
+	$: portal = findPortalBySlug($portals.data, slug);
 </script>
 
-<a href={slug}>
+<a href="/{slug}">
 	{portal.name}
 </a>
 

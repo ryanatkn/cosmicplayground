@@ -17,13 +17,12 @@
 	import Panel from '$lib/app/Panel.svelte';
 	import {setClock} from '$lib/app/clockStore';
 	import {setSettings} from '$lib/app/settingsStore';
-	import {setPortals, findPortalBySlug} from '$lib/app/portalsStore';
+	import {setPortals, findPortalBySlug, createPortalsStore} from '$lib/app/portalsStore';
 	import {updateRenderStats} from '$lib/app/renderStats';
 	import {portalsData} from '$lib/portals/index';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 	import {setAudioCtx} from '$lib/audio/audioCtx';
 	import {setDimensions} from '$lib/app/dimensions';
-	import homePortal from '$lib/portals/home/data';
 
 	const dimensions = writable({
 		width: browser ? window.innerWidth : 1,
@@ -91,8 +90,13 @@
 	const clock = setClock(); // TODO integrate with Pixi ticker?
 	$: updateRenderStats($clock.dt);
 
-	const portals = setPortals(portalsData);
-	$: activePortal = findPortalBySlug($portals, $page.path.substring(1) || homePortal.name);
+	$: selectedPortalSlugFromPath = $page.path.substring(1);
+	const portals = createPortalsStore({
+		data: portalsData,
+		selectedPortal: findPortalBySlug(portalsData, selectedPortalSlugFromPath),
+	});
+	setPortals(portals);
+	$: portals.select(selectedPortalSlugFromPath);
 
 	const idle = writable(false);
 	$: timeToGoIdle = $settings.devMode
@@ -149,7 +153,7 @@
 			<PixiView {pixi} width={$dimensions.width} height={$dimensions.height} />
 		</div>
 		<main class="fade-in" class:paused={!$clock.running} class:idle={$idle || $settings.idleMode}>
-			{#if activePortal.showHomeButton}
+			{#if $portals.selectedPortal.showHomeButton}
 				<Hud>
 					<HomeButton />
 				</Hud>

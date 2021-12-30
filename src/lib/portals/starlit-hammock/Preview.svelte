@@ -28,9 +28,9 @@
 		z-index: 1;
 		color: var(--space_text_color);
 		color: #000;
-		text-shadow: 0 3px 10px var(--space_text_color), 0 2px 3px var(--space_text_color);
+		text-shadow: -1px 1px 0 var(--space_text_color), 1px 1px 0 var(--space_color);
 	}
 	.starlit {
-		text-shadow: 0 -3px 10px var(--space_text_color), 0 -2px 3px var(--space_text_color);
+		text-shadow: 1px -1px 0 var(--space_text_color), -1px -1px 0 var(--space_color);
 	}
 </style>

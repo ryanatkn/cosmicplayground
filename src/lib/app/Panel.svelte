@@ -1,11 +1,5 @@
-<script lang="ts">
-	export let classes = '';
-	export let contentStyle = '';
-	export let contentClasses = '';
-</script>
-
-<section class="panel max-column-width {classes}" on:click|stopPropagation>
-	<div class="formatted-content {contentClasses}" style={contentStyle}>
+<section class="panel max-column-width" on:click|stopPropagation>
+	<div class="panel-content">
 		<slot />
 	</div>
 </section>
@@ -23,7 +17,7 @@
 	.panel + :global(.panel) {
 		margin-top: 0;
 	}
-	.formatted-content {
+	.panel-content {
 		padding: var(--spacing-5);
 		background-color: var(--bg_light);
 		border-radius: var(--border_radius_md);

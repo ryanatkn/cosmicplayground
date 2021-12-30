@@ -19,7 +19,7 @@
 <section class="view">
 	<Panel>
 		<h1>oh no!</h1>
-		<h3>no portal exists at {$page.path}</h3>
+		<h3>no portal exists at <code>{$page.path}</code></h3>
 		<a href="/">
 			<ChunkyButton>go back home</ChunkyButton>
 		</a>
@@ -48,6 +48,9 @@
 		opacity: 0.6;
 		display: flex;
 		justify-content: center;
+	}
+	ul {
+		list-style: none;
 	}
 	li {
 		padding: var(--spacing-3);

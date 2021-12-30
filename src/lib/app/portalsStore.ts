@@ -1,4 +1,4 @@
-import {writable, type Writable} from 'svelte/store';
+import {get, writable, type Writable} from 'svelte/store';
 import {setContext, getContext} from 'svelte';
 
 import {type PortalsData, type PortalData} from '$lib/portals/portal';
@@ -6,27 +6,33 @@ import voidPortal from '$lib/portals/void/data';
 
 export interface PortalsState {
 	data: PortalsData;
+	selectedPortal: PortalData;
 }
 
 export interface PortalsStore {
 	subscribe: Writable<PortalsState>['subscribe'];
-	update: Writable<PortalsState>['update'];
+	select: (slug: string) => void;
 }
 
-export const createPortalsStore = (initialPortalsData: PortalsData): PortalsStore => {
-	const store = writable({data: initialPortalsData});
-	// TODO we might not want to expose `update` directly, but for now it's fine
+export const createPortalsStore = (initialState: PortalsState): PortalsStore => {
+	const store = writable<PortalsState>(initialState);
 	const {subscribe, update} = store;
-	return {subscribe, update};
+	const portalsStore: PortalsStore = {
+		subscribe,
+		select: (slug: string) => {
+			if (get(store).selectedPortal.slug === slug) return;
+			update(($portals) => ({
+				...$portals,
+				selectedPortal: findPortalBySlug($portals.data, slug),
+			}));
+		},
+	};
+	return portalsStore;
 };
 
-export const findPortalBySlug = ($portals: PortalsState, slug: string): PortalData =>
-	$portals.data.portalsBySlug.get(slug) || $portals.data.portalsBySlug.get(voidPortal.name)!;
+export const findPortalBySlug = (portalsData: PortalsData, slug: string): PortalData =>
+	portalsData.portalsBySlug.get(slug) || portalsData.portalsBySlug.get(voidPortal.name)!;
 
 export const portalsContextKey = {};
 export const getPortals = (): PortalsStore => getContext(portalsContextKey);
-export const setPortals = (initialPortalsData: PortalsData): PortalsStore => {
-	const portals = createPortalsStore(initialPortalsData);
-	setContext(portalsContextKey, portals);
-	return portals;
-};
+export const setPortals = (portals: PortalsStore): void => setContext(portalsContextKey, portals);
