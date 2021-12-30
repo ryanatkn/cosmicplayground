@@ -22,15 +22,15 @@
 <style>
 	div {
 		font-size: 48px;
-		font-weight: 300;
+		font-weight: 500;
 		margin-bottom: 10px;
 		position: absolute;
 		z-index: 1;
 		color: var(--space_text_color);
-		color: #000;
-		text-shadow: -1px 1px 0 var(--space_text_color), 1px 1px 0 var(--space_color);
+		color: var(--space_color);
+		text-shadow: 1px 1px 0 var(--space_text_color);
 	}
 	.starlit {
-		text-shadow: 1px -1px 0 var(--space_text_color), -1px -1px 0 var(--space_color);
+		text-shadow: 1px -1px 0 var(--space_text_color);
 	}
 </style>
