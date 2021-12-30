@@ -1,8 +1,4 @@
 <script lang="ts">
-	import {getStores} from '$app/stores';
-
-	const {page} = getStores();
-
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
@@ -19,7 +15,7 @@
 <section class="view">
 	<Panel>
 		<h1>oh no!</h1>
-		<h3>no portal exists at <code>{$page.path}</code></h3>
+		<h3>no portal exists here</h3>
 		<a href="/">
 			<ChunkyButton>go back home</ChunkyButton>
 		</a>
