@@ -14,7 +14,22 @@ export default {
 		target: '#root',
 		files: {assets: 'src/static'},
 		prerender: {
-			entries: ['/', '/about'],
+			// TODO how to pull these from a shared data module?
+			entries: [
+				'/',
+				'/about',
+				'/deep-breath',
+				'/starlit-hammock',
+				'/easings-2',
+				'/paint-freqs',
+				'/easings-1',
+				'/hearing-test',
+				'/under-construction',
+				'/freq-speeds',
+				'/transition-designer',
+				'/clocks',
+				'/freq-spectacle',
+			],
 		},
 		vite: {
 			ssr: {
