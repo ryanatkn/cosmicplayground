@@ -31,7 +31,7 @@
 	$: selectedPortal && loadView($portals.data, selectedPortal.slug);
 </script>
 
-<!-- TODO loading state? -->
+<!-- TODO loading state? animate transitions between views? -->
 {#if view}
 	<svelte:component this={view} />
 {/if}
