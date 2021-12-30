@@ -14,7 +14,7 @@ export default {
 		target: '#root',
 		files: {assets: 'src/static'},
 		prerender: {
-			// TODO how to pull these from a shared data module?
+			// TODO keep in sync with `src/portals/index.ts` until we figure out how to share data
 			entries: [
 				'/',
 				'/about',
