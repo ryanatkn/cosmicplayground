@@ -14,7 +14,7 @@ export default {
 		target: '#root',
 		files: {assets: 'src/static'},
 		prerender: {
-			entries: ['/about'],
+			entries: ['/', '/about'],
 		},
 		vite: {
 			ssr: {
