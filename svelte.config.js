@@ -17,6 +17,7 @@ export default {
 			// TODO Keep in sync with `src/lib/portals/index.ts` until we figure out how to share data.
 			// This is all necessary because of the dynamic root route `[...slug].svelte`.
 			entries: [
+				'*',
 				'/',
 				'/about',
 				'/deep-breath',
