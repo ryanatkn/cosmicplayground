@@ -10,14 +10,13 @@ export default {
 		immutable: true,
 	},
 	kit: {
-		adapter: static_adapter(),
+		adapter: static_adapter({fallback: '404.html'}),
 		target: '#root',
 		files: {assets: 'src/static'},
 		prerender: {
 			// TODO Keep in sync with `src/lib/portals/index.ts` until we figure out how to share data.
 			// This is all necessary because of the dynamic root route `[...slug].svelte`.
 			entries: [
-				'*',
 				'/',
 				'/about',
 				'/deep-breath',
