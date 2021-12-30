@@ -88,12 +88,13 @@ body {
 	color: var(--text_color);
 	font-size: 18px;
 	line-height: 1.2;
+	/* prevents scrollbar weirdness with animated page transitions */
+	overflow-y: scroll;
 }
 
 #root {
 	height: 100%;
 	position: relative;
-	overflow-y: scroll; /* prevents scrollbar weirdness with animated page transitions */
 }
 
 hr {

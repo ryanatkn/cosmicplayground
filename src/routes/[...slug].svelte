@@ -12,7 +12,7 @@
 
 <script lang="ts">
 	import {type SvelteComponent} from 'svelte';
-	import {scale} from 'svelte/transition';
+	import {slide} from 'svelte/transition';
 
 	import {findPortalBySlug, getPortals} from '$lib/app/portalsStore';
 	import homePortal from '$lib/portals/home/data';
@@ -20,7 +20,7 @@
 	import voidPortal from '$lib/portals/void/data';
 	import VoidPortalView from '$lib/portals/void/View.svelte';
 
-	let swapped = false;
+	let swapped = false; // used to keep the outgoing view mounted in the DOM
 
 	let view1: typeof SvelteComponent | undefined;
 	let view2: typeof SvelteComponent | undefined;
@@ -63,21 +63,30 @@
 </script>
 
 <!-- TODO loading state? animate transitions between views? -->
+<!-- <div class="outer"> -->
 {#if view1 && !swapped}
-	<div class="inner" transition:scale>
+	<div class="inner" transition:slide>
 		<svelte:component this={view1} />
 	</div>
 {/if}
 {#if view2 && swapped}
-	<div class="inner" transition:scale>
+	<div class="inner" transition:slide>
 		<svelte:component this={view2} />
 	</div>
 {/if}
 
+<!-- </div> -->
 <style>
-	.inner {
+	/* .outer {
+		position: relative;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	} */
+	/* .inner {
 		position: absolute;
 		left: 0;
 		top: 0;
-	}
+	} */
 </style>
