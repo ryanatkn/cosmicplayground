@@ -13,6 +13,9 @@ export default {
 		adapter: static_adapter(),
 		target: '#root',
 		files: {assets: 'src/static'},
+		prerender: {
+			entries: ['/about'],
+		},
 		vite: {
 			ssr: {
 				noExternal: ['@feltcoop/felt'],
