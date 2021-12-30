@@ -12,6 +12,7 @@
 
 <script lang="ts">
 	import {type SvelteComponent} from 'svelte';
+	import {scale} from 'svelte/transition';
 
 	import {findPortalBySlug, getPortals} from '$lib/app/portalsStore';
 	import homePortal from '$lib/portals/home/data';
@@ -19,16 +20,29 @@
 	import voidPortal from '$lib/portals/void/data';
 	import VoidPortalView from '$lib/portals/void/View.svelte';
 
-	let view: typeof SvelteComponent | undefined;
+	let swapped = false;
+
+	let view1: typeof SvelteComponent | undefined;
+	let view2: typeof SvelteComponent | undefined;
+
+	const updateView = (view: typeof SvelteComponent) => {
+		if (swapped) {
+			view1 = view;
+		} else {
+			view2 = view;
+		}
+		swapped = !swapped;
+	};
+
 	const loadView = async (portalsData: PortalsData, slug: string) => {
 		if (cache.has(slug)) {
-			view = cache.get(slug)!;
+			updateView(cache.get(slug)!);
 			return;
 		}
 		const data = findPortalBySlug(portalsData, slug);
 		if (data === voidPortal) {
 			cache.set(slug, VoidPortalView);
-			view = VoidPortalView;
+			updateView(VoidPortalView);
 			return;
 		}
 		try {
@@ -36,7 +50,7 @@
 			const portalPath = slug === homePortal.slug ? homePortal.name : slug;
 			const viewModule = await import(`../lib/portals/${portalPath}/View.svelte`);
 			cache.set(slug, viewModule.default);
-			view = viewModule.default;
+			updateView(viewModule.default);
 		} catch (err) {
 			console.error('error loading view', err);
 			// TODO show error view? "crud.."
@@ -49,6 +63,21 @@
 </script>
 
 <!-- TODO loading state? animate transitions between views? -->
-{#if view}
-	<svelte:component this={view} />
+{#if view1 && !swapped}
+	<div class="inner" transition:scale>
+		<svelte:component this={view1} />
+	</div>
 {/if}
+{#if view2 && swapped}
+	<div class="inner" transition:scale>
+		<svelte:component this={view2} />
+	</div>
+{/if}
+
+<style>
+	.inner {
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+</style>

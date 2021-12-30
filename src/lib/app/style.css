@@ -93,6 +93,7 @@ body {
 #root {
 	height: 100%;
 	position: relative;
+	overflow-y: scroll; /* prevents scrollbar weirdness with animated page transitions */
 }
 
 hr {
