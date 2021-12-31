@@ -5,25 +5,27 @@
 	import {onDestroy, onMount} from 'svelte';
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
 
-	import DeepBreathTitleScreen from './DeepBreathTitleScreen.svelte';
-	import ZodiacHud from './ZodiacHud.svelte';
-	import SeaLevelHud from './SeaLevelHud.svelte';
+	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
+	import ZodiacHud from '$lib/portals/deep-breath/ZodiacHud.svelte';
+	import SeaLevelHud from '$lib/portals/deep-breath/SeaLevelHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
-	import EarthViewerDom from './EarthViewerDom.svelte';
-	import EarthViewerPixi from './EarthViewerPixi.svelte';
+	import EarthViewerDom from '$lib/portals/deep-breath/EarthViewerDom.svelte';
+	import EarthViewerPixi from '$lib/portals/deep-breath/EarthViewerPixi.svelte';
 	import {createResourcesStore, type AudioResource} from '$lib/app/resourcesStore';
-	import {createDeepBreathTour} from './deepBreathTour';
+	import {createDeepBreathTour} from '$lib/portals/deep-breath/deepBreathTour';
 	import {createTourStore, type TourData, type TourStep, type TourStore} from '$lib/app/tourStore';
-	import DeepBreathTourIntro from './DeepBreathTourIntro.svelte';
-	import DeepBreathTourTitle from './DeepBreathTourTitle.svelte';
-	import DeepBreathTourCredits from './DeepBreathTourCredits.svelte';
+	import DeepBreathTourIntro from '$lib/portals/deep-breath/DeepBreathTourIntro.svelte';
+	import DeepBreathTourTitle from '$lib/portals/deep-breath/DeepBreathTourTitle.svelte';
+	import DeepBreathTourCredits from '$lib/portals/deep-breath/DeepBreathTourCredits.svelte';
 	import {getSettings} from '$lib/app/settingsStore';
 	import {resetRenderStats, getRenderStats} from '$lib/app/renderStats';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import DeepBreathDevHud from './DeepBreathDevHud.svelte';
-	import {type ClockStore} from '$lib/app/clockStore';
+	import DeepBreathDevHud from '$lib/portals/deep-breath/DeepBreathDevHud.svelte';
+	import {getClock} from '$lib/app/clockStore';
 	import {getDimensions} from '$lib/app/dimensions';
+
+	const clock = getClock();
 
 	const dimensions = getDimensions();
 	let width = $dimensions.width;
@@ -84,8 +86,6 @@
 		$x += dx;
 		$y += dy;
 	};
-
-	export let clock: ClockStore;
 
 	const onKeyDown = (e: KeyboardEvent) => {
 		if (tour && e.key === 'Escape') {

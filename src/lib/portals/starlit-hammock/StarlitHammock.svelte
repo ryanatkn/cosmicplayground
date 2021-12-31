@@ -5,6 +5,8 @@
 	import {getPixiScene} from '$lib/app/pixi';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 
+	// TODO refactor with the route component
+
 	// TODO This code is hacky and complex because the Pixi loader API is a headache :/
 	// Biggest problem is it throws an error if you add a resource while it's loading.
 	// Maybe we could look in `PIXI.BaseTextureCache`

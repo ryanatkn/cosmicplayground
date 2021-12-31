@@ -1,5 +1,5 @@
 <script lang="ts">
-	import FreqSpectacle from './FreqSpectacle.svelte';
+	import FreqSpectacle from '$lib/portals/freq-spectacle/FreqSpectacle.svelte';
 	import {getClock} from '$lib/app/clockStore';
 	import {getDimensions} from '$lib/app/dimensions';
 

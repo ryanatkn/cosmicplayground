@@ -2,7 +2,7 @@
 	import {randomItem, randomFloat} from '@feltcoop/felt/util/random.js';
 	import {sineInOut} from 'svelte/easing';
 
-	import StarlitHammock from './StarlitHammock.svelte';
+	import StarlitHammock from '$lib/portals/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/app/ImagePicker.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import {spaceImages, type ImageMeta} from '$lib/app/images';

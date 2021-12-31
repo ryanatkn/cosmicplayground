@@ -13,26 +13,6 @@ export default {
 		adapter: static_adapter(),
 		target: '#root',
 		files: {assets: 'src/static'},
-		prerender: {
-			// TODO Keep in sync with `src/lib/portals/index.ts` until we figure out how to share data.
-			// This is all necessary because of the dynamic root route `[...slug].svelte`.
-			entries: [
-				'/404', // TODO temporary hack: https://github.com/sveltejs/kit/issues/1209
-				'/',
-				'/about',
-				'/deep-breath',
-				'/starlit-hammock',
-				'/easings-2',
-				'/paint-freqs',
-				'/easings-1',
-				'/hearing-test',
-				'/under-construction',
-				'/freq-speeds',
-				'/transition-designer',
-				'/clocks',
-				'/freq-spectacle',
-			],
-		},
 		vite: {
 			ssr: {
 				noExternal: ['@feltcoop/felt'],

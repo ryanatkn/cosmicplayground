@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {getPortals, findPortalBySlug} from '$lib/app/portalsStore';
+	import {getPortals} from '$lib/app/portalsStore';
 
 	export let slug: string;
 
 	const portals = getPortals();
-	$: portal = findPortalBySlug($portals.data, slug);
+	$: portal = $portals.data.portalsBySlug.get(slug)!;
 </script>
 
 <a href="/{slug}">

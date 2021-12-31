@@ -15,7 +15,6 @@ import FreqSpeedsPortalData from './freq-speeds/data';
 import TransitionDesignerPortalData from './transition-designer/data';
 import ClocksPortalData from './clocks/data';
 import FreqSpectaclePortalData from './freq-spectacle/data';
-import VoidPortalData from './void/data';
 
 const portals: PortalData[] = [
 	HomePortalData,
@@ -31,7 +30,6 @@ const portals: PortalData[] = [
 	TransitionDesignerPortalData,
 	ClocksPortalData,
 	FreqSpectaclePortalData,
-	VoidPortalData,
 ];
 
 export const portalsData: PortalsData = {

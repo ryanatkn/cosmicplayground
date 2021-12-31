@@ -1,5 +1,5 @@
 <script lang="ts">
-	import FreqSpeeds from './FreqSpeeds.svelte';
+	import FreqSpeeds from '$lib/portals/freq-speeds/FreqSpeeds.svelte';
 	import {getClock} from '$lib/app/clockStore';
 	import {getDimensions} from '$lib/app/dimensions';
 
