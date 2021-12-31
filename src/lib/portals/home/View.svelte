@@ -65,14 +65,14 @@
 			}
 			case 'ArrowUp':
 			case 'w': {
-				saucerX += Math.cos(saucerRotate) * MOVEMENT_INCREMENET;
-				saucerY += Math.sin(saucerRotate) * MOVEMENT_INCREMENET;
+				saucerX += Math.sin(saucerRotate) * MOVEMENT_INCREMENET;
+				saucerY -= Math.cos(saucerRotate) * MOVEMENT_INCREMENET;
 				break;
 			}
 			case 'ArrowDown':
 			case 's': {
-				saucerX -= Math.cos(saucerRotate) * MOVEMENT_INCREMENET;
-				saucerY -= Math.sin(saucerRotate) * MOVEMENT_INCREMENET;
+				saucerX -= Math.sin(saucerRotate) * MOVEMENT_INCREMENET;
+				saucerY += Math.cos(saucerRotate) * MOVEMENT_INCREMENET;
 				break;
 			}
 		}
