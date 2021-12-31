@@ -20,13 +20,13 @@
 
 	const clock = getClock();
 
-	const spaceshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
+	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
 	const primaryPortals = [
 		[deepBreathPortal],
 		[starlitHammockPortal],
 		[easings2Portal, paintFreqsPortal, easings1Portal],
-		[spaceshipPortal as any, hearingTestPortal, underConstructionPortal],
+		[starshipPortal as any, hearingTestPortal, underConstructionPortal],
 	];
 	const secondaryPortals = [
 		[freqSpeedsPortal, transitionDesignerPortal, clocksPortal, freqSpectaclePortal],
@@ -46,45 +46,45 @@
 	let turningRight = false;
 	let movingForward = false;
 	let movingBackward = false;
-	let spaceshipX = 0;
-	let spaceshipY = 0;
-	let spaceshipRotate = 0;
-	let spaceshipMode = false;
+	let starshipX = 0;
+	let starshipY = 0;
+	let starshipRotate = 0;
+	let starshipMode = false;
 	const TRANSITION_DURATION = 500;
-	let transitioningSpaceshipModeCount = 0; // counter so it handles concurrent calls without much code
-	$: transitioningSpaceshipMode = !!transitioningSpaceshipModeCount;
-	$: spaceshipReady = spaceshipMode && !transitioningSpaceshipMode;
+	let transitioningStarshipModeCount = 0; // counter so it handles concurrent calls without much code
+	$: transitioningStarshipMode = !!transitioningStarshipModeCount;
+	$: starshipReady = starshipMode && !transitioningStarshipMode;
 	const ROTATE_INCREMENT = Math.PI * 0.0013;
 	const MOVEMENT_INCREMENET = 0.3; // TODO velocity?
-	const exitSpaceshipMode = async () => {
-		spaceshipMode = false;
-		transitioningSpaceshipModeCount++;
+	const exitStarshipMode = async () => {
+		starshipMode = false;
+		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
-		transitioningSpaceshipModeCount--;
+		transitioningStarshipModeCount--;
 	};
-	const enterSpaceshipMode = async () => {
-		spaceshipMode = true;
-		spaceshipRotate = -ROTATE_INCREMENT;
-		spaceshipX = 0;
-		spaceshipY = 0;
-		transitioningSpaceshipModeCount++;
+	const enterStarshipMode = async () => {
+		starshipMode = true;
+		starshipRotate = -ROTATE_INCREMENT;
+		starshipX = 0;
+		starshipY = 0;
+		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
-		transitioningSpaceshipModeCount--;
+		transitioningStarshipModeCount--;
 	};
-	$: spaceshipReady && updateMovement($clock.dt);
+	$: starshipReady && updateMovement($clock.dt);
 	const updateMovement = (dt: number) => {
 		const turning = (turningLeft ? -1 : 0) + (turningRight ? 1 : 0);
 		if (turning) {
-			spaceshipRotate += turning * ROTATE_INCREMENT * dt; // TODO probably modulo `Math.PI * 2` but it's funny how much it spins
+			starshipRotate += turning * ROTATE_INCREMENT * dt; // TODO probably modulo `Math.PI * 2` but it's funny how much it spins
 		}
 		const moving = (movingForward ? 1 : 0) + (movingBackward ? -1 : 0);
 		if (moving) {
-			spaceshipX += moving * Math.sin(spaceshipRotate) * MOVEMENT_INCREMENET * dt;
-			spaceshipY += -moving * Math.cos(spaceshipRotate) * MOVEMENT_INCREMENET * dt;
+			starshipX += moving * Math.sin(starshipRotate) * MOVEMENT_INCREMENET * dt;
+			starshipY += -moving * Math.cos(starshipRotate) * MOVEMENT_INCREMENET * dt;
 		}
 	};
 	const onKeydown = (e: KeyboardEvent) => {
-		if (!spaceshipMode) throw Error('TODO probably remove this check');
+		if (!starshipMode) throw Error('TODO probably remove this check');
 		switch (e.key) {
 			case 'ArrowLeft':
 			case 'a': {
@@ -107,13 +107,13 @@
 				break;
 			}
 			case 'Escape': {
-				exitSpaceshipMode();
+				exitStarshipMode();
 				break;
 			}
 		}
 	};
 	const onKeyup = (e: KeyboardEvent) => {
-		if (!spaceshipMode) throw Error('TODO probably remove this check');
+		if (!starshipMode) throw Error('TODO probably remove this check');
 		switch (e.key) {
 			case 'ArrowLeft':
 			case 'a': {
@@ -140,30 +140,30 @@
 </script>
 
 <svelte:window
-	on:keydown={spaceshipMode ? onKeydown : undefined}
-	on:keyup={spaceshipMode ? onKeyup : undefined}
+	on:keydown={starshipMode ? onKeydown : undefined}
+	on:keyup={starshipMode ? onKeyup : undefined}
 />
 
 <nav
 	class="portal-previews"
-	class:spaceship-mode={spaceshipMode}
-	class:spaceship-ready={spaceshipReady}
-	style={(spaceshipMode
-		? `transform: translate3d(${spaceshipX}px, ${spaceshipY}px, 0) scale3d(0.1, 0.1, 0.1) rotate(${spaceshipRotate}rad);`
+	class:starship-mode={starshipMode}
+	class:starship-ready={starshipReady}
+	style={(starshipMode
+		? `transform: translate3d(${starshipX}px, ${starshipY}px, 0) scale3d(0.1, 0.1, 0.1) rotate(${starshipRotate}rad);`
 		: '') +
-		(spaceshipReady
+		(starshipReady
 			? 'transition: none;'
 			: `transition: transform ${TRANSITION_DURATION}ms ease-in-out;`)}
 	on:click|capture={(e) => {
 		// TODO ideally this would be the following,
 		// but Svelte can't handle modifiers with undefined handlers right now:
-		// on:click|capture|preventDefault|stopPropagation={spaceshipReady
-		// ? () => exitSpaceshipMode()
+		// on:click|capture|preventDefault|stopPropagation={starshipReady
+		// ? () => exitStarshipMode()
 		// : undefined}
-		if (spaceshipMode) {
+		if (starshipMode) {
 			e.preventDefault();
 			e.stopPropagation();
-			exitSpaceshipMode();
+			exitStarshipMode();
 		}
 	}}
 >
@@ -176,8 +176,7 @@
 		<ul class="portals">
 			{#each portals as portal (portal)}
 				{#if typeof portal === 'symbol'}
-					<PortalPreview onClick={enterSpaceshipMode}><div class="spaceship">🛸</div></PortalPreview
-					>
+					<PortalPreview onClick={enterStarshipMode}><div class="starship">🛸</div></PortalPreview>
 				{:else}
 					<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
 						<svelte:component this={portal.Preview} {portal} />
@@ -242,10 +241,10 @@
 		justify-content: center;
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
 	}
-	.spaceship {
+	.starship {
 		font-size: 84px;
 	}
-	.spaceship-ready {
+	.starship-ready {
 		cursor: pointer;
 	}
 
