@@ -14,8 +14,7 @@ export default {
 		target: '#root',
 		files: {assets: 'src/static'},
 		prerender: {
-			// TODO Keep in sync with `src/lib/portals/index.ts` until we figure out how to share data.
-			// This is all necessary because of the dynamic root route `[...slug].svelte`.
+			// TODO delete all of this now?
 			entries: [
 				'/404', // TODO temporary hack: https://github.com/sveltejs/kit/issues/1209
 				'/',

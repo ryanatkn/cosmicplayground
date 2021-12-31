@@ -1,25 +1,25 @@
 <script lang="ts">
 	/*
-
+	
 	WARNING: messy code
 	TODO refactor
-
+	
 	This component hopes to give us insight into the behavior of easing functions
 	by both visualizing and *audioizing* them.
 	If we're trying to get a feel for a particular easing function,
 	why just use our eyes when we have ears too?
 	Be forewarned: the sounds may annoy you and your neighbors.
-
+	
 	notes
 	- could add a midi picker for the start/end notes
 	- could add a piano visualization (toggleable)
 	- could improve the volume controls (make a reusable component)
   - use this in an "easing function picker" (see also freqency picker that uses the piano)
 	- consider grouping the easings by type into a vertical block
-		(so fooInOut/In/Out are together and easily distinguished as all foo)
+	(so fooInOut/In/Out are together and easily distinguished as all foo)
 	- could be smarter about toggling to the furthest time on toggle/play
 	- could try to normalize times when toggled so it doesn't warp time
-
+	
   */
 
 	import {onDestroy} from 'svelte';
@@ -32,9 +32,9 @@
 	import {midiToFreq, type Midi} from '$lib/music/midi';
 	import {DEFAULT_TUNING} from '$lib/music/constants';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import {type ClockStore} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clockStore';
 
-	export let clock: ClockStore;
+	const clock = getClock();
 
 	const easings = svelteEasings;
 

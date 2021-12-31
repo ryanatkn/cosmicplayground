@@ -1,7 +1,8 @@
 <script lang="ts">
 	import {tick} from 'svelte';
+	import {wait} from '@feltcoop/felt';
 
-	import PortalPreview from './PortalPreview.svelte';
+	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
 	import aboutPortal from '$lib/portals/about/data';
 	import deepBreathPortal from '$lib/portals/deep-breath/data';
 	import starlitHammockPortal from '$lib/portals/starlit-hammock/data';
@@ -15,7 +16,6 @@
 	import clocksPortal from '$lib/portals/clocks/data';
 	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
 	import {getSettings} from '$lib/app/settingsStore';
-	import {wait} from '@feltcoop/felt';
 	import {getClock} from '$lib/app/clockStore';
 
 	const clock = getClock();

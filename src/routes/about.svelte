@@ -1,16 +1,9 @@
 <script lang="ts">
 	import Panel from '$lib/app/Panel.svelte';
-	import Credits from './Credits.svelte';
-	import CreditsPersonalSignature from './CreditsPersonalSignature.svelte';
-	import CreditsProjectSignature from './CreditsProjectSignature.svelte';
+	import Credits from '$lib/portals/about/Credits.svelte';
+	import CreditsPersonalSignature from '$lib/portals/about/CreditsPersonalSignature.svelte';
+	import CreditsProjectSignature from '$lib/portals/about/CreditsProjectSignature.svelte';
 	import PortalLink from '$lib/app/PortalLink.svelte';
-
-	/*
-
-	TODO
-	- make responsive - right now it only works for large screens
-
-	*/
 </script>
 
 <header>
