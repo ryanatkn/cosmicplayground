@@ -25,7 +25,7 @@ is a collection of web projects that try to be useful or interesting.
   - Safari users: Starlit Hammock uses the modern image format webp instead of jpg,
     which means it only works on iOS 14 & macOS Big Sur or later
 - Two tools for understanding
-  [the easing functions in Svelte](https://svelte.dev/docs#svelte_easing):
+  [the easing functions in Svelte](https://svelte.dev/docs#run-time-svelte-easing):
   - [Easing Function Visualizations](https://www.cosmicplayground.org/easings-1)
     compares all easings on a single screen
   - [Easing Function Visualizations and Auralizations](https://www.cosmicplayground.org/easings-2)
