@@ -36,6 +36,7 @@
 	};
 
 	// TODO extract all of this
+	// TODO click anywhere on the saucer to exit saucer mode
 	// TODO keep it onscreen
 	// TODO add earth and space trash gameplay
 	let saucerX = 0;
