@@ -166,6 +166,9 @@
 	const pointerEventY = (e: TouchEvent | MouseEvent) =>
 		'touches' in e && e.touches.length ? e.touches[0].clientY : (e as MouseEvent).clientY;
 	const handlePointerDown = (e: TouchEvent | MouseEvent) => {
+		if (!('touches' in e) && e.button !== 0) return; // avoid eating mouse button on Chrome (but not FF?)
+		e.stopPropagation(); // TODO should these not be called for mobile?
+		e.preventDefault();
 		start();
 		pointerX = pointerEventX(e);
 		pointerY = pointerEventY(e);
@@ -174,12 +177,17 @@
 		lines.push(nextPoint);
 		lines = lines.slice();
 	};
-	const handlePointerUp = () => {
+	const handlePointerUp = (e: TouchEvent | MouseEvent) => {
+		if (!('touches' in e) && e.button !== 0) return; // avoid eating mouse button on Chrome (but not FF?)
+		e.stopPropagation(); // TODO should these not be called for mobile?
+		e.preventDefault();
 		if (!audioCtx || !osc) return;
 		stop();
 	};
 	const handlePointerMove = (e: TouchEvent | MouseEvent) => {
 		if (!audioCtx || !osc) return;
+		e.stopPropagation(); // TODO should these not be called for mobile?
+		e.preventDefault();
 		if (!e.altKey) pointerX = pointerEventX(e);
 		if (!e.shiftKey) pointerY = pointerEventY(e);
 	};
@@ -226,14 +234,14 @@
 	{/if}
 	<div
 		class="interaction-surface"
-		on:mousedown|stopPropagation|preventDefault={handlePointerDown}
-		on:mouseup|stopPropagation|preventDefault={handlePointerUp}
-		on:mouseleave|stopPropagation|preventDefault={handlePointerUp}
-		on:mousemove|stopPropagation|preventDefault={handlePointerMove}
-		on:touchstart|stopPropagation|preventDefault={handlePointerDown}
-		on:touchend|stopPropagation|preventDefault={handlePointerUp}
-		on:touchcancel|stopPropagation|preventDefault={handlePointerUp}
-		on:touchmove|stopPropagation|preventDefault={handlePointerMove}
+		on:mousedown={handlePointerDown}
+		on:mouseup={handlePointerUp}
+		on:mouseleave={handlePointerUp}
+		on:mousemove={handlePointerMove}
+		on:touchstart={handlePointerDown}
+		on:touchend={handlePointerUp}
+		on:touchcancel={handlePointerUp}
+		on:touchmove={handlePointerMove}
 	/>
 	<div class="controls idle-fade">
 		<!-- TODO this is a good candidate for the Hud component -->

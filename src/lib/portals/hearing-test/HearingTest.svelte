@@ -80,8 +80,7 @@
 	const pointerEventY = (e: TouchEvent | MouseEvent) =>
 		'touches' in e && e.touches.length ? e.touches[0].clientY : (e as MouseEvent).clientY;
 	const handlePointerDown = (e: TouchEvent | MouseEvent) => {
-		// avoid eating the mouse back button! (occurs in Chrome but not FF)
-		if (!('touches' in e) && e.button !== 0) return;
+		if (!('touches' in e) && e.button !== 0) return; // avoid eating mouse button on Chrome (but not FF?)
 		e.stopPropagation(); // TODO should these not be called for mobile?
 		e.preventDefault();
 		start();
@@ -90,6 +89,7 @@
 	};
 	const handlePointerUp = (e: TouchEvent | MouseEvent) => {
 		if (!audioCtx || !osc) return;
+		if (!('touches' in e) && e.button !== 0) return; // avoid eating mouse button on Chrome (but not FF?)
 		e.stopPropagation(); // TODO should these not be called for mobile?
 		e.preventDefault();
 		stop();
