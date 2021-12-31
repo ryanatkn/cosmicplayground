@@ -15,14 +15,15 @@
 	import clocksPortal from '$lib/portals/clocks/data';
 	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
 	import {getSettings} from '$lib/app/settingsStore';
+	import {wait} from '@feltcoop/felt';
 
-	const saucerPortal = Symbol(); // expected be the only symbol in `primaryPortals`
+	const spaceshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
 	const primaryPortals = [
 		[deepBreathPortal],
 		[starlitHammockPortal],
 		[easings2Portal, paintFreqsPortal, easings1Portal],
-		[saucerPortal as any, hearingTestPortal, underConstructionPortal],
+		[spaceshipPortal as any, hearingTestPortal, underConstructionPortal],
 	];
 	const secondaryPortals = [
 		[freqSpeedsPortal, transitionDesignerPortal, clocksPortal, freqSpectaclePortal],
@@ -36,61 +37,89 @@
 	};
 
 	// TODO extract all of this
-	// TODO click anywhere on the saucer to exit saucer mode
+	// TODO click anywhere on the spaceship to exit spaceship mode
 	// TODO keep it onscreen
 	// TODO add earth and space trash gameplay
-	let saucerX = 0;
-	let saucerY = 0;
-	let saucerRotate = 0;
-	let saucerMode = false;
+	let spaceshipX = 0;
+	let spaceshipY = 0;
+	let spaceshipRotate = 0;
+	let spaceshipMode = false;
+	const TRANSITION_DURATION = 500;
+	let transitioningSpaceshipModeCount = 0; // counter so it handles concurrent calls without much code
+	$: transitioningSpaceshipMode = !!transitioningSpaceshipModeCount;
+	$: spaceshipReady = spaceshipMode && !transitioningSpaceshipMode;
 	const ROTATE_INCREMENT = Math.PI / 20;
 	const MOVEMENT_INCREMENET = 5; // TODO velocity?
-	const toggleSaucerMode = () => {
-		saucerMode = !saucerMode;
-		saucerRotate = -ROTATE_INCREMENT;
-		saucerX = 0;
-		saucerY = 0;
-		// TODO either remove the transition once shrunk, or shrink in a different layer
+	const exitSpaceshipMode = async () => {
+		spaceshipMode = false;
+		transitioningSpaceshipModeCount++;
+		await wait(TRANSITION_DURATION);
+		transitioningSpaceshipModeCount--;
+	};
+	const enterSpaceshipMode = async () => {
+		spaceshipMode = true;
+		spaceshipRotate = -ROTATE_INCREMENT;
+		spaceshipX = 0;
+		spaceshipY = 0;
+		transitioningSpaceshipModeCount++;
+		await wait(TRANSITION_DURATION);
+		transitioningSpaceshipModeCount--;
 	};
 	const onKeydown = (e: KeyboardEvent) => {
-		if (!saucerMode) throw Error('TODO probably remove this check');
-		console.log('saucerMode', saucerMode, e.key);
+		if (!spaceshipMode) throw Error('TODO probably remove this check');
+		console.log('spaceshipMode', spaceshipMode, e.key);
 		// TODO instead of evented changes, change things to use the `$clock`
 		switch (e.key) {
 			case 'ArrowLeft':
 			case 'a': {
-				saucerRotate -= ROTATE_INCREMENT;
+				spaceshipRotate -= ROTATE_INCREMENT;
 				break;
 			}
 			case 'ArrowRight':
 			case 'd': {
-				saucerRotate += ROTATE_INCREMENT;
+				spaceshipRotate += ROTATE_INCREMENT;
 				break;
 			}
 			case 'ArrowUp':
 			case 'w': {
-				saucerX += Math.sin(saucerRotate) * MOVEMENT_INCREMENET;
-				saucerY -= Math.cos(saucerRotate) * MOVEMENT_INCREMENET;
+				spaceshipX += Math.sin(spaceshipRotate) * MOVEMENT_INCREMENET;
+				spaceshipY -= Math.cos(spaceshipRotate) * MOVEMENT_INCREMENET;
 				break;
 			}
 			case 'ArrowDown':
 			case 's': {
-				saucerX -= Math.sin(saucerRotate) * MOVEMENT_INCREMENET;
-				saucerY += Math.cos(saucerRotate) * MOVEMENT_INCREMENET;
+				spaceshipX -= Math.sin(spaceshipRotate) * MOVEMENT_INCREMENET;
+				spaceshipY += Math.cos(spaceshipRotate) * MOVEMENT_INCREMENET;
 				break;
 			}
 		}
 	};
 </script>
 
-<svelte:window on:keydown={saucerMode ? onKeydown : undefined} />
+<svelte:window on:keydown={spaceshipMode ? onKeydown : undefined} />
 
 <nav
 	class="portal-previews"
-	class:saucer-mode={saucerMode}
-	style={saucerMode
-		? `transform: translate3d(${saucerX}px, ${saucerY}px, 0) scale3d(0.1, 0.1, 0.1) rotate(${saucerRotate}rad)`
-		: ''}
+	class:spaceship-mode={spaceshipMode}
+	class:spaceship-ready={spaceshipReady}
+	style={(spaceshipMode
+		? `transform: translate3d(${spaceshipX}px, ${spaceshipY}px, 0) scale3d(0.1, 0.1, 0.1) rotate(${spaceshipRotate}rad);`
+		: '') +
+		(spaceshipReady
+			? 'transition: none;'
+			: `transition: transform ${TRANSITION_DURATION}ms ease-in-out;`)}
+	on:click|capture={(e) => {
+		// TODO ideally this would be the following,
+		// but Svelte can't handle modifiers with undefined handlers right now:
+		// on:click|capture|preventDefault|stopPropagation={spaceshipReady
+		// ? () => exitSpaceshipMode()
+		// : undefined}
+		if (spaceshipMode) {
+			e.preventDefault();
+			e.stopPropagation();
+			exitSpaceshipMode();
+		}
+	}}
 >
 	<header class="portals">
 		<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
@@ -101,7 +130,8 @@
 		<ul class="portals">
 			{#each portals as portal (portal)}
 				{#if typeof portal === 'symbol'}
-					<PortalPreview onClick={toggleSaucerMode}><div class="saucer">🛸</div></PortalPreview>
+					<PortalPreview onClick={enterSpaceshipMode}><div class="spaceship">🛸</div></PortalPreview
+					>
 				{:else}
 					<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
 						<svelte:component this={portal.Preview} {portal} />
@@ -159,7 +189,6 @@
 		flex-wrap: wrap;
 	}
 	.portal-previews {
-		transition: transform 0.2s linear;
 		margin: 0;
 		display: flex;
 		flex-wrap: wrap;
@@ -167,8 +196,11 @@
 		justify-content: center;
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
 	}
-	.saucer {
+	.spaceship {
 		font-size: 84px;
+	}
+	.spaceship-ready {
+		cursor: pointer;
 	}
 
 	:global(.show-more-button) {
