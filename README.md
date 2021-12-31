@@ -87,7 +87,7 @@ you can test the difference on the map by pressing `ctrl+backtick` and clicking 
 > [the Pixi implementation of the Earth map](/src/portals/deep-breath/EarthViewerPixi.svelte).
 
 Pixi is a hefty dependency and roughly tripled the website's JavaScript bundle size
-to a total of about 600KB.
+to a total of about 600KB uncompressed.
 The rest of the website uses [Svelte](https://svelte.dev) and [SvelteKit](https://kit.svelte.dev),
 whose code-split tiny bundles make this dependency painful in comparison,
 but Pixi delivers graphics performance that the DOM and 2d canvas cannot.
