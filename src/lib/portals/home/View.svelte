@@ -16,6 +16,9 @@
 	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
 	import {getSettings} from '$lib/app/settingsStore';
 	import {wait} from '@feltcoop/felt';
+	import {getClock} from '$lib/app/clockStore';
+
+	const clock = getClock();
 
 	const spaceshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
@@ -40,6 +43,10 @@
 	// TODO click anywhere on the spaceship to exit spaceship mode
 	// TODO keep it onscreen
 	// TODO add earth and space trash gameplay
+	let turningLeft = false;
+	let turningRight = false;
+	let movingForward = false;
+	let movingBackward = false;
 	let spaceshipX = 0;
 	let spaceshipY = 0;
 	let spaceshipRotate = 0;
@@ -48,8 +55,8 @@
 	let transitioningSpaceshipModeCount = 0; // counter so it handles concurrent calls without much code
 	$: transitioningSpaceshipMode = !!transitioningSpaceshipModeCount;
 	$: spaceshipReady = spaceshipMode && !transitioningSpaceshipMode;
-	const ROTATE_INCREMENT = Math.PI / 20;
-	const MOVEMENT_INCREMENET = 5; // TODO velocity?
+	const ROTATE_INCREMENT = Math.PI * 0.0013;
+	const MOVEMENT_INCREMENET = 0.3; // TODO velocity?
 	const exitSpaceshipMode = async () => {
 		spaceshipMode = false;
 		transitioningSpaceshipModeCount++;
@@ -65,38 +72,78 @@
 		await wait(TRANSITION_DURATION);
 		transitioningSpaceshipModeCount--;
 	};
+	$: updateMovement($clock.dt);
+	const updateMovement = (dt: number) => {
+		const turning = (turningLeft ? -1 : 0) + (turningRight ? 1 : 0);
+		if (turning) {
+			spaceshipRotate += turning * ROTATE_INCREMENT * dt; // TODO probably modulo `Math.PI * 2` but it's funny how much it spins
+		}
+		const moving = (movingForward ? 1 : 0) + (movingBackward ? -1 : 0);
+		if (moving) {
+			spaceshipX += moving * Math.sin(spaceshipRotate) * MOVEMENT_INCREMENET * dt;
+			spaceshipY += -moving * Math.cos(spaceshipRotate) * MOVEMENT_INCREMENET * dt;
+		}
+	};
 	const onKeydown = (e: KeyboardEvent) => {
 		if (!spaceshipMode) throw Error('TODO probably remove this check');
-		console.log('spaceshipMode', spaceshipMode, e.key);
-		// TODO instead of evented changes, change things to use the `$clock`
 		switch (e.key) {
 			case 'ArrowLeft':
 			case 'a': {
-				spaceshipRotate -= ROTATE_INCREMENT;
+				turningLeft = true;
 				break;
 			}
 			case 'ArrowRight':
 			case 'd': {
-				spaceshipRotate += ROTATE_INCREMENT;
+				turningRight = true;
 				break;
 			}
 			case 'ArrowUp':
 			case 'w': {
-				spaceshipX += Math.sin(spaceshipRotate) * MOVEMENT_INCREMENET;
-				spaceshipY -= Math.cos(spaceshipRotate) * MOVEMENT_INCREMENET;
+				movingForward = true;
 				break;
 			}
 			case 'ArrowDown':
 			case 's': {
-				spaceshipX -= Math.sin(spaceshipRotate) * MOVEMENT_INCREMENET;
-				spaceshipY += Math.cos(spaceshipRotate) * MOVEMENT_INCREMENET;
+				movingBackward = true;
+				break;
+			}
+			case 'Escape': {
+				exitSpaceshipMode();
+				break;
+			}
+		}
+	};
+	const onKeyup = (e: KeyboardEvent) => {
+		if (!spaceshipMode) throw Error('TODO probably remove this check');
+		switch (e.key) {
+			case 'ArrowLeft':
+			case 'a': {
+				turningLeft = false;
+				break;
+			}
+			case 'ArrowRight':
+			case 'd': {
+				turningRight = false;
+				break;
+			}
+			case 'ArrowUp':
+			case 'w': {
+				movingForward = false;
+				break;
+			}
+			case 'ArrowDown':
+			case 's': {
+				movingBackward = false;
 				break;
 			}
 		}
 	};
 </script>
 
-<svelte:window on:keydown={spaceshipMode ? onKeydown : undefined} />
+<svelte:window
+	on:keydown={spaceshipMode ? onKeydown : undefined}
+	on:keyup={spaceshipMode ? onKeyup : undefined}
+/>
 
 <nav
 	class="portal-previews"
