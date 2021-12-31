@@ -80,16 +80,24 @@
 	const pointerEventY = (e: TouchEvent | MouseEvent) =>
 		'touches' in e && e.touches.length ? e.touches[0].clientY : (e as MouseEvent).clientY;
 	const handlePointerDown = (e: TouchEvent | MouseEvent) => {
+		// avoid eating the mouse back button! (occurs in Chrome but not FF)
+		if (!('touches' in e) && e.button !== 0) return;
+		e.stopPropagation(); // TODO should these not be called for mobile?
+		e.preventDefault();
 		start();
 		pointerX = pointerEventX(e);
 		pointerY = pointerEventY(e);
 	};
-	const handlePointerUp = () => {
+	const handlePointerUp = (e: TouchEvent | MouseEvent) => {
 		if (!audioCtx || !osc) return;
+		e.stopPropagation(); // TODO should these not be called for mobile?
+		e.preventDefault();
 		stop();
 	};
 	const handlePointerMove = (e: TouchEvent | MouseEvent) => {
 		if (!audioCtx || !osc) return;
+		e.stopPropagation(); // TODO should these not be called for mobile?
+		e.preventDefault();
 		pointerX = pointerEventX(e);
 		pointerY = pointerEventY(e);
 	};
@@ -123,14 +131,14 @@
 	{/if}
 	<div
 		class="absolute z-3 w-100 h-100"
-		on:mousedown|stopPropagation|preventDefault={handlePointerDown}
-		on:mouseup|stopPropagation|preventDefault={handlePointerUp}
-		on:mouseleave|stopPropagation|preventDefault={handlePointerUp}
-		on:mousemove|stopPropagation|preventDefault={handlePointerMove}
-		on:touchstart|stopPropagation|preventDefault={handlePointerDown}
-		on:touchend|stopPropagation|preventDefault={handlePointerUp}
-		on:touchcancel|stopPropagation|preventDefault={handlePointerUp}
-		on:touchmove|stopPropagation|preventDefault={handlePointerMove}
+		on:mousedown={handlePointerDown}
+		on:mouseup={handlePointerUp}
+		on:mouseleave={handlePointerUp}
+		on:mousemove={handlePointerMove}
+		on:touchstart={handlePointerDown}
+		on:touchend={handlePointerUp}
+		on:touchcancel={handlePointerUp}
+		on:touchmove={handlePointerMove}
 	/>
 </div>
 
