@@ -15,12 +15,18 @@
 	import clocksPortal from '$lib/portals/clocks/data';
 	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
 	import {getSettings} from '$lib/app/settingsStore';
+	import {wait} from '@feltcoop/felt';
+	import {getClock} from '$lib/app/clockStore';
+
+	const clock = getClock();
+
+	const spaceshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
 	const primaryPortals = [
 		[deepBreathPortal],
 		[starlitHammockPortal],
 		[easings2Portal, paintFreqsPortal, easings1Portal],
-		[hearingTestPortal, underConstructionPortal],
+		[spaceshipPortal as any, hearingTestPortal, underConstructionPortal],
 	];
 	const secondaryPortals = [
 		[freqSpeedsPortal, transitionDesignerPortal, clocksPortal, freqSpectaclePortal],
@@ -32,9 +38,135 @@
 		await tick();
 		window.scrollTo({left: window.scrollX, top: 9000, behavior: 'smooth'}); // `9000` bc `Infinity` doesn't work and I don't care to calculate it
 	};
+
+	// TODO refactor all of this, lots of modules and components to extract
+	// TODO add earth and space trash gameplay
+	// TODO exit offscreen to a whole new world
+	let turningLeft = false;
+	let turningRight = false;
+	let movingForward = false;
+	let movingBackward = false;
+	let spaceshipX = 0;
+	let spaceshipY = 0;
+	let spaceshipRotate = 0;
+	let spaceshipMode = false;
+	const TRANSITION_DURATION = 500;
+	let transitioningSpaceshipModeCount = 0; // counter so it handles concurrent calls without much code
+	$: transitioningSpaceshipMode = !!transitioningSpaceshipModeCount;
+	$: spaceshipReady = spaceshipMode && !transitioningSpaceshipMode;
+	const ROTATE_INCREMENT = Math.PI * 0.0013;
+	const MOVEMENT_INCREMENET = 0.3; // TODO velocity?
+	const exitSpaceshipMode = async () => {
+		spaceshipMode = false;
+		transitioningSpaceshipModeCount++;
+		await wait(TRANSITION_DURATION);
+		transitioningSpaceshipModeCount--;
+	};
+	const enterSpaceshipMode = async () => {
+		spaceshipMode = true;
+		spaceshipRotate = -ROTATE_INCREMENT;
+		spaceshipX = 0;
+		spaceshipY = 0;
+		transitioningSpaceshipModeCount++;
+		await wait(TRANSITION_DURATION);
+		transitioningSpaceshipModeCount--;
+	};
+	$: spaceshipReady && updateMovement($clock.dt);
+	const updateMovement = (dt: number) => {
+		const turning = (turningLeft ? -1 : 0) + (turningRight ? 1 : 0);
+		if (turning) {
+			spaceshipRotate += turning * ROTATE_INCREMENT * dt; // TODO probably modulo `Math.PI * 2` but it's funny how much it spins
+		}
+		const moving = (movingForward ? 1 : 0) + (movingBackward ? -1 : 0);
+		if (moving) {
+			spaceshipX += moving * Math.sin(spaceshipRotate) * MOVEMENT_INCREMENET * dt;
+			spaceshipY += -moving * Math.cos(spaceshipRotate) * MOVEMENT_INCREMENET * dt;
+		}
+	};
+	const onKeydown = (e: KeyboardEvent) => {
+		if (!spaceshipMode) throw Error('TODO probably remove this check');
+		switch (e.key) {
+			case 'ArrowLeft':
+			case 'a': {
+				turningLeft = true;
+				break;
+			}
+			case 'ArrowRight':
+			case 'd': {
+				turningRight = true;
+				break;
+			}
+			case 'ArrowUp':
+			case 'w': {
+				movingForward = true;
+				break;
+			}
+			case 'ArrowDown':
+			case 's': {
+				movingBackward = true;
+				break;
+			}
+			case 'Escape': {
+				exitSpaceshipMode();
+				break;
+			}
+		}
+	};
+	const onKeyup = (e: KeyboardEvent) => {
+		if (!spaceshipMode) throw Error('TODO probably remove this check');
+		switch (e.key) {
+			case 'ArrowLeft':
+			case 'a': {
+				turningLeft = false;
+				break;
+			}
+			case 'ArrowRight':
+			case 'd': {
+				turningRight = false;
+				break;
+			}
+			case 'ArrowUp':
+			case 'w': {
+				movingForward = false;
+				break;
+			}
+			case 'ArrowDown':
+			case 's': {
+				movingBackward = false;
+				break;
+			}
+		}
+	};
 </script>
 
-<nav class="portal-previews">
+<svelte:window
+	on:keydown={spaceshipMode ? onKeydown : undefined}
+	on:keyup={spaceshipMode ? onKeyup : undefined}
+/>
+
+<nav
+	class="portal-previews"
+	class:spaceship-mode={spaceshipMode}
+	class:spaceship-ready={spaceshipReady}
+	style={(spaceshipMode
+		? `transform: translate3d(${spaceshipX}px, ${spaceshipY}px, 0) scale3d(0.1, 0.1, 0.1) rotate(${spaceshipRotate}rad);`
+		: '') +
+		(spaceshipReady
+			? 'transition: none;'
+			: `transition: transform ${TRANSITION_DURATION}ms ease-in-out;`)}
+	on:click|capture={(e) => {
+		// TODO ideally this would be the following,
+		// but Svelte can't handle modifiers with undefined handlers right now:
+		// on:click|capture|preventDefault|stopPropagation={spaceshipReady
+		// ? () => exitSpaceshipMode()
+		// : undefined}
+		if (spaceshipMode) {
+			e.preventDefault();
+			e.stopPropagation();
+			exitSpaceshipMode();
+		}
+	}}
+>
 	<header class="portals">
 		<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
 			<svelte:component this={aboutPortal.Preview} portal={aboutPortal} />
@@ -42,10 +174,15 @@
 	</header>
 	{#each primaryPortals as portals}
 		<ul class="portals">
-			{#each portals as portal}
-				<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
-					<svelte:component this={portal.Preview} {portal} />
-				</PortalPreview>
+			{#each portals as portal (portal)}
+				{#if typeof portal === 'symbol'}
+					<PortalPreview onClick={enterSpaceshipMode}><div class="spaceship">🛸</div></PortalPreview
+					>
+				{:else}
+					<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
+						<svelte:component this={portal.Preview} {portal} />
+					</PortalPreview>
+				{/if}
 			{/each}
 		</ul>
 	{/each}
@@ -73,11 +210,7 @@
 			/>
 		</div>
 	</PortalPreview>
-</nav>
-{#if $settings.showMorePortals}
-	<!-- TODO should there be just a single nav instead?
-    and fix the styling somehow with an inner wrapper? -->
-	<nav class="portal-previews">
+	{#if $settings.showMorePortals}
 		{#each secondaryPortals as portals}
 			<ul class="portals">
 				{#each portals as portal}
@@ -87,8 +220,8 @@
 				{/each}
 			</ul>
 		{/each}
-	</nav>
-{/if}
+	{/if}
+</nav>
 
 <style>
 	header {
@@ -108,6 +241,12 @@
 		align-items: center;
 		justify-content: center;
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
+	}
+	.spaceship {
+		font-size: 84px;
+	}
+	.spaceship-ready {
+		cursor: pointer;
 	}
 
 	:global(.show-more-button) {
