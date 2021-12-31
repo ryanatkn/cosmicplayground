@@ -36,6 +36,8 @@
 	};
 
 	// TODO extract all of this
+	// TODO keep it onscreen
+	// TODO add earth and space trash gameplay
 	let saucerX = 0;
 	let saucerY = 0;
 	let saucerRotate = 0;
