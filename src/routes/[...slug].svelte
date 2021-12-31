@@ -22,7 +22,7 @@
 
 	// `swapped` is used to keep the outgoing view mounted in the DOM
 	// so it doesn't re-render to a new location.
-	// Maybe we want to use the Svelte builtin `crossscale` instead?
+	// Maybe we want to use the Svelte builtin `crossfade` instead?
 	let swapped = false;
 
 	let view1: typeof SvelteComponent | undefined;
@@ -66,7 +66,6 @@
 </script>
 
 <!-- TODO loading state? animate transitions between views? -->
-<!-- <div class="outer"> -->
 <div class="outer" class:detached={swapped}>
 	{#if view1 && !swapped}
 		<div class="inner" transition:scale>
@@ -82,19 +81,8 @@
 	{/if}
 </div>
 
-<!-- </div> -->
 <style>
-	/* .outer {
-		position: relative;
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	} */
 	.inner {
-		/* position: absolute;
-		left: 0;
-		top: 0; */
 		width: 100%;
 	}
 	/* TODO instead of `detached` class maybe use `outrostart` to set `position: absolute` */
