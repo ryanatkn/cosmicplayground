@@ -16,11 +16,13 @@
 	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
 	import {getSettings} from '$lib/app/settingsStore';
 
+	const saucerPortal = Symbol(); // expected be the only symbol in `primaryPortals`
+
 	const primaryPortals = [
 		[deepBreathPortal],
 		[starlitHammockPortal],
 		[easings2Portal, paintFreqsPortal, easings1Portal],
-		[hearingTestPortal, underConstructionPortal],
+		[saucerPortal as any, hearingTestPortal, underConstructionPortal],
 	];
 	const secondaryPortals = [
 		[freqSpeedsPortal, transitionDesignerPortal, clocksPortal, freqSpectaclePortal],
@@ -34,7 +36,7 @@
 	};
 
 	let saucerMode = false;
-	const toggleRocketMode = () => {
+	const toggleSaucerMode = () => {
 		saucerMode = !saucerMode;
 	};
 </script>
@@ -47,13 +49,14 @@
 	</header>
 	{#each primaryPortals as portals}
 		<ul class="portals">
-			{#each portals as portal (portal.name)}
-				{#if portal.slug === 'hearing-test'}
-					<PortalPreview onClick={toggleRocketMode}><div class="saucer">🛸</div></PortalPreview>
+			{#each portals as portal (portal)}
+				{#if typeof portal === 'symbol'}
+					<PortalPreview onClick={toggleSaucerMode}><div class="saucer">🛸</div></PortalPreview>
+				{:else}
+					<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
+						<svelte:component this={portal.Preview} {portal} />
+					</PortalPreview>
 				{/if}
-				<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
-					<svelte:component this={portal.Preview} {portal} />
-				</PortalPreview>
 			{/each}
 		</ul>
 	{/each}
