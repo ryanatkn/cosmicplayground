@@ -127,12 +127,12 @@ p {
 	margin: var(--spacing-5) 0 0 0; /* TODO hacky, maybe we want a <ContentSpacer/>? */
 }
 
-/* TODO maybe rename or rethink `.formatted-content` */
-.formatted-content ul {
+/* TODO maybe rename or rethink `.markup` */
+.markup ul {
 	list-style: initial;
 	padding-left: var(--spacing-8);
 }
-.formatted-content a:hover {
+.markup a:hover {
 	text-decoration: underline;
 }
 

@@ -38,7 +38,7 @@
 <div class="deep-breath-title-screen">
 	<DeepBreathThumbnail onClick={enableLoadingByClickingThumbnail ? load : null} />
 	<Panel>
-		<section class="formatted-content">
+		<section class="markup">
 			<h2>If all ice on Earth melts, how will sea levels change?</h2>
 			<p>
 				Deep Breath is an interactive webpage with a rough sketch of Earth's coastlines if all ice
@@ -90,12 +90,12 @@
 		{/if}
 	</Panel>
 	<Panel>
-		<section class="formatted-content">
+		<section class="markup">
 			<h2>Credits</h2>
 			<DeepBreathCredits />
 		</section>
 		<hr />
-		<section class="formatted-content">
+		<section class="markup">
 			<CreditsPersonalSignature />
 			<CreditsProjectSignature />
 		</section>
