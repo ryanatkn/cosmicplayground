@@ -95,7 +95,7 @@ I'm no WebGL wizard and Pixi is fast, mature, and well maintained.
 
 In summary: WebGL is good stuff, and Pixi is super, but one day I want to explore replacing Pixi,
 maybe with [`@sveltejs/gl`](https://github.com/sveltejs/gl) or
-[`svelte-cubed`](https://github.com/Rich-Harris/svelte-cubed)
+[`svelte-cubed`](https://github.com/Rich-Harris/svelte-cubed).
 
 ## license 🐦
 
@@ -104,10 +104,6 @@ code is public domain ([The Unlicense](license))
 For the licenses and copyright info of the
 graphics, audio, and other non-code assets,
 see [cosmicplayground.org/about](https://www.cosmicplayground.org/about).
-
-All original assets are licensed
-[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-unless otherwise specified.
 
 made with the help of infinite turtles ∙
 <mail@ryanatkn.com> ∙ [ryanatkn.com](https://www.ryanatkn.com)
