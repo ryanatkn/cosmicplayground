@@ -35,6 +35,7 @@
 		window.scrollTo({left: window.scrollX, top: 9000, behavior: 'smooth'}); // `9000` bc `Infinity` doesn't work and I don't care to calculate it
 	};
 
+	// TODO extract all of this
 	let saucerX = 0;
 	let saucerY = 0;
 	let saucerRotate = 0;
