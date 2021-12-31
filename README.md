@@ -45,12 +45,13 @@ See [cosmicplayground.org/about](https://www.cosmicplayground.org/about)
 for the complete list of non-software assets and their credits.
 
 made with [Svelte](https://github.com/sveltejs/svelte) ∙
+[SvelteKit](https://github.com/sveltejs/kit) ∙
+[Vite](https://github.com/vitejs/vite) ∙
 [PixiJS](https://github.com/pixijs/pixi.js) ∙
 [TypeScript](https://github.com/microsoft/TypeScript) ∙
-[Rollup](https://github.com/rollup/rollup) ∙
 [Gro](https://github.com/feltcoop/gro) ∙
-[Prettier](https://github.com/prettier/prettier) ∙
-[Node](https://nodejs.org) & [more](package.json)
+[Prettier](https://github.com/prettier/prettier)
+& [more](package.json)
 
 ## technical notes
 
