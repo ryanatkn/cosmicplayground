@@ -71,7 +71,7 @@
 		await wait(TRANSITION_DURATION);
 		transitioningSpaceshipModeCount--;
 	};
-	$: updateMovement($clock.dt);
+	$: spaceshipReady && updateMovement($clock.dt);
 	const updateMovement = (dt: number) => {
 		const turning = (turningLeft ? -1 : 0) + (turningRight ? 1 : 0);
 		if (turning) {
