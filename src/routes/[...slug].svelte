@@ -12,7 +12,7 @@
 
 <script lang="ts">
 	import {type SvelteComponent} from 'svelte';
-	import {slide} from 'svelte/transition';
+	import {scale} from 'svelte/transition';
 
 	import {findPortalBySlug, getPortals} from '$lib/app/portalsStore';
 	import homePortal from '$lib/portals/home/data';
@@ -22,7 +22,7 @@
 
 	// `swapped` is used to keep the outgoing view mounted in the DOM
 	// so it doesn't re-render to a new location.
-	// Maybe we want to use the Svelte builtin `crossfade` instead?
+	// Maybe we want to use the Svelte builtin `crossscale` instead?
 	let swapped = false;
 
 	let view1: typeof SvelteComponent | undefined;
@@ -67,16 +67,20 @@
 
 <!-- TODO loading state? animate transitions between views? -->
 <!-- <div class="outer"> -->
-{#if view1 && !swapped}
-	<div class="inner" transition:slide>
-		<svelte:component this={view1} />
-	</div>
-{/if}
-{#if view2 && swapped}
-	<div class="inner" transition:slide>
-		<svelte:component this={view2} />
-	</div>
-{/if}
+<div class="outer" class:detached={swapped}>
+	{#if view1 && !swapped}
+		<div class="inner" transition:scale>
+			<svelte:component this={view1} />
+		</div>
+	{/if}
+</div>
+<div class="outer" class:detached={!swapped}>
+	{#if view2 && swapped}
+		<div class="inner" transition:scale>
+			<svelte:component this={view2} />
+		</div>
+	{/if}
+</div>
 
 <!-- </div> -->
 <style>
@@ -87,9 +91,22 @@
 		flex-direction: column;
 		align-items: center;
 	} */
-	/* .inner {
+	.inner {
+		/* position: absolute;
+		left: 0;
+		top: 0; */
+		width: 100%;
+	}
+	/* TODO instead of `detached` class maybe use `outrostart` to set `position: absolute` */
+	.outer {
+		width: 100%;
+		height: 100%; /* makes the scrollbar synchronously have the correct height so it can be restored */
+	}
+	.detached {
 		position: absolute;
 		left: 0;
 		top: 0;
-	} */
+		overflow: hidden;
+		z-index: -1; /* needed because we're currently still rendering `.outer` elements when empty */
+	}
 </style>
