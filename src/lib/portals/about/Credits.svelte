@@ -12,13 +12,12 @@
 	<h2>Credits</h2>
 	<section>
 		This project relies on lots of amazing freely licensed content. See below for all links and
-		copyright info. Code is <a
-			href="https://github.com/ryanatkn/cosmicplayground/blob/master/license"
+		copyright info. Code is <a href="https://github.com/ryanatkn/cosmicplayground/blob/main/license"
 			>licensed public domain
 		</a>(The Unlicense). Original assets are licensed
 		<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
 		unless otherwise specified. See the source respository's
-		<a href="https://github.com/ryanatkn/cosmicplayground/tree/master/src/static/assets">
+		<a href="https://github.com/ryanatkn/cosmicplayground/tree/main/src/static/assets">
 			<code>src/static/assets</code> directory
 		</a> for the complete source data..
 	</section>
