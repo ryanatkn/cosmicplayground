@@ -88,25 +88,13 @@ you can test the difference on the map by pressing `ctrl+backtick` and clicking 
 
 Pixi is a hefty dependency and roughly tripled the website's JavaScript bundle size
 to a total of about 600KB.
-The rest of the website uses [Svelte](https://svelte.dev),
-whose tiny bundles make this dependency painful in comparison,
+The rest of the website uses [Svelte](https://svelte.dev) and [SvelteKit](https://kit.svelte.dev),
+whose code-split tiny bundles make this dependency painful in comparison,
 but Pixi delivers graphics performance that the DOM and 2d canvas cannot.
 I'm no WebGL wizard and Pixi is fast, mature, and well maintained.
 
-The Responsible web developer loads code only when needed through code splitting,
-but Pixi proved helpful to render the app's global background image
-with buttery smooth animation and low resource usage,
-and I plan to use it in many more places.
-Code splitting the remaining third of the JavaScript payload
-isn't going to give us the slim bundles we're after, so I'm punting the task.
-Eventually I'll probably make the app load non-Pixi code more efficiently,
-but for now, enjoy clicking around with loadless transitions!
-
-In summary:
-
-- WebGL is good stuff, and Pixi is super, but one day I want to explore replacing Pixi
-  with [Svelte for WebGL](https://github.com/sveltejs/gl)
-- this app is not representative of Svelte's ability to gracefully scale its JS bundle sizes
+In summary: WebGL is good stuff, and Pixi is super, but one day I want to explore replacing Pixi,
+maybe with [`svelte-cubed`](https://github.com/Rich-Harris/svelte-cubed)
 
 ## license 🐦
 
