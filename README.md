@@ -94,7 +94,8 @@ but Pixi delivers graphics performance that the DOM and 2d canvas cannot.
 I'm no WebGL wizard and Pixi is fast, mature, and well maintained.
 
 In summary: WebGL is good stuff, and Pixi is super, but one day I want to explore replacing Pixi,
-maybe with [`svelte-cubed`](https://github.com/Rich-Harris/svelte-cubed)
+maybe with [`@sveltejs/gl`](https://github.com/sveltejs/gl) or
+[`svelte-cubed`](https://github.com/Rich-Harris/svelte-cubed)
 
 ## license 🐦
 
