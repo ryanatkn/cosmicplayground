@@ -35,13 +35,59 @@
 		window.scrollTo({left: window.scrollX, top: 9000, behavior: 'smooth'}); // `9000` bc `Infinity` doesn't work and I don't care to calculate it
 	};
 
+	let saucerX = 0;
+	let saucerY = 0;
+	let saucerRotate = 0;
 	let saucerMode = false;
+	const ROTATE_INCREMENT = Math.PI / 20;
+	const MOVEMENT_INCREMENET = 5; // TODO velocity?
 	const toggleSaucerMode = () => {
 		saucerMode = !saucerMode;
+		saucerRotate = -ROTATE_INCREMENT;
+		saucerX = 0;
+		saucerY = 0;
+		// TODO either remove the transition once shrunk, or shrink in a different layer
+	};
+	const onKeydown = (e: KeyboardEvent) => {
+		if (!saucerMode) throw Error('TODO probably remove this check');
+		console.log('saucerMode', saucerMode, e.key);
+		// TODO instead of evented changes, change things to use the `$clock`
+		switch (e.key) {
+			case 'ArrowLeft':
+			case 'a': {
+				saucerRotate -= ROTATE_INCREMENT;
+				break;
+			}
+			case 'ArrowRight':
+			case 'd': {
+				saucerRotate += ROTATE_INCREMENT;
+				break;
+			}
+			case 'ArrowUp':
+			case 'w': {
+				saucerX += Math.cos(saucerRotate) * MOVEMENT_INCREMENET;
+				saucerY += Math.sin(saucerRotate) * MOVEMENT_INCREMENET;
+				break;
+			}
+			case 'ArrowDown':
+			case 's': {
+				saucerX -= Math.cos(saucerRotate) * MOVEMENT_INCREMENET;
+				saucerY -= Math.sin(saucerRotate) * MOVEMENT_INCREMENET;
+				break;
+			}
+		}
 	};
 </script>
 
-<nav class="portal-previews" class:saucer-mode={saucerMode}>
+<svelte:window on:keydown={saucerMode ? onKeydown : undefined} />
+
+<nav
+	class="portal-previews"
+	class:saucer-mode={saucerMode}
+	style={saucerMode
+		? `transform: translate3d(${saucerX}px, ${saucerY}px, 0) scale3d(0.1, 0.1, 0.1) rotate(${saucerRotate}rad)`
+		: ''}
+>
 	<header class="portals">
 		<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
 			<svelte:component this={aboutPortal.Preview} portal={aboutPortal} />
@@ -109,16 +155,13 @@
 		flex-wrap: wrap;
 	}
 	.portal-previews {
-		transition: transform 0.5s ease-in-out;
+		transition: transform 0.2s linear;
 		margin: 0;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
-	}
-	.portal-previews.saucer-mode {
-		transform: scale3d(0.1, 0.1, 0.1) rotate(-5deg);
 	}
 	.saucer {
 		font-size: 84px;
