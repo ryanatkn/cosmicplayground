@@ -39,7 +39,7 @@
 		window.scrollTo({left: window.scrollX, top: 9000, behavior: 'smooth'}); // `9000` bc `Infinity` doesn't work and I don't care to calculate it
 	};
 
-	// TODO extract all of this
+	// TODO refactor all of this, lots of modules and components to extract
 	// TODO add earth and space trash gameplay
 	// TODO exit offscreen to a whole new world
 	let turningLeft = false;
