@@ -32,9 +32,14 @@
 		await tick();
 		window.scrollTo({left: window.scrollX, top: 9000, behavior: 'smooth'}); // `9000` bc `Infinity` doesn't work and I don't care to calculate it
 	};
+
+	let saucerMode = false;
+	const toggleRocketMode = () => {
+		saucerMode = !saucerMode;
+	};
 </script>
 
-<nav class="portal-previews">
+<nav class="portal-previews" class:saucer-mode={saucerMode}>
 	<header class="portals">
 		<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
 			<svelte:component this={aboutPortal.Preview} portal={aboutPortal} />
@@ -42,7 +47,10 @@
 	</header>
 	{#each primaryPortals as portals}
 		<ul class="portals">
-			{#each portals as portal}
+			{#each portals as portal (portal.name)}
+				{#if portal.slug === 'hearing-test'}
+					<PortalPreview onClick={toggleRocketMode}><div class="saucer">🛸</div></PortalPreview>
+				{/if}
 				<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
 					<svelte:component this={portal.Preview} {portal} />
 				</PortalPreview>
@@ -73,11 +81,7 @@
 			/>
 		</div>
 	</PortalPreview>
-</nav>
-{#if $settings.showMorePortals}
-	<!-- TODO should there be just a single nav instead?
-    and fix the styling somehow with an inner wrapper? -->
-	<nav class="portal-previews">
+	{#if $settings.showMorePortals}
 		{#each secondaryPortals as portals}
 			<ul class="portals">
 				{#each portals as portal}
@@ -87,8 +91,8 @@
 				{/each}
 			</ul>
 		{/each}
-	</nav>
-{/if}
+	{/if}
+</nav>
 
 <style>
 	header {
@@ -102,12 +106,19 @@
 		flex-wrap: wrap;
 	}
 	.portal-previews {
+		transition: transform 0.5s ease-in-out;
 		margin: 0;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
+	}
+	.portal-previews.saucer-mode {
+		transform: scale3d(0.1, 0.1, 0.1) rotate(-5deg);
+	}
+	.saucer {
+		font-size: 84px;
 	}
 
 	:global(.show-more-button) {
