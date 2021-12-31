@@ -40,9 +40,8 @@
 	};
 
 	// TODO extract all of this
-	// TODO click anywhere on the spaceship to exit spaceship mode
-	// TODO keep it onscreen
 	// TODO add earth and space trash gameplay
+	// TODO exit offscreen to a whole new world
 	let turningLeft = false;
 	let turningRight = false;
 	let movingForward = false;
