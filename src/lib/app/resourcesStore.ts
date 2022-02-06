@@ -141,7 +141,7 @@ export const createResourcesStore = (): ResourcesStore => {
 		},
 		load: (): Promise<void> => {
 			if (promise) return promise;
-			promise = new Promise<void>((r) => (resolve = r)); // eslint-disable-line no-promise-executor-return
+			promise = new Promise<void>((r) => (resolve = r));
 			update((state) => {
 				const resources: Resource[] = [];
 				for (const resource of state.resources) {

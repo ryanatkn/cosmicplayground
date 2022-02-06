@@ -50,7 +50,7 @@ export class PixiApp {
 		if (!this.app.loader.loading) {
 			throw Error('Called `waitForLoad` when not loading.'); // maybe call `load` automatically instead?
 		}
-		return new Promise((r: () => void) => this.app.loader.onLoad.once(r)); // eslint-disable-line no-promise-executor-return
+		return new Promise((r: () => void) => this.app.loader.onLoad.once(r));
 	}
 }
 
