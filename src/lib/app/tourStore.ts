@@ -114,7 +114,7 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 					const promise = promises.get(step.name);
 					await promise; // eslint-disable-line no-await-in-loop
 					promises.delete(step.name);
-					disableUpdate = false; // eslint-disable-line require-atomic-updates
+					disableUpdate = false;
 					break;
 				}
 				default: {
