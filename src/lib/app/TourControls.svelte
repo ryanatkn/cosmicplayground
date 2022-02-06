@@ -30,7 +30,7 @@
 <FloatingTextButton>time: {Math.round($tour.currentTime)}</FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {
-		const index = Number(prompt('index?', $tour.currentStepIndex + ''));
+		const index = Number(prompt('index?', $tour.currentStepIndex + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(index)) {
 			tour.seekIndexTo(index);
 		}

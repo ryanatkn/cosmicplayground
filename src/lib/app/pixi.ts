@@ -9,7 +9,7 @@ export class PixiApp {
 	defaultScene!: PIXI.Container;
 	currentScene!: PIXI.Container;
 
-	init(pixiModule: typeof PIXI, options: PIXI.IApplicationOptions) {
+	init(pixiModule: typeof PIXI, options: PIXI.IApplicationOptions): void {
 		this.PIXI = pixiModule;
 		pixiModule.settings.SCALE_MODE = pixiModule.SCALE_MODES.NEAREST;
 		this.app = new pixiModule.Application(options);
@@ -50,7 +50,7 @@ export class PixiApp {
 		if (!this.app.loader.loading) {
 			throw Error('Called `waitForLoad` when not loading.'); // maybe call `load` automatically instead?
 		}
-		return new Promise((r: () => void) => this.app.loader.onLoad.once(r));
+		return new Promise((r: () => void) => this.app.loader.onLoad.once(r)); // eslint-disable-line no-promise-executor-return
 	}
 }
 
@@ -93,17 +93,17 @@ export const getPixiScene = (
 	}
 
 	onMount(() => {
-		hooks.load && hooks.load(pixi.app.loader);
+		hooks.load?.(pixi.app.loader);
 		// TODO show progress? or expect title screen to make these gtg?
 		pixi.app.loader.load((loader, resources) => {
 			if (destroyed) return; // in case the scene is destroyed before loading finishes
-			hooks.loaded && hooks.loaded(scene, resources, loader);
+			hooks.loaded?.(scene, resources, loader);
 		});
 	});
 
 	onDestroy(() => {
 		if (destroyed) throw Error('Already destroyed'); // TODO probably remove this
-		hooks.destroy && hooks.destroy(scene, pixi.app.loader);
+		hooks.destroy?.(scene, pixi.app.loader);
 		destroyed = true;
 		pixi.unmountScene(scene);
 		scene.destroy({

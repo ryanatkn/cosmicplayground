@@ -19,7 +19,12 @@
 		<h3>if this was my fault im sorry</h3>
 	</Panel>
 	<div class="sadface">
-		<FloatingIconButton label="sadface" on:click={() => alert('D:')}>D:</FloatingIconButton>
+		<FloatingIconButton
+			label="sadface"
+			on:click={() => {
+				alert('D:'); // eslint-disable-line no-alert
+			}}>D:</FloatingIconButton
+		>
 	</div>
 	<Panel>
 		<h2>maybe you want one of these?</h2>

@@ -67,10 +67,9 @@ export const createResourcesStore = (): ResourcesStore => {
 				if (resource.url === resourceUrl) {
 					successCount++;
 					return {...resource, status: 'success'};
-				} else {
-					if (resource.status === 'success') successCount++;
-					return resource;
 				}
+				if (resource.status === 'success') successCount++;
+				return resource;
 			});
 			const progress = successCount / resources.length;
 			if (progress === 1) shouldResolve = true;
@@ -89,11 +88,7 @@ export const createResourcesStore = (): ResourcesStore => {
 	const onError = (resourceUrl: string) => {
 		update((state) => {
 			const resources: Resource[] = state.resources.map((resource) => {
-				if (resource.url === resourceUrl) {
-					return {...resource, status: 'failure'};
-				} else {
-					return resource;
-				}
+				return resource.url === resourceUrl ? {...resource, status: 'failure'} : resource;
 			});
 			return {
 				...state,
@@ -146,7 +141,7 @@ export const createResourcesStore = (): ResourcesStore => {
 		},
 		load: (): Promise<void> => {
 			if (promise) return promise;
-			promise = new Promise<void>((r) => (resolve = r));
+			promise = new Promise<void>((r) => (resolve = r)); // eslint-disable-line no-promise-executor-return
 			update((state) => {
 				const resources: Resource[] = [];
 				for (const resource of state.resources) {

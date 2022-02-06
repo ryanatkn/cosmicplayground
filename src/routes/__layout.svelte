@@ -38,13 +38,14 @@
 
 	const bgImageUrl = '/assets/space/galaxies.jpg';
 	let bg: PixiBgStore;
-	$: bg && bg.updateDimensions($dimensions.width, $dimensions.height);
-	$: bg && bg.tick($clock.dt);
+	$: bg?.updateDimensions($dimensions.width, $dimensions.height);
+	$: bg?.tick($clock.dt);
 
 	let loadingStatus: AsyncStatus = 'initial';
 
 	onMount(async () => {
-		checkLegacyHashRedirect();
+		const redirecting = checkLegacyHashRedirect();
+		if (redirecting) await redirecting;
 
 		loadingStatus = 'pending';
 		// TODO importing PIXI async due to this issue: https://github.com/sveltejs/kit/issues/1650
@@ -72,11 +73,11 @@
 
 	// We used to have routes like `/#deep-breath` and now it's just `/deep-breath`,
 	// so this redirects to the hashless route as needed.
-	const checkLegacyHashRedirect = () => {
+	const checkLegacyHashRedirect = (): Promise<void> | undefined => {
 		const {hash} = window.location;
 		if (!hash) return;
 		window.location.hash = '';
-		goto('/' + hash.substring(1), {replaceState: true});
+		return goto('/' + hash.substring(1), {replaceState: true});
 	};
 
 	const settings = setSettings({
