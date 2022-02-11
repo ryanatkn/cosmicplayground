@@ -16,9 +16,7 @@
 	import clocksPortal from '$lib/portals/clocks/data';
 	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
 	import {getSettings} from '$lib/app/settingsStore';
-	import {getClock} from '$lib/app/clockStore';
-
-	const clock = getClock();
+	import StarshipStage from '$lib/portals/home/StarshipStage.svelte';
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
@@ -39,117 +37,37 @@
 		window.scrollTo({left: window.scrollX, top: 9000, behavior: 'smooth'}); // `9000` bc `Infinity` doesn't work and I don't care to calculate it
 	};
 
-	// TODO refactor all of this, lots of modules and components to extract
-	// TODO add earth and space trash gameplay
-	// TODO exit offscreen to a whole new world
-	let turningLeft = false;
-	let turningRight = false;
-	let movingForward = false;
-	let movingBackward = false;
-	let starshipX = 0;
-	let starshipY = 0;
-	let starshipRotate = 0;
 	let starshipMode = false;
 	const TRANSITION_DURATION = 500;
 	let transitioningStarshipModeCount = 0; // counter so it handles concurrent calls without much code
 	$: transitioningStarshipMode = !!transitioningStarshipModeCount;
 	$: starshipReady = starshipMode && !transitioningStarshipMode;
-	const ROTATE_INCREMENT = Math.PI * 0.0013;
-	const MOVEMENT_INCREMENET = 0.3; // TODO velocity?
+	let starshipX = 0;
+	let starshipY = 0;
+	let starshipRotation = 0;
+	const enterStarshipMode = async () => {
+		starshipX = 0;
+		starshipY = 0;
+		starshipRotation = 0;
+		starshipMode = true;
+		transitioningStarshipModeCount++;
+		await wait(TRANSITION_DURATION);
+		transitioningStarshipModeCount--;
+	};
 	const exitStarshipMode = async () => {
 		starshipMode = false;
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
 	};
-	const enterStarshipMode = async () => {
-		starshipMode = true;
-		starshipRotate = -ROTATE_INCREMENT;
-		starshipX = 0;
-		starshipY = 0;
-		transitioningStarshipModeCount++;
-		await wait(TRANSITION_DURATION);
-		transitioningStarshipModeCount--;
-	};
-	$: starshipReady && updateMovement($clock.dt);
-	const updateMovement = (dt: number) => {
-		const turning = (turningLeft ? -1 : 0) + (turningRight ? 1 : 0);
-		if (turning) {
-			starshipRotate += turning * ROTATE_INCREMENT * dt; // TODO probably modulo `Math.PI * 2` but it's funny how much it spins
-		}
-		const moving = (movingForward ? 1 : 0) + (movingBackward ? -1 : 0);
-		if (moving) {
-			starshipX += moving * Math.sin(starshipRotate) * MOVEMENT_INCREMENET * dt;
-			starshipY += -moving * Math.cos(starshipRotate) * MOVEMENT_INCREMENET * dt;
-		}
-	};
-	const onKeydown = (e: KeyboardEvent) => {
-		if (!starshipMode) throw Error('TODO probably remove this check');
-		switch (e.key) {
-			case 'ArrowLeft':
-			case 'a': {
-				turningLeft = true;
-				break;
-			}
-			case 'ArrowRight':
-			case 'd': {
-				turningRight = true;
-				break;
-			}
-			case 'ArrowUp':
-			case 'w': {
-				movingForward = true;
-				break;
-			}
-			case 'ArrowDown':
-			case 's': {
-				movingBackward = true;
-				break;
-			}
-			case 'Escape': {
-				exitStarshipMode();
-				break;
-			}
-		}
-	};
-	const onKeyup = (e: KeyboardEvent) => {
-		if (!starshipMode) throw Error('TODO probably remove this check');
-		switch (e.key) {
-			case 'ArrowLeft':
-			case 'a': {
-				turningLeft = false;
-				break;
-			}
-			case 'ArrowRight':
-			case 'd': {
-				turningRight = false;
-				break;
-			}
-			case 'ArrowUp':
-			case 'w': {
-				movingForward = false;
-				break;
-			}
-			case 'ArrowDown':
-			case 's': {
-				movingBackward = false;
-				break;
-			}
-		}
-	};
 </script>
-
-<svelte:window
-	on:keydown={starshipMode ? onKeydown : undefined}
-	on:keyup={starshipMode ? onKeyup : undefined}
-/>
 
 <nav
 	class="portal-previews"
 	class:starship-mode={starshipMode}
 	class:starship-ready={starshipReady}
 	style={(starshipMode
-		? `transform: translate3d(${starshipX}px, ${starshipY}px, 0) scale3d(0.1, 0.1, 0.1) rotate(${starshipRotate}rad);`
+		? `transform: translate3d(${starshipX}px, ${starshipY}px, 0) scale3d(0.1, 0.1, 0.1) rotate(${starshipRotation}rad);`
 		: '') +
 		(starshipReady
 			? 'transition: none;'
@@ -221,6 +139,15 @@
 		{/each}
 	{/if}
 </nav>
+{#if starshipMode}
+	<StarshipStage
+		{starshipReady}
+		bind:starshipX
+		bind:starshipY
+		bind:starshipRotation
+		{exitStarshipMode}
+	/>
+{/if}
 
 <style>
 	header {
