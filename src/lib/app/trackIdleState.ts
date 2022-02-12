@@ -43,8 +43,8 @@ export const trackIdleState = (el: HTMLElement, opts: TrackIdleStateOptions) => 
 	el.addEventListener('keydown', resetIdleState, {capture: true});
 
 	return {
-		update: ({idle, idleIntervalTime, timeToGoIdle: _timeToGoIdle}: TrackIdleStateOptions) => {
-			timeToGoIdle = _timeToGoIdle;
+		update: ({idle, idleIntervalTime, timeToGoIdle: nextTimeToGoIdle}: TrackIdleStateOptions) => {
+			timeToGoIdle = nextTimeToGoIdle;
 			unsubscribe();
 			unsubscribe = idle.subscribe(onChange);
 			startInterval(idleIntervalTime);

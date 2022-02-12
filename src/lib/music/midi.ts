@@ -28,9 +28,8 @@ export const midis: Midi[] = Object.freeze(
 	Array.from({length: MIDI_NUMBER_MAX + 1}, (_, i) => i),
 ) as Midi[];
 
-export const isMidi = (n: number): n is Midi => {
-	return n >= MIDI_NUMBER_MIN && n <= MIDI_NUMBER_MAX && Number.isInteger(n);
-};
+export const isMidi = (n: number): n is Midi =>
+	n >= MIDI_NUMBER_MIN && n <= MIDI_NUMBER_MAX && Number.isInteger(n);
 
 // note/midi/frequency formulas: https://newt.phys.unsw.edu.au/jw/notes.html
 // We could give `tuning` a default value

@@ -88,10 +88,7 @@ export const createResourcesStore = (): ResourcesStore => {
 	const onError = (resourceUrl: string) => {
 		update((state) => {
 			const resources: Resource[] = state.resources.map((resource) => {
-				if (resource.url === resourceUrl) {
-					return {...resource, status: 'failure'};
-				}
-				return resource;
+				return resource.url === resourceUrl ? {...resource, status: 'failure'} : resource;
 			});
 			return {
 				...state,
