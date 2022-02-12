@@ -2,8 +2,8 @@ import {type Renderer} from '$lib/flat/renderer';
 import {type Entity} from '$lib/flat/entity';
 
 export class CanvasRenderer implements Renderer {
-	width: number = -1;
-	height: number = -1;
+	width = -1;
+	height = -1;
 
 	canvas: HTMLCanvasElement | null = null;
 	ctx: CanvasRenderingContext2D | null = null;

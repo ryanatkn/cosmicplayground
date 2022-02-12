@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {spring} from 'svelte/motion';
 	import {onDestroy} from 'svelte';
-	import {mix} from '@feltcoop/felt/util/math.js';
+	import {lerp} from '@feltcoop/felt/util/maths.js';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
@@ -14,14 +14,14 @@
 	let pointerX = -300;
 	let pointerY = -300;
 
-	let spotPosition = spring(
+	const spotPosition = spring(
 		{x: pointerX, y: pointerY},
 		{
 			stiffness: 0.08,
 			damping: 0.32,
 		},
 	);
-	$: spotPosition.set({x: pointerX, y: pointerY});
+	$: spotPosition.set({x: pointerX, y: pointerY}); // eslint-disable-line @typescript-eslint/no-floating-promises
 
 	let osc: OscillatorNode | undefined;
 	let gain: GainNode | undefined;
@@ -34,7 +34,7 @@
 	const freqMin = 0;
 	const freqMax = 25000;
 	const calcFreq = (value: number, max: number) => {
-		return mix(freqMin, freqMax, value / max);
+		return lerp(freqMin, freqMax, value / max);
 	};
 
 	$: volume =
@@ -50,7 +50,7 @@
 	const volumeMin = 0;
 	const volumeMax = 1;
 	const calcVolume = (value: number, max: number) => {
-		return mix(volumeMin, volumeMax, 1 - value / max);
+		return lerp(volumeMin, volumeMax, 1 - value / max);
 	};
 
 	const start = () => {

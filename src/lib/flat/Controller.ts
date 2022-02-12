@@ -3,20 +3,20 @@ import {type Entity} from '$lib/flat/entity';
 // TODO rethink and handle dynamic mappings
 
 export class Controller {
-	moving_left: boolean = false;
-	moving_right: boolean = false;
-	moving_up: boolean = false;
-	moving_down: boolean = false;
-	pressing_exit: boolean = false;
+	moving_left = false;
+	moving_right = false;
+	moving_up = false;
+	moving_down = false;
+	pressing_exit = false;
 
-	pointerDown: boolean = false;
-	setPointerDown(down: boolean) {
+	pointerDown = false;
+	setPointerDown(down: boolean): void {
 		this.pointerDown = down;
 	}
 
 	pointerLocationX: number | null = null;
 	pointerLocationY: number | null = null;
-	setPointerLocation(x: number | null, y: number | null) {
+	setPointerLocation(x: number | null, y: number | null): void {
 		this.pointerLocationX = x;
 		this.pointerLocationY = y;
 	}
@@ -89,7 +89,7 @@ export class Controller {
 
 // TODO move this where?
 // TODO maybe return values instead?
-export const updateDirection = (controller: Controller, entity: Entity) => {
+export const updateDirection = (controller: Controller, entity: Entity): void => {
 	if (controller.pointerDown) {
 		if (controller.pointerLocationX !== null && controller.pointerLocationY !== null) {
 			const x = controller.pointerLocationX - entity.x;

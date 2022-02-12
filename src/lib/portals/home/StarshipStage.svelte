@@ -8,7 +8,7 @@
 	export let starshipReady: boolean;
 	export let starshipX = 0;
 	export let starshipY = 0;
-	export let starshipRotation = -Math.PI * 0.0033;
+	export let starshipRotation = 0;
 	export let exitStarshipMode: () => void;
 
 	const clock = getClock();
@@ -17,7 +17,7 @@
 	let width: number;
 
 	// loaded from parent window if possible -- TODO refactor
-	let hue = 240;
+	const hue = 240;
 
 	let world: any; // TODO type?
 

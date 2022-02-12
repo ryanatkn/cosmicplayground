@@ -25,14 +25,14 @@
 </FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {
-		$scale = Number(prompt('🔎', $scale + '')) || $scale;
+		$scale = Number(prompt('🔎', $scale + '')) || $scale; // eslint-disable-line no-alert
 	}}
 >
 	scale: {Math.round($scale * 10) / 10}
 </FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {
-		const inputValue = Number(prompt('x', $x + ''));
+		const inputValue = Number(prompt('x', $x + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(inputValue)) {
 			$x = inputValue;
 		}
@@ -42,7 +42,7 @@
 </FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {
-		const inputValue = Number(prompt('y', $y + ''));
+		const inputValue = Number(prompt('y', $y + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(inputValue)) {
 			$y = inputValue;
 		}

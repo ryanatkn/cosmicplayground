@@ -1,6 +1,5 @@
 import {type Flavored} from '@feltcoop/felt';
-import {toRandomSeeded} from '@feltcoop/felt/util/randomSeeded.js';
-import {type Alea} from '@feltcoop/felt/util/randomSeeded.js';
+import {toRandomSeeded, type Alea} from '@feltcoop/felt/util/randomSeeded.js';
 
 import {type Simulation} from '$lib/flat/Simulation';
 import {type Controller} from '$lib/flat/Controller';
@@ -41,7 +40,7 @@ export abstract class Stage {
 	meta: StageMeta;
 	controller: Controller;
 	exit: ExitStage;
-	time: number = 0;
+	time = 0;
 	random: Alea;
 	hue: number;
 	color: string;

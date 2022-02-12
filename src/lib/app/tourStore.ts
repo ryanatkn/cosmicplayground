@@ -77,11 +77,11 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 	const promises = new Map<string, Promise<void>>();
 	const handleClockTick = async (dt: number): Promise<void> => {
 		if (disableUpdate) return;
-		let {
-			currentTime,
-			currentStepIndex,
+		const $store = get(store);
+		let {currentTime, currentStepIndex} = $store;
+		const {
 			data: {steps},
-		}: TourState = get(store); // TODO type?
+		} = $store;
 		currentTime += dt;
 		update((tourState) => ({...tourState, currentTime}));
 		// console.log('update', currentTime, currentStepIndex);
@@ -112,7 +112,7 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 				case 'waitForEvent': {
 					disableUpdate = true;
 					const promise = promises.get(step.name);
-					await promise;
+					await promise; // eslint-disable-line no-await-in-loop
 					promises.delete(step.name);
 					disableUpdate = false;
 					break;
@@ -134,7 +134,7 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 	// TODO does this cause a memory leak? use derived?
 	const unsubscribeClock = clock.subscribe(($clock) => {
 		if ($clock.running && $clock.dt > 0) {
-			handleClockTick($clock.dt);
+			handleClockTick($clock.dt); // eslint-disable-line @typescript-eslint/no-floating-promises
 		}
 	});
 
@@ -172,7 +172,7 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 		}
 
 		// Apply the current step.
-		handleClockTick(0);
+		handleClockTick(0); // eslint-disable-line @typescript-eslint/no-floating-promises
 		if (currentTime !== totalDuration) {
 			// This is a bit messy, but fixes a bug where seek is called after the tour ends.
 			// Instead, should we just call the hook right before the tick?

@@ -66,13 +66,11 @@
 	class="portal-previews"
 	class:starship-mode={starshipMode}
 	class:starship-ready={starshipReady}
-	style={(starshipMode
-		? `transform: translate3d(${starshipX}px, ${starshipY}px, 0) scale3d(0.1, 0.1, 0.1) rotate(${starshipRotation}rad);`
-		: '') +
-		(starshipReady
-			? 'transition: none;'
-			: `transition: transform ${TRANSITION_DURATION}ms ease-in-out;`)}
-	on:click|capture={(e) => {
+	style:transform={starshipMode
+		? `translate3d(${starshipX}px, ${starshipY}px,	0) scale3d(0.1, 0.1, 0.1)	rotate(${starshipRotation}rad)`
+		: 'none'}
+	style:transition={starshipReady ? 'none' : `transform ${TRANSITION_DURATION}ms ease-in-out`}
+	on:click|capture={async (e) => {
 		// TODO ideally this would be the following,
 		// but Svelte can't handle modifiers with undefined handlers right now:
 		// on:click|capture|preventDefault|stopPropagation={starshipReady
@@ -81,7 +79,7 @@
 		if (starshipMode) {
 			e.preventDefault();
 			e.stopPropagation();
-			exitStarshipMode();
+			await exitStarshipMode();
 		}
 	}}
 >
@@ -163,7 +161,7 @@
 	.portal-previews {
 		margin: 0;
 		display: flex;
-		flex-wrap: wrap;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */

@@ -63,7 +63,6 @@
 	$: console.log('changed $stageStates', $stageStates);
 
 	export let activeStageState: StageState | null = null;
-	let activeStageTime: number | null | undefined;
 	$: console.log('activeStageState', activeStageState);
 	let settingUp = false;
 	export const setActiveStage = async (stageState: StageState = $stageStates[0]): Promise<void> => {
@@ -85,9 +84,9 @@
 			produce($v, ($stageStates) => {
 				// TODO speed this up with better data structures
 				const activeIndex = $stageStates.findIndex(
-					($s) => $s.stageConstructor === stageState!.stageConstructor,
+					($s) => $s.stageConstructor === stageState.stageConstructor,
 				);
-				const StageConstructor = stageState!.stageConstructor;
+				const StageConstructor = stageState.stageConstructor;
 				$stageStates[activeIndex].stage = new StageConstructor(controller, onExitStage, hue);
 				console.log('new', $stageStates[activeIndex].stage, activeIndex);
 			}),
@@ -109,8 +108,6 @@
 	$: if ($clock.running && renderer.ctx && activeStageState && !settingUp) {
 		activeStageState.stage!.update($clock.dt);
 		activeStageState.stage!.render(renderer);
-		activeStageTime =
-			(activeStageState.stage && Math.round(activeStageState.stage!.time / 1000)) || 0;
 	}
 
 	const onKeydown = (e: KeyboardEvent) => {
@@ -133,10 +130,6 @@
 	{:else}
 		<Canvas {width} {height} stage={activeStageState.stage} {renderer} />
 		<InteractiveSurface {width} {height} controller={activeStageState.stage.controller} />
-		<!-- TODO extract component -->
-		{#if activeStageTime != null}
-			<div class="time">{Math.round(activeStageTime)}s</div>
-		{/if}
 		<slot />
 	{/if}
 </div>
@@ -147,13 +140,5 @@
 		text-align: center;
 		justify-content: center;
 		align-items: center;
-	}
-	.time {
-		position: absolute;
-		top: 10px;
-		left: 10px;
-		color: var(--font_color);
-		font-size: 34px;
-		font-weight: 300;
 	}
 </style>

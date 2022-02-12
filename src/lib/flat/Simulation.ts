@@ -22,11 +22,9 @@ export class Simulation {
 		let direction_x: number;
 		let direction_y: number;
 		let potentials: EntityBody[];
-		let body: EntityBody;
 
 		// apply collisions
-		for (let i = 0; i < bodies.length; ++i) {
-			body = bodies[i];
+		for (const body of bodies) {
 			if (body.ghostly) continue;
 
 			speed = body.speed * dt;

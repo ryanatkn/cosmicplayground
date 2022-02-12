@@ -1,5 +1,5 @@
 import {typescript} from 'svelte-preprocess-esbuild';
-import static_adapter from '@sveltejs/adapter-static';
+import adapter from '@sveltejs/adapter-static';
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -10,8 +10,7 @@ export default {
 		immutable: true,
 	},
 	kit: {
-		adapter: static_adapter(),
-		target: '#root',
+		adapter: adapter(),
 		files: {assets: 'src/static'},
 		vite: {
 			ssr: {

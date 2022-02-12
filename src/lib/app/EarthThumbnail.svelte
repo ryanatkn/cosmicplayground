@@ -9,8 +9,8 @@
 	export let running = true;
 
 	// TODO get from loaded image
-	let imageWidth = 300;
-	let imageHeight = 150;
+	const imageWidth = 300;
+	const imageHeight = 150;
 	$: imageAspectRatio = imageWidth / imageHeight;
 
 	// Make sure the bg covers the container and seamlessly scrolls

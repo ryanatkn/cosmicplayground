@@ -1,1 +1,1 @@
-/// <reference types="@sveltejs/kit" />
+import '@sveltejs/kit';

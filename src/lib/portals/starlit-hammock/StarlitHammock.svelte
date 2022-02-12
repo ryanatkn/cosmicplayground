@@ -23,8 +23,9 @@
 	let destroyed = false;
 
 	const [pixi, scene] = getPixiScene({
-		loaded: () => {
-			updateSprite(imageUrl); // this *might* handle a corner case bug due to the fact that we're not reactively listening to the loader
+		loaded: async () => {
+			// this *might* handle a corner case bug due to the fact that we're not reactively listening to the loader
+			await updateSprite(imageUrl);
 		},
 		destroy: () => {
 			destroyed = true;
@@ -40,12 +41,12 @@
 			if (sprite) destroySprite();
 			if (pixi.app.loader.loading) {
 				await pixi.waitForLoad();
-				updateSprite(url);
+				await updateSprite(url);
 			} else {
 				pixi.app.loader.add(url);
 				pixi.app.loader.load();
 				await pixi.waitForLoad();
-				updateSprite(url);
+				await updateSprite(url);
 			}
 		} else if (!resource.texture) {
 			// no-op, resource exists but it's not loaded, let the load callback do the work
@@ -80,7 +81,7 @@
 		camera.position.set(x, y);
 	};
 
-	$: updateSprite(imageUrl);
+	$: updateSprite(imageUrl); // eslint-disable-line @typescript-eslint/no-floating-promises
 
 	// TODO handle failure and initial?
 	let loadingStatus: AsyncStatus;

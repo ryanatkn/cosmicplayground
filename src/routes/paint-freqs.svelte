@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {spring} from 'svelte/motion';
 	import {onDestroy} from 'svelte';
-	import {mix} from '@feltcoop/felt/util/math.js';
+	import {lerp} from '@feltcoop/felt/util/maths.js';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
@@ -105,14 +105,14 @@
 
 	const audioCtx = getAudioCtx();
 
-	let spotPosition = spring(
+	const spotPosition = spring(
 		{x: pointerX, y: pointerY},
 		{
 			stiffness: 0.08,
 			damping: 0.32,
 		},
 	);
-	$: spotPosition.set({x: pointerX, y: pointerY});
+	$: spotPosition.set({x: pointerX, y: pointerY}); // eslint-disable-line @typescript-eslint/no-floating-promises
 
 	let osc: OscillatorNode | undefined;
 	let gain: GainNode | undefined;
@@ -155,8 +155,8 @@
 	const calcFreq = (x: number, y: number, w: number, h: number) => {
 		const yPct = 1 - y / h;
 		// get roughly equal frequency bands on the X axis - dunno what the exact math is
-		const xPct = Math.pow(x / 2 / w + 0.5, 10);
-		return mix(freqMin, freqMax, xPct) * mix(yMultMin, yMultMax, yPct);
+		const xPct = (x / 2 / w + 0.5) ** 10;
+		return lerp(freqMin, freqMax, xPct) * lerp(yMultMin, yMultMax, yPct);
 	};
 
 	// TODO more cleanly handle touch/click - pointer events with polyfill for Safari? (probably using Svelte actions)

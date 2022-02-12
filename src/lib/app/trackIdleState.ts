@@ -6,10 +6,11 @@ interface TrackIdleStateOptions {
 	idleIntervalTime: number;
 }
 
-export const trackIdleState = (
-	el: HTMLElement,
-	{idle, timeToGoIdle, idleIntervalTime}: TrackIdleStateOptions,
-) => {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const trackIdleState = (el: HTMLElement, opts: TrackIdleStateOptions) => {
+	const {idle, idleIntervalTime} = opts;
+	let {timeToGoIdle} = opts;
+
 	let interval: any; // TODO type for browser only? should be `number`
 	let idleTimer = 0;
 

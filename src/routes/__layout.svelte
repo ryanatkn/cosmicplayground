@@ -38,13 +38,13 @@
 
 	const bgImageUrl = '/assets/space/galaxies.jpg';
 	let bg: PixiBgStore;
-	$: bg && bg.updateDimensions($dimensions.width, $dimensions.height);
-	$: bg && bg.tick($clock.dt);
+	$: bg?.updateDimensions($dimensions.width, $dimensions.height);
+	$: bg?.tick($clock.dt);
 
 	let loadingStatus: AsyncStatus = 'initial';
 
 	onMount(async () => {
-		checkLegacyHashRedirect();
+		checkLegacyHashRedirect(); // eslint-disable-line @typescript-eslint/no-floating-promises
 
 		loadingStatus = 'pending';
 		// TODO importing PIXI async due to this issue: https://github.com/sveltejs/kit/issues/1650
@@ -76,7 +76,7 @@
 		const {hash} = window.location;
 		if (!hash) return;
 		window.location.hash = '';
-		goto('/' + hash.substring(1), {replaceState: true});
+		return goto('/' + hash.substring(1), {replaceState: true});
 	};
 
 	const settings = setSettings({
@@ -92,10 +92,10 @@
 
 	const portals = createPortalsStore({
 		data: portalsData,
-		selectedPortal: portalsData.portalsBySlug.get($page.path.substring(1)) || null,
+		selectedPortal: portalsData.portalsBySlug.get($page.url.pathname.substring(1)) || null,
 	});
 	setPortals(portals);
-	$: selectedPortalSlugFromPath = $page.path.substring(1);
+	$: selectedPortalSlugFromPath = $page.url.pathname.substring(1);
 	$: portals.select(selectedPortalSlugFromPath); // TODO hmm?
 
 	const idle = writable(false);

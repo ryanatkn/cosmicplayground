@@ -1,7 +1,6 @@
 import {Collisions} from '@ryanatkn/collisions';
 
-import {Stage as BaseStage} from '$lib/flat/stage';
-import {type StageSetupOptions, type StageMeta} from '$lib/flat/stage';
+import {Stage as BaseStage, type StageSetupOptions, type StageMeta} from '$lib/flat/stage';
 import {type Entity, type EntityCircle, type EntityPolygon} from '$lib/flat/entity';
 import {type Renderer} from '$lib/flat/renderer';
 import {Simulation} from '$lib/flat/Simulation';
@@ -50,13 +49,14 @@ export class Stage extends BaseStage {
 		if (this.ready) return;
 		this.ready = true;
 
-		const collisions = (this.collisions = new Collisions());
-		const sim = (this.sim = new Simulation(collisions));
+		const collisions = (this.collisions = new Collisions()); // eslint-disable-line no-multi-assign
+		const sim = (this.sim = new Simulation(collisions)); // eslint-disable-line no-multi-assign
 		const {controller} = this;
 		const {bodies} = sim;
 
 		console.log('setup stage, sim, controller', sim, controller);
 		// create the controllable player
+		// eslint-disable-next-line no-multi-assign
 		const player: EntityCircle = (this.player = collisions.createCircle(
 			100,
 			147,
@@ -69,6 +69,7 @@ export class Stage extends BaseStage {
 		bodies.push(player);
 
 		// create the bounds around the stage edges
+		// eslint-disable-next-line no-multi-assign
 		const bounds: EntityPolygon = (this.bounds = collisions.createPolygon(0, 0, [
 			[0, 0],
 			[1, 0],
