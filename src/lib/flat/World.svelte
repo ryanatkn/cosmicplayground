@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
 	import {produce} from 'immer';
+	import {onMount} from 'svelte';
 
 	import Canvas from '$lib/flat/Canvas.svelte';
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
@@ -12,7 +13,6 @@
 
 	export let height: number;
 	export let width: number;
-	export let hue: number; // TODO refactor
 	export let stages: StageConstructor[];
 	export let renderer = new CanvasRenderer();
 	export let controller = new Controller();
@@ -55,7 +55,7 @@
 	export const stageStates: Writable<StageState[]> = writable(
 		stages.map((stageConstructor, i) => ({
 			stageConstructor,
-			stage: i === 0 ? new stageConstructor(controller, onExitStage, hue) : null, // TODO initialize from saved state
+			stage: i === 0 ? new stageConstructor(controller, onExitStage) : null, // TODO initialize from saved state
 			unlocked: i === 0,
 			completions: [],
 		})),
@@ -86,8 +86,7 @@
 				const activeIndex = $stageStates.findIndex(
 					($s) => $s.stageConstructor === stageState.stageConstructor,
 				);
-				const StageConstructor = stageState.stageConstructor;
-				$stageStates[activeIndex].stage = new StageConstructor(controller, onExitStage, hue);
+				$stageStates[activeIndex].stage = new stageState.stageConstructor(controller, onExitStage);
 				console.log('new', $stageStates[activeIndex].stage, activeIndex);
 			}),
 		);
@@ -104,6 +103,10 @@
 		console.log('all set up!');
 		settingUp = false; // TODO refactor
 	};
+
+	onMount(async () => {
+		await setActiveStage();
+	});
 
 	$: if ($clock.running && renderer.ctx && activeStageState && !settingUp) {
 		activeStageState.stage!.update($clock.dt);

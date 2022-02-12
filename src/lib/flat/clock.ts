@@ -2,6 +2,8 @@ import {writable, get, type Writable} from 'svelte/store';
 import {getContext, setContext} from 'svelte';
 import {browser} from '$app/env';
 
+// TODO merge with `clockStore`
+
 export interface ClockState {
 	running: boolean;
 	time: number;

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import {onMount} from 'svelte';
-
 	import World from '$lib/flat/World.svelte';
 	import {Stage} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
@@ -16,19 +14,6 @@
 	let height: number;
 	let width: number;
 
-	// loaded from parent window if possible -- TODO refactor
-	const hue = 240;
-
-	let world: any; // TODO type?
-
-	onMount(() => {
-		world.setActiveStage();
-		console.log('world', world);
-	});
-
-	// TODO refactor all of this, lots of modules and components to extract
-	// TODO add earth and space trash gameplay
-	// TODO exit offscreen to a whole new world
 	let turningLeft = false;
 	let turningRight = false;
 	let movingForward = false;
@@ -104,12 +89,14 @@
 <svelte:window on:keydown={onKeydown} on:keyup={onKeyup} />
 
 <!-- TODO maybe instead use ResizeObserver? the iframe measuring feels unfortunate -->
-<div class="tar" bind:clientHeight={height} bind:clientWidth={width}>
-	<World {width} {height} {hue} bind:this={world} stages={[Stage]} />
+<div class="starship-stage" bind:clientHeight={height} bind:clientWidth={width}>
+	<World {width} {height} stages={[Stage]} />
 </div>
 
 <style>
-	.tar {
+	.starship-stage {
+		position: absolute !important;
+		inset: 0;
 		width: 100%;
 		height: 100%;
 		display: flex;

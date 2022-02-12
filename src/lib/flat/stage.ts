@@ -42,14 +42,10 @@ export abstract class Stage {
 	exit: ExitStage;
 	time = 0;
 	random: Alea;
-	hue: number;
-	color: string;
 
-	constructor(controller: Controller, exit: ExitStage, hue: number) {
+	constructor(controller: Controller, exit: ExitStage) {
 		this.controller = controller;
 		this.exit = exit;
-		this.hue = hue;
-		this.color = `hsl(${hue}, 100%, 77%)`;
 		this.meta = (this.constructor as any).meta;
 		this.random = toRandomSeeded();
 	}

@@ -62,92 +62,99 @@
 	};
 </script>
 
-<nav
-	class="portal-previews"
-	class:starship-mode={starshipMode}
-	class:starship-ready={starshipReady}
-	style:transform={starshipMode
-		? `translate3d(${starshipX}px, ${starshipY}px,	0) scale3d(0.1, 0.1, 0.1)	rotate(${starshipRotation}rad)`
-		: 'none'}
-	style:transition={starshipReady ? 'none' : `transform ${TRANSITION_DURATION}ms ease-in-out`}
-	on:click|capture={async (e) => {
-		// TODO ideally this would be the following,
-		// but Svelte can't handle modifiers with undefined handlers right now:
-		// on:click|capture|preventDefault|stopPropagation={starshipReady
-		// ? () => exitStarshipMode()
-		// : undefined}
-		if (starshipMode) {
-			e.preventDefault();
-			e.stopPropagation();
-			await exitStarshipMode();
-		}
-	}}
->
-	<header class="portals">
-		<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
-			<svelte:component this={aboutPortal.Preview} portal={aboutPortal} />
-		</PortalPreview>
-	</header>
-	{#each primaryPortals as portals}
-		<ul class="portals">
-			{#each portals as portal (portal)}
-				{#if typeof portal === 'symbol'}
-					<PortalPreview onClick={enterStarshipMode}><div class="starship">🛸</div></PortalPreview>
-				{:else}
-					<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
-						<svelte:component this={portal.Preview} {portal} />
-					</PortalPreview>
-				{/if}
-			{/each}
-		</ul>
-	{/each}
-	<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
-		<h2>
-			show {#if $settings.showMorePortals}less{:else}more{/if}
-		</h2>
-		<div>
-			<img
-				src="/assets/earth/night_lights_1.png"
-				alt="night lights of Africa, Europe, and the Middle East"
-				style="width: 100px; height: 100px;"
-				class="mr-2"
-			/>
-			<img
-				src="/assets/earth/night_lights_2.png"
-				alt="night lights of the Americas"
-				style="width: 100px; height: 100px;"
-				class="mr-2"
-			/>
-			<img
-				src="/assets/earth/night_lights_3.png"
-				alt="night lights of Asia and Australia"
-				style="width: 100px; height: 100px;"
-			/>
-		</div>
-	</PortalPreview>
-	{#if $settings.showMorePortals}
-		{#each secondaryPortals as portals}
+<div class="home" class:starship-mode={starshipMode} class:starship-ready={starshipReady}>
+	<nav
+		style:transform={starshipMode
+			? `translate3d(${starshipX}px, ${starshipY}px,	0) scale3d(0.1, 0.1, 0.1)	rotate(${starshipRotation}rad)`
+			: 'none'}
+		style:transition={starshipReady ? 'none' : `transform ${TRANSITION_DURATION}ms ease-in-out`}
+		on:click|capture={async (e) => {
+			// TODO ideally this would be the following,
+			// but Svelte can't handle modifiers with undefined handlers right now:
+			// on:click|capture|preventDefault|stopPropagation={starshipReady
+			// ? () => exitStarshipMode()
+			// : undefined}
+			if (starshipMode) {
+				e.preventDefault();
+				e.stopPropagation();
+				await exitStarshipMode();
+			}
+		}}
+	>
+		<header class="portals">
+			<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
+				<svelte:component this={aboutPortal.Preview} portal={aboutPortal} />
+			</PortalPreview>
+		</header>
+		{#each primaryPortals as portals}
 			<ul class="portals">
-				{#each portals as portal}
-					<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
-						<svelte:component this={portal.Preview} {portal} />
-					</PortalPreview>
+				{#each portals as portal (portal)}
+					{#if typeof portal === 'symbol'}
+						<PortalPreview onClick={enterStarshipMode}><div class="starship">🛸</div></PortalPreview
+						>
+					{:else}
+						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
+							<svelte:component this={portal.Preview} {portal} />
+						</PortalPreview>
+					{/if}
 				{/each}
 			</ul>
 		{/each}
+		<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
+			<h2>
+				show {#if $settings.showMorePortals}less{:else}more{/if}
+			</h2>
+			<div>
+				<img
+					src="/assets/earth/night_lights_1.png"
+					alt="night lights of Africa, Europe, and the Middle East"
+					style="width: 100px; height: 100px;"
+					class="mr-2"
+				/>
+				<img
+					src="/assets/earth/night_lights_2.png"
+					alt="night lights of the Americas"
+					style="width: 100px; height: 100px;"
+					class="mr-2"
+				/>
+				<img
+					src="/assets/earth/night_lights_3.png"
+					alt="night lights of Asia and Australia"
+					style="width: 100px; height: 100px;"
+				/>
+			</div>
+		</PortalPreview>
+		{#if $settings.showMorePortals}
+			{#each secondaryPortals as portals}
+				<ul class="portals">
+					{#each portals as portal}
+						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
+							<svelte:component this={portal.Preview} {portal} />
+						</PortalPreview>
+					{/each}
+				</ul>
+			{/each}
+		{/if}
+	</nav>
+	{#if starshipMode}
+		<StarshipStage
+			{starshipReady}
+			bind:starshipX
+			bind:starshipY
+			bind:starshipRotation
+			{exitStarshipMode}
+		/>
 	{/if}
-</nav>
-{#if starshipMode}
-	<StarshipStage
-		{starshipReady}
-		bind:starshipX
-		bind:starshipY
-		bind:starshipRotation
-		{exitStarshipMode}
-	/>
-{/if}
+</div>
 
 <style>
+	.home.starship-mode {
+		position: fixed;
+		inset: 0;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+	}
 	header {
 		margin-top: 15px;
 	}
@@ -158,7 +165,10 @@
 		align-items: center;
 		flex-wrap: wrap;
 	}
-	.portal-previews {
+	.starship-mode .portals {
+		flex-wrap: nowrap;
+	}
+	nav {
 		margin: 0;
 		display: flex;
 		flex-direction: column;
@@ -169,7 +179,7 @@
 	.starship {
 		font-size: 84px;
 	}
-	.starship-ready {
+	.starship-ready nav {
 		cursor: pointer;
 	}
 

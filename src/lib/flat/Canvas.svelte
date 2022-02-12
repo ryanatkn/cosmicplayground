@@ -48,7 +48,4 @@ allow it to bubble and do whatever
 		align-items: center;
 		justify-content: center;
 	}
-	canvas {
-		background-color: #000;
-	}
 </style>
