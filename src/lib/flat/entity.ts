@@ -2,8 +2,8 @@ import {type Body, type Circle, type Point, type Polygon} from '@ryanatkn/collis
 
 export interface Entity extends Body {
 	speed: number;
-	direction_x: number;
-	direction_y: number;
+	directionX: number;
+	directionY: number;
 	color: string;
 	invisible?: boolean;
 	ghostly?: boolean;

@@ -2,16 +2,11 @@ import {writable, get, type Writable} from 'svelte/store';
 import {getContext, setContext} from 'svelte';
 import {browser} from '$app/env';
 
-// I tried to avoid using `get`, but there's one place where it's used.
-// Subscribing to the `running` value seems to add a lot of complexity
-// to get it working correctly.
-// If the store is subscribed to in the function that creates it,
-// it'll never reach 0 subscribers and be cleaned up,
-// creating a memory leak. There are probably better ways to do this.
+// TODO merge with `clockStore`
 
 export interface ClockState {
-	time: number;
 	running: boolean;
+	time: number;
 	dt: number;
 }
 
@@ -20,14 +15,14 @@ export interface ClockStore {
 	set: Writable<ClockState>['set'];
 	update: Writable<ClockState>['update'];
 	resume: () => void;
-	pause: () => void;
+	pause: () => void; // also semantically includes "stop", might want to make an explicit `stop`/`teardown`
 	toggle: () => void;
 }
 
-export const createClockStore = (initialState?: Partial<ClockState>): ClockStore => {
+export const toClockStore = (initialState?: Partial<ClockState>): ClockStore => {
 	const finalInitialState: ClockState = {
+		running: false, // see below for where `initialState.running` is used - the initializing `resume` call expects `running` to be false
 		time: 0,
-		running: false, // see below for where `finalInitialState.running` is used - the initializing `resume` call expects `running` to be false
 		dt: 0,
 		...initialState,
 	};
@@ -35,55 +30,63 @@ export const createClockStore = (initialState?: Partial<ClockState>): ClockStore
 	let lastTime: number | undefined;
 	let reqId: number | undefined;
 
-	const store = writable(finalInitialState, () => {
+	const {subscribe, set, update} = writable(finalInitialState, () => {
 		return () => {
-			pause();
+			store.pause();
 		};
 	});
-	const {subscribe, set, update} = store;
 
 	const onTimer = (dt: number): void => {
-		update((c) => ({...c, time: c.time + dt, dt}));
+		update(($clock) => ({...$clock, time: $clock.time + dt, dt}));
 	};
 
-	const onFrame = (t: number): void => {
+	const on_frame = (t: number): void => {
 		if (lastTime !== undefined) {
 			onTimer(t - lastTime);
 		}
 		lastTime = t;
-		reqId = requestAnimationFrame(onFrame);
+		reqId = requestAnimationFrame(on_frame);
 	};
 
-	const resume = (): void => {
-		update((c) => {
-			if (c.running) return c;
-			lastTime = undefined;
-			reqId = browser ? requestAnimationFrame(onFrame) : undefined;
-			return {...c, running: true};
-		});
-	};
-	const pause = (): void => {
-		update((c) => {
-			if (!c.running) return c;
-			if (reqId) cancelAnimationFrame(reqId);
-			return {...c, running: false};
-		});
-	};
-	const toggle = (): void => {
-		get(store).running ? pause() : resume();
+	const store: ClockStore = {
+		subscribe,
+		set,
+		update,
+		resume: (): void => {
+			if (!browser) return;
+			update(($clock) => {
+				if ($clock.running) return $clock;
+				lastTime = undefined;
+				reqId = requestAnimationFrame(on_frame);
+				return {...$clock, running: true};
+			});
+		},
+		pause: (): void => {
+			if (!browser) return;
+			update(($clock) => {
+				if (!$clock.running) return $clock;
+				if (reqId) cancelAnimationFrame(reqId);
+				return {...$clock, running: false};
+			});
+		},
+		toggle: (): void => {
+			if (get(store).running) {
+				store.pause();
+			} else {
+				store.resume();
+			}
+		},
 	};
 
 	if (!initialState || initialState.running) {
-		resume();
+		store.resume();
 	}
 
-	return {subscribe, set, update, resume, pause, toggle};
+	return store;
 };
 
-export const clockContextKey = {};
-export const getClock = (): ClockStore => getContext(clockContextKey);
-export const setClock = (initialState?: Partial<ClockState>): ClockStore => {
-	const clock = createClockStore(initialState);
-	setContext(clockContextKey, clock);
-	return clock;
-};
+const KEY = Symbol();
+export const getClock = (): ClockStore => getContext(KEY);
+export const setClock = (clock: ClockStore = toClockStore()): ClockStore => (
+	setContext(KEY, clock), clock
+);

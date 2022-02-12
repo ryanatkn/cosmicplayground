@@ -5,7 +5,7 @@
 
 	import Canvas from '$lib/flat/Canvas.svelte';
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
-	import {setClock} from '$lib/flat/clock';
+	import {getClock} from '$lib/app/clockStore';
 	import {CanvasRenderer} from '$lib/flat/CanvasRenderer';
 	import {Controller} from '$lib/flat/Controller';
 	import {type StageState} from '$lib/flat/stageState';
@@ -16,7 +16,8 @@
 	export let stages: StageConstructor[];
 	export let renderer = new CanvasRenderer();
 	export let controller = new Controller();
-	export let clock = setClock();
+
+	const clock = getClock();
 
 	// TODO take the `StageState` object as an arg
 	const onExitStage: ExitStage = async (outcome): Promise<void> => {

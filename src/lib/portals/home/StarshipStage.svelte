@@ -4,10 +4,12 @@
 	import {getClock} from '$lib/app/clockStore';
 	import {type StageState} from '$lib/flat/stageState';
 
-	export let starshipReady: boolean;
-	export let starshipX = 0;
-	export let starshipY = 0;
-	export let starshipRotation = 0;
+	export let width: number;
+	export let height: number;
+	$: console.log(`width, height`, width, height);
+	export let starshipX = 0; // for reading externally
+	export let starshipY = 0; // for reading externally
+	export let starshipShieldRadius = 0; // for reading externally
 	export let exitStarshipMode: () => void;
 
 	// TODO get from context
@@ -15,92 +17,29 @@
 
 	let activeStageState: StageState<Stage> | null = null;
 
-	$: $clock, activeStageState?.stage && updateState(activeStageState.stage);
+	$: $clock, activeStageState?.stage && syncStageState(activeStageState.stage);
 
-	const updateState = (stage: Stage) => {
+	const syncStageState = (stage: Stage) => {
 		starshipX = stage.player.x;
 		starshipY = stage.player.y;
+		starshipShieldRadius = stage.player.radius;
 	};
 
-	let height: number;
-	let width: number;
-
-	let turningLeft = false;
-	let turningRight = false;
-	let movingForward = false;
-	let movingBackward = false;
-	$: starshipReady && updateMovement($clock.dt);
-	const ROTATE_INCREMENT = Math.PI * 0.0013;
-	const MOVEMENT_INCREMENT = 0.3; // TODO velocity?
-	const updateMovement = (dt: number) => {
-		const turning = (turningLeft ? -1 : 0) + (turningRight ? 1 : 0);
-		if (turning) {
-			starshipRotation += turning * ROTATE_INCREMENT * dt; // TODO probably modulo `Math.PI * 2` but it's funny how much it spins
-		}
-		const moving = (movingForward ? 1 : 0) + (movingBackward ? -1 : 0);
-		if (moving) {
-			starshipX += moving * Math.sin(starshipRotation) * MOVEMENT_INCREMENT * dt;
-			starshipY += -moving * Math.cos(starshipRotation) * MOVEMENT_INCREMENT * dt;
-		}
-	};
+	// TODO use the controlller
 	const onKeydown = (e: KeyboardEvent) => {
 		switch (e.key) {
-			case 'ArrowLeft':
-			case 'a': {
-				turningLeft = true;
-				break;
-			}
-			case 'ArrowRight':
-			case 'd': {
-				turningRight = true;
-				break;
-			}
-			case 'ArrowUp':
-			case 'w': {
-				movingForward = true;
-				break;
-			}
-			case 'ArrowDown':
-			case 's': {
-				movingBackward = true;
-				break;
-			}
 			case 'Escape': {
 				exitStarshipMode();
 				break;
 			}
 		}
 	};
-	const onKeyup = (e: KeyboardEvent) => {
-		switch (e.key) {
-			case 'ArrowLeft':
-			case 'a': {
-				turningLeft = false;
-				break;
-			}
-			case 'ArrowRight':
-			case 'd': {
-				turningRight = false;
-				break;
-			}
-			case 'ArrowUp':
-			case 'w': {
-				movingForward = false;
-				break;
-			}
-			case 'ArrowDown':
-			case 's': {
-				movingBackward = false;
-				break;
-			}
-		}
-	};
 </script>
 
-<svelte:window on:keydown={onKeydown} on:keyup={onKeyup} />
+<svelte:window on:keydown={onKeydown} />
 
 <!-- TODO maybe instead use ResizeObserver? the iframe measuring feels unfortunate -->
-<div class="starship-stage" bind:clientHeight={height} bind:clientWidth={width}>
+<div class="starship-stage">
 	<World {width} {height} stages={[Stage]} bind:activeStageState />
 </div>
 

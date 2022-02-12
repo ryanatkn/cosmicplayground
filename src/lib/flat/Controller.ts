@@ -94,17 +94,17 @@ export const updateDirection = (controller: Controller, entity: Entity): void =>
 		if (controller.pointerLocationX !== null && controller.pointerLocationY !== null) {
 			const x = controller.pointerLocationX - entity.x;
 			const y = controller.pointerLocationY - entity.y;
-			entity.direction_x = x / (Math.abs(x) + Math.abs(y));
-			entity.direction_y = y / (Math.abs(x) + Math.abs(y));
+			entity.directionX = x / (Math.abs(x) + Math.abs(y));
+			entity.directionY = y / (Math.abs(x) + Math.abs(y));
 		}
 	} else {
-		entity.direction_x =
+		entity.directionX =
 			controller.moving_left && !controller.moving_right
 				? -1
 				: controller.moving_right && !controller.moving_left
 				? 1
 				: 0;
-		entity.direction_y =
+		entity.directionY =
 			controller.moving_up && !controller.moving_down
 				? -1
 				: controller.moving_down && !controller.moving_up

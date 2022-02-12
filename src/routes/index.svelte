@@ -44,10 +44,13 @@
 	$: starshipReady = starshipMode && !transitioningStarshipMode;
 	let starshipX = 0;
 	let starshipY = 0;
-	let starshipRotation = 0;
+	let starshipShieldRadius = 0;
+	const STARSHIP_SCALE = 0.1;
+	$: starshipCameraX =
+		starshipX - width / 2 + (width * STARSHIP_SCALE) / 2 - starshipShieldRadius / 2;
+	$: starshipCameraY = starshipY - height / 2; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
+	let starshipRotation = 0; // TODO bind to entity angle (need to make player a polygon)
 	const enterStarshipMode = async () => {
-		starshipX = 0;
-		starshipY = 0;
 		starshipRotation = 0;
 		starshipMode = true;
 		transitioningStarshipModeCount++;
@@ -60,26 +63,23 @@
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
 	};
+
+	let width: number;
+	let height: number;
 </script>
 
-<div class="home" class:starship-mode={starshipMode} class:starship-ready={starshipReady}>
+<div
+	class="home"
+	class:starship-mode={starshipMode}
+	class:starship-ready={starshipReady}
+	bind:clientHeight={height}
+	bind:clientWidth={width}
+>
 	<nav
 		style:transform={starshipMode
-			? `translate3d(${starshipX}px, ${starshipY}px,	0) scale3d(0.1, 0.1, 0.1)	rotate(${starshipRotation}rad)`
+			? `translate3d(${starshipCameraX}px, ${starshipCameraY}px,	0) scale3d(0.1, 0.1, 0.1)	rotate(${starshipRotation}rad)`
 			: 'none'}
 		style:transition={starshipReady ? 'none' : `transform ${TRANSITION_DURATION}ms ease-in-out`}
-		on:click|capture={async (e) => {
-			// TODO ideally this would be the following,
-			// but Svelte can't handle modifiers with undefined handlers right now:
-			// on:click|capture|preventDefault|stopPropagation={starshipReady
-			// ? () => exitStarshipMode()
-			// : undefined}
-			if (starshipMode) {
-				e.preventDefault();
-				e.stopPropagation();
-				await exitStarshipMode();
-			}
-		}}
 	>
 		<header class="portals">
 			<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
@@ -138,10 +138,11 @@
 	</nav>
 	{#if starshipMode}
 		<StarshipStage
-			{starshipReady}
+			{width}
+			{height}
 			bind:starshipX
 			bind:starshipY
-			bind:starshipRotation
+			bind:starshipShieldRadius
 			{exitStarshipMode}
 		/>
 	{/if}
@@ -176,11 +177,11 @@
 		justify-content: center;
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
 	}
-	.starship {
-		font-size: 84px;
-	}
 	.starship-ready nav {
 		cursor: pointer;
+	}
+	.starship {
+		font-size: 84px;
 	}
 
 	:global(.show-more-button) {

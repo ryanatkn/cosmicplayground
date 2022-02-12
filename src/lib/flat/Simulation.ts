@@ -19,8 +19,8 @@ export class Simulation {
 		const {bodies} = this;
 
 		let speed: number;
-		let direction_x: number;
-		let direction_y: number;
+		let directionX: number;
+		let directionY: number;
 		let potentials: EntityBody[];
 
 		// apply collisions
@@ -28,11 +28,11 @@ export class Simulation {
 			if (body.ghostly) continue;
 
 			speed = body.speed * dt;
-			direction_x = body.direction_x;
-			direction_y = body.direction_y;
+			directionX = body.directionX;
+			directionY = body.directionY;
 
-			body.x += direction_x * speed;
-			body.y += direction_y * speed;
+			body.x += directionX * speed;
+			body.y += directionY * speed;
 
 			// TODO fix these types in the collisions library
 			potentials = body.potentials() as any; // TODO pass in array arg, like the pattern with `result`
@@ -50,15 +50,15 @@ export class Simulation {
 					body2.y += body2_pct * overlap_y;
 
 					// TODO delete this after figuring out where to use similar concepts
-					// dot = direction_x * result.overlap_y + direction_y * -result.overlap_x;
+					// dot = directionX * result.overlap_y + directionY * -result.overlap_x;
 
-					// body.direction_x = 2 * dot * result.overlap_y - direction_x;
-					// body.direction_y = 2 * dot * -result.overlap_x - direction_y;
+					// body.directionX = 2 * dot * result.overlap_y - directionX;
+					// body.directionY = 2 * dot * -result.overlap_x - directionY;
 
-					// dot = body2.direction_x * result.overlap_y + body2.direction_y * -result.overlap_x;
+					// dot = body2.directionX * result.overlap_y + body2.directionY * -result.overlap_x;
 
-					// body2.direction_x = 2 * dot * result.overlap_y - body2.direction_x;
-					// body2.direction_y = 2 * dot * -result.overlap_x - body2.direction_y;
+					// body2.directionX = 2 * dot * result.overlap_y - body2.directionX;
+					// body2.directionY = 2 * dot * -result.overlap_x - body2.directionY;
 				}
 			}
 		}
