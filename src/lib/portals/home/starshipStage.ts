@@ -60,8 +60,8 @@ export class Stage extends BaseStage {
 		// create the controllable player
 		// eslint-disable-next-line no-multi-assign
 		const player: EntityCircle = (this.player = collisions.createCircle(
-			width / 2 + 100,
-			height / 2 + 150,
+			width / 2 - 100,
+			height / 2 - 150,
 			100,
 		) as any);
 		player.speed = 0.2;
@@ -86,10 +86,11 @@ export class Stage extends BaseStage {
 
 		// create the stuff
 		// TODO create these programmatically from data
+		const planetRadius = 1618;
 		const planet: EntityCircle = collisions.createCircle(
-			250,
-			100,
-			player.radius * randomFloat(1.5, 2.5),
+			-350 + planetRadius / 2 - width / 2,
+			-1100 + planetRadius / 2 - height / 2,
+			planetRadius,
 		) as any;
 		planet.speed = 1;
 		planet.directionX = 0;
@@ -99,13 +100,13 @@ export class Stage extends BaseStage {
 		bodies.push(planet);
 
 		// TODO how will this work for polygons?
-		const rockSize = player.radius * randomFloat(1.5, 2.5);
+		const rockSize = 262;
 		const rock: EntityCircle = collisions.createCircle(
 			width + rockSize / 2,
 			height + rockSize / 2,
 			rockSize,
 		) as any;
-		rock.speed = 0.01;
+		rock.speed = 0.07;
 		rock.directionX = -1;
 		rock.directionY = -0.7;
 		rock.ghostly = false;
@@ -113,9 +114,9 @@ export class Stage extends BaseStage {
 		bodies.push(rock);
 
 		const friend: EntityCircle = collisions.createCircle(
-			400,
-			600,
-			player.radius * randomFloat(0.25, 0.5),
+			width / 2 + 355,
+			height / 2 + 420,
+			33,
 		) as any;
 		friend.speed = 1;
 		friend.directionX = 0;

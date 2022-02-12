@@ -71,6 +71,16 @@
 	$: console.log(`starshipHeight`, starshipHeight);
 </script>
 
+<svelte:window
+	on:keydown={async (e) => {
+		if (e.key === 'Escape') {
+			await enterStarshipMode();
+			e.stopPropagation();
+			e.preventDefault();
+		}
+	}}
+/>
+
 <div
 	class="home"
 	class:starship-mode={starshipMode}
