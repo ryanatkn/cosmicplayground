@@ -58,9 +58,9 @@
 	// pan and zoom controls
 	// use stores for x/y/scale so they can be easily swapped with tweens
 	// TODO maybe replace all of this with a camera store?
-	let x = writable(randomFloat(0, imageWidth));
-	let y = writable(randomFloat(height / 2, imageHeight - height / 2)); // TODO account for different starting scale
-	let scale = writable(1);
+	const x = writable(randomFloat(0, imageWidth));
+	const y = writable(randomFloat(height / 2, imageHeight - height / 2)); // TODO account for different starting scale
+	const scale = writable(1);
 	const SCALE_FACTOR = 1.1;
 	const zoomCamera = (
 		zoomDirection: number,
@@ -110,7 +110,7 @@
 	const landImages = Array.from({length: 12}, (_, i) => `/assets/earth/land_${i + 1}.png`);
 	let cycledLandValue = 0;
 	$: cycledLandIndex = Math.floor(cycledLandValue);
-	let landDelay = 230;
+	const landDelay = 230;
 	let landTimer = 0;
 
 	// Earth's sea
@@ -218,13 +218,13 @@
 		easing = sineInOut,
 	) => {
 		if (!xTween) xTween = tweened($x);
-		xTween.set(xTarget, {duration, easing});
+		xTween.set(xTarget, {duration, easing}); // eslint-disable-line @typescript-eslint/no-floating-promises
 		if (!yTween) yTween = tweened($y);
-		yTween.set(yTarget, {duration, easing});
+		yTween.set(yTarget, {duration, easing}); // eslint-disable-line @typescript-eslint/no-floating-promises
 	};
 	const updateScaleTween = (scaleTarget: number, duration: number, easing = sineInOut) => {
 		if (!scaleTween) scaleTween = tweened($scale);
-		scaleTween.set(scaleTarget, {duration, easing});
+		scaleTween.set(scaleTarget, {duration, easing}); // eslint-disable-line @typescript-eslint/no-floating-promises
 	};
 	const resetTweens = () => {
 		xTween = null;
@@ -290,12 +290,12 @@
 					}
 					case 'playOceanWavesSound': {
 						oceanWavesSound.audio!.currentTime = 0;
-						if (audioEnabled) oceanWavesSound.audio!.play();
+						if (audioEnabled) oceanWavesSound.audio!.play(); // eslint-disable-line @typescript-eslint/no-floating-promises
 						return;
 					}
 					case 'playSong': {
 						tourSong.audio!.currentTime = 0;
-						if (audioEnabled) tourSong.audio!.play();
+						if (audioEnabled) tourSong.audio!.play(); // eslint-disable-line @typescript-eslint/no-floating-promises
 						return;
 					}
 					case 'showIntro': {
@@ -349,7 +349,7 @@
 			// TODO this is broken in Chrome, maybe because of headers
 			// https://stackoverflow.com/questions/37044064/html-audio-cant-set-currenttime
 			if (audio.paused) {
-				if (audioEnabled) audio.play();
+				if (audioEnabled) audio.play(); // eslint-disable-line @typescript-eslint/no-floating-promises
 			}
 		} else if (!audio.paused) {
 			audio.pause();
@@ -369,7 +369,7 @@
 		// in dev mode, bypass the title screen for convenience
 		if (devMode) {
 			showTitleScreen = false;
-			resources.load();
+			resources.load(); // eslint-disable-line @typescript-eslint/no-floating-promises
 		}
 	});
 	onDestroy(() => {

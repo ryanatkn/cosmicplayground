@@ -12,10 +12,11 @@ export interface Tween {
 // to compose a dynamic list of tweens based on the provided
 // easing function names.
 // TODO optimize to not use N tweens by rewriting `tweened`
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createTweens = (duration: number, easings = svelteEasings, initialValue = 0) => {
 	//console.log('create tweens, duration:', duration);
 	// {duration: number, easing: Function}[]
-	let tweens = easings.map((easing) => tweened(initialValue, {duration, easing: easing.fn}));
+	const tweens = easings.map((easing) => tweened(initialValue, {duration, easing: easing.fn}));
 
 	const {subscribe} = derived(
 		tweens,

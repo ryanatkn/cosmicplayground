@@ -28,21 +28,20 @@ export const midis: Midi[] = Object.freeze(
 	Array.from({length: MIDI_NUMBER_MAX + 1}, (_, i) => i),
 ) as Midi[];
 
-export const isMidi = (n: number): n is Midi => {
-	return n >= MIDI_NUMBER_MIN && n <= MIDI_NUMBER_MAX && Number.isInteger(n);
-};
+export const isMidi = (n: number): n is Midi =>
+	n >= MIDI_NUMBER_MIN && n <= MIDI_NUMBER_MAX && Number.isInteger(n);
 
 // note/midi/frequency formulas: https://newt.phys.unsw.edu.au/jw/notes.html
 // We could give `tuning` a default value
 // in the following midi<-->frequency functions,
 // but we want to eventually support user-customized tunings everywhere,
 // so to avoid errors and make things obvious, it's a required argument.
-export const midiToFreq = (midi: Midi, tuning: Frequency): Frequency => {
-	return Math.pow(2, (midi - 69) / 12) * tuning;
-};
-export const freqToMidi = (freq: Frequency, tuning: Frequency): Midi => {
-	return Math.round(12 * Math.log2(freq / tuning) + 69) as Midi;
-};
+export const midiToFreq = (midi: Midi, tuning: Frequency): Frequency =>
+	2 ** ((midi - 69) / 12) * tuning;
+
+export const freqToMidi = (freq: Frequency, tuning: Frequency): Midi =>
+	Math.round(12 * Math.log2(freq / tuning) + 69) as Midi;
+
 export const freqToMidiSafe = (freq: Frequency, tuning: Frequency): Midi | null => {
 	const midi = freqToMidi(freq, tuning);
 	if (!isMidi(midi)) return null;

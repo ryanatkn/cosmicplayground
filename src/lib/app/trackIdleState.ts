@@ -6,10 +6,12 @@ interface TrackIdleStateOptions {
 	idleIntervalTime: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const trackIdleState = (
 	el: HTMLElement,
-	{idle, timeToGoIdle, idleIntervalTime}: TrackIdleStateOptions,
+	{idle, timeToGoIdle: initialTimeToGoIdle, idleIntervalTime}: TrackIdleStateOptions,
 ) => {
+	let timeToGoIdle = initialTimeToGoIdle;
 	let interval: any; // TODO type for browser only? should be `number`
 	let idleTimer = 0;
 
@@ -42,8 +44,8 @@ export const trackIdleState = (
 	el.addEventListener('keydown', resetIdleState, {capture: true});
 
 	return {
-		update: ({idle, idleIntervalTime, timeToGoIdle: _timeToGoIdle}: TrackIdleStateOptions) => {
-			timeToGoIdle = _timeToGoIdle;
+		update: ({idle, idleIntervalTime, timeToGoIdle: nextTimeToGoIdle}: TrackIdleStateOptions) => {
+			timeToGoIdle = nextTimeToGoIdle;
 			unsubscribe();
 			unsubscribe = idle.subscribe(onChange);
 			startInterval(idleIntervalTime);

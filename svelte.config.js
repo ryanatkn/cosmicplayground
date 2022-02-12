@@ -11,7 +11,6 @@ export default {
 	},
 	kit: {
 		adapter: static_adapter(),
-		target: '#root',
 		files: {assets: 'src/static'},
 		vite: {
 			ssr: {

@@ -2,9 +2,7 @@
 	import {getClock} from '$lib/app/clockStore';
 	import {type PortalData} from '$lib/portals/portal';
 
-	export let portal: PortalData;
-
-	portal;
+	export const portal: PortalData = undefined as any;
 
 	const clock = getClock();
 </script>

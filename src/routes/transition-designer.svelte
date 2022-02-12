@@ -1,12 +1,12 @@
 <script context="module">
-	let rotateMax = 2;
-	let rotateMin = -2;
-	let rotateStep = 0.01;
+	const rotateMax = 2;
+	const rotateMin = -2;
+	const rotateStep = 0.01;
 </script>
 
 <script lang="ts">
 	import {onMount, onDestroy} from 'svelte';
-	import {mix} from '@feltcoop/felt/util/math.js';
+	import {lerp} from '@feltcoop/felt/util/maths.js';
 
 	//  possible improvements
 	//  - control the time indicator (it's read-only atm)
@@ -74,7 +74,7 @@
 		deg1: number,
 		deg2: number,
 	) => {
-		return `rotate3d(${mix(x1, x2, t)}, ${mix(y1, y2, t)}, ${mix(z1, z2, t)}, ${mix(
+		return `rotate3d(${lerp(x1, x2, t)}, ${lerp(y1, y2, t)}, ${lerp(z1, z2, t)}, ${lerp(
 			deg1,
 			deg2,
 			t,

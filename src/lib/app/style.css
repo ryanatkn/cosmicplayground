@@ -90,11 +90,6 @@ body {
 	line-height: 1.2;
 }
 
-#root {
-	height: 100%;
-	position: relative;
-}
-
 hr {
 	background: none;
 	/* TODO vars? */

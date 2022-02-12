@@ -20,7 +20,7 @@
 	// The information around the button is important for the user to understand
 	// because the download size is so large.
 	const HAS_LOADED_KEY = 'cpg__hasLoadedDeepBreath';
-	let hasLoaded = !!localStorage.getItem(HAS_LOADED_KEY);
+	const hasLoaded = !!localStorage.getItem(HAS_LOADED_KEY);
 	$: enableLoadingByClickingThumbnail = hasLoaded;
 
 	const load = async () => {

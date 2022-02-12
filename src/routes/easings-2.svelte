@@ -23,7 +23,7 @@
   */
 
 	import {onDestroy} from 'svelte';
-	import {mix} from '@feltcoop/felt/util/math.js';
+	import {lerp} from '@feltcoop/felt/util/maths.js';
 
 	import {svelteEasings} from '$lib/app/easings';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
@@ -142,7 +142,7 @@
 	let muted = false;
 	$: freqMin = midiToFreq(startNote, DEFAULT_TUNING);
 	$: freqMax = midiToFreq(endNote, DEFAULT_TUNING);
-	const calcFreq = (pct: number) => mix(freqMin, freqMax, pct);
+	const calcFreq = (pct: number) => lerp(freqMin, freqMax, pct);
 	const updateAudioization = () => {
 		startAudio();
 

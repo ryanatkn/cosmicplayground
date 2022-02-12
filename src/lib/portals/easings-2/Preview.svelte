@@ -1,10 +1,8 @@
 <script lang="ts">
-	import {mix} from '@feltcoop/felt/util/math.js';
+	import {lerp} from '@feltcoop/felt/util/maths.js';
 	import {type PortalData} from '$lib/portals/portal';
 
-	export let portal: PortalData;
-
-	portal;
+	export const portal: PortalData = undefined as any;
 
 	let canvas: HTMLCanvasElement | null = null;
 	$: canvas && drawCanvas(canvas);
@@ -26,7 +24,7 @@
 		ctx.strokeStyle = 'hsla(220deg, 60%, 65%, 0.6)'; // could fade opacity in from the left
 		ctx.moveTo(0, height / 2);
 		for (let x = 1; x < width; x++) {
-			const xDiv = mix(8, 3.75, x / width);
+			const xDiv = lerp(8, 3.75, x / width);
 			const y = (Math.sin(x / xDiv) * h) / 2 + h / 2 + lineWidth;
 			ctx.lineTo(x, y);
 		}

@@ -83,7 +83,7 @@
 			starshipY += -moving * Math.cos(starshipRotate) * MOVEMENT_INCREMENET * dt;
 		}
 	};
-	const onKeydown = (e: KeyboardEvent) => {
+	const onKeydown = async (e: KeyboardEvent) => {
 		if (!starshipMode) throw Error('TODO probably remove this check');
 		switch (e.key) {
 			case 'ArrowLeft':
@@ -107,7 +107,7 @@
 				break;
 			}
 			case 'Escape': {
-				exitStarshipMode();
+				await exitStarshipMode();
 				break;
 			}
 		}
@@ -154,7 +154,7 @@
 		(starshipReady
 			? 'transition: none;'
 			: `transition: transform ${TRANSITION_DURATION}ms ease-in-out;`)}
-	on:click|capture={(e) => {
+	on:click|capture={async (e) => {
 		// TODO ideally this would be the following,
 		// but Svelte can't handle modifiers with undefined handlers right now:
 		// on:click|capture|preventDefault|stopPropagation={starshipReady
@@ -163,7 +163,7 @@
 		if (starshipMode) {
 			e.preventDefault();
 			e.stopPropagation();
-			exitStarshipMode();
+			await exitStarshipMode();
 		}
 	}}
 >
