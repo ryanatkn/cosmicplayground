@@ -9,6 +9,7 @@ import {randomFloat} from '@feltcoop/felt/util/random.js';
 
 // TODO use the CSS values (generate a CSS vars file?)
 export const COLOR_DEFAULT = 'hsl(220, 100%, 70%)';
+export const COLOR_PLAIN = 'hsl(220, 20%, 70%)';
 export const COLOR_COLLIDING = 'hsl(340, 100%, 70%)';
 export const COLOR_EXIT = 'hsl(140, 100%, 70%)';
 export const COLOR_EXIT_INACTIVE = 'hsl(140, 30%, 30%)';
@@ -41,7 +42,7 @@ export class Stage extends BaseStage {
 	collisions!: Collisions;
 	sim!: Simulation;
 	player!: EntityCircle;
-	exits: Map<Entity, ExitEntity> = new Map();
+	// exits: Map<Entity, ExitEntity> = new Map(); // TODO consider this pattern when we need more stuff
 	bounds!: EntityPolygon;
 
 	// TODO not calling `setup` first is error-prone
@@ -58,7 +59,11 @@ export class Stage extends BaseStage {
 		console.log('setup stage, sim, controller', sim, controller);
 		// create the controllable player
 		// eslint-disable-next-line no-multi-assign
-		const player: EntityCircle = (this.player = collisions.createCircle(100, 147, 100) as any);
+		const player: EntityCircle = (this.player = collisions.createCircle(
+			width / 2 + 100,
+			height / 2 + 150,
+			100,
+		) as any);
 		player.speed = 0.2;
 		player.directionX = 0;
 		player.directionY = 0;
@@ -79,20 +84,33 @@ export class Stage extends BaseStage {
 		bounds.scale_y = height;
 		bodies.push(bounds);
 
-		// create the stages
+		// create the stuff
 		// TODO create these programmatically from data
-		const rock: EntityCircle = collisions.createCircle(
-			200,
+		const planet: EntityCircle = collisions.createCircle(
+			250,
 			100,
-			player.radius * randomFloat(0.5, 2),
+			player.radius * randomFloat(1.5, 2.5),
 		) as any;
-		rock.speed = 1;
-		rock.directionX = 0;
-		rock.directionY = 0;
+		planet.speed = 1;
+		planet.directionX = 0;
+		planet.directionY = 0;
+		planet.ghostly = true;
+		planet.color = COLOR_DEFAULT;
+		bodies.push(planet);
+
+		// TODO how will this work for polygons?
+		const rockSize = player.radius * randomFloat(1.5, 2.5);
+		const rock: EntityCircle = collisions.createCircle(
+			width + rockSize / 2,
+			height + rockSize / 2,
+			rockSize,
+		) as any;
+		rock.speed = 0.01;
+		rock.directionX = -1;
+		rock.directionY = -0.7;
 		rock.ghostly = false;
-		rock.color = COLOR_DEFAULT;
+		rock.color = COLOR_PLAIN;
 		bodies.push(rock);
-		this.exits.set(rock, {stage_name: '1__gate', entity: rock});
 
 		const friend: EntityCircle = collisions.createCircle(
 			400,
@@ -105,7 +123,6 @@ export class Stage extends BaseStage {
 		friend.ghostly = true;
 		friend.color = COLOR_EXIT;
 		bodies.push(friend);
-		this.exits.set(friend, {stage_name: '1__gate', entity: friend});
 	}
 
 	async teardown(): Promise<void> {
@@ -113,7 +130,7 @@ export class Stage extends BaseStage {
 	}
 
 	override update(dt: number): void {
-		const {controller, player, exits} = this;
+		const {controller, player} = this;
 
 		super.update(dt);
 

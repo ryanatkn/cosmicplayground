@@ -12,31 +12,22 @@
 	export let starshipShieldRadius = 0; // for reading externally
 	export let exitStarshipMode: () => void;
 
-	// TODO get from context
 	const clock = getClock();
 
 	let activeStageState: StageState<Stage> | null = null;
 
 	$: $clock, activeStageState?.stage && syncStageState(activeStageState.stage);
 
+	// TODO this is clumsy
 	const syncStageState = (stage: Stage) => {
 		starshipX = stage.player.x;
 		starshipY = stage.player.y;
 		starshipShieldRadius = stage.player.radius;
-	};
-
-	// TODO use the controlller
-	const onKeydown = (e: KeyboardEvent) => {
-		switch (e.key) {
-			case 'Escape': {
-				exitStarshipMode();
-				break;
-			}
+		if (stage.controller.pressing_exit) {
+			exitStarshipMode();
 		}
 	};
 </script>
-
-<svelte:window on:keydown={onKeydown} />
 
 <!-- TODO maybe instead use ResizeObserver? the iframe measuring feels unfortunate -->
 <div class="starship-stage">

@@ -46,8 +46,7 @@
 	let starshipY = 0;
 	let starshipShieldRadius = 0;
 	const STARSHIP_SCALE = 0.1;
-	$: starshipCameraX =
-		starshipX - width / 2 + (width * STARSHIP_SCALE) / 2 - starshipShieldRadius / 2;
+	$: starshipCameraX = starshipX - width / 2; // + starshipShieldRadius / 2 - (starshipWidth * STARSHIP_SCALE) / 2
 	$: starshipCameraY = starshipY - height / 2; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
 	let starshipRotation = 0; // TODO bind to entity angle (need to make player a polygon)
 	const enterStarshipMode = async () => {
@@ -66,18 +65,24 @@
 
 	let width: number;
 	let height: number;
+	let starshipWidth: number;
+	let starshipHeight: number;
+	$: console.log(`starshipWidth`, starshipWidth);
+	$: console.log(`starshipHeight`, starshipHeight);
 </script>
 
 <div
 	class="home"
 	class:starship-mode={starshipMode}
 	class:starship-ready={starshipReady}
-	bind:clientHeight={height}
 	bind:clientWidth={width}
+	bind:clientHeight={height}
 >
 	<nav
+		bind:clientWidth={starshipWidth}
+		bind:clientHeight={starshipHeight}
 		style:transform={starshipMode
-			? `translate3d(${starshipCameraX}px, ${starshipCameraY}px,	0) scale3d(0.1, 0.1, 0.1)	rotate(${starshipRotation}rad)`
+			? `translate3d(${starshipCameraX}px, ${starshipCameraY}px,	0) scale3d(${STARSHIP_SCALE}, ${STARSHIP_SCALE}, ${STARSHIP_SCALE})	rotate(${starshipRotation}rad)`
 			: 'none'}
 		style:transition={starshipReady ? 'none' : `transform ${TRANSITION_DURATION}ms ease-in-out`}
 	>
@@ -150,7 +155,7 @@
 
 <style>
 	.home.starship-mode {
-		position: fixed;
+		position: fixed !important;
 		inset: 0;
 		height: 100%;
 		width: 100%;

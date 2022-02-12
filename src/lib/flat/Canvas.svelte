@@ -13,15 +13,12 @@
 	let canvasWidth: number;
 	let canvasHeight: number;
 
-	// TODO this should be from the `World` not decided here
-	$: size = Math.min(width, height);
-
 	$: if (canvasWidth !== width || canvasHeight !== height) {
 		// TODO maybe refactor this component to fire a `resize` event
-		stage.resize(size, size);
-		renderer.resize(size, size); // also updates `el` `width` and `height`
-		canvasWidth = size;
-		canvasHeight = size;
+		stage.resize(width, height);
+		renderer.resize(width, height); // also updates `el` `width` and `height`
+		canvasWidth = width;
+		canvasHeight = height;
 	}
 
 	onMount(() => {
