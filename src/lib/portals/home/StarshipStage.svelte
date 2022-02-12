@@ -2,6 +2,7 @@
 	import World from '$lib/flat/World.svelte';
 	import {Stage} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
+	import {type StageState} from '$lib/flat/stageState';
 
 	export let starshipReady: boolean;
 	export let starshipX = 0;
@@ -9,7 +10,17 @@
 	export let starshipRotation = 0;
 	export let exitStarshipMode: () => void;
 
+	// TODO get from context
 	const clock = getClock();
+
+	let activeStageState: StageState<Stage> | null = null;
+
+	$: $clock, activeStageState?.stage && updateState(activeStageState.stage);
+
+	const updateState = (stage: Stage) => {
+		starshipX = stage.player.x;
+		starshipY = stage.player.y;
+	};
 
 	let height: number;
 	let width: number;
@@ -90,7 +101,7 @@
 
 <!-- TODO maybe instead use ResizeObserver? the iframe measuring feels unfortunate -->
 <div class="starship-stage" bind:clientHeight={height} bind:clientWidth={width}>
-	<World {width} {height} stages={[Stage]} />
+	<World {width} {height} stages={[Stage]} bind:activeStageState />
 </div>
 
 <style>
