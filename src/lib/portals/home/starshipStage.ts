@@ -65,7 +65,6 @@ export class Stage extends BaseStage {
 		player.speed = 0.2;
 		player.direction_x = 0;
 		player.direction_y = 0;
-		player.color = this.color;
 		bodies.push(player);
 
 		// create the bounds around the stage edges
