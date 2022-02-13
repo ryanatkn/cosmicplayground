@@ -8,13 +8,13 @@
 	let pointerX: number | null = null;
 	let pointerY: number | null = null;
 
-	$: size = Math.min(width, height);
-
 	$: controller.setPointerLocation(pointerX, pointerY);
 
+	let el: HTMLElement;
+
 	const updatePointer = (e: {clientX: number; clientY: number}) => {
-		pointerX = e.clientX - (width - size) / 2;
-		pointerY = e.clientY - (height - size) / 2;
+		pointerX = e.clientX - el!.clientLeft; //  - width / 2
+		pointerY = e.clientY - el!.clientTop; //  - height / 2
 	};
 
 	const onMousedown = (e: MouseEvent) => {
@@ -58,6 +58,7 @@
 allow it to bubble and do whatever
 -->
 <div
+	bind:this={el}
 	class="interactive-surface"
 	on:click|stopPropagation
 	on:mousedown={onMousedown}

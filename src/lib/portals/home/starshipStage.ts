@@ -160,6 +160,7 @@ export class Stage extends BaseStage {
 	}
 
 	override update(dt: number): void {
+		dt *= 2;
 		const {
 			controller,
 			player,
@@ -288,16 +289,9 @@ export class Stage extends BaseStage {
 			console.log(`rockPassedPlanet`, this.rockPassedPlanet);
 		}
 
-		// for (const exit of exits.values()) {
-		// 	if (exit.entity.color === COLOR_EXIT && exit.entity.collides(this.player, result)) {
-		// 		this.exit({next_stage: exit.stage_name});
-		// 		break;
-		// 	}
-		// }
-
-		// if (!this.bounds.collides(this.player, result)) {
-		// 	this.exit({next_stage: meta.name});
-		// }
+		if (this.rockPassedFriends && this.rockPassedPlanet) {
+			this.exit({next_stage: meta.name});
+		}
 	}
 
 	render(renderer: Renderer): void {
