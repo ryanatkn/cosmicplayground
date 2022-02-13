@@ -156,6 +156,15 @@ export class Stage extends BaseStage {
 		friend.color = COLOR_EXIT;
 		bodies.push(friend);
 		friends.push(friend);
+
+		friend = collisions.createCircle(width / 2 + 795, height / 2 + 120, 33) as any;
+		friend.speed = 0.01;
+		friend.directionX = -1;
+		friend.directionY = -1;
+		friend.ghostly = true;
+		friend.color = COLOR_EXIT;
+		bodies.push(friend);
+		friends.push(friend);
 	}
 
 	addBodies(bodies: EntityBody[]): void {
