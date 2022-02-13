@@ -282,17 +282,14 @@ export class Stage extends BaseStage {
 			}
 		}
 
-		// TODO these detections aren't quite right, collisions can still occur
 		if (
 			!this.rockPassedFriends &&
 			friends.every((friend) => !friend.dead && rock.x + rock.radius < friend.x - friend.radius)
 		) {
 			this.rockPassedFriends = true;
-			console.log(`rockPassedFriends`, this.rockPassedFriends);
 		}
 		if (!this.rockPassedPlanet && !planet.dead && rock.x + rock.radius < planet.x - planet.radius) {
 			this.rockPassedPlanet = true;
-			console.log(`rockPassedPlanet`, this.rockPassedPlanet);
 		}
 
 		if (this.rockPassedFriends && this.rockPassedPlanet) {
