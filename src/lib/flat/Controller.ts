@@ -3,11 +3,11 @@ import {type Entity} from '$lib/flat/entity';
 // TODO rethink and handle dynamic mappings
 
 export class Controller {
-	moving_left = false;
-	moving_right = false;
-	moving_up = false;
-	moving_down = false;
-	pressing_exit = false;
+	movingLeft = false;
+	movingRight = false;
+	movingUp = false;
+	movingDown = false;
+	pressingExit = false;
 
 	pointerDown = false;
 	setPointerDown(down: boolean): void {
@@ -26,26 +26,26 @@ export class Controller {
 		switch (key) {
 			case 'ArrowLeft':
 			case 'a': {
-				this.moving_left = true;
+				this.movingLeft = true;
 				break;
 			}
 			case 'ArrowRight':
 			case 'd': {
-				this.moving_right = true;
+				this.movingRight = true;
 				break;
 			}
 			case 'ArrowUp':
 			case 'w': {
-				this.moving_up = true;
+				this.movingUp = true;
 				break;
 			}
 			case 'ArrowDown':
 			case 's': {
-				this.moving_down = true;
+				this.movingDown = true;
 				break;
 			}
 			case 'Escape': {
-				this.pressing_exit = true;
+				this.pressingExit = true;
 				break;
 			}
 			default: {
@@ -58,26 +58,26 @@ export class Controller {
 		switch (key) {
 			case 'ArrowLeft':
 			case 'a': {
-				this.moving_left = false;
+				this.movingLeft = false;
 				break;
 			}
 			case 'ArrowRight':
 			case 'd': {
-				this.moving_right = false;
+				this.movingRight = false;
 				break;
 			}
 			case 'ArrowUp':
 			case 'w': {
-				this.moving_up = false;
+				this.movingUp = false;
 				break;
 			}
 			case 'ArrowDown':
 			case 's': {
-				this.moving_down = false;
+				this.movingDown = false;
 				break;
 			}
 			case 'Escape': {
-				this.pressing_exit = false;
+				this.pressingExit = false;
 				break;
 			}
 			default: {
@@ -99,15 +99,15 @@ export const updateDirection = (controller: Controller, entity: Entity): void =>
 		}
 	} else {
 		entity.directionX =
-			controller.moving_left && !controller.moving_right
+			controller.movingLeft && !controller.movingRight
 				? -1
-				: controller.moving_right && !controller.moving_left
+				: controller.movingRight && !controller.movingLeft
 				? 1
 				: 0;
 		entity.directionY =
-			controller.moving_up && !controller.moving_down
+			controller.movingUp && !controller.movingDown
 				? -1
-				: controller.moving_down && !controller.moving_up
+				: controller.movingDown && !controller.movingUp
 				? 1
 				: 0;
 	}

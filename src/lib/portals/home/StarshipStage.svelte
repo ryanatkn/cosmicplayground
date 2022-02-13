@@ -10,6 +10,7 @@
 	export let starshipX = 0; // for reading externally
 	export let starshipY = 0; // for reading externally
 	export let starshipShieldRadius = 0; // for reading externally
+	export let disasterAverted: boolean;
 	export let exitStarshipMode: () => void;
 
 	const clock = getClock();
@@ -23,7 +24,8 @@
 		starshipX = stage.player.x;
 		starshipY = stage.player.y;
 		starshipShieldRadius = stage.player.radius;
-		if (stage.controller.pressing_exit) {
+		if (!disasterAverted) disasterAverted = stage.rockPassedFriends && stage.rockPassedPlanet;
+		if (stage.controller.pressingExit) {
 			exitStarshipMode();
 		}
 	};

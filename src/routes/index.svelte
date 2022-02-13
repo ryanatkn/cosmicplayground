@@ -17,6 +17,7 @@
 	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
 	import {getSettings} from '$lib/app/settingsStore';
 	import StarshipStage from '$lib/portals/home/StarshipStage.svelte';
+	import {browser} from '$app/env';
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
@@ -33,6 +34,10 @@
 	const settings = getSettings();
 	const toggleShowMorePortals = async () => {
 		settings.update(($settings) => ({...$settings, showMorePortals: !$settings.showMorePortals}));
+		await scrollDown();
+	};
+
+	const scrollDown = async (): Promise<void> => {
 		await tick();
 		window.scrollTo({left: window.scrollX, top: 9000, behavior: 'smooth'}); // `9000` bc `Infinity` doesn't work and I don't care to calculate it
 	};
@@ -42,9 +47,26 @@
 	let transitioningStarshipModeCount = 0; // counter so it handles concurrent calls without much code
 	$: transitioningStarshipMode = !!transitioningStarshipModeCount;
 	$: starshipReady = starshipMode && !transitioningStarshipMode;
+
 	let starshipX = 0;
 	let starshipY = 0;
 	let starshipShieldRadius = 0;
+
+	const DISASTER_AVERTED_KEY = 'homeDisasterAverted';
+	let savedDisasterAverted = !!localStorage.getItem(DISASTER_AVERTED_KEY);
+	let disasterAverted = browser && savedDisasterAverted;
+	$: disasterAverted && greatSuccess();
+	const greatSuccess = () => {
+		const data = '1';
+		localStorage.setItem(DISASTER_AVERTED_KEY, data); // TODO set time
+		savedDisasterAverted = true;
+	};
+	const resetDisasterAverted = () =>
+		browser &&
+		((savedDisasterAverted = false),
+		(disasterAverted = false),
+		localStorage.removeItem(DISASTER_AVERTED_KEY));
+
 	const STARSHIP_SCALE = 0.1;
 	$: starshipCameraX = starshipX - width / 2; // + starshipShieldRadius / 2 - (starshipWidth * STARSHIP_SCALE) / 2
 	$: starshipCameraY = starshipY - height / 2; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
@@ -52,12 +74,14 @@
 	const enterStarshipMode = async () => {
 		starshipRotation = 0;
 		starshipMode = true;
+		disasterAverted = false;
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
 	};
 	const exitStarshipMode = async () => {
 		starshipMode = false;
+		disasterAverted = savedDisasterAverted;
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
@@ -77,6 +101,15 @@
 			await enterStarshipMode();
 			e.stopPropagation();
 			e.preventDefault();
+		} else if (e.key === 'F2') {
+			if (savedDisasterAverted) {
+				resetDisasterAverted();
+			} else {
+				greatSuccess();
+				if (!starshipMode) {
+					await scrollDown();
+				}
+			}
 		}
 	}}
 />
@@ -150,6 +183,13 @@
 				</ul>
 			{/each}
 		{/if}
+		{#if disasterAverted || savedDisasterAverted}
+			<ul class="portals">
+				<PortalPreview onClick={() => resetDisasterAverted()}
+					><span style:font-size="144px">🙌</span></PortalPreview
+				>
+			</ul>
+		{/if}
 	</nav>
 	{#if starshipMode}
 		<StarshipStage
@@ -158,8 +198,21 @@
 			bind:starshipX
 			bind:starshipY
 			bind:starshipShieldRadius
+			bind:disasterAverted
 			{exitStarshipMode}
 		/>
+		{#if disasterAverted}
+			<div class="exit">
+				<button
+					type="button"
+					style:font-size="256px"
+					style:border-radius="50%"
+					on:click={() => exitStarshipMode()}
+				>
+					🙌
+				</button>
+			</div>
+		{/if}
 	{/if}
 </div>
 
@@ -210,5 +263,13 @@
 	}
 	:global(.portal-preview--starlit-hammock) {
 		border-color: var(--space_color) !important;
+	}
+	.exit {
+		position: absolute;
+		inset: 0;
+		margin: auto;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>

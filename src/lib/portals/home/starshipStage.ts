@@ -292,9 +292,10 @@ export class Stage extends BaseStage {
 			this.rockPassedPlanet = true;
 		}
 
-		if (this.rockPassedFriends && this.rockPassedPlanet) {
-			this.exit({next_stage: meta.name});
-		}
+		// TODO see `disasterAverted`
+		// if (this.rockPassedFriends && this.rockPassedPlanet) {
+		// 	this.exit({next_stage: meta.name});
+		// }
 	}
 
 	render(renderer: Renderer): void {

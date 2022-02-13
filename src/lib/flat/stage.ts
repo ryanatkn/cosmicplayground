@@ -62,7 +62,7 @@ export abstract class Stage {
 
 	update(dt: number): void {
 		this.time += dt;
-		if (this.controller.pressing_exit) {
+		if (this.controller.pressingExit) {
 			this.exit(null);
 		}
 	}
