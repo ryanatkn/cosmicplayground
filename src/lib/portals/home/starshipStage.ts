@@ -50,12 +50,12 @@ export class Stage extends BaseStage {
 	// exits: Map<Entity, ExitEntity> = new Map(); // TODO consider this pattern when we need more stuff
 	bounds!: EntityPolygon;
 	planet!: EntityCircle;
-	planetFragments: EntityBody[] | null = null;
 	rock!: EntityCircle;
-	rockFragments: EntityBody[] | null = null;
-	friend!: EntityCircle;
-	friendFragments: EntityBody[] | null = null;
-	rockPassedFriend = false;
+	readonly friends: EntityCircle[] = [];
+	readonly friendFragments: EntityBody[] = [];
+	readonly planetFragments: EntityBody[] = [];
+	readonly rockFragments: EntityBody[] = [];
+	rockPassedFriends = false;
 	rockPassedPlanet = false;
 
 	// TODO not calling `setup` first is error-prone
@@ -66,7 +66,7 @@ export class Stage extends BaseStage {
 
 		const collisions = (this.collisions = new Collisions());
 		const sim = (this.sim = new Simulation(collisions));
-		const {controller} = this;
+		const {controller, friends} = this;
 		const {bodies} = sim;
 
 		console.log('setup stage, sim, controller', sim, controller);
@@ -124,17 +124,27 @@ export class Stage extends BaseStage {
 		rock.color = COLOR_PLAIN;
 		bodies.push(rock);
 
-		const friend: EntityCircle = (this.friend = collisions.createCircle(
+		let friend: EntityCircle = collisions.createCircle(
 			width / 2 + 355,
 			height / 2 + 420,
 			33,
-		) as any);
-		friend.speed = 1;
-		friend.directionX = 0;
-		friend.directionY = 0;
+		) as any;
+		friend.speed = 0.01;
+		friend.directionX = -1;
+		friend.directionY = -1;
 		friend.ghostly = true;
 		friend.color = COLOR_EXIT;
 		bodies.push(friend);
+		friends.push(friend);
+
+		friend = collisions.createCircle(width / 2 + 545, height / 2 + 360, 33) as any;
+		friend.speed = 0.01;
+		friend.directionX = -1;
+		friend.directionY = -1;
+		friend.ghostly = true;
+		friend.color = COLOR_EXIT;
+		bodies.push(friend);
+		friends.push(friend);
 	}
 
 	addBodies(bodies: EntityBody[]): void {
@@ -150,7 +160,18 @@ export class Stage extends BaseStage {
 	}
 
 	override update(dt: number): void {
-		const {controller, player, planet, rock, friend} = this;
+		const {
+			controller,
+			player,
+			planet,
+			rock,
+			friends,
+			planetFragments,
+			friendFragments,
+			rockFragments,
+		} = this;
+
+		// TODO refactor this to use queries or tags or something
 
 		super.update(dt);
 
@@ -160,10 +181,10 @@ export class Stage extends BaseStage {
 		// TODO add a player controller component to handle this
 		updateDirection(controller, player);
 
-		let friendFragments = this.friendFragments;
-		if (!this.friendFragments) {
+		for (const friend of friends) {
 			if (!rock.dead && !friend.dead && rock.collides(friend)) {
-				this.friendFragments = friendFragments = this.frag(friend, this.collisions, 12);
+				const newFriendFragments = this.frag(friend, this.collisions, 12);
+				friendFragments.push(...newFriendFragments);
 				// TODO helper? dead+remove+?
 				friend.dead = true;
 				this.removeBody(friend);
@@ -173,18 +194,16 @@ export class Stage extends BaseStage {
 					friendFragment.directionY = randomFloat(rock.directionY / 2, rock.directionY * 2);
 					friendFragment.ghostly = false;
 				}
-				this.addBodies(friendFragments);
+				this.addBodies(newFriendFragments);
 			}
 		}
 
-		let planetFragments = this.planetFragments;
-		let rockFragments = this.rockFragments;
-		if (!this.planetFragments && !rock.dead && !planet.dead && rock.collides(planet)) {
+		if (!rock.dead && !planet.dead && rock.collides(planet)) {
 			rock.dead = true;
 			this.removeBody(rock);
 			planet.dead = true;
 			this.removeBody(planet);
-			planetFragments = this.planetFragments = this.frag(planet, this.collisions, 42);
+			planetFragments.push(...this.frag(planet, this.collisions, 42));
 			for (const planetFragment of planetFragments) {
 				planetFragment.speed = rock.speed * 0.2 * randomFloat(0.5, 1.0);
 				planetFragment.directionX = randomFloat(-rock.directionX / 2, rock.directionX / 2);
@@ -192,7 +211,7 @@ export class Stage extends BaseStage {
 				planetFragment.ghostly = false;
 			}
 			this.addBodies(planetFragments);
-			rockFragments = this.rockFragments = this.frag(this.rock, this.collisions, 210);
+			rockFragments.push(...this.frag(this.rock, this.collisions, 210));
 			for (const rockFragment of rockFragments) {
 				rockFragment.speed = randomFloat(rock.speed / 2, rock.speed * 2);
 				rockFragment.directionX = randomFloat(-rock.directionX * 2, rock.directionX * 0.25);
@@ -201,69 +220,64 @@ export class Stage extends BaseStage {
 			}
 			this.addBodies(rockFragments);
 		}
-		const collidingRockFragment = !friend.dead && rockFragments?.find((r) => r.collides(friend));
-		if (collidingRockFragment) {
-			this.friendFragments = friendFragments = this.frag(friend, this.collisions, 12);
-			// TODO helper? dead+remove+?
-			friend.dead = true;
-			this.removeBody(friend);
-			for (const friendFragment of friendFragments) {
-				friendFragment.speed = randomFloat(
-					collidingRockFragment.speed / 8,
-					collidingRockFragment.speed,
-				);
-				friendFragment.directionX = randomFloat(
-					-collidingRockFragment.directionX / 2,
-					collidingRockFragment.directionX,
-				);
-				friendFragment.directionY = randomFloat(
-					-collidingRockFragment.directionY / 2,
-					collidingRockFragment.directionY,
-				);
-				friendFragment.ghostly = false;
+		for (const friend of friends) {
+			const collidingRockFragment = !friend.dead && rockFragments?.find((r) => r.collides(friend));
+			if (collidingRockFragment) {
+				const newFriendFragments = this.frag(friend, this.collisions, 12);
+				friendFragments.push(...newFriendFragments);
+				// TODO helper? dead+remove+?
+				friend.dead = true;
+				this.removeBody(friend);
+				for (const friendFragment of friendFragments) {
+					friendFragment.speed = randomFloat(
+						collidingRockFragment.speed / 8,
+						collidingRockFragment.speed,
+					);
+					friendFragment.directionX = randomFloat(
+						-collidingRockFragment.directionX / 2,
+						collidingRockFragment.directionX,
+					);
+					friendFragment.directionY = randomFloat(
+						-collidingRockFragment.directionY / 2,
+						collidingRockFragment.directionY,
+					);
+					friendFragment.ghostly = false;
+				}
+				this.addBodies(newFriendFragments);
 			}
-			this.addBodies(friendFragments);
 		}
 
-		if (friendFragments) {
-			for (const friendFragment of friendFragments) {
-				if (friendFragment.dead) continue;
-				// destroy friend fragments when they touch the planet, planet fragments, or rock fragments
-				if (planetFragments) {
-					for (const planetFragment of planetFragments) {
-						if (
-							!friendFragment.dead &&
-							!planetFragment.dead &&
-							friendFragment.collides(planetFragment)
-						) {
-							// TODO helper? dead+remove+?
-							friendFragment.dead = true;
-							this.removeBody(friendFragment);
-						}
-					}
-				} else if (!friendFragment.dead && !planet.dead && friendFragment.collides(planet)) {
+		for (const friendFragment of friendFragments) {
+			if (friendFragment.dead) continue;
+			// destroy friend fragments when they touch the planet, planet fragments, or rock fragments
+			for (const planetFragment of planetFragments) {
+				if (
+					!friendFragment.dead &&
+					!planetFragment.dead &&
+					friendFragment.collides(planetFragment)
+				) {
 					// TODO helper? dead+remove+?
 					friendFragment.dead = true;
 					this.removeBody(friendFragment);
 				}
-				if (rockFragments) {
-					for (const rockFragment of rockFragments) {
-						if (
-							!friendFragment.dead &&
-							!rockFragment.dead &&
-							friendFragment.collides(rockFragment)
-						) {
-							// TODO helper? dead+remove+?
-							friendFragment.dead = true;
-							this.removeBody(friendFragment);
-						}
-					}
+			}
+			if (!friendFragment.dead && !planet.dead && friendFragment.collides(planet)) {
+				// TODO helper? dead+remove+?
+				friendFragment.dead = true;
+				this.removeBody(friendFragment);
+			}
+			for (const rockFragment of rockFragments) {
+				if (!friendFragment.dead && !rockFragment.dead && friendFragment.collides(rockFragment)) {
+					// TODO helper? dead+remove+?
+					friendFragment.dead = true;
+					this.removeBody(friendFragment);
 				}
 			}
 		}
 
-		if (!this.rockPassedFriend && rock.x < friend.x) {
-			this.rockPassedFriend = true;
+		// TODO these detections aren't quite right, collisions can still occur
+		if (!this.rockPassedFriends) {
+			this.rockPassedFriends = !!friends && friends.every((friend) => friend.x > rock.x);
 		}
 		if (!this.rockPassedPlanet && rock.x < planet.x) {
 			this.rockPassedPlanet = true;
