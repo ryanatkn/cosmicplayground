@@ -21,6 +21,7 @@ export const COLOR_EXIT = 'hsl(140, 100%, 70%)';
 export const COLOR_EXIT_INACTIVE = 'hsl(140, 30%, 30%)';
 export const COLOR_GHOST = 'purple';
 export const COLOR_PLAYER = 'violet';
+export const COLOR_MOLTEN = 'red';
 
 // TODO rewrite this to use a route Svelte component? `dealt.dev/tar/home`
 
@@ -195,6 +196,7 @@ export class Stage extends BaseStage {
 					friendFragment.directionX = randomFloat(rock.directionX / 2, rock.directionX * 2);
 					friendFragment.directionY = randomFloat(rock.directionY / 2, rock.directionY * 2);
 					friendFragment.ghostly = false;
+					friendFragment.color = COLOR_MOLTEN;
 				}
 				this.addBodies(newFriendFragments);
 			}
@@ -211,6 +213,7 @@ export class Stage extends BaseStage {
 				planetFragment.directionX = randomFloat(-rock.directionX / 2, rock.directionX / 2);
 				planetFragment.directionY = randomFloat(-rock.directionY / 2, rock.directionY / 2);
 				planetFragment.ghostly = false;
+				planetFragment.color = COLOR_MOLTEN;
 			}
 			this.addBodies(planetFragments);
 			rockFragments.push(...this.frag(this.rock, this.collisions, 210));
@@ -225,6 +228,7 @@ export class Stage extends BaseStage {
 		for (const friend of friends) {
 			const collidingRockFragment = !friend.dead && rockFragments?.find((r) => r.collides(friend));
 			if (collidingRockFragment) {
+				// TODO refactor with the code above
 				const newFriendFragments = this.frag(friend, this.collisions, 12);
 				friendFragments.push(...newFriendFragments);
 				// TODO helper? dead+remove+?
@@ -244,6 +248,7 @@ export class Stage extends BaseStage {
 						collidingRockFragment.directionY,
 					);
 					friendFragment.ghostly = false;
+					friendFragment.color = COLOR_MOLTEN;
 				}
 				this.addBodies(newFriendFragments);
 			}
