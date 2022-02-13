@@ -37,12 +37,10 @@ export const frag = (
 ): EntityBody[] => {
 	const entities: EntityBody[] = [];
 	// TODO get random list of scales distributing the area according to `scaleVariance`
-	console.log(`frag entity`, entity);
 	if (entity._circle) {
 		const {radius} = entity as EntityCircle; // TODO why isn't the type constant working?
 		const radii = toRandomRadii(Math.PI * radius ** 2, count, scaleVariance);
 		for (let i = 0; i < count; i++) {
-			console.log(`count`, count);
 			// get point around towards the center and draw a triangle
 			const fragment: EntityCircle = collisions.createCircle(entity.x, entity.y, radii[i]) as any;
 			fragment.speed = entity.speed;

@@ -1,5 +1,6 @@
 import {Collisions} from '@ryanatkn/collisions';
 import {randomFloat} from '@feltcoop/felt/util/random.js';
+import {dev} from '$app/env';
 
 import {Stage as BaseStage, type StageSetupOptions, type StageMeta} from '$lib/flat/stage';
 import {
@@ -160,7 +161,7 @@ export class Stage extends BaseStage {
 	}
 
 	override update(dt: number): void {
-		dt *= 2;
+		if (dev) dt *= 2;
 		const {
 			controller,
 			player,
