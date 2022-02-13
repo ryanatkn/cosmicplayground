@@ -110,9 +110,15 @@
 <svelte:window
 	on:keydown={async (e) => {
 		if (e.key === 'Escape') {
-			await enterStarshipMode();
-			e.stopPropagation();
-			e.preventDefault();
+			if (!starshipMode) {
+				await enterStarshipMode();
+				e.stopPropagation();
+				e.preventDefault();
+			} else {
+				await exitStarshipMode();
+				e.stopPropagation();
+				e.preventDefault();
+			}
 		} else if (e.key === 'F2') {
 			if (savedDisasterAverted) {
 				resetDisasterAverted();
