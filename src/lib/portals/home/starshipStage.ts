@@ -139,7 +139,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.push(friend);
 
-		friend = collisions.createCircle(width / 2 + 545, height / 2 + 360, 33) as any;
+		friend = collisions.createCircle(width / 2 + 545, height / 2 + 360, 42) as any;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
@@ -148,7 +148,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.push(friend);
 
-		friend = collisions.createCircle(width / 2 + 895, height / 2 + 220, 33) as any;
+		friend = collisions.createCircle(width / 2 + 895, height / 2 + 220, 7) as any;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
@@ -157,7 +157,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.push(friend);
 
-		friend = collisions.createCircle(width / 2 + 795, height / 2 + 120, 33) as any;
+		friend = collisions.createCircle(width / 2 + 795, height / 2 + 120, 14) as any;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
