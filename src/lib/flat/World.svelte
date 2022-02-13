@@ -117,6 +117,7 @@
 	// TODO actions
 	const onKeydown = (e: KeyboardEvent) => {
 		controller.handle_keydown(e.key);
+		// TODO extract to top level (controller in context?)
 		if (controller.pressingPause) {
 			clock.toggle();
 		}

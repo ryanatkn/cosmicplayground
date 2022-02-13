@@ -19,6 +19,7 @@
 	import StarshipStage from '$lib/portals/home/StarshipStage.svelte';
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clockStore';
+	import {Stage} from '$lib/portals/home/starshipStage';
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
@@ -53,6 +54,8 @@
 	let starshipY = 0;
 	let starshipAngle = 0;
 	let starshipShieldRadius = 0;
+	let currentStage: Stage | undefined;
+	$: camera = currentStage?.camera;
 
 	$: starshipRotation = starshipAngle + Math.PI / 2;
 
@@ -72,8 +75,8 @@
 		localStorage.removeItem(DISASTER_AVERTED_KEY));
 
 	const STARSHIP_SCALE = 0.1;
-	$: starshipCameraX = starshipX - width / 2; // + starshipShieldRadius / 2 - (starshipWidth * STARSHIP_SCALE) / 2
-	$: starshipCameraY = starshipY - height / 2; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
+	$: starshipViewX = $camera ? (starshipX - $camera.x) * $camera.scale : 0; // + starshipShieldRadius / 2 - (starshipWidth * STARSHIP_SCALE) / 2
+	$: starshipViewY = $camera ? (starshipY - $camera.y) * $camera.scale : 0; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
 	const enterStarshipMode = async () => {
 		console.log('enterStarshipMode');
 		starshipAngle = 0;
@@ -144,7 +147,7 @@
 		bind:clientWidth={starshipWidth}
 		bind:clientHeight={starshipHeight}
 		style:transform={starshipMode
-			? `translate3d(${starshipCameraX}px, ${starshipCameraY}px,	0) scale3d(${STARSHIP_SCALE}, ${STARSHIP_SCALE}, ${STARSHIP_SCALE})	rotate(${starshipRotation}rad)`
+			? `translate3d(${starshipViewX}px, ${starshipViewY}px,	0) scale3d(${STARSHIP_SCALE}, ${STARSHIP_SCALE}, ${STARSHIP_SCALE})	rotate(${starshipRotation}rad)`
 			: 'none'}
 		style:transition={starshipReady ? 'none' : `transform ${TRANSITION_DURATION}ms ease-in-out`}
 	>
@@ -219,6 +222,7 @@
 			bind:starshipAngle
 			bind:starshipShieldRadius
 			bind:disasterAverted
+			bind:currentStage
 			{exitStarshipMode}
 		/>
 		{#if disasterAverted}

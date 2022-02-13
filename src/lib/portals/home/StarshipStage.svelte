@@ -9,6 +9,7 @@
 	$: console.log(`width, height`, width, height);
 	export let starshipX = 0;
 	export let starshipY = 0;
+	export let currentStage: Stage;
 	export let starshipAngle = 0;
 	export let starshipShieldRadius = 0;
 	export let disasterAverted: boolean;
@@ -31,6 +32,8 @@
 			stage.player.directionY,
 			dt,
 		);
+		stage.camera.update(($camera) => ({...$camera, x: starshipX, y: starshipY})); // TODO spring
+		currentStage = stage;
 		starshipShieldRadius = stage.player.radius;
 		if (!disasterAverted) disasterAverted = stage.rockPassedFriends && stage.rockPassedPlanet;
 		if (stage.controller.pressingExit) {

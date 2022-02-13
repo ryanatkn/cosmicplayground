@@ -1,5 +1,6 @@
 import {type Renderer} from '$lib/flat/renderer';
-import {type Entity} from '$lib/flat/entity';
+import {type Entity, type EntityCircle} from '$lib/flat/entity';
+import {type CameraState} from '$lib/flat/camera';
 
 export class CanvasRenderer implements Renderer {
 	width = -1;
@@ -43,19 +44,37 @@ export class CanvasRenderer implements Renderer {
 		ctx.clearRect(0, 0, width, height);
 	}
 
-	render(entities: Entity[]): void {
+	render(entities: Entity[], camera: CameraState): void {
 		const {ctx, width, height} = this;
 		if (!ctx) throw Error('Expected rendering context');
 		if (width === -1 || height === -1) throw Error('Expected renderer dimensions');
 
 		for (const entity of entities) {
 			if (entity.invisible) continue;
-			// TODO batch these draws (or just switch to WebGL?)
+			// TODO batch these draws (or just switch to WebGL?) nah support both
 			ctx.beginPath();
 			ctx.strokeStyle = entity.color || '#fff';
-			entity.draw(ctx);
+			if (entity._circle) {
+				this.drawCircle(ctx, entity as EntityCircle, camera); // TODO fix type narrowing
+			} else {
+				entity.draw(ctx);
+			}
 			ctx.stroke();
 			ctx.closePath();
 		}
+	}
+
+	drawCircle(context: CanvasRenderingContext2D, entity: EntityCircle, camera: CameraState): void {
+		const x = entity.x;
+		const y = entity.y;
+		const radius = entity.radius * entity.scale;
+		// TODO adjust for camera
+		const viewX = (x - camera.x) * camera.scale + camera.width / 2;
+		const viewY = (y - camera.y) * camera.scale + camera.height / 2;
+		// context.moveTo(x + radius, y);
+		// context.arc(x, y, radius, 0, Math.PI * 2);
+
+		context.moveTo(viewX + radius, viewY);
+		context.arc(viewX, viewY, radius, 0, Math.PI * 2);
 	}
 }

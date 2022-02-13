@@ -12,6 +12,8 @@ import {
 import {type Renderer} from '$lib/flat/renderer';
 import {Simulation} from '$lib/flat/Simulation';
 import {updateDirection} from '$lib/flat/Controller';
+import {type CameraStore, toCameraStore} from '$lib/flat/camera';
+import {get} from 'svelte/store';
 
 // TODO use the CSS values (generate a CSS vars file?)
 export const COLOR_DEFAULT = 'hsl(220, 100%, 70%)';
@@ -82,11 +84,15 @@ export class Stage extends BaseStage {
 	rockPassedFriends = false;
 	rockPassedPlanet = false;
 
+	camera!: CameraStore;
+
 	// TODO not calling `setup` first is error-prone
 	async setup({stageStates, width, height}: StageSetupOptions): Promise<void> {
 		// TODO refactor
 		if (this.ready) return;
 		this.ready = true;
+
+		this.camera = toCameraStore({width, height});
 
 		const collisions = (this.collisions = new Collisions());
 		const sim = (this.sim = new Simulation(collisions));
@@ -375,11 +381,12 @@ export class Stage extends BaseStage {
 
 	render(renderer: Renderer): void {
 		renderer.clear();
-		renderer.render(this.sim.bodies);
+		renderer.render(this.sim.bodies, get(this.camera)); // TODO factor out the `get`
 	}
 
 	resize(width: number, height: number): void {
 		this.bounds.scale_x = width;
 		this.bounds.scale_y = height;
+		this.camera.update(($camera) => ({...$camera, width, height}));
 	}
 }
