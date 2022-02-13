@@ -14,6 +14,15 @@ export class Simulation {
 		this.collisions = collisions;
 	}
 
+	addBody(body: EntityBody): void {
+		this.bodies.push(body);
+	}
+
+	removeBody(body: EntityBody): void {
+		body.remove();
+		this.bodies.splice(this.bodies.indexOf(body), 1);
+	}
+
 	update(dt: number): void {
 		this.collisions.update();
 		const {bodies} = this;

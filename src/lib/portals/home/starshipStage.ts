@@ -1,11 +1,16 @@
 import {Collisions} from '@ryanatkn/collisions';
+import {randomFloat} from '@feltcoop/felt/util/random.js';
 
 import {Stage as BaseStage, type StageSetupOptions, type StageMeta} from '$lib/flat/stage';
-import {type Entity, type EntityCircle, type EntityPolygon} from '$lib/flat/entity';
+import {
+	type Entity,
+	type EntityBody,
+	type EntityCircle,
+	type EntityPolygon,
+} from '$lib/flat/entity';
 import {type Renderer} from '$lib/flat/renderer';
 import {Simulation} from '$lib/flat/Simulation';
 import {updateDirection} from '$lib/flat/Controller';
-import {randomFloat} from '@feltcoop/felt/util/random.js';
 
 // TODO use the CSS values (generate a CSS vars file?)
 export const COLOR_DEFAULT = 'hsl(220, 100%, 70%)';
@@ -44,6 +49,14 @@ export class Stage extends BaseStage {
 	player!: EntityCircle;
 	// exits: Map<Entity, ExitEntity> = new Map(); // TODO consider this pattern when we need more stuff
 	bounds!: EntityPolygon;
+	planet!: EntityCircle;
+	planetFragments: EntityBody[] | null = null;
+	rock!: EntityCircle;
+	rockFragments: EntityBody[] | null = null;
+	friend!: EntityCircle;
+	friendFragments: EntityBody[] | null = null;
+	rockPassedFriend = false;
+	rockPassedPlanet = false;
 
 	// TODO not calling `setup` first is error-prone
 	async setup({stageStates, width, height}: StageSetupOptions): Promise<void> {
@@ -51,14 +64,13 @@ export class Stage extends BaseStage {
 		if (this.ready) return;
 		this.ready = true;
 
-		const collisions = (this.collisions = new Collisions()); // eslint-disable-line no-multi-assign
-		const sim = (this.sim = new Simulation(collisions)); // eslint-disable-line no-multi-assign
+		const collisions = (this.collisions = new Collisions());
+		const sim = (this.sim = new Simulation(collisions));
 		const {controller} = this;
 		const {bodies} = sim;
 
 		console.log('setup stage, sim, controller', sim, controller);
 		// create the controllable player
-		// eslint-disable-next-line no-multi-assign
 		const player: EntityCircle = (this.player = collisions.createCircle(
 			width / 2 - 100,
 			height / 2 - 150,
@@ -71,7 +83,6 @@ export class Stage extends BaseStage {
 		bodies.push(player);
 
 		// create the bounds around the stage edges
-		// eslint-disable-next-line no-multi-assign
 		const bounds: EntityPolygon = (this.bounds = collisions.createPolygon(0, 0, [
 			[0, 0],
 			[1, 0],
@@ -87,11 +98,11 @@ export class Stage extends BaseStage {
 		// create the stuff
 		// TODO create these programmatically from data
 		const planetRadius = 1618;
-		const planet: EntityCircle = collisions.createCircle(
+		const planet: EntityCircle = (this.planet = collisions.createCircle(
 			-350 + planetRadius / 2 - width / 2,
 			-1100 + planetRadius / 2 - height / 2,
 			planetRadius,
-		) as any;
+		) as any);
 		planet.speed = 1;
 		planet.directionX = 0;
 		planet.directionY = 0;
@@ -101,11 +112,11 @@ export class Stage extends BaseStage {
 
 		// TODO how will this work for polygons?
 		const rockSize = 262;
-		const rock: EntityCircle = collisions.createCircle(
+		const rock: EntityCircle = (this.rock = collisions.createCircle(
 			width + rockSize / 2,
 			height + rockSize / 2,
 			rockSize,
-		) as any;
+		) as any);
 		rock.speed = 0.07;
 		rock.directionX = -1;
 		rock.directionY = -0.7;
@@ -113,11 +124,11 @@ export class Stage extends BaseStage {
 		rock.color = COLOR_PLAIN;
 		bodies.push(rock);
 
-		const friend: EntityCircle = collisions.createCircle(
+		const friend: EntityCircle = (this.friend = collisions.createCircle(
 			width / 2 + 355,
 			height / 2 + 420,
 			33,
-		) as any;
+		) as any);
 		friend.speed = 1;
 		friend.directionX = 0;
 		friend.directionY = 0;
@@ -126,12 +137,20 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 	}
 
+	addBodies(bodies: EntityBody[]): void {
+		this.sim.bodies.push(...bodies);
+	}
+
+	removeBody(body: EntityBody): void {
+		this.sim.removeBody(body);
+	}
+
 	async teardown(): Promise<void> {
 		// TODO
 	}
 
 	override update(dt: number): void {
-		const {controller, player} = this;
+		const {controller, player, planet, rock, friend} = this;
 
 		super.update(dt);
 
@@ -140,6 +159,115 @@ export class Stage extends BaseStage {
 
 		// TODO add a player controller component to handle this
 		updateDirection(controller, player);
+
+		let friendFragments = this.friendFragments;
+		if (!this.friendFragments) {
+			if (!rock.dead && !friend.dead && rock.collides(friend)) {
+				this.friendFragments = friendFragments = this.frag(friend, this.collisions, 12);
+				// TODO helper? dead+remove+?
+				friend.dead = true;
+				this.removeBody(friend);
+				for (const friendFragment of friendFragments) {
+					friendFragment.speed = randomFloat(rock.speed / 2, rock.speed * 2);
+					friendFragment.directionX = randomFloat(rock.directionX / 2, rock.directionX * 2);
+					friendFragment.directionY = randomFloat(rock.directionY / 2, rock.directionY * 2);
+					friendFragment.ghostly = false;
+				}
+				this.addBodies(friendFragments);
+			}
+		}
+
+		let planetFragments = this.planetFragments;
+		let rockFragments = this.rockFragments;
+		if (!this.planetFragments && !rock.dead && !planet.dead && rock.collides(planet)) {
+			rock.dead = true;
+			this.removeBody(rock);
+			planet.dead = true;
+			this.removeBody(planet);
+			planetFragments = this.planetFragments = this.frag(planet, this.collisions, 42);
+			for (const planetFragment of planetFragments) {
+				planetFragment.speed = rock.speed * 0.2 * randomFloat(0.5, 1.0);
+				planetFragment.directionX = randomFloat(-rock.directionX / 2, rock.directionX / 2);
+				planetFragment.directionY = randomFloat(-rock.directionY / 2, rock.directionY / 2);
+				planetFragment.ghostly = false;
+			}
+			this.addBodies(planetFragments);
+			rockFragments = this.rockFragments = this.frag(this.rock, this.collisions, 210);
+			for (const rockFragment of rockFragments) {
+				rockFragment.speed = randomFloat(rock.speed / 2, rock.speed * 2);
+				rockFragment.directionX = randomFloat(-rock.directionX * 2, rock.directionX * 0.25);
+				rockFragment.directionY = randomFloat(-rock.directionY * 2, rock.directionY * 0.25);
+				rockFragment.ghostly = false;
+			}
+			this.addBodies(rockFragments);
+		}
+		const collidingRockFragment = !friend.dead && rockFragments?.find((r) => r.collides(friend));
+		if (collidingRockFragment) {
+			this.friendFragments = friendFragments = this.frag(friend, this.collisions, 12);
+			// TODO helper? dead+remove+?
+			friend.dead = true;
+			this.removeBody(friend);
+			for (const friendFragment of friendFragments) {
+				friendFragment.speed = randomFloat(
+					collidingRockFragment.speed / 8,
+					collidingRockFragment.speed,
+				);
+				friendFragment.directionX = randomFloat(
+					-collidingRockFragment.directionX / 2,
+					collidingRockFragment.directionX,
+				);
+				friendFragment.directionY = randomFloat(
+					-collidingRockFragment.directionY / 2,
+					collidingRockFragment.directionY,
+				);
+				friendFragment.ghostly = false;
+			}
+			this.addBodies(friendFragments);
+		}
+
+		if (friendFragments) {
+			for (const friendFragment of friendFragments) {
+				if (friendFragment.dead) continue;
+				// destroy friend fragments when they touch the planet, planet fragments, or rock fragments
+				if (planetFragments) {
+					for (const planetFragment of planetFragments) {
+						if (
+							!friendFragment.dead &&
+							!planetFragment.dead &&
+							friendFragment.collides(planetFragment)
+						) {
+							// TODO helper? dead+remove+?
+							friendFragment.dead = true;
+							this.removeBody(friendFragment);
+						}
+					}
+				} else if (!friendFragment.dead && !planet.dead && friendFragment.collides(planet)) {
+					// TODO helper? dead+remove+?
+					friendFragment.dead = true;
+					this.removeBody(friendFragment);
+				}
+				if (rockFragments) {
+					for (const rockFragment of rockFragments) {
+						if (
+							!friendFragment.dead &&
+							!rockFragment.dead &&
+							friendFragment.collides(rockFragment)
+						) {
+							// TODO helper? dead+remove+?
+							friendFragment.dead = true;
+							this.removeBody(friendFragment);
+						}
+					}
+				}
+			}
+		}
+
+		if (!this.rockPassedFriend && rock.x < friend.x) {
+			this.rockPassedFriend = true;
+		}
+		if (!this.rockPassedPlanet && rock.x < planet.x) {
+			this.rockPassedPlanet = true;
+		}
 
 		// for (const exit of exits.values()) {
 		// 	if (exit.entity.color === COLOR_EXIT && exit.entity.collides(this.player, result)) {
