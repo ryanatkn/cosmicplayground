@@ -54,7 +54,7 @@
 	let starshipY = 0;
 	let starshipAngle = 0;
 	let starshipShieldRadius = 0;
-	let currentStage: Stage | undefined;
+	let currentStage: Stage | null = null;
 	$: camera = currentStage?.camera;
 
 	$: starshipRotation = starshipAngle + Math.PI / 2;
@@ -75,8 +75,8 @@
 		localStorage.removeItem(DISASTER_AVERTED_KEY));
 
 	const STARSHIP_SCALE = 0.1;
-	$: starshipViewX = $camera ? (starshipX - $camera.x) * $camera.scale : 0; // + starshipShieldRadius / 2 - (starshipWidth * STARSHIP_SCALE) / 2
-	$: starshipViewY = $camera ? (starshipY - $camera.y) * $camera.scale : 0; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
+	$: starshipViewX = $camera ? (starshipX - $camera.x) * $camera.scale : starshipX; // + starshipShieldRadius / 2 - (starshipWidth * STARSHIP_SCALE) / 2
+	$: starshipViewY = $camera ? (starshipY - $camera.y) * $camera.scale : starshipY; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
 	const enterStarshipMode = async () => {
 		console.log('enterStarshipMode');
 		starshipAngle = 0;

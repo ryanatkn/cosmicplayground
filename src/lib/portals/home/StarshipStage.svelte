@@ -9,7 +9,7 @@
 	$: console.log(`width, height`, width, height);
 	export let starshipX = 0;
 	export let starshipY = 0;
-	export let currentStage: Stage;
+	export let currentStage: Stage | null;
 	export let starshipAngle = 0;
 	export let starshipShieldRadius = 0;
 	export let disasterAverted: boolean;
