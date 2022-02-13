@@ -33,7 +33,7 @@ export const frag = (
 	entity: EntityBody,
 	collisions: Collisions,
 	count: number,
-	scaleVariance = 16,
+	scaleVariance = 48,
 ): EntityBody[] => {
 	const entities: EntityBody[] = [];
 	// TODO get random list of scales distributing the area according to `scaleVariance`

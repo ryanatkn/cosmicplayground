@@ -51,7 +51,10 @@
 
 	let starshipX = 0;
 	let starshipY = 0;
+	let starshipAngle = 0;
 	let starshipShieldRadius = 0;
+
+	$: starshipRotation = starshipAngle + Math.PI / 2;
 
 	const DISASTER_AVERTED_KEY = 'homeDisasterAverted';
 	let savedDisasterAverted = !!localStorage.getItem(DISASTER_AVERTED_KEY);
@@ -71,10 +74,9 @@
 	const STARSHIP_SCALE = 0.1;
 	$: starshipCameraX = starshipX - width / 2; // + starshipShieldRadius / 2 - (starshipWidth * STARSHIP_SCALE) / 2
 	$: starshipCameraY = starshipY - height / 2; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
-	let starshipRotation = 0; // TODO bind to entity angle (need to make player a polygon)
 	const enterStarshipMode = async () => {
 		console.log('enterStarshipMode');
-		starshipRotation = 0;
+		starshipAngle = 0;
 		starshipMode = true;
 		disasterAverted = false;
 		clock.set({...$clock, time: 0, dt: 0}); // TODO `reset`?
@@ -84,6 +86,7 @@
 	};
 	const exitStarshipMode = async () => {
 		console.log('exitStarshipMode');
+		starshipAngle = 0;
 		starshipMode = false;
 		disasterAverted = savedDisasterAverted;
 		transitioningStarshipModeCount++;
@@ -206,6 +209,7 @@
 			{height}
 			bind:starshipX
 			bind:starshipY
+			bind:starshipAngle
 			bind:starshipShieldRadius
 			bind:disasterAverted
 			{exitStarshipMode}

@@ -7,9 +7,10 @@
 	export let width: number;
 	export let height: number;
 	$: console.log(`width, height`, width, height);
-	export let starshipX = 0; // for reading externally
-	export let starshipY = 0; // for reading externally
-	export let starshipShieldRadius = 0; // for reading externally
+	export let starshipX = 0;
+	export let starshipY = 0;
+	export let starshipAngle = 0;
+	export let starshipShieldRadius = 0;
 	export let disasterAverted: boolean;
 	export let exitStarshipMode: () => void;
 
@@ -17,18 +18,53 @@
 
 	let activeStageState: StageState<Stage> | null = null;
 
-	$: $clock, activeStageState?.stage && syncStageState(activeStageState.stage);
+	$: activeStageState?.stage && syncStageState(activeStageState.stage, $clock.dt);
 
 	// TODO this is clumsy
-	const syncStageState = (stage: Stage) => {
+	const syncStageState = (stage: Stage, dt: number) => {
 		starshipX = stage.player.x;
 		starshipY = stage.player.y;
+		// TODO ?
+		starshipAngle = updateAngle(
+			starshipAngle,
+			stage.player.directionX,
+			stage.player.directionY,
+			dt,
+		);
 		starshipShieldRadius = stage.player.radius;
 		if (!disasterAverted) disasterAverted = stage.rockPassedFriends && stage.rockPassedPlanet;
 		if (stage.controller.pressingExit) {
 			exitStarshipMode();
 		}
 	};
+
+	const ROTATION_SPEED = 0.003;
+	let lastTargetAngle: number | undefined;
+	let rotationDirection = 1;
+	// TODO simplify this, brute forcing the maths
+	const updateAngle = (
+		currentAngle: number,
+		directionX: number,
+		directionY: number,
+		dt: number,
+	): number => {
+		if (!directionX && !directionY) return currentAngle;
+		let targetAngle = toTargetAngle(directionX, directionY);
+		while (targetAngle < 0) targetAngle += Math.PI * 2;
+		if (currentAngle === targetAngle) return currentAngle;
+		if (lastTargetAngle !== targetAngle) {
+			console.log(`targetAngle`, targetAngle);
+			lastTargetAngle = targetAngle;
+			rotationDirection = Math.abs(targetAngle - currentAngle) > Math.PI ? 1 : -1;
+			console.log(`rotationDirection`, rotationDirection);
+		}
+		// 1 is clockwide, -1 is counterclockwise
+		return rotationDirection > 0
+			? Math.max(currentAngle - ROTATION_SPEED * dt, targetAngle)
+			: Math.min(currentAngle + ROTATION_SPEED * dt, targetAngle);
+	};
+	const toTargetAngle = (directionX: number, directionY: number): number =>
+		Math.atan2(directionY, directionX);
 </script>
 
 <!-- TODO maybe instead use ResizeObserver? the iframe measuring feels unfortunate -->
