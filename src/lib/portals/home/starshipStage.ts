@@ -180,7 +180,7 @@ export class Stage extends BaseStage {
 	}
 
 	override update(dt: number): void {
-		if (dev) dt *= 2;
+		if (dev) dt *= 2; // eslint-disable-line no-param-reassign
 		const {
 			controller,
 			player,
@@ -192,7 +192,8 @@ export class Stage extends BaseStage {
 			rockFragments,
 		} = this;
 
-		// TODO refactor this to use queries or tags or something
+		// TODO refactor this to use queries or tags or at least helpers, it's un-dry and inefficient
+		// TODO the rock and friend fragments buggily collide instead of the friend being destroyed sometimes
 
 		super.update(dt);
 
@@ -244,7 +245,7 @@ export class Stage extends BaseStage {
 			this.addBodies(rockFragments);
 		}
 		for (const friend of friends) {
-			const collidingRockFragment = !friend.dead && rockFragments?.find((r) => r.collides(friend));
+			const collidingRockFragment = !friend.dead && rockFragments.find((r) => r.collides(friend));
 			if (collidingRockFragment) {
 				// TODO refactor with the code above
 				const newFriendFragments = this.frag(friend, this.collisions, 12);
@@ -272,6 +273,7 @@ export class Stage extends BaseStage {
 			}
 		}
 
+		let friendFragmentsToAdd: EntityBody[] | null = null;
 		for (const friendFragment of friendFragments) {
 			if (friendFragment.dead) continue;
 			// destroy friend fragments when they touch the planet, planet fragments, or rock fragments
@@ -286,18 +288,51 @@ export class Stage extends BaseStage {
 					this.removeBody(friendFragment);
 				}
 			}
-			if (!friendFragment.dead && !planet.dead && friendFragment.collides(planet)) {
-				// TODO helper? dead+remove+?
-				friendFragment.dead = true;
-				this.removeBody(friendFragment);
-			}
-			for (const rockFragment of rockFragments) {
-				if (!friendFragment.dead && !rockFragment.dead && friendFragment.collides(rockFragment)) {
+			if (!friendFragment.dead) {
+				if (!planet.dead && friendFragment.collides(planet)) {
 					// TODO helper? dead+remove+?
 					friendFragment.dead = true;
 					this.removeBody(friendFragment);
 				}
+				for (const rockFragment of rockFragments) {
+					if (!rockFragment.dead && friendFragment.collides(rockFragment)) {
+						// TODO helper? dead+remove+?
+						friendFragment.dead = true;
+						this.removeBody(friendFragment);
+					}
+				}
+				for (const friend of friends) {
+					if (!friend.dead && friendFragment.collides(friend)) {
+						// TODO refactor with the code above
+						const newFriendFragments = this.frag(friend, this.collisions, 12);
+						(friendFragmentsToAdd || (friendFragmentsToAdd = [])).push(...newFriendFragments);
+						// TODO helper? dead+remove+?
+						friend.dead = true;
+						this.removeBody(friend);
+						for (const newFriendFragment of friendFragmentsToAdd) {
+							newFriendFragment.speed = randomFloat(
+								friendFragment.speed / 2,
+								friendFragment.speed * 2,
+							);
+							newFriendFragment.directionX = randomFloat(
+								friendFragment.directionX / 2,
+								friendFragment.directionX * 2,
+							);
+							newFriendFragment.directionY = randomFloat(
+								friendFragment.directionY / 2,
+								friendFragment.directionY * 2,
+							);
+							newFriendFragment.ghostly = false;
+							newFriendFragment.color = COLOR_MOLTEN;
+						}
+					}
+				}
 			}
+		}
+		// this is no consistent physics lol
+		if (friendFragmentsToAdd) {
+			friendFragments.push(...friendFragmentsToAdd);
+			this.addBodies(friendFragmentsToAdd);
 		}
 
 		if (
