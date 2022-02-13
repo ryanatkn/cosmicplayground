@@ -114,9 +114,10 @@
 		activeStageState.stage!.render(renderer);
 	}
 
+	// TODO actions
 	const onKeydown = (e: KeyboardEvent) => {
 		controller.handle_keydown(e.key);
-		if (e.key === '`') {
+		if (controller.pressingPause) {
 			clock.toggle();
 		}
 	};

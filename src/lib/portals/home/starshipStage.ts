@@ -29,6 +29,28 @@ export const COLOR_MOLTEN = 'red';
 
 const result = Collisions.createResult(); // TODO
 
+// TODO
+// const faces = [
+// 	'🐵',
+// 	'🐶',
+// 	'🐺',
+// 	'🦊',
+// 	'🐱',
+// 	'🦁',
+// 	'🐯',
+// 	'🐴',
+// 	'🦄',
+// 	'🦓',
+// 	'🐮',
+// 	'🐭',
+// 	'🐹',
+// 	'🐰',
+// 	'🐻',
+// 	'🐼',
+// 	'🐸',
+// 	'🐲',
+// ];
+
 const meta: StageMeta = {
 	name: 'saucer',
 	icon: '🥚',

@@ -130,6 +130,7 @@
 	class="home"
 	class:starship-mode={starshipMode}
 	class:starship-ready={starshipReady}
+	class:starship-transitioning={transitioningStarshipMode}
 	bind:clientWidth={width}
 	bind:clientHeight={height}
 >
@@ -230,12 +231,15 @@
 </div>
 
 <style>
-	.home.starship-mode {
+	.home {
+		overflow: hidden;
+	}
+	.home.starship-mode,
+	.home.starship-transitioning {
 		position: fixed !important;
 		inset: 0;
 		height: 100%;
 		width: 100%;
-		overflow: hidden;
 	}
 	header {
 		margin-top: 15px;
