@@ -52,7 +52,7 @@
 		let targetAngle = toTargetAngle(directionX, directionY);
 		while (targetAngle < 0) targetAngle += Math.PI * 2;
 		if (currentAngle === targetAngle) return currentAngle;
-		// TODO this code is very broken
+		// TODO BLOCK this code is very broken
 		if (lastTargetAngle !== targetAngle) {
 			console.log(`targetAngle`, targetAngle);
 			lastTargetAngle = targetAngle;
