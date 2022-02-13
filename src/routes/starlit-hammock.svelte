@@ -152,9 +152,11 @@
 	// $: clampTarget(width, height); // TODO
 	$: !showPicker && update($clock.dt);
 
-	const onKeyDown = (e: KeyboardEvent) => {
+	const onKeydown = (e: KeyboardEvent) => {
 		switch (e.key) {
 			case 'Escape':
+				e.stopPropagation();
+				e.preventDefault();
 				showPicker = !showPicker;
 				break;
 			case 'ArrowLeft':
@@ -207,7 +209,7 @@
 	$: cameraY = -y * scale + height / 2;
 </script>
 
-<svelte:window on:keydown={onKeyDown} />
+<svelte:window on:keydown|capture={onKeydown} />
 
 <!-- TODO probably want a better pattern than this -->
 {#if showPicker}

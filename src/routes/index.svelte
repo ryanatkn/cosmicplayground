@@ -18,6 +18,7 @@
 	import {getSettings} from '$lib/app/settingsStore';
 	import StarshipStage from '$lib/portals/home/StarshipStage.svelte';
 	import {browser} from '$app/env';
+	import {getClock} from '$lib/app/clockStore';
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
@@ -72,14 +73,17 @@
 	$: starshipCameraY = starshipY - height / 2; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
 	let starshipRotation = 0; // TODO bind to entity angle (need to make player a polygon)
 	const enterStarshipMode = async () => {
+		console.log('enterStarshipMode');
 		starshipRotation = 0;
 		starshipMode = true;
 		disasterAverted = false;
+		clock.set({...$clock, time: 0, dt: 0}); // TODO `reset`?
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
 	};
 	const exitStarshipMode = async () => {
+		console.log('exitStarshipMode');
 		starshipMode = false;
 		disasterAverted = savedDisasterAverted;
 		transitioningStarshipModeCount++;
@@ -93,6 +97,11 @@
 	let starshipHeight: number;
 	$: console.log(`starshipWidth`, starshipWidth);
 	$: console.log(`starshipHeight`, starshipHeight);
+
+	const clock = getClock();
+	const STARSHIP_HEAT_DEATH = 60 * 1000 * 6;
+	$: heatdeath = $clock.time > STARSHIP_HEAT_DEATH;
+	$: starshipMode && heatdeath && exitStarshipMode().then(() => enterStarshipMode());
 </script>
 
 <svelte:window
