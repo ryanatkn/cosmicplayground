@@ -209,7 +209,7 @@ export class Stage extends BaseStage {
 	}
 
 	override update(dt: number): void {
-		// TODO oops
+		// TODO time dilation, default to 2.0x
 		dt *= 2; // eslint-disable-line no-param-reassign
 		const {
 			controller,
