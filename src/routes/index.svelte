@@ -63,22 +63,33 @@
 	let savedDisasterAverted = !!localStorage.getItem(DISASTER_AVERTED_KEY);
 	let disasterAverted = browser && savedDisasterAverted;
 	$: disasterAverted && greatSuccess();
-	const greatSuccess = () => {
+	const greatSuccess = (saved = true) => {
 		const data = '1';
-		localStorage.setItem(DISASTER_AVERTED_KEY, data); // TODO set time
-		savedDisasterAverted = true;
+		disasterAverted = true;
+		if (saved) {
+			localStorage.setItem(DISASTER_AVERTED_KEY, data); // TODO set time
+			savedDisasterAverted = true;
+		}
 	};
-	const resetDisasterAverted = () =>
-		browser &&
-		((savedDisasterAverted = false),
-		(disasterAverted = false),
-		localStorage.removeItem(DISASTER_AVERTED_KEY));
+	const resetDisasterAverted = (saved = false) => {
+		disasterAverted = false;
+		if (browser) {
+			if (saved) {
+				savedDisasterAverted = false;
+				localStorage.removeItem(DISASTER_AVERTED_KEY);
+			}
+		}
+	};
+
+	const toggleDisasterAverted = () =>
+		disasterAverted ? resetDisasterAverted() : greatSuccess(false);
 
 	const STARSHIP_SCALE = 0.1;
 	$: starshipViewX = $camera ? (starshipX - $camera.x) * $camera.scale : starshipX; // + starshipShieldRadius / 2 - (starshipWidth * STARSHIP_SCALE) / 2
 	$: starshipViewY = $camera ? (starshipY - $camera.y) * $camera.scale : starshipY; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
 	const enterStarshipMode = async () => {
 		console.log('enterStarshipMode');
+		dtMs = 0;
 		starshipAngle = 0;
 		starshipMode = true;
 		disasterAverted = false;
@@ -108,6 +119,13 @@
 	const STARSHIP_HEAT_DEATH = 60 * 1000 * 6;
 	$: heatdeath = $clock.time > STARSHIP_HEAT_DEATH;
 	$: starshipMode && heatdeath && exitStarshipMode().then(() => enterStarshipMode());
+
+	let dtMs = 0;
+	$: dtSeconds = Math.round(dtMs / 1000);
+	$: dtMs += $clock.dt;
+	$: console.log(`dtSeconds`, dtSeconds);
+	const WIN_SECONDS = 30;
+	$: dtSeconds > WIN_SECONDS && greatSuccess(); // TODO  show # friends, planet or not, etc, save scores (composed out here, so decoupled)
 </script>
 
 <svelte:window
@@ -124,7 +142,7 @@
 			}
 		} else if (e.key === 'F2') {
 			if (savedDisasterAverted) {
-				resetDisasterAverted();
+				resetDisasterAverted(true);
 			} else {
 				greatSuccess();
 				if (!starshipMode) {
@@ -160,7 +178,8 @@
 			<ul class="portals">
 				{#each portals as portal (portal)}
 					{#if typeof portal === 'symbol'}
-						<PortalPreview onClick={enterStarshipMode}><div class="starship">🛸</div></PortalPreview
+						<PortalPreview onClick={enterStarshipMode} classes="portal-preview--starship"
+							><div class="starship">🛸</div></PortalPreview
 						>
 					{:else}
 						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
@@ -207,8 +226,10 @@
 		{/if}
 		{#if disasterAverted || savedDisasterAverted}
 			<ul class="portals">
-				<PortalPreview onClick={() => resetDisasterAverted()}
-					><span style:font-size="144px">🙌</span></PortalPreview
+				<PortalPreview onClick={() => toggleDisasterAverted()}
+					><span style:font-size="144px" class:disabled={savedDisasterAverted && !disasterAverted}
+						>🙌</span
+					></PortalPreview
 				>
 			</ul>
 		{/if}
@@ -279,6 +300,12 @@
 		font-size: 84px;
 	}
 
+	/* TODO not sure about this name */
+	.disabled {
+		filter: grayscale();
+		opacity: 0.4;
+	}
+
 	:global(.show-more-button) {
 		padding: var(--portal_padding);
 	}
@@ -290,6 +317,9 @@
 	}
 	:global(.portal-preview--starlit-hammock) {
 		border-color: var(--space_color) !important;
+	}
+	:global(.portal-preview--starship) {
+		border-color: var(--photon_color) !important;
 	}
 	.exit {
 		position: absolute;
