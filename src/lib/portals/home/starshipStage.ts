@@ -209,7 +209,8 @@ export class Stage extends BaseStage {
 	}
 
 	override update(dt: number): void {
-		if (dev) dt *= 2; // eslint-disable-line no-param-reassign
+		// TODO oops
+		dt *= 2; // eslint-disable-line no-param-reassign
 		const {
 			controller,
 			player,
