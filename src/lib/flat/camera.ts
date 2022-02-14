@@ -1,5 +1,5 @@
-import {writable, type Writable} from 'svelte/store';
 import {getContext, setContext} from 'svelte';
+import {spring, type Spring} from 'svelte/motion';
 
 // TODO merge with `clockStore`
 
@@ -11,10 +11,7 @@ export interface CameraState {
 	height: number;
 }
 
-export interface CameraStore {
-	subscribe: Writable<CameraState>['subscribe'];
-	set: Writable<CameraState>['set'];
-	update: Writable<CameraState>['update'];
+export interface CameraStore extends Spring<CameraState> {
 	zoom: (amount: number) => void;
 }
 
@@ -28,13 +25,12 @@ export const toCameraStore = (initialState?: Partial<CameraState>): CameraStore 
 		...initialState,
 	};
 
-	const {subscribe, set, update} = writable(finalInitialState);
-
 	const store: CameraStore = {
-		subscribe,
-		set,
-		update,
-		zoom: (amount): void => {
+		...spring(finalInitialState, {
+			stiffness: 0.006,
+			damping: 0.12,
+		}),
+		zoom: (amount) => {
 			console.log(`zoom amount`, amount);
 			// if (get(store).running) {
 			// 	store.pause();

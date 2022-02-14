@@ -85,6 +85,7 @@ export class Stage extends BaseStage {
 	rockPassedPlanet = false;
 
 	camera!: CameraStore;
+	freezeCamera = true;
 
 	// TODO not calling `setup` first is error-prone
 	async setup({stageStates, width, height}: StageSetupOptions): Promise<void> {
@@ -92,7 +93,7 @@ export class Stage extends BaseStage {
 		if (this.ready) return;
 		this.ready = true;
 
-		this.camera = toCameraStore({width, height});
+		this.camera = toCameraStore({width, height, x: width / 2, y: height / 2});
 
 		const collisions = (this.collisions = new Collisions());
 		const sim = (this.sim = new Simulation(collisions));
@@ -230,6 +231,12 @@ export class Stage extends BaseStage {
 
 		// TODO add a player controller component to handle this
 		updateDirection(controller, player);
+
+		// detect if player touches bounds for the first time
+		// TODO pause during transition?
+		if (this.freezeCamera && !this.bounds.collides(this.player)) {
+			this.freezeCamera = false;
+		}
 
 		for (const friend of friends) {
 			if (!rock.dead && !friend.dead && rock.collides(friend)) {

@@ -32,7 +32,9 @@
 			stage.player.directionY,
 			dt,
 		);
-		stage.camera.update(($camera) => ({...$camera, x: starshipX, y: starshipY})); // TODO spring
+		if (!stage.freezeCamera) {
+			stage.camera.update(($camera) => ({...$camera, x: starshipX, y: starshipY}));
+		}
 		currentStage = stage;
 		starshipShieldRadius = stage.player.radius;
 		if (!disasterAverted) disasterAverted = stage.rockPassedFriends && stage.rockPassedPlanet;
