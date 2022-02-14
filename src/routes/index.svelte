@@ -84,6 +84,7 @@
 	const toggleDisasterAverted = () =>
 		disasterAverted ? resetDisasterAverted() : greatSuccess(false);
 
+	// const STARSHIP_SIZE = 100; // TODO implement from starship radius (on stage?)
 	const STARSHIP_SCALE = 0.1;
 	$: starshipViewX = $camera ? (starshipX - $camera.x) * $camera.scale : starshipX; // + starshipShieldRadius / 2 - (starshipWidth * STARSHIP_SCALE) / 2
 	$: starshipViewY = $camera ? (starshipY - $camera.y) * $camera.scale : starshipY; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
@@ -124,6 +125,7 @@
 	$: dtSeconds = Math.round(dtMs / 1000);
 	$: dtMs += $clock.dt;
 	$: console.log(`dtSeconds`, dtSeconds);
+	// TODO this 30 seconds works well, but do we want to abstract this logic for reusability? compose as a function?
 	const WIN_SECONDS = 30;
 	$: dtSeconds > WIN_SECONDS && greatSuccess(); // TODO  show # friends, planet or not, etc, save scores (composed out here, so decoupled)
 </script>
@@ -271,6 +273,10 @@
 		inset: 0;
 		height: 100%;
 		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 	}
 	header {
 		margin-top: 15px;
