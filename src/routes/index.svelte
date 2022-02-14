@@ -21,6 +21,10 @@
 	import {getClock} from '$lib/app/clockStore';
 	import {Stage} from '$lib/portals/home/starshipStage';
 
+	// TODO scores - # friends, planet, top scores for each dimension (most of each, so 1-2 records per dimension set)
+	// visualize the data
+	// collect and publish the data! how?
+
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
 	const primaryPortals = [
