@@ -280,8 +280,11 @@ export class Stage extends BaseStage {
 			this.addBodies(rockFragments);
 		}
 		for (const friend of friends) {
-			const collidingRockFragment = !friend.dead && rockFragments.find((r) => r.collides(friend));
-			if (collidingRockFragment) {
+			const colliding =
+				!friend.dead &&
+				(rockFragments.find((r) => r.collides(friend)) ||
+					planetFragments.find((r) => r.collides(friend)));
+			if (colliding) {
 				// TODO refactor with the code above
 				const newFriendFragments = this.frag(friend, this.collisions, 12);
 				friendFragments.push(...newFriendFragments);
@@ -289,18 +292,9 @@ export class Stage extends BaseStage {
 				friend.dead = true;
 				this.removeBody(friend);
 				for (const friendFragment of newFriendFragments) {
-					friendFragment.speed = randomFloat(
-						collidingRockFragment.speed / 8,
-						collidingRockFragment.speed,
-					);
-					friendFragment.directionX = randomFloat(
-						-collidingRockFragment.directionX / 2,
-						collidingRockFragment.directionX,
-					);
-					friendFragment.directionY = randomFloat(
-						-collidingRockFragment.directionY / 2,
-						collidingRockFragment.directionY,
-					);
+					friendFragment.speed = randomFloat(colliding.speed / 8, colliding.speed);
+					friendFragment.directionX = randomFloat(-colliding.directionX / 2, colliding.directionX);
+					friendFragment.directionY = randomFloat(-colliding.directionY / 2, colliding.directionY);
 					friendFragment.ghostly = false;
 					friendFragment.color = COLOR_MOLTEN;
 				}
