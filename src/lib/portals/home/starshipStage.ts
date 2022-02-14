@@ -1,6 +1,5 @@
 import {Collisions} from '@ryanatkn/collisions';
 import {randomFloat} from '@feltcoop/felt/util/random.js';
-import {dev} from '$app/env';
 
 import {Stage as BaseStage, type StageSetupOptions, type StageMeta} from '$lib/flat/stage';
 import {
