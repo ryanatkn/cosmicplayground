@@ -43,31 +43,32 @@
 		}
 	};
 
-	const ROTATION_SPEED = 0.003;
-	let lastTargetAngle: number | undefined;
-	let rotationDirection = 1;
+	// const ROTATION_SPEED = 0.003;
+	// let lastTargetAngle: number | undefined;
+	// let rotationDirection = 1;
 	// TODO simplify this, brute forcing the maths
 	const updateAngle = (
 		currentAngle: number,
 		directionX: number,
 		directionY: number,
-		dt: number,
+		_dt: number, // TODO
 	): number => {
 		if (!directionX && !directionY) return currentAngle;
-		let targetAngle = toTargetAngle(directionX, directionY);
-		while (targetAngle < 0) targetAngle += Math.PI * 2;
-		if (currentAngle === targetAngle) return currentAngle;
-		// TODO BLOCK this code is very broken
-		if (lastTargetAngle !== targetAngle) {
-			console.log(`targetAngle`, targetAngle);
-			lastTargetAngle = targetAngle;
-			rotationDirection = Math.abs(targetAngle - currentAngle) > Math.PI ? 1 : -1;
-			console.log(`rotationDirection`, rotationDirection);
-		}
-		// 1 is clockwide, -1 is counterclockwise
-		return rotationDirection > 0
-			? Math.max(currentAngle - ROTATION_SPEED * dt, targetAngle)
-			: Math.min(currentAngle + ROTATION_SPEED * dt, targetAngle);
+		return toTargetAngle(directionX, directionY);
+		// TODO animate towards the angle instead of setting it directly - this code is very broken but leaving for context
+		// let targetAngle = toTargetAngle(directionX, directionY);
+		// while (targetAngle < 0) targetAngle += Math.PI * 2;
+		// if (currentAngle === targetAngle) return currentAngle;
+		// if (lastTargetAngle !== targetAngle) {
+		// 	console.log(`targetAngle`, targetAngle);
+		// 	lastTargetAngle = targetAngle;
+		// 	rotationDirection = Math.abs(targetAngle - currentAngle) > Math.PI ? 1 : -1;
+		// 	console.log(`rotationDirection`, rotationDirection);
+		// }
+		// // 1 is clockwide, -1 is counterclockwise
+		// return rotationDirection > 0
+		// 	? Math.max(currentAngle - ROTATION_SPEED * dt, targetAngle)
+		// 	: Math.min(currentAngle + ROTATION_SPEED * dt, targetAngle);
 	};
 	const toTargetAngle = (directionX: number, directionY: number): number =>
 		Math.atan2(directionY, directionX);
