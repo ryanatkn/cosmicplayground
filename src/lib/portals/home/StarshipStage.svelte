@@ -33,7 +33,7 @@
 			dt,
 		);
 		if (!stage.freezeCamera) {
-			stage.camera.update(($camera) => ({...$camera, x: starshipX, y: starshipY}));
+			stage.camera.update(($camera) => ({...$camera, x: starshipX, y: starshipY})); // eslint-disable-line @typescript-eslint/no-floating-promises
 		}
 		currentStage = stage;
 		starshipShieldRadius = stage.player.radius;

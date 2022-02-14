@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {type Controller} from '$lib/flat/Controller';
 
-	export let width: number;
-	export let height: number;
+	export const width: number = undefined as any; // TODO ? see below
+	export const height: number = undefined as any; // TODO ? see below
 	export let controller: Controller;
 
 	let pointerX: number | null = null;

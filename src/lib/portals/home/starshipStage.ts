@@ -4,7 +4,7 @@ import {dev} from '$app/env';
 
 import {Stage as BaseStage, type StageSetupOptions, type StageMeta} from '$lib/flat/stage';
 import {
-	type Entity,
+	// type Entity,
 	type EntityBody,
 	type EntityCircle,
 	type EntityPolygon,
@@ -29,7 +29,7 @@ export const COLOR_MOLTEN = 'red';
 
 // TODO what if this file were named `home.stage.ts` instead of `0__home.ts` ?
 
-const result = Collisions.createResult(); // TODO
+// const result = Collisions.createResult(); // TODO
 
 // TODO
 // const faces = [
@@ -58,10 +58,10 @@ const meta: StageMeta = {
 	icon: '🥚',
 };
 
-interface ExitEntity {
-	stage_name: string;
-	entity: Entity;
-}
+// interface ExitEntity {
+// 	stage_name: string;
+// 	entity: Entity;
+// }
 
 export class Stage extends BaseStage {
 	static override meta = meta;
@@ -88,7 +88,7 @@ export class Stage extends BaseStage {
 	freezeCamera = true;
 
 	// TODO not calling `setup` first is error-prone
-	async setup({stageStates, width, height}: StageSetupOptions): Promise<void> {
+	async setup({width, height}: StageSetupOptions): Promise<void> {
 		// TODO refactor
 		if (this.ready) return;
 		this.ready = true;
@@ -388,6 +388,6 @@ export class Stage extends BaseStage {
 	resize(width: number, height: number): void {
 		this.bounds.scale_x = width;
 		this.bounds.scale_y = height;
-		this.camera.update(($camera) => ({...$camera, width, height}));
+		this.camera.update(($camera) => ({...$camera, width, height})); // eslint-disable-line @typescript-eslint/no-floating-promises
 	}
 }
