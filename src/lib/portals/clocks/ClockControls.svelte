@@ -1,5 +1,5 @@
 <script lang="ts">
-	import FreqSpectacle from '$lib/portals/freq-spectacle/FreqSpectacle.svelte';
+	import ColorClock from '$lib/portals/clocks/ColorClock.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 
 	// TODO what are the perf characteristics if we use the clock store directly?
@@ -33,28 +33,7 @@
 			{running ? 'pause universe clock' : 'resume universe clock'}
 		</div>
 	</FloatingTextButton>
-	<div class="flex flex-col" on:click={() => (running ? pause() : resume())}>
-		{#each {length: 2} as _, i (i)}
-			<div class="flex" class:mirror-y={i === 1}>
-				<FreqSpectacle
-					elapsedTime={time}
-					width={150}
-					height={80}
-					hzItems={[1, 3, 10]}
-					lowestHzItemCount={2}
-				/>
-				<div class="flex mirror-x">
-					<FreqSpectacle
-						elapsedTime={time}
-						width={150}
-						height={80}
-						hzItems={[1, 3, 10]}
-						lowestHzItemCount={2}
-					/>
-				</div>
-			</div>
-		{/each}
-	</div>
+	<ColorClock {time} on:click={() => (running ? pause() : resume())} />
 </div>
 
 <style>
