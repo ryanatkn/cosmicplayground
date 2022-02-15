@@ -49,6 +49,8 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [SvelteKit](https://github.com/sveltejs/kit) ∙
 [Vite](https://github.com/vitejs/vite) ∙
 [PixiJS](https://github.com/pixijs/pixi.js) ∙
+[@ryanatkn/collisions](https://github.com/ryanatkn/collisions/) via
+[@Sinova/Collisions](https://github.com/Sinova/Collisions/) ∙
 [TypeScript](https://github.com/microsoft/TypeScript) ∙
 [Gro](https://github.com/feltcoop/gro) ∙
 [Prettier](https://github.com/prettier/prettier)
