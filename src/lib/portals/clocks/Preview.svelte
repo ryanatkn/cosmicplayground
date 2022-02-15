@@ -10,7 +10,7 @@
 
 <div class="preview">
 	<ColorClock time={$clock.time} />
-	<h2>{'🕓 clocks 🕑'}</h2>
+	<h2>clocks</h2>
 </div>
 
 <style>
