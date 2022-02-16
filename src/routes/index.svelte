@@ -20,6 +20,7 @@
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clockStore';
 	import {Stage} from '$lib/portals/home/starshipStage';
+	import {faces} from '$lib/ui/faces';
 
 	// TODO show scores - # friends, planet, top scores for each dimension (most of each, so 1-2 records per dimension set)
 	// visualize the data
@@ -64,22 +65,44 @@
 	$: starshipRotation = starshipAngle + Math.PI / 2;
 
 	const DISASTER_AVERTED_KEY = 'homeDisasterAverted';
-	let savedDisasterAverted = !!localStorage.getItem(DISASTER_AVERTED_KEY);
-	let disasterAverted = browser && savedDisasterAverted;
+	// TODO where does this belong? see in 2 places
+	interface DiasterAvertedScores {
+		friends: boolean[];
+		planet: boolean;
+		// TODO include friend fragments?
+	}
+	let savedDisasterAvertedRaw: string | null = localStorage.getItem(DISASTER_AVERTED_KEY);
+	let savedDisasterAverted: DiasterAvertedScores | undefined;
+	$: savedDisasterAverted = parseDisasterAverted(savedDisasterAvertedRaw);
+	const parseDisasterAverted = (raw: string | null): DiasterAvertedScores | undefined => {
+		if (!raw) return undefined;
+		try {
+			return JSON.parse(raw);
+		} catch (err) {
+			return undefined;
+		}
+	};
+	let disasterAverted = browser ? savedDisasterAverted : undefined;
 	$: disasterAverted && greatSuccess();
+	$: disasterAvertedFriendCount = disasterAverted?.friends.filter(Boolean).length;
 	const greatSuccess = (saved = true) => {
-		const data = '1';
-		disasterAverted = true;
+		if (!currentStage) throw Error('Expected a stage to make success');
+		// TODO do this reactively
+		disasterAverted = {
+			friends: currentStage.friends.map((friend) => !friend.dead),
+			planet: !currentStage.planet.dead,
+		};
+		const serialized = JSON.stringify(disasterAverted);
 		if (saved) {
-			localStorage.setItem(DISASTER_AVERTED_KEY, data); // TODO set time
-			savedDisasterAverted = true;
+			localStorage.setItem(DISASTER_AVERTED_KEY, serialized); // TODO set time
+			savedDisasterAvertedRaw = serialized;
 		}
 	};
 	const resetDisasterAverted = (saved = false) => {
-		disasterAverted = false;
+		disasterAverted = undefined;
 		if (browser) {
 			if (saved) {
-				savedDisasterAverted = false;
+				savedDisasterAvertedRaw = null;
 				localStorage.removeItem(DISASTER_AVERTED_KEY);
 			}
 		}
@@ -91,13 +114,16 @@
 	// const STARSHIP_SIZE = 100; // TODO implement from starship radius (on stage?)
 	const STARSHIP_SCALE = 0.1;
 	$: starshipViewX = $camera ? (starshipX - $camera.x) * $camera.scale : starshipX; // + starshipShieldRadius / 2 - (starshipWidth * STARSHIP_SCALE) / 2
-	$: starshipViewY = $camera ? (starshipY - $camera.y) * $camera.scale : starshipY; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
+	$: starshipViewY = $camera
+		? (starshipY - $camera.y) * $camera.scale +
+		  (STARSHIP_SCALE * $camera.scale * starshipHeight) / 2
+		: starshipY - (STARSHIP_SCALE * starshipHeight) / 2; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
 	const enterStarshipMode = async () => {
 		console.log('enterStarshipMode');
 		dtMs = 0;
 		starshipAngle = 0;
 		starshipMode = true;
-		disasterAverted = false;
+		disasterAverted = undefined;
 		clock.set({...$clock, time: 0, dt: 0}); // TODO `reset`?
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
@@ -155,6 +181,8 @@
 					await scrollDown();
 				}
 			}
+		} else if (e.key === 'F4') {
+			await toggleShowMorePortals();
 		}
 	}}
 />
@@ -260,8 +288,33 @@
 					style:border-radius="50%"
 					on:click={() => exitStarshipMode()}
 				>
-					🙌
+					↪
 				</button>
+				<div class="markup" style:font-size="var(--font_size_xl)">
+					<p style:color="var(--land_text_color)" style:font-size="var(--font_size_xl3)">
+						{#each {length: 4} as _, index}
+							<span style:position="relative">
+								{faces[index]}
+								{#if index >= disasterAverted.friends.filter(Boolean).length}
+									<small style:position="absolute" style:inset={0}> 💀 </small>
+								{:else}{/if}
+							</span>
+						{/each}
+					</p>
+					<p
+						class:failure={!disasterAverted.planet}
+						class:success={disasterAverted.planet}
+						style:font-size="var(--font_size_xl5)"
+						style:position="relative"
+					>
+						{#if disasterAverted.planet}
+							🌐
+						{:else}
+							<div style:position="absolute" style:z-index="-1" style:inset={0}>🌐</div>
+							🔥
+						{/if}
+					</p>
+				</div>
 			</div>
 		{/if}
 	{/if}
@@ -275,12 +328,6 @@
 	.home.starship-transitioning {
 		position: fixed !important;
 		inset: 0;
-		height: 100%;
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
 	}
 	header {
 		margin-top: 15px;
@@ -294,6 +341,12 @@
 	}
 	.starship-mode .portals {
 		flex-wrap: nowrap;
+	}
+	.failure {
+		color: var(--lava_color);
+	}
+	.success {
+		color: var(--ocean_text_color);
 	}
 	nav {
 		margin: 0;
@@ -336,7 +389,9 @@
 		inset: 0;
 		margin: auto;
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		text-align: center;
 	}
 </style>

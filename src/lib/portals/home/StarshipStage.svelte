@@ -4,6 +4,13 @@
 	import {getClock} from '$lib/app/clockStore';
 	import {type StageState} from '$lib/flat/stageState';
 
+	// TODO where does this belong? see in 2 places
+	interface DiasterAvertedScores {
+		friends: boolean[];
+		planet: boolean;
+		// TODO include friend fragments?
+	}
+
 	export let width: number;
 	export let height: number;
 	$: console.log(`width, height`, width, height);
@@ -12,7 +19,7 @@
 	export let currentStage: Stage | null;
 	export let starshipAngle = 0;
 	export let starshipShieldRadius = 0;
-	export let disasterAverted: boolean;
+	export let disasterAverted: DiasterAvertedScores | undefined;
 	export let exitStarshipMode: () => void;
 
 	const clock = getClock();
@@ -37,7 +44,15 @@
 		}
 		currentStage = stage;
 		starshipShieldRadius = stage.player.radius;
-		if (!disasterAverted) disasterAverted = stage.rockPassedFriends && stage.rockPassedPlanet;
+		if (!disasterAverted) {
+			if (stage.rockPassedFriends && stage.rockPassedPlanet) {
+				// TODO make reactive
+				disasterAverted = {
+					friends: currentStage.friends.map((friend) => !friend.dead),
+					planet: !currentStage.planet.dead,
+				};
+			}
+		}
 		if (stage.controller.pressingExit) {
 			exitStarshipMode();
 		}
