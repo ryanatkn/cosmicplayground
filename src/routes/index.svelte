@@ -288,30 +288,34 @@
 					style:border-radius="50%"
 					on:click={() => exitStarshipMode()}
 				>
-					↪
+					↩
 				</button>
 				<div class="markup" style:font-size="var(--font_size_xl)">
-					<p style:color="var(--land_text_color)" style:font-size="var(--font_size_xl3)">
+					<p
+						style:color="var(--land_text_color)"
+						style:font-size="var(--font_size_xl3)"
+						class="scores"
+					>
 						{#each {length: 4} as _, index}
-							<span style:position="relative">
+							<span class="score">
 								{faces[index]}
 								{#if index >= disasterAverted.friends.filter(Boolean).length}
-									<small style:position="absolute" style:inset={0}> 💀 </small>
+									<small class="skull">💀</small>
 								{:else}{/if}
 							</span>
 						{/each}
 					</p>
 					<p
+						class="score"
 						class:failure={!disasterAverted.planet}
 						class:success={disasterAverted.planet}
 						style:font-size="var(--font_size_xl5)"
-						style:position="relative"
 					>
 						{#if disasterAverted.planet}
 							🌐
 						{:else}
-							<div style:position="absolute" style:z-index="-1" style:inset={0}>🌐</div>
-							🔥
+							🌐
+							<div class="skull">💀</div>
 						{/if}
 					</p>
 				</div>
@@ -348,6 +352,18 @@
 	.success {
 		color: var(--ocean_text_color);
 	}
+	.scores {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+	.score {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 	nav {
 		margin: 0;
 		display: flex;
@@ -361,6 +377,11 @@
 	}
 	.starship {
 		font-size: 84px;
+	}
+	.skull {
+		position: absolute;
+		inset: 0;
+		font-size: 90%;
 	}
 
 	/* TODO not sure about this name */
