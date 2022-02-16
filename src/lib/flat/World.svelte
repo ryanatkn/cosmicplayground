@@ -17,6 +17,8 @@
 	export let renderer = new CanvasRenderer();
 	export let controller = new Controller();
 
+	$: ({dirty} = renderer);
+
 	const clock = getClock();
 
 	// TODO take the `StageState` object as an arg
@@ -109,21 +111,23 @@
 		await setActiveStage();
 	});
 
-	$: if ($clock.running && renderer.ctx && activeStageState && !settingUp) {
-		activeStageState.stage!.update($clock.dt);
+	$: if (($clock.running || $dirty) && renderer.ctx && activeStageState && !settingUp) {
+		if ($clock.running) {
+			activeStageState.stage!.update($clock.dt);
+		}
 		activeStageState.stage!.render(renderer);
 	}
 
 	// TODO actions
 	const onKeydown = (e: KeyboardEvent) => {
-		controller.handle_keydown(e.key);
+		controller.handleKeydown(e.key);
 		// TODO extract to top level (controller in context?)
 		if (controller.pressingPause) {
 			clock.toggle();
 		}
 	};
 	const onKeyup = (e: KeyboardEvent) => {
-		controller.handle_keyup(e.key);
+		controller.handleKeyup(e.key);
 	};
 </script>
 

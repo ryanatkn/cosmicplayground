@@ -23,7 +23,7 @@ export class Controller {
 	}
 
 	// TODO use the `pressed` bools that are set for one tick
-	handle_keydown(key: string): void {
+	handleKeydown(key: string): void {
 		switch (key) {
 			case 'ArrowLeft':
 			case 'a': {
@@ -60,7 +60,7 @@ export class Controller {
 		}
 	}
 
-	handle_keyup(key: string): void {
+	handleKeyup(key: string): void {
 		switch (key) {
 			case 'ArrowLeft':
 			case 'a': {

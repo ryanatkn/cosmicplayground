@@ -19,6 +19,7 @@
 		renderer.resize(width, height); // also updates `el` `width` and `height`
 		canvasWidth = width;
 		canvasHeight = height;
+		// TODO problem is this makes the renderer clear, but how to redraw correctly?
 	}
 
 	onMount(() => {

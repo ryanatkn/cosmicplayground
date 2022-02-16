@@ -124,7 +124,8 @@
 		starshipAngle = 0;
 		starshipMode = true;
 		disasterAverted = undefined;
-		clock.set({...$clock, time: 0, dt: 0}); // TODO `reset`?
+		clock.pause();
+		clock.set({...$clock, time: 0, dt: 0}); // TODO `reset`? would pause too
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
@@ -299,9 +300,9 @@
 						{#each {length: 4} as _, index}
 							<span class="score">
 								{faces[index]}
-								{#if index >= disasterAverted.friends.filter(Boolean).length}
+								{#if disasterAvertedFriendCount !== undefined && index >= disasterAvertedFriendCount}
 									<small class="skull">💀</small>
-								{:else}{/if}
+								{/if}
 							</span>
 						{/each}
 					</p>

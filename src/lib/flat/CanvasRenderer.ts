@@ -1,3 +1,5 @@
+import {writable} from 'svelte/store';
+
 import {type Renderer} from '$lib/flat/renderer';
 import {type Entity, type EntityCircle} from '$lib/flat/entity';
 import {type CameraState} from '$lib/flat/camera';
@@ -9,6 +11,8 @@ export class CanvasRenderer implements Renderer {
 	canvas: HTMLCanvasElement | null = null;
 	ctx: CanvasRenderingContext2D | null = null;
 
+	dirty = writable(false); // TODO hacky, used to rerender when clock is stopped
+
 	// TODO remove 2d canvas, use WebGL instead -- Pixi?
 	setCanvas(canvas: HTMLCanvasElement): void {
 		this.canvas = canvas;
@@ -18,6 +22,7 @@ export class CanvasRenderer implements Renderer {
 			canvas.width = this.width;
 			canvas.height = this.height;
 		}
+		this.dirty.set(true);
 	}
 
 	unsetCanvas(): void {
@@ -33,6 +38,7 @@ export class CanvasRenderer implements Renderer {
 			this.canvas.width = width;
 			this.canvas.height = height;
 		}
+		this.dirty.set(true);
 	}
 
 	// TODO not sure about this API
@@ -48,6 +54,8 @@ export class CanvasRenderer implements Renderer {
 		const {ctx, width, height} = this;
 		if (!ctx) throw Error('Expected rendering context');
 		if (width === -1 || height === -1) throw Error('Expected renderer dimensions');
+
+		this.dirty.set(false);
 
 		for (const entity of entities) {
 			if (entity.invisible) continue;

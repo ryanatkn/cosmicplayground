@@ -40,12 +40,12 @@ export const toClockStore = (initialState?: Partial<ClockState>): ClockStore => 
 		update(($clock) => ({...$clock, time: $clock.time + dt, dt}));
 	};
 
-	const on_frame = (t: number): void => {
+	const onFrame = (t: number): void => {
 		if (lastTime !== undefined) {
 			onTimer(t - lastTime);
 		}
 		lastTime = t;
-		reqId = requestAnimationFrame(on_frame);
+		reqId = requestAnimationFrame(onFrame);
 	};
 
 	const store: ClockStore = {
@@ -57,7 +57,7 @@ export const toClockStore = (initialState?: Partial<ClockState>): ClockStore => 
 			update(($clock) => {
 				if ($clock.running) return $clock;
 				lastTime = undefined;
-				reqId = requestAnimationFrame(on_frame);
+				reqId = requestAnimationFrame(onFrame);
 				return {...$clock, running: true};
 			});
 		},
