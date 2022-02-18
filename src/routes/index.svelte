@@ -111,13 +111,12 @@
 	const toggleDisasterAverted = () =>
 		disasterAverted ? resetDisasterAverted() : greatSuccess(false);
 
-	// const STARSHIP_SIZE = 100; // TODO implement from starship radius (on stage?)
-	const STARSHIP_SCALE = 0.1;
-	$: starshipViewX = $camera ? (starshipX - $camera.x) * $camera.scale : starshipX; // + starshipShieldRadius / 2 - (starshipWidth * STARSHIP_SCALE) / 2
+	const STARSHIP_RADIUS = 100; // TODO implement from starship radius (on stage?)
+	$: starshipScale = (STARSHIP_RADIUS * 2) / starshipHeight;
+	$: starshipViewX = $camera ? (starshipX - $camera.x) * $camera.scale : starshipX;
 	$: starshipViewY = $camera
-		? (starshipY - $camera.y) * $camera.scale +
-		  (STARSHIP_SCALE * $camera.scale * starshipHeight) / 2
-		: starshipY - (STARSHIP_SCALE * starshipHeight) / 2; // + (height * STARSHIP_SCALE) / 2; //  - starshipShieldRadius / 2
+		? (starshipY - $camera.y) * $camera.scale - (starshipHeight - height) / 2
+		: starshipY - (starshipHeight - height) / 2;
 	const enterStarshipMode = async () => {
 		console.log('enterStarshipMode');
 		dtMs = 0;
@@ -200,7 +199,7 @@
 		bind:clientWidth={starshipWidth}
 		bind:clientHeight={starshipHeight}
 		style:transform={starshipMode
-			? `translate3d(${starshipViewX}px, ${starshipViewY}px,	0) scale3d(${STARSHIP_SCALE}, ${STARSHIP_SCALE}, ${STARSHIP_SCALE})	rotate(${starshipRotation}rad)`
+			? `translate3d(${starshipViewX}px, ${starshipViewY}px,	0) scale3d(${starshipScale}, ${starshipScale}, ${starshipScale})	rotate(${starshipRotation}rad)`
 			: 'none'}
 		style:transition={starshipReady ? 'none' : `transform ${TRANSITION_DURATION}ms ease-in-out`}
 	>
