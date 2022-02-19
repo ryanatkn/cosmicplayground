@@ -32,11 +32,6 @@ export const toCameraStore = (initialState?: Partial<CameraState>): CameraStore 
 		}),
 		zoom: (amount) => {
 			console.log(`zoom amount`, amount);
-			// if (get(store).running) {
-			// 	store.pause();
-			// } else {
-			// 	store.resume();
-			// }
 		},
 	};
 

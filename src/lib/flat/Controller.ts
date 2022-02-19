@@ -1,8 +1,13 @@
+import {writable} from 'svelte/store';
+
 import {type Entity} from '$lib/flat/entity';
 
 // TODO rethink and handle dynamic mappings
 
 export class Controller {
+	// TODO this is too specific for the `Controller`, need to rethink all of this
+	moving = writable(false);
+
 	movingLeft = false;
 	movingRight = false;
 	movingUp = false;
@@ -13,6 +18,7 @@ export class Controller {
 	pointerDown = false;
 	setPointerDown(down: boolean): void {
 		this.pointerDown = down;
+		this.moving.set(this.isMoving());
 	}
 
 	pointerLocationX: number | null = null;
@@ -22,27 +28,37 @@ export class Controller {
 		this.pointerLocationY = y;
 	}
 
+	private isMoving(): boolean {
+		return (
+			this.pointerDown || this.movingDown || this.movingUp || this.movingLeft || this.movingRight
+		);
+	}
+
 	// TODO use the `pressed` bools that are set for one tick
 	handleKeydown(key: string): void {
 		switch (key) {
 			case 'ArrowLeft':
 			case 'a': {
 				this.movingLeft = true;
+				this.moving.set(true);
 				break;
 			}
 			case 'ArrowRight':
 			case 'd': {
 				this.movingRight = true;
+				this.moving.set(true);
 				break;
 			}
 			case 'ArrowUp':
 			case 'w': {
 				this.movingUp = true;
+				this.moving.set(true);
 				break;
 			}
 			case 'ArrowDown':
 			case 's': {
 				this.movingDown = true;
+				this.moving.set(true);
 				break;
 			}
 			case 'Escape': {
@@ -65,21 +81,25 @@ export class Controller {
 			case 'ArrowLeft':
 			case 'a': {
 				this.movingLeft = false;
+				this.moving.set(this.isMoving());
 				break;
 			}
 			case 'ArrowRight':
 			case 'd': {
 				this.movingRight = false;
+				this.moving.set(this.isMoving());
 				break;
 			}
 			case 'ArrowUp':
 			case 'w': {
 				this.movingUp = false;
+				this.moving.set(this.isMoving());
 				break;
 			}
 			case 'ArrowDown':
 			case 's': {
 				this.movingDown = false;
+				this.moving.set(this.isMoving());
 				break;
 			}
 			case 'Escape': {

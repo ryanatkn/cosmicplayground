@@ -36,6 +36,7 @@
 		controller.setPointerDown(false);
 	};
 
+	// TODO mount only for mobile
 	// TODO handle all touches
 	const onTouchstart = (e: TouchEvent) => {
 		updatePointer(e.changedTouches[0]);
@@ -60,7 +61,6 @@ allow it to bubble and do whatever
 <div
 	bind:this={el}
 	class="interactive-surface"
-	on:click|stopPropagation
 	on:mousedown={onMousedown}
 	on:mouseup={onMouseup}
 	on:mousemove={onMousemove}

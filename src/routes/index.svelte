@@ -165,15 +165,14 @@
 
 <svelte:window
 	on:keydown={async (e) => {
+		// TODO use controller instead
 		if (e.key === 'Escape') {
 			if (!starshipMode) {
 				await enterStarshipMode();
 				e.stopPropagation();
-				e.preventDefault();
 			} else {
 				await exitStarshipMode();
 				e.stopPropagation();
-				e.preventDefault();
 			}
 		} else if (e.key === 'F2') {
 			if (savedDisasterAverted) {
@@ -335,6 +334,7 @@
 	.home.starship-transitioning {
 		position: fixed !important;
 		inset: 0;
+		user-select: none;
 	}
 	header {
 		margin-top: 15px;

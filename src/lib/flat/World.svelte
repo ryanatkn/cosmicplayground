@@ -18,8 +18,16 @@
 	export let controller = new Controller();
 
 	$: ({dirty} = renderer);
+	$: ({moving} = controller);
 
 	const clock = getClock();
+
+	let started = $clock.running;
+	const start = () => {
+		started = true;
+		clock.resume();
+	};
+	$: if (!started && $moving) start();
 
 	// TODO take the `StageState` object as an arg
 	const onExitStage: ExitStage = async (outcome): Promise<void> => {
