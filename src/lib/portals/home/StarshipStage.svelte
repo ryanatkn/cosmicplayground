@@ -13,7 +13,6 @@
 
 	export let width: number;
 	export let height: number;
-	$: console.log(`width, height`, width, height);
 	export let starshipX = 0;
 	export let starshipY = 0;
 	export let currentStage: Stage | null;

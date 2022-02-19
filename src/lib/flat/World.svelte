@@ -22,6 +22,7 @@
 
 	const clock = getClock();
 
+	// TODO this is at odds with `settingUp` -- should `started` be reset on `setActiveStage`?
 	let started = $clock.running;
 	const start = () => {
 		started = true;
@@ -119,6 +120,7 @@
 		await setActiveStage();
 	});
 
+	// TODO maybe simplify this logic and render after `setActiveStage`?
 	$: if (($clock.running || $dirty) && renderer.ctx && activeStageState && !settingUp) {
 		if ($clock.running) {
 			activeStageState.stage!.update($clock.dt);

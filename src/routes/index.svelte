@@ -21,10 +21,14 @@
 	import {getClock} from '$lib/app/clockStore';
 	import {Stage} from '$lib/portals/home/starshipStage';
 	import {faces} from '$lib/ui/faces';
+	import {getDimensions} from '$lib/app/dimensions';
 
 	// TODO show scores - # friends, planet, top scores for each dimension (most of each, so 1-2 records per dimension set)
 	// visualize the data
 	// collect and publish the data! how?
+
+	const dimensions = getDimensions();
+	$: ({width, height} = $dimensions);
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
@@ -142,8 +146,6 @@
 		transitioningStarshipModeCount--;
 	};
 
-	let width: number;
-	let height: number;
 	let starshipWidth: number;
 	let starshipHeight: number;
 	$: console.log(`starshipWidth`, starshipWidth);
@@ -155,8 +157,8 @@
 	$: starshipMode && heatdeath && exitStarshipMode().then(() => enterStarshipMode());
 
 	let dtMs = 0;
+	$: if (starshipMode) dtMs += $clock.dt;
 	$: dtSeconds = Math.round(dtMs / 1000);
-	$: dtMs += $clock.dt;
 	$: console.log(`dtSeconds`, dtSeconds);
 	// TODO this 30 seconds works well, but do we want to abstract this logic for reusability? compose as a function?
 	const WIN_SECONDS = 30;
@@ -167,12 +169,11 @@
 	on:keydown={async (e) => {
 		// TODO use controller instead
 		if (e.key === 'Escape') {
+			e.stopPropagation();
 			if (!starshipMode) {
 				await enterStarshipMode();
-				e.stopPropagation();
 			} else {
 				await exitStarshipMode();
-				e.stopPropagation();
 			}
 		} else if (e.key === 'F2') {
 			if (savedDisasterAverted) {
@@ -194,8 +195,6 @@
 	class:starship-mode={starshipMode}
 	class:starship-ready={starshipReady}
 	class:starship-transitioning={transitioningStarshipMode}
-	bind:clientWidth={width}
-	bind:clientHeight={height}
 >
 	<nav
 		bind:clientWidth={starshipWidth}
@@ -328,13 +327,16 @@
 
 <style>
 	.home {
-		overflow: hidden;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		overflow: hidden; /* hide x overflow during transition and y overflow in `starshipMode` */
 	}
 	.home.starship-mode,
 	.home.starship-transitioning {
-		position: fixed !important;
-		inset: 0;
-		user-select: none;
+		/* hide the vertical scrollbar */
+		height: 100%;
 	}
 	header {
 		margin-top: 15px;
@@ -377,6 +379,7 @@
 	}
 	.starship-ready nav {
 		cursor: pointer;
+		user-select: none;
 	}
 	.starship {
 		font-size: 84px;
