@@ -223,7 +223,7 @@ export class Stage extends BaseStage {
 				// TODO helper? dead+remove+?
 				friend.dead = true;
 				this.removeBody(friend);
-				for (const friendFragment of friendFragments) {
+				for (const friendFragment of newFriendFragments) {
 					friendFragment.speed = randomFloat(rock.speed * 1.2, rock.speed * 2.44);
 					friendFragment.directionX = randomFloat(rock.directionX / 2, rock.directionX * 2);
 					friendFragment.directionY = randomFloat(rock.directionY / 2, rock.directionY * 2);
