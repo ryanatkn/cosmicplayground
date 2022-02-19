@@ -208,7 +208,7 @@ export class Stage extends BaseStage {
 		this.sim.update(dt);
 
 		// TODO add a player controller component to handle this
-		updateDirection(controller, player);
+		updateDirection(controller, player, get(this.camera)); // TODO factor out the `get`
 
 		// detect if player touches bounds for the first time
 		// TODO pause during transition?

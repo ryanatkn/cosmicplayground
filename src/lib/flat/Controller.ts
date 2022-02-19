@@ -1,6 +1,7 @@
 import {writable} from 'svelte/store';
 
 import {type Entity} from '$lib/flat/entity';
+import {type CameraState} from '$lib/flat/camera';
 
 // TODO rethink and handle dynamic mappings
 
@@ -120,11 +121,15 @@ export class Controller {
 
 // TODO move this where?
 // TODO maybe return values instead?
-export const updateDirection = (controller: Controller, entity: Entity): void => {
+export const updateDirection = (
+	controller: Controller,
+	entity: Entity,
+	camera: CameraState,
+): void => {
 	if (controller.pointerDown) {
 		if (controller.pointerLocationX !== null && controller.pointerLocationY !== null) {
-			const x = controller.pointerLocationX - entity.x;
-			const y = controller.pointerLocationY - entity.y;
+			const x = controller.pointerLocationX - entity.x + camera.x - camera.width / 2;
+			const y = controller.pointerLocationY - entity.y + camera.y - camera.height / 2;
 			entity.directionX = x / (Math.abs(x) + Math.abs(y));
 			entity.directionY = y / (Math.abs(x) + Math.abs(y));
 		}
