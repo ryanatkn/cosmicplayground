@@ -17,35 +17,43 @@ export interface ClockStore {
 	resume: () => void;
 	pause: () => void; // also semantically includes "stop", might want to make an explicit `stop`/`teardown`
 	toggle: () => void;
+	reset: () => void;
 }
 
-export const toClockStore = (initialState?: Partial<ClockState>): ClockStore => {
-	const finalInitialState: ClockState = {
-		running: false, // see below for where `initialState.running` is used - the initializing `resume` call expects `running` to be false
-		time: 0,
-		dt: 0,
-		...initialState,
-	};
-
+export const toClockStore = (initialState: Partial<ClockState> = {}): ClockStore => {
 	let lastTime: number | undefined;
 	let reqId: number | undefined;
 
-	const {subscribe, set, update} = writable(finalInitialState, () => {
-		return () => {
-			store.pause();
-		};
-	});
-
-	const onTimer = (dt: number): void => {
-		update(($clock) => ({...$clock, time: $clock.time + dt, dt}));
-	};
+	const {subscribe, set, update} = writable(
+		{
+			running: initialState.running ?? false,
+			time: initialState.time ?? 0,
+			dt: initialState.dt ?? 0,
+		},
+		() => {
+			if (get(store).running) queueUpdate();
+			return () => cancelUpdate();
+		},
+	);
 
 	const onFrame = (t: number): void => {
 		if (lastTime !== undefined) {
-			onTimer(t - lastTime);
+			const dt = t - lastTime;
+			update(($clock) => ({running: $clock.running, time: $clock.time + dt, dt}));
 		}
 		lastTime = t;
 		reqId = requestAnimationFrame(onFrame);
+	};
+
+	const queueUpdate = () => {
+		if (reqId) cancelUpdate();
+		lastTime = undefined;
+		reqId = requestAnimationFrame(onFrame);
+	};
+	const cancelUpdate = () => {
+		if (!reqId) return;
+		cancelAnimationFrame(reqId);
+		reqId = undefined;
 	};
 
 	const store: ClockStore = {
@@ -56,17 +64,16 @@ export const toClockStore = (initialState?: Partial<ClockState>): ClockStore => 
 			if (!browser) return;
 			update(($clock) => {
 				if ($clock.running) return $clock;
-				lastTime = undefined;
-				reqId = requestAnimationFrame(onFrame);
-				return {...$clock, running: true};
+				queueUpdate();
+				return {running: true, time: $clock.time, dt: $clock.dt};
 			});
 		},
 		pause: (): void => {
 			if (!browser) return;
 			update(($clock) => {
 				if (!$clock.running) return $clock;
-				if (reqId) cancelAnimationFrame(reqId);
-				return {...$clock, running: false};
+				cancelUpdate();
+				return {running: false, time: $clock.time, dt: $clock.dt};
 			});
 		},
 		toggle: (): void => {
@@ -76,11 +83,10 @@ export const toClockStore = (initialState?: Partial<ClockState>): ClockStore => 
 				store.resume();
 			}
 		},
+		reset: (): void => {
+			update(($clock) => ({running: $clock.running, time: 0, dt: 0}));
+		},
 	};
-
-	if (!initialState || initialState.running) {
-		store.resume();
-	}
 
 	return store;
 };

@@ -117,14 +117,16 @@
 	$: starshipViewY = $camera
 		? (starshipY - $camera.y) * $camera.scale - (starshipHeight - height) / 2
 		: starshipY - (starshipHeight - height) / 2;
+	let pausedClock = false;
 	const enterStarshipMode = async () => {
 		console.log('enterStarshipMode');
 		dtMs = 0;
 		starshipAngle = 0;
 		starshipMode = true;
 		disasterAverted = undefined;
-		clock.pause();
-		clock.set({...$clock, time: 0, dt: 0}); // TODO `reset`? would pause too
+		pausedClock = $clock.running;
+		if (pausedClock) clock.pause();
+		clock.reset();
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
@@ -134,6 +136,7 @@
 		starshipAngle = 0;
 		starshipMode = false;
 		disasterAverted = savedDisasterAverted;
+		if (pausedClock) clock.resume();
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;

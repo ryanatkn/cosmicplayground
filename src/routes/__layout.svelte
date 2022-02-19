@@ -89,6 +89,7 @@
 	});
 
 	const clock = setClock(); // TODO integrate with Pixi ticker?
+	clock.resume();
 	$: updateRenderStats($clock.dt);
 
 	const portals = createPortalsStore({
