@@ -42,14 +42,28 @@
 		}
 		currentStage = stage;
 		starshipShieldRadius = stage.player.radius;
-		// TODO make more efficient -- evented?
-		scores = {
-			friends: currentStage.friends.map((friend) => !friend.dead),
-			planet: !currentStage.planet.dead,
-		};
+
+		// TODO refactor - events?
+		if (!scores || scoresChanged(scores, currentStage)) {
+			scores = {
+				friends: currentStage.friends.map((friend) => !friend.dead),
+				planet: !currentStage.planet.dead,
+			};
+		}
+
 		if (stage.controller.pressingExit) {
 			exitStarshipMode();
 		}
+	};
+
+	// TODO refactor, see usage
+	const scoresChanged = (scores: StarshipStageScores, stage: Stage): boolean => {
+		for (let i = 0; i < scores.friends.length; i++) {
+			if (scores.friends[i] !== !stage.friends[i].dead) {
+				return true;
+			}
+		}
+		return scores.planet !== !stage.planet.dead;
 	};
 
 	const updateAngle = (currentAngle: number, directionX: number, directionY: number): number =>

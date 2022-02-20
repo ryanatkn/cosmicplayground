@@ -295,7 +295,7 @@
 				<FloatingIconButton
 					label="return home"
 					on:click={() => exitStarshipMode()}
-					style="font-size: var(--font_size_xl3)"
+					style="font-size: var(--font_size_xl5)"
 				>
 					↩
 				</FloatingIconButton>
