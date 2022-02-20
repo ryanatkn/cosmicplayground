@@ -40,6 +40,11 @@ const meta: StageMeta = {
 // 	entity: Entity;
 // }
 
+export interface StarshipStageScores {
+	friends: boolean[];
+	planet: boolean;
+}
+
 export class Stage extends BaseStage {
 	static override meta = meta;
 
@@ -58,8 +63,6 @@ export class Stage extends BaseStage {
 	readonly friendFragments: EntityBody[] = [];
 	readonly planetFragments: EntityBody[] = [];
 	readonly rockFragments: EntityBody[] = [];
-	rockPassedFriends = false;
-	rockPassedPlanet = false;
 
 	camera!: CameraStore;
 	freezeCamera = true;
@@ -341,21 +344,6 @@ export class Stage extends BaseStage {
 			friendFragments.push(...friendFragmentsToAdd);
 			this.addBodies(friendFragmentsToAdd);
 		}
-
-		if (
-			!this.rockPassedFriends &&
-			friends.every((friend) => !friend.dead && rock.x + rock.radius < friend.x - friend.radius)
-		) {
-			this.rockPassedFriends = true;
-		}
-		if (!this.rockPassedPlanet && !planet.dead && rock.x + rock.radius < planet.x - planet.radius) {
-			this.rockPassedPlanet = true;
-		}
-
-		// TODO see `disasterAverted`
-		// if (this.rockPassedFriends && this.rockPassedPlanet) {
-		// 	this.exit({next_stage: meta.name});
-		// }
 	}
 
 	render(renderer: Renderer): void {

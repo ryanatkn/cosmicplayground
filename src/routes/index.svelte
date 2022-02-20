@@ -17,10 +17,10 @@
 	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
 	import {getSettings} from '$lib/app/settingsStore';
 	import StarshipStage from '$lib/portals/home/StarshipStage.svelte';
+	import RadialLayout from '$lib/ui/RadialLayout.svelte';
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clockStore';
-	import {Stage} from '$lib/portals/home/starshipStage';
-	import {faces} from '$lib/ui/faces';
+	import {Stage, type StarshipStageScores} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
 
 	// TODO show scores - # friends, planet, top scores for each dimension (most of each, so 1-2 records per dimension set)
@@ -68,17 +68,11 @@
 
 	$: starshipRotation = starshipAngle + Math.PI / 2;
 
-	const DISASTER_AVERTED_KEY = 'homeDisasterAverted';
-	// TODO where does this belong? see in 2 places
-	interface DiasterAvertedScores {
-		friends: boolean[];
-		planet: boolean;
-		// TODO include friend fragments?
-	}
-	let savedDisasterAvertedRaw: string | null = localStorage.getItem(DISASTER_AVERTED_KEY);
-	let savedDisasterAverted: DiasterAvertedScores | undefined;
-	$: savedDisasterAverted = parseDisasterAverted(savedDisasterAvertedRaw);
-	const parseDisasterAverted = (raw: string | null): DiasterAvertedScores | undefined => {
+	const SCORES_KEY = 'homeScores';
+	let savedScoresRaw: string | null = localStorage.getItem(SCORES_KEY);
+	let savedScores: StarshipStageScores | undefined;
+	$: savedScores = parseScores(savedScoresRaw);
+	const parseScores = (raw: string | null): StarshipStageScores | undefined => {
 		if (!raw) return undefined;
 		try {
 			return JSON.parse(raw);
@@ -86,34 +80,28 @@
 			return undefined;
 		}
 	};
-	let disasterAverted = browser ? savedDisasterAverted : undefined;
-	$: disasterAverted && greatSuccess();
-	$: disasterAvertedFriendCount = disasterAverted?.friends.filter(Boolean).length;
+	let done = false;
+	let scores = browser ? savedScores : undefined;
 	const greatSuccess = (saved = true) => {
 		if (!currentStage) throw Error('Expected a stage to make success');
-		// TODO do this reactively
-		disasterAverted = {
-			friends: currentStage.friends.map((friend) => !friend.dead),
-			planet: !currentStage.planet.dead,
-		};
-		const serialized = JSON.stringify(disasterAverted);
+		done = true;
+		const serialized = JSON.stringify(scores);
 		if (saved) {
-			localStorage.setItem(DISASTER_AVERTED_KEY, serialized); // TODO set time
-			savedDisasterAvertedRaw = serialized;
+			localStorage.setItem(SCORES_KEY, serialized); // TODO set time
+			savedScoresRaw = serialized;
 		}
 	};
-	const resetDisasterAverted = (saved = false) => {
-		disasterAverted = undefined;
+	const resetScores = (saved = false) => {
+		scores = undefined;
 		if (browser) {
 			if (saved) {
-				savedDisasterAvertedRaw = null;
-				localStorage.removeItem(DISASTER_AVERTED_KEY);
+				savedScoresRaw = null;
+				localStorage.removeItem(SCORES_KEY);
 			}
 		}
 	};
 
-	const toggleDisasterAverted = () =>
-		disasterAverted ? resetDisasterAverted() : greatSuccess(false);
+	const toggleScores = () => (scores ? resetScores() : greatSuccess(false));
 
 	const STARSHIP_RADIUS = 100; // TODO implement from starship radius (on stage?)
 	$: starshipScale = (STARSHIP_RADIUS * 2) / starshipHeight;
@@ -127,7 +115,7 @@
 		dtMs = 0;
 		starshipAngle = 0;
 		starshipMode = true;
-		disasterAverted = undefined;
+		scores = undefined;
 		pausedClock = $clock.running;
 		if (pausedClock) clock.pause();
 		clock.reset();
@@ -139,7 +127,7 @@
 		console.log('exitStarshipMode');
 		starshipAngle = 0;
 		starshipMode = false;
-		disasterAverted = savedDisasterAverted;
+		scores = savedScores;
 		if (pausedClock) clock.resume();
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
@@ -163,6 +151,8 @@
 	// TODO this 30 seconds works well, but do we want to abstract this logic for reusability? compose as a function?
 	const WIN_SECONDS = 30;
 	$: dtSeconds > WIN_SECONDS && greatSuccess(); // TODO  show # friends, planet or not, etc, save scores (composed out here, so decoupled)
+
+	export const faces = ['🐭', '🐶', '🐰', '🦊', '🐱'];
 </script>
 
 <svelte:window
@@ -176,8 +166,8 @@
 				await exitStarshipMode();
 			}
 		} else if (e.key === 'F2') {
-			if (savedDisasterAverted) {
-				resetDisasterAverted(true);
+			if (savedScores) {
+				resetScores(true);
 			} else {
 				greatSuccess();
 				if (!starshipMode) {
@@ -259,17 +249,32 @@
 				</ul>
 			{/each}
 		{/if}
-		{#if disasterAverted || savedDisasterAverted}
+		{#if scores || savedScores}
 			<ul class="portals">
-				<PortalPreview onClick={() => toggleDisasterAverted()}
-					><span style:font-size="144px" class:disabled={savedDisasterAverted && !disasterAverted}
-						>🙌</span
+				<PortalPreview onClick={() => toggleScores()}
+					><span style:font-size="144px" class:disabled={savedScores && !scores}>🙌</span
 					></PortalPreview
 				>
 			</ul>
 		{/if}
 	</nav>
 	{#if starshipMode}
+		<div class="score-wrapper">
+			<RadialLayout items={faces.slice(1)} totalCount={16} width={100} let:item let:index>
+				<div class="score-friend-item" style:transform="translate3d({item.x}px, {item.y}px, 0)">
+					{item.value}
+					{#if scores && !scores.friends[index]}
+						<div class="skull">💀</div>
+					{/if}
+				</div>
+			</RadialLayout>
+			<div class="score-planet-item">
+				{faces[0]}
+				{#if scores && !scores.planet}
+					<div class="skull">💀</div>
+				{/if}
+			</div>
+		</div>
 		<StarshipStage
 			{width}
 			{height}
@@ -277,11 +282,11 @@
 			bind:starshipY
 			bind:starshipAngle
 			bind:starshipShieldRadius
-			bind:disasterAverted
+			bind:scores
 			bind:currentStage
 			{exitStarshipMode}
 		/>
-		{#if disasterAverted}
+		{#if done}
 			<div class="exit">
 				<button
 					type="button"
@@ -291,35 +296,6 @@
 				>
 					↩
 				</button>
-				<div class="markup" style:font-size="var(--font_size_xl)">
-					<p
-						style:color="var(--land_text_color)"
-						style:font-size="var(--font_size_xl3)"
-						class="scores"
-					>
-						{#each {length: 4} as _, index}
-							<span class="score">
-								{faces[index]}
-								{#if disasterAvertedFriendCount !== undefined && index >= disasterAvertedFriendCount}
-									<small class="skull">💀</small>
-								{/if}
-							</span>
-						{/each}
-					</p>
-					<p
-						class="score"
-						class:failure={!disasterAverted.planet}
-						class:success={disasterAverted.planet}
-						style:font-size="var(--font_size_xl5)"
-					>
-						{#if disasterAverted.planet}
-							🌐
-						{:else}
-							🌐
-							<div class="skull">💀</div>
-						{/if}
-					</p>
-				</div>
 			</div>
 		{/if}
 	{/if}
@@ -351,23 +327,19 @@
 	.starship-mode .portals {
 		flex-wrap: nowrap;
 	}
-	.failure {
-		color: var(--lava_color);
+	.score-wrapper {
+		user-select: none;
+		position: absolute;
+		left: 0;
+		bottom: 0;
 	}
-	.success {
-		color: var(--ocean_text_color);
-	}
-	.scores {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-wrap: wrap;
-	}
-	.score {
+	.score-friend-item {
+		font-size: var(--font_size_xl);
 		position: relative;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	}
+	.score-planet-item {
+		font-size: var(--font_size_xl3);
+		position: relative;
 	}
 	nav {
 		margin: 0;
