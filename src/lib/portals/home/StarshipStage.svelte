@@ -20,7 +20,8 @@
 	export let starshipAngle = 0;
 	export let starshipShieldRadius = 0;
 	export let scores: StarshipStageScores | undefined;
-	export let exitStarshipMode: () => void;
+	export let finish: () => void;
+	export let exit: () => void;
 
 	const clock = getClock();
 
@@ -28,8 +29,18 @@
 
 	$: activeStageState?.stage && syncStageState(activeStageState.stage, $clock.dt);
 
+	let elapsed = 0;
+	let finished = false;
+	const STAGE_DURATION = 30000;
+
 	// TODO this is clumsy
-	const syncStageState = (stage: Stage, _dt: number) => {
+	const syncStageState = (stage: Stage, dt: number) => {
+		elapsed += dt;
+		if (!finished && elapsed > STAGE_DURATION) {
+			finished = true;
+			finish();
+		}
+
 		starshipX = stage.player.x;
 		starshipY = stage.player.y;
 
@@ -49,10 +60,11 @@
 				friends: currentStage.friends.map((friend) => !friend.dead),
 				planet: !currentStage.planet.dead,
 			};
+			console.log('SET SCORES', scores);
 		}
 
 		if (stage.controller.pressingExit) {
-			exitStarshipMode();
+			exit();
 		}
 	};
 

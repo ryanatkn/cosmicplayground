@@ -47,6 +47,8 @@ export interface StarshipStageScores {
 	friends: boolean[];
 	planet: boolean;
 }
+export const areScoresPerfect = (scores: StarshipStageScores): boolean =>
+	scores.planet && scores.friends.every((f) => f);
 
 export class Stage extends BaseStage {
 	static override meta = meta;

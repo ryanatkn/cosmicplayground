@@ -21,7 +21,7 @@
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clockStore';
-	import {Stage, type StarshipStageScores} from '$lib/portals/home/starshipStage';
+	import {areScoresPerfect, Stage, type StarshipStageScores} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
 
 	// TODO show scores - # friends, planet, top scores for each dimension (most of each, so 1-2 records per dimension set)
@@ -70,40 +70,40 @@
 	$: starshipRotation = starshipAngle + Math.PI / 2;
 
 	const SCORES_KEY = 'homeScores';
-	let savedScoresRaw: string | null = localStorage.getItem(SCORES_KEY);
-	let savedScores: StarshipStageScores | undefined;
-	$: savedScores = parseScores(savedScoresRaw);
-	const parseScores = (raw: string | null): StarshipStageScores | undefined => {
-		if (!raw) return undefined;
+	const loadScores = (): StarshipStageScores | undefined => {
+		if (!browser) return undefined;
+		const saved = localStorage.getItem(SCORES_KEY);
+		if (!saved) return undefined;
 		try {
-			return JSON.parse(raw);
+			return JSON.parse(saved);
 		} catch (err) {
 			return undefined;
 		}
 	};
-	let done = false;
-	let scores = browser ? savedScores : undefined;
-	const greatSuccess = (saved = true) => {
-		if (!currentStage) throw Error('Expected a stage to make success');
-		done = true;
-		const serialized = JSON.stringify(scores);
-		if (saved) {
-			localStorage.setItem(SCORES_KEY, serialized); // TODO set time
-			savedScoresRaw = serialized;
+	let scores: StarshipStageScores | undefined;
+	let savedScores = loadScores();
+	$: perfectSavedScores = !!savedScores && areScoresPerfect(savedScores);
+	$: perfectScores = !!scores && areScoresPerfect(scores);
+
+	let finished = false;
+	const finish = () => {
+		if (finished) return;
+		finished = true;
+		// TODO only save if score is better
+		if (!perfectSavedScores) {
+			localStorage.setItem(SCORES_KEY, JSON.stringify(scores));
+			savedScores = scores;
 		}
 	};
-	const resetScores = (saved = false) => {
-		scores = undefined;
-		if (browser) {
-			if (saved) {
-				savedScoresRaw = null;
-				localStorage.removeItem(SCORES_KEY);
-			}
-		}
+	const resetScores = () => {
+		localStorage.removeItem(SCORES_KEY);
+		savedScores = undefined;
 	};
 
+	const BOOSTER = '🙌';
 	let enableBooster = true;
-	$: boosterEnabled = !!savedScores && enableBooster;
+	$: boosterUnlocked = perfectSavedScores;
+	$: boosterEnabled = boosterUnlocked && enableBooster;
 	const toggleBooster = () => {
 		enableBooster = !enableBooster;
 	};
@@ -117,11 +117,9 @@
 	let pausedClock = false;
 	const enterStarshipMode = async () => {
 		console.log('enterStarshipMode');
-		done = false;
-		dtMs = 0;
+		finished = false;
 		starshipAngle = 0;
 		starshipMode = true;
-		scores = undefined;
 		pausedClock = $clock.running;
 		if (pausedClock) clock.pause();
 		clock.reset();
@@ -133,7 +131,6 @@
 		console.log('exitStarshipMode');
 		starshipAngle = 0;
 		starshipMode = false;
-		scores = savedScores;
 		if (pausedClock) clock.resume();
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
@@ -150,12 +147,6 @@
 	$: heatdeath = $clock.time > STARSHIP_HEAT_DEATH;
 	$: starshipMode && heatdeath && exitStarshipMode().then(() => enterStarshipMode());
 
-	let dtMs = 0;
-	$: if (starshipMode) dtMs += $clock.dt;
-	$: dtSeconds = Math.round(dtMs / 1000);
-	const WIN_SECONDS = 30;
-	$: dtSeconds > WIN_SECONDS && greatSuccess(); // TODO refactor
-
 	export const faces = ['🐭', '🐶', '🐰', '🦊', '🐱'];
 </script>
 
@@ -170,14 +161,12 @@
 				await exitStarshipMode();
 			}
 		} else if (e.key === 'F2') {
-			if (savedScores) {
-				resetScores(true);
-			} else {
-				greatSuccess();
-				if (!starshipMode) {
-					await scrollDown();
-				}
+			finish();
+			if (!starshipMode) {
+				await scrollDown();
 			}
+		} else if (e.key === 'F6') {
+			resetScores();
 		} else if (e.key === 'F4') {
 			await toggleShowMorePortals();
 		}
@@ -253,15 +242,17 @@
 				</ul>
 			{/each}
 		{/if}
-		{#if savedScores}
+		{#if boosterUnlocked}
 			<ul class="portals">
 				<PortalPreview onClick={() => toggleBooster()}
-					><span style:font-size="144px" class:disabled={!boosterEnabled}>🙌</span></PortalPreview
+					><span style:font-size="144px" class:disabled={!boosterEnabled}>{BOOSTER}</span
+					></PortalPreview
 				>
 			</ul>
 		{/if}
 	</nav>
 	{#if starshipMode}
+		<!-- TODO does this belong in the stage component? -->
 		<div class="score-wrapper">
 			<RadialLayout items={faces.slice(1)} totalCount={16} width={100} let:item let:index>
 				<div class="score-friend-item" style:transform="translate3d({item.x}px, {item.y}px, 0)">
@@ -288,16 +279,17 @@
 			bind:starshipShieldRadius
 			bind:scores
 			bind:currentStage
-			{exitStarshipMode}
+			exit={exitStarshipMode}
+			{finish}
 		/>
-		{#if done}
+		{#if finished}
 			<div class="exit">
 				<FloatingIconButton
 					label="return home"
 					on:click={() => exitStarshipMode()}
 					style="font-size: var(--font_size_xl5)"
 				>
-					↩
+					{#if perfectScores}{BOOSTER}{:else}↩{/if}
 				</FloatingIconButton>
 			</div>
 		{/if}
@@ -396,5 +388,9 @@
 		align-items: center;
 		text-align: center;
 		user-select: none;
+		/* TODO hacky -- maybe `.opaque` or remove transparency from the FloatingIconButton or make it a prop?  */
+		--clickable_opacity: 1;
+		--clickable_opacity__hover: 1;
+		--clickable_opacity__active: 1;
 	}
 </style>
