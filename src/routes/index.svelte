@@ -101,7 +101,11 @@
 		}
 	};
 
-	const toggleScores = () => (scores ? resetScores() : greatSuccess(false));
+	let enableBooster = true;
+	$: boosterEnabled = !!savedScores && enableBooster;
+	const toggleBooster = () => {
+		enableBooster = !enableBooster;
+	};
 
 	const STARSHIP_RADIUS = 100; // TODO implement from starship radius (on stage?)
 	$: starshipScale = (STARSHIP_RADIUS * 2) / starshipHeight;
@@ -112,6 +116,7 @@
 	let pausedClock = false;
 	const enterStarshipMode = async () => {
 		console.log('enterStarshipMode');
+		done = false;
 		dtMs = 0;
 		starshipAngle = 0;
 		starshipMode = true;
@@ -147,10 +152,8 @@
 	let dtMs = 0;
 	$: if (starshipMode) dtMs += $clock.dt;
 	$: dtSeconds = Math.round(dtMs / 1000);
-	$: console.log(`dtSeconds`, dtSeconds);
-	// TODO this 30 seconds works well, but do we want to abstract this logic for reusability? compose as a function?
 	const WIN_SECONDS = 30;
-	$: dtSeconds > WIN_SECONDS && greatSuccess(); // TODO  show # friends, planet or not, etc, save scores (composed out here, so decoupled)
+	$: dtSeconds > WIN_SECONDS && greatSuccess(); // TODO refactor
 
 	export const faces = ['🐭', '🐶', '🐰', '🦊', '🐱'];
 </script>
@@ -249,11 +252,10 @@
 				</ul>
 			{/each}
 		{/if}
-		{#if scores || savedScores}
+		{#if savedScores}
 			<ul class="portals">
-				<PortalPreview onClick={() => toggleScores()}
-					><span style:font-size="144px" class:disabled={savedScores && !scores}>🙌</span
-					></PortalPreview
+				<PortalPreview onClick={() => toggleBooster()}
+					><span style:font-size="144px" class:disabled={!boosterEnabled}>🙌</span></PortalPreview
 				>
 			</ul>
 		{/if}
