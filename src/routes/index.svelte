@@ -18,6 +18,7 @@
 	import {getSettings} from '$lib/app/settingsStore';
 	import StarshipStage from '$lib/portals/home/StarshipStage.svelte';
 	import RadialLayout from '$lib/ui/RadialLayout.svelte';
+	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clockStore';
 	import {Stage, type StarshipStageScores} from '$lib/portals/home/starshipStage';
@@ -280,6 +281,7 @@
 		<StarshipStage
 			{width}
 			{height}
+			{boosterEnabled}
 			bind:starshipX
 			bind:starshipY
 			bind:starshipAngle
@@ -290,14 +292,13 @@
 		/>
 		{#if done}
 			<div class="exit">
-				<button
-					type="button"
-					style:font-size="256px"
-					style:border-radius="50%"
+				<FloatingIconButton
+					label="return home"
 					on:click={() => exitStarshipMode()}
+					style="font-size: var(--font_size_xl3)"
 				>
 					↩
-				</button>
+				</FloatingIconButton>
 			</div>
 		{/if}
 	{/if}
@@ -394,5 +395,6 @@
 		justify-content: center;
 		align-items: center;
 		text-align: center;
+		user-select: none;
 	}
 </style>

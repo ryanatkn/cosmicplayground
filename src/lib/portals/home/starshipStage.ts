@@ -24,6 +24,9 @@ export const COLOR_GHOST = 'purple';
 export const COLOR_PLAYER = 'violet';
 export const COLOR_MOLTEN = 'red';
 
+export const PLAYER_SPEED = 0.2;
+export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
+
 // TODO rewrite this to use a route Svelte component? `dealt.dev/tar/home`
 
 // TODO what if this file were named `home.stage.ts` instead of `0__home.ts` ?
@@ -87,7 +90,7 @@ export class Stage extends BaseStage {
 			height / 2 - 150,
 			100,
 		) as any);
-		player.speed = 0.2;
+		player.speed = PLAYER_SPEED;
 		player.directionX = 0;
 		player.directionY = 0;
 		player.color = COLOR_PLAYER;
@@ -166,7 +169,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.push(friend);
 
-		friend = collisions.createCircle(width / 2 + 795, height / 2 + 120, 14) as any;
+		friend = collisions.createCircle(width / 2 + 755, height / 2 + 124, 14) as any;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;

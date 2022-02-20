@@ -1,6 +1,11 @@
 <script lang="ts">
 	import World from '$lib/flat/World.svelte';
-	import {Stage, type StarshipStageScores} from '$lib/portals/home/starshipStage';
+	import {
+		PLAYER_SPEED,
+		PLAYER_SPEED_BOOSTED,
+		Stage,
+		type StarshipStageScores,
+	} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
 	import {type StageState} from '$lib/flat/stageState';
 
@@ -8,6 +13,7 @@
 
 	export let width: number;
 	export let height: number;
+	export let boosterEnabled = false;
 	export let starshipX = 0;
 	export let starshipY = 0;
 	export let currentStage: Stage | null;
@@ -26,6 +32,9 @@
 	const syncStageState = (stage: Stage, _dt: number) => {
 		starshipX = stage.player.x;
 		starshipY = stage.player.y;
+
+		stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
+
 		// TODO ?
 		starshipAngle = updateAngle(starshipAngle, stage.player.directionX, stage.player.directionY);
 		if (!stage.freezeCamera) {
