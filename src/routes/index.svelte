@@ -287,7 +287,7 @@
 				<FloatingIconButton
 					label="return home"
 					on:click={() => exitStarshipMode()}
-					style="font-size: var(--font_size_xl5)"
+					style="font-size: var(--font_size_xl3)"
 				>
 					{#if perfectScores}{BOOSTER}{:else}↩{/if}
 				</FloatingIconButton>
@@ -384,11 +384,12 @@
 		margin: auto;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: flex-end;
 		align-items: center;
 		text-align: center;
 		user-select: none;
 		/* TODO hacky -- maybe `.opaque` or remove transparency from the FloatingIconButton or make it a prop?  */
+		--hud_element_size: 200px;
 		--clickable_opacity: 1;
 		--clickable_opacity__hover: 1;
 		--clickable_opacity__active: 1;

@@ -60,7 +60,6 @@
 				friends: currentStage.friends.map((friend) => !friend.dead),
 				planet: !currentStage.planet.dead,
 			};
-			console.log('SET SCORES', scores);
 		}
 
 		if (stage.controller.pressingExit) {
