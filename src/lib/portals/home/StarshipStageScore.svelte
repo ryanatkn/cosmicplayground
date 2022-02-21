@@ -13,7 +13,7 @@
 			items={faces.slice(1)}
 			totalCount={10}
 			width={170}
-			offset={(-1.6 * Math.PI) / 11}
+			offset={(3.9 * Math.PI) / 11}
 			let:item
 			let:index
 		>
@@ -38,14 +38,14 @@
 		user-select: none;
 		position: absolute;
 		left: 0;
-		bottom: 0;
+		top: 0;
 		text-align: center;
 	}
 	.friends {
 		font-size: var(--font_size_xl);
 		position: absolute;
-		left: 150px;
-		top: 150px;
+		left: 130px;
+		top: 130px;
 		width: 0;
 		height: 0;
 	}
