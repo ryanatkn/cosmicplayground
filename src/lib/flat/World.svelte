@@ -1,6 +1,5 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
-	import {produce} from 'immer';
 	import {onMount} from 'svelte';
 
 	import Canvas from '$lib/flat/Canvas.svelte';
@@ -37,23 +36,23 @@
 		const unlock = outcome?.unlock;
 		if (unlock && activeStageState) {
 			// TODO just chooses the next stage, need pluggable algorithms
-			const active_stage_index = $stageStates.indexOf(activeStageState);
-			stageStates.update(($v) =>
-				produce($v, ($stageStates) => {
-					const activeStageState = $stageStates[active_stage_index];
-					activeStageState.completions.push({time: activeStageState.stage!.time});
-					if (unlock) {
-						for (const unlocked_stage_name of unlock) {
-							console.log('unlocked_stage_name', unlocked_stage_name);
-							// TODO just chooses the next stage, need pluggable algorithms
-							const unlocked_stageState = $stageStates.find(
-								(s) => s.stageConstructor.meta.name === unlocked_stage_name,
-							);
-							unlocked_stageState!.unlocked = true;
-						}
+			const activeStageIndex = $stageStates.indexOf(activeStageState);
+			stageStates.update(($stageStates) => {
+				const nextStageStates = $stageStates.slice();
+				const activeStageState = {...$stageStates[activeStageIndex]};
+				activeStageState.completions = activeStageState.completions.concat({
+					time: activeStageState.stage!.time,
+				});
+				if (unlock) {
+					for (const unlockedStageName of unlock) {
+						const index = $stageStates.findIndex(
+							(s) => s.stageConstructor.meta.name === unlockedStageName,
+						);
+						$stageStates[index] = {...$stageStates[index], unlocked: true};
 					}
-				}),
-			);
+				}
+				return nextStageStates;
+			});
 		}
 		const nextStageState = $stageStates.find(
 			(s) => s.stageConstructor.meta.name === next_stage_name,
@@ -82,26 +81,29 @@
 		settingUp = true;
 		if (activeStageState?.stage) {
 			await activeStageState.stage.teardown();
-			stageStates.update(($v) =>
-				produce($v, ($stageStates) => {
-					const activeIndex = $stageStates.findIndex(
-						($s) => $s.stageConstructor === activeStageState!.stageConstructor,
-					);
-					$stageStates[activeIndex].stage = null;
-				}),
-			);
-		}
-		// TODO check for existing stage to teardown?
-		stageStates.update(($v) =>
-			produce($v, ($stageStates) => {
-				// TODO speed this up with better data structures
+			stageStates.update(($stageStates) => {
+				const nextStageStates = $stageStates.slice();
+				// TODO can we use `indexOf` or are there cases where the ref would be different?
 				const activeIndex = $stageStates.findIndex(
-					($s) => $s.stageConstructor === stageState.stageConstructor,
+					($s) => $s.stageConstructor === activeStageState!.stageConstructor,
 				);
-				$stageStates[activeIndex].stage = new stageState.stageConstructor(controller, onExitStage);
-				console.log('new', $stageStates[activeIndex].stage, activeIndex);
-			}),
-		);
+				nextStageStates[activeIndex] = {...activeStageState!, stage: null};
+				return nextStageStates;
+			});
+		}
+		stageStates.update(($stageStates) => {
+			// TODO speed this up with better data structures
+			const nextStageStates = $stageStates.slice();
+			// TODO can we use `indexOf` or are there cases where the ref would be different?
+			const activeIndex = $stageStates.findIndex(
+				($s) => $s.stageConstructor === stageState.stageConstructor,
+			);
+			nextStageStates[activeIndex] = {
+				...stageState,
+				stage: new stageState.stageConstructor(controller, onExitStage),
+			};
+			return nextStageStates;
+		});
 		activeStageState = $stageStates.find(
 			($s) => $s.stageConstructor === stageState.stageConstructor,
 		)!;

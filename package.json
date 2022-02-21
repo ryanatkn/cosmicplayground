@@ -43,7 +43,6 @@
     "@typescript-eslint/parser": "^5.11.0",
     "eslint": "^8.9.0",
     "eslint-plugin-svelte3": "^3.4.0",
-    "immer": "^9.0.12",
     "pixi.js": "^6.2.2",
     "prettier": "^2.5.1",
     "prettier-plugin-svelte": "^2.6.0",
