@@ -8,6 +8,7 @@
 	export let totalCount: number | undefined;
 	export let width: number;
 	export let height: number = width;
+	export let offset = 0;
 	// TODO offset // radians from 12 oclock
 	// TODO counterclockwide
 
@@ -29,8 +30,12 @@
 			value,
 			width,
 			height,
-			x: width * Math.cos(Math.PI / -2 + (2 * i * Math.PI) / total + Math.PI / total) - width / 2,
-			y: height * Math.sin(Math.PI / -2 + (2 * i * Math.PI) / total + Math.PI / total) - height / 2,
+			x:
+				width * Math.cos(offset + Math.PI / -2 + (2 * i * Math.PI) / total + Math.PI / total) -
+				width / 2,
+			y:
+				height * Math.sin(offset + Math.PI / -2 + (2 * i * Math.PI) / total + Math.PI / total) -
+				height / 2,
 		}));
 
 	$: console.log('layout', layout);
