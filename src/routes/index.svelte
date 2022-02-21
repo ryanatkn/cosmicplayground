@@ -17,8 +17,8 @@
 	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
 	import {getSettings} from '$lib/app/settingsStore';
 	import StarshipStage from '$lib/portals/home/StarshipStage.svelte';
-	import RadialLayout from '$lib/ui/RadialLayout.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
+	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clockStore';
 	import {areScoresPerfect, Stage, type StarshipStageScores} from '$lib/portals/home/starshipStage';
@@ -146,8 +146,6 @@
 	const STARSHIP_HEAT_DEATH = 60 * 1000 * 6;
 	$: heatdeath = $clock.time > STARSHIP_HEAT_DEATH;
 	$: starshipMode && heatdeath && exitStarshipMode().then(() => enterStarshipMode());
-
-	export const faces = ['🐭', '🐶', '🐰', '🦊', '🐱'];
 </script>
 
 <svelte:window
@@ -253,22 +251,7 @@
 	</nav>
 	{#if starshipMode}
 		<!-- TODO does this belong in the stage component? -->
-		<div class="score-wrapper">
-			<RadialLayout items={faces.slice(1)} totalCount={16} width={100} let:item let:index>
-				<div class="score-friend-item" style:transform="translate3d({item.x}px, {item.y}px, 0)">
-					{item.value}
-					{#if scores && !scores.friends[index]}
-						<div class="skull">💀</div>
-					{/if}
-				</div>
-			</RadialLayout>
-			<div class="score-planet-item">
-				{faces[0]}
-				{#if scores && !scores.planet}
-					<div class="skull">💀</div>
-				{/if}
-			</div>
-		</div>
+		<StarshipStageScore {scores} />
 		<StarshipStage
 			{width}
 			{height}
@@ -322,20 +305,6 @@
 	.starship-mode .portals {
 		flex-wrap: nowrap;
 	}
-	.score-wrapper {
-		user-select: none;
-		position: absolute;
-		left: 0;
-		bottom: 0;
-	}
-	.score-friend-item {
-		font-size: var(--font_size_xl);
-		position: relative;
-	}
-	.score-planet-item {
-		font-size: var(--font_size_xl3);
-		position: relative;
-	}
 	nav {
 		margin: 0;
 		display: flex;
@@ -350,11 +319,6 @@
 	}
 	.starship {
 		font-size: 84px;
-	}
-	.skull {
-		position: absolute;
-		inset: 0;
-		font-size: 90%;
 	}
 
 	/* TODO not sure about this name */
@@ -384,7 +348,7 @@
 		margin: auto;
 		display: flex;
 		flex-direction: column;
-		justify-content: flex-end;
+		justify-content: center;
 		align-items: center;
 		text-align: center;
 		user-select: none;
