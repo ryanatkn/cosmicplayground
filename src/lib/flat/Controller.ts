@@ -22,11 +22,11 @@ export class Controller {
 		this.moving.set(this.isMoving());
 	}
 
-	pointerLocationX: number | null = null;
-	pointerLocationY: number | null = null;
+	pointerScreenX: number | null = null;
+	pointerScreenY: number | null = null;
 	setPointerLocation(x: number | null, y: number | null): void {
-		this.pointerLocationX = x;
-		this.pointerLocationY = y;
+		this.pointerScreenX = x;
+		this.pointerScreenY = y;
 	}
 
 	private isMoving(): boolean {
@@ -127,17 +127,20 @@ export const updateDirection = (
 	camera: CameraState,
 ): void => {
 	if (controller.pointerDown) {
-		if (controller.pointerLocationX === null || controller.pointerLocationY === null) return;
-		const x = controller.pointerLocationX - entity.x + camera.x - camera.width / 2;
-		const y = controller.pointerLocationY - entity.y + camera.y - camera.height / 2;
-		entity.directionX = x / (Math.abs(x) + Math.abs(y));
-		entity.directionY = y / (Math.abs(x) + Math.abs(y));
+		if (controller.pointerScreenX === null || controller.pointerScreenY === null) return;
+		// TODO cache pointer world coordinates? where?
+		const pointerWorldX = controller.pointerScreenX + camera.x - camera.width / 2;
+		const pointerWorldY = controller.pointerScreenY + camera.y - camera.height / 2;
+		const x = pointerWorldX - entity.x;
+		const y = pointerWorldY - entity.y;
+		const magnitude = Math.hypot(x, y);
+		entity.directionX = x / magnitude;
+		entity.directionY = y / magnitude;
 	} else {
 		const {movingLeft, movingRight, movingUp, movingDown} = controller;
 		const directionX = movingLeft && !movingRight ? -1 : movingRight && !movingLeft ? 1 : 0;
 		const directionY = movingUp && !movingDown ? -1 : movingDown && !movingUp ? 1 : 0;
-		entity.directionX = directionY === 0 ? directionX : directionX / 2;
-		entity.directionY = directionX === 0 ? directionY : directionY / 2;
+		entity.directionX = directionY === 0 ? directionX : directionX / Math.SQRT2;
+		entity.directionY = directionX === 0 ? directionY : directionY / Math.SQRT2;
 	}
-	console.log(`entity.directionX, entity.directionY`, entity.directionX, entity.directionY);
 };
