@@ -127,24 +127,17 @@ export const updateDirection = (
 	camera: CameraState,
 ): void => {
 	if (controller.pointerDown) {
-		if (controller.pointerLocationX !== null && controller.pointerLocationY !== null) {
-			const x = controller.pointerLocationX - entity.x + camera.x - camera.width / 2;
-			const y = controller.pointerLocationY - entity.y + camera.y - camera.height / 2;
-			entity.directionX = x / (Math.abs(x) + Math.abs(y));
-			entity.directionY = y / (Math.abs(x) + Math.abs(y));
-		}
+		if (controller.pointerLocationX === null || controller.pointerLocationY === null) return;
+		const x = controller.pointerLocationX - entity.x + camera.x - camera.width / 2;
+		const y = controller.pointerLocationY - entity.y + camera.y - camera.height / 2;
+		entity.directionX = x / (Math.abs(x) + Math.abs(y));
+		entity.directionY = y / (Math.abs(x) + Math.abs(y));
 	} else {
-		entity.directionX =
-			controller.movingLeft && !controller.movingRight
-				? -1
-				: controller.movingRight && !controller.movingLeft
-				? 1
-				: 0;
-		entity.directionY =
-			controller.movingUp && !controller.movingDown
-				? -1
-				: controller.movingDown && !controller.movingUp
-				? 1
-				: 0;
+		const {movingLeft, movingRight, movingUp, movingDown} = controller;
+		const directionX = movingLeft && !movingRight ? -1 : movingRight && !movingLeft ? 1 : 0;
+		const directionY = movingUp && !movingDown ? -1 : movingDown && !movingUp ? 1 : 0;
+		entity.directionX = directionY === 0 ? directionX : directionX / 2;
+		entity.directionY = directionX === 0 ? directionY : directionY / 2;
 	}
+	console.log(`entity.directionX, entity.directionY`, entity.directionX, entity.directionY);
 };
