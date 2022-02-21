@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
-	import {onMount} from 'svelte';
+	import {onMount, onDestroy} from 'svelte';
 
 	import Canvas from '$lib/flat/Canvas.svelte';
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
@@ -120,6 +120,9 @@
 
 	onMount(async () => {
 		await setActiveStage();
+	});
+	onDestroy(async () => {
+		await activeStageState?.stage?.teardown();
 	});
 
 	// TODO maybe simplify this logic and render after `setActiveStage`?
