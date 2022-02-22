@@ -90,11 +90,7 @@ export class Stage extends BaseStage {
 
 		console.log('setup stage, sim, controller', sim, controller);
 		// create the controllable player
-		const player: EntityCircle = (this.player = collisions.createCircle(
-			width / 2 - 100,
-			height / 2 - 150,
-			100,
-		) as any);
+		const player: EntityCircle = (this.player = collisions.createCircle(810, 502, 100) as any);
 		player.speed = PLAYER_SPEED;
 		player.directionX = 0;
 		player.directionY = 0;
@@ -118,8 +114,8 @@ export class Stage extends BaseStage {
 		// TODO create these programmatically from data
 		const planetRadius = 1618;
 		const planet: EntityCircle = (this.planet = collisions.createCircle(
-			-350 + planetRadius / 2 - width / 2,
-			-1100 + planetRadius / 2 - height / 2,
+			-1450 + planetRadius / 2,
+			-1750 + planetRadius / 2,
 			planetRadius,
 		) as any);
 		planet.speed = 1;
@@ -133,7 +129,7 @@ export class Stage extends BaseStage {
 		const rockSize = 262;
 		const rock: EntityCircle = (this.rock = collisions.createCircle(
 			2250 + rockSize / 2,
-			1219 + rockSize / 2,
+			1212 + rockSize / 2,
 			rockSize,
 		) as any);
 		rock.speed = 0.07;
@@ -143,11 +139,7 @@ export class Stage extends BaseStage {
 		rock.color = COLOR_PLAIN;
 		bodies.push(rock);
 
-		let friend: EntityCircle = collisions.createCircle(
-			width / 2 + 355,
-			height / 2 + 420,
-			33,
-		) as any;
+		let friend: EntityCircle = collisions.createCircle(1660, 1012, 33) as any;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
@@ -156,7 +148,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.push(friend);
 
-		friend = collisions.createCircle(width / 2 + 545, height / 2 + 360, 42) as any;
+		friend = collisions.createCircle(1470, 1084, 42) as any;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
@@ -165,7 +157,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.push(friend);
 
-		friend = collisions.createCircle(width / 2 + 895, height / 2 + 220, 7) as any;
+		friend = collisions.createCircle(2010, 872, 7) as any;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
@@ -174,7 +166,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.push(friend);
 
-		friend = collisions.createCircle(width / 2 + 755, height / 2 + 124, 14) as any;
+		friend = collisions.createCircle(1870, 776, 14) as any;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
@@ -199,8 +191,8 @@ export class Stage extends BaseStage {
 	}
 
 	override update(dt: number): void {
-		// TODO time dilation, default to 2.0x
-		dt *= 2; // eslint-disable-line no-param-reassign
+		// TODO time dilation controls
+		dt *= 3; // eslint-disable-line no-param-reassign
 		const {
 			controller,
 			player,
