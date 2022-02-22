@@ -119,6 +119,8 @@ export class Controller {
 	}
 }
 
+const MIN_MAGNITUDE = 4;
+
 // TODO move this where?
 // TODO maybe return values instead?
 export const updateDirection = (
@@ -134,8 +136,9 @@ export const updateDirection = (
 		const x = pointerWorldX - entity.x;
 		const y = pointerWorldY - entity.y;
 		const magnitude = Math.hypot(x, y);
-		entity.directionX = x / magnitude;
-		entity.directionY = y / magnitude;
+		const zeroes = !magnitude || magnitude < MIN_MAGNITUDE;
+		entity.directionX = zeroes ? 0 : x / magnitude;
+		entity.directionY = zeroes ? 0 : y / magnitude;
 	} else {
 		const {movingLeft, movingRight, movingUp, movingDown} = controller;
 		const directionX = movingLeft && !movingRight ? -1 : movingRight && !movingLeft ? 1 : 0;
