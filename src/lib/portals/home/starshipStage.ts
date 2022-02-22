@@ -132,8 +132,8 @@ export class Stage extends BaseStage {
 		// TODO how will this work for polygons?
 		const rockSize = 262;
 		const rock: EntityCircle = (this.rock = collisions.createCircle(
-			width + rockSize / 2,
-			height + rockSize / 2,
+			2250 + rockSize / 2,
+			1219 + rockSize / 2,
 			rockSize,
 		) as any);
 		rock.speed = 0.07;

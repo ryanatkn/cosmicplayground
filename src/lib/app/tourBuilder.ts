@@ -21,6 +21,7 @@ export interface TourBuilder {
 	finalize: () => TourData;
 }
 
+// TODO refactor into a class?
 export const createTourBuilder = (): TourBuilder => {
 	let currentTime = 0;
 	let currentMaxTime = 0;
