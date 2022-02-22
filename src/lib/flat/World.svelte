@@ -22,12 +22,7 @@
 	const clock = getClock();
 
 	// TODO this is at odds with `settingUp` -- should `started` be reset on `setActiveStage`?
-	let started = $clock.running;
-	const start = () => {
-		started = true;
-		clock.resume();
-	};
-	$: if (!started && $moving) start();
+	$: if (!$clock.running && $moving) clock.resume();
 
 	// TODO take the `StageState` object as an arg
 	const onExitStage: ExitStage = async (outcome): Promise<void> => {

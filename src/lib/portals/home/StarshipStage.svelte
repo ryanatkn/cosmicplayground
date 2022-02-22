@@ -8,6 +8,7 @@
 	} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
 	import {type StageState} from '$lib/flat/stageState';
+	import {getIdle} from '$lib/app/trackIdleState';
 
 	// TODO where does this belong? see in 2 places
 
@@ -24,6 +25,9 @@
 	export let exit: () => void;
 
 	const clock = getClock();
+
+	const idle = getIdle();
+	$: if ($idle) clock.pause();
 
 	let activeStageState: StageState<Stage> | null = null;
 

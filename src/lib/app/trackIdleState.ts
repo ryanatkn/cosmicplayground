@@ -1,3 +1,4 @@
+import {getContext, setContext} from 'svelte';
 import {type Writable} from 'svelte/store';
 
 interface TrackIdleStateOptions {
@@ -5,6 +6,8 @@ interface TrackIdleStateOptions {
 	timeToGoIdle: number;
 	idleIntervalTime: number;
 }
+
+// TODO try to refactor this, `derived` maybe?
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const trackIdleState = (el: HTMLElement, opts: TrackIdleStateOptions) => {
@@ -56,4 +59,12 @@ export const trackIdleState = (el: HTMLElement, opts: TrackIdleStateOptions) => 
 			clearInterval(interval);
 		},
 	};
+};
+
+// TODO `idle.ts` module?
+export const idleContextKey = {};
+export const getIdle = (): Writable<boolean> => getContext(idleContextKey);
+export const setIdle = (idle: Writable<boolean>): Writable<boolean> => {
+	setContext(idleContextKey, idle);
+	return idle;
 };

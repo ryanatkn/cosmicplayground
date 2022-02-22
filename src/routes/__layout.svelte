@@ -10,7 +10,7 @@
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBgStore';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
-	import {trackIdleState} from '$lib/app/trackIdleState';
+	import {setIdle, trackIdleState} from '$lib/app/trackIdleState';
 	import PixiView from '$lib/app/PixiView.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
@@ -101,6 +101,7 @@
 	$: portals.select(selectedPortalSlugFromPath); // TODO hmm?
 
 	const idle = writable(false);
+	setIdle(idle);
 	$: timeToGoIdle = $settings.devMode
 		? 99999999999
 		: $settings.recordingMode
