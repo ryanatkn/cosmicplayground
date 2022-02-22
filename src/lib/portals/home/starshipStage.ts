@@ -1,5 +1,6 @@
 import {Collisions} from '@ryanatkn/collisions';
 import {randomFloat} from '@feltcoop/felt/util/random.js';
+import {identity} from '@feltcoop/felt/util/function.js';
 
 import {Stage as BaseStage, type StageSetupOptions, type StageMeta} from '$lib/flat/stage';
 import {
@@ -23,7 +24,7 @@ export const COLOR_GHOST = 'purple';
 export const COLOR_PLAYER = 'violet';
 export const COLOR_MOLTEN = 'red';
 
-export const PLAYER_SPEED = 0.2;
+export const PLAYER_SPEED = 0.3236;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
 
 // TODO rewrite this to use a route Svelte component? `dealt.dev/tar/home`
@@ -47,7 +48,7 @@ export interface StarshipStageScores {
 	planet: boolean;
 }
 export const areScoresPerfect = (scores: StarshipStageScores): boolean =>
-	scores.planet && scores.friends.every((f) => f);
+	scores.planet && scores.friends.every(identity);
 
 export class Stage extends BaseStage {
 	static override meta = meta;
