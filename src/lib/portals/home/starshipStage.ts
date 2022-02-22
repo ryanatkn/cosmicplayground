@@ -1,6 +1,5 @@
 import {Collisions} from '@ryanatkn/collisions';
 import {randomFloat} from '@feltcoop/felt/util/random.js';
-import {identity} from '@feltcoop/felt/util/function.js';
 
 import {Stage as BaseStage, type StageSetupOptions, type StageMeta} from '$lib/flat/stage';
 import {
@@ -47,8 +46,9 @@ export interface StarshipStageScores {
 	friends: boolean[];
 	planet: boolean;
 }
+// TODO perfect is not the right word any more, more like "ok" or "passing"
 export const areScoresPerfect = (scores: StarshipStageScores): boolean =>
-	scores.planet && scores.friends.every(identity);
+	scores.planet && scores.friends.filter(Boolean).length >= 2;
 
 export class Stage extends BaseStage {
 	static override meta = meta;

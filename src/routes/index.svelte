@@ -159,8 +159,12 @@
 			if (!starshipMode) {
 				await scrollDown();
 			}
-		} else if (e.key === 'F6') {
-			resetScores();
+		} else if (e.key === 'F10') {
+			if (savedScores) {
+				resetScores();
+			} else {
+				console.log(`savedScores empty`);
+			}
 		} else if (e.key === 'F4') {
 			await toggleShowMorePortals();
 		}
