@@ -30,6 +30,7 @@
 
 	const dimensions = getDimensions();
 	$: ({width, height} = $dimensions);
+	const clock = getClock();
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
@@ -141,11 +142,6 @@
 	let starshipHeight: number;
 	$: console.log(`starshipWidth`, starshipWidth);
 	$: console.log(`starshipHeight`, starshipHeight);
-
-	const clock = getClock();
-	const STARSHIP_HEAT_DEATH = 60 * 1000 * 6;
-	$: heatdeath = $clock.time > STARSHIP_HEAT_DEATH;
-	$: starshipMode && heatdeath && exitStarshipMode().then(() => enterStarshipMode());
 </script>
 
 <svelte:window
@@ -343,14 +339,10 @@
 		border-color: var(--photon_color) !important;
 	}
 	.exit {
-		position: absolute;
-		inset: 0;
-		margin: auto;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
+		position: fixed;
+		left: 0;
+		top: 0;
+		transform: translate3d(calc(100vw / 2 - 50%), calc(100vh / 2 - 50%), 0);
 		user-select: none;
 		/* TODO hacky -- maybe `.opaque` or remove transparency from the FloatingIconButton or make it a prop?  */
 		--hud_element_size: 200px;
