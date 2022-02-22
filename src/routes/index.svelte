@@ -163,7 +163,7 @@
 			if (savedScores) {
 				resetScores();
 			} else {
-				console.log(`savedScores empty`);
+				finish();
 			}
 		} else if (e.key === 'F4') {
 			await toggleShowMorePortals();
