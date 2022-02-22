@@ -48,7 +48,7 @@ export interface StarshipStageScores {
 }
 // TODO perfect is not the right word any more, more like "ok" or "passing"
 export const areScoresPerfect = (scores: StarshipStageScores): boolean =>
-	scores.planet && scores.friends.filter(Boolean).length >= 2;
+	scores.planet || scores.friends.some(Boolean);
 
 export class Stage extends BaseStage {
 	static override meta = meta;
