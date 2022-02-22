@@ -23,7 +23,7 @@ export const COLOR_GHOST = 'purple';
 export const COLOR_PLAYER = 'violet';
 export const COLOR_MOLTEN = 'red';
 
-export const PLAYER_SPEED = 0.3236;
+export const PLAYER_SPEED = 0.2;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
 
 // TODO rewrite this to use a route Svelte component? `dealt.dev/tar/home`
