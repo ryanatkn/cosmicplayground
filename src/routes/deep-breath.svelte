@@ -458,7 +458,7 @@
 						<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
 							⇦
 						</FloatingIconButton>
-						<FloatingTextButton on:click={beginTour}>begin tour</FloatingTextButton>
+						<FloatingTextButton on:click={beginTour}>tour</FloatingTextButton>
 					</div>
 					<div class="hud-left-controls">
 						{#if devMode}

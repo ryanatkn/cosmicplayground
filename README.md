@@ -14,7 +14,7 @@ is a collection of web projects that try to be useful or interesting.
   There's also
   [a video on YouTube with a 6 minute tour](https://www.youtube.com/watch?v=7xEPqg-Kyg4)
   around the planet set to music.
-  You can get the same experience by clicking "begin tour" on the map -
+  You can get the same experience by clicking "tour" on the map -
   the visual quality is better on the website but it's not mobile friendly.
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space

@@ -18,17 +18,15 @@
 			let:index
 		>
 			<div class="friend" style:transform="translate3d({item.x}px, {item.y}px, 0)">
-				{item.value}
-				{#if scores && !scores.friends[index]}
-					<div class="skull">💀</div>
+				{#if !scores || scores.friends[index]}
+					{item.value}
 				{/if}
 			</div>
 		</RadialLayout>
 	</div>
 	<div class="planet">
-		{faces[0]}
-		{#if scores && !scores.planet}
-			<div class="skull">💀</div>
+		{#if !scores || scores.planet}
+			{faces[0]}
 		{/if}
 	</div>
 </div>
@@ -58,10 +56,5 @@
 	.planet {
 		font-size: var(--font_size_xl3);
 		width: 200px;
-	}
-	.skull {
-		position: absolute;
-		inset: 0;
-		font-size: 90%;
 	}
 </style>

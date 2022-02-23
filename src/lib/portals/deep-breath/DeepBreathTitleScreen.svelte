@@ -52,7 +52,7 @@
 				There's <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4"
 					>a video on YouTube with a 6 minute tour</a
 				>
-				set to music, and you can get the same experience by clicking "begin tour" on the map. The visuals
+				set to music, and you can get the same experience by clicking "tour" on the map. The visuals
 				are higher quality here than in the video, but the video is recommended for mobile devices, older
 				hardware, and screens smaller than 1080p. (it doesn't currently scale the resolution) The code
 				and image data are
