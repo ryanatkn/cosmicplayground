@@ -4,7 +4,17 @@
 
 	export let scores: StarshipStageScores | undefined;
 
-	export const faces = ['🐭', '🐶', '🐰', '🦊', '🐱'];
+	// TODO ?
+	// 	  '🔴',
+	//   '🟠',
+	// '🟡',
+	//  '🟢',
+	//  '🔵',
+	// '🟣',
+	//  '🟤',
+	//   '⚫',
+	//     '⚪',
+	export const faces = ['🔵', '🟢', '🟢', '🟢', '🟢'];
 </script>
 
 <div class="score">
