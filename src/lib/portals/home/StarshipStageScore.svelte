@@ -14,13 +14,13 @@
 	//  '🟤',
 	//   '⚫',
 	//     '⚪',
-	export const faces = ['🔵', '🟢', '🟢', '🟢', '🟢'];
+	export const icons = ['🔵', '🟢', '🟢', '🟢', '🟢'];
 </script>
 
 <div class="score">
 	<div class="friends">
 		<RadialLayout
-			items={faces.slice(1)}
+			items={icons.slice(1)}
 			totalCount={10}
 			width={170}
 			offset={(3.9 * Math.PI) / 11}
@@ -36,7 +36,7 @@
 	</div>
 	<div class="planet">
 		{#if !scores || scores.planet}
-			{faces[0]}
+			{icons[0]}
 		{/if}
 	</div>
 </div>
