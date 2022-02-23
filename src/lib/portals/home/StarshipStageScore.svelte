@@ -24,7 +24,6 @@
 	const copyToClipboard = () => {
 		if (icons) {
 			window.navigator.clipboard.writeText(iconsStr); // eslint-disable-line @typescript-eslint/no-floating-promises
-			prompt('copied to clipboard!', iconsStr); // eslint-disable-line no-alert
 		}
 	};
 </script>
