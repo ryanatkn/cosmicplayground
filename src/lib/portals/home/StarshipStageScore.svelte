@@ -3,6 +3,7 @@
 	import {type StarshipStageScores} from '$lib/portals/home/starshipStage';
 
 	export let scores: StarshipStageScores | undefined;
+	export let layout: 'radial' | 'text' = 'radial';
 
 	// TODO ?
 	// 	  '🔴',
@@ -14,13 +15,24 @@
 	//  '🟤',
 	//   '⚫',
 	//     '⚪',
-	export const icons = ['🔵', '🟢', '🟢', '🟢', '🟢'];
+	export const friendIcons = ['🐭', '🐶', '🐰', '🦊', '🐱'];
+	$: icons = scores
+		? [scores.planet, ...scores.friends].map((f, i) => (f ? friendIcons[i] : null)).filter(Boolean)
+		: undefined;
+	$: iconsStr = icons?.join(' ') ?? '';
+
+	const copyToClipboard = () => {
+		if (icons) {
+			window.navigator.clipboard.writeText(iconsStr); // eslint-disable-line @typescript-eslint/no-floating-promises
+			prompt('copied to clipboard!', iconsStr); // eslint-disable-line no-alert
+		}
+	};
 </script>
 
-<div class="score">
+{#if layout === 'radial'}
 	<div class="friends">
 		<RadialLayout
-			items={icons.slice(1)}
+			items={friendIcons.slice(1)}
 			totalCount={10}
 			width={170}
 			offset={(3.9 * Math.PI) / 11}
@@ -36,19 +48,20 @@
 	</div>
 	<div class="planet">
 		{#if !scores || scores.planet}
-			{icons[0]}
+			{friendIcons[0]}
 		{/if}
 	</div>
-</div>
+{:else if layout === 'text'}
+	{#if icons}
+		<div class="text" on:click={copyToClipboard}>
+			{#each icons as icon}
+				{icon}
+			{/each}
+		</div>
+	{/if}
+{/if}
 
 <style>
-	.score {
-		user-select: none;
-		position: absolute;
-		left: 0;
-		top: 0;
-		text-align: center;
-	}
 	.friends {
 		font-size: var(--font_size_xl);
 		position: absolute;
@@ -66,5 +79,9 @@
 	.planet {
 		font-size: var(--font_size_xl3);
 		width: 200px;
+	}
+	.text {
+		font-size: var(--font_size_lg);
+		text-align: center;
 	}
 </style>

@@ -251,7 +251,9 @@
 	</nav>
 	{#if starshipMode}
 		<!-- TODO does this belong in the stage component? -->
-		<StarshipStageScore {scores} />
+		<div class="scores">
+			<StarshipStageScore {scores} />
+		</div>
 		<StarshipStage
 			{width}
 			{height}
@@ -274,6 +276,7 @@
 				>
 					{#if perfectScores}{BOOSTER}{:else}↩{/if}
 				</FloatingIconButton>
+				<StarshipStageScore {scores} layout="text" />
 			</div>
 		{/if}
 	{/if}
@@ -342,12 +345,23 @@
 	:global(.portal-preview--starship) {
 		border-color: var(--photon_color) !important;
 	}
+
+	.scores {
+		user-select: none;
+		position: absolute;
+		left: 0;
+		top: 0;
+		text-align: center;
+	}
+
 	.exit {
 		position: fixed;
 		left: 0;
 		top: 0;
 		transform: translate3d(calc(100vw / 2 - 50%), calc(100vh / 2 - 50%), 0);
-		user-select: none;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		/* TODO hacky -- maybe `.opaque` or remove transparency from the FloatingIconButton or make it a prop?  */
 		--hud_element_size: 200px;
 		--clickable_opacity: 1;
