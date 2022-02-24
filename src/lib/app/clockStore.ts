@@ -2,16 +2,11 @@ import {writable, get, type Writable} from 'svelte/store';
 import {getContext, setContext} from 'svelte';
 import {browser} from '$app/env';
 
-// I tried to avoid using `get`, but there's one place where it's used.
-// Subscribing to the `running` value seems to add a lot of complexity
-// to get it working correctly.
-// If the store is subscribed to in the function that creates it,
-// it'll never reach 0 subscribers and be cleaned up,
-// creating a memory leak. There are probably better ways to do this.
+// TODO merge with `clockStore`
 
 export interface ClockState {
-	time: number;
 	running: boolean;
+	time: number;
 	dt: number;
 }
 
@@ -20,70 +15,84 @@ export interface ClockStore {
 	set: Writable<ClockState>['set'];
 	update: Writable<ClockState>['update'];
 	resume: () => void;
-	pause: () => void;
+	pause: () => void; // also semantically includes "stop", might want to make an explicit `stop`/`teardown`
 	toggle: () => void;
+	reset: () => void;
 }
 
-export const createClockStore = (initialState?: Partial<ClockState>): ClockStore => {
-	const finalInitialState: ClockState = {
-		time: 0,
-		running: false, // see below for where `finalInitialState.running` is used - the initializing `resume` call expects `running` to be false
-		dt: 0,
-		...initialState,
-	};
-
+export const toClockStore = (initialState: Partial<ClockState> = {}): ClockStore => {
 	let lastTime: number | undefined;
 	let reqId: number | undefined;
 
-	const store = writable(finalInitialState, () => {
-		return () => {
-			pause();
-		};
-	});
-	const {subscribe, set, update} = store;
-
-	const onTimer = (dt: number): void => {
-		update((c) => ({...c, time: c.time + dt, dt}));
-	};
+	const {subscribe, set, update} = writable(
+		{
+			running: initialState.running ?? false,
+			time: initialState.time ?? 0,
+			dt: initialState.dt ?? 0,
+		},
+		() => {
+			if (get(store).running) queueUpdate();
+			return () => cancelUpdate();
+		},
+	);
 
 	const onFrame = (t: number): void => {
 		if (lastTime !== undefined) {
-			onTimer(t - lastTime);
+			const dt = t - lastTime;
+			update(($clock) => ({running: $clock.running, time: $clock.time + dt, dt}));
 		}
 		lastTime = t;
 		reqId = requestAnimationFrame(onFrame);
 	};
 
-	const resume = (): void => {
-		update((c) => {
-			if (c.running) return c;
-			lastTime = undefined;
-			reqId = browser ? requestAnimationFrame(onFrame) : undefined;
-			return {...c, running: true};
-		});
+	const queueUpdate = () => {
+		if (reqId) cancelUpdate();
+		lastTime = undefined;
+		reqId = requestAnimationFrame(onFrame);
 	};
-	const pause = (): void => {
-		update((c) => {
-			if (!c.running) return c;
-			if (reqId) cancelAnimationFrame(reqId);
-			return {...c, running: false};
-		});
-	};
-	const toggle = (): void => {
-		get(store).running ? pause() : resume();
+	const cancelUpdate = () => {
+		if (!reqId) return;
+		cancelAnimationFrame(reqId);
+		reqId = undefined;
 	};
 
-	if (!initialState || initialState.running) {
-		resume();
-	}
+	const store: ClockStore = {
+		subscribe,
+		set,
+		update,
+		resume: (): void => {
+			if (!browser) return;
+			update(($clock) => {
+				if ($clock.running) return $clock;
+				queueUpdate();
+				return {running: true, time: $clock.time, dt: $clock.dt};
+			});
+		},
+		pause: (): void => {
+			if (!browser) return;
+			update(($clock) => {
+				if (!$clock.running) return $clock;
+				cancelUpdate();
+				return {running: false, time: $clock.time, dt: $clock.dt};
+			});
+		},
+		toggle: (): void => {
+			if (get(store).running) {
+				store.pause();
+			} else {
+				store.resume();
+			}
+		},
+		reset: (): void => {
+			update(($clock) => ({running: $clock.running, time: 0, dt: 0}));
+		},
+	};
 
-	return {subscribe, set, update, resume, pause, toggle};
+	return store;
 };
 
-export const clockContextKey = {};
-export const getClock = (): ClockStore => getContext(clockContextKey);
-export const setClock = (initialState?: Partial<ClockState>): ClockStore => {
-	const clock = createClockStore(initialState);
-	setContext(clockContextKey, clock);
-	return clock;
-};
+const KEY = Symbol();
+export const getClock = (): ClockStore => getContext(KEY);
+export const setClock = (clock: ClockStore = toClockStore()): ClockStore => (
+	setContext(KEY, clock), clock
+);

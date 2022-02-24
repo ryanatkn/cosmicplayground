@@ -16,8 +16,20 @@
 	import clocksPortal from '$lib/portals/clocks/data';
 	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
 	import {getSettings} from '$lib/app/settingsStore';
+	import StarshipStage from '$lib/portals/home/StarshipStage.svelte';
+	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
+	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
+	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clockStore';
+	import {areScoresPerfect, Stage, type StarshipStageScores} from '$lib/portals/home/starshipStage';
+	import {getDimensions} from '$lib/app/dimensions';
 
+	// TODO show scores - # friends, planet, top scores for each dimension (most of each, so 1-2 records per dimension set)
+	// visualize the data
+	// collect and publish the data! how?
+
+	const dimensions = getDimensions();
+	$: ({width, height} = $dimensions);
 	const clock = getClock();
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
@@ -35,194 +47,254 @@
 	const settings = getSettings();
 	const toggleShowMorePortals = async () => {
 		settings.update(($settings) => ({...$settings, showMorePortals: !$settings.showMorePortals}));
+		await scrollDown();
+	};
+
+	const scrollDown = async (): Promise<void> => {
 		await tick();
 		window.scrollTo({left: window.scrollX, top: 9000, behavior: 'smooth'}); // `9000` bc `Infinity` doesn't work and I don't care to calculate it
 	};
 
-	// TODO refactor all of this, lots of modules and components to extract
-	// TODO add earth and space trash gameplay
-	// TODO exit offscreen to a whole new world
-	let turningLeft = false;
-	let turningRight = false;
-	let movingForward = false;
-	let movingBackward = false;
-	let starshipX = 0;
-	let starshipY = 0;
-	let starshipRotate = 0;
 	let starshipMode = false;
 	const TRANSITION_DURATION = 500;
 	let transitioningStarshipModeCount = 0; // counter so it handles concurrent calls without much code
 	$: transitioningStarshipMode = !!transitioningStarshipModeCount;
 	$: starshipReady = starshipMode && !transitioningStarshipMode;
-	const ROTATE_INCREMENT = Math.PI * 0.0013;
-	const MOVEMENT_INCREMENET = 0.3; // TODO velocity?
-	const exitStarshipMode = async () => {
-		starshipMode = false;
-		transitioningStarshipModeCount++;
-		await wait(TRANSITION_DURATION);
-		transitioningStarshipModeCount--;
+
+	let starshipX = 0;
+	let starshipY = 0;
+	let starshipAngle = 0;
+	let starshipShieldRadius = 0;
+	let currentStage: Stage | null = null;
+	$: camera = currentStage?.camera;
+
+	$: starshipRotation = starshipAngle + Math.PI / 2;
+
+	const SCORES_KEY = 'homeScores';
+	const loadScores = (): StarshipStageScores | undefined => {
+		if (!browser) return undefined;
+		const saved = localStorage.getItem(SCORES_KEY);
+		if (!saved) return undefined;
+		try {
+			return JSON.parse(saved);
+		} catch (err) {
+			return undefined;
+		}
 	};
+	let scores: StarshipStageScores | undefined;
+	let savedScores = loadScores();
+	$: perfectSavedScores = !!savedScores && areScoresPerfect(savedScores);
+	$: perfectScores = !!scores && areScoresPerfect(scores);
+
+	let finished = false;
+	const finish = () => {
+		if (finished) return;
+		finished = true;
+		// TODO only save if score is better
+		if (!perfectSavedScores) {
+			localStorage.setItem(SCORES_KEY, JSON.stringify(scores));
+			savedScores = scores;
+		}
+	};
+	const resetScores = () => {
+		localStorage.removeItem(SCORES_KEY);
+		savedScores = undefined;
+	};
+
+	const BOOSTER = '🙌';
+	let enableBooster = true;
+	$: boosterUnlocked = perfectSavedScores;
+	$: boosterEnabled = boosterUnlocked && enableBooster;
+	const toggleBooster = () => {
+		enableBooster = !enableBooster;
+	};
+
+	const STARSHIP_RADIUS = 100; // TODO implement from starship radius (on stage?)
+	$: starshipScale = (STARSHIP_RADIUS * 2) / starshipHeight;
+	$: starshipViewX = $camera ? (starshipX - $camera.x) * $camera.scale : starshipX;
+	$: starshipViewY = $camera
+		? (starshipY - $camera.y) * $camera.scale - (starshipHeight - height) / 2
+		: starshipY - (starshipHeight - height) / 2;
+	let pausedClock = false;
 	const enterStarshipMode = async () => {
+		console.log('enterStarshipMode');
+		finished = false;
+		starshipAngle = 0;
 		starshipMode = true;
-		starshipRotate = -ROTATE_INCREMENT;
-		starshipX = 0;
-		starshipY = 0;
+		pausedClock = $clock.running;
+		if (pausedClock) clock.pause();
+		clock.reset();
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
 	};
-	$: starshipReady && updateMovement($clock.dt);
-	const updateMovement = (dt: number) => {
-		const turning = (turningLeft ? -1 : 0) + (turningRight ? 1 : 0);
-		if (turning) {
-			starshipRotate += turning * ROTATE_INCREMENT * dt; // TODO probably modulo `Math.PI * 2` but it's funny how much it spins
-		}
-		const moving = (movingForward ? 1 : 0) + (movingBackward ? -1 : 0);
-		if (moving) {
-			starshipX += moving * Math.sin(starshipRotate) * MOVEMENT_INCREMENET * dt;
-			starshipY += -moving * Math.cos(starshipRotate) * MOVEMENT_INCREMENET * dt;
-		}
+	const exitStarshipMode = async () => {
+		console.log('exitStarshipMode');
+		starshipAngle = 0;
+		starshipMode = false;
+		if (pausedClock) clock.resume();
+		transitioningStarshipModeCount++;
+		await wait(TRANSITION_DURATION);
+		transitioningStarshipModeCount--;
 	};
-	const onKeydown = async (e: KeyboardEvent) => {
-		if (!starshipMode) throw Error('TODO probably remove this check');
-		switch (e.key) {
-			case 'ArrowLeft':
-			case 'a': {
-				turningLeft = true;
-				break;
-			}
-			case 'ArrowRight':
-			case 'd': {
-				turningRight = true;
-				break;
-			}
-			case 'ArrowUp':
-			case 'w': {
-				movingForward = true;
-				break;
-			}
-			case 'ArrowDown':
-			case 's': {
-				movingBackward = true;
-				break;
-			}
-			case 'Escape': {
-				await exitStarshipMode();
-				break;
-			}
-		}
-	};
-	const onKeyup = (e: KeyboardEvent) => {
-		if (!starshipMode) throw Error('TODO probably remove this check');
-		switch (e.key) {
-			case 'ArrowLeft':
-			case 'a': {
-				turningLeft = false;
-				break;
-			}
-			case 'ArrowRight':
-			case 'd': {
-				turningRight = false;
-				break;
-			}
-			case 'ArrowUp':
-			case 'w': {
-				movingForward = false;
-				break;
-			}
-			case 'ArrowDown':
-			case 's': {
-				movingBackward = false;
-				break;
-			}
-		}
-	};
+
+	let starshipWidth: number;
+	let starshipHeight: number;
+	$: console.log(`starshipWidth`, starshipWidth);
+	$: console.log(`starshipHeight`, starshipHeight);
 </script>
 
 <svelte:window
-	on:keydown={starshipMode ? onKeydown : undefined}
-	on:keyup={starshipMode ? onKeyup : undefined}
-/>
-
-<nav
-	class="portal-previews"
-	class:starship-mode={starshipMode}
-	class:starship-ready={starshipReady}
-	style={(starshipMode
-		? `transform: translate3d(${starshipX}px, ${starshipY}px, 0) scale3d(0.1, 0.1, 0.1) rotate(${starshipRotate}rad);`
-		: '') +
-		(starshipReady
-			? 'transition: none;'
-			: `transition: transform ${TRANSITION_DURATION}ms ease-in-out;`)}
-	on:click|capture={async (e) => {
-		// TODO ideally this would be the following,
-		// but Svelte can't handle modifiers with undefined handlers right now:
-		// on:click|capture|preventDefault|stopPropagation={starshipReady
-		// ? () => exitStarshipMode()
-		// : undefined}
-		if (starshipMode) {
-			e.preventDefault();
+	on:keydown={async (e) => {
+		// TODO use controller instead
+		if (e.key === 'Escape') {
 			e.stopPropagation();
-			await exitStarshipMode();
+			if (!starshipMode) {
+				await enterStarshipMode();
+			} else {
+				await exitStarshipMode();
+			}
+		} else if (e.key === 'F2') {
+			finish();
+			if (!starshipMode) {
+				await scrollDown();
+			}
+		} else if (e.key === 'F10') {
+			if (savedScores) {
+				resetScores();
+			} else {
+				finish();
+			}
+		} else if (e.key === 'F4') {
+			await toggleShowMorePortals();
 		}
 	}}
+/>
+
+<div
+	class="home"
+	class:starship-mode={starshipMode}
+	class:starship-ready={starshipReady}
+	class:starship-transitioning={transitioningStarshipMode}
 >
-	<header class="portals">
-		<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
-			<svelte:component this={aboutPortal.Preview} portal={aboutPortal} />
-		</PortalPreview>
-	</header>
-	{#each primaryPortals as portals}
-		<ul class="portals">
-			{#each portals as portal (portal)}
-				{#if typeof portal === 'symbol'}
-					<PortalPreview onClick={enterStarshipMode}><div class="starship">🛸</div></PortalPreview>
-				{:else}
-					<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
-						<svelte:component this={portal.Preview} {portal} />
-					</PortalPreview>
-				{/if}
-			{/each}
-		</ul>
-	{/each}
-	<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
-		<h2>
-			show {#if $settings.showMorePortals}less{:else}more{/if}
-		</h2>
-		<div>
-			<img
-				src="/assets/earth/night_lights_1.png"
-				alt="night lights of Africa, Europe, and the Middle East"
-				style="width: 100px; height: 100px;"
-				class="mr-2"
-			/>
-			<img
-				src="/assets/earth/night_lights_2.png"
-				alt="night lights of the Americas"
-				style="width: 100px; height: 100px;"
-				class="mr-2"
-			/>
-			<img
-				src="/assets/earth/night_lights_3.png"
-				alt="night lights of Asia and Australia"
-				style="width: 100px; height: 100px;"
-			/>
-		</div>
-	</PortalPreview>
-	{#if $settings.showMorePortals}
-		{#each secondaryPortals as portals}
+	<nav
+		bind:clientWidth={starshipWidth}
+		bind:clientHeight={starshipHeight}
+		style:transform={starshipMode
+			? `translate3d(${starshipViewX}px, ${starshipViewY}px,	0) scale3d(${starshipScale}, ${starshipScale}, ${starshipScale})	rotate(${starshipRotation}rad)`
+			: 'none'}
+		style:transition={starshipReady ? 'none' : `transform ${TRANSITION_DURATION}ms ease-in-out`}
+	>
+		<header class="portals">
+			<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
+				<svelte:component this={aboutPortal.Preview} portal={aboutPortal} />
+			</PortalPreview>
+		</header>
+		{#each primaryPortals as portals}
 			<ul class="portals">
-				{#each portals as portal}
-					<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
-						<svelte:component this={portal.Preview} {portal} />
-					</PortalPreview>
+				{#each portals as portal (portal)}
+					{#if typeof portal === 'symbol'}
+						<PortalPreview onClick={enterStarshipMode} classes="portal-preview--starship"
+							><div class="starship">🛸</div></PortalPreview
+						>
+					{:else}
+						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
+							<svelte:component this={portal.Preview} {portal} />
+						</PortalPreview>
+					{/if}
 				{/each}
 			</ul>
 		{/each}
+		<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
+			<h2>
+				show {#if $settings.showMorePortals}less{:else}more{/if}
+			</h2>
+			<div>
+				<img
+					src="/assets/earth/night_lights_1.png"
+					alt="night lights of Africa, Europe, and the Middle East"
+					style="width: 100px; height: 100px;"
+					class="mr-2"
+				/>
+				<img
+					src="/assets/earth/night_lights_2.png"
+					alt="night lights of the Americas"
+					style="width: 100px; height: 100px;"
+					class="mr-2"
+				/>
+				<img
+					src="/assets/earth/night_lights_3.png"
+					alt="night lights of Asia and Australia"
+					style="width: 100px; height: 100px;"
+				/>
+			</div>
+		</PortalPreview>
+		{#if $settings.showMorePortals}
+			{#each secondaryPortals as portals}
+				<ul class="portals">
+					{#each portals as portal}
+						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
+							<svelte:component this={portal.Preview} {portal} />
+						</PortalPreview>
+					{/each}
+				</ul>
+			{/each}
+		{/if}
+		{#if boosterUnlocked}
+			<ul class="portals">
+				<PortalPreview onClick={() => toggleBooster()}
+					><span style:font-size="144px" class:disabled={!boosterEnabled}>{BOOSTER}</span
+					></PortalPreview
+				>
+			</ul>
+		{/if}
+	</nav>
+	{#if starshipMode}
+		<!-- TODO does this belong in the stage component? -->
+		<div class="scores">
+			<StarshipStageScore {scores} />
+		</div>
+		<StarshipStage
+			{width}
+			{height}
+			{boosterEnabled}
+			bind:starshipX
+			bind:starshipY
+			bind:starshipAngle
+			bind:starshipShieldRadius
+			bind:scores
+			bind:currentStage
+			exit={exitStarshipMode}
+			{finish}
+		/>
+		{#if finished}
+			<div class="exit">
+				<FloatingIconButton
+					label="return home"
+					on:click={() => exitStarshipMode()}
+					style="font-size: var(--font_size_xl3)"
+				>
+					{#if perfectScores}{BOOSTER}{:else}↩{/if}
+				</FloatingIconButton>
+				<StarshipStageScore {scores} layout="text" />
+			</div>
+		{/if}
 	{/if}
-</nav>
+</div>
 
 <style>
+	.home {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		overflow: hidden; /* hide x overflow during transition and y overflow in `starshipMode` */
+	}
+	.home.starship-mode,
+	.home.starship-transitioning {
+		/* hide the vertical scrollbar */
+		height: 100%;
+	}
 	header {
 		margin-top: 15px;
 	}
@@ -233,19 +305,29 @@
 		align-items: center;
 		flex-wrap: wrap;
 	}
-	.portal-previews {
+	.starship-mode .portals {
+		flex-wrap: nowrap;
+	}
+	nav {
 		margin: 0;
 		display: flex;
-		flex-wrap: wrap;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
 	}
+	.starship-ready nav {
+		cursor: pointer;
+		user-select: none;
+	}
 	.starship {
 		font-size: 84px;
 	}
-	.starship-ready {
-		cursor: pointer;
+
+	/* TODO not sure about this name */
+	.disabled {
+		filter: grayscale();
+		opacity: 0.4;
 	}
 
 	:global(.show-more-button) {
@@ -259,5 +341,31 @@
 	}
 	:global(.portal-preview--starlit-hammock) {
 		border-color: var(--space_color) !important;
+	}
+	:global(.portal-preview--starship) {
+		border-color: var(--photon_color) !important;
+	}
+
+	.scores {
+		user-select: none;
+		position: absolute;
+		left: 0;
+		top: 0;
+		text-align: center;
+	}
+
+	.exit {
+		position: fixed;
+		left: 0;
+		top: 0;
+		transform: translate3d(calc(100vw / 2 - 50%), calc(100vh / 2 - 50%), 0);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		/* TODO hacky -- maybe `.opaque` or remove transparency from the FloatingIconButton or make it a prop?  */
+		--hud_element_size: 200px;
+		--clickable_opacity: 1;
+		--clickable_opacity__hover: 1;
+		--clickable_opacity__active: 1;
 	}
 </style>

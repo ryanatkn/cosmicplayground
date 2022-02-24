@@ -6,6 +6,8 @@ html {
 	box-sizing: border-box;
 	font-family: Segoe UI, Roboto, -apple-system, BlinkMacSystemFont, Oxygen, Ubuntu, Cantarell,
 		Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	--font_size_xl5: 262px;
+	--font_size_xl3: 162px;
 	--font_size_xl: 72px;
 	--font_size_lg: 48px;
 	--ocean_hue: 214;
@@ -16,6 +18,7 @@ html {
 	--ocean_color: hsl(var(--ocean_hue), 65%, 30%);
 	--land_color: hsl(var(--land_hue), 65%, 30%);
 	--space_color: hsl(var(--space_hue), 45%, 30%);
+	--photon_color: hsl(46, 54%, 30%);
 	--lava_color: hsl(0, 65%, 55%);
 	--error_color: var(--lava_color);
 	--pending_color: var(--ocean_color);

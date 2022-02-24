@@ -77,11 +77,11 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 	const promises = new Map<string, Promise<void>>();
 	const handleClockTick = async (dt: number): Promise<void> => {
 		if (disableUpdate) return;
-		let {
-			currentTime,
-			currentStepIndex,
-			data: {steps}, // eslint-disable-line prefer-const
-		}: TourState = get(store); // TODO type?
+		const $store = get(store);
+		let {currentTime, currentStepIndex} = $store;
+		const {
+			data: {steps},
+		} = $store;
 		currentTime += dt;
 		update((tourState) => ({...tourState, currentTime}));
 		// console.log('update', currentTime, currentStepIndex);

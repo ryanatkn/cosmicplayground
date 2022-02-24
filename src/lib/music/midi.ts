@@ -44,6 +44,5 @@ export const freqToMidi = (freq: Frequency, tuning: Frequency): Midi =>
 
 export const freqToMidiSafe = (freq: Frequency, tuning: Frequency): Midi | null => {
 	const midi = freqToMidi(freq, tuning);
-	if (!isMidi(midi)) return null;
-	return midi;
+	return isMidi(midi) ? midi : null;
 };

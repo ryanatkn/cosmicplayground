@@ -279,7 +279,7 @@
 			zoom: (scaleTarget, duration, easing) => {
 				updateScaleTween(scaleTarget, duration, easing);
 			},
-			event: async (name, _data) => {
+			event: (name, _data) => {
 				if (name.startsWith('debug')) {
 					console.log(name, ($tour as any).currentTime);
 					return;
@@ -458,7 +458,7 @@
 						<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
 							⇦
 						</FloatingIconButton>
-						<FloatingTextButton on:click={beginTour}>begin tour</FloatingTextButton>
+						<FloatingTextButton on:click={beginTour}>tour</FloatingTextButton>
 					</div>
 					<div class="hud-left-controls">
 						{#if devMode}

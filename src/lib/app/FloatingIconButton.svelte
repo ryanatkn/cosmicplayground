@@ -12,6 +12,7 @@
 
 <style>
 	button {
+		user-select: none;
 		width: var(--hud_element_size);
 		height: var(--hud_element_size);
 		font-size: var(--font_size_xl);
