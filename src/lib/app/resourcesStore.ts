@@ -175,7 +175,7 @@ export const createResourcesStore = (): ResourcesStore => {
 				}
 				// TODO is this actually needed or can we do it above after the listeners are added?
 				// the main question is whether or not it will be synchronously resolved
-				// if the image is in the browser's cache
+				// if the resource is in the browser's cache
 				setTimeout(() => {
 					for (const resource of resources) {
 						switch (resource.type) {
@@ -192,7 +192,7 @@ export const createResourcesStore = (): ResourcesStore => {
 							}
 						}
 					}
-				}, 0);
+				});
 				return {
 					...state,
 					status: 'pending',

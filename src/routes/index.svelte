@@ -23,6 +23,7 @@
 	import {getClock} from '$lib/app/clockStore';
 	import {areScoresPerfect, Stage, type StarshipStageScores} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
+	import {createResourcesStore, type AudioResource} from '$lib/app/resourcesStore';
 
 	// TODO show scores - # friends, planet, top scores for each dimension (most of each, so 1-2 records per dimension set)
 	// visualize the data
@@ -117,6 +118,7 @@
 		: starshipY - (starshipHeight - height) / 2;
 	let pausedClock = false;
 	const enterStarshipMode = async () => {
+		if (starshipMode) return;
 		console.log('enterStarshipMode');
 		finished = false;
 		starshipAngle = 0;
@@ -129,6 +131,7 @@
 		transitioningStarshipModeCount--;
 	};
 	const exitStarshipMode = async () => {
+		if (!starshipMode) return;
 		console.log('exitStarshipMode');
 		starshipAngle = 0;
 		starshipMode = false;
@@ -142,6 +145,66 @@
 	let starshipHeight: number;
 	$: console.log(`starshipWidth`, starshipWidth);
 	$: console.log(`starshipHeight`, starshipHeight);
+
+	const pauseAudio = () => {
+		if (introSong?.audio && !introSong.audio.paused) introSong.audio.pause();
+		if (outroSong?.audio && !outroSong.audio.paused) outroSong.audio.pause();
+	};
+	const playAudio = (audio: HTMLAudioElement, currentTime = 0): Promise<void> => {
+		audio.currentTime = currentTime;
+		return audio.play();
+	};
+
+	let audioKey: symbol | undefined;
+	const introResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the intro is never run
+	let introSong: AudioResource | undefined;
+	const introSongUrl = '/assets/audio/Alexander_Nakarada__Spacey_Intro.mp3';
+	const startIntro = async (): Promise<void> => {
+		// TODO refactor the intro/outro to use one codepath
+		// TODO do this generically for any audio playing system-wide
+		pauseAudio();
+		if (!introSong) {
+			introResources.addResource('audio', introSongUrl);
+			introResources.load(); // eslint-disable-line @typescript-eslint/no-floating-promises
+			introSong = $introResources.resources.find((r) => r.url === introSongUrl) as any; // TODO improve API, maybe return a typed store from `addResource`
+		}
+		const key = (audioKey = Symbol());
+		await Promise.all([$introResources.promise, exitStarshipMode()]);
+		if (audioKey !== key) return;
+		await enterStarshipMode();
+		if (audioKey !== key) return;
+		introSong = $introResources.resources.find((r) => r.url === introSongUrl) as any; // TODO improve API, maybe return a typed store from `addResource`
+		if (!introSong || introSong.status !== 'success' || !introSong.audio) {
+			throw Error('Failed to load song'); // TODO handle failures better (Dialog error?)
+		}
+		console.log(`introSong`, introSong);
+		return playAudio(introSong.audio);
+	};
+
+	const outroResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the outro is never run
+	let outroSong: AudioResource | undefined;
+	const outroSongUrl = '/assets/audio/Alexander_Nakarada__Spacey_Outro.mp3';
+	const startOutro = async (): Promise<void> => {
+		// TODO refactor the intro/outro to use one codepath
+		// TODO do this generically for any audio playing system-wide
+		pauseAudio();
+		if (!outroSong) {
+			outroResources.addResource('audio', outroSongUrl);
+			outroResources.load(); // eslint-disable-line @typescript-eslint/no-floating-promises
+			outroSong = $outroResources.resources.find((r) => r.url === outroSongUrl) as any; // TODO improve API, maybe return a typed store from `addResource`
+		}
+		const key = (audioKey = Symbol());
+		await Promise.all([$outroResources.promise, exitStarshipMode()]);
+		if (audioKey !== key) return;
+		await enterStarshipMode();
+		if (audioKey !== key) return;
+		outroSong = $outroResources.resources.find((r) => r.url === outroSongUrl) as any; // TODO improve API, maybe return a typed store from `addResource`
+		if (!outroSong || outroSong.status !== 'success' || !outroSong.audio) {
+			throw Error('Failed to load song'); // TODO handle failures better (Dialog error?)
+		}
+		console.log(`outroSong`, outroSong);
+		return playAudio(outroSong.audio);
+	};
 </script>
 
 <svelte:window
@@ -167,6 +230,14 @@
 			}
 		} else if (e.key === 'F4') {
 			await toggleShowMorePortals();
+		} else if (e.key === '1' && e.ctrlKey) {
+			e.stopPropagation();
+			e.preventDefault();
+			await startIntro();
+		} else if (e.key === '2' && e.ctrlKey) {
+			e.stopPropagation();
+			e.preventDefault();
+			await startOutro();
 		}
 	}}
 />

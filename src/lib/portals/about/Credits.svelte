@@ -4,6 +4,7 @@
 	import CreditsNightLights from './CreditsNightLights.svelte';
 	import CreditsSpaceImages from './CreditsSpaceImages.svelte';
 	import CreditsUnderConstruction from './CreditsUnderConstruction.svelte';
+	import CreditsStarship from './CreditsStarship.svelte';
 
 	// TODO should credits be a portal convention? `/src/portals/{slug}/Credits.svelte`
 </script>
@@ -18,6 +19,10 @@
 		<a href="https://github.com/ryanatkn/cosmicplayground/tree/main/src/static/assets">
 			<code>src/static/assets</code> directory
 		</a> for the complete source data.
+	</section>
+	<hr />
+	<section>
+		<CreditsStarship />
 	</section>
 	<hr />
 	<section>
