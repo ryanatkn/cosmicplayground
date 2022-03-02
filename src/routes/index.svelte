@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {tick} from 'svelte';
 	import {wait} from '@feltcoop/felt';
+	import PendingAnimation from '@feltcoop/felt/ui/PendingAnimation.svelte';
 
 	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
 	import aboutPortal from '$lib/portals/about/data';
@@ -277,28 +278,29 @@
 			</ul>
 		{/each}
 		<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
-			<h2>
-				show {#if $settings.showMorePortals}less{:else}more{/if}
-			</h2>
-			<div>
-				<img
-					src="/assets/earth/night_lights_1.png"
-					alt="night lights of Africa, Europe, and the Middle East"
-					style="width: 100px; height: 100px;"
-					class="mr-2"
-				/>
-				<img
-					src="/assets/earth/night_lights_2.png"
-					alt="night lights of the Americas"
-					style="width: 100px; height: 100px;"
-					class="mr-2"
-				/>
-				<img
-					src="/assets/earth/night_lights_3.png"
-					alt="night lights of Asia and Australia"
-					style="width: 100px; height: 100px;"
-				/>
-			</div>
+			<PendingAnimation running={$settings.showMorePortals} let:index>
+				{#if index === 0}
+					<img
+						src="/assets/earth/night_lights_1.png"
+						alt="night lights of Africa, Europe, and the Middle East"
+						style="width: 100px; height: 100px;"
+						class="mr-2"
+					/>
+				{:else if index === 1}
+					<img
+						src="/assets/earth/night_lights_2.png"
+						alt="night lights of the Americas"
+						style="width: 100px; height: 100px;"
+						class="mr-2"
+					/>
+				{:else}
+					<img
+						src="/assets/earth/night_lights_3.png"
+						alt="night lights of Asia and Australia"
+						style="width: 100px; height: 100px;"
+					/>
+				{/if}
+			</PendingAnimation>
 		</PortalPreview>
 		{#if $settings.showMorePortals}
 			{#each secondaryPortals as portals}
