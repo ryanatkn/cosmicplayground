@@ -136,6 +136,7 @@
 		console.log('exitStarshipMode');
 		starshipAngle = 0;
 		starshipMode = false;
+		pauseAudio();
 		if (pausedClock) clock.resume();
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
