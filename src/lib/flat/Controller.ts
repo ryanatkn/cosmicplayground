@@ -119,7 +119,7 @@ export class Controller {
 	}
 }
 
-const MIN_MAGNITUDE = 4;
+const MIN_MAGNITUDE = 4; // TODO this is still janky
 
 // TODO move this where?
 // TODO maybe return values instead?

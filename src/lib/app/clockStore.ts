@@ -10,10 +10,7 @@ export interface ClockState {
 	dt: number;
 }
 
-export interface ClockStore {
-	subscribe: Writable<ClockState>['subscribe'];
-	set: Writable<ClockState>['set'];
-	update: Writable<ClockState>['update'];
+export interface ClockStore extends Writable<ClockState> {
 	resume: () => void;
 	pause: () => void; // also semantically includes "stop", might want to make an explicit `stop`/`teardown`
 	toggle: () => void;

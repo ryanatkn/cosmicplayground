@@ -1,4 +1,4 @@
-import {writable, type Writable} from 'svelte/store';
+import {writable, type Readable} from 'svelte/store';
 import {type AsyncStatus} from '@feltcoop/felt';
 import {UnreachableError} from '@feltcoop/felt/util/error.js';
 
@@ -15,8 +15,7 @@ So this module should probably be removed, and its usage replaced with Pixi's lo
 
 // TODO support retries
 
-export interface ResourcesStore {
-	subscribe: Writable<ResourcesState>['subscribe'];
+export interface ResourcesStore extends Readable<ResourcesState> {
 	addResource: (type: ResourceType, url: string) => void;
 	load: () => Promise<void>;
 }

@@ -6,7 +6,7 @@
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
 
 	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
-	import ZodiacHud from '$lib/portals/deep-breath/ZodiacHud.svelte';
+	import MonthHud from '$lib/portals/deep-breath/MonthHud.svelte';
 	import SeaLevelHud from '$lib/portals/deep-breath/SeaLevelHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import EarthViewerDom from '$lib/portals/deep-breath/EarthViewerDom.svelte';
@@ -474,8 +474,8 @@
 						{/if}
 					</div>
 					{#if !tour}
-						<div class="zodiac-wrapper">
-							<ZodiacHud {activeLandIndex} {selectedLandIndex} {selectLandIndex} {hoverLandIndex} />
+						<div class="month-wrapper">
+							<MonthHud {activeLandIndex} {selectedLandIndex} {selectLandIndex} {hoverLandIndex} />
 						</div>
 						<SeaLevelHud
 							seaLevel={activeSeaLevel}
@@ -517,7 +517,7 @@
 		font-size: 72px;
 	}
 
-	.zodiac-wrapper {
+	.month-wrapper {
 		/* TODO make this not fixed */
 		position: fixed;
 		bottom: 0;

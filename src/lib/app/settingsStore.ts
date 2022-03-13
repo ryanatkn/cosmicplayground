@@ -15,6 +15,7 @@ export interface SettingsStore {
 	update: Writable<SettingsState>['update'];
 }
 
+// TODO if this doesn't need anything special, make it a simple writable
 export const createSettingsStore = (initialState: Partial<SettingsState>): SettingsStore => {
 	const store = writable({
 		audioEnabled: true,
