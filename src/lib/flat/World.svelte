@@ -131,11 +131,6 @@
 	// TODO actions
 	const onKeydown = (e: KeyboardEvent) => {
 		controller.handleKeydown(e.key);
-		// TODO extract to top level (controller in context?)
-		// TODO event listener instead? need to fix the repeat
-		if (controller.pressingPause) {
-			clock.toggle();
-		}
 	};
 	const onKeyup = (e: KeyboardEvent) => {
 		controller.handleKeyup(e.key);

@@ -14,7 +14,6 @@ export class Controller {
 	movingUp = false;
 	movingDown = false;
 	pressingExit = false;
-	pressingPause = false;
 
 	pointerDown = false;
 	setPointerDown(down: boolean): void {
@@ -66,11 +65,6 @@ export class Controller {
 				this.pressingExit = true;
 				break;
 			}
-			case '`':
-			case ' ': {
-				this.pressingPause = true;
-				break;
-			}
 			default: {
 				console.log('unhandled keydown', key);
 			}
@@ -105,11 +99,6 @@ export class Controller {
 			}
 			case 'Escape': {
 				this.pressingExit = false;
-				break;
-			}
-			case '`':
-			case ' ': {
-				this.pressingPause = false;
 				break;
 			}
 			default: {
