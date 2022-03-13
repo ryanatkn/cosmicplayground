@@ -1,7 +1,7 @@
 {
 	"include": ["src", "svelte.config.js"],
 	"compilerOptions": {
-		"outDir": ".ts",
+		"outDir": ".gro/ts",
 		"moduleResolution": "node",
 		"target": "es2020",
 		"module": "esnext",
