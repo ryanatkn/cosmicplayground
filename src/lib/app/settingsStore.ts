@@ -3,7 +3,7 @@ import {setContext, getContext} from 'svelte';
 
 export interface SettingsState {
 	audioEnabled: boolean;
-	devMode: boolean;
+	devMode: boolean; // TODO use felt `devmode` probably
 	recordingMode: boolean;
 	idleMode: boolean;
 	timeToGoIdle: number;
