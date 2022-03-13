@@ -1,4 +1,6 @@
 <script lang="ts">
+	// TODO separate camera stuff from this component, maybe a higher order component?
+
 	export let width: number;
 	export let height: number;
 	export let scale: number;
