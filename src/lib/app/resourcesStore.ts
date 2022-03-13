@@ -16,7 +16,7 @@ So this module should probably be removed, and its usage replaced with Pixi's lo
 // TODO support retries
 
 export interface ResourcesStore extends Readable<ResourcesState> {
-	addResource: (type: ResourceType, url: string) => void;
+	addResource: <T extends ResourceType>(type: T, url: string) => ResourceTypes[T];
 	load: () => Promise<void>;
 }
 
@@ -41,6 +41,10 @@ export type AudioResource = {
 	audio: HTMLAudioElement | null; // TODO maybe make this a union so `null` appears only with initial status?
 };
 export type ResourceType = Resource['type'];
+export interface ResourceTypes {
+	image: ImageResource;
+	audio: AudioResource;
+}
 
 export const createResourcesStore = (): ResourcesStore => {
 	// TODO This promise usage is hacky,
@@ -100,7 +104,8 @@ export const createResourcesStore = (): ResourcesStore => {
 
 	return {
 		subscribe,
-		addResource: (type: ResourceType, url: string): void => {
+		addResource: (type, url) => {
+			let resource: Resource;
 			update((state) => {
 				if (state.status !== 'initial') {
 					// TODO maybe change this API to support this?
@@ -111,34 +116,22 @@ export const createResourcesStore = (): ResourcesStore => {
 				}
 				switch (type) {
 					case 'image': {
-						return {
-							...state,
-							resources: state.resources.concat({
-								type,
-								url,
-								status: 'initial',
-								image: null,
-							}),
-						};
+						resource = {type, url, status: 'initial', image: null};
+						break;
 					}
 					case 'audio': {
-						return {
-							...state,
-							resources: state.resources.concat({
-								type,
-								url,
-								status: 'initial',
-								audio: null,
-							}),
-						};
+						resource = {type, url, status: 'initial', audio: null};
+						break;
 					}
 					default: {
 						throw new UnreachableError(type);
 					}
 				}
+				return {...state, resources: state.resources.concat(resource)};
 			});
+			return resource! as any;
 		},
-		load: (): Promise<void> => {
+		load: () => {
 			if (promise) return promise;
 			promise = new Promise<void>((r) => (resolve = r));
 			update((state) => {
@@ -149,22 +142,14 @@ export const createResourcesStore = (): ResourcesStore => {
 							const image = new Image();
 							image.addEventListener('load', () => onLoad(resource.url), {once: true});
 							image.addEventListener('error', () => onError(resource.url), {once: true});
-							resources.push({
-								...resource,
-								status: 'pending',
-								image,
-							});
+							resources.push({...resource, status: 'pending', image});
 							break;
 						}
 						case 'audio': {
 							const audio = new Audio();
 							audio.addEventListener('canplaythrough', () => onLoad(resource.url), {once: true});
 							audio.addEventListener('error', () => onError(resource.url), {once: true});
-							resources.push({
-								...resource,
-								status: 'pending',
-								audio,
-							});
+							resources.push({...resource, status: 'pending', audio});
 							break;
 						}
 						default: {

@@ -24,7 +24,11 @@
 	import {getClock} from '$lib/app/clockStore';
 	import {areScoresPerfect, Stage, type StarshipStageScores} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
-	import {createResourcesStore, type AudioResource} from '$lib/app/resourcesStore';
+	import {
+		createResourcesStore,
+		type AudioResource,
+		type ResourcesStore,
+	} from '$lib/app/resourcesStore';
 
 	// TODO show scores - # friends, planet, top scores for each dimension (most of each, so 1-2 records per dimension set)
 	// visualize the data
@@ -158,55 +162,58 @@
 	};
 
 	let audioKey: symbol | undefined;
-	const introResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the intro is never run
-	let introSong: AudioResource | undefined;
-	const introSongUrl = '/assets/audio/Alexander_Nakarada__Spacey_Intro.mp3';
-	const startIntro = async (): Promise<void> => {
-		// TODO refactor the intro/outro to use one codepath
-		// TODO do this generically for any audio playing system-wide
+
+	// TODO this API is not fun, resources should probably be stores
+	const playSong = async (
+		url: string,
+		resources: ResourcesStore,
+		getPromise: () => Promise<void> | null, // TODO HACK
+		getSongResource: () => AudioResource | undefined,
+		setSongResource: (song: AudioResource | undefined) => void,
+	) => {
 		pauseAudio();
-		if (!introSong) {
-			introResources.addResource('audio', introSongUrl);
-			introResources.load(); // eslint-disable-line @typescript-eslint/no-floating-promises
-			introSong = $introResources.resources.find((r) => r.url === introSongUrl) as any; // TODO improve API, maybe return a typed store from `addResource`
+		if (!getSongResource()) {
+			const song = resources.addResource('audio', url);
+			resources.load(); // eslint-disable-line @typescript-eslint/no-floating-promises
+			setSongResource(song); // TODO improve API, maybe return a typed store from `addResource`
 		}
 		const key = (audioKey = Symbol());
-		await Promise.all([$introResources.promise, exitStarshipMode()]);
+		await Promise.all([getPromise(), exitStarshipMode()]);
 		if (audioKey !== key) return;
 		await enterStarshipMode();
 		if (audioKey !== key) return;
-		introSong = $introResources.resources.find((r) => r.url === introSongUrl) as any; // TODO improve API, maybe return a typed store from `addResource`
-		if (!introSong || introSong.status !== 'success' || !introSong.audio) {
+		const song = getSongResource();
+		setSongResource(song); // TODO improve API, maybe return a typed store from `addResource`
+		if (!song || song.status !== 'success' || !song.audio) {
 			throw Error('Failed to load song'); // TODO handle failures better (Dialog error?)
 		}
-		console.log(`introSong`, introSong);
-		return playAudio(introSong.audio);
+		song.audio.volume = 0.5; // TODO where?
+		return playAudio(song.audio);
 	};
 
-	const outroResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the outro is never run
+	const introResources = createResourcesStore();
+	let introSong: AudioResource | undefined;
+	const INTRO_SONG_URL = '/assets/audio/Alexander_Nakarada__Spacey_Intro.mp3';
+	const startIntro = (): Promise<void> =>
+		playSong(
+			INTRO_SONG_URL,
+			introResources,
+			() => $introResources.promise, // TODO HACK
+			() => $introResources.resources.find((r) => r.url === INTRO_SONG_URL) as any, // TODO improve API, maybe return a typed store from `addResource`
+			(song) => (introSong = song),
+		);
+
+	const outroResources = createResourcesStore();
 	let outroSong: AudioResource | undefined;
-	const outroSongUrl = '/assets/audio/Alexander_Nakarada__Spacey_Outro.mp3';
-	const startOutro = async (): Promise<void> => {
-		// TODO refactor the intro/outro to use one codepath
-		// TODO do this generically for any audio playing system-wide
-		pauseAudio();
-		if (!outroSong) {
-			outroResources.addResource('audio', outroSongUrl);
-			outroResources.load(); // eslint-disable-line @typescript-eslint/no-floating-promises
-			outroSong = $outroResources.resources.find((r) => r.url === outroSongUrl) as any; // TODO improve API, maybe return a typed store from `addResource`
-		}
-		const key = (audioKey = Symbol());
-		await Promise.all([$outroResources.promise, exitStarshipMode()]);
-		if (audioKey !== key) return;
-		await enterStarshipMode();
-		if (audioKey !== key) return;
-		outroSong = $outroResources.resources.find((r) => r.url === outroSongUrl) as any; // TODO improve API, maybe return a typed store from `addResource`
-		if (!outroSong || outroSong.status !== 'success' || !outroSong.audio) {
-			throw Error('Failed to load song'); // TODO handle failures better (Dialog error?)
-		}
-		console.log(`outroSong`, outroSong);
-		return playAudio(outroSong.audio);
-	};
+	const OUTRO_SONG_URL = '/assets/audio/Alexander_Nakarada__Spacey_Outro.mp3';
+	const startOutro = (): Promise<void> =>
+		playSong(
+			OUTRO_SONG_URL,
+			outroResources,
+			() => $outroResources.promise, // TODO HACK
+			() => $outroResources.resources.find((r) => r.url === OUTRO_SONG_URL) as any, // TODO improve API, maybe return a typed store from `addResource`
+			(song) => (outroSong = song),
+		);
 </script>
 
 <svelte:window
