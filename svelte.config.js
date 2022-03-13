@@ -10,10 +10,5 @@ export default {
 	kit: {
 		adapter: adapter(),
 		files: {assets: 'src/static'},
-		vite: {
-			optimizeDeps: {
-				exclude: ['@feltcoop/felt'],
-			},
-		},
 	},
 };
