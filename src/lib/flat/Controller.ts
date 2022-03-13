@@ -14,7 +14,6 @@ export class Controller {
 	movingUp = false;
 	movingDown = false;
 	pressingExit = false;
-	pressingPause = false;
 
 	pointerDown = false;
 	setPointerDown(down: boolean): void {
@@ -66,11 +65,6 @@ export class Controller {
 				this.pressingExit = true;
 				break;
 			}
-			case '`':
-			case ' ': {
-				this.pressingPause = true;
-				break;
-			}
 			default: {
 				console.log('unhandled keydown', key);
 			}
@@ -107,11 +101,6 @@ export class Controller {
 				this.pressingExit = false;
 				break;
 			}
-			case '`':
-			case ' ': {
-				this.pressingPause = false;
-				break;
-			}
 			default: {
 				console.log('unhandled keyup', key);
 			}
@@ -119,7 +108,7 @@ export class Controller {
 	}
 }
 
-const MIN_MAGNITUDE = 4;
+const MIN_MAGNITUDE = 4; // TODO this is still janky
 
 // TODO move this where?
 // TODO maybe return values instead?

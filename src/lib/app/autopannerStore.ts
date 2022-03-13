@@ -1,4 +1,4 @@
-import {writable, type Writable} from 'svelte/store';
+import {writable, type Readable} from 'svelte/store';
 import {randomFloat} from '@feltcoop/felt/util/random.js';
 
 // This is the old version of the autopanner that relied on CSS transitions for movement.
@@ -6,8 +6,7 @@ import {randomFloat} from '@feltcoop/felt/util/random.js';
 
 // TODO delete this module?
 
-export interface AutopannerStore {
-	subscribe: Writable<AutopannerState>['subscribe'];
+export interface AutopannerStore extends Readable<AutopannerState> {
 	randomize: (
 		options?: Partial<AutopannerOptions>,
 		forcedTransitionDuration?: number,

@@ -1,6 +1,9 @@
 <script lang="ts">
+	import {getClock} from '$lib/app/clockStore';
 	import {getDimensions} from '$lib/app/dimensions';
+	import ImageButton from '$lib/ui/ImageButton.svelte';
 
+	const clock = getClock();
 	const dimensions = getDimensions();
 
 	const maxWidth = 1667;
@@ -8,6 +11,8 @@
 	$: xScale = Math.min(1, $dimensions.width / maxWidth);
 	$: yScale = Math.min(1, $dimensions.height / maxHeight);
 	$: scale = Math.min(xScale, yScale);
+
+	const toggleClock = () => clock.toggle();
 </script>
 
 <div
@@ -27,22 +32,26 @@
 				style="width: 350px; height: 350px;"
 				class="pixelated"
 			/>
-			<img
-				src="/assets/construction/person-rock.gif"
-				alt="under construction: person rock"
-				style="width: 60px; height: 37px;"
-				class="pixelated"
-			/>
+			<ImageButton on:click={toggleClock}>
+				<img
+					src="/assets/construction/person-rock.gif"
+					alt="under construction: person rock"
+					style="width: 60px; height: 37px;"
+					class="pixelated"
+				/>
+			</ImageButton>
 			<img
 				src="/assets/construction/person-dig-fast.gif"
 				alt="under construction: person dig fast"
 			/>
-			<img
-				src="/assets/construction/person-rock.gif"
-				alt="under construction: person rock"
-				style="width: 60px; height: 37px;"
-				class="pixelated"
-			/>
+			<ImageButton on:click={toggleClock}>
+				<img
+					src="/assets/construction/person-rock.gif"
+					alt="under construction: person rock"
+					style="width: 60px; height: 37px;"
+					class="pixelated"
+				/>
+			</ImageButton>
 			<img
 				src="/assets/construction/person-dig-fast.gif"
 				alt="under construction: person dig fast"

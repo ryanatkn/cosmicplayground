@@ -1,4 +1,4 @@
-import {writable, type Writable} from 'svelte/store';
+import {writable, type Readable} from 'svelte/store';
 import type PIXI from 'pixi.js';
 
 export interface PixiBgState {
@@ -9,8 +9,7 @@ export interface PixiBgState {
 	y: number;
 }
 
-export interface PixiBgStore {
-	subscribe: Writable<PixiBgState>['subscribe'];
+export interface PixiBgStore extends Readable<PixiBgState> {
 	updateDimensions: (width: number, height: number) => void;
 	tick: (dt: number) => void;
 }

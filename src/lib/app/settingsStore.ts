@@ -3,7 +3,7 @@ import {setContext, getContext} from 'svelte';
 
 export interface SettingsState {
 	audioEnabled: boolean;
-	devMode: boolean;
+	devMode: boolean; // TODO use felt `devmode` probably
 	recordingMode: boolean;
 	idleMode: boolean;
 	timeToGoIdle: number;
@@ -15,6 +15,7 @@ export interface SettingsStore {
 	update: Writable<SettingsState>['update'];
 }
 
+// TODO if this doesn't need anything special, make it a simple writable
 export const createSettingsStore = (initialState: Partial<SettingsState>): SettingsStore => {
 	const store = writable({
 		audioEnabled: true,

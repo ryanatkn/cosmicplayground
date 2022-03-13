@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {tick} from 'svelte';
 	import {wait} from '@feltcoop/felt';
+	import PendingAnimation from '@feltcoop/felt/ui/PendingAnimation.svelte';
 
 	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
 	import aboutPortal from '$lib/portals/about/data';
@@ -23,6 +24,11 @@
 	import {getClock} from '$lib/app/clockStore';
 	import {areScoresPerfect, Stage, type StarshipStageScores} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
+	import {
+		createResourcesStore,
+		type AudioResource,
+		type ResourcesStore,
+	} from '$lib/app/resourcesStore';
 
 	// TODO show scores - # friends, planet, top scores for each dimension (most of each, so 1-2 records per dimension set)
 	// visualize the data
@@ -117,6 +123,7 @@
 		: starshipY - (starshipHeight - height) / 2;
 	let pausedClock = false;
 	const enterStarshipMode = async () => {
+		if (starshipMode) return;
 		console.log('enterStarshipMode');
 		finished = false;
 		starshipAngle = 0;
@@ -129,9 +136,11 @@
 		transitioningStarshipModeCount--;
 	};
 	const exitStarshipMode = async () => {
+		if (!starshipMode) return;
 		console.log('exitStarshipMode');
 		starshipAngle = 0;
 		starshipMode = false;
+		pauseAudio();
 		if (pausedClock) clock.resume();
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
@@ -142,6 +151,69 @@
 	let starshipHeight: number;
 	$: console.log(`starshipWidth`, starshipWidth);
 	$: console.log(`starshipHeight`, starshipHeight);
+
+	const pauseAudio = () => {
+		if (introSong?.audio && !introSong.audio.paused) introSong.audio.pause();
+		if (outroSong?.audio && !outroSong.audio.paused) outroSong.audio.pause();
+	};
+	const playAudio = (audio: HTMLAudioElement, currentTime = 0): Promise<void> => {
+		audio.currentTime = currentTime;
+		return audio.play();
+	};
+
+	let audioKey: symbol | undefined;
+
+	// TODO this API is not fun, resources should probably be stores
+	const playSong = async (
+		url: string,
+		resources: ResourcesStore,
+		getPromise: () => Promise<void> | null, // TODO HACK
+		getSongResource: () => AudioResource | undefined,
+		setSongResource: (song: AudioResource | undefined) => void,
+	) => {
+		pauseAudio();
+		if (!getSongResource()) {
+			const song = resources.addResource('audio', url);
+			resources.load(); // eslint-disable-line @typescript-eslint/no-floating-promises
+			setSongResource(song); // TODO improve API, maybe return a typed store from `addResource`
+		}
+		const key = (audioKey = Symbol());
+		await Promise.all([getPromise(), exitStarshipMode()]);
+		if (audioKey !== key) return;
+		await enterStarshipMode();
+		if (audioKey !== key) return;
+		const song = getSongResource();
+		setSongResource(song); // TODO improve API, maybe return a typed store from `addResource`
+		if (!song || song.status !== 'success' || !song.audio) {
+			throw Error('Failed to load song'); // TODO handle failures better (Dialog error?)
+		}
+		song.audio.volume = 0.5; // TODO where?
+		return playAudio(song.audio);
+	};
+
+	const introResources = createResourcesStore();
+	let introSong: AudioResource | undefined;
+	const INTRO_SONG_URL = '/assets/audio/Alexander_Nakarada__Spacey_Intro.mp3';
+	const startIntro = (): Promise<void> =>
+		playSong(
+			INTRO_SONG_URL,
+			introResources,
+			() => $introResources.promise, // TODO HACK
+			() => $introResources.resources.find((r) => r.url === INTRO_SONG_URL) as any, // TODO improve API, maybe return a typed store from `addResource`
+			(song) => (introSong = song),
+		);
+
+	const outroResources = createResourcesStore();
+	let outroSong: AudioResource | undefined;
+	const OUTRO_SONG_URL = '/assets/audio/Alexander_Nakarada__Spacey_Outro.mp3';
+	const startOutro = (): Promise<void> =>
+		playSong(
+			OUTRO_SONG_URL,
+			outroResources,
+			() => $outroResources.promise, // TODO HACK
+			() => $outroResources.resources.find((r) => r.url === OUTRO_SONG_URL) as any, // TODO improve API, maybe return a typed store from `addResource`
+			(song) => (outroSong = song),
+		);
 </script>
 
 <svelte:window
@@ -167,6 +239,14 @@
 			}
 		} else if (e.key === 'F4') {
 			await toggleShowMorePortals();
+		} else if (e.key === '1' && e.ctrlKey) {
+			e.stopPropagation();
+			e.preventDefault();
+			await startIntro();
+		} else if (e.key === '2' && e.ctrlKey) {
+			e.stopPropagation();
+			e.preventDefault();
+			await startOutro();
 		}
 	}}
 />
@@ -206,28 +286,29 @@
 			</ul>
 		{/each}
 		<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
-			<h2>
-				show {#if $settings.showMorePortals}less{:else}more{/if}
-			</h2>
-			<div>
-				<img
-					src="/assets/earth/night_lights_1.png"
-					alt="night lights of Africa, Europe, and the Middle East"
-					style="width: 100px; height: 100px;"
-					class="mr-2"
-				/>
-				<img
-					src="/assets/earth/night_lights_2.png"
-					alt="night lights of the Americas"
-					style="width: 100px; height: 100px;"
-					class="mr-2"
-				/>
-				<img
-					src="/assets/earth/night_lights_3.png"
-					alt="night lights of Asia and Australia"
-					style="width: 100px; height: 100px;"
-				/>
-			</div>
+			<PendingAnimation running={$settings.showMorePortals} let:index>
+				{#if index === 0}
+					<img
+						src="/assets/earth/night_lights_1.png"
+						alt="night lights of Africa, Europe, and the Middle East"
+						style="width: 100px; height: 100px;"
+						class="mr-2"
+					/>
+				{:else if index === 1}
+					<img
+						src="/assets/earth/night_lights_2.png"
+						alt="night lights of the Americas"
+						style="width: 100px; height: 100px;"
+						class="mr-2"
+					/>
+				{:else}
+					<img
+						src="/assets/earth/night_lights_3.png"
+						alt="night lights of Asia and Australia"
+						style="width: 100px; height: 100px;"
+					/>
+				{/if}
+			</PendingAnimation>
 		</PortalPreview>
 		{#if $settings.showMorePortals}
 			{#each secondaryPortals as portals}
@@ -315,6 +396,7 @@
 		align-items: center;
 		justify-content: center;
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
+		will-change: transform; /* might prevent some jank but may use unnecessary resources */
 	}
 	.starship-ready nav {
 		cursor: pointer;

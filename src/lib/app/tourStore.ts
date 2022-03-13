@@ -1,4 +1,4 @@
-import {writable, get, type Writable} from 'svelte/store';
+import {writable, get, type Readable} from 'svelte/store';
 import {UnreachableError} from '@feltcoop/felt/util/error.js';
 
 import {type ClockStore} from '$lib/app/clockStore.js';
@@ -11,8 +11,7 @@ export interface TourState {
 	currentStepIndex: number;
 }
 
-export interface TourStore {
-	subscribe: Writable<TourState>['subscribe'];
+export interface TourStore extends Readable<TourState> {
 	cancel: () => void;
 	seekTimeTo: (time: number) => void;
 	seekTimeBy: (dt: number) => void;

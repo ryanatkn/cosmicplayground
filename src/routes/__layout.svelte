@@ -7,6 +7,7 @@
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
 	import {goto} from '$app/navigation';
+	import {isEditable} from '@feltcoop/felt/util/dom.js';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBgStore';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
@@ -109,9 +110,13 @@
 		: $settings.timeToGoIdle;
 	setAudioCtx(); // allows components to do `const audioCtx = getAudioCtx();` which uses svelte's `getContext`
 
-	const enableGlobalHotkeys = (target: HTMLElement) => !target.closest('input');
+	const enableGlobalHotkeys = (target: HTMLElement) => !isEditable(target);
 	const onKeyDown = (e: KeyboardEvent) => {
 		// TODO main menu!
+
+		if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target as any)) {
+			clock.toggle();
+		}
 
 		// toggle dev mode
 		if (e.key === '`' && e.ctrlKey) {
@@ -120,10 +125,7 @@
 		}
 		// dev mode hotkeys
 		if ($settings.devMode) {
-			if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target as any)) {
-				clock.toggle();
-				console.log('clock is now', $clock.running ? 'running' : 'paused');
-			} else if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e.target as any)) {
+			if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e.target as any)) {
 				settings.update((s) => ({...s, idleMode: !s.idleMode}));
 				console.log('idle mode is now', $settings.idleMode);
 			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e.target as any)) {

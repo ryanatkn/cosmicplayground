@@ -4,27 +4,13 @@
 	export let selectLandIndex: (value: number | null) => void;
 	export let hoverLandIndex: (value: number | null) => void;
 
-	const zodiac = [
-		'♑︎',
-		'♒︎',
-		'♓︎',
-		'♈︎',
-		'♉︎',
-		'♊︎',
-		'♋︎',
-		'♌︎',
-		'♍︎',
-		'♎︎',
-		'♏︎',
-		'♐︎',
-	];
 	const toggleIndex = (index: number) => {
 		selectLandIndex(selectedLandIndex === index ? null : index);
 	};
 </script>
 
-<div class="zodiac-hud">
-	{#each zodiac as zodiacSymbol, i (zodiacSymbol)}
+<div class="month-hud">
+	{#each {length: 12} as _, i}
 		<button
 			class:active={i === activeLandIndex}
 			class:selected={i === selectedLandIndex}
@@ -33,13 +19,13 @@
 			on:mouseenter={() => hoverLandIndex(i)}
 			on:mouseleave={() => hoverLandIndex(null)}
 		>
-			{zodiacSymbol}
+			∙
 		</button>
 	{/each}
 </div>
 
 <style>
-	.zodiac-hud {
+	.month-hud {
 		width: 100%;
 		display: flex;
 	}
