@@ -187,6 +187,11 @@
 		hoveredSeaLevel = value;
 	};
 
+	const resetSeaLevelInteractionState = () => {
+		selectedSeaLevel = null;
+		hoveredSeaLevel = null;
+	};
+
 	// Make the two Earths tile seamlessly when possible.
 	// We render only 2 instances as a balance between performance and UX.
 	// Ideally we'd use WebGL to make rendering multiples much cheaper,
@@ -265,6 +270,7 @@
 		if (tour) {
 			tour.cancel();
 		}
+		resetSeaLevelInteractionState();
 		if (!tourData) {
 			tourData = createDeepBreathTour(tourIntroTotalDuration, tourTitleTotalDuration, devMode);
 		}
