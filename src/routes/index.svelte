@@ -22,21 +22,46 @@
 	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clockStore';
-	import {areScoresPerfect, Stage, type StarshipStageScores} from '$lib/portals/home/starshipStage';
-	import {getDimensions} from '$lib/app/dimensions';
+	import {
+		rescuedAllFriends,
+		rescuedAnyCrew,
+		Stage,
+		type StarshipStageScores,
+	} from '$lib/portals/home/starshipStage';
+	import {getDimensions, type Dimensions} from '$lib/app/dimensions';
 	import {
 		createResourcesStore,
 		type AudioResource,
 		type ResourcesStore,
 	} from '$lib/app/resourcesStore';
 
-	// TODO show scores - # friends, planet, top scores for each dimension (most of each, so 1-2 records per dimension set)
-	// visualize the data
-	// collect and publish the data! how?
-
 	const dimensions = getDimensions();
-	$: ({width, height} = $dimensions);
 	const clock = getClock();
+
+	$: ({width: screenWidth, height: screenHeight} = $dimensions);
+
+	$: screenUnlocked = savedScoresRescuedAllFriends;
+	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
+
+	// TODO should we pass through plain numbers or a dimensions object?
+	$: ({width: worldWidth, height: worldHeight} = computeWorldDimensions(
+		$dimensions,
+		screenUnlocked,
+		DEFAULT_WORLD_DIMENSIONS,
+	));
+	// // TODO what about the camera zoom relative to what can fit in the dimensions?
+	const computeWorldDimensions = (
+		_screenDimensions: Dimensions, // TODO BLOCK see below
+		screenUnlocked: boolean,
+		defaultWorldDimensions: Dimensions,
+	): Dimensions => {
+		if (!screenUnlocked) return defaultWorldDimensions;
+
+		// TODO BLOCK compute
+		// Expand the world dimensions to fit the screen dimensions.
+		// const aspectRatio = screenDimensions.width / screenDimensions.height; // TODO cache on dimensions?
+		return defaultWorldDimensions;
+	};
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
@@ -89,15 +114,20 @@
 	};
 	let scores: StarshipStageScores | undefined;
 	let savedScores = loadScores();
-	$: perfectSavedScores = !!savedScores && areScoresPerfect(savedScores);
-	$: perfectScores = !!scores && areScoresPerfect(scores);
+	$: savedScoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
+	$: scoresRescuedAnyCrew = !!scores && rescuedAnyCrew(scores);
+	$: savedScoresRescuedAllFriends = !!savedScores && rescuedAllFriends(savedScores);
+	// TODO use these
+	// $: scoresRescuedAllFriends = !!scores && rescuedAllFriends(scores);
+	// $: savedScoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
+	// $: scoresRescuedAllCrew = !!scores && rescuedAllCrew(scores);
 
 	let finished = false;
 	const finish = () => {
 		if (finished) return;
 		finished = true;
 		// TODO only save if score is better
-		if (!perfectSavedScores) {
+		if (!savedScoresRescuedAnyCrew) {
 			localStorage.setItem(SCORES_KEY, JSON.stringify(scores));
 			savedScores = scores;
 		}
@@ -109,7 +139,7 @@
 
 	const BOOSTER = '🙌';
 	let enableBooster = true;
-	$: boosterUnlocked = perfectSavedScores;
+	$: boosterUnlocked = savedScoresRescuedAnyCrew;
 	$: boosterEnabled = boosterUnlocked && enableBooster;
 	const toggleBooster = () => {
 		enableBooster = !enableBooster;
@@ -119,8 +149,8 @@
 	$: starshipScale = (STARSHIP_RADIUS * 2) / starshipHeight;
 	$: starshipViewX = $camera ? (starshipX - $camera.x) * $camera.scale : starshipX;
 	$: starshipViewY = $camera
-		? (starshipY - $camera.y) * $camera.scale - (starshipHeight - height) / 2
-		: starshipY - (starshipHeight - height) / 2;
+		? (starshipY - $camera.y) * $camera.scale - (starshipHeight - screenHeight) / 2
+		: starshipY - (starshipHeight - screenHeight) / 2;
 	let pausedClock = false;
 	const enterStarshipMode = async () => {
 		if (starshipMode) return;
@@ -336,8 +366,10 @@
 			<StarshipStageScore {scores} />
 		</div>
 		<StarshipStage
-			{width}
-			{height}
+			{screenWidth}
+			{screenHeight}
+			{worldWidth}
+			{worldHeight}
 			{boosterEnabled}
 			bind:starshipX
 			bind:starshipY
@@ -355,7 +387,7 @@
 					on:click={() => exitStarshipMode()}
 					style="font-size: var(--font_size_xl3)"
 				>
-					{#if perfectScores}{BOOSTER}{:else}↩{/if}
+					{#if scoresRescuedAnyCrew}{BOOSTER}{:else}↩{/if}
 				</FloatingIconButton>
 				<StarshipStageScore {scores} layout="text" />
 			</div>

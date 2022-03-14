@@ -10,8 +10,8 @@
 	import {type StageState} from '$lib/flat/stageState';
 	import {type StageConstructor, type ExitStage} from '$lib/flat/stage';
 
-	export let height: number;
 	export let width: number;
+	export let height: number;
 	export let stages: StageConstructor[];
 	export let renderer = new CanvasRenderer();
 	export let controller = new Controller();
