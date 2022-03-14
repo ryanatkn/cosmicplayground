@@ -65,7 +65,7 @@
 		const screenAspectRatio = screenMaxWidth / screenMaxHeight;
 		screenWidth =
 			worldAspectRatio < screenAspectRatio
-				? screenMaxWidth * (screenAspectRatio / worldAspectRatio)
+				? screenMaxWidth * (worldAspectRatio / screenAspectRatio)
 				: screenMaxWidth;
 		screenHeight =
 			worldAspectRatio > screenAspectRatio
