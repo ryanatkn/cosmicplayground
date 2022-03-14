@@ -65,20 +65,12 @@
 		const screenAspectRatio = screenMaxWidth / screenMaxHeight;
 		screenWidth =
 			worldAspectRatio < screenAspectRatio
-				? screenMaxWidth * (worldAspectRatio / screenAspectRatio)
+				? (screenMaxWidth * (worldAspectRatio / screenAspectRatio)) | 0
 				: screenMaxWidth;
 		screenHeight =
 			worldAspectRatio > screenAspectRatio
-				? screenMaxHeight * (screenAspectRatio / worldAspectRatio)
+				? (screenMaxHeight * (screenAspectRatio / worldAspectRatio)) | 0
 				: screenMaxHeight;
-		console.log(`worldWidth`, worldWidth);
-		console.log(`worldHeight`, worldHeight);
-		console.log(`worldAspectRatio`, worldAspectRatio);
-		console.log(`screenAspectRatio`, screenAspectRatio);
-		console.log(`screenMaxWidth`, screenMaxWidth);
-		console.log(`screenMaxHeight`, screenMaxHeight);
-		console.log(`screenWidth`, screenWidth);
-		console.log(`screenHeight`, screenHeight);
 	}
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
