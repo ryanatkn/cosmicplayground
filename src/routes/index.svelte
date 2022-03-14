@@ -28,7 +28,7 @@
 		Stage,
 		type StarshipStageScores,
 	} from '$lib/portals/home/starshipStage';
-	import {getDimensions, type Dimensions} from '$lib/app/dimensions';
+	import {getDimensions} from '$lib/app/dimensions';
 	import {
 		createResourcesStore,
 		type AudioResource,
@@ -38,30 +38,42 @@
 	const dimensions = getDimensions();
 	const clock = getClock();
 
-	$: ({width: screenWidth, height: screenHeight} = $dimensions);
+	$: ({width: screenMaxWidth, height: screenMaxHeight} = $dimensions);
 
 	$: screenUnlocked = savedScoresRescuedAllFriends;
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
 	// TODO should we pass through plain numbers or a dimensions object?
-	$: ({width: worldWidth, height: worldHeight} = computeWorldDimensions(
-		$dimensions,
-		screenUnlocked,
-		DEFAULT_WORLD_DIMENSIONS,
-	));
 	// // TODO what about the camera zoom relative to what can fit in the dimensions?
-	const computeWorldDimensions = (
-		_screenDimensions: Dimensions, // TODO BLOCK see below
-		screenUnlocked: boolean,
-		defaultWorldDimensions: Dimensions,
-	): Dimensions => {
-		if (!screenUnlocked) return defaultWorldDimensions;
-
-		// TODO BLOCK compute
+	let screenWidth: number;
+	let screenHeight: number;
+	let worldWidth: number;
+	let worldHeight: number;
+	$: if (screenUnlocked) {
+		// TODO BLOCK expand world dimensions
 		// Expand the world dimensions to fit the screen dimensions.
 		// const aspectRatio = screenDimensions.width / screenDimensions.height; // TODO cache on dimensions?
-		return defaultWorldDimensions;
-	};
+		screenWidth = screenMaxWidth;
+		screenHeight = screenMaxHeight;
+		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
+		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
+	} else {
+		// TODO BLOCK refactor with above and other things, should be able to get clear abstractions
+		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
+		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
+		const worldAspectRatio = worldWidth / worldHeight;
+		const screenAspectRatio = screenMaxWidth / screenMaxHeight;
+		screenWidth = worldAspectRatio > 1 ? screenMaxWidth * worldAspectRatio : screenMaxWidth;
+		screenHeight = worldAspectRatio < 1 ? screenMaxHeight * worldAspectRatio : screenMaxHeight;
+		console.log(`worldWidth`, worldWidth);
+		console.log(`worldHeight`, worldHeight);
+		console.log(`worldAspectRatio`, worldAspectRatio);
+		console.log(`screenAspectRatio`, screenAspectRatio);
+		console.log(`screenMaxWidth`, screenMaxWidth);
+		console.log(`screenMaxHeight`, screenMaxHeight);
+		console.log(`screenWidth`, screenWidth);
+		console.log(`screenHeight`, screenHeight);
+	}
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
