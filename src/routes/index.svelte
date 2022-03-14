@@ -156,6 +156,8 @@
 		enableBooster = !enableBooster;
 	};
 
+	let starshipHeight: number;
+
 	const STARSHIP_RADIUS = 100; // TODO implement from starship radius (on stage?)
 	$: starshipScale = ((STARSHIP_RADIUS * 2) / starshipHeight) * screenScale;
 	$: starshipViewX = ($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * screenScale;
@@ -187,11 +189,6 @@
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
 	};
-
-	let starshipWidth: number;
-	let starshipHeight: number;
-	$: console.log(`starshipWidth`, starshipWidth);
-	$: console.log(`starshipHeight`, starshipHeight);
 
 	const pauseAudio = () => {
 		if (introSong?.audio && !introSong.audio.paused) introSong.audio.pause();
@@ -299,7 +296,6 @@
 	class:starship-transitioning={transitioningStarshipMode}
 >
 	<nav
-		bind:clientWidth={starshipWidth}
 		bind:clientHeight={starshipHeight}
 		style:transform={starshipMode
 			? `translate3d(${starshipViewX}px, ${starshipViewY}px,	0) scale3d(${starshipScale}, ${starshipScale}, ${starshipScale})	rotate(${starshipRotation}rad)`
