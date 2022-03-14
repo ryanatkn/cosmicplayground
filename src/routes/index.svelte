@@ -49,6 +49,7 @@
 	let screenHeight: number;
 	let worldWidth: number;
 	let worldHeight: number;
+	$: screenScale = screenWidth / worldWidth; // this is the same for X and Y as currently calculated
 	$: if (screenUnlocked) {
 		// TODO BLOCK expand world dimensions
 		// Expand the world dimensions to fit the screen dimensions.
@@ -156,8 +157,8 @@
 	};
 
 	const STARSHIP_RADIUS = 100; // TODO implement from starship radius (on stage?)
-	$: starshipScale = (STARSHIP_RADIUS * 2) / starshipHeight;
-	$: starshipViewX = $camera ? (starshipX - $camera.x) * $camera.scale : starshipX;
+	$: starshipScale = ((STARSHIP_RADIUS * 2) / starshipHeight) * screenScale;
+	$: starshipViewX = ($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * screenScale;
 	$: starshipViewY = $camera
 		? (starshipY - $camera.y) * $camera.scale - (starshipHeight - screenHeight) / 2
 		: starshipY - (starshipHeight - screenHeight) / 2;
