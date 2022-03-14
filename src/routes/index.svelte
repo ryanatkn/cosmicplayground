@@ -63,8 +63,14 @@
 		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
 		const worldAspectRatio = worldWidth / worldHeight;
 		const screenAspectRatio = screenMaxWidth / screenMaxHeight;
-		screenWidth = worldAspectRatio > 1 ? screenMaxWidth * worldAspectRatio : screenMaxWidth;
-		screenHeight = worldAspectRatio < 1 ? screenMaxHeight * worldAspectRatio : screenMaxHeight;
+		screenWidth =
+			worldAspectRatio < screenAspectRatio
+				? screenMaxWidth * (screenAspectRatio / worldAspectRatio)
+				: screenMaxWidth;
+		screenHeight =
+			worldAspectRatio > screenAspectRatio
+				? screenMaxHeight * (screenAspectRatio / worldAspectRatio)
+				: screenMaxHeight;
 		console.log(`worldWidth`, worldWidth);
 		console.log(`worldHeight`, worldHeight);
 		console.log(`worldAspectRatio`, worldAspectRatio);

@@ -153,7 +153,6 @@
 <style>
 	.world {
 		display: flex;
-		text-align: center;
 		justify-content: center;
 		align-items: center;
 	}
