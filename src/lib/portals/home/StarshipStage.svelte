@@ -11,8 +11,8 @@
 	import {getIdle} from '$lib/app/trackIdleState';
 
 	// TODO BLOCK not sure about this -- what's the right interface with the camera/dimensions?
-	export let screenWidth: number;
-	export let screenHeight: number;
+	export let viewWidth: number;
+	export let viewHeight: number;
 	export let worldWidth: number;
 	export let worldHeight: number;
 	export let boosterEnabled = false;
@@ -88,18 +88,18 @@
 	const toTargetAngle = (directionX: number, directionY: number): number =>
 		Math.atan2(directionY, directionX);
 
-	$: transform = computeWorldTransform(screenWidth, screenHeight, worldWidth, worldHeight);
+	$: transform = computeWorldTransform(viewWidth, viewHeight, worldWidth, worldHeight);
 
 	// TODO BLOCK is this where the transform belongs, or should it be in `World` or even `index.svelte`?
 	const computeWorldTransform = (
-		screenWidth: number,
-		screenHeight: number,
+		viewWidth: number,
+		viewHeight: number,
 		worldWidth: number,
 		worldHeight: number,
 	): string => {
-		if (screenWidth === worldWidth && screenHeight === worldHeight) return '';
+		if (viewWidth === worldWidth && viewHeight === worldHeight) return '';
 		// TODO BLOCK should this be using a scale factor? is that a camera var? or separate concern?
-		return `scale3d(${screenWidth / worldWidth}, ${screenHeight / worldHeight}, 1)`;
+		return `scale3d(${viewWidth / worldWidth}, ${viewHeight / worldHeight}, 1)`;
 	};
 </script>
 

@@ -39,24 +39,24 @@
 	const dimensions = getDimensions();
 	const clock = getClock();
 
-	$: ({width: screenMaxWidth, height: screenMaxHeight} = $dimensions);
+	$: ({width: screenWidth, height: screenHeight} = $dimensions);
 
 	$: screenUnlocked = savedScoresRescuedAllFriends;
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
 	// TODO should we pass through plain numbers or a dimensions object?
 	// // TODO what about the camera zoom relative to what can fit in the dimensions?
-	let screenWidth: number;
-	let screenHeight: number;
+	let viewWidth: number;
+	let viewHeight: number;
 	let worldWidth: number;
 	let worldHeight: number;
-	$: screenScale = screenWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
+	$: viewScale = viewWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
 	$: if (screenUnlocked) {
 		// TODO BLOCK expand world dimensions
 		// Expand the world dimensions to fit the screen dimensions.
 		// const aspectRatio = screenDimensions.width / screenDimensions.height; // TODO cache on dimensions?
-		screenWidth = screenMaxWidth;
-		screenHeight = screenMaxHeight;
+		viewWidth = screenWidth;
+		viewHeight = screenHeight;
 		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
 	} else {
@@ -64,15 +64,15 @@
 		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
 		const worldAspectRatio = worldWidth / worldHeight;
-		const screenAspectRatio = screenMaxWidth / screenMaxHeight;
-		screenWidth =
-			worldAspectRatio < screenAspectRatio
-				? (screenMaxWidth * (worldAspectRatio / screenAspectRatio)) | 0
-				: screenMaxWidth;
-		screenHeight =
-			worldAspectRatio > screenAspectRatio
-				? (screenMaxHeight * (screenAspectRatio / worldAspectRatio)) | 0
-				: screenMaxHeight;
+		const viewAspectRatio = screenWidth / screenHeight;
+		viewWidth =
+			worldAspectRatio < viewAspectRatio
+				? (screenWidth * (worldAspectRatio / viewAspectRatio)) | 0
+				: screenWidth;
+		viewHeight =
+			worldAspectRatio > viewAspectRatio
+				? (screenHeight * (viewAspectRatio / worldAspectRatio)) | 0
+				: screenHeight;
 	}
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
@@ -160,11 +160,11 @@
 	let starshipHeight: number;
 
 	const STARSHIP_RADIUS = 100; // TODO implement from starship radius (on stage?)
-	$: starshipScale = ((STARSHIP_RADIUS * 2) / starshipHeight) * screenScale;
-	$: starshipViewX = ($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * screenScale;
+	$: starshipScale = ((STARSHIP_RADIUS * 2) / starshipHeight) * viewScale;
+	$: starshipViewX = ($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * viewScale;
 	$: starshipViewY = $camera
-		? (starshipY - $camera.y) * $camera.scale * screenScale - (starshipHeight - screenMaxHeight) / 2
-		: starshipY - (starshipHeight - screenMaxHeight) / 2;
+		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - screenHeight) / 2
+		: starshipY - (starshipHeight - screenHeight) / 2;
 
 	let pausedClock = false;
 	const enterStarshipMode = async () => {
@@ -377,8 +377,8 @@
 			<StarshipStageScore {scores} />
 		</div>
 		<StarshipStage
-			{screenWidth}
-			{screenHeight}
+			{viewWidth}
+			{viewHeight}
 			{worldWidth}
 			{worldHeight}
 			{boosterEnabled}
