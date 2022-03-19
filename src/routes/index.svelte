@@ -34,6 +34,7 @@
 		type AudioResource,
 		type ResourcesStore,
 	} from '$lib/app/resourcesStore';
+	import {resizer} from '$lib/ui/resizeObserver';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -49,7 +50,7 @@
 	let screenHeight: number;
 	let worldWidth: number;
 	let worldHeight: number;
-	$: screenScale = screenWidth / worldWidth; // this is the same for X and Y as currently calculated
+	$: screenScale = screenWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
 	$: if (screenUnlocked) {
 		// TODO BLOCK expand world dimensions
 		// Expand the world dimensions to fit the screen dimensions.
@@ -162,7 +163,7 @@
 	$: starshipScale = ((STARSHIP_RADIUS * 2) / starshipHeight) * screenScale;
 	$: starshipViewX = ($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * screenScale;
 	$: starshipViewY = $camera
-		? (starshipY - $camera.y) * $camera.scale - (starshipHeight - screenHeight) / 2
+		? (starshipY - $camera.y) * $camera.scale * screenScale - STARSHIP_RADIUS / 2
 		: starshipY - (starshipHeight - screenHeight) / 2;
 	let pausedClock = false;
 	const enterStarshipMode = async () => {
@@ -296,7 +297,9 @@
 	class:starship-transitioning={transitioningStarshipMode}
 >
 	<nav
-		bind:clientHeight={starshipHeight}
+		use:resizer={(entries) => {
+			starshipHeight = entries[0].contentRect.height;
+		}}
 		style:transform={starshipMode
 			? `translate3d(${starshipViewX}px, ${starshipViewY}px,	0) scale3d(${starshipScale}, ${starshipScale}, ${starshipScale})	rotate(${starshipRotation}rad)`
 			: 'none'}
