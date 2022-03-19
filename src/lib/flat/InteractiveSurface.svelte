@@ -1,6 +1,8 @@
 <script lang="ts">
 	import {type Controller} from '$lib/flat/Controller';
 
+	// TODO same name as `$lib/app/InteractiveSurface.svelte` but different
+
 	export const width: number = undefined as any; // TODO ? see below
 	export const height: number = undefined as any; // TODO ? see below
 	export let controller: Controller;

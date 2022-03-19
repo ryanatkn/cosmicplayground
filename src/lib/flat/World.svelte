@@ -3,7 +3,6 @@
 	import {onMount, onDestroy} from 'svelte';
 
 	import Canvas from '$lib/flat/Canvas.svelte';
-	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
 	import {getClock} from '$lib/app/clockStore';
 	import {CanvasRenderer} from '$lib/flat/CanvasRenderer';
 	import {Controller} from '$lib/flat/Controller';
@@ -145,8 +144,6 @@
 		<!-- TODO loading -- do nothing? -->
 	{:else}
 		<Canvas {width} {height} stage={activeStageState.stage} {renderer} />
-		<InteractiveSurface {width} {height} controller={activeStageState.stage.controller} />
-		<slot />
 	{/if}
 </div>
 

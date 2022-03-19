@@ -21,11 +21,13 @@ export class Controller {
 		this.moving.set(this.isMoving());
 	}
 
-	pointerScreenX: number | null = null;
-	pointerScreenY: number | null = null;
+	viewScale = 1;
+
+	pointerViewX: number | null = null;
+	pointerViewY: number | null = null;
 	setPointerLocation(x: number | null, y: number | null): void {
-		this.pointerScreenX = x;
-		this.pointerScreenY = y;
+		this.pointerViewX = x;
+		this.pointerViewY = y;
 	}
 
 	private isMoving(): boolean {
@@ -117,11 +119,19 @@ export const updateDirection = (
 	entity: Entity,
 	camera: CameraState,
 ): void => {
+	console.log(`controller.viewScale`, controller.viewScale);
 	if (controller.pointerDown) {
-		if (controller.pointerScreenX === null || controller.pointerScreenY === null) return;
+		console.log(
+			`controller.pointerViewX, controller.pointerViewY`,
+			controller.pointerViewX,
+			controller.pointerViewY,
+		);
+		if (controller.pointerViewX === null || controller.pointerViewY === null) return;
 		// TODO cache pointer world coordinates? where?
-		const pointerWorldX = controller.pointerScreenX + camera.x - camera.width / 2;
-		const pointerWorldY = controller.pointerScreenY + camera.y - camera.height / 2;
+		const pointerWorldX =
+			(controller.pointerViewX + camera.x - camera.width / 2) / controller.viewScale;
+		const pointerWorldY =
+			(controller.pointerViewY + camera.y - camera.height / 2) / controller.viewScale;
 		const x = pointerWorldX - entity.x;
 		const y = pointerWorldY - entity.y;
 		const magnitude = Math.hypot(x, y);

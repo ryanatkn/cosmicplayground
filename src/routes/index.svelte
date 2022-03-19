@@ -41,7 +41,7 @@
 
 	$: ({width: screenWidth, height: screenHeight} = $dimensions);
 
-	$: screenUnlocked = savedScoresRescuedAllFriends;
+	$: viewUnlocked = savedScoresRescuedAllFriends;
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
 	// TODO should we pass through plain numbers or a dimensions object?
@@ -51,8 +51,8 @@
 	let worldWidth: number;
 	let worldHeight: number;
 	$: viewScale = viewWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
-	$: if (screenUnlocked) {
-		// TODO BLOCK expand world dimensions
+	$: if (viewUnlocked) {
+		// TODO BLOCK expand view dimensions to fit screen when unlocked
 		// Expand the world dimensions to fit the screen dimensions.
 		// const aspectRatio = screenDimensions.width / screenDimensions.height; // TODO cache on dimensions?
 		viewWidth = screenWidth;
@@ -377,6 +377,8 @@
 			<StarshipStageScore {scores} />
 		</div>
 		<StarshipStage
+			{screenWidth}
+			{screenHeight}
 			{viewWidth}
 			{viewHeight}
 			{worldWidth}

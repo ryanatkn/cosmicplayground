@@ -9,8 +9,10 @@
 	import {getClock} from '$lib/app/clockStore';
 	import {type StageState} from '$lib/flat/stageState';
 	import {getIdle} from '$lib/app/trackIdleState';
+	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
 
-	// TODO BLOCK not sure about this -- what's the right interface with the camera/dimensions?
+	export let screenWidth: number;
+	export let screenHeight: number;
 	export let viewWidth: number;
 	export let viewHeight: number;
 	export let worldWidth: number;
@@ -32,7 +34,8 @@
 
 	let activeStageState: StageState<Stage> | null = null;
 
-	$: activeStageState?.stage && syncStageState(activeStageState.stage, $clock.dt);
+	$: currentStage = activeStageState?.stage ?? null;
+	$: currentStage && syncStageState(currentStage, $clock.dt);
 
 	let elapsed = 0;
 	let finished = false;
@@ -52,18 +55,18 @@
 		stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
 
 		// TODO ?
+		stage.controller.viewScale = viewWidth / worldWidth; // TODO where does this go?
 		starshipAngle = updateAngle(starshipAngle, stage.player.directionX, stage.player.directionY);
 		if (!stage.freezeCamera) {
 			stage.camera.update(($camera) => ({...$camera, x: starshipX, y: starshipY})); // eslint-disable-line @typescript-eslint/no-floating-promises
 		}
-		currentStage = stage;
 		starshipShieldRadius = stage.player.radius;
 
 		// TODO refactor - events?
-		if (!scores || scoresChanged(scores, currentStage)) {
+		if (!scores || scoresChanged(scores, stage)) {
 			scores = {
-				friends: currentStage.friends.map((friend) => !friend.dead),
-				planet: !currentStage.planet.dead,
+				friends: stage.friends.map((friend) => !friend.dead),
+				planet: !stage.planet.dead,
 			};
 		}
 
@@ -90,7 +93,7 @@
 
 	$: transform = computeWorldTransform(viewWidth, viewHeight, worldWidth, worldHeight);
 
-	// TODO BLOCK is this where the transform belongs, or should it be in `World` or even `index.svelte`?
+	// TODO BLOCK dont's scale the canvas -- also is this where the transform belongs, or should it be in `World` or even `index.svelte`?
 	const computeWorldTransform = (
 		viewWidth: number,
 		viewHeight: number,
@@ -98,18 +101,24 @@
 		worldHeight: number,
 	): string => {
 		if (viewWidth === worldWidth && viewHeight === worldHeight) return '';
-		// TODO BLOCK should this be using a scale factor? is that a camera var? or separate concern?
 		return `scale3d(${viewWidth / worldWidth}, ${viewHeight / worldHeight}, 1)`;
 	};
 </script>
 
 <!-- TODO maybe instead use ResizeObserver? the iframe measuring feels unfortunate -->
-<div class="starship-stage" style:transform>
+<div class="view" style:transform>
 	<World width={worldWidth} height={worldHeight} stages={[Stage]} bind:activeStageState />
 </div>
+{#if currentStage}
+	<InteractiveSurface
+		width={screenWidth}
+		height={screenHeight}
+		controller={currentStage.controller}
+	/>
+{/if}
 
 <style>
-	.starship-stage {
+	.view {
 		position: absolute !important;
 		inset: 0;
 		width: 100%;
