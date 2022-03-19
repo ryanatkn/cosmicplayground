@@ -101,7 +101,8 @@
 
 	$: transform = computeWorldTransform(viewWidth, viewHeight, worldWidth, worldHeight);
 
-	// TODO BLOCK dont's scale the canvas -- also is this where the transform belongs, or should it be in `World` or even `index.svelte`?
+	// TODO consider not scaling the canvas -- though it'll make collisions less precise...
+	// also is this where the transform belongs, or should it be in `World` or even `index.svelte`?
 	const computeWorldTransform = (
 		viewWidth: number,
 		viewHeight: number,

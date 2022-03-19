@@ -52,7 +52,7 @@
 	let worldHeight: number;
 	$: viewScale = viewWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
 	$: if (viewUnlocked) {
-		// TODO BLOCK expand view dimensions to fit screen when unlocked
+		// TODO expand view dimensions to fit screen when unlocked
 		// Expand the world dimensions to fit the screen dimensions.
 		// const aspectRatio = screenDimensions.width / screenDimensions.height; // TODO cache on dimensions?
 		viewWidth = screenWidth;
@@ -60,7 +60,7 @@
 		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
 	} else {
-		// TODO BLOCK refactor with above and other things, should be able to get clear abstractions
+		// TODO refactor with above and other things, should be able to get clear abstractions
 		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
 		const worldAspectRatio = worldWidth / worldHeight;
