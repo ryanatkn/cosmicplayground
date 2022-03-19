@@ -41,6 +41,15 @@
 	let finished = false;
 	const STAGE_DURATION = 30000;
 
+	// TODO pack this up in a class or something?
+	$: controller = currentStage?.controller;
+	$: if (controller) controller.screenWidth = screenWidth;
+	$: if (controller) controller.screenHeight = screenHeight;
+	$: if (controller) controller.viewWidth = viewWidth;
+	$: if (controller) controller.viewHeight = viewHeight;
+	$: if (controller) controller.worldWidth = worldWidth;
+	$: if (controller) controller.worldHeight = worldHeight;
+
 	// TODO this is clumsy
 	const syncStageState = (stage: Stage, dt: number) => {
 		elapsed += dt;
@@ -55,7 +64,6 @@
 		stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
 
 		// TODO ?
-		stage.controller.viewScale = viewWidth / worldWidth; // TODO where does this go?
 		starshipAngle = updateAngle(starshipAngle, stage.player.directionX, stage.player.directionY);
 		if (!stage.freezeCamera) {
 			stage.camera.update(($camera) => ({...$camera, x: starshipX, y: starshipY})); // eslint-disable-line @typescript-eslint/no-floating-promises

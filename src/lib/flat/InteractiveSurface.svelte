@@ -11,8 +11,8 @@
 
 	const updatePointer = (e: {clientX: number; clientY: number}) => {
 		controller.setPointerLocation(
-			e.clientX - el!.clientLeft, //  - width / 2
-			e.clientY - el!.clientTop, //  - height / 2
+			e.clientX - el.clientLeft, //  - width / 2
+			e.clientY - el.clientTop, //  - height / 2
 		);
 	};
 
