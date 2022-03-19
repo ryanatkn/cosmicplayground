@@ -163,8 +163,9 @@
 	$: starshipScale = ((STARSHIP_RADIUS * 2) / starshipHeight) * screenScale;
 	$: starshipViewX = ($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * screenScale;
 	$: starshipViewY = $camera
-		? (starshipY - $camera.y) * $camera.scale * screenScale - STARSHIP_RADIUS / 2
-		: starshipY - (starshipHeight - screenHeight) / 2;
+		? (starshipY - $camera.y) * $camera.scale * screenScale - (starshipHeight - screenMaxHeight) / 2
+		: starshipY - (starshipHeight - screenMaxHeight) / 2;
+
 	let pausedClock = false;
 	const enterStarshipMode = async () => {
 		if (starshipMode) return;
