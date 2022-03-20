@@ -197,6 +197,7 @@ export class Stage extends BaseStage {
 		// TODO time dilation controls
 		dt *= 3; // eslint-disable-line no-param-reassign
 		const {
+			collisions,
 			controller,
 			bounds,
 			player,
@@ -221,10 +222,16 @@ export class Stage extends BaseStage {
 		this.sim.update(
 			dt,
 			(bodyA, bodyB, result) => {
+				if (bodyA.dead || bodyB.dead) {
+					console.log('HELP WAIT SKIPPING DEAD BODY'); // TODO BLOCK is this called? is even worse than below if so
+					return;
+				}
+
 				collideRigidBodies(bodyA, bodyB, result);
 
 				// TODO refactor into a system
 				const _rock = rock === bodyA ? bodyA : rock === bodyB ? bodyB : undefined;
+				const _planet = planet === bodyA ? bodyA : planet === bodyB ? bodyB : undefined;
 				const _friend = friends.includes(bodyA as EntityCircle)
 					? bodyA
 					: friends.includes(bodyB as EntityCircle)
@@ -233,7 +240,7 @@ export class Stage extends BaseStage {
 
 				// handle collision between rock and friend
 				if (_friend && _rock) {
-					const newFriendFragments = this.frag(_friend, this.collisions, 12);
+					const newFriendFragments = this.frag(_friend, collisions, 12);
 					friendFragments.push(...newFriendFragments);
 					// TODO helper? dead+remove+?
 					this.removeBody(_friend);
@@ -243,12 +250,34 @@ export class Stage extends BaseStage {
 						friendFragment.directionY = randomFloat(_rock.directionY / 2, _rock.directionY * 2);
 						friendFragment.color = COLOR_MOLTEN;
 					}
+					// TODO BLOCK should `addBodies` be called at the very end?
+					// also need to worry about `friendFragments` and similar
 					this.addBodies(newFriendFragments);
+				}
+
+				if (_rock && _planet && _rock.collides(_planet)) {
+					this.removeBody(_rock);
+					this.removeBody(_planet);
+					planetFragments.push(...this.frag(_planet, collisions, 42));
+					for (const planetFragment of planetFragments) {
+						planetFragment.speed = _rock.speed * 0.2 * randomFloat(0.5, 1.0);
+						planetFragment.directionX = randomFloat(-_rock.directionX / 2, _rock.directionX / 2);
+						planetFragment.directionY = randomFloat(-_rock.directionY / 2, _rock.directionY / 2);
+						planetFragment.color = COLOR_MOLTEN;
+					}
+					this.addBodies(planetFragments);
+					rockFragments.push(...this.frag(_rock, collisions, 210));
+					for (const rockFragment of rockFragments) {
+						rockFragment.speed = randomFloat(_rock.speed / 2, _rock.speed * 2);
+						rockFragment.directionX = randomFloat(-_rock.directionX * 2, _rock.directionX * 0.25);
+						rockFragment.directionY = randomFloat(-_rock.directionY * 2, _rock.directionY * 0.25);
+					}
+					this.addBodies(rockFragments);
 				}
 			},
 			(bodyA, bodyB) => {
 				if (bodyA.dead || bodyB.dead) {
-					console.log('SKIPPING DEAD BODY'); // TODO BLOCK is this called? if not, we don't need `dead` do we? does `dead` prevent duplicate collisions during an update?
+					console.log('WAIT SKIPPING DEAD BODY'); // TODO BLOCK is this called? if not, we don't need `dead` do we? does `dead` prevent duplicate collisions during an update?
 					return false;
 				}
 				if (bodyA === bounds || bodyB === bounds) return false; // TODO hmm
@@ -300,25 +329,6 @@ export class Stage extends BaseStage {
 			}
 		}
 
-		if (!rock.dead && !planet.dead && rock.collides(planet)) {
-			this.removeBody(rock);
-			this.removeBody(planet);
-			planetFragments.push(...this.frag(planet, this.collisions, 42));
-			for (const planetFragment of planetFragments) {
-				planetFragment.speed = rock.speed * 0.2 * randomFloat(0.5, 1.0);
-				planetFragment.directionX = randomFloat(-rock.directionX / 2, rock.directionX / 2);
-				planetFragment.directionY = randomFloat(-rock.directionY / 2, rock.directionY / 2);
-				planetFragment.color = COLOR_MOLTEN;
-			}
-			this.addBodies(planetFragments);
-			rockFragments.push(...this.frag(this.rock, this.collisions, 210));
-			for (const rockFragment of rockFragments) {
-				rockFragment.speed = randomFloat(rock.speed / 2, rock.speed * 2);
-				rockFragment.directionX = randomFloat(-rock.directionX * 2, rock.directionX * 0.25);
-				rockFragment.directionY = randomFloat(-rock.directionY * 2, rock.directionY * 0.25);
-			}
-			this.addBodies(rockFragments);
-		}
 		for (const friend of friends) {
 			const colliding =
 				!friend.dead &&
