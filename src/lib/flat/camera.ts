@@ -19,11 +19,25 @@ export interface CameraState extends BaseCameraState {
 
 export interface CameraStore extends Readable<CameraState> {
 	zoom: (amount: number) => void;
-	setPosition: (x: number, y: number) => void;
+	setPosition: (x: number, y: number, opts?: SpringUpdateOpts | undefined) => Promise<void>;
 	setDimensions: (width: number, height: number) => void;
 }
 
-export const toCameraStore = (initialState?: Partial<BaseCameraState>): CameraStore => {
+// TODO these aren't exported by Svelte, maybe try a PR?
+interface SpringOpts {
+	stiffness?: number;
+	damping?: number;
+	precision?: number;
+}
+interface SpringUpdateOpts {
+	hard?: any;
+	soft?: string | number | boolean;
+}
+
+export const toCameraStore = (
+	initialState?: Partial<BaseCameraState>,
+	springOpts?: SpringOpts,
+): CameraStore => {
 	const finalInitialState: BaseCameraState = {
 		x: 0,
 		y: 0,
@@ -33,10 +47,11 @@ export const toCameraStore = (initialState?: Partial<BaseCameraState>): CameraSt
 		...initialState,
 	};
 
-	// TODO make this more customizable
+	// TODO make this more customizable? use a different store than a spring?
 	const state = spring(finalInitialState, {
 		stiffness: 0.006,
 		damping: 0.12,
+		...springOpts,
 	});
 
 	const {subscribe} = derived(state, ($state) => {
@@ -56,13 +71,8 @@ export const toCameraStore = (initialState?: Partial<BaseCameraState>): CameraSt
 		zoom: (amount) => {
 			console.log(`zoom amount`, amount);
 		},
-		setPosition: (x, y) => {
-			state.update(($camera) => ({...$camera, x, y})); // eslint-disable-line @typescript-eslint/no-floating-promises
-		},
-		setDimensions: (width, height) => {
-			// TODO , {hard: true} ? was being used
-			state.update(($camera) => ({...$camera, width, height})); // eslint-disable-line @typescript-eslint/no-floating-promises
-		},
+		setPosition: (x, y, opts) => state.update(($camera) => ({...$camera, x, y}), opts), // eslint-disable-line @typescript-eslint/no-floating-promises
+		setDimensions: (width, height) => state.update(($camera) => ({...$camera, width, height})), // eslint-disable-line @typescript-eslint/no-floating-promises
 	};
 
 	return store;
