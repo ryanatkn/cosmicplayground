@@ -1,7 +1,8 @@
 import {getContext, setContext} from 'svelte';
-import {spring, type Spring} from 'svelte/motion';
+import {spring} from 'svelte/motion';
+import {derived, type Readable} from 'svelte/store';
 
-export interface CameraState {
+export interface BaseCameraState {
 	x: number;
 	y: number;
 	scale: number; // TODO unimplemented (though used in a few places, but may be incorrect)
@@ -9,12 +10,35 @@ export interface CameraState {
 	height: number;
 }
 
-export interface CameraStore extends Spring<CameraState> {
-	zoom: (amount: number) => void;
+export interface CameraState extends BaseCameraState {
+	left: number;
+	right: number;
+	top: number;
+	bottom: number;
 }
 
-export const toCameraStore = (initialState?: Partial<CameraState>): CameraStore => {
-	const finalInitialState: CameraState = {
+export interface CameraStore extends Readable<CameraState> {
+	zoom: (amount: number) => void;
+	setPosition: (x: number, y: number, opts?: SpringUpdateOpts | undefined) => Promise<void>;
+	setDimensions: (width: number, height: number) => void;
+}
+
+// TODO these aren't exported by Svelte, maybe try a PR?
+interface SpringOpts {
+	stiffness?: number;
+	damping?: number;
+	precision?: number;
+}
+interface SpringUpdateOpts {
+	hard?: any;
+	soft?: string | number | boolean;
+}
+
+export const toCameraStore = (
+	initialState?: Partial<BaseCameraState>,
+	springOpts?: SpringOpts,
+): CameraStore => {
+	const finalInitialState: BaseCameraState = {
 		x: 0,
 		y: 0,
 		scale: 1,
@@ -23,15 +47,32 @@ export const toCameraStore = (initialState?: Partial<CameraState>): CameraStore 
 		...initialState,
 	};
 
+	// TODO make this more customizable? use a different store than a spring?
+	const state = spring(finalInitialState, {
+		stiffness: 0.006,
+		damping: 0.12,
+		...springOpts,
+	});
+
+	const {subscribe} = derived(state, ($state) => {
+		const left = $state.x - $state.width / 2;
+		const top = $state.y - $state.height / 2;
+		return {
+			...$state,
+			left,
+			right: left + $state.width,
+			top,
+			bottom: top + $state.height,
+		};
+	});
+
 	const store: CameraStore = {
-		// TODO make this more customizable
-		...spring(finalInitialState, {
-			stiffness: 0.006,
-			damping: 0.12,
-		}),
+		subscribe,
 		zoom: (amount) => {
 			console.log(`zoom amount`, amount);
 		},
+		setPosition: (x, y, opts) => state.update(($camera) => ({...$camera, x, y}), opts),
+		setDimensions: (width, height) => state.update(($camera) => ({...$camera, width, height})),
 	};
 
 	return store;

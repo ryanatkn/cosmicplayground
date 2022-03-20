@@ -233,16 +233,15 @@ export class Stage extends BaseStage {
 				// but without a collision result,
 				// we'll need a more complex algorithm to "contain" items inside others
 				const clampedRadius = player.radius + 1; // avoid the minor visual quirk of the border being rendered offscreen
-				// TODO add $camera.left/right/top/bottom, refactor with `setPosition` and a derived
-				const xMin = $camera.x - $camera.width / 2 + clampedRadius;
-				const xMax = $camera.x + $camera.width / 2 - clampedRadius;
+				const xMin = $camera.left + clampedRadius;
+				const xMax = $camera.right - clampedRadius;
 				if (player.x < xMin) {
 					player.x = xMin;
 				} else if (player.x > xMax) {
 					player.x = xMax;
 				}
-				const yMin = $camera.y - $camera.height / 2 + clampedRadius;
-				const yMax = $camera.y + $camera.height / 2 - clampedRadius;
+				const yMin = $camera.top + clampedRadius;
+				const yMax = $camera.bottom - clampedRadius;
 				if (player.y < yMin) {
 					player.y = yMin;
 				} else if (player.y > yMax) {
@@ -391,6 +390,6 @@ export class Stage extends BaseStage {
 	resize(width: number, height: number): void {
 		this.bounds.scale_x = width;
 		this.bounds.scale_y = height;
-		this.camera.update(($camera) => ({...$camera, width, height}), {hard: true}); // eslint-disable-line @typescript-eslint/no-floating-promises
+		this.camera.setDimensions(width, height);
 	}
 }
