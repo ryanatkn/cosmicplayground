@@ -79,7 +79,7 @@ export class Stage extends BaseStage {
 	camera!: CameraStore;
 	$camera!: CameraState;
 	freezeCamera = true; // is the camera fixed in place?
-	lockCamera = true; // is the player unable to move beyond the bounds of the camera and unfreeze it?
+	lockCamera = true; // is the player stuck inside the bounds of the camera?
 
 	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management?
 
@@ -100,11 +100,7 @@ export class Stage extends BaseStage {
 
 		console.log('setup stage, sim, controller', sim, controller);
 		// create the controllable player
-		const player: EntityCircle = (this.player = collisions.createCircle(
-			810,
-			502,
-			PLAYER_RADIUS,
-		) as any);
+		const player = (this.player = collisions.createCircle(810, 502, PLAYER_RADIUS) as EntityCircle);
 		player.speed = PLAYER_SPEED;
 		player.directionX = 0;
 		player.directionY = 0;
@@ -112,12 +108,12 @@ export class Stage extends BaseStage {
 		bodies.push(player);
 
 		// create the bounds around the stage edges
-		const bounds: EntityPolygon = (this.bounds = collisions.createPolygon(0, 0, [
+		const bounds = (this.bounds = collisions.createPolygon(0, 0, [
 			[0, 0],
 			[1, 0],
 			[1, 1],
 			[0, 1],
-		]) as any);
+		]) as EntityPolygon);
 		bounds.invisible = true;
 		bounds.ghostly = true;
 		bounds.scale_x = width;
@@ -127,11 +123,11 @@ export class Stage extends BaseStage {
 		// create the stuff
 		// TODO create these programmatically from data
 		const planetRadius = 1618;
-		const planet: EntityCircle = (this.planet = collisions.createCircle(
+		const planet = (this.planet = collisions.createCircle(
 			-1450 + planetRadius / 2,
 			-1750 + planetRadius / 2,
 			planetRadius,
-		) as any);
+		) as EntityCircle);
 		planet.speed = 1;
 		planet.directionX = 0;
 		planet.directionY = 0;
@@ -141,11 +137,11 @@ export class Stage extends BaseStage {
 
 		// TODO how will this work for polygons?
 		const rockSize = 262;
-		const rock: EntityCircle = (this.rock = collisions.createCircle(
+		const rock = (this.rock = collisions.createCircle(
 			2250 + rockSize / 2,
 			1212 + rockSize / 2,
 			rockSize,
-		) as any);
+		) as EntityCircle);
 		rock.speed = 0.07;
 		rock.directionX = -1;
 		rock.directionY = -0.7;
@@ -153,7 +149,7 @@ export class Stage extends BaseStage {
 		rock.color = COLOR_PLAIN;
 		bodies.push(rock);
 
-		let friend: EntityCircle = collisions.createCircle(1660, 1012, 33) as any;
+		let friend = collisions.createCircle(1660, 1012, 33) as EntityCircle;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
@@ -162,7 +158,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.push(friend);
 
-		friend = collisions.createCircle(1470, 1084, 42) as any;
+		friend = collisions.createCircle(1470, 1084, 42) as EntityCircle;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
@@ -171,7 +167,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.push(friend);
 
-		friend = collisions.createCircle(2010, 872, 7) as any;
+		friend = collisions.createCircle(2010, 872, 7) as EntityCircle;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
@@ -180,7 +176,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.push(friend);
 
-		friend = collisions.createCircle(1870, 776, 14) as any;
+		friend = collisions.createCircle(1870, 776, 14) as EntityCircle;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;

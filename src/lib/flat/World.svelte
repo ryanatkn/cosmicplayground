@@ -141,8 +141,9 @@
 <div class="world" style:width="{width}px" style:height="{height}px">
 	{#if activeStageState?.stage}
 		<Canvas {width} {height} stage={activeStageState.stage} {renderer} />
+		<slot />
 	{:else}
-		<!-- TODO loading -- do nothing? -->
+		<slot name="loading" />
 	{/if}
 </div>
 
