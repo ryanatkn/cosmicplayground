@@ -25,6 +25,7 @@ export const COLOR_MOLTEN = 'red';
 
 export const PLAYER_SPEED = 0.2;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
+export const PLAYER_RADIUS = 100;
 
 // TODO rewrite this to use a route Svelte component? `dealt.dev/tar/home`
 
@@ -65,6 +66,7 @@ export class Stage extends BaseStage {
 	player!: EntityCircle;
 	// exits: Map<Entity, ExitEntity> = new Map(); // TODO consider this pattern when we need more stuff
 	bounds!: EntityPolygon;
+	innerPlayerBounds!: EntityPolygon;
 	planet!: EntityCircle;
 	rock!: EntityCircle;
 	readonly friends: EntityCircle[] = [];
@@ -74,7 +76,8 @@ export class Stage extends BaseStage {
 
 	camera!: CameraStore;
 	$camera!: CameraState;
-	freezeCamera = true;
+	freezeCamera = true; // is the camera fixed in place?
+	lockCamera = true; // is the player unable to move beyond the bounds of the camera and unfreeze it?
 
 	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management?
 
@@ -95,7 +98,11 @@ export class Stage extends BaseStage {
 
 		console.log('setup stage, sim, controller', sim, controller);
 		// create the controllable player
-		const player: EntityCircle = (this.player = collisions.createCircle(810, 502, 100) as any);
+		const player: EntityCircle = (this.player = collisions.createCircle(
+			810,
+			502,
+			PLAYER_RADIUS,
+		) as any);
 		player.speed = PLAYER_SPEED;
 		player.directionX = 0;
 		player.directionY = 0;
@@ -114,6 +121,23 @@ export class Stage extends BaseStage {
 		bounds.scale_x = width;
 		bounds.scale_y = height;
 		bodies.push(bounds);
+
+		// create the inner bounds around the stage edges, which c
+		const innerPlayerBounds: EntityPolygon = (this.innerPlayerBounds = collisions.createPolygon(
+			PLAYER_RADIUS * 2,
+			PLAYER_RADIUS * 2,
+			[
+				[0, 0],
+				[1, 0],
+				[1, 1],
+				[0, 1],
+			],
+		) as any);
+		innerPlayerBounds.invisible = true;
+		innerPlayerBounds.ghostly = true;
+		innerPlayerBounds.scale_x = width - PLAYER_RADIUS * 4;
+		innerPlayerBounds.scale_y = height - PLAYER_RADIUS * 4;
+		bodies.push(innerPlayerBounds);
 
 		// create the stuff
 		// TODO create these programmatically from data
@@ -221,9 +245,16 @@ export class Stage extends BaseStage {
 		updateDirection(controller, player, this.$camera);
 
 		// detect if player touches bounds for the first time
-		// TODO pause during transition?
-		if (this.freezeCamera && !this.bounds.collides(this.player)) {
-			this.freezeCamera = false;
+		if (this.freezeCamera) {
+			if (this.lockCamera) {
+				// TODO BLOCK make this generic
+				if (!this.innerPlayerBounds.collides(this.player)) {
+					// TODO BLOCK invert the collision logic in the sim update function
+					console.log('CLAMP!!');
+				}
+			} else if (!this.bounds.collides(this.player)) {
+				this.freezeCamera = false;
+			}
 		}
 
 		for (const friend of friends) {
