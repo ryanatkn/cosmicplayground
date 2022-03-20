@@ -7,13 +7,16 @@
 		type StarshipStageScores,
 	} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
-	import {type StageState} from '$lib/flat/stageState';
+	import type {StageState} from '$lib/flat/stageState';
 	import {getIdle} from '$lib/app/trackIdleState';
+	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
 
-	// TODO where does this belong? see in 2 places
-
-	export let width: number;
-	export let height: number;
+	export let screenWidth: number;
+	export let screenHeight: number;
+	export let viewWidth: number;
+	export let viewHeight: number;
+	export let worldWidth: number;
+	export let worldHeight: number;
 	export let boosterEnabled = false;
 	export let starshipX = 0;
 	export let starshipY = 0;
@@ -31,11 +34,21 @@
 
 	let activeStageState: StageState<Stage> | null = null;
 
-	$: activeStageState?.stage && syncStageState(activeStageState.stage, $clock.dt);
+	$: currentStage = activeStageState?.stage ?? null;
+	$: currentStage && syncStageState(currentStage, $clock.dt);
 
 	let elapsed = 0;
 	let finished = false;
 	const STAGE_DURATION = 30000;
+
+	// TODO pack this up in a class or something?
+	$: controller = currentStage?.controller;
+	$: if (controller) controller.screenWidth = screenWidth;
+	$: if (controller) controller.screenHeight = screenHeight;
+	$: if (controller) controller.viewWidth = viewWidth;
+	$: if (controller) controller.viewHeight = viewHeight;
+	$: if (controller) controller.worldWidth = worldWidth;
+	$: if (controller) controller.worldHeight = worldHeight;
 
 	// TODO this is clumsy
 	const syncStageState = (stage: Stage, dt: number) => {
@@ -55,14 +68,13 @@
 		if (!stage.freezeCamera) {
 			stage.camera.update(($camera) => ({...$camera, x: starshipX, y: starshipY})); // eslint-disable-line @typescript-eslint/no-floating-promises
 		}
-		currentStage = stage;
 		starshipShieldRadius = stage.player.radius;
 
 		// TODO refactor - events?
-		if (!scores || scoresChanged(scores, currentStage)) {
+		if (!scores || scoresChanged(scores, stage)) {
 			scores = {
-				friends: currentStage.friends.map((friend) => !friend.dead),
-				planet: !currentStage.planet.dead,
+				friends: stage.friends.map((friend) => !friend.dead),
+				planet: !stage.planet.dead,
 			};
 		}
 
@@ -86,21 +98,42 @@
 
 	const toTargetAngle = (directionX: number, directionY: number): number =>
 		Math.atan2(directionY, directionX);
+
+	$: transform = computeWorldTransform(viewWidth, viewHeight, worldWidth, worldHeight);
+
+	// TODO consider not scaling the canvas -- though it'll make collisions less precise...
+	// also is this where the transform belongs, or should it be in `World` or even `index.svelte`?
+	const computeWorldTransform = (
+		viewWidth: number,
+		viewHeight: number,
+		worldWidth: number,
+		worldHeight: number,
+	): string => {
+		if (viewWidth === worldWidth && viewHeight === worldHeight) return '';
+		return `scale3d(${viewWidth / worldWidth}, ${viewHeight / worldHeight}, 1)`;
+	};
 </script>
 
 <!-- TODO maybe instead use ResizeObserver? the iframe measuring feels unfortunate -->
-<div class="starship-stage">
-	<World {width} {height} stages={[Stage]} bind:activeStageState />
+<div class="view" style:transform>
+	<World width={worldWidth} height={worldHeight} stages={[Stage]} bind:activeStageState />
 </div>
+{#if currentStage}
+	<InteractiveSurface
+		width={screenWidth}
+		height={screenHeight}
+		controller={currentStage.controller}
+	/>
+{/if}
 
 <style>
-	.starship-stage {
+	.view {
 		position: absolute !important;
 		inset: 0;
 		width: 100%;
 		height: 100%;
 		display: flex;
-		text-align: center;
+		align-items: center;
 		justify-content: center;
 	}
 </style>

@@ -1,10 +1,10 @@
-import {type Flavored} from '@feltcoop/felt';
+import type {Flavored} from '@feltcoop/felt';
 import {toRandomSeeded, type Alea} from '@feltcoop/felt/util/randomSeeded.js';
 
-import {type Simulation} from '$lib/flat/Simulation';
-import {type Controller} from '$lib/flat/Controller';
-import {type Renderer} from '$lib/flat/renderer';
-import {type StageState} from '$lib/flat/stageState';
+import type {Simulation} from '$lib/flat/Simulation';
+import type {Controller} from '$lib/flat/Controller';
+import type {Renderer} from '$lib/flat/renderer';
+import type {StageState} from '$lib/flat/stageState';
 import {frag as defaultFrag} from '$lib/flat/entity';
 
 export interface StageConstructor {

@@ -1,5 +1,5 @@
 import {getContext, setContext} from 'svelte';
-import {type Writable} from 'svelte/store';
+import type {Writable} from 'svelte/store';
 
 // TODO is this the right module name? `layout`? `view`?
 

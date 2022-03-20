@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {type PortalData} from '$lib/portals/portal';
+	import type {PortalData} from '$lib/portals/portal';
 
 	export const portal: PortalData = undefined as any;
 </script>
