@@ -1,12 +1,10 @@
 import {getContext, setContext} from 'svelte';
 import {spring, type Spring} from 'svelte/motion';
 
-// TODO merge with `clockStore`
-
 export interface CameraState {
 	x: number;
 	y: number;
-	scale: number;
+	scale: number; // TODO unimplemented (though used in a few places, but may be incorrect)
 	width: number;
 	height: number;
 }
@@ -26,6 +24,7 @@ export const toCameraStore = (initialState?: Partial<CameraState>): CameraStore 
 	};
 
 	const store: CameraStore = {
+		// TODO make this more customizable
 		...spring(finalInitialState, {
 			stiffness: 0.006,
 			damping: 0.12,

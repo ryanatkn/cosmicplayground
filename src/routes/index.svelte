@@ -109,6 +109,7 @@
 	let starshipShieldRadius = 0;
 	let currentStage: Stage | null = null;
 	$: camera = currentStage?.camera;
+	$: player = currentStage?.player;
 
 	$: starshipRotation = starshipAngle + Math.PI / 2;
 
@@ -158,8 +159,7 @@
 
 	let starshipHeight: number;
 
-	const STARSHIP_RADIUS = 100; // TODO implement from starship radius (on stage?)
-	$: starshipScale = ((STARSHIP_RADIUS * 2) / starshipHeight) * viewScale;
+	$: starshipScale = player ? ((player.radius * 2) / starshipHeight) * viewScale : 1; // TODO isn't reactive to player radius
 	$: starshipViewX = ($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * viewScale;
 	$: starshipViewY = $camera
 		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - screenHeight) / 2

@@ -34,7 +34,7 @@ export class Simulation {
 
 		// apply collisions
 		for (const body of bodies) {
-			if (body.ghostly) continue;
+			if (body.ghostly) continue; // TODO replace with a collision grouping system
 
 			speed = body.speed * dt;
 			directionX = body.directionX;
@@ -47,7 +47,7 @@ export class Simulation {
 			potentials = body.potentials() as any; // TODO pass in array arg, like the pattern with `result`
 
 			for (const body2 of potentials) {
-				if (body2.ghostly) continue;
+				if (body2.ghostly) continue; // TODO replace with a collision grouping system and narrow down in the potentials, not here
 				if (body.collides(body2 as any, result)) {
 					const overlap_x = result.overlap! * result.overlap_x;
 					const overlap_y = result.overlap! * result.overlap_y;

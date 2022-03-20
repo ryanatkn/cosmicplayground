@@ -25,6 +25,10 @@ export const COLOR_MOLTEN = 'red';
 
 export const PLAYER_SPEED = 0.2;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
+export const PLAYER_RADIUS = 100;
+
+// TODO perf -- refactor the update fn, use `result` for collisions, use single pass collisions in simulation
+// const result = Collisions.createResult();
 
 // TODO rewrite this to use a route Svelte component? `dealt.dev/tar/home`
 
@@ -74,7 +78,8 @@ export class Stage extends BaseStage {
 
 	camera!: CameraStore;
 	$camera!: CameraState;
-	freezeCamera = true;
+	freezeCamera = true; // is the camera fixed in place?
+	lockCamera = true; // is the player stuck inside the bounds of the camera?
 
 	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management?
 
@@ -95,7 +100,7 @@ export class Stage extends BaseStage {
 
 		console.log('setup stage, sim, controller', sim, controller);
 		// create the controllable player
-		const player: EntityCircle = (this.player = collisions.createCircle(810, 502, 100) as any);
+		const player = (this.player = collisions.createCircle(810, 502, PLAYER_RADIUS) as EntityCircle);
 		player.speed = PLAYER_SPEED;
 		player.directionX = 0;
 		player.directionY = 0;
@@ -103,12 +108,12 @@ export class Stage extends BaseStage {
 		bodies.push(player);
 
 		// create the bounds around the stage edges
-		const bounds: EntityPolygon = (this.bounds = collisions.createPolygon(0, 0, [
+		const bounds = (this.bounds = collisions.createPolygon(0, 0, [
 			[0, 0],
 			[1, 0],
 			[1, 1],
 			[0, 1],
-		]) as any);
+		]) as EntityPolygon);
 		bounds.invisible = true;
 		bounds.ghostly = true;
 		bounds.scale_x = width;
@@ -118,11 +123,11 @@ export class Stage extends BaseStage {
 		// create the stuff
 		// TODO create these programmatically from data
 		const planetRadius = 1618;
-		const planet: EntityCircle = (this.planet = collisions.createCircle(
+		const planet = (this.planet = collisions.createCircle(
 			-1450 + planetRadius / 2,
 			-1750 + planetRadius / 2,
 			planetRadius,
-		) as any);
+		) as EntityCircle);
 		planet.speed = 1;
 		planet.directionX = 0;
 		planet.directionY = 0;
@@ -132,11 +137,11 @@ export class Stage extends BaseStage {
 
 		// TODO how will this work for polygons?
 		const rockSize = 262;
-		const rock: EntityCircle = (this.rock = collisions.createCircle(
+		const rock = (this.rock = collisions.createCircle(
 			2250 + rockSize / 2,
 			1212 + rockSize / 2,
 			rockSize,
-		) as any);
+		) as EntityCircle);
 		rock.speed = 0.07;
 		rock.directionX = -1;
 		rock.directionY = -0.7;
@@ -144,7 +149,7 @@ export class Stage extends BaseStage {
 		rock.color = COLOR_PLAIN;
 		bodies.push(rock);
 
-		let friend: EntityCircle = collisions.createCircle(1660, 1012, 33) as any;
+		let friend = collisions.createCircle(1660, 1012, 33) as EntityCircle;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
@@ -153,7 +158,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.push(friend);
 
-		friend = collisions.createCircle(1470, 1084, 42) as any;
+		friend = collisions.createCircle(1470, 1084, 42) as EntityCircle;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
@@ -162,7 +167,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.push(friend);
 
-		friend = collisions.createCircle(2010, 872, 7) as any;
+		friend = collisions.createCircle(2010, 872, 7) as EntityCircle;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
@@ -171,7 +176,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.push(friend);
 
-		friend = collisions.createCircle(1870, 776, 14) as any;
+		friend = collisions.createCircle(1870, 776, 14) as EntityCircle;
 		friend.speed = 0.01;
 		friend.directionX = -1;
 		friend.directionY = -1;
@@ -207,6 +212,7 @@ export class Stage extends BaseStage {
 			planetFragments,
 			friendFragments,
 			rockFragments,
+			$camera,
 		} = this;
 
 		// TODO refactor this to use queries or tags or at least helpers, it's un-dry and inefficient
@@ -218,12 +224,36 @@ export class Stage extends BaseStage {
 		this.sim.update(dt);
 
 		// TODO add a player controller component to handle this
-		updateDirection(controller, player, this.$camera);
+		updateDirection(controller, player, $camera);
 
-		// detect if player touches bounds for the first time
-		// TODO pause during transition?
-		if (this.freezeCamera && !this.bounds.collides(this.player)) {
-			this.freezeCamera = false;
+		if (this.freezeCamera) {
+			if (this.lockCamera) {
+				// TODO make this generic
+				// TODO I tried to use an inverted collision test with `this.innerPlayerBounds`
+				// but without a collision result,
+				// we'll need a more complex algorithm to "contain" items inside others
+				const clampedRadius = player.radius + 1; // avoid the minor visual quirk of the border being rendered offscreen
+				// TODO add $camera.left/right/top/bottom, refactor with `setPosition` and a derived
+				const xMin = $camera.x - $camera.width / 2 + clampedRadius;
+				const xMax = $camera.x + $camera.width / 2 - clampedRadius;
+				if (player.x < xMin) {
+					player.x = xMin;
+				} else if (player.x > xMax) {
+					player.x = xMax;
+				}
+				const yMin = $camera.y - $camera.height / 2 + clampedRadius;
+				const yMax = $camera.y + $camera.height / 2 - clampedRadius;
+				if (player.y < yMin) {
+					player.y = yMin;
+				} else if (player.y > yMax) {
+					player.y = yMax;
+				}
+			} else if (!this.bounds.collides(player)) {
+				// detect if player touches bounds for the first time, and unfreeze if so
+				// TODO instead of the bounds, this should use `this.playerInnerBounds`,
+				// which is related to clamping, but I don't think we gain anything by using it there, only here
+				this.freezeCamera = false;
+			}
 		}
 
 		for (const friend of friends) {
