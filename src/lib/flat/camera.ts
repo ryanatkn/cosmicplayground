@@ -71,8 +71,8 @@ export const toCameraStore = (
 		zoom: (amount) => {
 			console.log(`zoom amount`, amount);
 		},
-		setPosition: (x, y, opts) => state.update(($camera) => ({...$camera, x, y}), opts), // eslint-disable-line @typescript-eslint/no-floating-promises
-		setDimensions: (width, height) => state.update(($camera) => ({...$camera, width, height})), // eslint-disable-line @typescript-eslint/no-floating-promises
+		setPosition: (x, y, opts) => state.update(($camera) => ({...$camera, x, y}), opts),
+		setDimensions: (width, height) => state.update(($camera) => ({...$camera, width, height})),
 	};
 
 	return store;

@@ -390,6 +390,6 @@ export class Stage extends BaseStage {
 	resize(width: number, height: number): void {
 		this.bounds.scale_x = width;
 		this.bounds.scale_y = height;
-		this.camera.setDimensions(width, height); // eslint-disable-line @typescript-eslint/no-floating-promises
+		this.camera.setDimensions(width, height);
 	}
 }
