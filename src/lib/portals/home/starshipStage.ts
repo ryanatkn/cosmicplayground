@@ -12,6 +12,7 @@ import type {Renderer} from '$lib/flat/renderer';
 import {Simulation} from '$lib/flat/Simulation';
 import {updateDirection} from '$lib/flat/Controller';
 import {type CameraStore, toCameraStore, type CameraState} from '$lib/flat/camera';
+import {collideRigidBodies} from '$lib/flat/collideRigidBodies';
 
 // TODO use the CSS values (generate a CSS vars file?)
 export const COLOR_DEFAULT = 'hsl(220, 100%, 70%)';
@@ -27,14 +28,9 @@ export const PLAYER_SPEED = 0.2;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
 export const PLAYER_RADIUS = 100;
 
-// TODO perf -- refactor the update fn, use `result` for collisions, use single pass collisions in simulation
-// const result = Collisions.createResult();
-
 // TODO rewrite this to use a route Svelte component? `dealt.dev/tar/home`
 
 // TODO what if this file were named `home.stage.ts` instead of `0__home.ts` ?
-
-// const result = Collisions.createResult(); // TODO
 
 const meta: StageMeta = {
 	name: 'saucer',
@@ -98,6 +94,9 @@ export class Stage extends BaseStage {
 		const {controller, friends} = this;
 		const {bodies} = sim;
 
+		// TODO instead of casting we could pass `EntityPolygon` as type param right?
+		// and improve the type safety compared to casting? though not sure it'll catch any bugs
+
 		console.log('setup stage, sim, controller', sim, controller);
 		// create the controllable player
 		const player = (this.player = collisions.createCircle(810, 502, PLAYER_RADIUS) as EntityCircle);
@@ -115,7 +114,6 @@ export class Stage extends BaseStage {
 			[0, 1],
 		]) as EntityPolygon);
 		bounds.invisible = true;
-		bounds.ghostly = true;
 		bounds.scale_x = width;
 		bounds.scale_y = height;
 		bodies.push(bounds);
@@ -128,10 +126,9 @@ export class Stage extends BaseStage {
 			-1750 + planetRadius / 2,
 			planetRadius,
 		) as EntityCircle);
-		planet.speed = 1;
+		planet.speed = 0;
 		planet.directionX = 0;
 		planet.directionY = 0;
-		planet.ghostly = true;
 		planet.color = COLOR_DEFAULT;
 		bodies.push(planet);
 
@@ -145,42 +142,37 @@ export class Stage extends BaseStage {
 		rock.speed = 0.07;
 		rock.directionX = -1;
 		rock.directionY = -0.7;
-		rock.ghostly = false;
 		rock.color = COLOR_PLAIN;
 		bodies.push(rock);
 
 		let friend = collisions.createCircle(1660, 1012, 33) as EntityCircle;
 		friend.speed = 0.01;
-		friend.directionX = -1;
-		friend.directionY = -1;
-		friend.ghostly = true;
+		friend.directionX = 0;
+		friend.directionY = 0;
 		friend.color = COLOR_EXIT;
 		bodies.push(friend);
 		friends.push(friend);
 
 		friend = collisions.createCircle(1470, 1084, 42) as EntityCircle;
 		friend.speed = 0.01;
-		friend.directionX = -1;
-		friend.directionY = -1;
-		friend.ghostly = true;
+		friend.directionX = 0;
+		friend.directionY = 0;
 		friend.color = COLOR_EXIT;
 		bodies.push(friend);
 		friends.push(friend);
 
 		friend = collisions.createCircle(2010, 872, 7) as EntityCircle;
 		friend.speed = 0.01;
-		friend.directionX = -1;
-		friend.directionY = -1;
-		friend.ghostly = true;
+		friend.directionX = 0;
+		friend.directionY = 0;
 		friend.color = COLOR_EXIT;
 		bodies.push(friend);
 		friends.push(friend);
 
 		friend = collisions.createCircle(1870, 776, 14) as EntityCircle;
 		friend.speed = 0.01;
-		friend.directionX = -1;
-		friend.directionY = -1;
-		friend.ghostly = true;
+		friend.directionX = 0;
+		friend.directionY = 0;
 		friend.color = COLOR_EXIT;
 		bodies.push(friend);
 		friends.push(friend);
@@ -191,6 +183,7 @@ export class Stage extends BaseStage {
 	}
 
 	removeBody(body: EntityBody): void {
+		body.dead = true; // TODO we may not need this, see other comment about `dead`
 		this.sim.removeBody(body);
 	}
 
@@ -205,6 +198,7 @@ export class Stage extends BaseStage {
 		dt *= 3; // eslint-disable-line no-param-reassign
 		const {
 			controller,
+			bounds,
 			player,
 			planet,
 			rock,
@@ -220,11 +214,62 @@ export class Stage extends BaseStage {
 
 		super.update(dt);
 
-		// gives stages full control over the sim `update`
-		this.sim.update(dt);
-
 		// TODO add a player controller component to handle this
 		updateDirection(controller, player, $camera);
+
+		// gives stages full control over the sim `update`
+		this.sim.update(
+			dt,
+			(bodyA, bodyB, result) => {
+				collideRigidBodies(bodyA, bodyB, result);
+
+				// TODO refactor into a system
+				const _rock = rock === bodyA ? bodyA : rock === bodyB ? bodyB : undefined;
+				const _friend = friends.includes(bodyA as EntityCircle)
+					? bodyA
+					: friends.includes(bodyB as EntityCircle)
+					? bodyB
+					: undefined;
+
+				// handle collision between rock and friend
+				if (_friend && _rock) {
+					const newFriendFragments = this.frag(_friend, this.collisions, 12);
+					friendFragments.push(...newFriendFragments);
+					// TODO helper? dead+remove+?
+					this.removeBody(_friend);
+					for (const friendFragment of newFriendFragments) {
+						friendFragment.speed = randomFloat(_rock.speed * 1.2, _rock.speed * 2.44);
+						friendFragment.directionX = randomFloat(_rock.directionX / 2, _rock.directionX * 2);
+						friendFragment.directionY = randomFloat(_rock.directionY / 2, _rock.directionY * 2);
+						friendFragment.color = COLOR_MOLTEN;
+					}
+					this.addBodies(newFriendFragments);
+				}
+			},
+			(bodyA, bodyB) => {
+				if (bodyA.dead || bodyB.dead) {
+					console.log('SKIPPING DEAD BODY'); // TODO BLOCK is this called? if not, we don't need `dead` do we? does `dead` prevent duplicate collisions during an update?
+					return false;
+				}
+				if (bodyA === bounds || bodyB === bounds) return false; // TODO hmm
+				// TODO BLOCK make this more efficient -- Sets for now maybe, bitmask later?
+				// TODO make a system for declaring collision groups --
+				// this logic determines what the player can ghost through
+				const bodyAIsPlayer = player === bodyA;
+				const bodyBIsPlayer = player === bodyB;
+				const bodyAIsFriend = friends.includes(bodyA as EntityCircle);
+				const bodyBIsFriend = friends.includes(bodyB as EntityCircle);
+				const bodyAIsPlanet = planet === bodyA;
+				const bodyBIsPlanet = planet === bodyB;
+				if (
+					(bodyAIsPlayer && (bodyBIsFriend || bodyBIsPlanet)) ||
+					(bodyBIsPlayer && (bodyAIsFriend || bodyAIsPlanet))
+				) {
+					return false; // player doesn't collide with these
+				}
+				return true;
+			},
+		);
 
 		if (this.freezeCamera) {
 			if (this.lockCamera) {
@@ -247,7 +292,7 @@ export class Stage extends BaseStage {
 				} else if (player.y > yMax) {
 					player.y = yMax;
 				}
-			} else if (!this.bounds.collides(player)) {
+			} else if (!bounds.collides(player)) {
 				// detect if player touches bounds for the first time, and unfreeze if so
 				// TODO instead of the bounds, this should use `this.playerInnerBounds`,
 				// which is related to clamping, but I don't think we gain anything by using it there, only here
@@ -255,35 +300,14 @@ export class Stage extends BaseStage {
 			}
 		}
 
-		for (const friend of friends) {
-			if (!rock.dead && !friend.dead && rock.collides(friend)) {
-				const newFriendFragments = this.frag(friend, this.collisions, 12);
-				friendFragments.push(...newFriendFragments);
-				// TODO helper? dead+remove+?
-				friend.dead = true;
-				this.removeBody(friend);
-				for (const friendFragment of newFriendFragments) {
-					friendFragment.speed = randomFloat(rock.speed * 1.2, rock.speed * 2.44);
-					friendFragment.directionX = randomFloat(rock.directionX / 2, rock.directionX * 2);
-					friendFragment.directionY = randomFloat(rock.directionY / 2, rock.directionY * 2);
-					friendFragment.ghostly = false;
-					friendFragment.color = COLOR_MOLTEN;
-				}
-				this.addBodies(newFriendFragments);
-			}
-		}
-
 		if (!rock.dead && !planet.dead && rock.collides(planet)) {
-			rock.dead = true;
 			this.removeBody(rock);
-			planet.dead = true;
 			this.removeBody(planet);
 			planetFragments.push(...this.frag(planet, this.collisions, 42));
 			for (const planetFragment of planetFragments) {
 				planetFragment.speed = rock.speed * 0.2 * randomFloat(0.5, 1.0);
 				planetFragment.directionX = randomFloat(-rock.directionX / 2, rock.directionX / 2);
 				planetFragment.directionY = randomFloat(-rock.directionY / 2, rock.directionY / 2);
-				planetFragment.ghostly = false;
 				planetFragment.color = COLOR_MOLTEN;
 			}
 			this.addBodies(planetFragments);
@@ -292,7 +316,6 @@ export class Stage extends BaseStage {
 				rockFragment.speed = randomFloat(rock.speed / 2, rock.speed * 2);
 				rockFragment.directionX = randomFloat(-rock.directionX * 2, rock.directionX * 0.25);
 				rockFragment.directionY = randomFloat(-rock.directionY * 2, rock.directionY * 0.25);
-				rockFragment.ghostly = false;
 			}
 			this.addBodies(rockFragments);
 		}
@@ -306,13 +329,11 @@ export class Stage extends BaseStage {
 				const newFriendFragments = this.frag(friend, this.collisions, 12);
 				friendFragments.push(...newFriendFragments);
 				// TODO helper? dead+remove+?
-				friend.dead = true;
 				this.removeBody(friend);
 				for (const friendFragment of newFriendFragments) {
 					friendFragment.speed = randomFloat(colliding.speed / 8, colliding.speed);
 					friendFragment.directionX = randomFloat(-colliding.directionX / 2, colliding.directionX);
 					friendFragment.directionY = randomFloat(-colliding.directionY / 2, colliding.directionY);
-					friendFragment.ghostly = false;
 					friendFragment.color = COLOR_MOLTEN;
 				}
 				this.addBodies(newFriendFragments);
@@ -330,20 +351,17 @@ export class Stage extends BaseStage {
 					friendFragment.collides(planetFragment)
 				) {
 					// TODO helper? dead+remove+?
-					friendFragment.dead = true;
 					this.removeBody(friendFragment);
 				}
 			}
 			if (!friendFragment.dead) {
 				if (!planet.dead && friendFragment.collides(planet)) {
 					// TODO helper? dead+remove+?
-					friendFragment.dead = true;
 					this.removeBody(friendFragment);
 				}
 				for (const rockFragment of rockFragments) {
 					if (!rockFragment.dead && friendFragment.collides(rockFragment)) {
 						// TODO helper? dead+remove+?
-						friendFragment.dead = true;
 						this.removeBody(friendFragment);
 					}
 				}
@@ -353,7 +371,6 @@ export class Stage extends BaseStage {
 						const newFriendFragments = this.frag(friend, this.collisions, 12);
 						(friendFragmentsToAdd || (friendFragmentsToAdd = [])).push(...newFriendFragments);
 						// TODO helper? dead+remove+?
-						friend.dead = true;
 						this.removeBody(friend);
 						for (const newFriendFragment of friendFragmentsToAdd) {
 							newFriendFragment.speed = randomFloat(
@@ -368,7 +385,6 @@ export class Stage extends BaseStage {
 								friendFragment.directionY / 2,
 								friendFragment.directionY * 2,
 							);
-							newFriendFragment.ghostly = false;
 							newFriendFragment.color = COLOR_MOLTEN;
 						}
 					}
