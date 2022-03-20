@@ -3,15 +3,14 @@
 	import {onMount, onDestroy} from 'svelte';
 
 	import Canvas from '$lib/flat/Canvas.svelte';
-	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
 	import {getClock} from '$lib/app/clockStore';
 	import {CanvasRenderer} from '$lib/flat/CanvasRenderer';
 	import {Controller} from '$lib/flat/Controller';
 	import {type StageState} from '$lib/flat/stageState';
 	import {type StageConstructor, type ExitStage} from '$lib/flat/stage';
 
-	export let height: number;
 	export let width: number;
+	export let height: number;
 	export let stages: StageConstructor[];
 	export let renderer = new CanvasRenderer();
 	export let controller = new Controller();
@@ -140,20 +139,18 @@
 <svelte:window on:keydown={onKeydown} on:keyup={onKeyup} />
 
 <!-- TODO maybe instead use ResizeObserver? the iframe measuring feels unfortunate -->
-<div class="world" style:width={width + 'px'} style:height={height + 'px'}>
+<div class="world" style:width="{width}px" style:height="{height}px">
 	{#if !activeStageState?.stage}
 		<!-- TODO loading -- do nothing? -->
 	{:else}
 		<Canvas {width} {height} stage={activeStageState.stage} {renderer} />
-		<InteractiveSurface {width} {height} controller={activeStageState.stage.controller} />
-		<slot />
 	{/if}
 </div>
 
 <style>
 	.world {
+		position: relative;
 		display: flex;
-		text-align: center;
 		justify-content: center;
 		align-items: center;
 	}

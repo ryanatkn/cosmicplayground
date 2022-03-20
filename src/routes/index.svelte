@@ -22,7 +22,12 @@
 	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clockStore';
-	import {areScoresPerfect, Stage, type StarshipStageScores} from '$lib/portals/home/starshipStage';
+	import {
+		rescuedAllFriends,
+		rescuedAnyCrew,
+		Stage,
+		type StarshipStageScores,
+	} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {
 		createResourcesStore,
@@ -30,13 +35,44 @@
 		type ResourcesStore,
 	} from '$lib/app/resourcesStore';
 
-	// TODO show scores - # friends, planet, top scores for each dimension (most of each, so 1-2 records per dimension set)
-	// visualize the data
-	// collect and publish the data! how?
-
 	const dimensions = getDimensions();
-	$: ({width, height} = $dimensions);
 	const clock = getClock();
+
+	$: ({width: screenWidth, height: screenHeight} = $dimensions);
+
+	$: viewUnlocked = savedScoresRescuedAllFriends;
+	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
+
+	// TODO should we pass through plain numbers or a dimensions object?
+	// // TODO what about the camera zoom relative to what can fit in the dimensions?
+	let viewWidth: number;
+	let viewHeight: number;
+	let worldWidth: number;
+	let worldHeight: number;
+	$: viewScale = viewWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
+	$: if (viewUnlocked) {
+		// TODO expand view dimensions to fit screen when unlocked
+		// Expand the world dimensions to fit the screen dimensions.
+		// const aspectRatio = screenDimensions.width / screenDimensions.height; // TODO cache on dimensions?
+		viewWidth = screenWidth;
+		viewHeight = screenHeight;
+		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
+		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
+	} else {
+		// TODO refactor with above and other things, should be able to get clear abstractions
+		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
+		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
+		const worldAspectRatio = worldWidth / worldHeight;
+		const viewAspectRatio = screenWidth / screenHeight;
+		viewWidth =
+			worldAspectRatio < viewAspectRatio
+				? (screenWidth * (worldAspectRatio / viewAspectRatio)) | 0
+				: screenWidth;
+		viewHeight =
+			worldAspectRatio > viewAspectRatio
+				? (screenHeight * (viewAspectRatio / worldAspectRatio)) | 0
+				: screenHeight;
+	}
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
@@ -89,15 +125,20 @@
 	};
 	let scores: StarshipStageScores | undefined;
 	let savedScores = loadScores();
-	$: perfectSavedScores = !!savedScores && areScoresPerfect(savedScores);
-	$: perfectScores = !!scores && areScoresPerfect(scores);
+	$: savedScoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
+	$: scoresRescuedAnyCrew = !!scores && rescuedAnyCrew(scores);
+	$: savedScoresRescuedAllFriends = !!savedScores && rescuedAllFriends(savedScores);
+	// TODO use these
+	// $: scoresRescuedAllFriends = !!scores && rescuedAllFriends(scores);
+	// $: savedScoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
+	// $: scoresRescuedAllCrew = !!scores && rescuedAllCrew(scores);
 
 	let finished = false;
 	const finish = () => {
 		if (finished) return;
 		finished = true;
 		// TODO only save if score is better
-		if (!perfectSavedScores) {
+		if (!savedScoresRescuedAnyCrew) {
 			localStorage.setItem(SCORES_KEY, JSON.stringify(scores));
 			savedScores = scores;
 		}
@@ -109,18 +150,21 @@
 
 	const BOOSTER = '🙌';
 	let enableBooster = true;
-	$: boosterUnlocked = perfectSavedScores;
+	$: boosterUnlocked = savedScoresRescuedAnyCrew;
 	$: boosterEnabled = boosterUnlocked && enableBooster;
 	const toggleBooster = () => {
 		enableBooster = !enableBooster;
 	};
 
+	let starshipHeight: number;
+
 	const STARSHIP_RADIUS = 100; // TODO implement from starship radius (on stage?)
-	$: starshipScale = (STARSHIP_RADIUS * 2) / starshipHeight;
-	$: starshipViewX = $camera ? (starshipX - $camera.x) * $camera.scale : starshipX;
+	$: starshipScale = ((STARSHIP_RADIUS * 2) / starshipHeight) * viewScale;
+	$: starshipViewX = ($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * viewScale;
 	$: starshipViewY = $camera
-		? (starshipY - $camera.y) * $camera.scale - (starshipHeight - height) / 2
-		: starshipY - (starshipHeight - height) / 2;
+		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - screenHeight) / 2
+		: starshipY - (starshipHeight - screenHeight) / 2;
+
 	let pausedClock = false;
 	const enterStarshipMode = async () => {
 		if (starshipMode) return;
@@ -146,11 +190,6 @@
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
 	};
-
-	let starshipWidth: number;
-	let starshipHeight: number;
-	$: console.log(`starshipWidth`, starshipWidth);
-	$: console.log(`starshipHeight`, starshipHeight);
 
 	const pauseAudio = () => {
 		if (introSong?.audio && !introSong.audio.paused) introSong.audio.pause();
@@ -258,7 +297,6 @@
 	class:starship-transitioning={transitioningStarshipMode}
 >
 	<nav
-		bind:clientWidth={starshipWidth}
 		bind:clientHeight={starshipHeight}
 		style:transform={starshipMode
 			? `translate3d(${starshipViewX}px, ${starshipViewY}px,	0) scale3d(${starshipScale}, ${starshipScale}, ${starshipScale})	rotate(${starshipRotation}rad)`
@@ -336,8 +374,12 @@
 			<StarshipStageScore {scores} />
 		</div>
 		<StarshipStage
-			{width}
-			{height}
+			{screenWidth}
+			{screenHeight}
+			{viewWidth}
+			{viewHeight}
+			{worldWidth}
+			{worldHeight}
 			{boosterEnabled}
 			bind:starshipX
 			bind:starshipY
@@ -355,7 +397,7 @@
 					on:click={() => exitStarshipMode()}
 					style="font-size: var(--font_size_xl3)"
 				>
-					{#if perfectScores}{BOOSTER}{:else}↩{/if}
+					{#if scoresRescuedAnyCrew}{BOOSTER}{:else}↩{/if}
 				</FloatingIconButton>
 				<StarshipStageScore {scores} layout="text" />
 			</div>
@@ -398,8 +440,7 @@
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
 		will-change: transform; /* might prevent some jank but may use unnecessary resources */
 	}
-	.starship-ready nav {
-		cursor: pointer;
+	.starship-mode nav {
 		user-select: none;
 	}
 	.starship {

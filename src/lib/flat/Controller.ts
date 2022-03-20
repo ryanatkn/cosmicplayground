@@ -21,6 +21,14 @@ export class Controller {
 		this.moving.set(this.isMoving());
 	}
 
+	// TODO pack this up in a class or something?
+	screenWidth = 0;
+	screenHeight = 0;
+	viewWidth = 0;
+	viewHeight = 0;
+	worldWidth = 0;
+	worldHeight = 0;
+
 	pointerScreenX: number | null = null;
 	pointerScreenY: number | null = null;
 	setPointerLocation(x: number | null, y: number | null): void {
@@ -108,7 +116,7 @@ export class Controller {
 	}
 }
 
-const MIN_MAGNITUDE = 4; // TODO this is still janky
+const MIN_MAGNITUDE = 6; // TODO this is still janky, see more comments below
 
 // TODO move this where?
 // TODO maybe return values instead?
@@ -117,15 +125,23 @@ export const updateDirection = (
 	entity: Entity,
 	camera: CameraState,
 ): void => {
-	if (controller.pointerDown) {
-		if (controller.pointerScreenX === null || controller.pointerScreenY === null) return;
+	if (
+		controller.pointerDown &&
+		controller.pointerScreenX !== null &&
+		controller.pointerScreenY !== null
+	) {
+		const viewScale = controller.viewWidth / controller.worldWidth;
+		const pointerViewX =
+			controller.pointerScreenX - controller.screenWidth / 2 + controller.viewWidth / 2;
+		const pointerViewY =
+			controller.pointerScreenY - controller.screenHeight / 2 + controller.viewHeight / 2;
 		// TODO cache pointer world coordinates? where?
-		const pointerWorldX = controller.pointerScreenX + camera.x - camera.width / 2;
-		const pointerWorldY = controller.pointerScreenY + camera.y - camera.height / 2;
+		const pointerWorldX = pointerViewX / viewScale + camera.x - camera.width / 2;
+		const pointerWorldY = pointerViewY / viewScale + camera.y - camera.height / 2;
 		const x = pointerWorldX - entity.x;
 		const y = pointerWorldY - entity.y;
 		const magnitude = Math.hypot(x, y);
-		const zeroes = !magnitude || magnitude < MIN_MAGNITUDE;
+		const zeroes = !magnitude || magnitude < MIN_MAGNITUDE; // TODO this is still janky, especially with low fps
 		entity.directionX = zeroes ? 0 : x / magnitude;
 		entity.directionY = zeroes ? 0 : y / magnitude;
 	} else {

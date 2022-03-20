@@ -1,20 +1,19 @@
 <script lang="ts">
 	import {type Controller} from '$lib/flat/Controller';
 
+	// TODO same name as `$lib/app/InteractiveSurface.svelte` but different
+
 	export const width: number = undefined as any; // TODO ? see below
 	export const height: number = undefined as any; // TODO ? see below
 	export let controller: Controller;
 
-	let pointerX: number | null = null;
-	let pointerY: number | null = null;
-
-	$: controller.setPointerLocation(pointerX, pointerY);
-
 	let el: HTMLElement;
 
 	const updatePointer = (e: {clientX: number; clientY: number}) => {
-		pointerX = e.clientX - el!.clientLeft; //  - width / 2
-		pointerY = e.clientY - el!.clientTop; //  - height / 2
+		controller.setPointerLocation(
+			e.clientX - el.clientLeft, //  - width / 2
+			e.clientY - el.clientTop, //  - height / 2
+		);
 	};
 
 	const onMousedown = (e: MouseEvent) => {
@@ -38,21 +37,25 @@
 
 	// TODO mount only for mobile
 	// TODO handle all touches
-	const onTouchstart = (e: TouchEvent) => {
-		updatePointer(e.changedTouches[0]);
-		controller.setPointerDown(true);
-	};
-	const onTouchend = (e: TouchEvent) => {
-		updatePointer(e.changedTouches[0]);
-		controller.setPointerDown(false);
-	};
-	const onTouchcancel = (e: TouchEvent) => {
-		updatePointer(e.changedTouches[0]);
-		controller.setPointerDown(false);
-	};
-	const onTouchmove = (e: TouchEvent) => {
-		updatePointer(e.changedTouches[0]);
-	};
+	// const onTouchstart = (e: TouchEvent) => {
+	// 	updatePointer(e.changedTouches[0]);
+	// 	controller.setPointerDown(true);
+	// };
+	// const onTouchend = (e: TouchEvent) => {
+	// 	updatePointer(e.changedTouches[0]);
+	// 	controller.setPointerDown(false);
+	// };
+	// const onTouchcancel = (e: TouchEvent) => {
+	// 	updatePointer(e.changedTouches[0]);
+	// 	controller.setPointerDown(false);
+	// };
+	// const onTouchmove = (e: TouchEvent) => {
+	// 	updatePointer(e.changedTouches[0]);
+	// };
+	// on:touchstart={onTouchstart}
+	// on:touchend={onTouchend}
+	// on:touchcancel={onTouchcancel}
+	// on:touchmove={onTouchmove}
 </script>
 
 <!-- TODO instead of trapping the click with `stopPropagation`,
@@ -66,10 +69,6 @@ allow it to bubble and do whatever
 	on:mousemove={onMousemove}
 	on:mouseenter={onMouseenter}
 	on:mouseleave={onMouseleave}
-	on:touchstart={onTouchstart}
-	on:touchend={onTouchend}
-	on:touchcancel={onTouchcancel}
-	on:touchmove={onTouchmove}
 />
 
 <style>

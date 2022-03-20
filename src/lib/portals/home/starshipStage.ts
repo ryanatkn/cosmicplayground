@@ -46,9 +46,12 @@ export interface StarshipStageScores {
 	friends: boolean[];
 	planet: boolean;
 }
-// TODO perfect is not the right word any more, more like "ok" or "passing"
-export const areScoresPerfect = (scores: StarshipStageScores): boolean =>
+export const rescuedAnyCrew = (scores: StarshipStageScores): boolean =>
 	scores.planet || scores.friends.some(Boolean);
+export const rescuedAllFriends = (scores: StarshipStageScores): boolean =>
+	scores.friends.every(Boolean);
+export const rescuedAllCrew = (scores: StarshipStageScores): boolean =>
+	scores.planet && rescuedAllFriends(scores);
 
 export class Stage extends BaseStage {
 	static override meta = meta;
@@ -82,6 +85,7 @@ export class Stage extends BaseStage {
 		this.ready = true;
 
 		this.camera = toCameraStore({width, height, x: width / 2, y: height / 2});
+		// TODO this is a hint this should be a Svelte component ...
 		this.subscriptions.push(this.camera.subscribe(($camera) => (this.$camera = $camera)));
 
 		const collisions = (this.collisions = new Collisions());
@@ -214,7 +218,7 @@ export class Stage extends BaseStage {
 		this.sim.update(dt);
 
 		// TODO add a player controller component to handle this
-		updateDirection(controller, player, this.$camera); // TODO factor out the `get`
+		updateDirection(controller, player, this.$camera);
 
 		// detect if player touches bounds for the first time
 		// TODO pause during transition?
