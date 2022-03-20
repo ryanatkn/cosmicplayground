@@ -34,7 +34,6 @@
 		type AudioResource,
 		type ResourcesStore,
 	} from '$lib/app/resourcesStore';
-	import {resizer} from '$lib/ui/resizeObserver';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -298,9 +297,7 @@
 	class:starship-transitioning={transitioningStarshipMode}
 >
 	<nav
-		use:resizer={(entries) => {
-			starshipHeight = entries[0].contentRect.height;
-		}}
+		bind:clientHeight={starshipHeight}
 		style:transform={starshipMode
 			? `translate3d(${starshipViewX}px, ${starshipViewY}px,	0) scale3d(${starshipScale}, ${starshipScale}, ${starshipScale})	rotate(${starshipRotation}rad)`
 			: 'none'}

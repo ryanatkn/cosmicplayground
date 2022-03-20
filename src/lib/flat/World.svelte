@@ -139,7 +139,7 @@
 <svelte:window on:keydown={onKeydown} on:keyup={onKeyup} />
 
 <!-- TODO maybe instead use ResizeObserver? the iframe measuring feels unfortunate -->
-<div class="world" style:width={width + 'px'} style:height={height + 'px'}>
+<div class="world" style:width="{width}px" style:height="{height}px">
 	{#if !activeStageState?.stage}
 		<!-- TODO loading -- do nothing? -->
 	{:else}
