@@ -1,9 +1,9 @@
 <script lang="ts">
-	import {type Writable} from 'svelte/store';
+	import type {Writable} from 'svelte/store';
 
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import TourControls from '$lib/app/TourControls.svelte';
-	import {type TourStore} from '$lib/app/tourStore';
+	import type {TourStore} from '$lib/app/tourStore';
 
 	export let tour: TourStore | null;
 	export let x: Writable<number>;

@@ -1,7 +1,7 @@
 import {writable, get, type Readable} from 'svelte/store';
 import {UnreachableError} from '@feltcoop/felt/util/error.js';
 
-import {type ClockStore} from '$lib/app/clockStore.js';
+import type {ClockStore} from '$lib/app/clockStore.js';
 
 // TODO rotation!
 

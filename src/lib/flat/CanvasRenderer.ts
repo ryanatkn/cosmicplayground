@@ -1,8 +1,8 @@
 import {writable} from 'svelte/store';
 
-import {type Renderer} from '$lib/flat/renderer';
-import {type Entity, type EntityCircle} from '$lib/flat/entity';
-import {type CameraState} from '$lib/flat/camera';
+import type {Renderer} from '$lib/flat/renderer';
+import type {Entity, EntityCircle} from '$lib/flat/entity';
+import type {CameraState} from '$lib/flat/camera';
 
 export class CanvasRenderer implements Renderer {
 	width = -1;

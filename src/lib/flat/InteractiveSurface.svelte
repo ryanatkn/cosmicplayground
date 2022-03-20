@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {type Controller} from '$lib/flat/Controller';
+	import type {Controller} from '$lib/flat/Controller';
 
 	// TODO same name as `$lib/app/InteractiveSurface.svelte` but different
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {type Readable} from 'svelte/store';
+	import type {Readable} from 'svelte/store';
 
 	import ImageViewer from '$lib/app/ImageViewer.svelte';
 	import BlendedImagesCycle from '$lib/app/BlendedImagesCycle.svelte';

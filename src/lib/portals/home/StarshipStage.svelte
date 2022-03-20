@@ -7,7 +7,7 @@
 		type StarshipStageScores,
 	} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
-	import {type StageState} from '$lib/flat/stageState';
+	import type {StageState} from '$lib/flat/stageState';
 	import {getIdle} from '$lib/app/trackIdleState';
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
 

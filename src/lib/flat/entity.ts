@@ -1,11 +1,5 @@
 import {randomFloat} from '@feltcoop/felt/util/random.js';
-import {
-	type Collisions,
-	type Body,
-	type Circle,
-	type Point,
-	type Polygon,
-} from '@ryanatkn/collisions';
+import type {Collisions, Body, Circle, Point, Polygon} from '@ryanatkn/collisions';
 
 export interface Entity extends Body {
 	speed: number;

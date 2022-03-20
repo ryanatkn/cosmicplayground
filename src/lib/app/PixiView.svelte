@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {onDestroy, onMount} from 'svelte';
-	import {PixiApp} from '$lib/app/pixi';
+	import type {PixiApp} from '$lib/app/pixi';
 
 	// TODO detect max texture and disable images that don't work
 	// `const gl = document.createElement('canvas').getContext('webgl');`

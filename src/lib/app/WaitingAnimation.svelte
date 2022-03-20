@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {type AsyncStatus} from '@feltcoop/felt';
+	import type {AsyncStatus} from '@feltcoop/felt';
 
 	export let status: AsyncStatus = 'pending'; // 'initial' is unhandled
 

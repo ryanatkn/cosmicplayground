@@ -1,6 +1,6 @@
 import {Collisions} from '@ryanatkn/collisions';
 
-import {type EntityBody} from '$lib/flat/entity';
+import type {EntityBody} from '$lib/flat/entity';
 
 const result = Collisions.createResult();
 

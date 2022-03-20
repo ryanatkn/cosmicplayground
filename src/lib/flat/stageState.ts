@@ -1,4 +1,4 @@
-import {type Stage, type StageConstructor} from '$lib/flat/stage';
+import type {Stage, StageConstructor} from '$lib/flat/stage';
 
 export interface StageState<TStage extends Stage = Stage> {
 	stage: TStage | null;

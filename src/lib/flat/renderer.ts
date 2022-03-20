@@ -1,5 +1,5 @@
-import {type Entity} from '$lib/flat/entity';
-import {type CameraState} from '$lib/flat/camera';
+import type {Entity} from '$lib/flat/entity';
+import type {CameraState} from '$lib/flat/camera';
 
 export interface Renderer {
 	resize: (width: number, height: number) => void;

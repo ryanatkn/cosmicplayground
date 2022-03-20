@@ -10,5 +10,14 @@ export default {
 	kit: {
 		adapter: adapter(),
 		files: {assets: 'src/static'},
+		prerender: {default: true},
+		vite: {
+			ssr: {
+				noExternal: ['@feltcoop/felt'],
+			},
+			optimizeDeps: {
+				exclude: ['@feltcoop/felt'],
+			},
+		},
 	},
 };

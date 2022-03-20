@@ -2,13 +2,13 @@ import {Collisions} from '@ryanatkn/collisions';
 import {randomFloat} from '@feltcoop/felt/util/random.js';
 
 import {Stage as BaseStage, type StageSetupOptions, type StageMeta} from '$lib/flat/stage';
-import {
+import type {
 	// type Entity,
-	type EntityBody,
-	type EntityCircle,
-	type EntityPolygon,
+	EntityBody,
+	EntityCircle,
+	EntityPolygon,
 } from '$lib/flat/entity';
-import {type Renderer} from '$lib/flat/renderer';
+import type {Renderer} from '$lib/flat/renderer';
 import {Simulation} from '$lib/flat/Simulation';
 import {updateDirection} from '$lib/flat/Controller';
 import {type CameraStore, toCameraStore, type CameraState} from '$lib/flat/camera';

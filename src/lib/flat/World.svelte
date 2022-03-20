@@ -6,8 +6,8 @@
 	import {getClock} from '$lib/app/clockStore';
 	import {CanvasRenderer} from '$lib/flat/CanvasRenderer';
 	import {Controller} from '$lib/flat/Controller';
-	import {type StageState} from '$lib/flat/stageState';
-	import {type StageConstructor, type ExitStage} from '$lib/flat/stage';
+	import type {StageState} from '$lib/flat/stageState';
+	import type {StageConstructor, ExitStage} from '$lib/flat/stage';
 
 	export let width: number;
 	export let height: number;

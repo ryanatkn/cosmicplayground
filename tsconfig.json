@@ -1,31 +1,16 @@
 {
-	"include": ["src", "svelte.config.js"],
+	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
-		"moduleResolution": "node",
-		"target": "es2020",
-		"module": "esnext",
-		"lib": ["esnext", "dom"],
+		"types": ["@sveltejs/kit"],
 		"strict": true,
 		"useUnknownInCatchVariables": false,
 		"exactOptionalPropertyTypes": false,
-		"forceConsistentCasingInFileNames": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"noImplicitOverride": true,
 		"noFallthroughCasesInSwitch": true,
-		"isolatedModules": true,
-		"preserveValueImports": true,
-		"importsNotUsedAsValues": "remove",
-		"resolveJsonModule": true,
-		"sourceMap": true,
 		"importHelpers": true,
-		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"checkJs": true,
-		"outDir": ".gro/ts",
-		"paths": {
-			"$lib/*": ["./src/lib/*"]
-		}
+		"preserveValueImports": true
 	}
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import RadialLayout from '$lib/ui/RadialLayout.svelte';
-	import {type StarshipStageScores} from '$lib/portals/home/starshipStage';
+	import type {StarshipStageScores} from '$lib/portals/home/starshipStage';
 
 	export let scores: StarshipStageScores | undefined;
 	export let layout: 'radial' | 'text' = 'radial';

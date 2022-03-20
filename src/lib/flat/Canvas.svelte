@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {onMount} from 'svelte';
 
-	import {type CanvasRenderer} from '$lib/flat/CanvasRenderer';
-	import {type Stage} from '$lib/flat/stage';
+	import type {CanvasRenderer} from '$lib/flat/CanvasRenderer';
+	import type {Stage} from '$lib/flat/stage';
 
 	export let width: number;
 	export let height: number;
