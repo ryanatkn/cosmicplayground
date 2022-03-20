@@ -159,7 +159,7 @@
 
 	let starshipHeight: number;
 
-	$: starshipScale = player ? ((player.radius * 2) / starshipHeight) * viewScale : 1;
+	$: starshipScale = player ? ((player.radius * 2) / starshipHeight) * viewScale : 1; // TODO isn't reactive to player radius
 	$: starshipViewX = ($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * viewScale;
 	$: starshipViewY = $camera
 		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - screenHeight) / 2

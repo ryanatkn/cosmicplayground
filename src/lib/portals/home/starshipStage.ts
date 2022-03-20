@@ -250,6 +250,8 @@ export class Stage extends BaseStage {
 				}
 			} else if (!this.bounds.collides(player)) {
 				// detect if player touches bounds for the first time, and unfreeze if so
+				// TODO instead of the bounds, this should use `this.playerInnerBounds`,
+				// which is related to clamping, but I don't think we gain anything by using it there, only here
 				this.freezeCamera = false;
 			}
 		}
