@@ -27,6 +27,9 @@ export const PLAYER_SPEED = 0.2;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
 export const PLAYER_RADIUS = 100;
 
+// TODO perf -- refactor the update fn, use `result` for collisions, use single pass collisions in simulation
+// const result = Collisions.createResult();
+
 // TODO rewrite this to use a route Svelte component? `dealt.dev/tar/home`
 
 // TODO what if this file were named `home.stage.ts` instead of `0__home.ts` ?
@@ -66,7 +69,6 @@ export class Stage extends BaseStage {
 	player!: EntityCircle;
 	// exits: Map<Entity, ExitEntity> = new Map(); // TODO consider this pattern when we need more stuff
 	bounds!: EntityPolygon;
-	innerPlayerBounds!: EntityPolygon;
 	planet!: EntityCircle;
 	rock!: EntityCircle;
 	readonly friends: EntityCircle[] = [];
@@ -121,23 +123,6 @@ export class Stage extends BaseStage {
 		bounds.scale_x = width;
 		bounds.scale_y = height;
 		bodies.push(bounds);
-
-		// create the inner bounds around the stage edges, which c
-		const innerPlayerBounds: EntityPolygon = (this.innerPlayerBounds = collisions.createPolygon(
-			PLAYER_RADIUS * 2,
-			PLAYER_RADIUS * 2,
-			[
-				[0, 0],
-				[1, 0],
-				[1, 1],
-				[0, 1],
-			],
-		) as any);
-		innerPlayerBounds.invisible = true;
-		innerPlayerBounds.ghostly = true;
-		innerPlayerBounds.scale_x = width - PLAYER_RADIUS * 4;
-		innerPlayerBounds.scale_y = height - PLAYER_RADIUS * 4;
-		bodies.push(innerPlayerBounds);
 
 		// create the stuff
 		// TODO create these programmatically from data
@@ -231,6 +216,7 @@ export class Stage extends BaseStage {
 			planetFragments,
 			friendFragments,
 			rockFragments,
+			$camera,
 		} = this;
 
 		// TODO refactor this to use queries or tags or at least helpers, it's un-dry and inefficient
@@ -242,17 +228,32 @@ export class Stage extends BaseStage {
 		this.sim.update(dt);
 
 		// TODO add a player controller component to handle this
-		updateDirection(controller, player, this.$camera);
+		updateDirection(controller, player, $camera);
 
-		// detect if player touches bounds for the first time
 		if (this.freezeCamera) {
 			if (this.lockCamera) {
-				// TODO BLOCK make this generic
-				if (!this.innerPlayerBounds.collides(this.player)) {
-					// TODO BLOCK invert the collision logic in the sim update function
-					console.log('CLAMP!!');
+				// TODO make this generic
+				// TODO I tried to use an inverted collision test with `this.innerPlayerBounds`
+				// but without a collision result,
+				// we'll need a more complex algorithm to "contain" items inside others
+				const clampedRadius = player.radius + 1; // avoid the minor visual quirk of the border being rendered offscreen
+				// TODO add $camera.left/right/top/bottom, refactor with `setPosition` and a derived
+				const xMin = $camera.x - $camera.width / 2 + clampedRadius;
+				const xMax = $camera.x + $camera.width / 2 - clampedRadius;
+				if (player.x < xMin) {
+					player.x = xMin;
+				} else if (player.x > xMax) {
+					player.x = xMax;
 				}
-			} else if (!this.bounds.collides(this.player)) {
+				const yMin = $camera.y - $camera.height / 2 + clampedRadius;
+				const yMax = $camera.y + $camera.height / 2 - clampedRadius;
+				if (player.y < yMin) {
+					player.y = yMin;
+				} else if (player.y > yMax) {
+					player.y = yMax;
+				}
+			} else if (!this.bounds.collides(player)) {
+				// detect if player touches bounds for the first time, and unfreeze if so
 				this.freezeCamera = false;
 			}
 		}
