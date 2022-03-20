@@ -1,5 +1,7 @@
 import type {Writable} from 'svelte/store';
 
+// TODO this and `measure.ts` aren't being used anywhere yet, maybe delete
+
 // Simple action that uses `ResizeObserver` to measure its DOM element
 // as an alternative to using `bind:clientWidth` and height.
 // For more see: https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver

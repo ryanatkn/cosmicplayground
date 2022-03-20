@@ -1,5 +1,7 @@
 import type {Writable} from 'svelte/store';
 
+// TODO this and `resized.ts` aren't being used anywhere yet, maybe delete
+
 // Simple action that uses `ResizeObserver` to measure its DOM element's bounding rect,
 // as an alternative to using `bind:clientWidth` and height,
 // returning the bounding rect dimensions instead of the client dimensions.
