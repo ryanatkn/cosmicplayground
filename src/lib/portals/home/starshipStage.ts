@@ -237,17 +237,36 @@ export class Stage extends BaseStage {
 					: friends.includes(bodyB as EntityCircle)
 					? bodyB
 					: undefined;
+				const _rockFragment = rockFragments.includes(bodyA as EntityCircle)
+					? bodyA
+					: rockFragments.includes(bodyB as EntityCircle)
+					? bodyB
+					: undefined;
+				const _planetFragment = planetFragments.includes(bodyA as EntityCircle)
+					? bodyA
+					: planetFragments.includes(bodyB as EntityCircle)
+					? bodyB
+					: undefined;
 
 				// handle collision between rock and friend
-				if (_friend && _rock) {
+				const _molten = _rock || _rockFragment || _planetFragment;
+				if (_friend && _molten) {
+					const moltenIsRock = _molten === _rock;
 					const newFriendFragments = this.frag(_friend, collisions, 12);
 					friendFragments.push(...newFriendFragments);
-					// TODO helper? dead+remove+?
 					this.removeBody(_friend);
+					// TODO this logic is very hardcoded -- ideally it's all simulated,
+					// but we'd need to ensure the gameplay still works, which may be tricky or impossible
 					for (const friendFragment of newFriendFragments) {
-						friendFragment.speed = randomFloat(_rock.speed * 1.2, _rock.speed * 2.44);
-						friendFragment.directionX = randomFloat(_rock.directionX / 2, _rock.directionX * 2);
-						friendFragment.directionY = randomFloat(_rock.directionY / 2, _rock.directionY * 2);
+						friendFragment.speed = moltenIsRock
+							? randomFloat(_molten.speed * 1.2, _molten.speed * 2.44)
+							: randomFloat(_molten.speed / 8, _molten.speed);
+						friendFragment.directionX = moltenIsRock
+							? randomFloat(_molten.directionX / 2, _molten.directionX * 2)
+							: randomFloat(-_molten.directionX / 2, _molten.directionX);
+						friendFragment.directionY = moltenIsRock
+							? randomFloat(_molten.directionY / 2, _molten.directionY * 2)
+							: randomFloat(-_molten.directionY / 2, _molten.directionY);
 						friendFragment.color = COLOR_MOLTEN;
 					}
 					// TODO BLOCK should `addBodies` be called at the very end?
@@ -255,6 +274,7 @@ export class Stage extends BaseStage {
 					this.addBodies(newFriendFragments);
 				}
 
+				// handle collision between rock and planet
 				if (_rock && _planet && _rock.collides(_planet)) {
 					this.removeBody(_rock);
 					this.removeBody(_planet);
@@ -329,27 +349,6 @@ export class Stage extends BaseStage {
 			}
 		}
 
-		for (const friend of friends) {
-			const colliding =
-				!friend.dead &&
-				(rockFragments.find((r) => r.collides(friend)) ||
-					planetFragments.find((r) => r.collides(friend)));
-			if (colliding) {
-				// TODO refactor with the code above
-				const newFriendFragments = this.frag(friend, this.collisions, 12);
-				friendFragments.push(...newFriendFragments);
-				// TODO helper? dead+remove+?
-				this.removeBody(friend);
-				for (const friendFragment of newFriendFragments) {
-					friendFragment.speed = randomFloat(colliding.speed / 8, colliding.speed);
-					friendFragment.directionX = randomFloat(-colliding.directionX / 2, colliding.directionX);
-					friendFragment.directionY = randomFloat(-colliding.directionY / 2, colliding.directionY);
-					friendFragment.color = COLOR_MOLTEN;
-				}
-				this.addBodies(newFriendFragments);
-			}
-		}
-
 		let friendFragmentsToAdd: EntityBody[] | null = null;
 		for (const friendFragment of friendFragments) {
 			if (friendFragment.dead) continue;
@@ -410,7 +409,7 @@ export class Stage extends BaseStage {
 
 	render(renderer: Renderer): void {
 		renderer.clear();
-		renderer.render(this.sim.bodies, this.$camera); // TODO factor out the `get`
+		renderer.render(this.sim.bodies, this.$camera);
 	}
 
 	resize(width: number, height: number): void {
