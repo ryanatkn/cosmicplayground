@@ -91,7 +91,7 @@ function aabbAABB(a: SomeBody, b: SomeBody): boolean {
 	const a_polygon = a._polygon;
 	const a_x = a_polygon ? 0 : a.x;
 	const a_y = a_polygon ? 0 : a.y;
-	const a_radius = a_polygon ? 0 : (a as Circle).radius * (a as Circle).scale;
+	const a_radius = a_polygon ? 0 : a.radius * a.scale;
 	const a_min_x = a_polygon ? (a as Polygon)._min_x : a_x - a_radius;
 	const a_min_y = a_polygon ? (a as Polygon)._min_y : a_y - a_radius;
 	const a_max_x = a_polygon ? (a as Polygon)._max_x : a_x + a_radius;
@@ -100,7 +100,7 @@ function aabbAABB(a: SomeBody, b: SomeBody): boolean {
 	const b_polygon = b._polygon;
 	const b_x = b_polygon ? 0 : b.x;
 	const b_y = b_polygon ? 0 : b.y;
-	const b_radius = b_polygon ? 0 : (b as Circle).radius * (b as Circle).scale;
+	const b_radius = b_polygon ? 0 : b.radius * b.scale;
 	const b_min_x = b_polygon ? (b as Polygon)._min_x : b_x - b_radius;
 	const b_min_y = b_polygon ? (b as Polygon)._min_y : b_y - b_radius;
 	const b_max_x = b_polygon ? (b as Polygon)._max_x : b_x + b_radius;

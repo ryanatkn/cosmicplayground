@@ -1,8 +1,8 @@
-import {Collisions, type Result as CollisionResult} from '$lib/collisions';
+import {Collisions, Result as CollisionResult} from '$lib/collisions';
 
 import type {EntityBody} from '$lib/flat/entity';
 
-const result = Collisions.createResult();
+const result = new CollisionResult();
 
 // TODO should this be a Svelte store? or a Svelte component?
 

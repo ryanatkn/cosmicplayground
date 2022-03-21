@@ -298,8 +298,7 @@ export class BVH {
 				}
 			}
 
-			const branch: boolean = current._bvh_branch;
-			const right: Body | BVHBranch | null = branch ? (current as BVHBranch)._bvh_right : null;
+			const right: Body | BVHBranch | null = current._bvh_branch ? current._bvh_right : null;
 
 			if (
 				right &&
@@ -311,8 +310,8 @@ export class BVH {
 				current = right;
 				traverse_left = true;
 			} else {
-				if (!branch && current !== body && (!filter || filter(body, current as Body))) {
-					results.push(current as Body);
+				if (!current._bvh_branch && current !== body && (!filter || filter(body, current))) {
+					results.push(current);
 				}
 
 				let parent: any = current._bvh_parent;

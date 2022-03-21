@@ -2,7 +2,7 @@ import {BVH, type FilterPotentials} from './BVH.js';
 import {Circle} from './Circle.js';
 import {Point} from './Point.js';
 import {Polygon} from './Polygon.js';
-import {Result} from './Result.js';
+import type {Result} from './Result.js';
 import type {Body, SomeBody} from './Body.js';
 import {SAT} from './SAT.js';
 
@@ -70,20 +70,6 @@ export class Collisions {
 		this._bvh.insert(body);
 
 		return body;
-	}
-
-	/**
-	 * Creates a `Result` used to collect the detailed results of a collision test
-	 */
-	createResult(): Result {
-		return new Result();
-	}
-
-	/**
-	 * Creates a Result used to collect the detailed results of a collision test
-	 */
-	static createResult(): Result {
-		return new Result();
 	}
 
 	/**
