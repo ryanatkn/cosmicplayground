@@ -14,7 +14,7 @@
 				elapsedTime={time}
 				width={150}
 				height={80}
-				hzItems={[1, 3, 10]}
+				hzItems={[1, 3]}
 				lowestHzItemCount={2}
 			/>
 			<div class="flex mirror-x">
@@ -22,7 +22,7 @@
 					elapsedTime={time}
 					width={150}
 					height={80}
-					hzItems={[1, 3, 10]}
+					hzItems={[1, 3]}
 					lowestHzItemCount={2}
 				/>
 			</div>
