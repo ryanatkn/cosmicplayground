@@ -104,23 +104,6 @@ export class Collisions {
 	}
 
 	/**
-	 * Draws the bodies within the system to a `CanvasRenderingContext2D`'s current path
-	 * 		context: The context to draw to
-	 */
-	draw(context: CanvasRenderingContext2D): void {
-		this._bvh.draw(context);
-	}
-
-	/**
-	 * Draws the system's BVH to a `CanvasRenderingContext2D`'s current path.
-	 * This is useful for testing out different padding values for bodies.
-	 * 		context: The context to draw to
-	 */
-	drawBVH(context: CanvasRenderingContext2D): void {
-		this._bvh.drawBVH(context);
-	}
-
-	/**
 	 * Returns a list of potential collisions for a body
 	 * 		body: The body to test for potential collisions against
 	 */

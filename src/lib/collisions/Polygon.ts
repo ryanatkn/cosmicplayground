@@ -62,40 +62,6 @@ export class Polygon<TPoint extends boolean = false> extends Body {
 	}
 
 	/**
-	 * Draws the polygon to a CanvasRenderingContext2D's current path
-	 * 		context: The context to add the shape to
-	 */
-	draw(context: CanvasRenderingContext2D): void {
-		if (
-			this._dirty_coords ||
-			this.x !== this._x ||
-			this.y !== this._y ||
-			this.angle !== this._angle ||
-			this.scale_x !== this._scale_x ||
-			this.scale_y !== this._scale_y
-		) {
-			this._calculateCoords();
-		}
-
-		const coords = this._coords!;
-
-		if (coords.length === 2) {
-			context.moveTo(coords[0], coords[1]);
-			context.arc(coords[0], coords[1], 1, 0, Math.PI * 2);
-		} else {
-			context.moveTo(coords[0], coords[1]);
-
-			for (let i = 2; i < coords.length; i += 2) {
-				context.lineTo(coords[i], coords[i + 1]);
-			}
-
-			if (coords.length > 4) {
-				context.lineTo(coords[0], coords[1]);
-			}
-		}
-	}
-
-	/**
 	 * Sets the points making up the polygon. It's important to use this function when changing the polygon's shape to ensure internal data is also updated.
 	 * 		new_points: An array of coordinate pairs making up the polygon - [[x1, y1], [x2, y2], ...]
 	 */

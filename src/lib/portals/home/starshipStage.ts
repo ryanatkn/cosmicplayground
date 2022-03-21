@@ -377,6 +377,14 @@ export class Stage extends BaseStage {
 	render(renderer: Renderer): void {
 		renderer.clear();
 		renderer.render(this.sim.bodies, this.$camera);
+		// TODO batch render? or maybe just use pixi? see in 2 places
+		// renderer.render([this.rock], this.$camera);
+		// renderer.render(this.rockFragments, this.$camera);
+		// renderer.render([this.planet], this.$camera);
+		// renderer.render(this.planetFragments, this.$camera);
+		// renderer.render(this.friends, this.$camera);
+		// renderer.render(this.friendFragments, this.$camera);
+		// renderer.render([this.player], this.$camera);
 	}
 
 	resize(width: number, height: number): void {

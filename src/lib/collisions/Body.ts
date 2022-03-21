@@ -42,8 +42,6 @@ export abstract class Body {
 		this._bvh_padding = padding;
 	}
 
-	abstract draw(context: CanvasRenderingContext2D): void;
-
 	/**
 	 * Determines if the body is colliding with another body
 	 * 		target: The target body to test against

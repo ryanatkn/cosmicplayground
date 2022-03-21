@@ -54,7 +54,10 @@
   },
   "eslintConfig": {
     "root": true,
-    "extends": "@feltcoop"
+    "extends": "@feltcoop",
+    "ignorePatterns": [
+      "svelte.config.js"
+    ]
   },
   "prettier": {
     "useTabs": true,

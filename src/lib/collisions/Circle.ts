@@ -24,17 +24,4 @@ export class Circle extends Body {
 		this.radius = radius;
 		this.scale = scale;
 	}
-
-	/**
-	 * Draws the circle to a CanvasRenderingContext2D's current path
-	 * 		context: The context to add the arc to
-	 */
-	draw(context: CanvasRenderingContext2D): void {
-		const x = this.x;
-		const y = this.y;
-		const radius = this.radius * this.scale;
-
-		context.moveTo(x + radius, y);
-		context.arc(x, y, radius, 0, Math.PI * 2);
-	}
 }

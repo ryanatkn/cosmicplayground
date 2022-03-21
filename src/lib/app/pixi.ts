@@ -11,12 +11,14 @@ export class PixiApp {
 
 	init(pixiModule: typeof PIXI, options: PIXI.IApplicationOptions): void {
 		this.PIXI = pixiModule;
-		pixiModule.settings.SCALE_MODE = pixiModule.SCALE_MODES.NEAREST;
-		this.app = new pixiModule.Application(options);
-		// Tell PIXI to use pixelated image scaling by default. CHONKY pixels!!
+
+		// Tell PIXI to use pixelated image scaling by default. BIG PX
 		// Unfortunately this can cause choppy movement. We may want to revert this global default.
 		// Here's how to change it back to the default for a resource:
-		// `resources.bg.texture.baseTexture.scaleMode = mod.SCALE_MODES.LINEAR;`
+		pixiModule.settings.SCALE_MODE = pixiModule.SCALE_MODES.NEAREST;
+
+		this.app = new pixiModule.Application(options);
+
 		const defaultScene = new pixiModule.Container();
 		this.defaultScene = defaultScene;
 		this.currentScene = defaultScene;
