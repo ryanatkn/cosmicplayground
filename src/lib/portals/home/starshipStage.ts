@@ -183,7 +183,7 @@ export class Stage extends BaseStage {
 	}
 
 	removeBody(body: EntityBody): void {
-		body.dead = true; // TODO we may not need this, see other comment about `dead`
+		body.dead = true;
 		this.sim.removeBody(body);
 	}
 
@@ -218,7 +218,10 @@ export class Stage extends BaseStage {
 		// TODO add a player controller component to handle this
 		updateDirection(controller, player, $camera);
 
-		let friendFragmentsToAdd: EntityBody[] | null = null as any; // TODO the `as any` is needed because flow control doesn't account for the callbacks setting this
+		// TODO the `as any` is needed because flow control doesn't account for the callbacks setting this
+		let rockFragmentsToAdd: EntityBody[] | null = null as any;
+		let planetFragmentsToAdd: EntityBody[] | null = null as any;
+		let friendFragmentsToAdd: EntityBody[] | null = null as any;
 
 		// gives stages full control over the sim `update`
 		this.sim.update(
@@ -254,78 +257,61 @@ export class Stage extends BaseStage {
 					? bodyB
 					: undefined;
 
-				// handle collision between rock and friend
-				const _molten = _rock || _rockFragment || _planetFragment; // TODO BLOCK merge with _friendFragment colliding with _friend below
+				const _molten = _rock || _rockFragment || _planetFragment || _friendFragment;
 				if (_friend && _molten) {
+					// handle collision between friend and anything molten
 					const moltenIsRock = _molten === _rock;
+					const moltenIsFriendFragment = _molten === _friendFragment;
 					const newFriendFragments = this.frag(_friend, collisions, 12);
 					(friendFragmentsToAdd || (friendFragmentsToAdd = [])).push(...newFriendFragments);
 					this.removeBody(_friend);
 					// TODO this logic is very hardcoded -- ideally it's all simulated,
 					// but we'd need to ensure the gameplay still works, which may be tricky or impossible
-					for (const newFriendFragment of newFriendFragments) {
-						newFriendFragment.speed = moltenIsRock
+					for (const f of newFriendFragments) {
+						f.speed = moltenIsRock
 							? randomFloat(_molten.speed * 1.2, _molten.speed * 2.44)
+							: moltenIsFriendFragment
+							? randomFloat(_molten.speed / 2, _molten.speed * 2)
 							: randomFloat(_molten.speed / 8, _molten.speed);
-						newFriendFragment.directionX = moltenIsRock
+						f.directionX = moltenIsRock
+							? randomFloat(_molten.directionX / 2, _molten.directionX * 2)
+							: moltenIsFriendFragment
 							? randomFloat(_molten.directionX / 2, _molten.directionX * 2)
 							: randomFloat(-_molten.directionX / 2, _molten.directionX);
-						newFriendFragment.directionY = moltenIsRock
+						f.directionY = moltenIsRock
+							? randomFloat(_molten.directionY / 2, _molten.directionY * 2)
+							: moltenIsFriendFragment
 							? randomFloat(_molten.directionY / 2, _molten.directionY * 2)
 							: randomFloat(-_molten.directionY / 2, _molten.directionY);
-						newFriendFragment.color = COLOR_MOLTEN;
+						f.color = COLOR_MOLTEN;
 					}
 				} else if (_rock && _planet) {
 					// handle collision between rock and planet
 					this.removeBody(_rock);
 					this.removeBody(_planet);
-					planetFragments.push(...this.frag(_planet, collisions, 42));
-					for (const planetFragment of planetFragments) {
-						planetFragment.speed = _rock.speed * 0.2 * randomFloat(0.5, 1.0);
-						planetFragment.directionX = randomFloat(-_rock.directionX / 2, _rock.directionX / 2);
-						planetFragment.directionY = randomFloat(-_rock.directionY / 2, _rock.directionY / 2);
-						planetFragment.color = COLOR_MOLTEN;
+					const newPlanetFragments = this.frag(_planet, collisions, 42);
+					(planetFragmentsToAdd || (planetFragmentsToAdd = [])).push(...newPlanetFragments);
+					for (const p of newPlanetFragments) {
+						p.speed = _rock.speed * 0.2 * randomFloat(0.5, 1.0);
+						p.directionX = randomFloat(-_rock.directionX / 2, _rock.directionX / 2);
+						p.directionY = randomFloat(-_rock.directionY / 2, _rock.directionY / 2);
+						p.color = COLOR_MOLTEN;
 					}
-					this.addBodies(planetFragments);
-					rockFragments.push(...this.frag(_rock, collisions, 210));
-					for (const rockFragment of rockFragments) {
-						rockFragment.speed = randomFloat(_rock.speed / 2, _rock.speed * 2);
-						rockFragment.directionX = randomFloat(-_rock.directionX * 2, _rock.directionX * 0.25);
-						rockFragment.directionY = randomFloat(-_rock.directionY * 2, _rock.directionY * 0.25);
+					const newRockFragments = this.frag(_rock, collisions, 210);
+					(rockFragmentsToAdd || (rockFragmentsToAdd = [])).push(...newRockFragments);
+					for (const r of newRockFragments) {
+						r.speed = randomFloat(_rock.speed / 2, _rock.speed * 2);
+						r.directionX = randomFloat(-_rock.directionX * 2, _rock.directionX * 0.25);
+						r.directionY = randomFloat(-_rock.directionY * 2, _rock.directionY * 0.25);
 					}
-					this.addBodies(rockFragments);
-				} else if (_friendFragment) {
-					// destroy friend fragments when they touch the planet, planet fragments, or rock fragments
-					if (_planet || _planetFragment || _rockFragment) {
-						this.removeBody(_friendFragment);
-					} else if (_friend) {
-						// TODO refactor with the code above
-						const newFriendFragments = this.frag(_friend, collisions, 12);
-						(friendFragmentsToAdd || (friendFragmentsToAdd = [])).push(...newFriendFragments);
-						this.removeBody(_friend);
-						for (const newFriendFragment of newFriendFragments) {
-							newFriendFragment.speed = randomFloat(
-								_friendFragment.speed / 2,
-								_friendFragment.speed * 2,
-							);
-							newFriendFragment.directionX = randomFloat(
-								_friendFragment.directionX / 2,
-								_friendFragment.directionX * 2,
-							);
-							newFriendFragment.directionY = randomFloat(
-								_friendFragment.directionY / 2,
-								_friendFragment.directionY * 2,
-							);
-							newFriendFragment.color = COLOR_MOLTEN;
-						}
-					}
+				} else if (_friendFragment && (_planet || _planetFragment || _rockFragment)) {
+					// TODO this logic is very similar to _molten but need to avoid double counting the same _friendFragment
+					// handle collision between friend fragment and anything molten except other friend fragments
+					this.removeBody(_friendFragment);
 				}
 			},
 			(bodyA, bodyB) => {
-				if (bodyA.dead || bodyB.dead) {
-					console.log('WAIT SKIPPING DEAD BODY'); // TODO BLOCK is this called? if not, we don't need `dead` do we? does `dead` prevent duplicate collisions during an update?
-					return false;
-				}
+				if (bodyA.dead || bodyB.dead) return false;
 				if (bodyA === bounds || bodyB === bounds) return false; // TODO hmm
 				// TODO BLOCK make this more efficient -- Sets for now maybe, bitmask later?
 				// TODO make a system for declaring collision groups --
@@ -375,8 +361,15 @@ export class Stage extends BaseStage {
 			}
 		}
 
-		// TODO BLOCK batch add other types here too
 		// TODO how to make this generic?
+		if (rockFragmentsToAdd) {
+			rockFragments.push(...rockFragmentsToAdd);
+			this.addBodies(rockFragmentsToAdd);
+		}
+		if (planetFragmentsToAdd) {
+			planetFragments.push(...planetFragmentsToAdd);
+			this.addBodies(planetFragmentsToAdd);
+		}
 		if (friendFragmentsToAdd) {
 			friendFragments.push(...friendFragmentsToAdd);
 			this.addBodies(friendFragmentsToAdd);
