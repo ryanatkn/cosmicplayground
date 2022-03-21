@@ -67,10 +67,11 @@ export class Stage extends BaseStage {
 	bounds!: EntityPolygon;
 	planet!: EntityCircle;
 	rock!: EntityCircle;
-	readonly friends: EntityCircle[] = [];
-	readonly friendFragments: EntityBody[] = [];
-	readonly planetFragments: EntityBody[] = [];
-	readonly rockFragments: EntityBody[] = [];
+	readonly friends: Set<EntityCircle> = new Set();
+	readonly friendsArray: EntityCircle[] = []; // TODO hack to keep the current view code -- see in 2 places
+	readonly friendFragments: Set<EntityCircle> = new Set();
+	readonly planetFragments: Set<EntityCircle> = new Set();
+	readonly rockFragments: Set<EntityCircle> = new Set();
 
 	camera!: CameraStore;
 	$camera!: CameraState;
@@ -151,7 +152,7 @@ export class Stage extends BaseStage {
 		friend.directionY = 0;
 		friend.color = COLOR_EXIT;
 		bodies.push(friend);
-		friends.push(friend);
+		friends.add(friend);
 
 		friend = collisions.createCircle(1470, 1084, 42) as EntityCircle;
 		friend.speed = 0.01;
@@ -159,7 +160,7 @@ export class Stage extends BaseStage {
 		friend.directionY = 0;
 		friend.color = COLOR_EXIT;
 		bodies.push(friend);
-		friends.push(friend);
+		friends.add(friend);
 
 		friend = collisions.createCircle(2010, 872, 7) as EntityCircle;
 		friend.speed = 0.01;
@@ -167,7 +168,7 @@ export class Stage extends BaseStage {
 		friend.directionY = 0;
 		friend.color = COLOR_EXIT;
 		bodies.push(friend);
-		friends.push(friend);
+		friends.add(friend);
 
 		friend = collisions.createCircle(1870, 776, 14) as EntityCircle;
 		friend.speed = 0.01;
@@ -175,7 +176,10 @@ export class Stage extends BaseStage {
 		friend.directionY = 0;
 		friend.color = COLOR_EXIT;
 		bodies.push(friend);
-		friends.push(friend);
+		friends.add(friend);
+
+		// TODO hack to keep the current view code -- see in 2 places
+		this.friendsArray.push(...friends);
 	}
 
 	addBodies(bodies: EntityBody[]): void {
@@ -184,6 +188,7 @@ export class Stage extends BaseStage {
 
 	removeBody(body: EntityBody): void {
 		body.dead = true;
+		// TODO remove from the other collections? maybe after figuring out the tagging/type/bitmask system
 		this.sim.removeBody(body);
 	}
 
@@ -219,9 +224,9 @@ export class Stage extends BaseStage {
 		updateDirection(controller, player, $camera);
 
 		// TODO the `as any` is needed because flow control doesn't account for the callbacks setting this
-		let rockFragmentsToAdd: EntityBody[] | null = null as any;
-		let planetFragmentsToAdd: EntityBody[] | null = null as any;
-		let friendFragmentsToAdd: EntityBody[] | null = null as any;
+		let rockFragmentsToAdd: EntityCircle[] | null = null as any;
+		let planetFragmentsToAdd: EntityCircle[] | null = null as any;
+		let friendFragmentsToAdd: EntityCircle[] | null = null as any;
 
 		// gives stages full control over the sim `update`
 		this.sim.update(
@@ -232,24 +237,24 @@ export class Stage extends BaseStage {
 				// TODO refactor into a system
 				const _rock = rock === bodyA ? bodyA : rock === bodyB ? bodyB : undefined;
 				const _planet = planet === bodyA ? bodyA : planet === bodyB ? bodyB : undefined;
-				const _friend = friends.includes(bodyA as EntityCircle)
+				const _friend = friends.has(bodyA as EntityCircle)
 					? bodyA
-					: friends.includes(bodyB as EntityCircle)
+					: friends.has(bodyB as EntityCircle)
 					? bodyB
 					: undefined;
-				const _rockFragment = rockFragments.includes(bodyA as EntityCircle)
+				const _rockFragment = rockFragments.has(bodyA as EntityCircle)
 					? bodyA
-					: rockFragments.includes(bodyB as EntityCircle)
+					: rockFragments.has(bodyB as EntityCircle)
 					? bodyB
 					: undefined;
-				const _planetFragment = planetFragments.includes(bodyA as EntityCircle)
+				const _planetFragment = planetFragments.has(bodyA as EntityCircle)
 					? bodyA
-					: planetFragments.includes(bodyB as EntityCircle)
+					: planetFragments.has(bodyB as EntityCircle)
 					? bodyB
 					: undefined;
-				const _friendFragment = friendFragments.includes(bodyA as EntityCircle)
+				const _friendFragment = friendFragments.has(bodyA as EntityCircle)
 					? bodyA
-					: friendFragments.includes(bodyB as EntityCircle)
+					: friendFragments.has(bodyB as EntityCircle)
 					? bodyB
 					: undefined;
 
@@ -258,7 +263,7 @@ export class Stage extends BaseStage {
 					// handle collision between friend and anything molten
 					const moltenIsRock = _molten === _rock;
 					const moltenIsFriendFragment = _molten === _friendFragment;
-					const newFriendFragments = this.frag(_friend, collisions, 12);
+					const newFriendFragments = this.frag(_friend, collisions, 12) as EntityCircle[];
 					(friendFragmentsToAdd || (friendFragmentsToAdd = [])).push(...newFriendFragments);
 					this.removeBody(_friend);
 					// TODO this logic is very hardcoded -- ideally it's all simulated,
@@ -285,7 +290,7 @@ export class Stage extends BaseStage {
 					// handle collision between rock and planet
 					this.removeBody(_rock);
 					this.removeBody(_planet);
-					const newPlanetFragments = this.frag(_planet, collisions, 42);
+					const newPlanetFragments = this.frag(_planet, collisions, 42) as EntityCircle[];
 					(planetFragmentsToAdd || (planetFragmentsToAdd = [])).push(...newPlanetFragments);
 					for (const p of newPlanetFragments) {
 						p.speed = _rock.speed * 0.2 * randomFloat(0.5, 1.0);
@@ -293,7 +298,7 @@ export class Stage extends BaseStage {
 						p.directionY = randomFloat(-_rock.directionY / 2, _rock.directionY / 2);
 						p.color = COLOR_MOLTEN;
 					}
-					const newRockFragments = this.frag(_rock, collisions, 210);
+					const newRockFragments = this.frag(_rock, collisions, 210) as EntityCircle[];
 					(rockFragmentsToAdd || (rockFragmentsToAdd = [])).push(...newRockFragments);
 					for (const r of newRockFragments) {
 						r.speed = randomFloat(_rock.speed / 2, _rock.speed * 2);
@@ -309,13 +314,11 @@ export class Stage extends BaseStage {
 			(bodyA, bodyB) => {
 				if (bodyA.dead || bodyB.dead) return false;
 				if (bodyA === bounds || bodyB === bounds) return false; // TODO hmm
-				// TODO BLOCK make this more efficient -- Sets for now maybe, bitmask later?
-				// TODO make a system for declaring collision groups --
-				// this logic determines what the player can ghost through
+				// TODO make a system for declaring collision groups -- bitmask?
 				const bodyAIsPlayer = player === bodyA;
 				const bodyBIsPlayer = player === bodyB;
-				const bodyAIsFriend = friends.includes(bodyA as EntityCircle);
-				const bodyBIsFriend = friends.includes(bodyB as EntityCircle);
+				const bodyAIsFriend = friends.has(bodyA as EntityCircle);
+				const bodyBIsFriend = friends.has(bodyB as EntityCircle);
 				const bodyAIsPlanet = planet === bodyA;
 				const bodyBIsPlanet = planet === bodyB;
 				if (
@@ -359,15 +362,15 @@ export class Stage extends BaseStage {
 
 		// TODO how to make this generic?
 		if (rockFragmentsToAdd) {
-			rockFragments.push(...rockFragmentsToAdd);
+			for (const r of rockFragmentsToAdd) rockFragments.add(r);
 			this.addBodies(rockFragmentsToAdd);
 		}
 		if (planetFragmentsToAdd) {
-			planetFragments.push(...planetFragmentsToAdd);
+			for (const p of planetFragmentsToAdd) planetFragments.add(p);
 			this.addBodies(planetFragmentsToAdd);
 		}
 		if (friendFragmentsToAdd) {
-			friendFragments.push(...friendFragmentsToAdd);
+			for (const f of friendFragmentsToAdd) friendFragments.add(f);
 			this.addBodies(friendFragmentsToAdd);
 		}
 	}
