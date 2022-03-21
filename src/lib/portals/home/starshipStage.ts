@@ -235,28 +235,28 @@ export class Stage extends BaseStage {
 				collideRigidBodies(bodyA, bodyB, result);
 
 				// TODO refactor into a system
-				const _rock = rock === bodyA ? bodyA : rock === bodyB ? bodyB : undefined;
-				const _planet = planet === bodyA ? bodyA : planet === bodyB ? bodyB : undefined;
+				const _rock = rock === bodyA ? bodyA : rock === bodyB ? bodyB : null;
+				const _planet = planet === bodyA ? bodyA : planet === bodyB ? bodyB : null;
 				const _friend = friends.has(bodyA as EntityCircle)
 					? bodyA
 					: friends.has(bodyB as EntityCircle)
 					? bodyB
-					: undefined;
+					: null;
 				const _rockFragment = rockFragments.has(bodyA as EntityCircle)
 					? bodyA
 					: rockFragments.has(bodyB as EntityCircle)
 					? bodyB
-					: undefined;
+					: null;
 				const _planetFragment = planetFragments.has(bodyA as EntityCircle)
 					? bodyA
 					: planetFragments.has(bodyB as EntityCircle)
 					? bodyB
-					: undefined;
+					: null;
 				const _friendFragment = friendFragments.has(bodyA as EntityCircle)
 					? bodyA
 					: friendFragments.has(bodyB as EntityCircle)
 					? bodyB
-					: undefined;
+					: null;
 
 				const _molten = _rock || _rockFragment || _planetFragment || _friendFragment;
 				if (_friend && _molten) {
