@@ -324,7 +324,11 @@
 			</ul>
 		{/each}
 		<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
-			<PendingAnimation running={$settings.showMorePortals} let:index>
+			<PendingAnimation
+				running={$settings.showMorePortals}
+				let:index
+				--animation_duration="var(--duration_6)"
+			>
 				{#if index === 0}
 					<img
 						src="/assets/earth/night_lights_1.png"
