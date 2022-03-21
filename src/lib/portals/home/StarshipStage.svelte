@@ -73,7 +73,7 @@
 		// TODO refactor - events?
 		if (!scores || scoresChanged(scores, stage)) {
 			scores = {
-				friends: stage.friends.map((friend) => !friend.dead),
+				friends: stage.friendsArray.map((friend) => !friend.dead),
 				planet: !stage.planet.dead,
 			};
 		}
@@ -86,7 +86,7 @@
 	// TODO refactor, see usage
 	const scoresChanged = (scores: StarshipStageScores, stage: Stage): boolean => {
 		for (let i = 0; i < scores.friends.length; i++) {
-			if (scores.friends[i] !== !stage.friends[i].dead) {
+			if (scores.friends[i] !== !stage.friendsArray[i].dead) {
 				return true;
 			}
 		}

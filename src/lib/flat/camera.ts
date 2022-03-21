@@ -24,15 +24,8 @@ export interface CameraStore extends Readable<CameraState> {
 }
 
 // TODO these aren't exported by Svelte, maybe try a PR?
-interface SpringOpts {
-	stiffness?: number;
-	damping?: number;
-	precision?: number;
-}
-interface SpringUpdateOpts {
-	hard?: any;
-	soft?: string | number | boolean;
-}
+type SpringOpts = Exclude<Parameters<typeof spring>[1], undefined>;
+type SpringUpdateOpts = Exclude<Parameters<ReturnType<typeof spring>['update']>[1], undefined>;
 
 export const toCameraStore = (
 	initialState?: Partial<BaseCameraState>,

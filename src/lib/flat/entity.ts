@@ -7,7 +7,6 @@ export interface Entity extends Body {
 	directionY: number;
 	color: string;
 	invisible?: boolean;
-	ghostly?: boolean;
 	dead?: boolean;
 }
 
@@ -40,7 +39,6 @@ export const frag = (
 			fragment.speed = entity.speed;
 			fragment.directionX = entity.directionX;
 			fragment.directionY = entity.directionY;
-			fragment.ghostly = entity.ghostly;
 			fragment.color = entity.color;
 			entities.push(fragment);
 		}
