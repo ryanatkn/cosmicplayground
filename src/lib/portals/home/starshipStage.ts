@@ -234,6 +234,7 @@ export class Stage extends BaseStage {
 			(bodyA, bodyB, result) => {
 				collideRigidBodies(bodyA, bodyB, result);
 
+				// TODO remove all these casts somehow
 				// TODO refactor into a system
 				const _rock = rock === bodyA ? bodyA : rock === bodyB ? bodyB : null;
 				const _planet = planet === bodyA ? bodyA : planet === bodyB ? bodyB : null;
