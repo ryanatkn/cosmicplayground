@@ -5,5 +5,5 @@ export {Circle} from './Circle.js';
 export {Collisions} from './Collisions.js';
 export {Point} from './Point.js';
 export {Polygon} from './Polygon.js';
-export {Result} from './Result.js';
+export {CollisionResult} from './CollisionResult.js';
 export {SAT} from './SAT.js';

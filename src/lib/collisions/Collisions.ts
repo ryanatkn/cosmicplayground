@@ -2,7 +2,7 @@ import {BVH, type FilterPotentials} from './BVH.js';
 import {Circle} from './Circle.js';
 import {Point} from './Point.js';
 import {Polygon} from './Polygon.js';
-import type {Result} from './Result.js';
+import type {CollisionResult} from './CollisionResult.js';
 import type {Body, SomeBody} from './Body.js';
 import {SAT} from './SAT.js';
 
@@ -132,10 +132,15 @@ export class Collisions {
 	 * Determines if two bodies are colliding
 	 * 		source: The source body
 	 * 		target: The target body to test against
-	 * 		result: A Result object on which to store information about the collision
+	 * 		result: A CollisionResult object on which to store information about the collision
 	 * 		aabb: Set to false to skip the AABB test (useful if you use your own potential collision heuristic)
 	 */
-	collides(source: SomeBody, target: SomeBody, result: Result | null = null, aabb = true): boolean {
+	collides(
+		source: SomeBody,
+		target: SomeBody,
+		result: CollisionResult | null = null,
+		aabb = true,
+	): boolean {
 		return SAT(source, target, result, aabb);
 	}
 }

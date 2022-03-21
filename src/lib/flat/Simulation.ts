@@ -1,4 +1,4 @@
-import {Collisions, Result as CollisionResult} from '$lib/collisions';
+import {Collisions, CollisionResult} from '$lib/collisions';
 
 import type {EntityBody} from '$lib/flat/entity';
 

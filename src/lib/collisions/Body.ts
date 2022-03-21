@@ -3,7 +3,7 @@ import type {BVHBranch} from './BVHBranch.js';
 import type {Circle} from './Circle.js';
 import type {Point} from './Point.js';
 import type {Polygon} from './Polygon.js';
-import type {Result} from './Result.js';
+import type {CollisionResult} from './CollisionResult.js';
 import {SAT} from './SAT.js';
 
 // TODO name? lol
@@ -47,10 +47,10 @@ export abstract class Body {
 	/**
 	 * Determines if the body is colliding with another body
 	 * 		target: The target body to test against
-	 * 		result: A `Result` object on which to store information about the collision
+	 * 		result: A `CollisionResult` object on which to store information about the collision
 	 * 		aabb: Set to false to skip the AABB test (useful if you use your own potential collision heuristic)
 	 */
-	collides(target: SomeBody, result: Result | null = null, aabb = true): boolean {
+	collides(target: SomeBody, result: CollisionResult | null = null, aabb = true): boolean {
 		return SAT(this as any, target, result, aabb); // TODO type?
 	}
 

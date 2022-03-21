@@ -1,16 +1,21 @@
 import type {SomeBody} from './Body.js';
 import type {Circle} from './Circle.js';
 import type {Polygon} from './Polygon.js';
-import type {Result} from './Result.js';
+import type {CollisionResult} from './CollisionResult.js';
 
 /**
  * Determines if two bodies are colliding using the Separating Axis Theorem
  * 		a: The source body to test
  * 		b: The target body to test against
- * 		result: A Result object on which to store information about the collision
+ * 		result: A CollisionResult object on which to store information about the collision
  * 		aabb: Set to false to skip the AABB test (useful if you use your own collision heuristic)
  */
-export function SAT(a: SomeBody, b: SomeBody, result: Result | null = null, aabb = true): boolean {
+export function SAT(
+	a: SomeBody,
+	b: SomeBody,
+	result: CollisionResult | null = null,
+	aabb = true,
+): boolean {
 	const a_polygon = a._polygon;
 	const b_polygon = b._polygon;
 
@@ -113,9 +118,9 @@ function aabbAABB(a: SomeBody, b: SomeBody): boolean {
  * Determines if two polygons are colliding
  * 		a: The source polygon to test
  * 		b: The target polygon to test against
- * 		result: A Result object on which to store information about the collision
+ * 		result: A CollisionResult object on which to store information about the collision
  */
-function polygonPolygon(a: Polygon, b: Polygon, result: Result | null = null): boolean {
+function polygonPolygon(a: Polygon, b: Polygon, result: CollisionResult | null = null): boolean {
 	const a_count = a._coords!.length;
 	const b_count = b._coords!.length;
 
@@ -159,13 +164,13 @@ function polygonPolygon(a: Polygon, b: Polygon, result: Result | null = null): b
  * Determines if a polygon and a circle are colliding
  * 		a: The source polygon to test
  * 		b: The target circle to test against
- * 		result: A Result object on which to store information about the collision
+ * 		result: A CollisionResult object on which to store information about the collision
  * 		reverse: Set to true to reverse a and b in the result parameter when testing circle->polygon instead of polygon->circle
  */
 function polygonCircle(
 	a: Polygon,
 	b: Circle,
-	result: Result | null = null,
+	result: CollisionResult | null = null,
 	reverse = false,
 ): boolean {
 	const a_coords = a._coords!;
@@ -295,9 +300,9 @@ function polygonCircle(
  * Determines if two circles are colliding
  * 		a: The source circle to test
  * 		b: The target circle to test against
- * 		result: A Result object on which to store information about the collision
+ * 		result: A CollisionResult object on which to store information about the collision
  */
-function circleCircle(a: Circle, b: Circle, result: Result | null = null): boolean {
+function circleCircle(a: Circle, b: Circle, result: CollisionResult | null = null): boolean {
 	const a_radius = a.radius * a.scale;
 	const b_radius = b.radius * b.scale;
 	const difference_x = b.x - a.x;
@@ -328,14 +333,14 @@ function circleCircle(a: Circle, b: Circle, result: Result | null = null): boole
  * 		b_coords: The coordinates of the polygon to test against
  * 		x: The X direction of the axis
  * 		y: The Y direction of the axis
- * 		result: A Result object on which to store information about the collision
+ * 		result: A CollisionResult object on which to store information about the collision
  */
 function separatingAxis(
 	a_coords: Float64Array,
 	b_coords: Float64Array,
 	x: number,
 	y: number,
-	result: Result | null = null,
+	result: CollisionResult | null = null,
 ): boolean {
 	const a_count = a_coords.length;
 	const b_count = b_coords.length;
