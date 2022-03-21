@@ -1,4 +1,4 @@
-import {Collisions, type Result as CollisionResult} from '@ryanatkn/collisions';
+import {Collisions, type Result as CollisionResult} from '$lib/collisions';
 
 import type {EntityBody} from '$lib/flat/entity';
 
