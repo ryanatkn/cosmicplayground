@@ -24,6 +24,7 @@
 	import DeepBreathDevHud from '$lib/portals/deep-breath/DeepBreathDevHud.svelte';
 	import {getClock} from '$lib/app/clockStore';
 	import {getDimensions} from '$lib/app/dimensions';
+	import {enableGlobalHotkeys} from '$lib/util/dom';
 
 	const clock = getClock();
 
@@ -87,23 +88,38 @@
 		$y += dy;
 	};
 
+	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
-		if (tour && e.key === 'Escape') {
-			tour.cancel();
-			return;
-		}
-		if (!inputEnabled) return;
-		if (e.key === 'Escape') {
-			if (!(e.target as any).closest('input')) {
-				toggleHud();
+		if (showTitleScreen) {
+			// title screen
+			// TODO
+			// if (e.key === '1' && enableGlobalHotkeys(e.target)) {
+			// 	e.stopPropagation();
+			// 	// load();
+			// }
+		} else {
+			// map screen
+			if (tour) {
+				if (e.key === 'Escape') {
+					e.stopPropagation();
+					tour.cancel();
+				}
+			} else {
+				if (!inputEnabled) return;
+				if (e.key === 'Escape' && enableGlobalHotkeys(e.target)) {
+					e.stopPropagation();
+					returnToTitleScreen();
+				} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
+					e.stopPropagation();
+					toggleHud();
+				}
 			}
 		}
 	};
 
 	const onClickHudToggle = (e: Event) => {
-		toggleHud();
-		e.preventDefault();
 		e.stopPropagation();
+		toggleHud();
 	};
 
 	// Earth's land
@@ -449,6 +465,10 @@
 		<Hud>
 			{#if tour}
 				<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
+			{:else if showHud}
+				<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
+					⇦
+				</FloatingIconButton>
 			{:else}
 				<FloatingIconButton
 					pressed={showHud}
@@ -461,8 +481,12 @@
 			{#if !tour || devMode}
 				{#if showHud}
 					<div class="hud-top-controls">
-						<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
-							⇦
+						<FloatingIconButton
+							pressed={showHud}
+							label="toggle hud controls"
+							on:click={onClickHudToggle}
+						>
+							∙∙∙
 						</FloatingIconButton>
 						<FloatingTextButton on:click={beginTour}>tour</FloatingTextButton>
 					</div>

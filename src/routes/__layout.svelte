@@ -7,7 +7,6 @@
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
 	import {goto} from '$app/navigation';
-	import {isEditable} from '@feltcoop/felt/util/dom.js';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBgStore';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
@@ -24,6 +23,7 @@
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 	import {setAudioCtx} from '$lib/audio/audioCtx';
 	import {setDimensions} from '$lib/app/dimensions';
+	import {enableGlobalHotkeys} from '$lib/util/dom';
 
 	const dimensions = writable({
 		width: browser ? window.innerWidth : 1,
@@ -110,25 +110,22 @@
 		: $settings.timeToGoIdle;
 	setAudioCtx(); // allows components to do `const audioCtx = getAudioCtx();` which uses svelte's `getContext`
 
-	const enableGlobalHotkeys = (target: HTMLElement) => !isEditable(target);
 	const onKeyDown = (e: KeyboardEvent) => {
 		// TODO main menu!
 
-		if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target as any)) {
+		if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+			// global pause
 			clock.toggle();
-		}
-
-		// toggle dev mode
-		if (e.key === '`' && e.ctrlKey) {
+		} else if (e.key === '`' && e.ctrlKey) {
+			// toggle dev mode
 			settings.update((s) => ({...s, devMode: !s.devMode}));
 			console.log('dev mode is now', $settings.devMode);
-		}
-		// dev mode hotkeys
-		if ($settings.devMode) {
-			if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e.target as any)) {
+		} else if ($settings.devMode) {
+			// dev mode hotkeys
+			if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 				settings.update((s) => ({...s, idleMode: !s.idleMode}));
 				console.log('idle mode is now', $settings.idleMode);
-			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e.target as any)) {
+			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 				settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
 				console.log('recording mode is now', $settings.recordingMode);
 			}
