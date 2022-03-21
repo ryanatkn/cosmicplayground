@@ -26,13 +26,13 @@ export class Simulation {
 	update(
 		dt: number,
 		collide: (bodyA: EntityBody, bodyB: EntityBody, result: CollisionResult) => void,
-		shouldCollide?: (bodyA: EntityBody, bodyB: EntityBody) => boolean,
+		filter?: (bodyA: EntityBody, bodyB: EntityBody) => boolean,
 	): void {
 		this.collisions.update();
 		const {bodies} = this;
 
 		let speed: number;
-		let potentials: EntityBody[];
+		const potentials: EntityBody[] = [];
 
 		// apply collisions
 		for (const bodyA of bodies) {
@@ -41,16 +41,12 @@ export class Simulation {
 			bodyA.x += bodyA.directionX * speed;
 			bodyA.y += bodyA.directionY * speed;
 
-			// TODO pass in `shouldCollide` to pre-filter potentials
-			// TODO pass in array arg, like the pattern with `result`
-			// TODO fix these types in the collisions library
-			potentials = bodyA.potentials() as any;
+			// TODO fix these types in the collisions library to avoid casting to any
+			potentials.length = 0;
+			bodyA.potentials(filter as any, potentials);
 
 			for (const bodyB of potentials) {
-				if (
-					(!shouldCollide || shouldCollide(bodyA, bodyB)) &&
-					bodyA.collides(bodyB as any, result)
-				) {
+				if (bodyA.collides(bodyB, result)) {
 					collide(bodyA, bodyB, result);
 				}
 			}

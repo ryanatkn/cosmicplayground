@@ -1,4 +1,4 @@
-import type {BVH} from './BVH.js';
+import type {BVH, FilterPotentials} from './BVH.js';
 import type {BVHBranch} from './BVHBranch.js';
 import type {Circle} from './Circle.js';
 import type {Point} from './Point.js';
@@ -56,7 +56,7 @@ export abstract class Body {
 	/**
 	 * Returns a list of potential collisions
 	 */
-	potentials(filter?: (body: Body) => boolean, results: Body[] = []): Body[] {
+	potentials(filter?: FilterPotentials, results?: Body[]): Body[] {
 		const bvh = this._bvh;
 
 		if (bvh === null) {

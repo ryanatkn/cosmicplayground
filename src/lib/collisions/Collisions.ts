@@ -1,4 +1,4 @@
-import {BVH} from './BVH.js';
+import {BVH, type FilterPotentials} from './BVH.js';
 import {Circle} from './Circle.js';
 import {Point} from './Point.js';
 import {Polygon} from './Polygon.js';
@@ -138,7 +138,7 @@ export class Collisions {
 	 * Returns a list of potential collisions for a body
 	 * 		body: The body to test for potential collisions against
 	 */
-	potentials(body: SomeBody, filter?: (body: Body) => boolean, results: Body[] = []): Body[] {
+	potentials(body: SomeBody, filter?: FilterPotentials, results?: Body[]): Body[] {
 		return this._bvh.potentials(body, filter, results);
 	}
 

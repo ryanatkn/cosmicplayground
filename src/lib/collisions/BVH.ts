@@ -2,6 +2,10 @@ import {BVHBranch} from './BVHBranch.js';
 import type {Body, SomeBody} from './Body.js';
 import type {Polygon} from './Polygon.js';
 
+export interface FilterPotentials {
+	(bodyA: Body, bodyB: Body): boolean;
+}
+
 /**
  * A Bounding Volume Hierarchy (BVH) used to find potential collisions quickly
  */
@@ -263,7 +267,7 @@ export class BVH {
 	 * Returns a list of potential collisions for a body
 	 * 		body: The body to test
 	 */
-	potentials(body: Body, filter?: (body: Body) => boolean, results: Body[] = []): Body[] {
+	potentials(body: Body, filter?: FilterPotentials, results: Body[] = []): Body[] {
 		const min_x = body._bvh_min_x;
 		const min_y = body._bvh_min_y;
 		const max_x = body._bvh_max_x;
@@ -307,7 +311,7 @@ export class BVH {
 				current = right;
 				traverse_left = true;
 			} else {
-				if (!branch && current !== body && (!filter || filter(body))) {
+				if (!branch && current !== body && (!filter || filter(body, current as Body))) {
 					results.push(current as Body);
 				}
 

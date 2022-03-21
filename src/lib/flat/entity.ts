@@ -10,15 +10,9 @@ export interface Entity extends Body {
 	dead?: boolean;
 }
 
-export interface EntityCircle extends Circle, Entity {
-	_circle: true;
-}
-export interface EntityPoint extends Point, Entity {
-	_point: true;
-}
-export interface EntityPolygon extends Polygon, Entity {
-	_polygon: true;
-}
+export type EntityCircle = Circle & Entity;
+export type EntityPoint = Point & Entity;
+export type EntityPolygon = Polygon & Entity;
 
 export type EntityBody = EntityCircle | EntityPoint | EntityPolygon;
 
