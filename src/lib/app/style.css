@@ -125,7 +125,7 @@ p {
 	margin: var(--spacing-5) 0 0 0; /* TODO hacky, maybe we want a <ContentSpacer/>? */
 }
 
-/* TODO maybe rename or rethink `.markup` */
+/* TODO use felt styles */
 .markup ul {
 	list-style: initial;
 	padding-left: var(--spacing-8);
