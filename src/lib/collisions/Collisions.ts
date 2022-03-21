@@ -132,7 +132,7 @@ export class Collisions {
 	 * Determines if two bodies are colliding
 	 * 		source: The source body
 	 * 		target: The target body to test against
-	 * 		result: A CollisionResult object on which to store information about the collision
+	 * 		result: A `CollisionResult` object on which to store information about the collision
 	 * 		aabb: Set to false to skip the AABB test (useful if you use your own potential collision heuristic)
 	 */
 	collides(

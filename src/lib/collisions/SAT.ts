@@ -7,7 +7,7 @@ import type {CollisionResult} from './CollisionResult.js';
  * Determines if two bodies are colliding using the Separating Axis Theorem
  * 		a: The source body to test
  * 		b: The target body to test against
- * 		result: A CollisionResult object on which to store information about the collision
+ * 		result: A `CollisionResult` object on which to store information about the collision
  * 		aabb: Set to false to skip the AABB test (useful if you use your own collision heuristic)
  */
 export function SAT(
@@ -118,7 +118,7 @@ function aabbAABB(a: SomeBody, b: SomeBody): boolean {
  * Determines if two polygons are colliding
  * 		a: The source polygon to test
  * 		b: The target polygon to test against
- * 		result: A CollisionResult object on which to store information about the collision
+ * 		result: A `CollisionResult` object on which to store information about the collision
  */
 function polygonPolygon(a: Polygon, b: Polygon, result: CollisionResult | null = null): boolean {
 	const a_count = a._coords!.length;
@@ -164,7 +164,7 @@ function polygonPolygon(a: Polygon, b: Polygon, result: CollisionResult | null =
  * Determines if a polygon and a circle are colliding
  * 		a: The source polygon to test
  * 		b: The target circle to test against
- * 		result: A CollisionResult object on which to store information about the collision
+ * 		result: A `CollisionResult` object on which to store information about the collision
  * 		reverse: Set to true to reverse a and b in the result parameter when testing circle->polygon instead of polygon->circle
  */
 function polygonCircle(
@@ -300,7 +300,7 @@ function polygonCircle(
  * Determines if two circles are colliding
  * 		a: The source circle to test
  * 		b: The target circle to test against
- * 		result: A CollisionResult object on which to store information about the collision
+ * 		result: A `CollisionResult` object on which to store information about the collision
  */
 function circleCircle(a: Circle, b: Circle, result: CollisionResult | null = null): boolean {
 	const a_radius = a.radius * a.scale;
@@ -333,7 +333,7 @@ function circleCircle(a: Circle, b: Circle, result: CollisionResult | null = nul
  * 		b_coords: The coordinates of the polygon to test against
  * 		x: The X direction of the axis
  * 		y: The Y direction of the axis
- * 		result: A CollisionResult object on which to store information about the collision
+ * 		result: A `CollisionResult` object on which to store information about the collision
  */
 function separatingAxis(
 	a_coords: Float64Array,
