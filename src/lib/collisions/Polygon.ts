@@ -126,10 +126,10 @@ export class Polygon<TPoint extends boolean = false> extends Body {
 		const {x, y, angle, scale_x, scale_y, _points, _coords} = this;
 		const count = _points!.length;
 
-		let min_x = 0,
-			max_x = 0,
-			min_y = 0,
-			max_y = 0;
+		let min_x = 0;
+		let max_x = 0;
+		let min_y = 0;
+		let max_y = 0;
 
 		for (let ix = 0, iy = 1; ix < count; ix += 2, iy += 2) {
 			let coord_x = _points![ix] * scale_x;
