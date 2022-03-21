@@ -138,8 +138,8 @@ export class Collisions {
 	 * Returns a list of potential collisions for a body
 	 * 		body: The body to test for potential collisions against
 	 */
-	potentials(body: SomeBody): Body[] {
-		return this._bvh.potentials(body);
+	potentials(body: SomeBody, filter?: (body: Body) => boolean, results: Body[] = []): Body[] {
+		return this._bvh.potentials(body, filter, results);
 	}
 
 	/**

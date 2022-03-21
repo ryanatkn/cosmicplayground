@@ -4,10 +4,10 @@ import {Body} from './Body.js';
  * A circle used to detect collisions
  */
 export class Circle extends Body {
+	override readonly _circle = true as const;
+
 	radius: number;
 	scale: number;
-
-	override _circle = true;
 
 	/**
 	 * x: The starting X coordinate

@@ -22,7 +22,7 @@ export abstract class Body {
 	_point = false;
 	_bvh: null | BVH = null;
 	_bvh_parent: null | BVHBranch = null;
-	_bvh_branch = false;
+	readonly _bvh_branch = false as const;
 	_bvh_padding: number;
 	_bvh_min_x = 0;
 	_bvh_min_y = 0;
@@ -56,14 +56,14 @@ export abstract class Body {
 	/**
 	 * Returns a list of potential collisions
 	 */
-	potentials(): Body[] {
+	potentials(filter?: (body: Body) => boolean, results: Body[] = []): Body[] {
 		const bvh = this._bvh;
 
 		if (bvh === null) {
 			throw new Error('Body does not belong to a collision system');
 		}
 
-		return bvh.potentials(this);
+		return bvh.potentials(this, filter, results);
 	}
 
 	/**
