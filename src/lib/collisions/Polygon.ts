@@ -3,8 +3,10 @@ import {Body} from './Body.js';
 /**
  * A polygon used to detect collisions
  */
-export class Polygon extends Body {
+export class Polygon<TPoint extends boolean = false> extends Body {
 	override readonly _polygon = true as const;
+	override readonly _circle = false as const;
+	override readonly _point: TPoint | false = false as const; // super weird but seems to work?
 
 	angle: number;
 	scale_x: number;

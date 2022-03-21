@@ -36,7 +36,6 @@ export class BVH {
 		const body_y = body.y;
 
 		if (polygon) {
-			body = body as Polygon;
 			if (
 				body._dirty_coords ||
 				body.x !== body._x ||

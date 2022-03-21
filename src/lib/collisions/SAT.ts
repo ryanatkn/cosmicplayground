@@ -32,7 +32,6 @@ export function SAT(
 	}
 
 	if (a_polygon) {
-		a = a as Polygon;
 		if (
 			a._dirty_coords ||
 			a.x !== a._x ||
@@ -46,7 +45,6 @@ export function SAT(
 	}
 
 	if (b_polygon) {
-		b = b as Polygon;
 		if (
 			b._dirty_coords ||
 			b.x !== b._x ||
@@ -60,12 +58,10 @@ export function SAT(
 	}
 
 	if (!aabb || aabbAABB(a, b)) {
-		a = a as Polygon;
 		if (a_polygon && a._dirty_normals) {
 			a._calculateNormals();
 		}
 
-		b = b as Polygon;
 		if (b_polygon && b._dirty_normals) {
 			b._calculateNormals();
 		}
@@ -76,8 +72,8 @@ export function SAT(
 				: a_polygon
 				? polygonCircle(a, b as any, result, false)
 				: b_polygon
-				? polygonCircle(b, a as any, result, true)
-				: circleCircle(a as any, b as any, result);
+				? polygonCircle(b, a, result, true)
+				: circleCircle(a, b, result);
 	}
 
 	if (result) {
@@ -97,19 +93,19 @@ function aabbAABB(a: SomeBody, b: SomeBody): boolean {
 	const a_x = a_polygon ? 0 : a.x;
 	const a_y = a_polygon ? 0 : a.y;
 	const a_radius = a_polygon ? 0 : a.radius * a.scale;
-	const a_min_x = a_polygon ? (a as Polygon)._min_x : a_x - a_radius;
-	const a_min_y = a_polygon ? (a as Polygon)._min_y : a_y - a_radius;
-	const a_max_x = a_polygon ? (a as Polygon)._max_x : a_x + a_radius;
-	const a_max_y = a_polygon ? (a as Polygon)._max_y : a_y + a_radius;
+	const a_min_x = a_polygon ? a._min_x : a_x - a_radius;
+	const a_min_y = a_polygon ? a._min_y : a_y - a_radius;
+	const a_max_x = a_polygon ? a._max_x : a_x + a_radius;
+	const a_max_y = a_polygon ? a._max_y : a_y + a_radius;
 
 	const b_polygon = b._polygon;
 	const b_x = b_polygon ? 0 : b.x;
 	const b_y = b_polygon ? 0 : b.y;
 	const b_radius = b_polygon ? 0 : b.radius * b.scale;
-	const b_min_x = b_polygon ? (b as Polygon)._min_x : b_x - b_radius;
-	const b_min_y = b_polygon ? (b as Polygon)._min_y : b_y - b_radius;
-	const b_max_x = b_polygon ? (b as Polygon)._max_x : b_x + b_radius;
-	const b_max_y = b_polygon ? (b as Polygon)._max_y : b_y + b_radius;
+	const b_min_x = b_polygon ? b._min_x : b_x - b_radius;
+	const b_min_y = b_polygon ? b._min_y : b_y - b_radius;
+	const b_max_x = b_polygon ? b._max_x : b_x + b_radius;
+	const b_max_y = b_polygon ? b._max_y : b_y + b_radius;
 
 	return a_min_x < b_max_x && a_min_y < b_max_y && a_max_x > b_min_x && a_max_y > b_min_y;
 }
@@ -120,7 +116,11 @@ function aabbAABB(a: SomeBody, b: SomeBody): boolean {
  * 		b: The target polygon to test against
  * 		result: A `CollisionResult` object on which to store information about the collision
  */
-function polygonPolygon(a: Polygon, b: Polygon, result: CollisionResult | null = null): boolean {
+function polygonPolygon(
+	a: Polygon<boolean>,
+	b: Polygon<boolean>,
+	result: CollisionResult | null = null,
+): boolean {
 	const a_count = a._coords!.length;
 	const b_count = b._coords!.length;
 
@@ -168,7 +168,7 @@ function polygonPolygon(a: Polygon, b: Polygon, result: CollisionResult | null =
  * 		reverse: Set to true to reverse a and b in the result parameter when testing circle->polygon instead of polygon->circle
  */
 function polygonCircle(
-	a: Polygon,
+	a: Polygon<boolean>,
 	b: Circle,
 	result: CollisionResult | null = null,
 	reverse = false,

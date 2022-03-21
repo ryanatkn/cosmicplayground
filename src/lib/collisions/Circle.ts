@@ -4,7 +4,9 @@ import {Body} from './Body.js';
  * A circle used to detect collisions
  */
 export class Circle extends Body {
+	override readonly _polygon = false as const;
 	override readonly _circle = true as const;
+	override readonly _point = false as const;
 
 	radius: number;
 	scale: number;
