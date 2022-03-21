@@ -154,9 +154,7 @@
 
 	const onKeydown = (e: KeyboardEvent) => {
 		switch (e.key) {
-			case 'Escape':
-				e.stopPropagation();
-				e.preventDefault();
+			case '1':
 				showPicker = !showPicker;
 				break;
 			case 'ArrowLeft':
@@ -251,7 +249,7 @@
 	</FloatingTextButton>
 </div>
 {#if !showPicker}
-	<div class="credits idle-fade">
+	<div class="credits idle-fade markup">
 		<Panel>
 			<ImageCreditsCaption image={activeImage} />
 		</Panel>

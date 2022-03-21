@@ -33,7 +33,7 @@
     "node": ">=16.6"
   },
   "devDependencies": {
-    "@feltcoop/eslint-config": "^0.1.4",
+    "@feltcoop/eslint-config": "^0.1.5",
     "@feltcoop/felt": "^0.23.0",
     "@feltcoop/gro": "^0.53.0",
     "@ryanatkn/collisions": "^3.0.1",

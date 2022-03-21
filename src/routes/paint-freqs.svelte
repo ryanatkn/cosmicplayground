@@ -5,7 +5,7 @@
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
-	import {hslToRgb} from '$lib/utils/colors';
+	import {hslToRgb} from '$lib/util/colors';
 	import {freqToMidi} from '$lib/music/midi';
 	import {DEFAULT_TUNING} from '$lib/music/constants';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
