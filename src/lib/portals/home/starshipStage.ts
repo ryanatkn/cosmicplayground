@@ -215,9 +215,6 @@ export class Stage extends BaseStage {
 			$camera,
 		} = this;
 
-		// TODO refactor this to use queries or tags or at least helpers, it's un-dry and inefficient
-		// TODO the rock and friend fragments buggily collide instead of the friend being destroyed sometimes
-
 		super.update(dt);
 
 		// TODO add a player controller component to handle this
@@ -359,7 +356,8 @@ export class Stage extends BaseStage {
 			}
 		}
 
-		// TODO how to make this generic?
+		// TODO how to make this generic? could wrap in an object
+		// with a `type` if we have to, don't want the garbage tho
 		if (rockFragmentsToAdd) {
 			for (const r of rockFragmentsToAdd) rockFragments.add(r);
 			this.addBodies(rockFragmentsToAdd);

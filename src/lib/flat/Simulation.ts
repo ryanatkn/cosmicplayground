@@ -41,7 +41,6 @@ export class Simulation {
 			bodyA.x += bodyA.directionX * speed;
 			bodyA.y += bodyA.directionY * speed;
 
-			// TODO fix these types in the collisions library to avoid casting to any
 			potentials.length = 0;
 			bodyA.potentials(filter as FilterPotentials, potentials);
 

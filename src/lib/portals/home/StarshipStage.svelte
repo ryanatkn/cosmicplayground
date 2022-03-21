@@ -114,7 +114,6 @@
 	};
 </script>
 
-<!-- TODO maybe instead use ResizeObserver? the iframe measuring feels unfortunate -->
 <div class="view" style:transform>
 	<World width={worldWidth} height={worldHeight} stages={[Stage]} bind:activeStageState />
 </div>
