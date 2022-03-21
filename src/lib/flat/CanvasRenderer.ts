@@ -1,7 +1,7 @@
 import {writable} from 'svelte/store';
 
 import type {Renderer} from '$lib/flat/renderer';
-import type {Entity, EntityCircle} from '$lib/flat/entity';
+import type {EntityBody, EntityCircle} from '$lib/flat/entity';
 import type {CameraState} from '$lib/flat/camera';
 
 export class CanvasRenderer implements Renderer {
@@ -50,7 +50,7 @@ export class CanvasRenderer implements Renderer {
 		ctx.clearRect(0, 0, width, height);
 	}
 
-	render(entities: Entity[], camera: CameraState): void {
+	render(entities: Iterable<EntityBody>, camera: CameraState): void {
 		const {ctx, width, height} = this;
 		if (!ctx) throw Error('Expected rendering context');
 		if (width === -1 || height === -1) throw Error('Expected renderer dimensions');
@@ -59,30 +59,60 @@ export class CanvasRenderer implements Renderer {
 
 		for (const entity of entities) {
 			if (entity.invisible) continue;
-			// TODO batch these draws (or just switch to WebGL?) nah support both
 			ctx.beginPath();
 			ctx.strokeStyle = entity.color || '#fff';
 			if (entity._circle) {
-				this.drawCircle(ctx, entity as EntityCircle, camera); // TODO fix type narrowing
+				drawCircle(ctx, entity, camera);
 			} else {
-				entity.draw(ctx);
+				// drawPolygon(ctx, entity, camera);
+				throw Error('TODO');
 			}
 			ctx.stroke();
-			ctx.closePath();
 		}
 	}
 
-	drawCircle(context: CanvasRenderingContext2D, entity: EntityCircle, camera: CameraState): void {
-		const x = entity.x;
-		const y = entity.y;
-		const radius = entity.radius * entity.scale;
-		// TODO adjust for camera
-		const viewX = (x - camera.x) * camera.scale + camera.width / 2;
-		const viewY = (y - camera.y) * camera.scale + camera.height / 2;
-		// context.moveTo(x + radius, y);
-		// context.arc(x, y, radius, 0, Math.PI * 2);
+	// TODO batch render? or maybe just use pixi? see in 2 places
+	// renderBatch(entities: Iterable<EntityBody>, camera: CameraState): void {
+	// 	const {ctx, width, height} = this;
+	// 	if (!ctx) throw Error('Expected rendering context');
+	// 	if (width === -1 || height === -1) throw Error('Expected renderer dimensions');
 
-		context.moveTo(viewX + radius, viewY);
-		context.arc(viewX, viewY, radius, 0, Math.PI * 2);
-	}
+	// 	this.dirty.set(false);
+
+	// 	// TODO optimize -- how? Firefox is dropping a lot of frames
+	// 	// https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas
+	// 	// round the px?
+	// 	// batch?
+	// 	ctx.beginPath();
+	// 	let setStyle = false;
+	// 	for (const entity of entities) {
+	// 		if (!setStyle) {
+	// 			ctx.strokeStyle = entity.color || '#fff';
+	// 			setStyle = true;
+	// 		}
+	// 		if (entity.invisible || entity.dead) continue;
+	// 		if (entity._circle) {
+	// 			drawCircle(ctx, entity, camera);
+	// 		} else {
+	// 			// drawPolygon(ctx, entity, camera);
+	// 			throw Error('TODO');
+	// 		}
+	// 	}
+	// 	ctx.stroke();
+	//  ctx.closePath(); // TODO not needed?
+	// }
 }
+
+const drawCircle = (
+	ctx: CanvasRenderingContext2D,
+	entity: EntityCircle,
+	camera: CameraState,
+): void => {
+	const {x, y} = entity;
+	const radius = entity.radius * entity.scale;
+	const viewX = (x - camera.x) * camera.scale + camera.width / 2;
+	const viewY = (y - camera.y) * camera.scale + camera.height / 2;
+
+	ctx.moveTo(viewX + radius, viewY);
+	ctx.arc(viewX, viewY, radius, 0, Math.PI * 2);
+};

@@ -316,16 +316,14 @@ export class Stage extends BaseStage {
 				if (bodyA.dead || bodyB.dead) return false;
 				if (bodyA === bounds || bodyB === bounds) return false; // TODO hmm
 				// TODO make a system for declaring collision groups -- bitmask?
-				const bodyAIsPlayer = player === bodyA;
-				const bodyBIsPlayer = player === bodyB;
-				const bodyAIsFriend = friends.has(bodyA as EntityCircle);
-				const bodyBIsFriend = friends.has(bodyB as EntityCircle);
-				const bodyAIsPlanet = planet === bodyA;
-				const bodyBIsPlanet = planet === bodyB;
-				if (
-					(bodyAIsPlayer && (bodyBIsFriend || bodyBIsPlanet)) ||
-					(bodyBIsPlayer && (bodyAIsFriend || bodyAIsPlanet))
-				) {
+				const _player = player === bodyA ? bodyA : player === bodyB ? bodyB : null;
+				const _planet = planet === bodyA ? bodyA : planet === bodyB ? bodyB : null;
+				const _friend = friends.has(bodyA as EntityCircle)
+					? bodyA
+					: friends.has(bodyB as EntityCircle)
+					? bodyB
+					: null;
+				if (_player && (_planet || _friend)) {
 					return false; // player doesn't collide with these
 				}
 				return true;
@@ -379,6 +377,14 @@ export class Stage extends BaseStage {
 	render(renderer: Renderer): void {
 		renderer.clear();
 		renderer.render(this.sim.bodies, this.$camera);
+		// TODO batch render? or maybe just use pixi? see in 2 places
+		// renderer.render([this.rock], this.$camera);
+		// renderer.render(this.rockFragments, this.$camera);
+		// renderer.render([this.planet], this.$camera);
+		// renderer.render(this.planetFragments, this.$camera);
+		// renderer.render(this.friends, this.$camera);
+		// renderer.render(this.friendFragments, this.$camera);
+		// renderer.render([this.player], this.$camera);
 	}
 
 	resize(width: number, height: number): void {

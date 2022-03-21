@@ -52,6 +52,7 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [@ryanatkn/collisions](https://github.com/ryanatkn/collisions/) via
 [@Sinova/Collisions](https://github.com/Sinova/Collisions/) ∙
 [TypeScript](https://github.com/microsoft/TypeScript) ∙
+[uvu](https://github.com/lukeed/uvu) ∙
 [Gro](https://github.com/feltcoop/gro) ∙
 [Prettier](https://github.com/prettier/prettier)
 & [more](package.json)
