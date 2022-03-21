@@ -1,4 +1,5 @@
 import {Collisions, CollisionResult} from '$lib/collisions';
+import type {FilterPotentials} from '$lib/collisions/BVH';
 
 import type {EntityBody} from '$lib/flat/entity';
 
@@ -43,7 +44,7 @@ export class Simulation {
 
 			// TODO fix these types in the collisions library to avoid casting to any
 			potentials.length = 0;
-			bodyA.potentials(filter as any, potentials);
+			bodyA.potentials(filter as FilterPotentials, potentials);
 
 			for (const bodyB of potentials) {
 				if (bodyA.collides(bodyB, result)) {

@@ -1,9 +1,9 @@
 import {BVHBranch} from './BVHBranch.js';
-import type {Body, SomeBody} from './Body.js';
+import type {SomeBody} from './Body.js';
 import type {Polygon} from './Polygon.js';
 
 export interface FilterPotentials {
-	(bodyA: Body, bodyB: Body): boolean;
+	(bodyA: SomeBody, bodyB: SomeBody): boolean;
 }
 
 /**
@@ -267,13 +267,13 @@ export class BVH {
 	 * Returns a list of potential collisions for a body
 	 * 		body: The body to test
 	 */
-	potentials(body: Body, filter?: FilterPotentials, results: Body[] = []): Body[] {
+	potentials(body: SomeBody, filter?: FilterPotentials, results: SomeBody[] = []): SomeBody[] {
 		const min_x = body._bvh_min_x;
 		const min_y = body._bvh_min_y;
 		const max_x = body._bvh_max_x;
 		const max_y = body._bvh_max_y;
 
-		let current: Body | BVHBranch | null = this._hierarchy;
+		let current: SomeBody | BVHBranch | null = this._hierarchy;
 		let traverse_left = true;
 
 		if (!current || !current._bvh_branch) {
@@ -284,7 +284,7 @@ export class BVH {
 			if (traverse_left) {
 				traverse_left = false;
 
-				let left: Body | BVHBranch | null = current._bvh_branch ? current._bvh_left : null;
+				let left: SomeBody | BVHBranch | null = current._bvh_branch ? current._bvh_left : null;
 
 				while (
 					left &&
@@ -298,7 +298,7 @@ export class BVH {
 				}
 			}
 
-			const right: Body | BVHBranch | null = current._bvh_branch ? current._bvh_right : null;
+			const right: SomeBody | BVHBranch | null = current._bvh_branch ? current._bvh_right : null;
 
 			if (
 				right &&
@@ -314,12 +314,12 @@ export class BVH {
 					results.push(current);
 				}
 
-				let parent: any = current._bvh_parent;
+				let parent: BVHBranch | null = current._bvh_parent;
 
 				if (parent) {
 					while (parent && parent._bvh_right === current) {
 						current = parent;
-						parent = current!._bvh_parent;
+						parent = current._bvh_parent;
 					}
 
 					current = parent;

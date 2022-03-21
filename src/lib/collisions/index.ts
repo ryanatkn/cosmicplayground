@@ -1,4 +1,4 @@
-export {Body} from './Body.js';
+export {Body, type SomeBody} from './Body.js';
 export {BVH} from './BVH.js';
 export {BVHBranch} from './BVHBranch.js';
 export {Circle} from './Circle.js';

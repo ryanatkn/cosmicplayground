@@ -57,14 +57,14 @@ export abstract class Body {
 	/**
 	 * Returns a list of potential collisions
 	 */
-	potentials(filter?: FilterPotentials, results?: Body[]): Body[] {
+	potentials(filter?: FilterPotentials, results?: SomeBody[]): SomeBody[] {
 		const bvh = this._bvh;
 
 		if (bvh === null) {
 			throw new Error('Body does not belong to a collision system');
 		}
 
-		return bvh.potentials(this, filter, results);
+		return bvh.potentials(this as any, filter, results);
 	}
 
 	/**
