@@ -218,13 +218,14 @@ export class Stage extends BaseStage {
 		// TODO add a player controller component to handle this
 		updateDirection(controller, player, $camera);
 
+		let friendFragmentsToAdd: EntityBody[] | null = null as any; // TODO the `as any` is needed because flow control doesn't account for the callbacks setting this
+
 		// gives stages full control over the sim `update`
 		this.sim.update(
 			dt,
 			(bodyA, bodyB, result) => {
 				if (bodyA.dead || bodyB.dead) {
-					console.log('HELP WAIT SKIPPING DEAD BODY'); // TODO BLOCK is this called? is even worse than below if so
-					return;
+					throw Error('HELP WAIT SKIPPING DEAD BODY'); // TODO BLOCK is this called? is even worse than below if so
 				}
 
 				collideRigidBodies(bodyA, bodyB, result);
@@ -247,35 +248,35 @@ export class Stage extends BaseStage {
 					: planetFragments.includes(bodyB as EntityCircle)
 					? bodyB
 					: undefined;
+				const _friendFragment = friendFragments.includes(bodyA as EntityCircle)
+					? bodyA
+					: friendFragments.includes(bodyB as EntityCircle)
+					? bodyB
+					: undefined;
 
 				// handle collision between rock and friend
-				const _molten = _rock || _rockFragment || _planetFragment;
+				const _molten = _rock || _rockFragment || _planetFragment; // TODO BLOCK merge with _friendFragment colliding with _friend below
 				if (_friend && _molten) {
 					const moltenIsRock = _molten === _rock;
 					const newFriendFragments = this.frag(_friend, collisions, 12);
-					friendFragments.push(...newFriendFragments);
+					(friendFragmentsToAdd || (friendFragmentsToAdd = [])).push(...newFriendFragments);
 					this.removeBody(_friend);
 					// TODO this logic is very hardcoded -- ideally it's all simulated,
 					// but we'd need to ensure the gameplay still works, which may be tricky or impossible
-					for (const friendFragment of newFriendFragments) {
-						friendFragment.speed = moltenIsRock
+					for (const newFriendFragment of newFriendFragments) {
+						newFriendFragment.speed = moltenIsRock
 							? randomFloat(_molten.speed * 1.2, _molten.speed * 2.44)
 							: randomFloat(_molten.speed / 8, _molten.speed);
-						friendFragment.directionX = moltenIsRock
+						newFriendFragment.directionX = moltenIsRock
 							? randomFloat(_molten.directionX / 2, _molten.directionX * 2)
 							: randomFloat(-_molten.directionX / 2, _molten.directionX);
-						friendFragment.directionY = moltenIsRock
+						newFriendFragment.directionY = moltenIsRock
 							? randomFloat(_molten.directionY / 2, _molten.directionY * 2)
 							: randomFloat(-_molten.directionY / 2, _molten.directionY);
-						friendFragment.color = COLOR_MOLTEN;
+						newFriendFragment.color = COLOR_MOLTEN;
 					}
-					// TODO BLOCK should `addBodies` be called at the very end?
-					// also need to worry about `friendFragments` and similar
-					this.addBodies(newFriendFragments);
-				}
-
-				// handle collision between rock and planet
-				if (_rock && _planet && _rock.collides(_planet)) {
+				} else if (_rock && _planet) {
+					// handle collision between rock and planet
 					this.removeBody(_rock);
 					this.removeBody(_planet);
 					planetFragments.push(...this.frag(_planet, collisions, 42));
@@ -293,6 +294,31 @@ export class Stage extends BaseStage {
 						rockFragment.directionY = randomFloat(-_rock.directionY * 2, _rock.directionY * 0.25);
 					}
 					this.addBodies(rockFragments);
+				} else if (_friendFragment) {
+					// destroy friend fragments when they touch the planet, planet fragments, or rock fragments
+					if (_planet || _planetFragment || _rockFragment) {
+						this.removeBody(_friendFragment);
+					} else if (_friend) {
+						// TODO refactor with the code above
+						const newFriendFragments = this.frag(_friend, collisions, 12);
+						(friendFragmentsToAdd || (friendFragmentsToAdd = [])).push(...newFriendFragments);
+						this.removeBody(_friend);
+						for (const newFriendFragment of newFriendFragments) {
+							newFriendFragment.speed = randomFloat(
+								_friendFragment.speed / 2,
+								_friendFragment.speed * 2,
+							);
+							newFriendFragment.directionX = randomFloat(
+								_friendFragment.directionX / 2,
+								_friendFragment.directionX * 2,
+							);
+							newFriendFragment.directionY = randomFloat(
+								_friendFragment.directionY / 2,
+								_friendFragment.directionY * 2,
+							);
+							newFriendFragment.color = COLOR_MOLTEN;
+						}
+					}
 				}
 			},
 			(bodyA, bodyB) => {
@@ -349,58 +375,8 @@ export class Stage extends BaseStage {
 			}
 		}
 
-		let friendFragmentsToAdd: EntityBody[] | null = null;
-		for (const friendFragment of friendFragments) {
-			if (friendFragment.dead) continue;
-			// destroy friend fragments when they touch the planet, planet fragments, or rock fragments
-			for (const planetFragment of planetFragments) {
-				if (
-					!friendFragment.dead &&
-					!planetFragment.dead &&
-					friendFragment.collides(planetFragment)
-				) {
-					// TODO helper? dead+remove+?
-					this.removeBody(friendFragment);
-				}
-			}
-			if (!friendFragment.dead) {
-				if (!planet.dead && friendFragment.collides(planet)) {
-					// TODO helper? dead+remove+?
-					this.removeBody(friendFragment);
-				}
-				for (const rockFragment of rockFragments) {
-					if (!rockFragment.dead && friendFragment.collides(rockFragment)) {
-						// TODO helper? dead+remove+?
-						this.removeBody(friendFragment);
-					}
-				}
-				for (const friend of friends) {
-					if (!friend.dead && friendFragment.collides(friend)) {
-						// TODO refactor with the code above
-						const newFriendFragments = this.frag(friend, this.collisions, 12);
-						(friendFragmentsToAdd || (friendFragmentsToAdd = [])).push(...newFriendFragments);
-						// TODO helper? dead+remove+?
-						this.removeBody(friend);
-						for (const newFriendFragment of friendFragmentsToAdd) {
-							newFriendFragment.speed = randomFloat(
-								friendFragment.speed / 2,
-								friendFragment.speed * 2,
-							);
-							newFriendFragment.directionX = randomFloat(
-								friendFragment.directionX / 2,
-								friendFragment.directionX * 2,
-							);
-							newFriendFragment.directionY = randomFloat(
-								friendFragment.directionY / 2,
-								friendFragment.directionY * 2,
-							);
-							newFriendFragment.color = COLOR_MOLTEN;
-						}
-					}
-				}
-			}
-		}
-		// this is no consistent physics lol
+		// TODO BLOCK batch add other types here too
+		// TODO how to make this generic?
 		if (friendFragmentsToAdd) {
 			friendFragments.push(...friendFragmentsToAdd);
 			this.addBodies(friendFragmentsToAdd);
