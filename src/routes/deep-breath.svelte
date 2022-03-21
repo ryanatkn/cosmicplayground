@@ -92,7 +92,7 @@
 	const onKeyDown = (e: KeyboardEvent) => {
 		if (showTitleScreen) {
 			// title screen
-			// TODO
+			// TODO either hoist `load` or use new global hotkey system in `DeepBreathTitleScreen`
 			// if (e.key === '1' && enableGlobalHotkeys(e.target)) {
 			// 	e.stopPropagation();
 			// 	// load();
