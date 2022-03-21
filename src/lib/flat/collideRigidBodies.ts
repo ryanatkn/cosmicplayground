@@ -1,6 +1,6 @@
 // TODO name of this module/helper?
 
-import type {CollisionResult} from '$lib/collisions';
+import type {CollisionResult} from '@ryanatkn/collisions';
 import type {EntityBody} from '$lib/flat/entity';
 
 export const collideRigidBodies = (

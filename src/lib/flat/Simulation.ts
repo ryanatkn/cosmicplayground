@@ -1,5 +1,4 @@
-import {Collisions, CollisionResult} from '$lib/collisions';
-import type {FilterPotentials} from '$lib/collisions/BVH';
+import {Collisions, CollisionResult} from '@ryanatkn/collisions';
 
 import type {EntityBody} from '$lib/flat/entity';
 

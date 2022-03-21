@@ -1,9 +1,0 @@
-export {Body, type SomeBody} from './Body.js';
-export {BVH} from './BVH.js';
-export {BVHBranch} from './BVHBranch.js';
-export {Circle} from './Circle.js';
-export {Collisions} from './Collisions.js';
-export {Point} from './Point.js';
-export {Polygon} from './Polygon.js';
-export {CollisionResult} from './CollisionResult.js';
-export {SAT} from './SAT.js';
