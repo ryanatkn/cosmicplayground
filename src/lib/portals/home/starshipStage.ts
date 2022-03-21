@@ -227,10 +227,6 @@ export class Stage extends BaseStage {
 		this.sim.update(
 			dt,
 			(bodyA, bodyB, result) => {
-				if (bodyA.dead || bodyB.dead) {
-					throw Error('HELP WAIT SKIPPING DEAD BODY'); // TODO BLOCK is this called? is even worse than below if so
-				}
-
 				collideRigidBodies(bodyA, bodyB, result);
 
 				// TODO refactor into a system
