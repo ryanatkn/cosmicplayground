@@ -7,19 +7,11 @@
 <div class="preview">
 	<h1>cosmicplayground</h1>
 	<h3>
-		about <img
-			src="/assets/characters/cosm.png"
-			alt="cosm"
-			class="pixelated"
-			style="width: 16px; height: 16px; margin: 0 10px;"
-		/>
+		about
+		<img src="/assets/icon.png" alt="cosmicplayground icon" width="32" style:margin="10px" />
 		credits
-		<img
-			src="/assets/characters/cosm.png"
-			alt="cosm"
-			class="pixelated"
-			style="width: 16px; height: 16px; margin: 0 10px;"
-		/> contact
+		<img src="/assets/icon.png" alt="cosmicplayground icon" width="32" style:margin="10px" />
+		contact
 	</h3>
 </div>
 

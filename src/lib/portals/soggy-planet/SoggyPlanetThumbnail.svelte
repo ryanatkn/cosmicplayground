@@ -70,6 +70,7 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 		overflow: hidden;
 		animation: sogging-earth 6s ease-in-out infinite alternate;
 	}
+	/* TODO animation state var */
 	:global(.paused) .thumbnail-animation-wrapper {
 		animation-play-state: paused;
 	}

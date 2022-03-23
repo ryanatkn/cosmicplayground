@@ -10,18 +10,24 @@
 	<h1>cosmicplayground</h1>
 	<h2>tools and toys for expanding minds</h2>
 </header>
+<figure style:margin="var(--spacing_lg) auto 0">
+	<img src="/favicon.png" alt="cosmicplayground icon" />
+</figure>
 <Panel>
 	<div class="markup">
 		<h2>About</h2>
 		<p>
-			cosmicplayground.org is a collection of loosely related projects created by <a
+			cosmicplayground is a collection of loosely related projects created by <a
 				href="https://www.ryanatkn.com">Ryan Atkinson</a
 			>. Hi that's me, I enjoy making web things and apparently I have a thing for space? Everything
 			here is free and <a href="https://github.com/ryanatkn/cosmicplayground">open source</a> and
-			mostly a work in progress. The first projects that I think are worth sharing are
-			<PortalLink slug="deep-breath" />
+			mostly a work in progress. The first projects that seem worth sharing are
+			<PortalLink slug="soggy-planet" />
 			and
 			<PortalLink slug="starlit-hammock" />, and there's hopefully more to come!
+			<a href="https://github.com/cosmicplayground"
+				><img src="/assets/characters/cosm.png" alt="cosm" class="pixelated" width="16" />
+			</a>
 		</p>
 		<hr />
 		<CreditsPersonalSignature />
