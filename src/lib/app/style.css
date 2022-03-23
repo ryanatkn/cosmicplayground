@@ -74,6 +74,9 @@ html {
 	--spacing_xl: 100px;
 	--hud_element_size: var(--spacing_xl);
 	--waiting_animation_duration: 1.5s;
+
+	/* TODO use Felt style.css */
+	--duration_6: 3s;
 }
 
 /* border-box all the things, but let parents override children */
