@@ -29,9 +29,8 @@
 				><img src="/assets/characters/cosm.png" alt="cosm" class="pixelated" width="16" />
 			</a>
 		</p>
-		<hr />
-		<CreditsPersonalSignature />
 		<CreditsProjectSignature />
+		<CreditsPersonalSignature />
 	</div>
 </Panel>
 <Panel>
@@ -53,8 +52,8 @@
 <Panel>
 	<div class="markup">
 		<h2>Contact</h2>
-		<CreditsPersonalSignature />
 		<CreditsProjectSignature />
+		<CreditsPersonalSignature />
 		<div style="position: relative; cursor: none; height: 0">
 			<img
 				src="/assets/characters/spider.png"
