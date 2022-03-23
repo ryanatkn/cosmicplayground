@@ -5,7 +5,7 @@
 
 	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
 	import aboutPortal from '$lib/portals/about/data';
-	import deepBreathPortal from '$lib/portals/deep-breath/data';
+	import soggyPlanetPortal from '$lib/portals/soggy-planet/data';
 	import starlitHammockPortal from '$lib/portals/starlit-hammock/data';
 	import paintFreqsPortal from '$lib/portals/paint-freqs/data';
 	import easings2Portal from '$lib/portals/easings-2/data';
@@ -77,7 +77,7 @@
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
 	const primaryPortals = [
-		[deepBreathPortal],
+		[soggyPlanetPortal],
 		[starlitHammockPortal],
 		[easings2Portal, paintFreqsPortal, easings1Portal],
 		[starshipPortal as any, hearingTestPortal, underConstructionPortal],
@@ -463,7 +463,7 @@
 
 	/* TODO how to do this? data with a css variable?
 	or is this the right time to add CSS variables to JS? */
-	:global(.portal-preview--deep-breath) {
+	:global(.portal-preview--soggy-planet) {
 		border-color: var(--ocean_color) !important;
 	}
 	:global(.portal-preview--starlit-hammock) {

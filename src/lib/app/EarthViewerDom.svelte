@@ -33,7 +33,7 @@
 		screenPivotX: number,
 		screenPivotY: number,
 	) => void;
-	export let inputEnabled: boolean;
+	export let inputEnabled = true;
 	export let earth1LeftOffset: number;
 	export let earth2LeftOffset: number;
 	export let landImages: string[];

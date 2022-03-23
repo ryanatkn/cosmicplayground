@@ -24,7 +24,7 @@
 		screenPivotX: number,
 		screenPivotY: number,
 	) => void;
-	export let inputEnabled: boolean;
+	export let inputEnabled = true;
 	export let landImages: string[]; // not reactive
 	export let seaImages: string[]; // not reactive
 	export let activeLandValue: number;

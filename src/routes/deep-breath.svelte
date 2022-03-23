@@ -6,11 +6,11 @@
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
 
 	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
-	import MonthHud from '$lib/portals/deep-breath/MonthHud.svelte';
-	import SeaLevelHud from '$lib/portals/deep-breath/SeaLevelHud.svelte';
+	import MonthHud from '$lib/app/MonthHud.svelte';
+	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
-	import EarthViewerDom from '$lib/portals/deep-breath/EarthViewerDom.svelte';
-	import EarthViewerPixi from '$lib/portals/deep-breath/EarthViewerPixi.svelte';
+	import EarthViewerDom from '$lib/app/EarthViewerDom.svelte';
+	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
 	import {createResourcesStore, type AudioResource} from '$lib/app/resourcesStore';
 	import {createDeepBreathTour} from '$lib/portals/deep-breath/deepBreathTour';
 	import {createTourStore, type TourData, type TourStep, type TourStore} from '$lib/app/tourStore';
