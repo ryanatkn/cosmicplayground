@@ -6,15 +6,18 @@
 	import CreditsUnderConstruction from './CreditsUnderConstruction.svelte';
 	import CreditsStarship from './CreditsStarship.svelte';
 	import CreditsBannerAndIcon from './CreditsBannerAndIcon.svelte';
+	import Panel from '$lib/app/Panel.svelte';
 
 	// TODO should credits be a portal convention? `/src/portals/{slug}/Credits.svelte`
 </script>
 
-<div class="markup">
-	<h2>Credits</h2>
-	<section>
-		This project relies on lots of amazing freely licensed content. See below for links and
-		copyright info.
+<Panel>
+	<div class="markup">
+		<h2>Credits</h2>
+		<p>
+			This project relies on lots of amazing freely licensed content. See below for links and
+			copyright info.
+		</p>
 		<ul>
 			<li>
 				<a href="https://earthobservatory.nasa.gov/image-use-policy">NASA image use policy</a>
@@ -35,39 +38,26 @@
 				</a>
 			</li>
 		</ul>
-	</section>
-	<hr />
-	<section>
-		<CreditsBannerAndIcon />
-	</section>
-	<hr />
-	<section>
-		<CreditsStarship />
-	</section>
-	<hr />
-	<section>
-		<CreditsSpaceImages />
-	</section>
-	<hr />
-	<section>
-		<CreditsSoggyPlanet />
-	</section>
-	<hr />
-	<section>
-		<CreditsUnderConstruction />
-	</section>
-	<hr />
-	<section>
-		<CreditsPaintFreqs />
-	</section>
-	<hr />
-	<section>
-		<CreditsNightLights />
-	</section>
-</div>
-
-<style>
-	section {
-		margin-top: var(--spacing-5);
-	}
-</style>
+	</div>
+</Panel>
+<Panel>
+	<CreditsBannerAndIcon />
+</Panel>
+<Panel>
+	<CreditsStarship />
+</Panel>
+<Panel>
+	<CreditsSpaceImages />
+</Panel>
+<Panel>
+	<CreditsSoggyPlanet />
+</Panel>
+<Panel>
+	<CreditsUnderConstruction />
+</Panel>
+<Panel>
+	<CreditsPaintFreqs />
+</Panel>
+<Panel>
+	<CreditsNightLights />
+</Panel>

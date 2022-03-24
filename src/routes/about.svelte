@@ -46,9 +46,7 @@
 	<CreditsProjectSignature />
 	<CreditsPersonalSignature />
 </Panel>
-<Panel>
-	<Credits />
-</Panel>
+<Credits />
 <Panel>
 	<div class="markup">
 		<h2>Privacy</h2>
