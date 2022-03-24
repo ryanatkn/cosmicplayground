@@ -13,7 +13,7 @@
 
 {#if href}
 	<!-- TODO remove this interpolated class, or at least clean it up (needs sy rollup plugin fix) -->
-	<a class="portal-preview {classes}" {href} {style}>
+	<a class="portal-preview buttonish {classes}" {href} {style}>
 		<slot />
 	</a>
 {:else}

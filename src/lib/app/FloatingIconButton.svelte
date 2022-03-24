@@ -29,6 +29,7 @@
 	button:hover {
 		transform: var(--clickable_transform__hover);
 		opacity: var(--clickable_opacity__hover);
+		text-decoration: none;
 	}
 	button:active {
 		transform: var(--clickable_transform__active);

@@ -138,9 +138,6 @@ p {
 	list-style: initial;
 	padding-left: var(--spacing-8);
 }
-.markup a:hover {
-	text-decoration: underline;
-}
 
 /* TODO this assumes a horizontal layout - maybe make a component from this with a layout prop? */
 figure {
@@ -188,6 +185,13 @@ a {
 	cursor: pointer;
 	text-decoration: none;
 	color: var(--ocean_text_color);
+	font-weight: 500;
+}
+a:hover {
+	text-decoration: underline;
+}
+a.buttonish:hover {
+	text-decoration: none;
 }
 /* 
 TODO
@@ -264,4 +268,20 @@ summary:active {
 	to {
 		opacity: 1;
 	}
+}
+
+.image-button {
+	cursor: pointer;
+	height: auto;
+	transition: var(--clickable_transition);
+	transform-origin: center;
+	transform: var(--clickable_transform);
+	border: none;
+	display: inline-block;
+}
+.image-button:hover {
+	transform: var(--clickable_transform__hover);
+}
+.image-button:active {
+	transform: var(--clickable_transform__active);
 }

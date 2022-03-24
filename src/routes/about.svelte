@@ -7,7 +7,21 @@
 </script>
 
 <header>
-	<h1>cosmicplayground</h1>
+	<h1>
+		<div class="header-content">
+			cosmicplayground
+			<button
+				type="button"
+				class="image-button cosm"
+				on:click={() => {
+					// eslint-disable-next-line no-alert
+					alert('coming soon!');
+				}}
+			>
+				<img src="/assets/characters/cosm.png" alt="more to come!" class="pixelated" width="16" />
+			</button>
+		</div>
+	</h1>
 	<h2>tools and toys for expanding minds</h2>
 </header>
 <figure style:margin="var(--spacing_lg) auto 0">
@@ -25,13 +39,12 @@
 			<PortalLink slug="soggy-planet" />
 			and
 			<PortalLink slug="starlit-hammock" />, and there's hopefully more to come!
-			<a href="https://github.com/cosmicplayground"
-				><img src="/assets/characters/cosm.png" alt="cosm" class="pixelated" width="16" />
-			</a>
 		</p>
-		<CreditsProjectSignature />
-		<CreditsPersonalSignature />
 	</div>
+</Panel>
+<Panel>
+	<CreditsProjectSignature />
+	<CreditsPersonalSignature />
 </Panel>
 <Panel>
 	<Credits />
@@ -51,7 +64,6 @@
 </Panel>
 <Panel>
 	<div class="markup">
-		<h2>Contact</h2>
 		<CreditsProjectSignature />
 		<CreditsPersonalSignature />
 		<div style="position: relative; cursor: none; height: 0">
@@ -72,6 +84,16 @@
 	h1 {
 		font-size: 106px;
 		margin-top: 10px;
+		display: flex;
+		justify-content: center;
+	}
+	.header-content {
+		position: relative;
+	}
+	.cosm {
+		position: absolute;
+		bottom: 50px;
+		right: -20px;
 	}
 	@media (max-width: 900px) {
 		header h1 {
