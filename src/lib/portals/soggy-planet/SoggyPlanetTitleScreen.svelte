@@ -72,10 +72,11 @@
 			<h2>Credits</h2>
 			<SoggyPlanetCredits />
 		</section>
-		<hr />
+	</Panel>
+	<Panel>
 		<section class="markup">
-			<CreditsPersonalSignature />
 			<CreditsProjectSignature />
+			<CreditsPersonalSignature />
 		</section>
 	</Panel>
 	<!-- TODO pull this href from portal data? -->
