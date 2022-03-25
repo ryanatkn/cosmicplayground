@@ -342,7 +342,7 @@
 	>
 		<header class="portals">
 			<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
-				<svelte:component this={aboutPortal.Preview} portal={aboutPortal} />
+				<svelte:component this={aboutPortal.Preview} />
 			</PortalPreview>
 		</header>
 		{#each primaryPortals as portals}
@@ -354,7 +354,7 @@
 						>
 					{:else}
 						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
-							<svelte:component this={portal.Preview} {portal} />
+							<svelte:component this={portal.Preview} />
 						</PortalPreview>
 					{/if}
 				{/each}
@@ -394,7 +394,7 @@
 				<ul class="portals">
 					{#each portals as portal}
 						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
-							<svelte:component this={portal.Preview} {portal} />
+							<svelte:component this={portal.Preview} />
 						</PortalPreview>
 					{/each}
 				</ul>
