@@ -163,21 +163,10 @@
 
 	let selectedSeaLevel: number | null = null;
 	let hoveredSeaLevel: number | null = null;
-	$: activeSeaLevel =
-		hoveredSeaLevel === null
-			? selectedSeaLevel === null
-				? $seaLevel
-				: selectedSeaLevel
-			: hoveredSeaLevel;
+	$: activeSeaLevel = hoveredSeaLevel ?? selectedSeaLevel ?? $seaLevel;
 	let selectedLandIndex: number | null = null;
 	let hoveredLandIndex: number | null = null;
-	// TODO use nullish coalescing
-	$: activeLandIndex =
-		hoveredLandIndex === null
-			? selectedLandIndex === null
-				? cycledLandIndex
-				: selectedLandIndex
-			: hoveredLandIndex;
+	$: activeLandIndex = hoveredLandIndex ?? selectedLandIndex ?? cycledLandIndex;
 	$: activeLandValue = activeLandIndex === cycledLandIndex ? cycledLandValue : activeLandIndex;
 
 	const setCycledLandValue = (value: number) => {

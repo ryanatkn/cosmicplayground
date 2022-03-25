@@ -1,6 +1,4 @@
 <script lang="ts">
-	import {tweened, type Tweened} from 'svelte/motion';
-	import {cubicInOut} from 'svelte/easing';
 	import {writable} from 'svelte/store';
 	import {onMount} from 'svelte';
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
@@ -127,13 +125,13 @@
 	let lightsTimer = LIGHTS_OPACITY_CYCLE_TIMER * 2.5;
 	$: if (showLights) lightsTimer += $clock.dt;
 	$: lightsOpacity = toLightsOpacity(lightsTimer);
-	// TODO would be cool to have nightfall overlay the shape of the real thing, not global
-	$: nightfallOpacity = (lightsOpacity - LIGHTS_OPACITY_MIN) * 0.48;
 	const toLightsOpacity = (time: number): number =>
 		LIGHTS_OPACITY_MIN +
 		((LIGHTS_OPACITY_MAX - LIGHTS_OPACITY_MIN) *
 			(Math.sin(time / LIGHTS_OPACITY_CYCLE_TIMER) + 1)) /
 			2;
+	// TODO would be cool to have nightfall overlay the shape of the real thing, not global
+	$: nightfallOpacity = (lightsOpacity - LIGHTS_OPACITY_MIN) * 0.48;
 
 	// TODO this is weird because the shore images were bolted on after the fact.
 	// Refactoring the sea images to have a single base and later the second/third above would be ideal
@@ -142,55 +140,30 @@
 	const seaImages = Array.from({length: 3}, (_, i) => `/assets/earth/sea_${i + 1}.png`);
 	// Earth's shores beneath the current sea level
 	const shoreImages = Array.from({length: 10}, (_, i) => `/assets/earth/shore_${10 - i}.png`);
-	const seaIndexMax = seaImages.length + shoreImages.length - 1;
-	const seaTimerMax = 1000; // TODO BLOCK remove this and make it cycle with time
-	let seaTimer = seaTimerMax;
-	let currentSeaIndex = shoreImages.length;
-	const seaIndexValues = [0, 1].map((v) => Math.round(v * seaIndexMax));
-	const seaLevel = tweened(seaIndexValues[currentSeaIndex], {
-		easing: cubicInOut,
-		duration: seaTimerMax,
-	});
 	const seashoreFloorIndex = shoreImages.length;
-	const nextSeaIndex = () => {
-		if (currentSeaIndex >= seaIndexValues.length - 1) {
-			currentSeaIndex = 0;
-		} else {
-			currentSeaIndex++;
-		}
-		$seaLevel = seaIndexValues[currentSeaIndex];
-	};
+	const seaIndexMax = seaImages.length + shoreImages.length - 1;
+	const SEA_LEVEL_CYCLE_TIMER = 1000; // larger is slower
+	let seaLevelTimer = SEA_LEVEL_CYCLE_TIMER * 2.5;
+	$: if (selectedSeaLevel === null && hoveredSeaLevel === null) {
+		seaLevelTimer += $clock.dt;
+	}
+	const toSeaLevel = (time: number): number =>
+		(seaIndexMax * (Math.sin(time / SEA_LEVEL_CYCLE_TIMER) + 1)) / 2;
+	let seaLevel = toSeaLevel(seaLevelTimer);
+	$: seaLevel = toSeaLevel(seaLevelTimer);
 
 	// update every clock tick
 	$: if (selectedLandIndex === null && hoveredLandIndex === null) {
 		landTimer += $clock.dt;
 		cycledLandValue = (landTimer / landDelay) % landImages.length;
 	}
-	$: if (selectedSeaLevel === null && hoveredSeaLevel === null) {
-		seaTimer -= $clock.dt;
-		if (seaTimer <= 0) {
-			seaTimer = seaTimerMax;
-			nextSeaIndex();
-		}
-	}
 
 	let selectedSeaLevel: number | null = null;
 	let hoveredSeaLevel: number | null = null;
-	$: activeSeaLevel =
-		hoveredSeaLevel === null
-			? selectedSeaLevel === null
-				? $seaLevel
-				: selectedSeaLevel
-			: hoveredSeaLevel;
+	$: activeSeaLevel = hoveredSeaLevel ?? selectedSeaLevel ?? seaLevel;
 	let selectedLandIndex: number | null = null;
 	let hoveredLandIndex: number | null = null;
-	// TODO use nullish coalescing
-	$: activeLandIndex =
-		hoveredLandIndex === null
-			? selectedLandIndex === null
-				? cycledLandIndex
-				: selectedLandIndex
-			: hoveredLandIndex;
+	$: activeLandIndex = hoveredLandIndex ?? selectedLandIndex ?? cycledLandIndex;
 	$: activeLandValue = activeLandIndex === cycledLandIndex ? cycledLandValue : activeLandIndex;
 
 	const setCycledLandValue = (value: number) => {
@@ -230,13 +203,6 @@
 	seaImages.forEach((url) => resources.addResource('image', url));
 	shoreImages.forEach((url) => resources.addResource('image', url));
 	resources.addResource('image', LIGHTS_IMAGE);
-
-	let xTween: Tweened<number> | null;
-	let yTween: Tweened<number> | null;
-	let scaleTween: Tweened<number> | null;
-	$: if (xTween) $x = $xTween!; // TODO type assertion is needed due to a bug in Svelte language tools
-	$: if (yTween) $y = $yTween!; // TODO type assertion is needed due to a bug in Svelte language tools
-	$: if (scaleTween) $scale = $scaleTween!; // TODO type assertion is needed due to a bug in Svelte language tools
 
 	// in dev mode, bypass the title screen for convenience
 	let showTitleScreen = true;
