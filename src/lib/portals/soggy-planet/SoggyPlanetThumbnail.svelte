@@ -6,6 +6,7 @@
 	export let earthWidth = THUMBNAIL_WIDTH_DEFAULT;
 	export let label = 'proceed';
 	export let onClick: ((e: MouseEvent) => void) | null = null;
+	export let showName = true;
 
 	const clock = getClock();
 
@@ -32,9 +33,11 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 			running={$clock.running}
 		/>
 	</div>
-	<div class="thumbnail-text" style="transform: scale3d({textScale}, {textScale}, {textScale})">
-		soggy planet
-	</div>
+	{#if showName}
+		<div class="thumbnail-text" style="transform: scale3d({textScale}, {textScale}, {textScale})">
+			soggy planet
+		</div>
+	{/if}
 </div>
 
 <style>

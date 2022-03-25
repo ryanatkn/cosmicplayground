@@ -143,7 +143,7 @@
 	// Earth's shores beneath the current sea level
 	const shoreImages = Array.from({length: 10}, (_, i) => `/assets/earth/shore_${10 - i}.png`);
 	const seaIndexMax = seaImages.length + shoreImages.length - 1;
-	const seaTimerMax = 1000;
+	const seaTimerMax = 1000; // TODO BLOCK remove this and make it cycle with time
 	let seaTimer = seaTimerMax;
 	let currentSeaIndex = shoreImages.length;
 	const seaIndexValues = [0, 1].map((v) => Math.round(v * seaIndexMax));
