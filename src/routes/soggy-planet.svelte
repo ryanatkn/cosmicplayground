@@ -111,6 +111,22 @@
 	const landDelay = 230;
 	let landTimer = 0;
 
+	// Earth's lights
+	// TODO probably want to combine this with a darkening nighttime overlay? ideally in the shape of the real thing, but global to start
+	let showLights = true;
+	const LIGHTS_IMAGE = `/assets/earth/lights.png`;
+	const LIGHTS_OPACITY_MIN = 0;
+	const LIGHTS_OPACITY_MAX = 0.91;
+	const LIGHTS_OPACITY_CYCLE_TIMER = 3000; // larger is slower
+	let lightsOpacity = LIGHTS_OPACITY_MIN;
+	$: lightsOpacity = updateLightsOpacity($clock.time);
+	$: nightfallOpacity = (lightsOpacity - LIGHTS_OPACITY_MIN) * 0.44;
+	const updateLightsOpacity = (time: number): number =>
+		LIGHTS_OPACITY_MIN +
+		((LIGHTS_OPACITY_MAX - LIGHTS_OPACITY_MIN) *
+			(Math.cos(time / LIGHTS_OPACITY_CYCLE_TIMER) + 1)) /
+			2;
+
 	// Earth's sea
 	const seaImages = Array.from({length: 3}, (_, i) => `/assets/earth/sea_${i + 1}.png`);
 	const seaImageCount = seaImages.length;
@@ -202,6 +218,7 @@
 	const resources = createResourcesStore();
 	landImages.forEach((url) => resources.addResource('image', url));
 	seaImages.forEach((url) => resources.addResource('image', url));
+	resources.addResource('image', LIGHTS_IMAGE);
 
 	let xTween: Tweened<number> | null;
 	let yTween: Tweened<number> | null;
@@ -235,6 +252,10 @@
 			<EarthViewerPixi
 				{landImages}
 				{seaImages}
+				lightsImage={LIGHTS_IMAGE}
+				{lightsOpacity}
+				{nightfallOpacity}
+				{showLights}
 				{activeLandValue}
 				{activeSeaLevel}
 				{width}
@@ -260,6 +281,10 @@
 				{earth2LeftOffset}
 				{landImages}
 				{seaImages}
+				lightsImage={LIGHTS_IMAGE}
+				{lightsOpacity}
+				{nightfallOpacity}
+				{showLights}
 				{activeLandValue}
 				{activeSeaLevel}
 			/>
@@ -269,16 +294,6 @@
 				<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
 					⇦
 				</FloatingIconButton>
-			{:else}
-				<FloatingIconButton
-					pressed={showHud}
-					label="toggle hud controls"
-					on:click={onClickHudToggle}
-				>
-					∙∙∙
-				</FloatingIconButton>
-			{/if}
-			{#if showHud}
 				<div class="hud-top-controls">
 					<FloatingIconButton
 						pressed={showHud}
@@ -302,6 +317,17 @@
 				<div class="month-wrapper">
 					<MonthHud {activeLandIndex} {selectedLandIndex} {selectLandIndex} {hoverLandIndex} />
 				</div>
+				<div class="lights-control">
+					<FloatingIconButton
+						pressed={showLights}
+						label="toggle lights"
+						on:click={() => (showLights = !showLights)}
+					>
+						<span class:grayscale={true}>
+							{#if showLights}🔆{:else}🔅{/if}
+						</span>
+					</FloatingIconButton>
+				</div>
 				<SeaLevelHud
 					seaLevel={activeSeaLevel}
 					{seaIndexMax}
@@ -309,6 +335,14 @@
 					{selectSeaLevel}
 					{hoverSeaLevel}
 				/>
+			{:else}
+				<FloatingIconButton
+					pressed={showHud}
+					label="toggle hud controls"
+					on:click={onClickHudToggle}
+				>
+					∙∙∙
+				</FloatingIconButton>
 			{/if}
 		</Hud>
 	{:else}
@@ -346,5 +380,11 @@
 		bottom: 0;
 		left: 0;
 		width: calc(100% - var(--hud_element_size));
+	}
+	.lights-control {
+		position: fixed;
+		bottom: 0;
+		right: 0;
+		--font_size: var(--font_size_md);
 	}
 </style>

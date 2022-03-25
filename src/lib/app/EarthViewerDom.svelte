@@ -38,6 +38,10 @@
 	export let earth2LeftOffset: number;
 	export let landImages: string[];
 	export let seaImages: string[];
+	export let lightsImage: string | undefined = undefined;
+	export let lightsOpacity = 0;
+	export let nightfallOpacity = 0;
+	export let showLights = false;
 	export let activeLandValue: number;
 	export let activeSeaLevel: number;
 
@@ -64,6 +68,15 @@
 				value={activeSeaLevel}
 				zIndex={100}
 			/>
+			{#if showLights}
+				<div class="nightfall" style:opacity={nightfallOpacity} />
+				<img
+					class="lights"
+					src={lightsImage}
+					alt="Earth's lights at night"
+					style:opacity={lightsOpacity}
+				/>
+			{/if}
 		</div>
 		<div class="earth" style="left: {earth2LeftOffset}px">
 			<BlendedImagesCycle alt="Earth's land" images={landImages} value={activeLandValue} />
@@ -73,6 +86,15 @@
 				value={activeSeaLevel}
 				zIndex={100}
 			/>
+			{#if showLights}
+				<div class="nightfall" style:opacity={nightfallOpacity} />
+				<img
+					class="lights"
+					src={lightsImage}
+					alt="Earth's lights at night"
+					style:opacity={lightsOpacity}
+				/>
+			{/if}
 		</div>
 	</div>
 </ImageViewer>
@@ -89,5 +111,28 @@
 		position: absolute;
 		top: 0;
 		left: 0;
+	}
+	.lights {
+		position: absolute;
+		left: 0;
+		top: 0;
+		max-width: initial;
+		z-index: 120;
+	}
+	.nightfall {
+		/* TODO ideally there's just one of these */
+		position: absolute;
+		/* inset: 0; */
+		left: 0;
+		top: 0;
+		width: 4096px;
+		height: 2048px;
+		z-index: 120;
+		background-color: #000;
+	}
+
+	/* TODO better API for disabling grayscale for this view */
+	:global(.paused) {
+		filter: none !important;
 	}
 </style>

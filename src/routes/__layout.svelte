@@ -51,6 +51,7 @@
 		loadingStatus = 'pending';
 		// TODO importing PIXI async due to this issue: https://github.com/sveltejs/kit/issues/1650
 		const pixiModule = await import('pixi.js');
+		(window as any).pixi = pixiModule as any;
 		try {
 			pixi.init(pixiModule, {width: $dimensions.width, height: $dimensions.height}); // TODO do the dimensions need to be reactive?
 			supportsWebGL = true;

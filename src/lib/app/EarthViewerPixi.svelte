@@ -27,6 +27,10 @@
 	export let inputEnabled = true;
 	export let landImages: string[]; // not reactive
 	export let seaImages: string[]; // not reactive
+	export let lightsImage: string | undefined = undefined; // not reactive
+	export let lightsOpacity = 0;
+	export let nightfallOpacity = 0;
+	export let showLights = false;
 	export let activeLandValue: number;
 	export let activeSeaLevel: number;
 	export let imageWidth: number; // not reactive
@@ -40,6 +44,9 @@
 			}
 			for (const seaImage of seaImages) {
 				loader.add(seaImage);
+			}
+			if (lightsImage) {
+				loader.add(lightsImage);
 			}
 		},
 		loaded: (scene, resources, _loader) => {
@@ -64,6 +71,24 @@
 				seaSprites.push(sprite);
 			}
 			updateSpriteTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
+
+			if (lightsImage) {
+				overlayContainer = new pixi.PIXI.Container();
+				mapContainer.addChild(overlayContainer);
+
+				const nightfallSprite = new pixi.PIXI.TilingSprite(pixi.PIXI.Texture.WHITE, width, height);
+				nightfallSprite.tint = 0x000000;
+				nightfallSprite.alpha = 0;
+				overlayContainer.addChild(nightfallSprite);
+				overlaySprites.push(nightfallSprite);
+
+				const lightsSprite = createMapSprite(resources[lightsImage]!.texture!);
+				lightsSprite.alpha = 0;
+				overlayContainer.addChild(lightsSprite);
+				overlaySprites.push(lightsSprite);
+
+				updateSpriteTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
+			}
 		},
 		destroy: (_scene, _loader) => {
 			console.log('destroyed earth');
@@ -73,15 +98,28 @@
 
 	const landSprites: PIXI.TilingSprite[] = []; // not reactive
 	const seaSprites: PIXI.TilingSprite[] = []; // not reactive
-	let mapContainer;
-	let landContainer;
-	let seaContainer;
+	const overlaySprites: PIXI.TilingSprite[] = []; // not reactive
+	let mapContainer: PIXI.Container;
+	let landContainer: PIXI.Container;
+	let seaContainer: PIXI.Container;
+	let overlayContainer: PIXI.Container;
 
 	$: tilePositionX = -$x * $scale + width / 2;
 	$: tilePositionY = -$y * $scale + height / 2;
 
+	$: if (overlayContainer) {
+		const visible = showLights;
+		overlayContainer.visible = visible;
+		if (visible) {
+			// TODO hacky, maybe save each as a reference?
+			// probably want to keep each as a separate opacity instead of setting once on the container
+			overlayContainer.children[0].alpha = nightfallOpacity;
+			overlayContainer.children[1].alpha = lightsOpacity;
+		}
+	}
 	$: updateSpriteDimensions(landSprites, width, height);
 	$: updateSpriteDimensions(seaSprites, width, height);
+	$: updateSpriteDimensions(overlaySprites, width, height);
 	const updateSpriteDimensions = (sprites: PIXI.TilingSprite[], width: number, height: number) => {
 		for (const sprite of sprites) {
 			sprite.width = width;
@@ -90,6 +128,7 @@
 	};
 	$: updateSpriteTransforms(landSprites, tilePositionX, tilePositionY, $scale);
 	$: updateSpriteTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
+	$: updateSpriteTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
 	const updateSpriteTransforms = (
 		sprites: PIXI.TilingSprite[],
 		tilePositionX: number,
@@ -101,11 +140,6 @@
 			sprite.tilePosition.set(tilePositionX, tilePositionY);
 		}
 	};
-	// Before changing to a tiling sprite, this was the update logic. Keeping for future reference.
-	// $: if (mapContainer) {
-	// 	mapContainer.scale.set($scale);
-	// 	mapContainer.position.set(-$x * $scale + width / 2, -$y * $scale + height / 2);
-	// }
 
 	const seaOpacities = new Array(seaImages.length);
 	$: if (seaSprites.length) updateSeaOpacities(activeSeaLevel);

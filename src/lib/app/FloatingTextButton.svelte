@@ -2,10 +2,9 @@
 	export let pressed: boolean | undefined = undefined;
 	export let type = 'button'; // avoid submit behavior in forms
 	export let classes: string | null = null; // TODO not sure about this pattern, not used atm
-	export let style: string | null = null; // TODO not sure about this pattern, not used atm
 </script>
 
-<button class={classes} {type} class:pressed aria-pressed={pressed} on:click {style}>
+<button class={classes} {type} class:pressed aria-pressed={pressed} on:click {...$$restProps}>
 	<slot />
 </button>
 
