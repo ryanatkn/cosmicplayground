@@ -120,7 +120,7 @@
 	const LIGHTS_OPACITY_CYCLE_TIMER = 3000; // larger is slower
 	let lightsOpacity = LIGHTS_OPACITY_MIN;
 	$: lightsOpacity = updateLightsOpacity($clock.time);
-	$: nightfallOpacity = (lightsOpacity - LIGHTS_OPACITY_MIN) * 0.44;
+	$: nightfallOpacity = (lightsOpacity - LIGHTS_OPACITY_MIN) * 0.48;
 	const updateLightsOpacity = (time: number): number =>
 		LIGHTS_OPACITY_MIN +
 		((LIGHTS_OPACITY_MAX - LIGHTS_OPACITY_MIN) *
