@@ -74,17 +74,6 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 		animation-play-state: paused;
 	}
 
-	.buttonish {
-		transform: var(--clickable_transform_sm);
-		transition: var(--clickable_transition);
-	}
-	.buttonish:hover {
-		transform: var(--clickable_transform_sm__hover);
-	}
-	.buttonish:active {
-		transform: var(--clickable_transform_sm__active);
-	}
-
 	@keyframes breathing-earth {
 		0% {
 			transform: scale3d(1, 1, 1);

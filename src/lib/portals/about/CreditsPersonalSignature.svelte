@@ -4,7 +4,8 @@
 			<img
 				src="/assets/characters/twit.png"
 				alt="@ryanatkn on Twitter"
-				style="width: 64px; height: 64px;"
+				title="@ryanatkn on Twitter"
+				style:width="64px"
 			/>
 		</a>
 	</div>
@@ -16,7 +17,8 @@
 			<img
 				src="/assets/characters/octocat.png"
 				alt="@ryanatkn on GitHub"
-				style="width: 40px; height: 40px;"
+				title="@ryanatkn on GitHub"
+				style:width="40px"
 			/>
 		</a>
 	</div>

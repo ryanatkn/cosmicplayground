@@ -5,7 +5,7 @@
 
 	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
 	import aboutPortal from '$lib/portals/about/data';
-	import deepBreathPortal from '$lib/portals/deep-breath/data';
+	import soggyPlanetPortal from '$lib/portals/soggy-planet/data';
 	import starlitHammockPortal from '$lib/portals/starlit-hammock/data';
 	import paintFreqsPortal from '$lib/portals/paint-freqs/data';
 	import easings2Portal from '$lib/portals/easings-2/data';
@@ -77,7 +77,7 @@
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
 	const primaryPortals = [
-		[deepBreathPortal],
+		[soggyPlanetPortal],
 		[starlitHammockPortal],
 		[easings2Portal, paintFreqsPortal, easings1Portal],
 		[starshipPortal as any, hearingTestPortal, underConstructionPortal],
@@ -192,8 +192,11 @@
 	};
 
 	const pauseAudio = () => {
+		// TODO refactor
 		if (introSong?.audio && !introSong.audio.paused) introSong.audio.pause();
 		if (outroSong?.audio && !outroSong.audio.paused) outroSong.audio.pause();
+		if (intro2Song?.audio && !intro2Song.audio.paused) intro2Song.audio.pause();
+		if (outro2Song?.audio && !outro2Song.audio.paused) outro2Song.audio.pause();
 	};
 	const playAudio = (audio: HTMLAudioElement, currentTime = 0): Promise<void> => {
 		audio.currentTime = currentTime;
@@ -230,6 +233,8 @@
 		return playAudio(song.audio);
 	};
 
+	// TODO refactor the 4 sections below
+
 	const introResources = createResourcesStore();
 	let introSong: AudioResource | undefined;
 	const INTRO_SONG_URL = '/assets/audio/Alexander_Nakarada__Spacey_Intro.mp3';
@@ -252,6 +257,30 @@
 			() => $outroResources.promise, // TODO HACK
 			() => $outroResources.resources.find((r) => r.url === OUTRO_SONG_URL) as any, // TODO improve API, maybe return a typed store from `addResource`
 			(song) => (outroSong = song),
+		);
+
+	const intro2Resources = createResourcesStore();
+	let intro2Song: AudioResource | undefined;
+	const INTRO2_SONG_URL = '/assets/audio/Alexander_Nakarada__Futuristic_4.mp3';
+	const startIntro2 = (): Promise<void> =>
+		playSong(
+			INTRO2_SONG_URL,
+			intro2Resources,
+			() => $intro2Resources.promise, // TODO HACK
+			() => $intro2Resources.resources.find((r) => r.url === INTRO2_SONG_URL) as any, // TODO improve API, maybe return a typed store from `addResource`
+			(song) => (intro2Song = song),
+		);
+
+	const outro2Resources = createResourcesStore();
+	let outro2Song: AudioResource | undefined;
+	const OUTRO2_SONG_URL = '/assets/audio/Alexander_Nakarada__Futuristic_1.mp3';
+	const startOutro2 = (): Promise<void> =>
+		playSong(
+			OUTRO2_SONG_URL,
+			outro2Resources,
+			() => $outro2Resources.promise, // TODO HACK
+			() => $outro2Resources.resources.find((r) => r.url === OUTRO2_SONG_URL) as any, // TODO improve API, maybe return a typed store from `addResource`
+			(song) => (outro2Song = song),
 		);
 </script>
 
@@ -286,6 +315,14 @@
 			e.stopPropagation();
 			e.preventDefault();
 			await startOutro();
+		} else if (e.key === '3' && e.ctrlKey) {
+			e.stopPropagation();
+			e.preventDefault();
+			await startIntro2();
+		} else if (e.key === '4' && e.ctrlKey) {
+			e.stopPropagation();
+			e.preventDefault();
+			await startOutro2();
 		}
 	}}
 />
@@ -305,7 +342,7 @@
 	>
 		<header class="portals">
 			<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
-				<svelte:component this={aboutPortal.Preview} portal={aboutPortal} />
+				<svelte:component this={aboutPortal.Preview} />
 			</PortalPreview>
 		</header>
 		{#each primaryPortals as portals}
@@ -317,7 +354,7 @@
 						>
 					{:else}
 						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
-							<svelte:component this={portal.Preview} {portal} />
+							<svelte:component this={portal.Preview} />
 						</PortalPreview>
 					{/if}
 				{/each}
@@ -325,7 +362,7 @@
 		{/each}
 		<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
 			<PendingAnimation
-				running={$settings.showMorePortals}
+				running={$settings.showMorePortals && $clock.running}
 				let:index
 				--animation_duration="var(--duration_6)"
 			>
@@ -357,7 +394,7 @@
 				<ul class="portals">
 					{#each portals as portal}
 						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
-							<svelte:component this={portal.Preview} {portal} />
+							<svelte:component this={portal.Preview} />
 						</PortalPreview>
 					{/each}
 				</ul>
@@ -463,7 +500,7 @@
 
 	/* TODO how to do this? data with a css variable?
 	or is this the right time to add CSS variables to JS? */
-	:global(.portal-preview--deep-breath) {
+	:global(.portal-preview--soggy-planet) {
 		border-color: var(--ocean_color) !important;
 	}
 	:global(.portal-preview--starlit-hammock) {

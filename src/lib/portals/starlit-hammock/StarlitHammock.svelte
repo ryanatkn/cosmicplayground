@@ -25,9 +25,10 @@
 	const [pixi, scene] = getPixiScene({
 		loaded: async () => {
 			// this *might* handle a corner case bug due to the fact that we're not reactively listening to the loader
-			await updateSprite(imageUrl);
+			if (!destroyed) await updateSprite(imageUrl);
 		},
 		destroy: () => {
+			if (sprite) destroySprite();
 			destroyed = true;
 		},
 	});
@@ -35,7 +36,7 @@
 	scene.addChild(camera);
 
 	const updateSprite = async (url: string) => {
-		if (destroyed || url !== imageUrl) return;
+		if (url !== imageUrl) return;
 		const resource = pixi.app.loader.resources[url];
 		if (!resource) {
 			if (sprite) destroySprite();
@@ -43,7 +44,7 @@
 				await pixi.waitForLoad();
 				await updateSprite(url);
 			} else {
-				pixi.app.loader.add(url);
+				if (!pixi.app.loader.resources[url]) pixi.app.loader.add(url);
 				pixi.app.loader.load();
 				await pixi.waitForLoad();
 				await updateSprite(url);

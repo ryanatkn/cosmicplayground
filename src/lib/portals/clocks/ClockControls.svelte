@@ -1,7 +1,6 @@
 <script lang="ts">
 	import ColorClock from '$lib/portals/clocks/ColorClock.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import ImageButton from '$lib/ui/ImageButton.svelte';
 
 	// TODO what are the perf characteristics if we use the clock store directly?
 	// will anything get updated unnecessarily every frame?
@@ -14,13 +13,13 @@
 
 <div class="clock-controls">
 	{#if running}
-		<ImageButton on:click={pause}>
+		<button type="button" class="image-button" on:click={pause}>
 			<img
 				src="/assets/construction/person-rock.gif"
 				alt="under construction: person rock"
 				class="rock pixelated"
 			/>
-		</ImageButton>
+		</button>
 	{:else}
 		<img
 			on:click={resume}

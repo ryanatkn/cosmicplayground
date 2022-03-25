@@ -1,8 +1,5 @@
 <script lang="ts">
 	import {getClock} from '$lib/app/clockStore';
-	import type {PortalData} from '$lib/portals/portal';
-
-	export const portal: PortalData = undefined as any;
 
 	const clock = getClock();
 </script>
