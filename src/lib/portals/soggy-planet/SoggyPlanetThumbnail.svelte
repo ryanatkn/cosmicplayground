@@ -31,6 +31,7 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 			height={earthWidth / 2}
 			animationDuration="45s"
 			running={$clock.running}
+			image2Url="/assets/earth/lights.png"
 		/>
 	</div>
 	{#if showName}
