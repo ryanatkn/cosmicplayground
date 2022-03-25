@@ -89,10 +89,10 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 
 	@keyframes sogging-earth {
 		0% {
-			transform: scale3d(1, 1, 1);
+			transform: scale3d(1, 1, 1) rotate(7deg);
 		}
 		100% {
-			transform: scale3d(1.07, 1.07, 1.07);
+			transform: scale3d(1.07, 1.07, 1.07) rotate(-7deg);
 		}
 	}
 </style>

@@ -40,20 +40,19 @@
 
 	const [pixi] = getPixiScene({
 		load: (loader) => {
-			if (loader.resources[landImages[0]]) return; // TODO cleaner detection?
 			for (const landImage of landImages) {
-				loader.add(landImage);
+				if (!loader.resources[landImage]) loader.add(landImage);
 			}
 			for (const seaImage of seaImages) {
-				loader.add(seaImage);
+				if (!loader.resources[seaImage]) loader.add(seaImage);
 			}
 			if (shoreImages) {
 				for (const shoreImage of shoreImages) {
-					loader.add(shoreImage);
+					if (!loader.resources[shoreImage]) loader.add(shoreImage);
 				}
 			}
 			if (lightsImage) {
-				loader.add(lightsImage);
+				if (!loader.resources[lightsImage]) loader.add(lightsImage);
 			}
 		},
 		loaded: (scene, resources, _loader) => {
@@ -69,6 +68,7 @@
 				landSprites.push(sprite);
 			}
 			updateSpriteTransforms(landSprites, tilePositionX, tilePositionY, $scale);
+			updateLandOpacities(activeLandValue);
 
 			seashoreContainer = new pixi.PIXI.Container();
 			mapContainer.addChild(seashoreContainer);
@@ -89,6 +89,7 @@
 				}
 			}
 			updateSpriteTransforms(seashoreSprites, tilePositionX, tilePositionY, $scale);
+			updateSeaOpacities(activeSeaLevel);
 
 			if (lightsImage) {
 				overlayContainer = new pixi.PIXI.Container();

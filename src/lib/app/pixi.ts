@@ -105,18 +105,16 @@ export const getPixiScene = (
 
 	onDestroy(() => {
 		if (destroyed) throw Error('Already destroyed'); // TODO probably remove this
+		console.log('destroying pixi scene', scene, pixi);
 		hooks.destroy?.(scene, pixi.app.loader);
 		destroyed = true;
 		pixi.unmountScene(scene);
+		pixi.PIXI.utils.clearTextureCache();
 		scene.destroy({
 			children: true,
-			// TODO should we destroy the textures too?
-			// I'm not sure of the best balance for UX and resource usage concerns.
-			// Do we want it to be snappy if users navigate back to the page?
-			// What if some textures are used in other areas of the app?
-			// Do we want some custom heuristic, like nagivating away from this portal?
-			texture: false,
-			baseTexture: false,
+			// TODO does this cause bugs?
+			texture: true,
+			baseTexture: true,
 		});
 	});
 
