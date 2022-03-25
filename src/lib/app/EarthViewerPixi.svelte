@@ -72,16 +72,20 @@
 
 			seashoreContainer = new pixi.PIXI.Container();
 			mapContainer.addChild(seashoreContainer);
-			for (const seaImage of seaImages.slice().reverse()) {
+			for (const seaImage of seaImages) {
 				const sprite = createMapSprite(resources[seaImage]!.texture!);
 				seashoreContainer.addChild(sprite);
 				seashoreSprites.push(sprite);
 			}
 			if (shoreImages) {
-				for (const shoreImage of shoreImages.slice().reverse()) {
+				const shoreSprites = [];
+				for (const shoreImage of shoreImages) {
 					const sprite = createMapSprite(resources[shoreImage]!.texture!);
 					seashoreContainer.addChild(sprite);
-					seashoreSprites.push(sprite);
+					shoreSprites.push(sprite);
+				}
+				for (const sprite of shoreSprites.reverse()) {
+					seashoreSprites.unshift(sprite);
 				}
 			}
 			updateSpriteTransforms(seashoreSprites, tilePositionX, tilePositionY, $scale);
@@ -165,9 +169,8 @@
 			seashoreOpacities, // mutate the existing opacities
 			seashoreFloorIndex,
 		);
-		if (seashoreSprites.length !== seashoreImageCount) throw Error('no');
 		for (let i = 0; i < seashoreImageCount; i++) {
-			seashoreSprites[seashoreImageCount - i - 1].alpha = seashoreOpacities[i];
+			seashoreSprites[i].alpha = seashoreOpacities[i];
 		}
 	};
 	const landOpacities = new Array(landImages.length);

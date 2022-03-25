@@ -124,7 +124,7 @@
 	const LIGHTS_OPACITY_MAX = 0.91;
 	const LIGHTS_OPACITY_CYCLE_TIMER = 3000; // larger is slower
 	let lightsOpacity = LIGHTS_OPACITY_MIN;
-	let lightsTimer = 0;
+	let lightsTimer = LIGHTS_OPACITY_CYCLE_TIMER * 2.5;
 	$: if (showLights) lightsTimer += $clock.dt;
 	$: lightsOpacity = toLightsOpacity(lightsTimer);
 	// TODO would be cool to have nightfall overlay the shape of the real thing, not global
