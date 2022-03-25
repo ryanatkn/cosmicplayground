@@ -109,12 +109,14 @@ export const getPixiScene = (
 		hooks.destroy?.(scene, pixi.app.loader);
 		destroyed = true;
 		pixi.unmountScene(scene);
-		pixi.PIXI.utils.clearTextureCache();
+		// pixi.PIXI.utils.clearTextureCache(); // TODO see below
 		scene.destroy({
 			children: true,
-			// TODO does this cause bugs?
-			texture: true,
-			baseTexture: true,
+			texture: false,
+			baseTexture: false,
+			// TODO I think we should do this, but does it cause bugs?
+			// texture: true,
+			// baseTexture: true,
 		});
 	});
 

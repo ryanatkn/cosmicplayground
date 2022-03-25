@@ -49,7 +49,7 @@
 			<p>
 				For a similar but different experience that may be a bummer, see <PortalLink
 					slug="deep-breath"
-				/>.
+				/> 🌚
 			</p>
 			<p>
 				This page is not mobile friendly! It may also be slow depending on your hardware and
