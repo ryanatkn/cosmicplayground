@@ -112,55 +112,65 @@
 	let landTimer = 0;
 
 	// Earth's lights
-	// TODO probably want to combine this with a darkening nighttime overlay? ideally in the shape of the real thing, but global to start
 	let showLights = true;
+	const toggleShowLights = () => {
+		showLights = !showLights;
+		if (showLights) {
+			lightsTimer = LIGHTS_OPACITY_CYCLE_TIMER * 1.7; // init to darkness, `* 2` being the midpoint
+		}
+	};
 	const LIGHTS_IMAGE = `/assets/earth/lights.png`;
 	const LIGHTS_OPACITY_MIN = 0;
 	const LIGHTS_OPACITY_MAX = 0.91;
 	const LIGHTS_OPACITY_CYCLE_TIMER = 3000; // larger is slower
 	let lightsOpacity = LIGHTS_OPACITY_MIN;
-	$: lightsOpacity = updateLightsOpacity($clock.time);
+	let lightsTimer = 0;
+	$: if (showLights) lightsTimer += $clock.dt;
+	$: lightsOpacity = toLightsOpacity(lightsTimer);
+	// TODO would be cool to have nightfall overlay the shape of the real thing, not global
 	$: nightfallOpacity = (lightsOpacity - LIGHTS_OPACITY_MIN) * 0.48;
-	const updateLightsOpacity = (time: number): number =>
+	const toLightsOpacity = (time: number): number =>
 		LIGHTS_OPACITY_MIN +
 		((LIGHTS_OPACITY_MAX - LIGHTS_OPACITY_MIN) *
-			(Math.cos(time / LIGHTS_OPACITY_CYCLE_TIMER) + 1)) /
+			(Math.sin(time / LIGHTS_OPACITY_CYCLE_TIMER) + 1)) /
 			2;
+
+	// TODO this is weird because the shore images were bolted on after the fact.
+	// Refactoring the sea images to have a single base and later the second/third above would be ideal
 
 	// Earth's sea
 	const seaImages = Array.from({length: 3}, (_, i) => `/assets/earth/sea_${i + 1}.png`);
-	const seaImageCount = seaImages.length;
-	const seaIndexMax = seaImageCount - 1;
-	const seaTimerMax = 1000; // this and the tour movement/pauses are in whole seconds
+	// Earth's shores beneath the current sea level
+	const shoreImages = Array.from({length: 10}, (_, i) => `/assets/earth/shore_${10 - i}.png`);
+	const seaIndexMax = seaImages.length + shoreImages.length - 1;
+	const seaTimerMax = 1000;
 	let seaTimer = seaTimerMax;
-	const seaLevel = tweened(0, {easing: cubicInOut, duration: seaTimerMax});
-	let currentSeaIndex = 0;
+	let currentSeaIndex = shoreImages.length;
 	const seaIndexValues = [0, 1].map((v) => Math.round(v * seaIndexMax));
+	const seaLevel = tweened(seaIndexValues[currentSeaIndex], {
+		easing: cubicInOut,
+		duration: seaTimerMax,
+	});
+	const seashoreFloorIndex = shoreImages.length;
 	const nextSeaIndex = () => {
 		if (currentSeaIndex >= seaIndexValues.length - 1) {
 			currentSeaIndex = 0;
 		} else {
 			currentSeaIndex++;
 		}
-		const newSeaIndex = seaIndexValues[currentSeaIndex];
-		$seaLevel = newSeaIndex;
+		$seaLevel = seaIndexValues[currentSeaIndex];
 	};
 
-	$: {
-		// update every clock tick
-		const {dt} = $clock;
-
-		if (selectedLandIndex === null && hoveredLandIndex === null) {
-			landTimer += dt;
-			cycledLandValue = (landTimer / landDelay) % landImages.length;
-		}
-
-		if (selectedSeaLevel === null && hoveredSeaLevel === null) {
-			seaTimer -= dt;
-			if (seaTimer <= 0) {
-				seaTimer = seaTimerMax;
-				nextSeaIndex();
-			}
+	// update every clock tick
+	$: if (selectedLandIndex === null && hoveredLandIndex === null) {
+		landTimer += $clock.dt;
+		cycledLandValue = (landTimer / landDelay) % landImages.length;
+	}
+	$: if (selectedSeaLevel === null && hoveredSeaLevel === null) {
+		seaTimer -= $clock.dt;
+		if (seaTimer <= 0) {
+			seaTimer = seaTimerMax;
+			nextSeaIndex();
 		}
 	}
 
@@ -218,6 +228,7 @@
 	const resources = createResourcesStore();
 	landImages.forEach((url) => resources.addResource('image', url));
 	seaImages.forEach((url) => resources.addResource('image', url));
+	shoreImages.forEach((url) => resources.addResource('image', url));
 	resources.addResource('image', LIGHTS_IMAGE);
 
 	let xTween: Tweened<number> | null;
@@ -252,6 +263,8 @@
 			<EarthViewerPixi
 				{landImages}
 				{seaImages}
+				{shoreImages}
+				{seashoreFloorIndex}
 				lightsImage={LIGHTS_IMAGE}
 				{lightsOpacity}
 				{nightfallOpacity}
@@ -281,6 +294,8 @@
 				{earth2LeftOffset}
 				{landImages}
 				{seaImages}
+				{shoreImages}
+				{seashoreFloorIndex}
 				lightsImage={LIGHTS_IMAGE}
 				{lightsOpacity}
 				{nightfallOpacity}
@@ -321,7 +336,7 @@
 					<FloatingIconButton
 						pressed={showLights}
 						label="toggle lights"
-						on:click={() => (showLights = !showLights)}
+						on:click={toggleShowLights}
 					>
 						<span class:grayscale={true}>
 							{#if showLights}🔆{:else}🔅{/if}

@@ -28,6 +28,7 @@
 	.month-hud {
 		width: 100%;
 		display: flex;
+		user-select: none;
 	}
 	button {
 		height: var(--hud_element_size);

@@ -27,6 +27,8 @@
 	export let inputEnabled = true;
 	export let landImages: string[]; // not reactive
 	export let seaImages: string[]; // not reactive
+	export let shoreImages: string[] | undefined = undefined; // not reactive
+	export let seashoreFloorIndex: number | undefined = undefined;
 	export let lightsImage: string | undefined = undefined; // not reactive
 	export let lightsOpacity = 0;
 	export let nightfallOpacity = 0;
@@ -44,6 +46,11 @@
 			}
 			for (const seaImage of seaImages) {
 				loader.add(seaImage);
+			}
+			if (shoreImages) {
+				for (const shoreImage of shoreImages) {
+					loader.add(shoreImage);
+				}
 			}
 			if (lightsImage) {
 				loader.add(lightsImage);
@@ -63,14 +70,21 @@
 			}
 			updateSpriteTransforms(landSprites, tilePositionX, tilePositionY, $scale);
 
-			seaContainer = new pixi.PIXI.Container();
-			mapContainer.addChild(seaContainer);
-			for (const seaImage of seaImages) {
+			seashoreContainer = new pixi.PIXI.Container();
+			mapContainer.addChild(seashoreContainer);
+			for (const seaImage of seaImages.slice().reverse()) {
 				const sprite = createMapSprite(resources[seaImage]!.texture!);
-				seaContainer.addChild(sprite);
-				seaSprites.push(sprite);
+				seashoreContainer.addChild(sprite);
+				seashoreSprites.push(sprite);
 			}
-			updateSpriteTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
+			if (shoreImages) {
+				for (const shoreImage of shoreImages.slice().reverse()) {
+					const sprite = createMapSprite(resources[shoreImage]!.texture!);
+					seashoreContainer.addChild(sprite);
+					seashoreSprites.push(sprite);
+				}
+			}
+			updateSpriteTransforms(seashoreSprites, tilePositionX, tilePositionY, $scale);
 
 			if (lightsImage) {
 				overlayContainer = new pixi.PIXI.Container();
@@ -97,11 +111,11 @@
 	});
 
 	const landSprites: PIXI.TilingSprite[] = []; // not reactive
-	const seaSprites: PIXI.TilingSprite[] = []; // not reactive
+	const seashoreSprites: PIXI.TilingSprite[] = []; // not reactive
 	const overlaySprites: PIXI.TilingSprite[] = []; // not reactive
 	let mapContainer: PIXI.Container;
 	let landContainer: PIXI.Container;
-	let seaContainer: PIXI.Container;
+	let seashoreContainer: PIXI.Container; // includes shore sprites
 	let overlayContainer: PIXI.Container;
 
 	$: tilePositionX = -$x * $scale + width / 2;
@@ -118,7 +132,7 @@
 		}
 	}
 	$: updateSpriteDimensions(landSprites, width, height);
-	$: updateSpriteDimensions(seaSprites, width, height);
+	$: updateSpriteDimensions(seashoreSprites, width, height);
 	$: updateSpriteDimensions(overlaySprites, width, height);
 	const updateSpriteDimensions = (sprites: PIXI.TilingSprite[], width: number, height: number) => {
 		for (const sprite of sprites) {
@@ -127,7 +141,7 @@
 		}
 	};
 	$: updateSpriteTransforms(landSprites, tilePositionX, tilePositionY, $scale);
-	$: updateSpriteTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
+	$: updateSpriteTransforms(seashoreSprites, tilePositionX, tilePositionY, $scale);
 	$: updateSpriteTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
 	const updateSpriteTransforms = (
 		sprites: PIXI.TilingSprite[],
@@ -141,16 +155,19 @@
 		}
 	};
 
-	const seaOpacities = new Array(seaImages.length);
-	$: if (seaSprites.length) updateSeaOpacities(activeSeaLevel);
+	const seashoreImageCount = seaImages.length + (shoreImages ? shoreImages.length : 0);
+	const seashoreOpacities = new Array(seashoreImageCount);
+	$: if (seashoreSprites.length) updateSeaOpacities(activeSeaLevel);
 	const updateSeaOpacities = (activeSeaLevel: number) => {
 		computeBlendedImagesContinuumOpacities(
-			seaImages.length,
+			seashoreImageCount,
 			activeSeaLevel,
-			seaOpacities, // mutate the existing opacities
+			seashoreOpacities, // mutate the existing opacities
+			seashoreFloorIndex,
 		);
-		for (let i = 0; i < seaOpacities.length; i++) {
-			seaSprites[i].alpha = seaOpacities[i];
+		if (seashoreSprites.length !== seashoreImageCount) throw Error('no');
+		for (let i = 0; i < seashoreImageCount; i++) {
+			seashoreSprites[seashoreImageCount - i - 1].alpha = seashoreOpacities[i];
 		}
 	};
 	const landOpacities = new Array(landImages.length);

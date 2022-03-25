@@ -17,7 +17,7 @@ but it doesn't seem quite right - is there a better pattern for a conditional pa
 I think there are some open Svelte issues about this. (like programmatic HTML tags) -->
 <div
 	class="soggy-planet-thumbnail"
-	style="width: {earthWidth}px; height: {earthWidth / 2}px;"
+	style="width: {earthWidth / 2}px; height: {earthWidth / 2}px;"
 	role={onClick ? 'button' : undefined}
 	aria-label={onClick ? label : undefined}
 	tabindex={onClick ? 0 : undefined}
@@ -43,7 +43,7 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin: 0 auto;
+		margin: 0 auto 50px;
 	}
 	.soggy-planet-thumbnail:focus {
 		/* TODO hack, see global `button:focus` style for more in main.css */
@@ -52,18 +52,26 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 	.thumbnail-text {
 		position: absolute;
 		left: 0;
-		top: 0;
+		bottom: -90px;
 		width: 100%;
-		height: 100%;
 		font-size: 84px;
 		font-weight: 900;
-		padding-bottom: 15px;
 		white-space: nowrap;
 		color: var(--ocean_color);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		user-select: none;
+	}
+	@media (max-width: 600px) {
+		.thumbnail-text {
+			font-size: 64px;
+		}
+	}
+	@media (max-width: 450px) {
+		.thumbnail-text {
+			font-size: 48px;
+		}
 	}
 	.thumbnail-animation-wrapper {
 		border-radius: 50%;
@@ -75,23 +83,12 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 		animation-play-state: paused;
 	}
 
-	.buttonish {
-		transform: var(--clickable_transform_sm);
-		transition: var(--clickable_transition);
-	}
-	.buttonish:hover {
-		transform: var(--clickable_transform_sm__hover);
-	}
-	.buttonish:active {
-		transform: var(--clickable_transform_sm__active);
-	}
-
 	@keyframes sogging-earth {
 		0% {
-			transform: rotate3d(0, 0.5, 0, 26deg);
+			transform: scale3d(1, 1, 1);
 		}
 		100% {
-			transform: rotate3d(0, -0.5, 0, 26deg);
+			transform: scale3d(1.07, 1.07, 1.07);
 		}
 	}
 </style>

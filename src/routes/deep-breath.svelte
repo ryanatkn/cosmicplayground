@@ -148,21 +148,16 @@
 		$seaLevel = newSeaIndex;
 	};
 
-	$: {
-		// update every clock tick
-		const {dt} = $clock;
-
-		if (selectedLandIndex === null && hoveredLandIndex === null) {
-			landTimer += dt;
-			cycledLandValue = (landTimer / landDelay) % landImages.length;
-		}
-
-		if (selectedSeaLevel === null && hoveredSeaLevel === null) {
-			seaTimer -= dt;
-			if (seaTimer <= 0) {
-				seaTimer = seaTimerMax;
-				nextSeaIndex();
-			}
+	// update every clock tick
+	$: if (selectedLandIndex === null && hoveredLandIndex === null) {
+		landTimer += $clock.dt;
+		cycledLandValue = (landTimer / landDelay) % landImages.length;
+	}
+	$: if (selectedSeaLevel === null && hoveredSeaLevel === null) {
+		seaTimer -= $clock.dt;
+		if (seaTimer <= 0) {
+			seaTimer = seaTimerMax;
+			nextSeaIndex();
 		}
 	}
 

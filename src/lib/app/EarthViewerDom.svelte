@@ -38,6 +38,8 @@
 	export let earth2LeftOffset: number;
 	export let landImages: string[];
 	export let seaImages: string[];
+	export let shoreImages: string[] | undefined = undefined;
+	export let seashoreFloorIndex: number | undefined = undefined;
 	export let lightsImage: string | undefined = undefined;
 	export let lightsOpacity = 0;
 	export let nightfallOpacity = 0;
@@ -47,6 +49,8 @@
 
 	$: imageViewerX = $x * -1 + width / 2;
 	$: imageViewerY = $y * -1 + height / 2;
+
+	$: oceanImages = shoreImages ? shoreImages.concat(seaImages) : seaImages;
 </script>
 
 <ImageViewer
@@ -64,9 +68,10 @@
 			<BlendedImagesCycle alt="Earth's land" images={landImages} value={activeLandValue} />
 			<BlendedImagesContinuum
 				alt="Earth's oceans"
-				images={seaImages}
+				images={oceanImages}
 				value={activeSeaLevel}
 				zIndex={100}
+				floorIndex={seashoreFloorIndex}
 			/>
 			{#if showLights}
 				<div class="nightfall" style:opacity={nightfallOpacity} />
@@ -82,9 +87,10 @@
 			<BlendedImagesCycle alt="Earth's land" images={landImages} value={activeLandValue} />
 			<BlendedImagesContinuum
 				alt="Earth's oceans"
-				images={seaImages}
+				images={oceanImages}
 				value={activeSeaLevel}
 				zIndex={100}
+				floorIndex={seashoreFloorIndex}
 			/>
 			{#if showLights}
 				<div class="nightfall" style:opacity={nightfallOpacity} />
