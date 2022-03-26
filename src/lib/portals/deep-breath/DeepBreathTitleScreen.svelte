@@ -73,8 +73,10 @@
 			<ResourcesLoadingProgress {resources} />
 		{:else}
 			<p>
-				The download is about 75MB of images. If that's cool with you, click this button! <span
-					style:font-size="var(--font_size_lg)">↓</span
+				The download is about 75MB of images. If that's cool with you, click this button! <button
+					class="inline"
+					on:click={load}
+					><span style:font-size="var(--font_size_lg)" style:line-height="0">↓</span></button
 				>
 			</p>
 			<ChunkyButton on:click={load}>continue with 75MB download!</ChunkyButton>

@@ -80,6 +80,7 @@ html {
 	--spacing_xl: 100px;
 	--hud_element_size: var(--spacing_xl);
 	--waiting_animation_duration: 1.5s;
+	--earth_wobble: 23.5deg;
 
 	/* TODO use Felt style.css */
 	--duration_6: 3s;

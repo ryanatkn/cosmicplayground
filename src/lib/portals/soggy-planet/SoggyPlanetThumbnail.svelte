@@ -80,7 +80,7 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 	.thumbnail-animation-wrapper {
 		border-radius: 50%;
 		overflow: hidden;
-		animation: sogging-earth 6s ease-in-out infinite alternate;
+		animation: sogging-earth 12s ease-in-out infinite alternate;
 	}
 	/* TODO animation state var */
 	:global(.paused) .thumbnail-animation-wrapper {
@@ -89,10 +89,10 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 
 	@keyframes sogging-earth {
 		0% {
-			transform: scale3d(1, 1, 1) rotate(7deg);
+			transform: scale3d(1, 1, 1) rotate(calc(var(--earth_wobble) / -2));
 		}
 		100% {
-			transform: scale3d(1.07, 1.07, 1.07) rotate(-7deg);
+			transform: scale3d(1.07, 1.07, 1.07) rotate(calc(var(--earth_wobble) / 2));
 		}
 	}
 </style>

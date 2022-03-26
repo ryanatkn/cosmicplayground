@@ -63,7 +63,13 @@
 		{:else if $resources.status !== 'initial'}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
-			<p>The download is about 81MB of images. If that's cool with you, click the button below!</p>
+			<p>
+				The download is about 81MB of images. If that's cool with you, click this button! <button
+					class="inline"
+					on:click={load}
+					><span style:font-size="var(--font_size_lg)" style:line-height="0">↓</span></button
+				>
+			</p>
 			<ChunkyButton on:click={load}>continue with 81MB download!</ChunkyButton>
 		{/if}
 	</Panel>

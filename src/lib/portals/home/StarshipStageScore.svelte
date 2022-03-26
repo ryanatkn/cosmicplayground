@@ -21,9 +21,9 @@
 		: undefined;
 	$: iconsStr = icons?.join(' ') ?? '';
 
-	const copyToClipboard = () => {
+	const copyToClipboard = (): void | Promise<void> => {
 		if (icons) {
-			window.navigator.clipboard.writeText(iconsStr); // eslint-disable-line @typescript-eslint/no-floating-promises
+			return window.navigator.clipboard.writeText(iconsStr);
 		}
 	};
 </script>
