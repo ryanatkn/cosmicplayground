@@ -51,6 +51,7 @@
 		loadingStatus = 'pending';
 		// TODO importing PIXI async due to this issue: https://github.com/sveltejs/kit/issues/1650
 		const pixiModule = await import('pixi.js');
+		(window as any).pixi = pixiModule as any;
 		try {
 			pixi.init(pixiModule, {width: $dimensions.width, height: $dimensions.height}); // TODO do the dimensions need to be reactive?
 			supportsWebGL = true;
@@ -60,16 +61,19 @@
 			pixi = {} as any; // TODO this is just a hack for type safety
 			console.error(err);
 		}
-		pixi.app.loader.add(bgImageUrl).load(() => {
-			bg = createPixiBgStore(
-				pixi.PIXI,
-				pixi.app.loader.resources[bgImageUrl].texture!,
-				$dimensions.width,
-				$dimensions.height,
-			);
-			pixi.defaultScene.addChild($bg.sprite);
-			loadingStatus = 'success';
-		});
+		// pixi.PIXI.utils.clearTextureCache();
+		if (!pixi.app.loader.resources[bgImageUrl]) {
+			pixi.app.loader.add(bgImageUrl).load(() => {
+				bg = createPixiBgStore(
+					pixi.PIXI,
+					pixi.app.loader.resources[bgImageUrl].texture!,
+					$dimensions.width,
+					$dimensions.height,
+				);
+				pixi.defaultScene.addChild($bg.sprite);
+				loadingStatus = 'success';
+			});
+		}
 	});
 
 	// We used to have routes like `/#deep-breath` and now it's just `/deep-breath`,
@@ -173,8 +177,8 @@
 			sorry, please try another browser or device if you can. (or enable it?)
 		</p>
 		<p>
-			source code is at <a href="https://github.com/ryanatkn/cosmicplayground"
-				>github.com/ryanatkn/cosmicplayground</a
+			source code is at <a href="https://github.com/cosmicplayground/cosmicplayground"
+				>github.com/cosmicplayground/cosmicplayground</a
 			>
 		</p>
 	</Panel>

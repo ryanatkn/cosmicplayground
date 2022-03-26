@@ -1,9 +1,6 @@
 <script lang="ts">
-	import type {PortalData} from '$lib/portals/portal';
 	import ColorClock from '$lib/portals/clocks/ColorClock.svelte';
 	import {getClock} from '$lib/app/clockStore';
-
-	export const portal: PortalData = undefined as any;
 
 	const clock = getClock();
 </script>

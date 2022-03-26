@@ -10,6 +10,7 @@ html {
 	--font_size_xl3: 162px;
 	--font_size_xl: 72px;
 	--font_size_lg: 48px;
+	--font_size_md: 32px;
 	--ocean_hue: 214;
 	--land_hue: 124;
 	--space_hue: 304;
@@ -70,10 +71,18 @@ html {
 	--border_radius_md: 7px;
 	--text_shadow_sm: 1px 1px rgba(0, 0, 0, 0.6);
 	--text_shadow_reverse_sm: -1px -1px rgba(0, 0, 0, 0.6);
+	--spacing_xs3: 16px;
+	--spacing_xs2: 20px;
+	--spacing_xs: 24px;
+	--spacing_sm: 32px;
+	--spacing_md: 48px;
 	--spacing_lg: 64px;
 	--spacing_xl: 100px;
 	--hud_element_size: var(--spacing_xl);
 	--waiting_animation_duration: 1.5s;
+
+	/* TODO use Felt style.css */
+	--duration_6: 3s;
 }
 
 /* border-box all the things, but let parents override children */
@@ -130,9 +139,6 @@ p {
 	list-style: initial;
 	padding-left: var(--spacing-8);
 }
-.markup a:hover {
-	text-decoration: underline;
-}
 
 /* TODO this assumes a horizontal layout - maybe make a component from this with a layout prop? */
 figure {
@@ -180,6 +186,13 @@ a {
 	cursor: pointer;
 	text-decoration: none;
 	color: var(--ocean_text_color);
+	font-weight: 600;
+}
+a:hover {
+	text-decoration: underline;
+}
+a.buttonish:hover {
+	text-decoration: none;
 }
 /* 
 TODO
@@ -192,6 +205,18 @@ select {
 	background: transparent;
 	color: var(--text_color);
 } */
+
+.buttonish {
+	transform: var(--clickable_transform_sm);
+	transition: var(--clickable_transition);
+	cursor: pointer;
+}
+.buttonish:hover {
+	transform: var(--clickable_transform_sm__hover);
+}
+.buttonish:active {
+	transform: var(--clickable_transform_sm__active);
+}
 
 button {
 	cursor: pointer;
@@ -256,4 +281,20 @@ summary:active {
 	to {
 		opacity: 1;
 	}
+}
+
+.image-button {
+	cursor: pointer;
+	height: auto;
+	transition: var(--clickable_transition);
+	transform-origin: center;
+	transform: var(--clickable_transform);
+	border: none;
+	display: inline-block;
+}
+.image-button:hover {
+	transform: var(--clickable_transform__hover);
+}
+.image-button:active {
+	transform: var(--clickable_transform__active);
 }

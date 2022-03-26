@@ -6,11 +6,11 @@
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
 
 	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
-	import MonthHud from '$lib/portals/deep-breath/MonthHud.svelte';
-	import SeaLevelHud from '$lib/portals/deep-breath/SeaLevelHud.svelte';
+	import MonthHud from '$lib/app/MonthHud.svelte';
+	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
-	import EarthViewerDom from '$lib/portals/deep-breath/EarthViewerDom.svelte';
-	import EarthViewerPixi from '$lib/portals/deep-breath/EarthViewerPixi.svelte';
+	import EarthViewerDom from '$lib/app/EarthViewerDom.svelte';
+	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
 	import {createResourcesStore, type AudioResource} from '$lib/app/resourcesStore';
 	import {createDeepBreathTour} from '$lib/portals/deep-breath/deepBreathTour';
 	import {createTourStore, type TourData, type TourStep, type TourStore} from '$lib/app/tourStore';
@@ -148,41 +148,25 @@
 		$seaLevel = newSeaIndex;
 	};
 
-	$: {
-		// update every clock tick
-		const {dt} = $clock;
-
-		if (selectedLandIndex === null && hoveredLandIndex === null) {
-			landTimer += dt;
-			cycledLandValue = (landTimer / landDelay) % landImages.length;
-		}
-
-		if (selectedSeaLevel === null && hoveredSeaLevel === null) {
-			seaTimer -= dt;
-			if (seaTimer <= 0) {
-				seaTimer = seaTimerMax;
-				nextSeaIndex();
-			}
+	// update every clock tick
+	$: if (selectedLandIndex === null && hoveredLandIndex === null) {
+		landTimer += $clock.dt;
+		cycledLandValue = (landTimer / landDelay) % landImages.length;
+	}
+	$: if (selectedSeaLevel === null && hoveredSeaLevel === null) {
+		seaTimer -= $clock.dt;
+		if (seaTimer <= 0) {
+			seaTimer = seaTimerMax;
+			nextSeaIndex();
 		}
 	}
 
 	let selectedSeaLevel: number | null = null;
 	let hoveredSeaLevel: number | null = null;
-	$: activeSeaLevel =
-		hoveredSeaLevel === null
-			? selectedSeaLevel === null
-				? $seaLevel
-				: selectedSeaLevel
-			: hoveredSeaLevel;
+	$: activeSeaLevel = hoveredSeaLevel ?? selectedSeaLevel ?? $seaLevel;
 	let selectedLandIndex: number | null = null;
 	let hoveredLandIndex: number | null = null;
-	// TODO use nullish coalescing
-	$: activeLandIndex =
-		hoveredLandIndex === null
-			? selectedLandIndex === null
-				? cycledLandIndex
-				: selectedLandIndex
-			: hoveredLandIndex;
+	$: activeLandIndex = hoveredLandIndex ?? selectedLandIndex ?? cycledLandIndex;
 	$: activeLandValue = activeLandIndex === cycledLandIndex ? cycledLandValue : activeLandIndex;
 
 	const setCycledLandValue = (value: number) => {

@@ -1,8 +1,5 @@
 <script lang="ts">
 	import {lerp} from '@feltcoop/felt/util/maths.js';
-	import type {PortalData} from '$lib/portals/portal';
-
-	export const portal: PortalData = undefined as any;
 
 	let canvas: HTMLCanvasElement | null = null;
 	$: canvas && drawCanvas(canvas);

@@ -8,6 +8,8 @@
 [cosmicplayground.org](https://www.cosmicplayground.org)
 is a collection of web projects that try to be useful or interesting.
 
+- [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
+  where sea levels fall and rise and the lights of civilization shine through the night.
 - [Deep Breath](https://www.cosmicplayground.org/deep-breath)
   is an interactive map with a rough answer to the extreme hypothetical
   _"If all ice on Earth melts, how will sea levels change?"_
@@ -19,7 +21,7 @@ is a collection of web projects that try to be useful or interesting.
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies.
-  Zoom and pan around to explore on your own—try to spot your atoms' cousins!
+  Space out or zoom and pan around to explore on your own—try to spot your atoms' cousins!
   It displays images from Hubble, [spacetelescope.org](https://www.spacetelescope.org/about/).
   Try it on an idle screen but be mindful of the power usage. :]
   - Safari users: Starlit Hammock uses the modern image format webp instead of jpg,
@@ -76,7 +78,7 @@ npm run build # for production
 the rendering performance of [Deep Breath](https://www.cosmicplayground.org/deep-breath),
 which animates [fifteen 4096x2048 images of Earth](/src/static/assets/earth/)
 layered together with opacity, scaling, and movement.
-The [original DOM implementation](/src/portals/deep-breath/EarthViewerDom.svelte)
+The [original DOM implementation](/src/lib/app/EarthViewerDom.svelte)
 has performance problems that range from moderate to severe
 and chews up far more GPU resources than necessary.
 (to the surprise of nobody -
@@ -88,7 +90,7 @@ you can test the difference on the map by pressing `ctrl+backtick` and clicking 
 > [TilingSprite](http://pixijs.download/release/docs/PIXI.TilingSprite.html)
 > and [RenderTexture](http://pixijs.download/release/docs/PIXI.RenderTexture.html)
 > which are used in
-> [the Pixi implementation of the Earth map](/src/portals/deep-breath/EarthViewerPixi.svelte).
+> [the Pixi implementation of the Earth map](/src/lib/app/EarthViewerPixi.svelte).
 
 Pixi is a hefty dependency and roughly tripled the website's JavaScript bundle size
 to a total of about 600KB uncompressed.

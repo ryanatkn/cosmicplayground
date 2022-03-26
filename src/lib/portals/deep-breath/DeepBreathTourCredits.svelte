@@ -21,16 +21,18 @@
 			@ryanatkn <img
 				src="/assets/characters/twit.png"
 				alt="@ryanatkn on Twitter"
-				class="w-16"
 				style="opacity: 0.8;"
+				width="64"
+				height="64"
 			/>
 		</a>
-		<a href="https://github.com/ryanatkn/cosmicplayground">
+		<a href="https://github.com/cosmicplayground/cosmicplayground">
 			<img
 				src="/assets/characters/octocat.png"
-				alt="@ryanatkn/cosmicplayground on GitHub"
-				class="w-10 ml-1"
-				style="margin-right: 16px; opacity: 0.8;"
+				alt="@cosmicplayground/cosmicplayground on GitHub"
+				width="40"
+				height="40"
+				style="margin: 0 16px 0 4px; opacity: 0.8;"
 			/>
 		</a>
 		<a href="https://www.ryanatkn.com">ryanatkn.com</a>
@@ -41,7 +43,9 @@
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 2, amount: blurAmount}}>
 		<h2>open source code & assets</h2>
-		<a href="https://github.com/ryanatkn/cosmicplayground">github.com/ryanatkn/cosmicplayground</a>
+		<a href="https://github.com/cosmicplayground/cosmicplayground"
+			>github.com/cosmicplayground/cosmicplayground</a
+		>
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 3, amount: blurAmount}}>
 		<h2>music</h2>

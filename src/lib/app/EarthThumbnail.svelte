@@ -2,6 +2,7 @@
 	export let width: number;
 	export let height: number;
 	export let imageUrl = '/assets/earth/seas.png';
+	export let image2Url: string | undefined = undefined;
 	export let opacity = 1.0;
 	export let animationDuration = '360s';
 	export let fontSize = 48;
@@ -33,7 +34,15 @@
 		class="bg"
 		style="width: {bgWidth}px; height: {bgHeight}px; background-image: url({imageUrl});
 		background-size: {bgSizeStr}; animation-duration: {animationDuration};"
-	/>
+	>
+		{#if image2Url}
+			<div
+				class="bg2"
+				style="width: {bgWidth}px; height: {bgHeight}px; background-image: url({image2Url});
+		background-size: {bgSizeStr};"
+			/>
+		{/if}
+	</div>
 	{#if text}
 		<div class="text" style="font-size: {fontSize}px;">{text}</div>
 	{/if}
@@ -61,13 +70,17 @@
 
 	.bg {
 		background-repeat: repeat;
-		animation-name: scroll-bg;
-		animation-timing-function: linear;
-		animation-iteration-count: infinite;
 		background-position-x: 60%;
+		animation: scroll-bg linear infinite;
 	}
-	.paused .bg {
+	.paused .bg,
+	.paused .bg2 {
 		animation-play-state: paused;
+	}
+	.bg2 {
+		background-repeat: repeat;
+		background-position-x: 60%;
+		animation: pulse-lights 6s linear infinite alternate;
 	}
 
 	@keyframes scroll-bg {
@@ -76,6 +89,15 @@
 		}
 		100% {
 			transform: translate3d(-50%, 0, 0);
+		}
+	}
+
+	@keyframes pulse-lights {
+		0% {
+			opacity: 0.1;
+		}
+		100% {
+			opacity: 1;
 		}
 	}
 </style>

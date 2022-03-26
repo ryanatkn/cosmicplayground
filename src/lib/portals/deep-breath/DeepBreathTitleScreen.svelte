@@ -11,6 +11,7 @@
 	import AboutPortalPreview from '$lib/portals/about/Preview.svelte';
 	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
 	import type {ResourcesStore} from '$lib/app/resourcesStore';
+	import PortalLink from '$lib/app/PortalLink.svelte';
 
 	export let resources: ResourcesStore;
 	export let proceed: () => void;
@@ -56,12 +57,37 @@
 				are higher quality here than in the video, but the video is recommended for mobile devices, older
 				hardware, and screens smaller than 1080p. (it doesn't currently scale the resolution) The code
 				and image data are
-				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>. Credits
-				are below.
+				<a href="https://github.com/cosmicplayground/cosmicplayground">open source on GitHub</a>.
+				Credits are below.
 			</p>
-			<p>Please be aware that the data is imperfect:</p>
+			<p>
+				This page is not mobile friendly! It may also be slow depending on your hardware and
+				browser. See <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">the video</a> if it doesn't
+				work.
+			</p>
+			<p>See also <PortalLink slug="soggy-planet" />.</p>
+		</section>
+		{#if $resources.status === 'success'}
+			<ChunkyButton on:click={proceed}>back to the map!</ChunkyButton>
+		{:else if $resources.status !== 'initial'}
+			<ResourcesLoadingProgress {resources} />
+		{:else}
+			<p>
+				The download is about 75MB of images. If that's cool with you, click this button! <span
+					style:font-size="var(--font_size_lg)">↓</span
+				>
+			</p>
+			<ChunkyButton on:click={load}>continue with 75MB download!</ChunkyButton>
+		{/if}
+		<section class="markup">
+			<p>Please be aware that <strong>the data has flaws:</strong></p>
 			<ul>
-				<li>The elevation data is low resolution and the highest sea level is an approximation.</li>
+				<li>
+					The elevation data is low resolution and the highest sea level is an approximation
+					convenient to the source images. The science has wide ranging possible values for maximum
+					sea level rise from what I found, and this project displays a value near the lower bound.
+					I am not a scientist.
+				</li>
 				<li>
 					Ice remains visible in places like Greenland and Antarctica when sea levels rise, even
 					though sea level rise implies the ice has melted. This could be fixed by faking the
@@ -73,31 +99,18 @@
 					could be misleading. The most prominent examples are central Australia and the Aral Sea.
 				</li>
 			</ul>
-			<p>
-				This page is not mobile friendly! It may also be slow depending on your hardware and
-				browser. See <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">the video</a> if it doesn't
-				work.
-			</p>
-			<hr />
 		</section>
-		{#if $resources.status === 'success'}
-			<ChunkyButton on:click={proceed}>back to the map!</ChunkyButton>
-		{:else if $resources.status !== 'initial'}
-			<ResourcesLoadingProgress {resources} />
-		{:else}
-			<p>The download is about 75MB of images. If that's cool with you, click the button below!</p>
-			<ChunkyButton on:click={load}>continue with 75MB download!</ChunkyButton>
-		{/if}
 	</Panel>
 	<Panel>
 		<section class="markup">
 			<h2>Credits</h2>
 			<DeepBreathCredits />
 		</section>
-		<hr />
+	</Panel>
+	<Panel>
 		<section class="markup">
-			<CreditsPersonalSignature />
 			<CreditsProjectSignature />
+			<CreditsPersonalSignature />
 		</section>
 	</Panel>
 	<!-- TODO pull this href from portal data? -->

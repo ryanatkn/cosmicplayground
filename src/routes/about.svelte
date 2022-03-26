@@ -7,30 +7,47 @@
 </script>
 
 <header>
-	<h1>cosmicplayground</h1>
+	<h1>
+		<div class="header-content">
+			cosmicplayground
+			<button
+				type="button"
+				class="image-button cosm"
+				on:click={() => {
+					// eslint-disable-next-line no-alert
+					alert('coming soon!');
+				}}
+			>
+				<img src="/assets/characters/cosm.png" alt="more to come!" class="pixelated" width="16" />
+			</button>
+		</div>
+	</h1>
 	<h2>tools and toys for expanding minds</h2>
 </header>
+<figure style:margin="var(--spacing_lg) auto 0">
+	<img src="/favicon.png" width="192" height="192" alt="cosmicplayground icon" />
+</figure>
 <Panel>
 	<div class="markup">
 		<h2>About</h2>
 		<p>
-			cosmicplayground.org is a collection of loosely related projects created by <a
+			cosmicplayground is a collection of loosely related projects created by <a
 				href="https://www.ryanatkn.com">Ryan Atkinson</a
 			>. Hi that's me, I enjoy making web things and apparently I have a thing for space? Everything
-			here is free and <a href="https://github.com/ryanatkn/cosmicplayground">open source</a> and
-			mostly a work in progress. The first projects that I think are worth sharing are
-			<PortalLink slug="deep-breath" />
+			here is free and
+			<a href="https://github.com/cosmicplayground/cosmicplayground">open source</a>
+			and mostly a work in progress. The first projects that seem worth sharing are
+			<PortalLink slug="soggy-planet" />
 			and
 			<PortalLink slug="starlit-hammock" />, and there's hopefully more to come!
 		</p>
-		<hr />
-		<CreditsPersonalSignature />
-		<CreditsProjectSignature />
 	</div>
 </Panel>
 <Panel>
-	<Credits />
+	<CreditsProjectSignature />
+	<CreditsPersonalSignature />
 </Panel>
+<Credits />
 <Panel>
 	<div class="markup">
 		<h2>Privacy</h2>
@@ -39,16 +56,15 @@
 				href="https://pages.github.com/">GitHub Pages</a
 			>
 			to serve static files. It makes no third party network requests. See
-			<a href="https://github.com/ryanatkn/cosmicplayground">the source code</a> for more. Who are you????
-			I may never know.. maybe that's how it should be?
+			<a href="https://github.com/cosmicplayground/cosmicplayground">the source code</a> for more. Who
+			are you???? I may never know.. maybe that's how it should be?
 		</p>
 	</div>
 </Panel>
 <Panel>
 	<div class="markup">
-		<h2>Contact</h2>
-		<CreditsPersonalSignature />
 		<CreditsProjectSignature />
+		<CreditsPersonalSignature />
 		<div style="position: relative; cursor: none; height: 0">
 			<img
 				src="/assets/characters/spider.png"
@@ -67,6 +83,16 @@
 	h1 {
 		font-size: 106px;
 		margin-top: 10px;
+		display: flex;
+		justify-content: center;
+	}
+	.header-content {
+		position: relative;
+	}
+	.cosm {
+		position: absolute;
+		bottom: 50px;
+		right: -20px;
 	}
 	@media (max-width: 900px) {
 		header h1 {

@@ -17,3 +17,10 @@
 <a href="/" class="idle-fade">
 	<FloatingIconButton label="go back home">⇦</FloatingIconButton>
 </a>
+
+<style>
+	/* TODO refactor this out */
+	a:hover {
+		text-decoration: none;
+	}
+</style>

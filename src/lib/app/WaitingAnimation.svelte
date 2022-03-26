@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type {AsyncStatus} from '@feltcoop/felt';
+	import PendingAnimation from '@feltcoop/felt/ui/PendingAnimation.svelte';
 
 	export let status: AsyncStatus = 'pending'; // 'initial' is unhandled
 
@@ -8,49 +9,17 @@
 </script>
 
 <span class:success class:failure>
-	<span class="dot">•</span>
-	<span class="dot">•</span>
-	<span class="dot">•</span>
+	<PendingAnimation running={status === 'pending'} />
 </span>
 
 <style>
-	.dot {
-		opacity: 0;
-		animation: dot var(--waiting_animation_duration) infinite;
+	span {
 		color: var(--pending_color);
 	}
-	.success .dot {
-		opacity: 1;
-		animation: none;
+	.success {
 		color: var(--success_color);
 	}
-	.failure .dot {
-		opacity: 1;
-		animation: none;
+	.failure {
 		color: var(--failure_color);
-	}
-
-	.dot:nth-child(1) {
-		animation-delay: 0s;
-	}
-
-	.dot:nth-child(2) {
-		animation-delay: 0.2s;
-	}
-
-	.dot:nth-child(3) {
-		animation-delay: 0.3s;
-	}
-
-	@keyframes dot {
-		0% {
-			opacity: 0;
-		}
-		33% {
-			opacity: 1;
-		}
-		100% {
-			opacity: 0;
-		}
 	}
 </style>
