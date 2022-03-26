@@ -12,7 +12,7 @@ is a collection of web projects that try to be useful or interesting.
   where sea levels fall and rise and the lights of civilization shine through the night.
 - There's a little action game on the home screen 🛸
   (it's still a work in progress, see
-  [Designing Cosmicplayground](https://github.com/cosmicplayground/designing)
+  [Designing Cosmicplayground](https://github.com/cosmicplayground/designing) --
   try pressing the escape and backtick keys)
 - [Deep Breath](https://www.cosmicplayground.org/deep-breath)
   is an interactive map with a rough answer to the extreme hypothetical
