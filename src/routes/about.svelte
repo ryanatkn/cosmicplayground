@@ -41,6 +41,12 @@
 			and
 			<PortalLink slug="starlit-hammock" />, and there's hopefully more to come!
 		</p>
+		<p>
+			Looking for the screencasts or the Cosmicplayground Dev Community? Head over to <a
+				href="https://www.youtube.com/channel/UCDpSmdzFa_S5BkVlChKU7hg">our YouTube channel</a
+			>
+			and <a href="https://www.cosmicplayground.dev">cosmicplayground.dev</a>.
+		</p>
 	</div>
 </Panel>
 <Panel>
