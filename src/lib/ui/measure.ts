@@ -13,7 +13,6 @@ import type {ActionReturn} from 'svelte/action';
 
 export type Measurer = Writable<DOMRect> | ((rect: DOMRect, el: Element) => void);
 
-// TODO action type
 export const measure = (el: Element, storeOrCb: Measurer): ActionReturn<Measurer> => {
 	const update = () => {
 		if (typeof storeOrCb === 'function') {
