@@ -1,4 +1,5 @@
 import type {Writable} from 'svelte/store';
+import type {ActionReturn} from 'svelte/action';
 
 // TODO this and `resized.ts` aren't being used anywhere yet, maybe delete
 
@@ -10,11 +11,10 @@ import type {Writable} from 'svelte/store';
 
 // TODO name? `observeBoundingRect`?
 
-export type Measurer = Writable<DOMRect> | ((rect: DOMRect, el: HTMLElement) => void);
+export type Measurer = Writable<DOMRect> | ((rect: DOMRect, el: Element) => void);
 
 // TODO action type
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const measure = (el: HTMLElement, storeOrCb: Measurer) => {
+export const measure = (el: Element, storeOrCb: Measurer): ActionReturn<Measurer> => {
 	const update = () => {
 		if (typeof storeOrCb === 'function') {
 			storeOrCb(el.getBoundingClientRect(), el);

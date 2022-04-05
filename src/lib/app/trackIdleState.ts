@@ -1,5 +1,6 @@
 import {getContext, setContext} from 'svelte';
 import type {Writable} from 'svelte/store';
+import type {ActionReturn} from 'svelte/action';
 
 interface TrackIdleStateOptions {
 	idle: Writable<boolean>;
@@ -9,8 +10,10 @@ interface TrackIdleStateOptions {
 
 // TODO try to refactor this, `derived` maybe?
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const trackIdleState = (el: HTMLElement, opts: TrackIdleStateOptions) => {
+export const trackIdleState = (
+	el: Element,
+	opts: TrackIdleStateOptions,
+): ActionReturn<TrackIdleStateOptions> => {
 	const {idle, idleIntervalTime} = opts;
 	let {timeToGoIdle} = opts;
 
