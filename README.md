@@ -45,8 +45,8 @@ is a collection of web projects that try to be useful or interesting.
 
 ## community and screencasts
 
-- [cosmicplayground.dev](https://www.cosmicplayground.dev)
-- [cosmicplayground/dev](https://github.com/cosmicplayground/dev) on GitHub
+- [cosmicplayground.dev](https://www.cosmicplayground.dev) ([GitHub](https://github.com/cosmicplayground/dev))
+- [YouTube channel](https://www.youtube.com/channel/UCDpSmdzFa_S5BkVlChKU7hg)
 
 ## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
 
