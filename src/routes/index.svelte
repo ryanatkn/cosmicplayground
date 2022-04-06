@@ -509,14 +509,6 @@
 		border-color: var(--photon_color) !important;
 	}
 
-	.scores {
-		user-select: none;
-		position: absolute;
-		left: 0;
-		top: 0;
-		text-align: center;
-	}
-
 	.exit {
 		position: fixed;
 		left: 0;
