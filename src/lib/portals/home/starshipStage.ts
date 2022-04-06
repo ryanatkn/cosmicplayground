@@ -24,9 +24,14 @@ export const COLOR_GHOST = 'purple';
 export const COLOR_PLAYER = 'violet';
 export const COLOR_MOLTEN = 'red';
 
+// TODO maybe use some of these instead: '🦓' '🐼' '🐹' '🦊' '🦄'
+export const FRIEND_ICONS = ['🐭', '🐸', '🐰', '🐶', '🐱'];
+
 export const PLAYER_SPEED = 0.2;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
 export const PLAYER_RADIUS = 100;
+
+const toIconFont = (radius: number): string => `${radius * 1.4}px sans-serif`;
 
 // TODO rewrite this to use a route Svelte component? `dealt.dev/tar/home`
 
@@ -127,6 +132,10 @@ export class Stage extends BaseStage {
 			-1750 + planetRadius / 2,
 			planetRadius,
 		) as EntityCircle);
+		planet.text = FRIEND_ICONS[0];
+		planet.textOffsetX = 850;
+		planet.textOffsetY = 1150;
+		planet.font = '200px sans-serif';
 		planet.speed = 0;
 		planet.directionX = 0;
 		planet.directionY = 0;
@@ -136,8 +145,8 @@ export class Stage extends BaseStage {
 		// TODO how will this work for polygons?
 		const rockSize = 262;
 		const rock = (this.rock = collisions.createCircle(
-			2250 + rockSize / 2,
-			1212 + rockSize / 2,
+			2265 + rockSize / 2,
+			1195 + rockSize / 2,
 			rockSize,
 		) as EntityCircle);
 		rock.speed = 0.07;
@@ -147,6 +156,8 @@ export class Stage extends BaseStage {
 		bodies.push(rock);
 
 		let friend = collisions.createCircle(1660, 1012, 33) as EntityCircle;
+		friend.text = FRIEND_ICONS[1];
+		friend.font = toIconFont(friend.radius);
 		friend.speed = 0.01;
 		friend.directionX = 0;
 		friend.directionY = 0;
@@ -155,6 +166,8 @@ export class Stage extends BaseStage {
 		friends.add(friend);
 
 		friend = collisions.createCircle(1470, 1084, 42) as EntityCircle;
+		friend.text = FRIEND_ICONS[2];
+		friend.font = toIconFont(friend.radius);
 		friend.speed = 0.01;
 		friend.directionX = 0;
 		friend.directionY = 0;
@@ -163,6 +176,8 @@ export class Stage extends BaseStage {
 		friends.add(friend);
 
 		friend = collisions.createCircle(2010, 872, 7) as EntityCircle;
+		friend.text = FRIEND_ICONS[3];
+		friend.font = toIconFont(friend.radius);
 		friend.speed = 0.01;
 		friend.directionX = 0;
 		friend.directionY = 0;
@@ -171,6 +186,8 @@ export class Stage extends BaseStage {
 		friends.add(friend);
 
 		friend = collisions.createCircle(1870, 776, 14) as EntityCircle;
+		friend.text = FRIEND_ICONS[4];
+		friend.font = toIconFont(friend.radius);
 		friend.speed = 0.01;
 		friend.directionX = 0;
 		friend.directionY = 0;

@@ -43,6 +43,11 @@ is a collection of web projects that try to be useful or interesting.
 
 [![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
 
+## community and screencasts
+
+- [cosmicplayground.dev](https://www.cosmicplayground.dev)
+- [cosmicplayground/dev](https://github.com/cosmicplayground/dev) on GitHub
+
 ## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
 
 This project relies on open source software and

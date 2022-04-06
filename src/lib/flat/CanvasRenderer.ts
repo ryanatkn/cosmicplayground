@@ -16,8 +16,8 @@ export class CanvasRenderer implements Renderer {
 	// TODO remove 2d canvas, use WebGL instead -- Pixi?
 	setCanvas(canvas: HTMLCanvasElement): void {
 		this.canvas = canvas;
-		this.ctx = canvas.getContext('2d');
-		if (!this.ctx) throw Error('Failed to get canvas context');
+		const ctx = (this.ctx = canvas.getContext('2d'));
+		if (!ctx) throw Error('Failed to get canvas context');
 		if (this.width !== -1 && this.height !== -1) {
 			canvas.width = this.width;
 			canvas.height = this.height;
@@ -68,6 +68,9 @@ export class CanvasRenderer implements Renderer {
 				throw Error('TODO');
 			}
 			ctx.stroke();
+			if (entity.text) {
+				drawText(ctx, entity, camera);
+			}
 		}
 	}
 
@@ -115,4 +118,14 @@ const drawCircle = (
 
 	ctx.moveTo(viewX + radius, viewY);
 	ctx.arc(viewX, viewY, radius, 0, Math.PI * 2);
+};
+
+const drawText = (ctx: CanvasRenderingContext2D, entity: EntityBody, camera: CameraState): void => {
+	const viewX = (entity.x - camera.x) * camera.scale + camera.width / 2 + (entity.textOffsetX || 0);
+	const viewY =
+		(entity.y - camera.y) * camera.scale + camera.height / 2 + (entity.textOffsetY || 0);
+	ctx.textAlign = 'center';
+	ctx.textBaseline = 'middle';
+	ctx.font = entity.font || '30px serif';
+	ctx.fillText(entity.text!, viewX, viewY); // TODO type? maybe pass `text` instead of `entity`?
 };

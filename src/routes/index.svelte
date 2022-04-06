@@ -403,17 +403,12 @@
 		{#if boosterUnlocked}
 			<ul class="portals">
 				<PortalPreview onClick={() => toggleBooster()}
-					><span style:font-size="144px" class:disabled={!boosterEnabled}>{BOOSTER}</span
-					></PortalPreview
+					><span class="booster" class:disabled={!boosterEnabled}>{BOOSTER}</span></PortalPreview
 				>
 			</ul>
 		{/if}
 	</nav>
 	{#if starshipMode}
-		<!-- TODO does this belong in the stage component? -->
-		<div class="scores">
-			<StarshipStageScore {scores} />
-		</div>
 		<StarshipStage
 			{screenWidth}
 			{screenHeight}
@@ -440,7 +435,7 @@
 				>
 					{#if scoresRescuedAnyCrew}{BOOSTER}{:else}↩{/if}
 				</FloatingIconButton>
-				<StarshipStageScore {scores} layout="text" />
+				<StarshipStageScore {scores} />
 			</div>
 		{/if}
 	{/if}
@@ -471,6 +466,10 @@
 	}
 	.starship-mode .portals {
 		flex-wrap: nowrap;
+	}
+	.booster {
+		font-size: 144px;
+		transform: rotate3d(1, 0, 0, 180deg);
 	}
 	nav {
 		margin: 0;

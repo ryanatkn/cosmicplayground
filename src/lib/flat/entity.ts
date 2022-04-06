@@ -8,6 +8,10 @@ export interface Entity extends Body {
 	color: string;
 	invisible?: boolean;
 	dead?: boolean;
+	text?: string;
+	textOffsetX?: number;
+	textOffsetY?: number;
+	font?: string;
 }
 
 export type EntityCircle = Circle & Entity;
