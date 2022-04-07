@@ -43,7 +43,7 @@ is a collection of web projects that try to be useful or interesting.
 
 ## community and screencasts
 
-- [Cosmicplayground Dev Community](https://github.com/cosmicplayground/dev)) - [cosmicplayground.dev](https://www.cosmicplayground.dev)
+- [Cosmicplayground Dev Community](https://github.com/cosmicplayground/dev) ∙ [cosmicplayground.dev](https://www.cosmicplayground.dev)
 - [YouTube channel](https://www.youtube.com/channel/UCDpSmdzFa_S5BkVlChKU7hg)
 
 [![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
