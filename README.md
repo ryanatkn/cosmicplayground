@@ -41,12 +41,12 @@ is a collection of web projects that try to be useful or interesting.
 - several odd and partially finished things, some of which require audio to make sense,
   and some might not work (or not well) on mobile
 
-[![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
-
 ## community and screencasts
 
-- [cosmicplayground.dev](https://www.cosmicplayground.dev) ([GitHub](https://github.com/cosmicplayground/dev))
+- [Cosmicplayground Dev Community](https://github.com/cosmicplayground/dev)) - [cosmicplayground.dev](https://www.cosmicplayground.dev)
 - [YouTube channel](https://www.youtube.com/channel/UCDpSmdzFa_S5BkVlChKU7hg)
+
+[![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
 
 ## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
 
