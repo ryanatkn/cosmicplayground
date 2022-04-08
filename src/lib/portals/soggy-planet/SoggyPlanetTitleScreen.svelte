@@ -47,14 +47,14 @@
 				Credits are below.
 			</p>
 			<p>
-				For a similar but different experience that may be a bummer, see <PortalLink
-					slug="deep-breath"
-				/> 🌚
-			</p>
-			<p>
 				This page is not mobile friendly! It may also be slow depending on your hardware and
 				browser. See <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">the video</a> if it doesn't
 				work.
+			</p>
+			<p>
+				For a similar but different experience that may be a bummer, see <PortalLink
+					slug="deep-breath"
+				/> 🌚
 			</p>
 			<hr />
 		</section>
