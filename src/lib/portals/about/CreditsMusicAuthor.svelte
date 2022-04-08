@@ -1,19 +1,10 @@
 <script lang="ts">
 	import Details from '$lib/app/Details.svelte';
-	import {type SongData, songDatas} from '$lib/music/songs';
+	import {toSongDatasByAuthor} from '$lib/music/songs';
 
 	export let author: string;
-
-	const toSongDataByAuthor = (author: string): SongData[] => {
-		const songData = [];
-		for (const s of songDatas.values()) {
-			if (s.author === author) songData.push(s);
-		}
-		return songData;
-	};
-
 	const SONG_MAX_DEFAULT_COUNT = 3;
-	$: songs1 = toSongDataByAuthor(author);
+	$: songs1 = toSongDatasByAuthor(author)!;
 	$: songs1a = songs1.slice(0, SONG_MAX_DEFAULT_COUNT);
 	$: songs1b = songs1.slice(SONG_MAX_DEFAULT_COUNT);
 </script>
@@ -22,7 +13,7 @@
 <slot name="links" />
 {#each songs1a as song}
 	<div class="audio-file">
-		<a href={song.url}>"{song.title}"</a>
+		<a href={song.url}>"{song.name}"</a>
 		<audio controls src={song.url} />
 	</div>
 {/each}
@@ -32,7 +23,7 @@
 		<div>
 			{#each songs1b as song}
 				<div class="audio-file">
-					<a href={song.url}>"{song.title}"</a>
+					<a href={song.url}>"{song.name}"</a>
 					<audio controls src={song.url} />
 				</div>
 			{/each}

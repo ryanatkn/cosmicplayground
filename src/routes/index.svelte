@@ -264,23 +264,23 @@
 		} else if (e.key === '1' && e.ctrlKey) {
 			e.stopPropagation();
 			e.preventDefault();
-			await playSong(toSongData('intro1'));
+			await playSong(toSongData('Spacey Intro'));
 		} else if (e.key === '2' && e.ctrlKey) {
 			e.stopPropagation();
 			e.preventDefault();
-			await playSong(toSongData('outro1'));
+			await playSong(toSongData('Spacey Outro'));
 		} else if (e.key === '3' && e.ctrlKey) {
 			e.stopPropagation();
 			e.preventDefault();
-			await playSong(toSongData('intro2'));
+			await playSong(toSongData('Futuristic 4'));
 		} else if (e.key === '4' && e.ctrlKey) {
 			e.stopPropagation();
 			e.preventDefault();
-			await playSong(toSongData('outro2'));
+			await playSong(toSongData('Futuristic 1'));
 		} else if (e.key === '0' && e.ctrlKey) {
 			e.stopPropagation();
 			e.preventDefault();
-			await playSong(toSongData('title'));
+			await playSong(toSongData('Space Ambience'));
 		}
 	}}
 />
