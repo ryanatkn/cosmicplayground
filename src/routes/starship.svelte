@@ -27,6 +27,7 @@
 		</section>
 		<section>
 			<StarshipLevel level={toLevelData('4a')} />
+			<!-- TODO only from 4b -->
 			<StarshipLevel level={toLevelData('4c')} />
 			<StarshipLevel level={toLevelData('4b')} />
 		</section>
@@ -56,6 +57,7 @@
 		</section>
 		<section>
 			<StarshipLevel level={toLevelData('10a')} />
+			<!-- TODO only from 10b -->
 			<StarshipLevel level={toLevelData('10c')} />
 			<StarshipLevel level={toLevelData('10b')} />
 		</section>
@@ -65,6 +67,7 @@
 		</section>
 		<section>
 			<StarshipLevel level={toLevelData('12a')} />
+			<!-- TODO only from 12a -->
 			<StarshipLevel level={toLevelData('12c')} />
 			<StarshipLevel level={toLevelData('12b')} />
 		</section>

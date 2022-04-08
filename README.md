@@ -12,7 +12,7 @@ is a collection of web projects that try to be useful or interesting.
   where sea levels fall and rise and the lights of civilization shine through the night.
 - There's a little action game on the home screen 🛸
   (it's still a work in progress, screencasts to come at the
-  [Cosmicplayground Dev Community](https://github.com/cosmicplayground/dev) --
+  [Cosmicplayground Dev Community](https://github.com/cosmicplayground/community) --
   try pressing the escape and backtick keys)
 - [Deep Breath](https://www.cosmicplayground.org/deep-breath)
   is an interactive map with a rough answer to the extreme hypothetical
@@ -43,10 +43,26 @@ is a collection of web projects that try to be useful or interesting.
 
 ## community and screencasts
 
-- [Cosmicplayground Dev Community](https://github.com/cosmicplayground/dev) ∙ [cosmicplayground.dev](https://www.cosmicplayground.dev)
+- [Cosmicplayground Dev Community](https://github.com/cosmicplayground/community) at [cosmicplayground.dev](https://www.cosmicplayground.dev)
 - [YouTube channel](https://www.youtube.com/channel/UCDpSmdzFa_S5BkVlChKU7hg)
 
 [![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
+
+## develop
+
+To play with the code, you'll need Node 16.6+;
+
+```bash
+npm i
+npm start # or gro dev
+# open your browser to localhost:3000
+npm run build # for production, or gro build
+```
+
+> learn more about [Gro](https://github.com/feltcoop/gro)
+
+For full setup instructions from scratch,
+see the [cosmicplayground/setup](https://github.com/cosmicplayground/setup) repo.
 
 ## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
 
@@ -67,19 +83,6 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [Gro](https://github.com/feltcoop/gro) ∙
 [Prettier](https://github.com/prettier/prettier)
 & [more](package.json)
-
-## technical notes
-
-### develop
-
-To play with the code, you'll need Node 14+;
-
-```bash
-npm i
-npm start
-# open your browser to localhost:8999
-npm run build # for production
-```
 
 ## docs
 

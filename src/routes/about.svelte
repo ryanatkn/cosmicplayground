@@ -31,22 +31,49 @@
 	<div class="markup">
 		<h2>About</h2>
 		<p>
-			cosmicplayground is a collection of loosely related projects created by <a
-				href="https://www.ryanatkn.com">Ryan Atkinson</a
-			>. Hi that's me, I enjoy making web things and apparently I have a thing for space? Everything
+			Cosmicplayground is a playful exploration of some tools and toys using web technology. It
+			began as a hobby project with no particular direction, and it's evolving into something that
+			may become a coherent game experience, or maybe something else?
+		</p>
+		<p>
+			This is also an experiment in developing an educational project in public with an open
+			community and open source code. <a
+				href="https://github.com/cosmicplayground/community/blob/main/contributing.md">Join us</a
+			> if you want to improve your webdev skills with Svelte, SvelteKit, and TypeScript while making
+			games in space!
+		</p>
+		<p>
+			It was originally created by <a href="https://www.ryanatkn.com">a person on the internet</a>.
+			Hi that's me, I enjoy making web things and apparently I have a thing for space? Everything
 			here is free and
 			<a href="https://github.com/cosmicplayground/cosmicplayground">open source</a>
 			and mostly a work in progress. The first projects that seem worth sharing are
 			<PortalLink slug="soggy-planet" />
 			and
-			<PortalLink slug="starlit-hammock" />, and there's hopefully more to come!
+			<PortalLink slug="starlit-hammock" />, and there's hopefully more to come~
 		</p>
-		<p>
-			Looking for the screencasts or the Cosmicplayground Dev Community? Head over to <a
-				href="https://www.youtube.com/channel/UCDpSmdzFa_S5BkVlChKU7hg">our YouTube channel</a
-			>
-			and <a href="https://www.cosmicplayground.dev">cosmicplayground.dev</a>.
-		</p>
+	</div>
+</Panel>
+<Panel>
+	<div class="markup">
+		<h2>Community and Screencasts</h2>
+		<p />
+		<ul>
+			<li>
+				screencasts on the <a href="https://www.youtube.com/channel/UCDpSmdzFa_S5BkVlChKU7hg"
+					>YouTube channel</a
+				>
+			</li>
+			<li>
+				community at <a href="https://www.cosmicplayground.dev">cosmicplayground.dev</a>
+			</li>
+			<li>
+				interested in contributing? <a
+					href="https://github.com/cosmicplayground/community/blob/main/contributing.md"
+					>start here</a
+				>
+			</li>
+		</ul>
 	</div>
 </Panel>
 <Panel>

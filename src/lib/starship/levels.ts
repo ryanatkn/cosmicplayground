@@ -1,4 +1,4 @@
-import {type SongData, toSongData} from '$lib/app/songs';
+import {type SongData, toSongData} from '$lib/music/songs';
 import {type ImageData, toImageData} from '$lib/space/images';
 
 export interface LevelData {
@@ -44,11 +44,11 @@ export const levelDatas: Map<string, LevelData> = new Map(
 			{name: '10a', title: 'Fireworks', image: 'heic1107a'},
 			{name: '10b', title: 'Facing Storm', image: 'heic1107a'},
 			{name: '10c', title: 'Lonely Mountain', image: 'heic1107a'},
-			{name: '11a', title: 'Nomadic Sunset', image: 'heic1118a'},
-			{name: '11b', title: 'Shining Stars', image: 'heic1118a'},
-			{name: '12a', title: 'Dream', image: 'heic1302a'},
+			{name: '11a', title: 'Shining Stars', image: 'heic1118a'},
+			{name: '11b', title: 'Nomadic Sunset', image: 'heic1118a'},
+			{name: '12a', title: 'Chemical Z', image: 'heic1302a'},
 			{name: '12b', title: 'Terra Mystica', image: 'heic1302a'},
-			{name: '12c', title: 'Chemical Z', image: 'heic1302a'},
+			{name: '12c', title: 'Dream', image: 'heic1302a'},
 		] as LevelData[]
 	).map((v) => {
 		v.song = toSongData(v.name);

@@ -231,21 +231,21 @@ export const songDatas: Map<string, SongData> = new Map(
 		},
 		{
 			name: '11a',
-			title: 'Nomadic Sunset',
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Nomadic_Sunset.mp3',
-		},
-		{
-			name: '11b',
 			title: 'Shining Stars',
 			author: 'Rafael Krux',
 			url: '/assets/audio/Rafael_Krux__Shining_Stars.mp3',
 		},
 		{
-			name: '12a',
-			title: 'Dream',
+			name: '11b',
+			title: 'Nomadic Sunset',
 			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Dream.mp3',
+			url: '/assets/audio/Alexander_Nakarada__Nomadic_Sunset.mp3',
+		},
+		{
+			name: '12a',
+			title: 'Chemical Z',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Chemical_Z.mp3',
 		},
 		{
 			name: '12b',
@@ -255,12 +255,12 @@ export const songDatas: Map<string, SongData> = new Map(
 		},
 		{
 			name: '12c',
-			title: 'Chemical Z',
+			title: 'Dream',
 			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Chemical_Z.mp3',
+			url: '/assets/audio/Alexander_Nakarada__Dream.mp3',
 		},
 		{
-			name: 'deep-breath',
+			name: 'deep-breath-tour',
 			title: 'Winter',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Winter.mp3',

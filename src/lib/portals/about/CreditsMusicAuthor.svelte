@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Details from '$lib/app/Details.svelte';
-	import {type SongData, songDatas} from '$lib/app/songs';
+	import {type SongData, songDatas} from '$lib/music/songs';
 
 	export let author: string;
 

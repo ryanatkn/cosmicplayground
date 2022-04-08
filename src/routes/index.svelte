@@ -32,7 +32,8 @@
 	import {getDimensions} from '$lib/app/dimensions';
 	import type {AudioResource, ResourceStore} from '$lib/app/resource';
 	import {toResourceStore} from '$lib/app/resource';
-	import {toSongData, type SongData} from '$lib/app/songs';
+	import {toSongData, type SongData} from '$lib/music/songs';
+	import {goto} from '$app/navigation';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -237,10 +238,15 @@
 		// TODO use controller instead
 		if (e.key === 'Escape') {
 			e.stopPropagation();
-			if (!starshipMode) {
-				await enterStarshipMode();
+			e.preventDefault();
+			if (e.ctrlKey) {
+				await goto('/starship');
 			} else {
-				await exitStarshipMode();
+				if (!starshipMode) {
+					await enterStarshipMode();
+				} else {
+					await exitStarshipMode();
+				}
 			}
 		} else if (e.key === 'F2') {
 			finish();
