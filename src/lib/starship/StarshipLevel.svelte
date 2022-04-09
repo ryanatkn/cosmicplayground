@@ -15,9 +15,18 @@
 </div>
 
 <style>
+	.starship-level {
+		margin: 0 var(--spacing_xs);
+	}
+	.starship-level:first-child {
+		margin-left: 0;
+	}
+	.starship-level:last-child {
+		margin-right: 0;
+	}
 	button {
 		position: relative;
-		padding: var(--spacing_sm) var(--spacing_xs);
+		padding: var(--spacing_xs3) var(--spacing_xs);
 	}
 	.title {
 		display: flex;
@@ -25,7 +34,6 @@
 		justify-content: center;
 		font-size: var(--font_size_lg);
 		text-align: center;
-		font-weight: 300;
 		text-shadow: 2px 2px 3px #000;
 	}
 	@media (max-width: 1100px) {
