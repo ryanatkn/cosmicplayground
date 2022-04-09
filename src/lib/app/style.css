@@ -294,11 +294,11 @@ summary:active {
 	border: none;
 	display: inline-block;
 }
-.image-button:hover {
-	transform: var(--clickable_transform__hover);
-}
 .image-button:focus {
 	transform: var(--clickable_transform__focus);
+}
+.image-button:hover {
+	transform: var(--clickable_transform__hover);
 }
 .image-button:active {
 	transform: var(--clickable_transform__active);

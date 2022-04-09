@@ -37,7 +37,7 @@ export const songDatas: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Traveler.mp3',
 		},
 		{
-			name: 'Adventures of Flying Jack',
+			name: 'Main Theme (Adventures of Flying Jack)',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Main_Theme_Adventures_of_Flying_Jack.mp3',
 		},

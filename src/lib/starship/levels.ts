@@ -15,7 +15,7 @@ export const levelDatas: Map<string, LevelData> = new Map(
 		{
 			name: '0b',
 			title: 'Adventures of Flying Jack',
-			song: 'Adventures of Flying Jack',
+			song: 'Main Theme (Adventures of Flying Jack)',
 			image: 'heic0206a',
 		},
 		{name: '0c', title: 'Adventure', song: 'Adventure', image: 'heic0206a'},
