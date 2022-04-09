@@ -18,26 +18,28 @@ while making games in space!
 [source](https://github.com/cosmicplayground/community),
 [contributing.md](https://github.com/cosmicplayground/community/blob/main/contributing.md))
 
-- [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
-  where sea levels fall and rise and the lights of civilization shine through the night.
 - There's a little action game on the home screen 🛸
   (it's still a work in progress, screencasts to come at the
-  [Cosmicplayground Dev Community](https://github.com/cosmicplayground/community) --
+  [Cosmicplayground Dev Community](https://github.com/cosmicplayground/community) —
   try pressing the escape and backtick keys)
-- [Deep Breath](https://www.cosmicplayground.org/deep-breath)
-  is an interactive map with a rough answer to the extreme hypothetical
-  _"If all ice on Earth melts, how will sea levels change?"_
-  There's also
-  [a video on YouTube with a 6 minute tour](https://www.youtube.com/watch?v=7xEPqg-Kyg4)
-  around the planet set to music.
-  You can get the same experience by clicking "tour" on the map -
-  the visual quality is better on the website but it's not mobile friendly.
+- [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
+  where sea levels fall and rise and the lights of civilization shine through the night.
+  - [Deep Breath](https://www.cosmicplayground.org/deep-breath)
+    is an interactive map with a rough answer to the extreme hypothetical
+    _"If all ice on Earth melts, how will sea levels change?"_
+    It's a more limited precursor to Soggy Planet.
+    There's also
+    [a video on YouTube with a 6 minute tour](https://www.youtube.com/watch?v=7xEPqg-Kyg4)
+    around the planet set to music.
+    You can get the same experience by clicking "tour" on the map —
+    the visual quality is better on the website but it's not mobile friendly.
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies.
   Space out or zoom and pan around to explore on your own—try to spot your atoms' cousins!
   It displays images from Hubble, [spacetelescope.org](https://www.spacetelescope.org/about/).
   Try it on an idle screen but be mindful of the power usage. :]
+  - it's not mobile friendly yet :|
   - Safari users: Starlit Hammock uses the modern image format webp instead of jpg,
     which means it only works on iOS 14 & macOS Big Sur or later
 - Two tools for understanding
