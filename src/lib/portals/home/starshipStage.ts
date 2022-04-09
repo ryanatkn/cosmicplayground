@@ -165,7 +165,7 @@ export class Stage extends BaseStage {
 		bodies.push(friend);
 		friends.add(friend);
 
-		friend = collisions.createCircle(1460, 1104, 72) as EntityCircle;
+		friend = collisions.createCircle(1420, 1104, 72) as EntityCircle;
 		friend.text = FRIEND_ICONS[2];
 		friend.font = toIconFont(friend.radius);
 		friend.speed = 0.01;
