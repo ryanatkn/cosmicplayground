@@ -2,7 +2,6 @@
 	import {tick} from 'svelte';
 	import {wait} from '@feltcoop/felt';
 	import PendingAnimation from '@feltcoop/felt/ui/PendingAnimation.svelte';
-	import {get} from 'svelte/store';
 
 	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
 	import aboutPortal from '$lib/portals/about/data';
@@ -30,10 +29,11 @@
 		type StarshipStageScores,
 	} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
-	import type {AudioResource, ResourceStore} from '$lib/app/resource';
-	import {toResourceStore} from '$lib/app/resource';
-	import {toSongData, type SongData} from '$lib/music/songs';
+
+	import {toSongData} from '$lib/music/songs';
 	import {goto} from '$app/navigation';
+	import {pauseAudio} from '$lib/audio/playAudio';
+	import {playSong} from '$lib/music/playSong';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -189,47 +189,6 @@
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
-	};
-
-	const songs = new Map<string, ResourceStore<AudioResource>>();
-	// const resources = new Map<string, ResourceStore>(); // TODO refactor a generic interface?
-
-	const pauseAudio = () => {
-		for (const song of songs.values()) {
-			const s = get(song); // TODO
-			if (s.audio && !s.audio.paused) s.audio.pause();
-		}
-	};
-	const playAudio = (audio: HTMLAudioElement, currentTime = 0): Promise<void> => {
-		audio.currentTime = currentTime;
-		return audio.play();
-	};
-
-	let audioKey: symbol | undefined;
-
-	// TODO extract an audio player store
-	// TODO this API is not fun, resources should probably be stores
-	const playSong = async (songData: SongData) => {
-		const {url} = songData;
-		pauseAudio();
-		let song = songs.get(songData.url);
-		let loading;
-		if (!song) {
-			song = toResourceStore('audio', songData.url) as ResourceStore<AudioResource>; // TODO type
-			loading = song.load();
-			songs.set(url, song); // TODO improve API, maybe return a typed store from `addResource`
-		}
-		// TODO extract the starship mode logic into callbacks/hooks or some other API
-		await Promise.all([loading, exitStarshipMode()]);
-		const key = (audioKey = Symbol());
-		void enterStarshipMode();
-		const $s = get(song);
-		if (audioKey !== key) return;
-		if (!$s || $s.status !== 'success' || !$s.audio) {
-			throw Error('Failed to load song'); // TODO handle failures better (Dialog error?)
-		}
-		$s.audio.volume = 0.5; // TODO where?
-		return playAudio($s.audio);
 	};
 </script>
 

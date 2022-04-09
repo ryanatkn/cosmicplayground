@@ -223,13 +223,13 @@
 		easing = sineInOut,
 	) => {
 		if (!xTween) xTween = tweened($x);
-		xTween.set(xTarget, {duration, easing}); // eslint-disable-line @typescript-eslint/no-floating-promises
+		void xTween.set(xTarget, {duration, easing});
 		if (!yTween) yTween = tweened($y);
-		yTween.set(yTarget, {duration, easing}); // eslint-disable-line @typescript-eslint/no-floating-promises
+		void yTween.set(yTarget, {duration, easing});
 	};
 	const updateScaleTween = (scaleTarget: number, duration: number, easing = sineInOut) => {
 		if (!scaleTween) scaleTween = tweened($scale);
-		scaleTween.set(scaleTarget, {duration, easing}); // eslint-disable-line @typescript-eslint/no-floating-promises
+		void scaleTween.set(scaleTarget, {duration, easing});
 	};
 	const resetTweens = () => {
 		xTween = null;
@@ -296,12 +296,12 @@
 					}
 					case 'playOceanWavesSound': {
 						oceanWavesSound.audio!.currentTime = 0;
-						if (audioEnabled) oceanWavesSound.audio!.play(); // eslint-disable-line @typescript-eslint/no-floating-promises
+						if (audioEnabled) void oceanWavesSound.audio!.play();
 						return;
 					}
 					case 'playSong': {
 						tourSong.audio!.currentTime = 0;
-						if (audioEnabled) tourSong.audio!.play(); // eslint-disable-line @typescript-eslint/no-floating-promises
+						if (audioEnabled) void tourSong.audio!.play();
 						return;
 					}
 					case 'showIntro': {
@@ -355,7 +355,7 @@
 			// TODO this is broken in Chrome, maybe because of headers
 			// https://stackoverflow.com/questions/37044064/html-audio-cant-set-currenttime
 			if (audio.paused) {
-				if (audioEnabled) audio.play(); // eslint-disable-line @typescript-eslint/no-floating-promises
+				if (audioEnabled) void audio.play();
 			}
 		} else if (!audio.paused) {
 			audio.pause();
@@ -375,7 +375,7 @@
 		// in dev mode, bypass the title screen for convenience
 		if (devMode) {
 			showTitleScreen = false;
-			resources.load(); // eslint-disable-line @typescript-eslint/no-floating-promises
+			void resources.load();
 		}
 	});
 	onDestroy(() => {

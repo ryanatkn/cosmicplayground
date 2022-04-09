@@ -133,7 +133,7 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 	// TODO does this cause a memory leak? use derived?
 	const unsubscribeClock = clock.subscribe(($clock) => {
 		if ($clock.running && $clock.dt > 0) {
-			handleClockTick($clock.dt); // eslint-disable-line @typescript-eslint/no-floating-promises
+			void handleClockTick($clock.dt);
 		}
 	});
 
@@ -171,7 +171,7 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 		}
 
 		// Apply the current step.
-		handleClockTick(0); // eslint-disable-line @typescript-eslint/no-floating-promises
+		void handleClockTick(0);
 		if (currentTime !== totalDuration) {
 			// This is a bit messy, but fixes a bug where seek is called after the tour ends.
 			// Instead, should we just call the hook right before the tick?

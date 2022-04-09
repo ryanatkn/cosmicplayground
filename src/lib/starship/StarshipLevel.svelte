@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type {LevelData} from '$lib/starship/levels';
+	import {playSong} from '$lib/music/playSong';
 
 	export let level: LevelData;
 </script>
@@ -7,6 +8,7 @@
 <div class="starship-level buttonish">
 	<button
 		on:click={() => {
+			void playSong(level.song);
 			console.log(`level`, level);
 		}}
 	>

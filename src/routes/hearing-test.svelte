@@ -21,7 +21,7 @@
 			damping: 0.32,
 		},
 	);
-	$: spotPosition.set({x: pointerX, y: pointerY}); // eslint-disable-line @typescript-eslint/no-floating-promises
+	$: void spotPosition.set({x: pointerX, y: pointerY});
 
 	let osc: OscillatorNode | undefined;
 	let gain: GainNode | undefined;

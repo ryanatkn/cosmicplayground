@@ -216,7 +216,7 @@
 		// in dev mode, bypass the title screen for convenience
 		if (devMode) {
 			showTitleScreen = false;
-			resources.load(); // eslint-disable-line @typescript-eslint/no-floating-promises
+			void resources.load();
 		}
 	});
 </script>

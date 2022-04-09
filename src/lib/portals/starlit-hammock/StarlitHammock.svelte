@@ -82,7 +82,7 @@
 		camera.position.set(x, y);
 	};
 
-	$: updateSprite(imageUrl); // eslint-disable-line @typescript-eslint/no-floating-promises
+	$: void updateSprite(imageUrl);
 
 	// TODO handle failure and initial?
 	let loadingStatus: AsyncStatus;
