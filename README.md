@@ -50,6 +50,9 @@ is a collection of web projects that try to be useful or interesting.
 
 ## develop
 
+> **important**: Windows is not yet supported;
+> see [this issue](https://github.com/cosmicplayground/cosmicplayground/issues/26) for more
+
 To play with the code, you'll need Node 16.6+;
 
 ```bash
