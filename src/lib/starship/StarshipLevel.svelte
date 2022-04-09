@@ -9,7 +9,6 @@
 	<button
 		on:click={() => {
 			void playSong(level.song);
-			console.log(`level`, level);
 		}}
 	>
 		<div class="title">{level.title}</div>

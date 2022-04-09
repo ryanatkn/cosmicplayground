@@ -2,14 +2,16 @@ import {get} from 'svelte/store';
 
 import type {AudioResource, ResourceStore} from '$lib/app/resource';
 
-// TODO BLOCK wrong name
-export const songs = new Map<string, ResourceStore<AudioResource>>();
+export const audios = new Map<string, ResourceStore<AudioResource>>();
 // const resources = new Map<string, ResourceStore>(); // TODO refactor a generic interface?
 
-export const pauseAudio = (): void => {
-	for (const song of songs.values()) {
-		const s = get(song); // TODO
-		if (s.audio && !s.audio.paused) s.audio.pause();
+export const pauseAudio = (onPause?: (audio: AudioResource) => void): void => {
+	for (const resourceStore of audios.values()) {
+		const resource = get(resourceStore); // TODO
+		if (resource.audio && !resource.audio.paused) {
+			resource.audio.pause();
+			onPause?.(resource);
+		}
 	}
 };
 export const playAudio = (audio: HTMLAudioElement, currentTime = 0): Promise<void> => {

@@ -2,7 +2,7 @@ import {get} from 'svelte/store';
 
 import type {AudioResource, ResourceStore} from '$lib/app/resource';
 import {toResourceStore} from '$lib/app/resource';
-import {pauseAudio, playAudio, songs} from '$lib/audio/playAudio';
+import {pauseAudio, playAudio, audios} from '$lib/audio/playAudio';
 import type {SongData} from '$lib/music/songs';
 
 let audioKey: symbol | undefined;
@@ -16,13 +16,17 @@ export const playSong = async (
 	onLoaded?: (song: ResourceStore<AudioResource>) => any,
 ) => {
 	const {url} = songData;
-	pauseAudio();
-	let song = songs.get(songData.url);
+	let abort = false;
+	pauseAudio((resource) => {
+		if (resource.url === songData.url) abort = true;
+	});
+	if (abort) return;
+	let song = audios.get(songData.url);
 	let loading;
 	if (!song) {
 		song = toResourceStore('audio', songData.url) as ResourceStore<AudioResource>; // TODO type
 		loading = song.load();
-		songs.set(url, song); // TODO improve API, maybe return a typed store from `addResource`
+		audios.set(url, song); // TODO improve API, maybe return a typed store from `addResource`
 	}
 	// TODO extract the starship mode logic into callbacks/hooks or some other API
 	await Promise.all([loading, onLoading?.(song)]);
