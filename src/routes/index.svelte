@@ -29,11 +29,11 @@
 		type StarshipStageScores,
 	} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
-	import {
-		createResourcesStore,
-		type AudioResource,
-		type ResourcesStore,
-	} from '$lib/app/resourcesStore';
+
+	import {toSongData} from '$lib/music/songs';
+	import {goto} from '$app/navigation';
+	import {pauseAudio} from '$lib/audio/playAudio';
+	import {playSong} from '$lib/music/playSong';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -190,98 +190,6 @@
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
 	};
-
-	const pauseAudio = () => {
-		// TODO refactor
-		if (introSong?.audio && !introSong.audio.paused) introSong.audio.pause();
-		if (outroSong?.audio && !outroSong.audio.paused) outroSong.audio.pause();
-		if (intro2Song?.audio && !intro2Song.audio.paused) intro2Song.audio.pause();
-		if (outro2Song?.audio && !outro2Song.audio.paused) outro2Song.audio.pause();
-	};
-	const playAudio = (audio: HTMLAudioElement, currentTime = 0): Promise<void> => {
-		audio.currentTime = currentTime;
-		return audio.play();
-	};
-
-	let audioKey: symbol | undefined;
-
-	// TODO this API is not fun, resources should probably be stores
-	const playSong = async (
-		url: string,
-		resources: ResourcesStore,
-		getPromise: () => Promise<void> | null, // TODO HACK
-		getSongResource: () => AudioResource | undefined,
-		setSongResource: (song: AudioResource | undefined) => void,
-	) => {
-		pauseAudio();
-		if (!getSongResource()) {
-			const song = resources.addResource('audio', url);
-			resources.load(); // eslint-disable-line @typescript-eslint/no-floating-promises
-			setSongResource(song); // TODO improve API, maybe return a typed store from `addResource`
-		}
-		const key = (audioKey = Symbol());
-		await Promise.all([getPromise(), exitStarshipMode()]);
-		if (audioKey !== key) return;
-		await enterStarshipMode();
-		if (audioKey !== key) return;
-		const song = getSongResource();
-		setSongResource(song); // TODO improve API, maybe return a typed store from `addResource`
-		if (!song || song.status !== 'success' || !song.audio) {
-			throw Error('Failed to load song'); // TODO handle failures better (Dialog error?)
-		}
-		song.audio.volume = 0.5; // TODO where?
-		return playAudio(song.audio);
-	};
-
-	// TODO refactor the 4 sections below
-
-	const introResources = createResourcesStore();
-	let introSong: AudioResource | undefined;
-	const INTRO_SONG_URL = '/assets/audio/Alexander_Nakarada__Spacey_Intro.mp3';
-	const startIntro = (): Promise<void> =>
-		playSong(
-			INTRO_SONG_URL,
-			introResources,
-			() => $introResources.promise, // TODO HACK
-			() => $introResources.resources.find((r) => r.url === INTRO_SONG_URL) as any, // TODO improve API, maybe return a typed store from `addResource`
-			(song) => (introSong = song),
-		);
-
-	const outroResources = createResourcesStore();
-	let outroSong: AudioResource | undefined;
-	const OUTRO_SONG_URL = '/assets/audio/Alexander_Nakarada__Spacey_Outro.mp3';
-	const startOutro = (): Promise<void> =>
-		playSong(
-			OUTRO_SONG_URL,
-			outroResources,
-			() => $outroResources.promise, // TODO HACK
-			() => $outroResources.resources.find((r) => r.url === OUTRO_SONG_URL) as any, // TODO improve API, maybe return a typed store from `addResource`
-			(song) => (outroSong = song),
-		);
-
-	const intro2Resources = createResourcesStore();
-	let intro2Song: AudioResource | undefined;
-	const INTRO2_SONG_URL = '/assets/audio/Alexander_Nakarada__Futuristic_4.mp3';
-	const startIntro2 = (): Promise<void> =>
-		playSong(
-			INTRO2_SONG_URL,
-			intro2Resources,
-			() => $intro2Resources.promise, // TODO HACK
-			() => $intro2Resources.resources.find((r) => r.url === INTRO2_SONG_URL) as any, // TODO improve API, maybe return a typed store from `addResource`
-			(song) => (intro2Song = song),
-		);
-
-	const outro2Resources = createResourcesStore();
-	let outro2Song: AudioResource | undefined;
-	const OUTRO2_SONG_URL = '/assets/audio/Alexander_Nakarada__Futuristic_1.mp3';
-	const startOutro2 = (): Promise<void> =>
-		playSong(
-			OUTRO2_SONG_URL,
-			outro2Resources,
-			() => $outro2Resources.promise, // TODO HACK
-			() => $outro2Resources.resources.find((r) => r.url === OUTRO2_SONG_URL) as any, // TODO improve API, maybe return a typed store from `addResource`
-			(song) => (outro2Song = song),
-		);
 </script>
 
 <svelte:window
@@ -289,10 +197,15 @@
 		// TODO use controller instead
 		if (e.key === 'Escape') {
 			e.stopPropagation();
-			if (!starshipMode) {
-				await enterStarshipMode();
+			e.preventDefault();
+			if (e.ctrlKey) {
+				await goto('/starship');
 			} else {
-				await exitStarshipMode();
+				if (!starshipMode) {
+					await enterStarshipMode();
+				} else {
+					await exitStarshipMode();
+				}
 			}
 		} else if (e.key === 'F2') {
 			finish();
@@ -310,19 +223,23 @@
 		} else if (e.key === '1' && e.ctrlKey) {
 			e.stopPropagation();
 			e.preventDefault();
-			await startIntro();
+			await playSong(toSongData('Spacey Intro'));
 		} else if (e.key === '2' && e.ctrlKey) {
 			e.stopPropagation();
 			e.preventDefault();
-			await startOutro();
+			await playSong(toSongData('Spacey Outro'));
 		} else if (e.key === '3' && e.ctrlKey) {
 			e.stopPropagation();
 			e.preventDefault();
-			await startIntro2();
+			await playSong(toSongData('Futuristic 4'));
 		} else if (e.key === '4' && e.ctrlKey) {
 			e.stopPropagation();
 			e.preventDefault();
-			await startOutro2();
+			await playSong(toSongData('Futuristic 1'));
+		} else if (e.key === '0' && e.ctrlKey) {
+			e.stopPropagation();
+			e.preventDefault();
+			await playSong(toSongData('Space Ambience'));
 		}
 	}}
 />

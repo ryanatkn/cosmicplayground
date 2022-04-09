@@ -29,7 +29,7 @@ gently swings under these wondrous views from
 			<summary slot="summary">
 				<h3 class="inline">see {hiddenImages.length} more images</h3>
 			</summary>
-			<ul slot="details">
+			<ul>
 				{#each hiddenImages as image (image.info.url)}
 					<li>
 						<ImageCredits {image} />

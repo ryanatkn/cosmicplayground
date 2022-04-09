@@ -66,7 +66,7 @@
 		// TODO ?
 		starshipAngle = updateAngle(starshipAngle, stage.player.directionX, stage.player.directionY);
 		if (!stage.freezeCamera) {
-			stage.camera.setPosition(starshipX, starshipY); // eslint-disable-line @typescript-eslint/no-floating-promises
+			void stage.camera.setPosition(starshipX, starshipY);
 		}
 		starshipShieldRadius = stage.player.radius;
 

@@ -49,10 +49,11 @@ html {
 	--clickable_border_style__active: dotted;
 	--clickable_border_style_sm: solid; /* too small for double, also `_sm` hover/active styles are not needed */
 	--clickable_transform: scale3d(1, 1, 1);
-	--clickable_transform__hover: scale3d(1.1, 1.1, 1);
-	--clickable_transform__active: scale3d(1.2, 1.2, 1);
-	--clickable_transform_sm__hover: scale3d(1.03, 1.03, 1);
-	--clickable_transform_sm__active: scale3d(1.09, 1.09, 1);
+	--clickable_transform__hover: scale3d(1.1, 1.1, 1.1);
+	--clickable_transform__focus: scale3d(1.07, 1.07, 1.07);
+	--clickable_transform__active: scale3d(1.2, 1.2, 1.2);
+	--clickable_transform_sm__hover: scale3d(1.03, 1.03, 1.03);
+	--clickable_transform_sm__active: scale3d(1.09, 1.09, 1.09);
 	--clickable_transition: transform 0.06s ease-out;
 	--clickable_opacity: 0.7;
 	--clickable_opacity__hover: 0.85;
@@ -292,6 +293,9 @@ summary:active {
 	transform: var(--clickable_transform);
 	border: none;
 	display: inline-block;
+}
+.image-button:focus {
+	transform: var(--clickable_transform__focus);
 }
 .image-button:hover {
 	transform: var(--clickable_transform__hover);

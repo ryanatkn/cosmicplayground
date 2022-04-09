@@ -28,6 +28,7 @@ See https://hubblesite.org/copyright
 // TODO generate most of this data
 
 export interface ImageMeta {
+	name: string;
 	title: string;
 	info: ImageInfo;
 	thumbnail: ImageInfo;
@@ -59,6 +60,7 @@ const HubbleHeritageTeam =
 
 export const spaceImages: ImageMeta[] = [
 	{
+		name: 'heic0406a',
 		title: 'Hubble sees galaxies galore',
 		info: {url: '/assets/space/heic0406a.webp', width: 6200, height: 6200},
 		thumbnail: {url: '/assets/space/heic0406a_thumbnail.webp', width: 300, height: 300},
@@ -68,6 +70,7 @@ export const spaceImages: ImageMeta[] = [
 		},
 	},
 	{
+		name: 'potw1802a',
 		title: 'A gargantuan collision',
 		info: {url: '/assets/space/potw1802a.webp', width: 7791, height: 4784},
 		thumbnail: {url: '/assets/space/potw1802a_thumbnail.webp', width: 300, height: 184},
@@ -77,6 +80,7 @@ export const spaceImages: ImageMeta[] = [
 		},
 	},
 	{
+		name: 'potw1752b',
 		title: 'Galaxy cluster RCS2 J2327',
 		info: {url: '/assets/space/potw1752b.webp', width: 4036, height: 4013},
 		thumbnail: {url: '/assets/space/potw1752b_thumbnail.webp', width: 300, height: 298},
@@ -86,6 +90,7 @@ export const spaceImages: ImageMeta[] = [
 		},
 	},
 	{
+		name: 'heic1409a',
 		title: 'Galaxy cluster MACS J1720+35',
 		info: {url: '/assets/space/heic1409a.webp', width: 4800, height: 3600},
 		thumbnail: {url: '/assets/space/heic1409a_thumbnail.webp', width: 300, height: 225},
@@ -95,6 +100,7 @@ export const spaceImages: ImageMeta[] = [
 		},
 	},
 	{
+		name: 'heic0814a',
 		title: 'Abell 2218',
 		info: {url: '/assets/space/heic0814a.webp', width: 4739, height: 4504},
 		thumbnail: {url: '/assets/space/heic0814a_thumbnail.webp', width: 300, height: 285},
@@ -105,6 +111,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		},
 	},
 	{
+		name: 'potw1849a',
 		title: 'Clusters within clusters',
 		info: {url: '/assets/space/potw1849a.webp', width: 8192, height: 4608},
 		thumbnail: {url: '/assets/space/potw1849a_thumbnail.webp', width: 300, height: 169},
@@ -114,6 +121,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		},
 	},
 	{
+		name: 'heic0910e',
 		title: 'WFC3 visible image of the Carina Nebula',
 		info: {url: '/assets/space/heic0910e.webp', width: 4533, height: 2618},
 		thumbnail: {url: '/assets/space/heic0910e_thumbnail.webp', width: 300, height: 173},
@@ -123,6 +131,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		},
 	},
 	{
+		name: 'heic1007a',
 		title: 'Hubble captures view of “Mystic Mountain”',
 		info: {url: '/assets/space/heic1007a.webp', width: 2104, height: 1937},
 		thumbnail: {url: '/assets/space/heic1007a_thumbnail.webp', width: 300, height: 276},
@@ -132,6 +141,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		},
 	},
 	{
+		name: 'heic0707a',
 		title: 'Star birth in the extreme',
 		info: {url: '/assets/space/heic0707a.webp', width: 8192, height: 3968},
 		thumbnail: {url: '/assets/space/heic0707a_thumbnail.webp', width: 300, height: 145},
@@ -141,6 +151,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		},
 	},
 	{
+		name: 'heic1608a',
 		title: 'The Bubble Nebula',
 		info: {url: '/assets/space/heic1608a.webp', width: 7857, height: 7462},
 		thumbnail: {url: '/assets/space/heic1608a_thumbnail.webp', width: 300, height: 285},
@@ -150,6 +161,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		},
 	},
 	{
+		name: 'heic1501a',
 		title: 'Pillars of Creation, Eagle Nebula',
 		info: {url: '/assets/space/heic1501a.webp', width: 6780, height: 7071},
 		thumbnail: {url: '/assets/space/heic1501a_thumbnail.webp', width: 288, height: 300},
@@ -159,6 +171,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		},
 	},
 	{
+		name: 'heic1808a',
 		title: `Hubble's 28th birthday picture: The Lagoon Nebula`,
 		info: {url: '/assets/space/heic1808a.webp', width: 4782, height: 6028},
 		thumbnail: {url: '/assets/space/heic1808a_thumbnail.webp', width: 238, height: 300},
@@ -168,6 +181,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		},
 	},
 	{
+		name: 'heic1302a',
 		title: 'Hubble view of Messier 106',
 		info: {url: '/assets/space/heic1302a.webp', width: 7910, height: 6178},
 		thumbnail: {url: '/assets/space/heic1302a_thumbnail.webp', width: 300, height: 234},
@@ -178,6 +192,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		},
 	},
 	{
+		name: 'heic0506a',
 		title: 'Out of this whirl: The Whirlpool Galaxy (M51) and companion galaxy',
 		info: {url: '/assets/space/heic0506a.webp', width: 8192, height: 5685},
 		thumbnail: {url: '/assets/space/heic0506a_thumbnail.webp', width: 300, height: 208},
@@ -187,6 +202,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		},
 	},
 	{
+		name: 'heic1913c',
 		title: 'Galaxy NGC 3147',
 		info: {url: '/assets/space/heic1913c.webp', width: 4007, height: 4007},
 		thumbnail: {url: '/assets/space/heic1913c_thumbnail.webp', width: 300, height: 300},
@@ -196,6 +212,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		},
 	},
 	{
+		name: 'heic0817a',
 		title: 'Magnetic monster NGC 1275',
 		info: {url: '/assets/space/heic0817a.webp', width: 4633, height: 3590},
 		thumbnail: {url: '/assets/space/heic0817a_thumbnail.webp', width: 300, height: 232},
@@ -205,6 +222,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		},
 	},
 	{
+		name: 'opo0501a',
 		title: 'The beautiful barred spiral galaxy NGC 1300',
 		info: {url: '/assets/space/opo0501a.webp', width: 6637, height: 3787},
 		thumbnail: {url: '/assets/space/opo0501a_thumbnail.webp', width: 300, height: 171},
@@ -214,6 +232,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		},
 	},
 	{
+		name: 'heic2002a',
 		title: 'UGC 2885',
 		info: {url: '/assets/space/heic2002a.webp', width: 8192, height: 6144},
 		thumbnail: {url: '/assets/space/heic2002a_thumbnail.webp', width: 300, height: 225},
@@ -223,6 +242,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		},
 	},
 	{
+		name: 'heic1520a',
 		title: 'Revisiting the Veil Nebula',
 		info: {url: '/assets/space/heic1520a.webp', width: 8192, height: 5462},
 		thumbnail: {url: '/assets/space/heic1520a_thumbnail.webp', width: 300, height: 200},
@@ -232,6 +252,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		},
 	},
 	{
+		name: 'heic1118a',
 		title: 'Hubble view of star-forming region S106',
 		info: {url: '/assets/space/heic1118a.webp', width: 4356, height: 3202},
 		thumbnail: {url: '/assets/space/heic1118a_thumbnail.webp', width: 300, height: 221},
@@ -241,6 +262,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		},
 	},
 	{
+		name: 'heic1307a',
 		title: 'New infrared view of the Horsehead Nebula — Hubble’s 23rd anniversary image',
 		info: {url: '/assets/space/heic1307a.webp', width: 2704, height: 2826},
 		thumbnail: {url: '/assets/space/heic1307a_thumbnail.webp', width: 287, height: 300},
@@ -250,6 +272,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		},
 	},
 	{
+		name: 'heic2007a',
 		title: 'Tapestry of Blazing Starbirth',
 		info: {url: '/assets/space/heic2007a.webp', width: 8192, height: 5629},
 		thumbnail: {url: '/assets/space/heic2007a_thumbnail.webp', width: 300, height: 206},
@@ -259,6 +282,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		},
 	},
 	{
+		name: 'heic1105a',
 		title: 'Hubble snaps close-up of the Tarantula',
 		info: {url: '/assets/space/heic1105a.webp', width: 3868, height: 3952},
 		thumbnail: {url: '/assets/space/heic1105a_thumbnail.webp', width: 294, height: 300},
@@ -268,6 +292,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		},
 	},
 	{
+		name: 'heic1509a',
 		title: `Westerlund 2 — Hubble’s 25th anniversary image`,
 		info: {url: '/assets/space/heic1509a.webp', width: 8192, height: 6138},
 		thumbnail: {url: '/assets/space/heic1509a_thumbnail.webp', width: 300, height: 225},
@@ -278,6 +303,7 @@ The original observations of Westerlund 2 were obtained by the science team: Ant
 		},
 	},
 	{
+		name: 'opo0415a',
 		title: 'The lure of the rings',
 		info: {url: '/assets/space/opo0415a.webp', width: 3628, height: 2357},
 		thumbnail: {url: '/assets/space/opo0415a_thumbnail.webp', width: 300, height: 195},
@@ -287,6 +313,7 @@ The original observations of Westerlund 2 were obtained by the science team: Ant
 		},
 	},
 	{
+		name: 'heic0910i',
 		title: `Galactic wreckage in Stephan's Quintet`,
 		info: {url: '/assets/space/heic0910i.webp', width: 6064, height: 6760},
 		thumbnail: {url: '/assets/space/heic0910i_thumbnail.webp', width: 269, height: 300},
@@ -296,6 +323,7 @@ The original observations of Westerlund 2 were obtained by the science team: Ant
 		},
 	},
 	{
+		name: 'heic0206a',
 		title: `A 'wallpaper' of distant galaxies is a stunning backdrop for a runaway galaxy`,
 		info: {url: '/assets/space/heic0206a.webp', width: 4360, height: 3798},
 		thumbnail: {url: '/assets/space/heic0206a_thumbnail.webp', width: 300, height: 261},
@@ -306,6 +334,7 @@ Image credit: ${NASA}, the ACS Science Team (H. Ford, G. Illingworth, M. Clampin
 		},
 	},
 	{
+		name: 'heic1107a',
 		title: 'A rose made of galaxies',
 		info: {url: '/assets/space/heic1107a.webp', width: 7887, height: 7994},
 		thumbnail: {url: '/assets/space/heic1107a_thumbnail.webp', width: 296, height: 300},
@@ -315,6 +344,7 @@ Image credit: ${NASA}, the ACS Science Team (H. Ford, G. Illingworth, M. Clampin
 		},
 	},
 	{
+		name: 'potw2029a',
 		title: 'A Discovery of Ghostly Arms',
 		info: {url: '/assets/space/potw2029a.webp', width: 3422, height: 2516},
 		thumbnail: {url: '/assets/space/potw2029a_thumbnail.webp', width: 300, height: 221},
@@ -324,6 +354,7 @@ Image credit: ${NASA}, the ACS Science Team (H. Ford, G. Illingworth, M. Clampin
 		},
 	},
 	{
+		name: 'heic1712a',
 		title: 'NGC 1512 and NGC 1510',
 		info: {url: '/assets/space/heic1712a.webp', width: 8192, height: 2996},
 		thumbnail: {url: '/assets/space/heic1712a_thumbnail.webp', width: 300, height: 110},
@@ -333,3 +364,12 @@ Image credit: ${NASA}, the ACS Science Team (H. Ford, G. Illingworth, M. Clampin
 		},
 	},
 ];
+
+const imageMetaByName = new Map<string, ImageMeta>();
+for (const s of spaceImages) imageMetaByName.set(s.name, s);
+
+export const toImageMeta = (name: string): ImageMeta => {
+	const m = imageMetaByName.get(name);
+	if (!m) throw Error(`Unknown image name ${name}`);
+	return m;
+};

@@ -1,33 +1,45 @@
 # cosmicplayground
 
-[<img src="/src/static/assets/characters/cosmic-kitty.webp" align="right" width="100" height="100">](https://www.cosmicplayground.org)
+[<img src="/src/static/assets/characters/cosmic-kitty.webp" align="right" width="192" height="192">](https://www.cosmicplayground.org)
 
 > tools and toys for expanding minds
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
 
 [cosmicplayground.org](https://www.cosmicplayground.org)
 is a collection of web projects that try to be useful or interesting.
+It began as a hobby project with no particular direction,
+and it's evolving into something that may become a coherent game experience, or maybe something else?
 
-- [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
-  where sea levels fall and rise and the lights of civilization shine through the night.
+This is also an experiment in developing an educational project
+in public with an open community and open source code.
+Join us if you want to improve your webdev skills with Svelte, SvelteKit, and TypeScript
+while making games in space!
+(community at [cosmicplayground.dev](https://www.cosmicplayground.dev),
+[source](https://github.com/cosmicplayground/community),
+[contributing.md](https://github.com/cosmicplayground/community/blob/main/contributing.md))
+
 - There's a little action game on the home screen 🛸
   (it's still a work in progress, screencasts to come at the
-  [Cosmicplayground Dev Community](https://github.com/cosmicplayground/dev) --
+  [Cosmicplayground Dev Community](https://github.com/cosmicplayground/community) —
   try pressing the escape and backtick keys)
-- [Deep Breath](https://www.cosmicplayground.org/deep-breath)
-  is an interactive map with a rough answer to the extreme hypothetical
-  _"If all ice on Earth melts, how will sea levels change?"_
-  There's also
-  [a video on YouTube with a 6 minute tour](https://www.youtube.com/watch?v=7xEPqg-Kyg4)
-  around the planet set to music.
-  You can get the same experience by clicking "tour" on the map -
-  the visual quality is better on the website but it's not mobile friendly.
+- [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
+  where sea levels fall and rise and the lights of civilization shine through the night.
+  - [Deep Breath](https://www.cosmicplayground.org/deep-breath)
+    is an interactive map with a rough answer to the extreme hypothetical
+    _"If all ice on Earth melts, how will sea levels change?"_
+    It's a more limited precursor to Soggy Planet.
+    There's also
+    [a video on YouTube with a 6 minute tour](https://www.youtube.com/watch?v=7xEPqg-Kyg4)
+    around the planet set to music.
+    You can get the same experience by clicking "tour" on the map —
+    the visual quality is better on the website but it's not mobile friendly.
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies.
   Space out or zoom and pan around to explore on your own—try to spot your atoms' cousins!
   It displays images from Hubble, [spacetelescope.org](https://www.spacetelescope.org/about/).
   Try it on an idle screen but be mindful of the power usage. :]
+  - it's not mobile friendly yet :|
   - Safari users: Starlit Hammock uses the modern image format webp instead of jpg,
     which means it only works on iOS 14 & macOS Big Sur or later
 - Two tools for understanding
@@ -43,10 +55,30 @@ is a collection of web projects that try to be useful or interesting.
 
 ## community and screencasts
 
-- [Cosmicplayground Dev Community](https://github.com/cosmicplayground/dev) ∙ [cosmicplayground.dev](https://www.cosmicplayground.dev)
+- [Cosmicplayground Dev Community](https://github.com/cosmicplayground/community) at [cosmicplayground.dev](https://www.cosmicplayground.dev)
 - [YouTube channel](https://www.youtube.com/channel/UCDpSmdzFa_S5BkVlChKU7hg)
 
 [![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
+
+## develop
+
+> **important**: Windows is not yet supported directly, but Windows users can use
+> [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) and other VMs;
+> see [this issue](https://github.com/cosmicplayground/cosmicplayground/issues/26) for more
+
+To play with the code, you'll need Node 16.6+;
+
+```bash
+npm i
+npm start # or gro dev
+# open your browser to localhost:3000
+npm run build # for production, or gro build
+```
+
+> learn more about [Gro](https://github.com/feltcoop/gro)
+
+For full setup instructions from scratch,
+see the [cosmicplayground/setup](https://github.com/cosmicplayground/setup) repo.
 
 ## credits :turtle: <sub>:turtle:</sub><sub><sub>:turtle:</sub></sub>
 
@@ -67,19 +99,6 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [Gro](https://github.com/feltcoop/gro) ∙
 [Prettier](https://github.com/prettier/prettier)
 & [more](package.json)
-
-## technical notes
-
-### develop
-
-To play with the code, you'll need Node 14+;
-
-```bash
-npm i
-npm start
-# open your browser to localhost:8999
-npm run build # for production
-```
 
 ## docs
 
