@@ -1,13 +1,60 @@
+import {toImageMeta, type ImageMeta} from '$lib/app/images';
 import {type SongData, toSongData} from '$lib/music/songs';
-import {type ImageData, toImageData} from '$lib/space/images';
 
 export interface LevelData {
 	name: string;
 	title: string;
-	image: string;
-	imageData: ImageData;
+	stage: StageData;
 	song: SongData;
 }
+
+export interface StageData {
+	name: string;
+	image: string;
+	imageMeta: ImageMeta;
+}
+
+export const toLevelData = (name: string): LevelData => {
+	const data = levelDatas.get(name);
+	if (!data) throw Error('Unknown level: ' + name);
+	return data;
+};
+
+export const toLevelDatasByStageName = (name: string): LevelData[] => {
+	const data = levelDatasByStageName.get(name);
+	if (!data) throw Error('Unknown stage: ' + name);
+	return data;
+};
+
+export const toStageDataByName = (name: string): StageData => {
+	const data = stageDatas.get(name);
+	if (!data) throw Error('Unknown stage: ' + name);
+	return data;
+};
+
+export const toStageDataByLevelName = (levelName: string): StageData =>
+	toStageDataByName(levelName.slice(0, -1));
+
+export const stageDatas: Map<string, StageData> = new Map(
+	[
+		{name: '0', image: 'heic0206a'},
+		{name: '1', image: 'heic0406a'},
+		{name: '2', image: 'heic0506a'},
+		{name: '3', image: 'heic0707a'},
+		{name: '4', image: 'heic0814a'},
+		{name: '5', image: 'heic0817a'},
+		{name: '6', image: 'heic0910e'},
+		{name: '7', image: 'heic1712a'},
+		{name: '8', image: 'heic1007a'},
+		{name: '9', image: 'heic1105a'},
+		{name: '10', image: 'heic1107a'},
+		{name: '11', image: 'heic1118a'},
+		{name: '12', image: 'heic1302a'},
+	].map((v) => {
+		(v as unknown as StageData).imageMeta = toImageMeta(v.image);
+		return [v.name, v as unknown as StageData];
+	}),
+);
 
 export const levelDatas: Map<string, LevelData> = new Map(
 	[
@@ -55,13 +102,15 @@ export const levelDatas: Map<string, LevelData> = new Map(
 		{name: '12c', title: 'Dream', song: 'Dream', image: 'heic1302a'},
 	].map((v) => {
 		(v as unknown as LevelData).song = toSongData(v.song);
-		(v as unknown as LevelData).imageData = toImageData(v.image);
+		(v as unknown as LevelData).stage = toStageDataByLevelName(v.name);
 		return [v.name, v as unknown as LevelData];
 	}),
 );
 
-export const toLevelData = (name: string): LevelData => {
-	const data = levelDatas.get(name);
-	if (!data) throw Error('Unknown level: ' + name);
-	return data;
-};
+const levelDatasByStageName = new Map<string, LevelData[]>();
+for (const levelData of levelDatas.values()) {
+	const stage = toStageDataByLevelName(levelData.name);
+	let levelDatas = levelDatasByStageName.get(stage.name);
+	if (!levelDatas) levelDatasByStageName.set(stage.name, (levelDatas = []));
+	levelDatas.push(levelData);
+}
