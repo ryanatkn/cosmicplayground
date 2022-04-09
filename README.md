@@ -7,6 +7,16 @@
 
 [cosmicplayground.org](https://www.cosmicplayground.org)
 is a collection of web projects that try to be useful or interesting.
+It began as a hobby project with no particular direction,
+and it's evolving into something that may become a coherent game experience, or maybe something else?
+
+This is also an experiment in developing an educational project
+in public with an open community and open source code.
+Join us if you want to improve your webdev skills with Svelte, SvelteKit, and TypeScript
+while making games in space!
+(community at [cosmicplayground.dev](https://www.cosmicplayground.dev),
+[source](https://github.com/cosmicplayground/community),
+[contributing.md](https://github.com/cosmicplayground/community/blob/main/contributing.md))
 
 - [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
   where sea levels fall and rise and the lights of civilization shine through the night.
