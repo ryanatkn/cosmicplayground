@@ -18,7 +18,7 @@
 
 <style>
 	.starship-level {
-		margin: 0 var(--spacing_xs);
+		margin: 0 var(--spacing_xs3);
 	}
 	.starship-level:first-child {
 		margin-left: 0;
