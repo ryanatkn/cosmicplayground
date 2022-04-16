@@ -6,7 +6,6 @@
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import DeepBreathCredits from './DeepBreathCredits.svelte';
-	import CreditsPersonalSignature from '$lib/portals/about/CreditsPersonalSignature.svelte';
 	import CreditsProjectSignature from '$lib/portals/about/CreditsProjectSignature.svelte';
 	import AboutPortalPreview from '$lib/portals/about/Preview.svelte';
 	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
@@ -112,7 +111,6 @@
 	<Panel>
 		<section class="markup">
 			<CreditsProjectSignature />
-			<CreditsPersonalSignature />
 		</section>
 	</Panel>
 	<!-- TODO pull this href from portal data? -->

@@ -46,7 +46,7 @@ export interface CreditsInfo {
 
 // The image use guidelines recommend adding this additional credit to retouched images.
 // https://www.spacetelescope.org/copyright/
-const imageProcessingCredit = 'additional processing by Ryan Atkinson';
+export const IMAGE_PROCESSING_CREDIT = 'additional processing by cosmicplayground';
 
 const ESA = '<a href="https://www.esa.int/">ESA</a>';
 const NASA = '<a href="https://www.nasa.gov/">NASA</a>';
@@ -66,7 +66,7 @@ export const spaceImages: ImageMeta[] = [
 		thumbnail: {url: '/assets/space/heic0406a_thumbnail.webp', width: 300, height: 300},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic0406a/',
-			attribution: `${NASA}, ${ESA}, and S. Beckwith (${STScI}) and the ${HUDF}, ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and S. Beckwith (${STScI}) and the ${HUDF}, ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -76,7 +76,7 @@ export const spaceImages: ImageMeta[] = [
 		thumbnail: {url: '/assets/space/potw1802a_thumbnail.webp', width: 300, height: 184},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/potw1802a/',
-			attribution: `${ESA}/${Hubble} & ${NASA}, <a href="https://archive.stsci.edu/prepds/relics/">RELICS</a>, ${imageProcessingCredit}`,
+			attribution: `${ESA}/${Hubble} & ${NASA}, <a href="https://archive.stsci.edu/prepds/relics/">RELICS</a>, ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -86,7 +86,7 @@ export const spaceImages: ImageMeta[] = [
 		thumbnail: {url: '/assets/space/potw1752b_thumbnail.webp', width: 300, height: 298},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/potw1752b/',
-			attribution: `<a href="https://www.eso.org">ESO</a> & ${ESA}/${Hubble} & ${NASA}, ${imageProcessingCredit}`,
+			attribution: `<a href="https://www.eso.org">ESO</a> & ${ESA}/${Hubble} & ${NASA}, ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -96,7 +96,7 @@ export const spaceImages: ImageMeta[] = [
 		thumbnail: {url: '/assets/space/heic1409a_thumbnail.webp', width: 300, height: 225},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic1409a/',
-			attribution: `${NASA}, ${ESA}, S. Perlmutter (UC Berkeley, LBNL), A. Koekemoer (${STScI}), M. Postman (${STScI}), A. Riess (${STScI}/JHU), J. Nordin (LBNL, UC Berkeley), D. Rubin (Florida State), and C. McCully (Rutgers University), ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, S. Perlmutter (UC Berkeley, LBNL), A. Koekemoer (${STScI}), M. Postman (${STScI}), A. Riess (${STScI}/JHU), J. Nordin (LBNL, UC Berkeley), D. Rubin (Florida State), and C. McCully (Rutgers University), ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -107,7 +107,7 @@ export const spaceImages: ImageMeta[] = [
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic0814a/',
 			attribution: `${NASA}, ${ESA}, and Johan Richard (Caltech, USA)<br/>
-Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProcessingCredit}`,
+Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -117,7 +117,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		thumbnail: {url: '/assets/space/potw1849a_thumbnail.webp', width: 300, height: 169},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/potw1849a/',
-			attribution: `${NASA}, ${ESA}, J. Mack, and J. Madrid et al., ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, J. Mack, and J. Madrid et al., ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -188,7 +188,7 @@ Acknowledgement: Davide de Martin & James Long (${ESA}/${Hubble}), ${imageProces
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic1302a/',
 			attribution: `${NASA}, ${ESA}, the ${HubbleHeritageTeam} (${STScI}/${AURA}), and R. Gendler (for the ${HubbleHeritageTeam})<br/>
-Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
+Acknowledgement: J. GaBany, ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -198,7 +198,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		thumbnail: {url: '/assets/space/heic0506a_thumbnail.webp', width: 300, height: 208},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic0506a/',
-			attribution: `${NASA}, ${ESA}, and S. Beckwith (${STScI}), and the ${HubbleHeritageTeam} (${STScI}/${AURA}), ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and S. Beckwith (${STScI}), and the ${HubbleHeritageTeam} (${STScI}/${AURA}), ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -208,7 +208,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		thumbnail: {url: '/assets/space/heic1913c_thumbnail.webp', width: 300, height: 300},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic1913c/',
-			attribution: `${ESA}/Hubble & ${NASA}, A. Riess et al., ${imageProcessingCredit}`,
+			attribution: `${ESA}/Hubble & ${NASA}, A. Riess et al., ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -217,7 +217,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		info: {url: '/assets/space/heic0817a.webp', width: 4633, height: 3590},
 		thumbnail: {url: '/assets/space/heic0817a_thumbnail.webp', width: 300, height: 232},
 		credits: {
-			attribution: `${NASA}, ${ESA}, and Andy Fabian (University of Cambridge, UK), ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and Andy Fabian (University of Cambridge, UK), ${IMAGE_PROCESSING_CREDIT}`,
 			url: 'https://www.spacetelescope.org/images/heic0817a/',
 		},
 	},
@@ -227,7 +227,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		info: {url: '/assets/space/opo0501a.webp', width: 6637, height: 3787},
 		thumbnail: {url: '/assets/space/opo0501a_thumbnail.webp', width: 300, height: 171},
 		credits: {
-			attribution: `${NASA}, ${ESA}, and the ${HubbleHeritageTeam} (${STScI}/${AURA}), ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and the ${HubbleHeritageTeam} (${STScI}/${AURA}), ${IMAGE_PROCESSING_CREDIT}`,
 			url: 'https://www.spacetelescope.org/images/opo0501a/',
 		},
 	},
@@ -237,7 +237,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		info: {url: '/assets/space/heic2002a.webp', width: 8192, height: 6144},
 		thumbnail: {url: '/assets/space/heic2002a_thumbnail.webp', width: 300, height: 225},
 		credits: {
-			attribution: `${NASA}, ${ESA}, and B. Holwerda (University of Louisville), ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and B. Holwerda (University of Louisville), ${IMAGE_PROCESSING_CREDIT}`,
 			url: 'https://www.spacetelescope.org/images/heic2002a/',
 		},
 	},
@@ -278,7 +278,7 @@ Acknowledgement: J. GaBany, ${imageProcessingCredit}`,
 		thumbnail: {url: '/assets/space/heic2007a_thumbnail.webp', width: 300, height: 206},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic2007a/',
-			attribution: `${NASA}, ${ESA}, and ${STScI}, ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and ${STScI}, ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -309,7 +309,7 @@ The original observations of Westerlund 2 were obtained by the science team: Ant
 		thumbnail: {url: '/assets/space/opo0415a_thumbnail.webp', width: 300, height: 195},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic0406a/',
-			attribution: `${NASA}, ${ESA}, and the ${HubbleHeritageTeam} (${AURA}/${STScI}), ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and the ${HubbleHeritageTeam} (${AURA}/${STScI}), ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -319,7 +319,7 @@ The original observations of Westerlund 2 were obtained by the science team: Ant
 		thumbnail: {url: '/assets/space/heic0910i_thumbnail.webp', width: 269, height: 300},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic0910i/',
-			attribution: `${NASA}, ${ESA}, and the Hubble SM4 ERO Team, ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and the Hubble SM4 ERO Team, ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -330,7 +330,7 @@ The original observations of Westerlund 2 were obtained by the science team: Ant
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic0206a/',
 			attribution: `${NASA}, Holland Ford (JHU), the ACS Science Team and ${ESA}<br/>
-Image credit: ${NASA}, the ACS Science Team (H. Ford, G. Illingworth, M. Clampin, G. Hartig, T. Allen, K. Anderson, F. Bartko, N. Benitez, J. Blakeslee, R. Bouwens, T. Broadhurst, R. Brown, C. Burrows, D. Campbell, E. Cheng, N. Cross, P. Feldman, M. Franx, D. Golimowski, C. Gronwall, R. Kimble, J. Krist, M. Lesser, D. Magee, A. Martel, W. J. McCann, G. Meurer, G. Miley, M. Postman, P. Rosati, M. Sirianni, W. Sparks, P. Sullivan, H. Tran, Z. Tsvetanov, R. White, and R. Woodruff) and ${ESA}, ${imageProcessingCredit}`,
+Image credit: ${NASA}, the ACS Science Team (H. Ford, G. Illingworth, M. Clampin, G. Hartig, T. Allen, K. Anderson, F. Bartko, N. Benitez, J. Blakeslee, R. Bouwens, T. Broadhurst, R. Brown, C. Burrows, D. Campbell, E. Cheng, N. Cross, P. Feldman, M. Franx, D. Golimowski, C. Gronwall, R. Kimble, J. Krist, M. Lesser, D. Magee, A. Martel, W. J. McCann, G. Meurer, G. Miley, M. Postman, P. Rosati, M. Sirianni, W. Sparks, P. Sullivan, H. Tran, Z. Tsvetanov, R. White, and R. Woodruff) and ${ESA}, ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -340,7 +340,7 @@ Image credit: ${NASA}, the ACS Science Team (H. Ford, G. Illingworth, M. Clampin
 		thumbnail: {url: '/assets/space/heic1107a_thumbnail.webp', width: 296, height: 300},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic1107a/',
-			attribution: `${NASA}, ${ESA}, and the ${HubbleHeritageTeam} (${STScI}/${AURA}), ${imageProcessingCredit}`,
+			attribution: `${NASA}, ${ESA}, and the ${HubbleHeritageTeam} (${STScI}/${AURA}), ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -350,7 +350,7 @@ Image credit: ${NASA}, the ACS Science Team (H. Ford, G. Illingworth, M. Clampin
 		thumbnail: {url: '/assets/space/potw2029a_thumbnail.webp', width: 300, height: 221},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/potw2029a/',
-			attribution: `${ESA}/${Hubble} & ${NASA}, M. Gregg, ${imageProcessingCredit}`,
+			attribution: `${ESA}/${Hubble} & ${NASA}, M. Gregg, ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 	{
@@ -360,7 +360,7 @@ Image credit: ${NASA}, the ACS Science Team (H. Ford, G. Illingworth, M. Clampin
 		thumbnail: {url: '/assets/space/heic1712a_thumbnail.webp', width: 300, height: 110},
 		credits: {
 			url: 'https://www.spacetelescope.org/images/heic1712a/',
-			attribution: `${ESA}/${Hubble}, ${NASA}, ${imageProcessingCredit}`,
+			attribution: `${ESA}/${Hubble}, ${NASA}, ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},
 ];

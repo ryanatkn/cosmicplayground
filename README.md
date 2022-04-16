@@ -6,33 +6,21 @@
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
 
 [cosmicplayground.org](https://www.cosmicplayground.org)
-is a collection of web projects that try to be useful or interesting.
-It began as a hobby project with no particular direction,
-and it's evolving into something that may become a coherent game experience, or maybe something else?
+is a playful exploration of some tools and toys using web technology.
+It's an experiment in developing an educational project in public
+with an open community and open source code.
+Join us if you want to improve your webdev skills
+with Svelte, SvelteKit, and TypeScript while making games in space!
 
-This is also an experiment in developing an educational project
-in public with an open community and open source code.
-Join us if you want to improve your webdev skills with Svelte, SvelteKit, and TypeScript
-while making games in space!
-(community at [cosmicplayground.dev](https://www.cosmicplayground.dev),
-[source](https://github.com/cosmicplayground/community),
-[contributing.md](https://github.com/cosmicplayground/community/blob/main/contributing.md))
-
+- community at [cosmicplayground.dev](https://www.cosmicplayground.dev)
+  ([source](https://github.com/cosmicplayground/community),
+  [contributing.md](https://github.com/cosmicplayground/community/blob/main/contributing.md))
 - There's a little action game on the home screen 🛸
   (it's still a work in progress, screencasts to come at the
   [Cosmicplayground Dev Community](https://github.com/cosmicplayground/community) —
   try pressing the escape and backtick keys)
 - [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
   where sea levels fall and rise and the lights of civilization shine through the night.
-  - [Deep Breath](https://www.cosmicplayground.org/deep-breath)
-    is an interactive map with a rough answer to the extreme hypothetical
-    _"If all ice on Earth melts, how will sea levels change?"_
-    It's a more limited precursor to Soggy Planet.
-    There's also
-    [a video on YouTube with a 6 minute tour](https://www.youtube.com/watch?v=7xEPqg-Kyg4)
-    around the planet set to music.
-    You can get the same experience by clicking "tour" on the map —
-    the visual quality is better on the website but it's not mobile friendly.
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies.
@@ -52,6 +40,8 @@ while making games in space!
     ([auralization](https://en.wikipedia.org/wiki/Auralization))
 - several odd and partially finished things, some of which require audio to make sense,
   and some might not work (or not well) on mobile
+
+> learn more [about cosmicplayground](https://www.cosmicplayground.org/about)
 
 ## community and screencasts
 

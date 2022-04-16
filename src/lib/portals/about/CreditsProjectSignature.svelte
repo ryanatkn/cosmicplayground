@@ -26,9 +26,6 @@
 			</a>
 		</div>
 	</div>
-	<div class="email">
-		<a href="mailto:cosmicplayground.org@gmail.com">cosmicplayground.org@gmail.com</a>
-	</div>
 </div>
 
 <style>
@@ -41,12 +38,6 @@
 	.links {
 		display: flex;
 		justify-content: center;
-		align-items: center;
-		flex-wrap: wrap;
-	}
-	.email {
-		height: 64px;
-		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
 	}
