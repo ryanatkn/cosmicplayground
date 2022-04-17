@@ -273,14 +273,14 @@
 		</header>
 		{#if savedScores}
 			<PortalPreview
-				onClick={savedScores.crewSavedAtOnceCount === 5
+				onClick={savedScores.crewSavedTotalCount === 5
 					? undefined
 					: async () => {
 							if (!starshipMode) {
 								await enterStarshipMode();
 							}
 					  }}
-				href={savedScores.crewSavedAtOnceCount === 5 ? '/starship' : undefined}
+				href={savedScores.crewSavedTotalCount === 5 ? '/starship' : undefined}
 				><div style:font-size="var(--font_size_xl)">
 					{#each savedScores.crew as crew, index}{#if crew}{FRIEND_ICONS[
 								index

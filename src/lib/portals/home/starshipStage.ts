@@ -50,12 +50,12 @@ const meta: StageMeta = {
 
 export interface StarshipStageScores {
 	crew: boolean[]; // mirrors `FRIEND_ICONS`
-	crewSavedAtOnceCount: number;
+	// crewSavedAtOnceCount: number;
 	crewSavedTotalCount: number;
 }
 export const toDefaultScores = (): StarshipStageScores => ({
 	crew: FRIEND_ICONS.map(() => false),
-	crewSavedAtOnceCount: 0,
+	// crewSavedAtOnceCount: 0,
 	crewSavedTotalCount: 0,
 });
 export const rescuedAnyCrew = (scores: StarshipStageScores): boolean => scores.crew.some(Boolean);
@@ -69,12 +69,11 @@ export const mergeScores = (
 	const finalScores = existingScores ? klona(existingScores) : toDefaultScores();
 	// TODO use a generic merge algorithm instead?
 	if (!newScores) return finalScores;
-	const crewSavedCount = newScores.crew.filter(Boolean).length;
 	for (let i = 0; i < newScores.crew.length; i++) {
 		if (newScores.crew[i]) finalScores.crew[i] = true;
 	}
 	finalScores.crewSavedTotalCount = finalScores.crew.filter(Boolean).length;
-	finalScores.crewSavedAtOnceCount = Math.max(crewSavedCount, finalScores.crewSavedTotalCount);
+	// finalScores.crewSavedAtOnceCount = Math.max(newScores.crew.filter(Boolean).length, finalScores.crewSavedTotalCount);
 	return finalScores;
 };
 export const toScores = (stage: Stage): StarshipStageScores => {
@@ -82,7 +81,7 @@ export const toScores = (stage: Stage): StarshipStageScores => {
 	const crewSavedTotalCount = crew.filter(Boolean).length;
 	return {
 		crew,
-		crewSavedAtOnceCount: crewSavedTotalCount,
+		// crewSavedAtOnceCount: crewSavedTotalCount,
 		crewSavedTotalCount,
 	};
 };
