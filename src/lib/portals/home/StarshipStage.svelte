@@ -101,11 +101,6 @@
 		worldHeight: number,
 	): string => {
 		if (viewWidth === worldWidth && viewHeight === worldHeight) return '';
-		console.log(
-			`viewWidth, worldWidth, viewHeight, worldHeight`,
-			viewWidth / worldWidth,
-			viewHeight / worldHeight,
-		);
 		return `scale3d(${viewWidth / worldWidth}, ${viewHeight / worldHeight}, 1)`;
 	};
 </script>
