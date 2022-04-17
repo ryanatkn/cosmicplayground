@@ -36,12 +36,10 @@
 		</p>
 		<ul>
 			<li>
-				community at <a href="https://www.cosmicplayground.dev">cosmicplayground.dev</a>
+				open source on <a href="https://github.com/cosmicplayground/cosmicplayground">GitHub</a>
 			</li>
 			<li>
-				screencasts on the <a href="https://www.youtube.com/channel/UCDpSmdzFa_S5BkVlChKU7hg"
-					>YouTube channel</a
-				>
+				community at <a href="https://www.cosmicplayground.dev">cosmicplayground.dev</a>
 			</li>
 			<li>
 				learn more about <a

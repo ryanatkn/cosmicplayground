@@ -16,9 +16,8 @@ with Svelte, SvelteKit, and TypeScript while making games in space!
   ([source](https://github.com/cosmicplayground/community),
   [contributing.md](https://github.com/cosmicplayground/community/blob/main/contributing.md))
 - There's a little action game on the home screen 🛸
-  (it's still a work in progress, screencasts to come at the
-  [Cosmicplayground Dev Community](https://github.com/cosmicplayground/community) —
-  try pressing the escape and backtick keys)
+  it's still a work in progress: activate the starship `🛸`
+  and press the escape and backtick `\`` keys (needs better mobile controls)
 - [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
   where sea levels fall and rise and the lights of civilization shine through the night.
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
@@ -42,11 +41,7 @@ with Svelte, SvelteKit, and TypeScript while making games in space!
   and some might not work (or not well) on mobile
 
 > learn more [about cosmicplayground](https://www.cosmicplayground.org/about)
-
-## community and screencasts
-
-- [Cosmicplayground Dev Community](https://github.com/cosmicplayground/community) at [cosmicplayground.dev](https://www.cosmicplayground.dev)
-- [YouTube channel](https://www.youtube.com/channel/UCDpSmdzFa_S5BkVlChKU7hg)
+> and the Cosmicplayground Dev Community ([cosmicplayground.dev](https://www.cosmicplayground.dev))
 
 [![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
 
@@ -87,6 +82,7 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [TypeScript](https://github.com/microsoft/TypeScript) ∙
 [uvu](https://github.com/lukeed/uvu) ∙
 [Gro](https://github.com/feltcoop/gro) ∙
+[ESLint](https://github.com/eslint/eslint)
 [Prettier](https://github.com/prettier/prettier)
 & [more](package.json)
 
