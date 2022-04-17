@@ -1,8 +1,12 @@
 <script lang="ts">
 	import type {LevelData} from '$lib/starship/levels';
 	import {playSong} from '$lib/music/playSong';
+	import {playingAudio} from '$lib/audio/playAudio';
 
 	export let level: LevelData;
+
+	// TODO the `playingAudio` usage isn't reactive
+	// maybe use a `mutable` map?
 </script>
 
 <div class="starship-level buttonish">
@@ -10,6 +14,7 @@
 		on:click={() => {
 			void playSong(level.song);
 		}}
+		class:selected={playingAudio(level.song.url)}
 	>
 		<div class="title">{level.title}</div>
 	</button>
@@ -41,5 +46,9 @@
 		.title {
 			font-size: var(--font_size_md);
 		}
+	}
+	.selected {
+		color: var(--pending_color);
+		border-color: var(--pending_color);
 	}
 </style>

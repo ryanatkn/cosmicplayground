@@ -34,6 +34,12 @@
 		updatePointer(e);
 		controller.setPointerDown(false);
 	};
+	const onContextmenu = (e: MouseEvent) => {
+		if (!e.shiftKey) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
+	};
 
 	// TODO mount only for mobile
 	// TODO handle all touches
@@ -69,6 +75,7 @@ allow it to bubble and do whatever
 	on:mousemove={onMousemove}
 	on:mouseenter={onMouseenter}
 	on:mouseleave={onMouseleave}
+	on:contextmenu={onContextmenu}
 />
 
 <style>

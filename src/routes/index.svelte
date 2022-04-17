@@ -222,15 +222,9 @@
 				await scrollDown();
 			}
 		} else if (e.key === 'F10') {
-			// TODO delete this handlerss
 			e.stopPropagation();
 			e.preventDefault();
-			if (e.ctrlKey) {
-				resetScores();
-			} else {
-				clock.pause();
-				finish();
-			}
+			resetScores();
 		} else if (e.key === 'F4') {
 			e.stopPropagation();
 			e.preventDefault();
