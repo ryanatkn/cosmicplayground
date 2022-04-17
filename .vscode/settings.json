@@ -1,0 +1,8 @@
+{
+	"files.watcherExclude": {
+		"**/.gro/**": true,
+		"**/.svelte-kit/**": true,
+		"**/build/**": true,
+		"**/dist/**": true
+	}
+}
