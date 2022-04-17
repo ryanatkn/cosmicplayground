@@ -47,6 +47,9 @@ with Svelte, SvelteKit, and TypeScript while making games in space!
 
 ## develop
 
+Everything is staticly hosted on GitHub pages,
+and there's no 3rd party junk anywhere.
+
 > **important**: Windows is not yet supported directly, but Windows users can use
 > [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) and other VMs;
 > see [this issue](https://github.com/cosmicplayground/cosmicplayground/issues/26) for more
