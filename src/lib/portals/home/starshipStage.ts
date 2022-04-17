@@ -50,13 +50,11 @@ const meta: StageMeta = {
 
 export interface StarshipStageScores {
 	crew: boolean[]; // mirrors `FRIEND_ICONS`
-	// crewSavedAtOnceCount: number;
-	crewSavedTotalCount: number;
+	crewSavedAtOnceCount: number;
 }
 export const toDefaultScores = (): StarshipStageScores => ({
 	crew: FRIEND_ICONS.map(() => false),
-	// crewSavedAtOnceCount: 0,
-	crewSavedTotalCount: 0,
+	crewSavedAtOnceCount: 0,
 });
 export const rescuedAnyCrew = (scores: StarshipStageScores): boolean => scores.crew.some(Boolean);
 export const rescuedAllCrew = (scores: StarshipStageScores): boolean => scores.crew.every(Boolean);
@@ -72,17 +70,17 @@ export const mergeScores = (
 	for (let i = 0; i < newScores.crew.length; i++) {
 		if (newScores.crew[i]) finalScores.crew[i] = true;
 	}
-	finalScores.crewSavedTotalCount = finalScores.crew.filter(Boolean).length;
-	// finalScores.crewSavedAtOnceCount = Math.max(newScores.crew.filter(Boolean).length, finalScores.crewSavedTotalCount);
+	finalScores.crewSavedAtOnceCount = Math.max(
+		newScores.crew.filter(Boolean).length,
+		finalScores.crewSavedAtOnceCount,
+	);
 	return finalScores;
 };
 export const toScores = (stage: Stage): StarshipStageScores => {
 	const crew = [!stage.planet.dead, ...stage.friendsArray.map((friend) => !friend.dead)];
-	const crewSavedTotalCount = crew.filter(Boolean).length;
 	return {
 		crew,
-		// crewSavedAtOnceCount: crewSavedTotalCount,
-		crewSavedTotalCount,
+		crewSavedAtOnceCount: crew.filter(Boolean).length,
 	};
 };
 

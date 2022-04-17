@@ -133,8 +133,8 @@
 	$: scoresRescuedAnyCrew = !!scores && rescuedAnyCrew(scores);
 	$: savedScoresRescuedAllFriends = !!savedScores && rescuedAllFriends(savedScores);
 	$: savedAllCrew = savedScores?.crew.every(Boolean);
-	// TODO:
-	// $: savedAllCrewAtOnce = savedScores?.crew.length === savedScores.savedAtOnce;
+	$: savedAllCrewAtOnce =
+		savedScores && savedScores.crew.length === savedScores.crewSavedAtOnceCount;
 	// TODO use these
 	// $: scoresRescuedAllFriends = !!scores && rescuedAllFriends(scores);
 	// $: savedScoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
@@ -284,7 +284,7 @@
 							}
 					  }}
 				href={savedAllCrew ? '/starship' : undefined}
-				><div style:font-size="var(--font_size_xl)">
+				><div style:font-size={savedAllCrewAtOnce ? 'var(--font_size_xl)' : 'var(--font_size_lg)'}>
 					{#each savedScores.crew as crew, index}{#if crew}{FRIEND_ICONS[
 								index
 							]}{:else}❔{/if}{/each}
