@@ -132,6 +132,9 @@
 	$: savedScoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
 	$: scoresRescuedAnyCrew = !!scores && rescuedAnyCrew(scores);
 	$: savedScoresRescuedAllFriends = !!savedScores && rescuedAllFriends(savedScores);
+	$: savedAllCrew = savedScores?.crew.every(Boolean);
+	// TODO:
+	// $: savedAllCrewAtOnce = savedScores?.crew.length === savedScores.savedAtOnce;
 	// TODO use these
 	// $: scoresRescuedAllFriends = !!scores && rescuedAllFriends(scores);
 	// $: savedScoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
@@ -273,14 +276,14 @@
 		</header>
 		{#if savedScores}
 			<PortalPreview
-				onClick={savedScores.crewSavedTotalCount === 5
+				onClick={savedAllCrew
 					? undefined
 					: async () => {
 							if (!starshipMode) {
 								await enterStarshipMode();
 							}
 					  }}
-				href={savedScores.crewSavedTotalCount === 5 ? '/starship' : undefined}
+				href={savedAllCrew ? '/starship' : undefined}
 				><div style:font-size="var(--font_size_xl)">
 					{#each savedScores.crew as crew, index}{#if crew}{FRIEND_ICONS[
 								index
