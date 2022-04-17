@@ -1,9 +1,12 @@
 <script lang="ts">
+	import {dequal} from 'dequal/lite';
+
 	import World from '$lib/flat/World.svelte';
 	import {
 		PLAYER_SPEED,
 		PLAYER_SPEED_BOOSTED,
 		Stage,
+		toScores,
 		type StarshipStageScores,
 	} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
@@ -71,26 +74,14 @@
 		starshipShieldRadius = stage.player.radius;
 
 		// TODO refactor - events?
-		if (!scores || scoresChanged(scores, stage)) {
-			scores = {
-				friends: stage.friendsArray.map((friend) => !friend.dead),
-				planet: !stage.planet.dead,
-			};
+		const nextScores = toScores(stage);
+		if (!scores || !dequal(scores, nextScores)) {
+			scores = nextScores;
 		}
 
 		if (stage.controller.pressingExit) {
 			exit();
 		}
-	};
-
-	// TODO refactor, see usage
-	const scoresChanged = (scores: StarshipStageScores, stage: Stage): boolean => {
-		for (let i = 0; i < scores.friends.length; i++) {
-			if (scores.friends[i] !== !stage.friendsArray[i].dead) {
-				return true;
-			}
-		}
-		return scores.planet !== !stage.planet.dead;
 	};
 
 	const updateAngle = (currentAngle: number, directionX: number, directionY: number): number =>
@@ -110,6 +101,11 @@
 		worldHeight: number,
 	): string => {
 		if (viewWidth === worldWidth && viewHeight === worldHeight) return '';
+		console.log(
+			`viewWidth, worldWidth, viewHeight, worldHeight`,
+			viewWidth / worldWidth,
+			viewHeight / worldHeight,
+		);
 		return `scale3d(${viewWidth / worldWidth}, ${viewHeight / worldHeight}, 1)`;
 	};
 </script>

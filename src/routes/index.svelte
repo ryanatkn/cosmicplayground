@@ -2,6 +2,7 @@
 	import {tick} from 'svelte';
 	import {wait} from '@feltcoop/felt';
 	import PendingAnimation from '@feltcoop/felt/ui/PendingAnimation.svelte';
+	import {dequal} from 'dequal/lite';
 
 	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
 	import aboutPortal from '$lib/portals/about/data';
@@ -23,6 +24,8 @@
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clockStore';
 	import {
+		FRIEND_ICONS,
+		mergeScores,
 		rescuedAllFriends,
 		rescuedAnyCrew,
 		Stage,
@@ -138,10 +141,12 @@
 	const finish = () => {
 		if (finished) return;
 		finished = true;
-		// TODO only save if score is better
-		if (!savedScoresRescuedAnyCrew) {
-			localStorage.setItem(SCORES_KEY, JSON.stringify(scores));
-			savedScores = scores;
+		const finalScores = mergeScores(savedScores, scores);
+		if (!dequal(finalScores, savedScores)) {
+			console.log(`scores changed`, finalScores);
+			console.log(`previous scores`, savedScores);
+			localStorage.setItem(SCORES_KEY, JSON.stringify(finalScores));
+			savedScores = finalScores;
 		}
 	};
 	const resetScores = () => {
@@ -208,17 +213,27 @@
 				}
 			}
 		} else if (e.key === 'F2') {
-			finish();
-			if (!starshipMode) {
+			e.stopPropagation();
+			e.preventDefault();
+			if (starshipMode) {
+				clock.pause();
+				finish();
+			} else {
 				await scrollDown();
 			}
 		} else if (e.key === 'F10') {
-			if (savedScores) {
+			// TODO delete this handlerss
+			e.stopPropagation();
+			e.preventDefault();
+			if (e.ctrlKey) {
 				resetScores();
 			} else {
+				clock.pause();
 				finish();
 			}
 		} else if (e.key === 'F4') {
+			e.stopPropagation();
+			e.preventDefault();
 			await toggleShowMorePortals();
 		} else if (e.key === '1' && e.ctrlKey) {
 			e.stopPropagation();
@@ -262,10 +277,27 @@
 				<svelte:component this={aboutPortal.Preview} />
 			</PortalPreview>
 		</header>
+		{#if savedScores}
+			<PortalPreview
+				onClick={savedScores.crewSavedAtOnceCount === 5
+					? undefined
+					: async () => {
+							if (!starshipMode) {
+								await enterStarshipMode();
+							}
+					  }}
+				href={savedScores.crewSavedAtOnceCount === 5 ? '/starship' : undefined}
+				><div style:font-size="var(--font_size_xl)">
+					{#each savedScores.crew as crew, index}{#if crew}{FRIEND_ICONS[
+								index
+							]}{:else}❔{/if}{/each}
+				</div></PortalPreview
+			>
+		{/if}
 		{#each primaryPortals as portals}
 			<ul class="portals">
 				{#each portals as portal (portal)}
-					{#if typeof portal === 'symbol'}
+					{#if portal === starshipPortal}
 						<PortalPreview onClick={enterStarshipMode} classes="portal-preview--starship"
 							><div class="starship">🛸</div></PortalPreview
 						>

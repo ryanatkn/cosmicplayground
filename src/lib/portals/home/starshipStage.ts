@@ -1,5 +1,6 @@
 import {Collisions} from '@ryanatkn/collisions';
 import {randomFloat} from '@feltcoop/felt/util/random.js';
+import {klona} from 'klona/json';
 
 import {Stage as BaseStage, type StageSetupOptions, type StageMeta} from '$lib/flat/stage';
 import type {
@@ -48,15 +49,43 @@ const meta: StageMeta = {
 // }
 
 export interface StarshipStageScores {
-	friends: boolean[];
-	planet: boolean;
+	crew: boolean[]; // mirrors `FRIEND_ICONS`
+	crewSavedAtOnceCount: number;
+	crewSavedTotalCount: number;
 }
-export const rescuedAnyCrew = (scores: StarshipStageScores): boolean =>
-	scores.planet || scores.friends.some(Boolean);
+export const toDefaultScores = (): StarshipStageScores => ({
+	crew: FRIEND_ICONS.map(() => false),
+	crewSavedAtOnceCount: 0,
+	crewSavedTotalCount: 0,
+});
+export const rescuedAnyCrew = (scores: StarshipStageScores): boolean => scores.crew.some(Boolean);
+export const rescuedAllCrew = (scores: StarshipStageScores): boolean => scores.crew.every(Boolean);
 export const rescuedAllFriends = (scores: StarshipStageScores): boolean =>
-	scores.friends.every(Boolean);
-export const rescuedAllCrew = (scores: StarshipStageScores): boolean =>
-	scores.planet && rescuedAllFriends(scores);
+	scores.crew.slice(1).every(Boolean); // TODO do we need this function?
+export const mergeScores = (
+	newScores: StarshipStageScores | undefined,
+	existingScores: StarshipStageScores | undefined,
+): StarshipStageScores => {
+	const finalScores = existingScores ? klona(existingScores) : toDefaultScores();
+	// TODO use a generic merge algorithm instead?
+	if (!newScores) return finalScores;
+	const crewSavedCount = newScores.crew.filter(Boolean).length;
+	for (let i = 0; i < newScores.crew.length; i++) {
+		if (newScores.crew[i]) finalScores.crew[i] = true;
+	}
+	finalScores.crewSavedTotalCount = finalScores.crew.filter(Boolean).length;
+	finalScores.crewSavedAtOnceCount = Math.max(crewSavedCount, finalScores.crewSavedTotalCount);
+	return finalScores;
+};
+export const toScores = (stage: Stage): StarshipStageScores => {
+	const crew = [!stage.planet.dead, ...stage.friendsArray.map((friend) => !friend.dead)];
+	const crewSavedTotalCount = crew.filter(Boolean).length;
+	return {
+		crew,
+		crewSavedAtOnceCount: crewSavedTotalCount,
+		crewSavedTotalCount,
+	};
+};
 
 export class Stage extends BaseStage {
 	static override meta = meta;
