@@ -3,6 +3,7 @@
 		"**/.gro/**": true,
 		"**/.svelte-kit/**": true,
 		"**/build/**": true,
+		"**/worktree/**": true,
 		"**/dist/**": true
 	}
 }

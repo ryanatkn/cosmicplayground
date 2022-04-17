@@ -5,6 +5,7 @@
 
 /.gro
 /dist
+/worktree
 *.ignore
 *.ignore.*
 ignore/
