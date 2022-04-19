@@ -44,7 +44,7 @@
 
 	$: ({width: screenWidth, height: screenHeight} = $dimensions);
 
-	$: viewUnlocked = savedScoresRescuedAllMoons;
+	$: cameraUnlocked = savedScoresRescuedAllMoons;
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
 	// TODO should we pass through plain numbers or a dimensions object?
@@ -55,7 +55,7 @@
 	let worldHeight: number;
 	$: viewScale = viewWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
 	// TODO make this a helper to clarify the deps `updateDimensions`
-	$: if (viewUnlocked) {
+	$: if (cameraUnlocked) {
 		// Expand the world dimensions to fit the screen dimensions.
 		// It needs to match the screen aspect ratio and
 		// cover the entire default world dimensions.
@@ -373,6 +373,7 @@
 			{worldWidth}
 			{worldHeight}
 			{boosterEnabled}
+			{cameraUnlocked}
 			bind:starshipX
 			bind:starshipY
 			bind:starshipAngle

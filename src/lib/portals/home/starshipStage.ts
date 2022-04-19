@@ -31,6 +31,7 @@ export const MOON_ICONS = ['🐹', '🐸', '🐰', '🐶', '🐱'];
 export const PLAYER_SPEED = 0.2;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
 export const PLAYER_RADIUS = 100;
+const PLAYER_INNER_BOUNDS_OFFSET = PLAYER_RADIUS * 2 + 1;
 
 const toIconFont = (radius: number): string => `${radius * 1.4}px sans-serif`;
 
@@ -98,6 +99,7 @@ export class Stage extends BaseStage {
 	player!: EntityCircle;
 	// exits: Map<Entity, ExitEntity> = new Map(); // TODO consider this pattern when we need more stuff
 	bounds!: EntityPolygon;
+	playerInnerBounds!: EntityPolygon;
 	planet!: EntityCircle;
 	rock!: EntityCircle;
 	readonly moons: Set<EntityCircle> = new Set();
@@ -147,10 +149,27 @@ export class Stage extends BaseStage {
 			[1, 1],
 			[0, 1],
 		]) as EntityPolygon);
+		bounds.disableSimulation = true;
 		bounds.invisible = true;
 		bounds.scale_x = width;
 		bounds.scale_y = height;
 		bodies.push(bounds);
+
+		const playerInnerBounds = (this.playerInnerBounds = collisions.createPolygon(
+			PLAYER_INNER_BOUNDS_OFFSET,
+			PLAYER_INNER_BOUNDS_OFFSET,
+			[
+				[0, 0],
+				[1, 0],
+				[1, 1],
+				[0, 1],
+			],
+		) as EntityPolygon);
+		playerInnerBounds.disableSimulation = true;
+		playerInnerBounds.invisible = true;
+		playerInnerBounds.scale_x = width - PLAYER_INNER_BOUNDS_OFFSET * 2;
+		playerInnerBounds.scale_y = height - PLAYER_INNER_BOUNDS_OFFSET * 2;
+		bodies.push(playerInnerBounds);
 
 		// create the stuff
 		// TODO create these programmatically from data
@@ -249,7 +268,7 @@ export class Stage extends BaseStage {
 		const {
 			collisions,
 			controller,
-			bounds,
+			playerInnerBounds,
 			player,
 			planet,
 			rock,
@@ -355,8 +374,10 @@ export class Stage extends BaseStage {
 				}
 			},
 			(bodyA, bodyB) => {
-				if (bodyA.dead || bodyB.dead) return false;
-				if (bodyA === bounds || bodyB === bounds) return false; // TODO hmm
+				if (bodyA.dead || bodyB.dead || bodyA.disableSimulation || bodyB.disableSimulation) {
+					return false;
+				}
+
 				// TODO make a system for declaring collision groups -- bitmask?
 				const _player = player === bodyA ? bodyA : player === bodyB ? bodyB : null;
 				const _planet = planet === bodyA ? bodyA : planet === bodyB ? bodyB : null;
@@ -393,10 +414,8 @@ export class Stage extends BaseStage {
 				} else if (player.y > yMax) {
 					player.y = yMax;
 				}
-			} else if (!bounds.collides(player)) {
+			} else if (!playerInnerBounds.collides(player)) {
 				// detect if player touches bounds for the first time, and unfreeze if so
-				// TODO instead of the bounds, this should use `this.playerInnerBounds`,
-				// which is related to clamping, but I don't think we gain anything by using it there, only here
 				this.freezeCamera = false;
 			}
 		}
@@ -433,6 +452,8 @@ export class Stage extends BaseStage {
 	resize(width: number, height: number): void {
 		this.bounds.scale_x = width;
 		this.bounds.scale_y = height;
+		this.playerInnerBounds.scale_x = width - PLAYER_INNER_BOUNDS_OFFSET * 2;
+		this.playerInnerBounds.scale_y = height - PLAYER_INNER_BOUNDS_OFFSET * 2;
 		this.camera.setDimensions(width, height);
 	}
 }

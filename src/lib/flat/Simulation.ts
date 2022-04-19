@@ -36,6 +36,7 @@ export class Simulation {
 
 		// apply collisions
 		for (const bodyA of bodies) {
+			if (bodyA.disableSimulation) continue;
 			speed = bodyA.speed * dt;
 
 			bodyA.x += bodyA.directionX * speed;
