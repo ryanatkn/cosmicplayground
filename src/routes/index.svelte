@@ -53,29 +53,35 @@
 	let worldWidth: number;
 	let worldHeight: number;
 	$: viewScale = viewWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
+	// TODO make this a helper to clarify the deps `updateDimensions`
 	$: if (viewUnlocked) {
-		// TODO expand view dimensions to fit screen when unlocked
 		// Expand the world dimensions to fit the screen dimensions.
-		// const aspectRatio = screenDimensions.width / screenDimensions.height; // TODO cache on dimensions?
+		// It needs to match the screen aspect ratio and
+		// cover the entire default world dimensions.
 		viewWidth = screenWidth;
 		viewHeight = screenHeight;
-		console.log(`viewHeight!!!!!!!!`, viewHeight);
-		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
-		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
+		const worldMinWidth = DEFAULT_WORLD_DIMENSIONS.width;
+		const worldMinHeight = DEFAULT_WORLD_DIMENSIONS.height;
+		const worldWidthRatio = worldMinWidth / viewWidth;
+		const worldHeightRatio = worldMinHeight / viewHeight;
+		if (worldHeightRatio > 1 && worldHeightRatio > worldWidthRatio) {
+			worldHeight = worldMinHeight;
+			worldWidth = (viewWidth * worldHeightRatio) | 0;
+		} else if (worldWidthRatio > 1) {
+			worldWidth = worldMinWidth;
+			worldHeight = (viewHeight * worldWidthRatio) | 0;
+		} else {
+			worldWidth = viewWidth;
+			worldHeight = viewHeight;
+		}
+		// TODO center camera
 	} else {
-		// TODO refactor with above and other things, should be able to get clear abstractions
 		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
 		const worldAspectRatio = worldWidth / worldHeight;
 		const screenAspectRatio = screenWidth / screenHeight;
-		viewWidth =
-			worldAspectRatio < screenAspectRatio
-				? (screenWidth * (worldAspectRatio / screenAspectRatio)) | 0
-				: screenWidth;
-		viewHeight =
-			worldAspectRatio > screenAspectRatio
-				? (screenHeight * (screenAspectRatio / worldAspectRatio)) | 0
-				: screenHeight;
+		viewWidth = (screenWidth * Math.min(1, worldAspectRatio / screenAspectRatio)) | 0;
+		viewHeight = (screenHeight * Math.min(1, screenAspectRatio / worldAspectRatio)) | 0;
 	}
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
