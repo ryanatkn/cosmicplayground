@@ -31,7 +31,6 @@ export const MOON_ICONS = ['🐹', '🐸', '🐰', '🐶', '🐱'];
 export const PLAYER_SPEED = 0.2;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
 export const PLAYER_RADIUS = 100;
-const PLAYER_INNER_BOUNDS_OFFSET = PLAYER_RADIUS * 2 + 1;
 
 const toIconFont = (radius: number): string => `${radius * 1.4}px sans-serif`;
 
@@ -99,7 +98,6 @@ export class Stage extends BaseStage {
 	player!: EntityCircle;
 	// exits: Map<Entity, ExitEntity> = new Map(); // TODO consider this pattern when we need more stuff
 	bounds!: EntityPolygon;
-	playerInnerBounds!: EntityPolygon;
 	planet!: EntityCircle;
 	rock!: EntityCircle;
 	readonly moons: Set<EntityCircle> = new Set();
@@ -111,7 +109,6 @@ export class Stage extends BaseStage {
 	camera!: CameraStore;
 	$camera!: CameraState;
 	freezeCamera = true; // is the camera fixed in place?
-	lockCamera = true; // is the player stuck inside the bounds of the camera?
 
 	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management?
 
@@ -154,22 +151,6 @@ export class Stage extends BaseStage {
 		bounds.scale_x = width;
 		bounds.scale_y = height;
 		bodies.push(bounds);
-
-		const playerInnerBounds = (this.playerInnerBounds = collisions.createPolygon(
-			PLAYER_INNER_BOUNDS_OFFSET,
-			PLAYER_INNER_BOUNDS_OFFSET,
-			[
-				[0, 0],
-				[1, 0],
-				[1, 1],
-				[0, 1],
-			],
-		) as EntityPolygon);
-		playerInnerBounds.disableSimulation = true;
-		playerInnerBounds.invisible = true;
-		playerInnerBounds.scale_x = width - PLAYER_INNER_BOUNDS_OFFSET * 2;
-		playerInnerBounds.scale_y = height - PLAYER_INNER_BOUNDS_OFFSET * 2;
-		bodies.push(playerInnerBounds);
 
 		// create the stuff
 		// TODO create these programmatically from data
@@ -268,7 +249,6 @@ export class Stage extends BaseStage {
 		const {
 			collisions,
 			controller,
-			playerInnerBounds,
 			player,
 			planet,
 			rock,
@@ -394,29 +374,24 @@ export class Stage extends BaseStage {
 		);
 
 		if (this.freezeCamera) {
-			if (this.lockCamera) {
-				// TODO make this generic
-				// TODO I tried to use an inverted collision test with `this.innerPlayerBounds`
-				// but without a collision result,
-				// we'll need a more complex algorithm to "contain" items inside others
-				const clampedRadius = player.radius + 1; // avoid the minor visual quirk of the border being rendered offscreen
-				const xMin = $camera.left + clampedRadius;
-				const xMax = $camera.right - clampedRadius;
-				if (player.x < xMin) {
-					player.x = xMin;
-				} else if (player.x > xMax) {
-					player.x = xMax;
-				}
-				const yMin = $camera.top + clampedRadius;
-				const yMax = $camera.bottom - clampedRadius;
-				if (player.y < yMin) {
-					player.y = yMin;
-				} else if (player.y > yMax) {
-					player.y = yMax;
-				}
-			} else if (!playerInnerBounds.collides(player)) {
-				// detect if player touches bounds for the first time, and unfreeze if so
-				this.freezeCamera = false;
+			// TODO make this generic
+			// TODO I tried to use an inverted collision test with `this.innerPlayerBounds`
+			// but without a collision result,
+			// we'll need a more complex algorithm to "contain" items inside others
+			const clampedRadius = player.radius + 1; // avoid the minor visual quirk of the border being rendered offscreen
+			const xMin = $camera.left + clampedRadius;
+			const xMax = $camera.right - clampedRadius;
+			if (player.x < xMin) {
+				player.x = xMin;
+			} else if (player.x > xMax) {
+				player.x = xMax;
+			}
+			const yMin = $camera.top + clampedRadius;
+			const yMax = $camera.bottom - clampedRadius;
+			if (player.y < yMin) {
+				player.y = yMin;
+			} else if (player.y > yMax) {
+				player.y = yMax;
 			}
 		}
 
@@ -452,8 +427,6 @@ export class Stage extends BaseStage {
 	resize(width: number, height: number): void {
 		this.bounds.scale_x = width;
 		this.bounds.scale_y = height;
-		this.playerInnerBounds.scale_x = width - PLAYER_INNER_BOUNDS_OFFSET * 2;
-		this.playerInnerBounds.scale_y = height - PLAYER_INNER_BOUNDS_OFFSET * 2;
 		this.camera.setDimensions(width, height);
 	}
 }

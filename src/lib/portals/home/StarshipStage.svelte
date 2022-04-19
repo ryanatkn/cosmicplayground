@@ -67,7 +67,7 @@
 
 		stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED; // TODO refactor to be evented
 
-		stage.lockCamera = !cameraUnlocked; // TODO refactor to be evented
+		stage.freezeCamera = !cameraUnlocked; // TODO refactor to be evented
 
 		// TODO ?
 		starshipAngle = updateAngle(starshipAngle, stage.player.directionX, stage.player.directionY);

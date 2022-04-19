@@ -85,7 +85,7 @@
 	}
 
 	// TODO is there a better place for this? maybe skip the first? `skip(1, () => ...))
-	$: camera?.setPosition(worldWidth / 2, worldHeight / 2, SPRING_OPTS_HARD);
+	$: if (!cameraUnlocked) camera?.setPosition(worldWidth / 2, worldHeight / 2, SPRING_OPTS_HARD);
 
 	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
 
