@@ -71,7 +71,7 @@ export const mergeScores = (
 		if (newScores.crew[i]) finalScores.crew[i] = true;
 	}
 	finalScores.crewSavedAtOnceCount = Math.max(
-		newScores.crew.filter(Boolean).length,
+		toCrewSavedCount(newScores.crew),
 		finalScores.crewSavedAtOnceCount,
 	);
 	return finalScores;
@@ -80,9 +80,10 @@ export const toScores = (stage: Stage): StarshipStageScores => {
 	const crew = [!stage.planet.dead, ...stage.friendsArray.map((friend) => !friend.dead)];
 	return {
 		crew,
-		crewSavedAtOnceCount: crew.filter(Boolean).length,
+		crewSavedAtOnceCount: toCrewSavedCount(crew),
 	};
 };
+const toCrewSavedCount = (crew: boolean[]): number => crew.filter(Boolean).length;
 
 export class Stage extends BaseStage {
 	static override meta = meta;
