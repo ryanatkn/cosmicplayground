@@ -58,7 +58,7 @@ export const toDefaultScores = (): StarshipStageScores => ({
 });
 export const rescuedAnyCrew = (scores: StarshipStageScores): boolean => scores.crew.some(Boolean);
 export const rescuedAllCrew = (scores: StarshipStageScores): boolean => scores.crew.every(Boolean);
-export const rescuedAllFriends = (scores: StarshipStageScores): boolean =>
+export const rescuedAllExceptPlanet = (scores: StarshipStageScores): boolean =>
 	scores.crew.slice(1).every(Boolean); // TODO do we need this function?
 export const mergeScores = (
 	newScores: StarshipStageScores | undefined,

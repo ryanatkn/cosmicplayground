@@ -26,7 +26,7 @@
 	import {
 		FRIEND_ICONS,
 		mergeScores,
-		rescuedAllFriends,
+		rescuedAllExceptPlanet,
 		rescuedAnyCrew,
 		Stage,
 		type StarshipStageScores,
@@ -43,7 +43,7 @@
 
 	$: ({width: screenWidth, height: screenHeight} = $dimensions);
 
-	$: viewUnlocked = savedScoresRescuedAllFriends;
+	$: viewUnlocked = savedScoresRescuedAllExceptPlanet;
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
 	// TODO should we pass through plain numbers or a dimensions object?
@@ -132,12 +132,12 @@
 	let savedScores = loadScores();
 	$: savedScoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
 	$: scoresRescuedAnyCrew = !!scores && rescuedAnyCrew(scores);
-	$: savedScoresRescuedAllFriends = !!savedScores && rescuedAllFriends(savedScores);
+	$: savedScoresRescuedAllExceptPlanet = !!savedScores && rescuedAllExceptPlanet(savedScores);
 	$: savedAllCrew = savedScores?.crew.every(Boolean);
 	$: savedAllCrewAtOnce =
 		savedScores && savedScores.crew.length === savedScores.crewSavedAtOnceCount;
 	// TODO use these
-	// $: scoresRescuedAllFriends = !!scores && rescuedAllFriends(scores);
+	// $: scoresRescuedAllExceptPlanet = !!scores && rescuedAllExceptPlanet(scores);
 	// $: savedScoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
 	// $: scoresRescuedAllCrew = !!scores && rescuedAllCrew(scores);
 
