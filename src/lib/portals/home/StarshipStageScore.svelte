@@ -14,7 +14,7 @@
 	//   '⚫',
 	//     '⚪',
 	$: icons = scores
-		? [scores.planet, ...scores.friends].map((f, i) => (f ? FRIEND_ICONS[i] : null)).filter(Boolean)
+		? scores.crew.map((f, i) => (f ? FRIEND_ICONS[i] : null)).filter(Boolean)
 		: undefined;
 	$: iconsStr = icons?.join(' ') ?? '';
 

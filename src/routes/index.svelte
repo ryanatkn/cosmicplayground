@@ -2,6 +2,7 @@
 	import {tick} from 'svelte';
 	import {wait} from '@feltcoop/felt';
 	import PendingAnimation from '@feltcoop/felt/ui/PendingAnimation.svelte';
+	import {dequal} from 'dequal/lite';
 
 	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
 	import aboutPortal from '$lib/portals/about/data';
@@ -23,6 +24,8 @@
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clockStore';
 	import {
+		FRIEND_ICONS,
+		mergeScores,
 		rescuedAllFriends,
 		rescuedAnyCrew,
 		Stage,
@@ -56,6 +59,7 @@
 		// const aspectRatio = screenDimensions.width / screenDimensions.height; // TODO cache on dimensions?
 		viewWidth = screenWidth;
 		viewHeight = screenHeight;
+		console.log(`viewHeight!!!!!!!!`, viewHeight);
 		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
 	} else {
@@ -63,14 +67,14 @@
 		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
 		const worldAspectRatio = worldWidth / worldHeight;
-		const viewAspectRatio = screenWidth / screenHeight;
+		const screenAspectRatio = screenWidth / screenHeight;
 		viewWidth =
-			worldAspectRatio < viewAspectRatio
-				? (screenWidth * (worldAspectRatio / viewAspectRatio)) | 0
+			worldAspectRatio < screenAspectRatio
+				? (screenWidth * (worldAspectRatio / screenAspectRatio)) | 0
 				: screenWidth;
 		viewHeight =
-			worldAspectRatio > viewAspectRatio
-				? (screenHeight * (viewAspectRatio / worldAspectRatio)) | 0
+			worldAspectRatio > screenAspectRatio
+				? (screenHeight * (screenAspectRatio / worldAspectRatio)) | 0
 				: screenHeight;
 	}
 
@@ -129,6 +133,9 @@
 	$: savedScoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
 	$: scoresRescuedAnyCrew = !!scores && rescuedAnyCrew(scores);
 	$: savedScoresRescuedAllFriends = !!savedScores && rescuedAllFriends(savedScores);
+	$: savedAllCrew = savedScores?.crew.every(Boolean);
+	$: savedAllCrewAtOnce =
+		savedScores && savedScores.crew.length === savedScores.crewSavedAtOnceCount;
 	// TODO use these
 	// $: scoresRescuedAllFriends = !!scores && rescuedAllFriends(scores);
 	// $: savedScoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
@@ -138,10 +145,12 @@
 	const finish = () => {
 		if (finished) return;
 		finished = true;
-		// TODO only save if score is better
-		if (!savedScoresRescuedAnyCrew) {
-			localStorage.setItem(SCORES_KEY, JSON.stringify(scores));
-			savedScores = scores;
+		const finalScores = mergeScores(savedScores, scores);
+		if (!dequal(finalScores, savedScores)) {
+			console.log(`scores changed`, finalScores);
+			console.log(`previous scores`, savedScores);
+			localStorage.setItem(SCORES_KEY, JSON.stringify(finalScores));
+			savedScores = finalScores;
 		}
 	};
 	const resetScores = () => {
@@ -208,17 +217,21 @@
 				}
 			}
 		} else if (e.key === 'F2') {
-			finish();
-			if (!starshipMode) {
+			e.stopPropagation();
+			e.preventDefault();
+			if (starshipMode) {
+				clock.pause();
+				finish();
+			} else {
 				await scrollDown();
 			}
 		} else if (e.key === 'F10') {
-			if (savedScores) {
-				resetScores();
-			} else {
-				finish();
-			}
+			e.stopPropagation();
+			e.preventDefault();
+			resetScores();
 		} else if (e.key === 'F4') {
+			e.stopPropagation();
+			e.preventDefault();
 			await toggleShowMorePortals();
 		} else if (e.key === '1' && e.ctrlKey) {
 			e.stopPropagation();
@@ -262,10 +275,27 @@
 				<svelte:component this={aboutPortal.Preview} />
 			</PortalPreview>
 		</header>
+		{#if savedScores}
+			<PortalPreview
+				onClick={savedAllCrew
+					? undefined
+					: async () => {
+							if (!starshipMode) {
+								await enterStarshipMode();
+							}
+					  }}
+				href={savedAllCrew ? '/starship' : undefined}
+				><div style:font-size={savedAllCrewAtOnce ? 'var(--font_size_xl)' : 'var(--font_size_lg)'}>
+					{#each savedScores.crew as crew, index}{#if crew}{FRIEND_ICONS[
+								index
+							]}{:else}❔{/if}{/each}
+				</div></PortalPreview
+			>
+		{/if}
 		{#each primaryPortals as portals}
 			<ul class="portals">
 				{#each portals as portal (portal)}
-					{#if typeof portal === 'symbol'}
+					{#if portal === starshipPortal}
 						<PortalPreview onClick={enterStarshipMode} classes="portal-preview--starship"
 							><div class="starship">🛸</div></PortalPreview
 						>
