@@ -59,6 +59,7 @@
 		// const aspectRatio = screenDimensions.width / screenDimensions.height; // TODO cache on dimensions?
 		viewWidth = screenWidth;
 		viewHeight = screenHeight;
+		console.log(`viewHeight!!!!!!!!`, viewHeight);
 		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
 	} else {
@@ -66,14 +67,14 @@
 		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
 		const worldAspectRatio = worldWidth / worldHeight;
-		const viewAspectRatio = screenWidth / screenHeight;
+		const screenAspectRatio = screenWidth / screenHeight;
 		viewWidth =
-			worldAspectRatio < viewAspectRatio
-				? (screenWidth * (worldAspectRatio / viewAspectRatio)) | 0
+			worldAspectRatio < screenAspectRatio
+				? (screenWidth * (worldAspectRatio / screenAspectRatio)) | 0
 				: screenWidth;
 		viewHeight =
-			worldAspectRatio > viewAspectRatio
-				? (screenHeight * (viewAspectRatio / worldAspectRatio)) | 0
+			worldAspectRatio > screenAspectRatio
+				? (screenHeight * (screenAspectRatio / worldAspectRatio)) | 0
 				: screenHeight;
 	}
 

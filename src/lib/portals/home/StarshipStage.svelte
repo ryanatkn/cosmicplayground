@@ -101,7 +101,12 @@
 		worldHeight: number,
 	): string => {
 		if (viewWidth === worldWidth && viewHeight === worldHeight) return '';
-		return `scale3d(${viewWidth / worldWidth}, ${viewHeight / worldHeight}, 1)`;
+		// TODO this is a hack to make it not stretch -- it should fill the screen
+		// but I don't think this is where that'll be fixed
+		const scaleX = viewWidth / worldWidth;
+		const scaleY = viewHeight / worldHeight;
+		const scale = Math.min(scaleX, scaleY);
+		return `scale3d(${scale}, ${scale}, 1)`;
 	};
 </script>
 
