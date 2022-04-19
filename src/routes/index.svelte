@@ -24,9 +24,9 @@
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clockStore';
 	import {
-		FRIEND_ICONS,
+		MOON_ICONS,
 		mergeScores,
-		rescuedAllExceptPlanet,
+		rescuedAllMoons,
 		rescuedAnyCrew,
 		Stage,
 		type StarshipStageScores,
@@ -43,7 +43,7 @@
 
 	$: ({width: screenWidth, height: screenHeight} = $dimensions);
 
-	$: viewUnlocked = savedScoresRescuedAllExceptPlanet;
+	$: viewUnlocked = savedScoresRescuedAllMoons;
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
 	// TODO should we pass through plain numbers or a dimensions object?
@@ -132,12 +132,12 @@
 	let savedScores = loadScores();
 	$: savedScoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
 	$: scoresRescuedAnyCrew = !!scores && rescuedAnyCrew(scores);
-	$: savedScoresRescuedAllExceptPlanet = !!savedScores && rescuedAllExceptPlanet(savedScores);
-	$: savedAllCrew = savedScores?.crew.every(Boolean);
-	$: savedAllCrewAtOnce =
-		savedScores && savedScores.crew.length === savedScores.crewSavedAtOnceCount;
+	$: savedScoresRescuedAllMoons = !!savedScores && rescuedAllMoons(savedScores);
+	$: rescuredAllCrew = savedScores?.crew.every(Boolean);
+	$: rescuredAllCrewAtOnce =
+		savedScores && savedScores.crew.length === savedScores.crewRescuedAtOnceCount;
 	// TODO use these
-	// $: scoresRescuedAllExceptPlanet = !!scores && rescuedAllExceptPlanet(scores);
+	// $: scoresRescuedAllMoons = !!scores && rescuedAllMoons(scores);
 	// $: savedScoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
 	// $: scoresRescuedAllCrew = !!scores && rescuedAllCrew(scores);
 
@@ -277,18 +277,18 @@
 		</header>
 		{#if savedScores}
 			<PortalPreview
-				onClick={savedAllCrew
+				onClick={rescuredAllCrew
 					? undefined
 					: async () => {
 							if (!starshipMode) {
 								await enterStarshipMode();
 							}
 					  }}
-				href={savedAllCrew ? '/starship' : undefined}
-				><div style:font-size={savedAllCrewAtOnce ? 'var(--font_size_xl)' : 'var(--font_size_lg)'}>
-					{#each savedScores.crew as crew, index}{#if crew}{FRIEND_ICONS[
-								index
-							]}{:else}❔{/if}{/each}
+				href={rescuredAllCrew ? '/starship' : undefined}
+				><div
+					style:font-size={rescuredAllCrewAtOnce ? 'var(--font_size_xl)' : 'var(--font_size_lg)'}
+				>
+					{#each savedScores.crew as crew, index}{#if crew}{MOON_ICONS[index]}{:else}❔{/if}{/each}
 				</div></PortalPreview
 			>
 		{/if}

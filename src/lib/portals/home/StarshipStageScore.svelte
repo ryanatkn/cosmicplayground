@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {FRIEND_ICONS, type StarshipStageScores} from '$lib/portals/home/starshipStage';
+	import {MOON_ICONS, type StarshipStageScores} from '$lib/portals/home/starshipStage';
 
 	export let scores: StarshipStageScores | undefined;
 
@@ -14,7 +14,7 @@
 	//   '⚫',
 	//     '⚪',
 	$: icons = scores
-		? scores.crew.map((f, i) => (f ? FRIEND_ICONS[i] : null)).filter(Boolean)
+		? scores.crew.map((f, i) => (f ? MOON_ICONS[i] : null)).filter(Boolean)
 		: undefined;
 	$: iconsStr = icons?.join(' ') ?? '';
 
