@@ -101,8 +101,6 @@
 		worldHeight: number,
 	): string => {
 		if (viewWidth === worldWidth && viewHeight === worldHeight) return '';
-		// TODO this is a hack to make it not stretch -- it should fill the screen
-		// but I don't think this is where that'll be fixed
 		const scaleX = viewWidth / worldWidth;
 		const scaleY = viewHeight / worldHeight;
 		const scale = Math.min(scaleX, scaleY);
