@@ -65,11 +65,12 @@ export const mergeScores = (
 	existingScores: StarshipStageScores | undefined,
 ): StarshipStageScores => {
 	const finalScores = existingScores ? klona(existingScores) : toDefaultScores();
-	// TODO use a generic merge algorithm instead?
 	if (!newScores) return finalScores;
 	for (let i = 0; i < newScores.crew.length; i++) {
 		if (newScores.crew[i]) finalScores.crew[i] = true;
 	}
+	// TODO would be cool to track the rescued combos and give special messages/behaviors/achievements,
+	// for example could show what the player achieved with each combination of enhancements (speed, unlock, push)
 	finalScores.crewRescuedAtOnceCount = Math.max(
 		toCrewRescuedCount(newScores.crew),
 		finalScores.crewRescuedAtOnceCount,
