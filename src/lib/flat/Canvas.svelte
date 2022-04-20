@@ -13,26 +13,28 @@
 	let canvasWidth: number;
 	let canvasHeight: number;
 
-	$: if (canvasWidth !== width || canvasHeight !== height) {
+	let mounted = false;
+	$: if (mounted && (canvasWidth !== width || canvasHeight !== height)) {
+		resize(width, height);
+	}
+
+	const resize = (width: number, height: number): void => {
 		// TODO maybe refactor this component to fire a `resize` event
 		stage.resize(width, height);
 		renderer.resize(width, height); // also updates `el` `width` and `height`
 		canvasWidth = width;
 		canvasHeight = height;
-		// TODO problem is this makes the renderer clear, but how to redraw correctly?
-	}
+	};
 
 	onMount(() => {
 		renderer.setCanvas(el);
+		mounted = true;
 		return () => {
 			renderer.unsetCanvas();
 		};
 	});
 </script>
 
-<!-- TODO instead of trapping the click with `stopPropagation`,
-allow it to bubble and do whatever
--->
 <div class="canvas">
 	<canvas bind:this={el} />
 </div>
