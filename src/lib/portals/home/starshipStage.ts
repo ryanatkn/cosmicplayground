@@ -41,6 +41,8 @@ export const rescuedAnyCrew = (scores: StarshipStageScores): boolean => scores.c
 export const rescuedAllCrew = (scores: StarshipStageScores): boolean => scores.crew.every(Boolean);
 export const rescuedAllMoons = (scores: StarshipStageScores): boolean =>
 	scores.crew.slice(1).every(Boolean);
+export const rescuedAllCrewAtOnce = (scores: StarshipStageScores): boolean =>
+	scores.crew.length === scores.crewRescuedAtOnceCount;
 export const mergeScores = (
 	newScores: StarshipStageScores | undefined,
 	existingScores: StarshipStageScores | undefined,
