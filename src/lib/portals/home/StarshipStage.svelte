@@ -1,6 +1,5 @@
 <script lang="ts">
 	import {dequal} from 'dequal/lite';
-	import {onMount, onDestroy} from 'svelte';
 
 	import World from '$lib/flat/World.svelte';
 	import {
@@ -13,7 +12,6 @@
 	import {getClock} from '$lib/app/clockStore';
 	import {getIdle} from '$lib/app/trackIdleState';
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
-	import {Controller} from '$lib/flat/Controller';
 
 	export let screenWidth: number;
 	export let screenHeight: number;
@@ -30,34 +28,22 @@
 	export let scores: StarshipStageScores | undefined;
 	export let finish: () => void;
 	export let exit: () => void;
-	export const controller = new Controller(); // TODO make these props?
-	export const stage = new Stage(controller); // TODO make these props?
+	export let stage: Stage;
+
+	$: ({controller} = stage);
 
 	const clock = getClock();
 
 	const idle = getIdle();
 	$: if ($idle) clock.pause();
 
-	let ready = false;
-	onMount(async () => {
-		console.log('SETTING UP');
-		await stage.setup({
-			width: worldWidth,
-			height: worldHeight,
-			freezeCamera: !cameraUnlocked,
-		});
-		ready = true;
-		console.log('DONE SETTING UP');
-		syncStageState();
-	});
-	onDestroy(async () => {
-		await stage.teardown();
-	});
-
-	$: $clock, stage.status === 'success' && syncStageState();
+	$: $clock, syncStageState();
 
 	let finished = false;
 	const STAGE_DURATION = 30000;
+
+	$: stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
+	$: stage.freezeCamera = !cameraUnlocked;
 
 	// TODO refactor
 	$: if (controller) controller.screenWidth = screenWidth;
@@ -76,10 +62,6 @@
 
 		starshipX = stage.player.x;
 		starshipY = stage.player.y;
-
-		stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED; // TODO refactor to be evented
-
-		stage.freezeCamera = !cameraUnlocked; // TODO refactor to be evented
 
 		// TODO ?
 		starshipAngle = updateAngle(starshipAngle, stage.player.directionX, stage.player.directionY);
@@ -124,12 +106,10 @@
 	};
 </script>
 
-{#if ready}
-	<div class="view" style:transform>
-		<World width={worldWidth} height={worldHeight} {stage} {controller} />
-	</div>
-	<InteractiveSurface width={screenWidth} height={screenHeight} {controller} />
-{/if}
+<div class="view" style:transform>
+	<World width={worldWidth} height={worldHeight} {stage} {controller} />
+</div>
+<InteractiveSurface width={screenWidth} height={screenHeight} {controller} />
 
 <style>
 	.view {

@@ -38,6 +38,7 @@
 	import {goto} from '$app/navigation';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
+	import StageLoader from '$lib/flat/StageLoader.svelte';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -114,7 +115,7 @@
 	let starshipY = 0;
 	let starshipAngle = 0;
 	let starshipShieldRadius = 0;
-	let stage: Stage | undefined;
+	let stage: Stage;
 	$: camera = stage?.camera;
 	$: player = stage?.player;
 
@@ -364,24 +365,37 @@
 		{/if}
 	</nav>
 	{#if starshipMode}
-		<StarshipStage
-			{screenWidth}
-			{screenHeight}
-			{viewWidth}
-			{viewHeight}
-			{worldWidth}
-			{worldHeight}
-			{boosterEnabled}
-			{cameraUnlocked}
-			bind:starshipX
-			bind:starshipY
-			bind:starshipAngle
-			bind:starshipShieldRadius
-			bind:scores
+		<!-- TODO who should create/own the stage? we could create it here during `$: if (starshipMode)` and destroy it when false -->
+		<!-- TODO what about calling `setup` generically? maybe instantiate the instance with width/height/freezeCamera? -->
+		<StageLoader
 			bind:stage
-			exit={exitStarshipMode}
-			{finish}
-		/>
+			let:stage
+			setup={() =>
+				stage.setup({
+					width: worldWidth,
+					height: worldHeight,
+					freezeCamera: !cameraUnlocked,
+				})}
+		>
+			<StarshipStage
+				{screenWidth}
+				{screenHeight}
+				{viewWidth}
+				{viewHeight}
+				{worldWidth}
+				{worldHeight}
+				{boosterEnabled}
+				{cameraUnlocked}
+				bind:starshipX
+				bind:starshipY
+				bind:starshipAngle
+				bind:starshipShieldRadius
+				bind:scores
+				{stage}
+				exit={exitStarshipMode}
+				{finish}
+			/>
+		</StageLoader>
 		{#if finished}
 			<div class="exit">
 				<FloatingIconButton
