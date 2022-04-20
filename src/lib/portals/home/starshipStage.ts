@@ -12,7 +12,12 @@ import type {
 import type {Renderer} from '$lib/flat/renderer';
 import {Simulation} from '$lib/flat/Simulation';
 import {updateDirection} from '$lib/flat/Controller';
-import {type CameraStore, toCameraStore, type CameraState} from '$lib/flat/camera';
+import {
+	type CameraStore,
+	toCameraStore,
+	type CameraState,
+	SPRING_OPTS_HARD,
+} from '$lib/flat/camera';
 import {collideRigidBodies} from '$lib/flat/collideRigidBodies';
 
 // TODO use the CSS values (generate a CSS vars file?)
@@ -438,9 +443,9 @@ export class Stage extends BaseStage {
 	}
 
 	resize(width: number, height: number): void {
-		console.log(`starshipStage.resize width, height`, width, height);
 		this.bounds.scale_x = width;
 		this.bounds.scale_y = height;
 		this.camera.setDimensions(width, height);
+		if (this.freezeCamera) void this.camera.setPosition(width / 2, height / 2, SPRING_OPTS_HARD);
 	}
 }

@@ -37,7 +37,6 @@
 	import {goto} from '$app/navigation';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
-	import {SPRING_OPTS_HARD} from '$lib/flat/camera';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -83,9 +82,6 @@
 		viewWidth = (screenWidth * Math.min(1, worldAspectRatio / screenAspectRatio)) | 0;
 		viewHeight = (screenHeight * Math.min(1, screenAspectRatio / worldAspectRatio)) | 0;
 	}
-
-	// TODO refactor this to where? `starshipStage.resize`?
-	$: if (!cameraUnlocked) camera?.setPosition(worldWidth / 2, worldHeight / 2, SPRING_OPTS_HARD);
 
 	const starshipPortal = Symbol();
 
