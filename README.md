@@ -7,7 +7,7 @@
 
 [cosmicplayground.org](https://www.cosmicplayground.org)
 is a playful exploration of some tools and toys using web technology.
-It's an experiment in developing an educational project in public
+It's an experiment in developing an educational hobby project in public
 with an open community and open source code.
 Join us if you want to improve your webdev skills
 with Svelte, SvelteKit, and TypeScript while making games in space!

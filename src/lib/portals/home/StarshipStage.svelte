@@ -44,6 +44,9 @@
 
 	$: stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
 	$: stage.freezeCamera = !cameraUnlocked;
+	$: if (cameraUnlocked) {
+		void stage.camera.setPosition(starshipX, starshipY);
+	}
 
 	// TODO refactor
 	$: if (controller) controller.screenWidth = screenWidth;
@@ -65,12 +68,10 @@
 
 		// TODO ?
 		starshipAngle = updateAngle(starshipAngle, stage.player.directionX, stage.player.directionY);
-		if (!stage.freezeCamera) {
-			void stage.camera.setPosition(starshipX, starshipY);
-		}
+
 		starshipShieldRadius = stage.player.radius;
 
-		// TODO refactor to be evented
+		// TODO BLOCK refactor to be evented
 		const nextScores = toScores(stage);
 		if (!scores || !dequal(scores, nextScores)) {
 			scores = nextScores;
