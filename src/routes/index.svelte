@@ -137,6 +137,7 @@
 	// TODO refactor these into a single store that handles saving/loading
 	let scores: StarshipStageScores | undefined;
 	let savedScores = loadScores();
+	// TODO probably create a single scores object from this
 	$: scoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
 	$: scoresRescuedAllMoons = !!savedScores && rescuedAllMoons(savedScores);
 	$: scoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
