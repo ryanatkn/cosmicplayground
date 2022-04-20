@@ -117,9 +117,9 @@
 	let starshipY = 0;
 	let starshipAngle = 0;
 	let starshipShieldRadius = 0;
-	let currentStage: Stage | null = null;
-	$: camera = currentStage?.camera;
-	$: player = currentStage?.player;
+	let stage: Stage | undefined;
+	$: camera = stage?.camera;
+	$: player = stage?.player;
 
 	$: starshipRotation = starshipAngle + Math.PI / 2;
 
@@ -378,7 +378,7 @@
 			bind:starshipAngle
 			bind:starshipShieldRadius
 			bind:scores
-			bind:currentStage
+			bind:stage
 			exit={exitStarshipMode}
 			{finish}
 		/>

@@ -25,20 +25,18 @@
 	export let cameraUnlocked = false;
 	export let starshipX = 0;
 	export let starshipY = 0;
-	export let currentStage: Stage | null;
 	export let starshipAngle = 0;
 	export let starshipShieldRadius = 0;
 	export let scores: StarshipStageScores | undefined;
 	export let finish: () => void;
 	export let exit: () => void;
+	export const controller = new Controller(); // TODO make these props?
+	export const stage = new Stage(controller); // TODO make these props?
 
 	const clock = getClock();
 
 	const idle = getIdle();
 	$: if ($idle) clock.pause();
-
-	const controller = new Controller();
-	const stage = new Stage(controller);
 
 	let ready = false;
 	onMount(async () => {
@@ -50,12 +48,13 @@
 		});
 		ready = true;
 		console.log('DONE SETTING UP');
+		syncStageState();
 	});
 	onDestroy(async () => {
 		await stage.teardown();
 	});
 
-	$: $clock, stage.status === 'success' && syncStageState(stage);
+	$: $clock, stage.status === 'success' && syncStageState();
 
 	let finished = false;
 	const STAGE_DURATION = 30000;
@@ -69,7 +68,7 @@
 	$: if (controller) controller.worldHeight = worldHeight;
 
 	// TODO this is clumsy
-	const syncStageState = (stage: Stage) => {
+	const syncStageState = () => {
 		if (!finished && stage.time > STAGE_DURATION) {
 			finished = true;
 			finish();
@@ -129,13 +128,7 @@
 	<div class="view" style:transform>
 		<World width={worldWidth} height={worldHeight} {stage} {controller} />
 	</div>
-	{#if currentStage}
-		<InteractiveSurface
-			width={screenWidth}
-			height={screenHeight}
-			controller={currentStage.controller}
-		/>
-	{/if}
+	<InteractiveSurface width={screenWidth} height={screenHeight} {controller} />
 {/if}
 
 <style>
