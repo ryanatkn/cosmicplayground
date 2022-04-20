@@ -13,7 +13,6 @@ import Easings1PortalData from './easings-1/data';
 import HearingTestPortalData from './hearing-test/data';
 import UnderConstructionPortalData from './under-construction/data';
 import FreqSpeedsPortalData from './freq-speeds/data';
-import TransitionDesignerPortalData from './transition-designer/data';
 import ClocksPortalData from './clocks/data';
 import FreqSpectaclePortalData from './freq-spectacle/data';
 
@@ -29,7 +28,6 @@ const portals: PortalData[] = [
 	HearingTestPortalData,
 	UnderConstructionPortalData,
 	FreqSpeedsPortalData,
-	TransitionDesignerPortalData,
 	ClocksPortalData,
 	FreqSpectaclePortalData,
 ];

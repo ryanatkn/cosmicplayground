@@ -14,7 +14,6 @@
 	import hearingTestPortal from '$lib/portals/hearing-test/data';
 	import underConstructionPortal from '$lib/portals/under-construction/data';
 	import freqSpeedsPortal from '$lib/portals/freq-speeds/data';
-	import transitionDesignerPortal from '$lib/portals/transition-designer/data';
 	import clocksPortal from '$lib/portals/clocks/data';
 	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
 	import {getSettings} from '$lib/app/settingsStore';
@@ -92,9 +91,7 @@
 		[easings2Portal, paintFreqsPortal, easings1Portal],
 		[starshipPortal as any, hearingTestPortal, underConstructionPortal],
 	];
-	const secondaryPortals = [
-		[freqSpeedsPortal, transitionDesignerPortal, clocksPortal, freqSpectaclePortal],
-	];
+	const secondaryPortals = [[freqSpeedsPortal, clocksPortal, freqSpectaclePortal]];
 
 	const settings = getSettings();
 	const toggleShowMorePortals = async () => {
