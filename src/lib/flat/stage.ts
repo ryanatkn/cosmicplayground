@@ -26,9 +26,8 @@ export interface StageSetupOptions {
 	// these are the initial dimensions that are updated via `resize`
 	width: number;
 	height: number;
+	// TODO probably shouldn't be generic for all stages, at least not the player ones
 	freezeCamera: boolean;
-	cameraX: number;
-	cameraY: number;
 }
 
 // TODO rethink -- maybe events?

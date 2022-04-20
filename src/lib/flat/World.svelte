@@ -109,8 +109,6 @@
 			width,
 			height,
 			freezeCamera,
-			cameraX: freezeCamera ? width / 2 : 850, // TODO BLOCK hardcoded, maybe call parent setup?
-			cameraY: freezeCamera ? height / 2 : 502, // TODO BLOCK hardcoded, maybe call parent setup?
 		});
 		console.log('all set up!');
 		settingUp = false; // TODO refactor

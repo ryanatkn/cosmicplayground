@@ -112,13 +112,22 @@ export class Stage extends BaseStage {
 
 	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management?
 
-	async setup({width, height, freezeCamera, cameraX, cameraY}: StageSetupOptions): Promise<void> {
+	async setup({width, height, freezeCamera}: StageSetupOptions): Promise<void> {
 		this.freezeCamera = freezeCamera;
+
+		const playerX = 850;
+		const playerY = 502;
+
 		// TODO refactor
 		if (this.ready) return;
 		this.ready = true;
 
-		this.camera = toCameraStore({width, height, x: cameraX, y: cameraY});
+		this.camera = toCameraStore({
+			width,
+			height,
+			x: freezeCamera ? width / 2 : playerX,
+			y: freezeCamera ? height / 2 : playerY,
+		});
 		// TODO this is a hint this should be a Svelte component ...
 		this.subscriptions.push(this.camera.subscribe(($camera) => (this.$camera = $camera)));
 
@@ -132,7 +141,11 @@ export class Stage extends BaseStage {
 
 		console.log('setup stage, sim, controller', sim, controller);
 		// create the controllable player
-		const player = (this.player = collisions.createCircle(850, 502, PLAYER_RADIUS) as EntityCircle);
+		const player = (this.player = collisions.createCircle(
+			playerX,
+			playerY,
+			PLAYER_RADIUS,
+		) as EntityCircle);
 		player.speed = PLAYER_SPEED;
 		player.directionX = 0;
 		player.directionY = 0;
