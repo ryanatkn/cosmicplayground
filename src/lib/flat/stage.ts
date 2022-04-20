@@ -5,7 +5,6 @@ import type {Simulation} from '$lib/flat/Simulation';
 import type {Controller} from '$lib/flat/Controller';
 import type {Renderer} from '$lib/flat/renderer';
 import type {StageState} from '$lib/flat/stageState';
-import {frag as defaultFrag} from '$lib/flat/entity';
 
 export interface StageConstructor {
 	new (...args: ConstructorParameters<typeof Stage>): Stage;
@@ -40,19 +39,14 @@ export interface ExitStage {
 export abstract class Stage {
 	static meta: StageMeta;
 
-	meta: StageMeta;
 	controller: Controller;
 	exit: ExitStage;
 	time = 0;
 	random: Alea;
-	frag: typeof defaultFrag;
-
 	// TODO options object instead of all these params
-	constructor(controller: Controller, exit: ExitStage, frag: typeof defaultFrag = defaultFrag) {
+	constructor(controller: Controller, exit: ExitStage) {
 		this.controller = controller;
 		this.exit = exit;
-		this.frag = frag;
-		this.meta = (this.constructor as any).meta;
 		this.random = toRandomSeeded();
 	}
 
