@@ -26,6 +26,9 @@ export interface StageSetupOptions {
 	// these are the initial dimensions that are updated via `resize`
 	width: number;
 	height: number;
+	freezeCamera: boolean;
+	cameraX: number;
+	cameraY: number;
 }
 
 // TODO rethink -- maybe events?

@@ -112,13 +112,13 @@ export class Stage extends BaseStage {
 
 	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management?
 
-	// TODO not calling `setup` first is error-prone
-	async setup({width, height}: StageSetupOptions): Promise<void> {
+	async setup({width, height, freezeCamera, cameraX, cameraY}: StageSetupOptions): Promise<void> {
+		this.freezeCamera = freezeCamera;
 		// TODO refactor
 		if (this.ready) return;
 		this.ready = true;
 
-		this.camera = toCameraStore({width, height, x: width / 2, y: height / 2});
+		this.camera = toCameraStore({width, height, x: cameraX, y: cameraY});
 		// TODO this is a hint this should be a Svelte component ...
 		this.subscriptions.push(this.camera.subscribe(($camera) => (this.$camera = $camera)));
 
@@ -425,6 +425,7 @@ export class Stage extends BaseStage {
 	}
 
 	resize(width: number, height: number): void {
+		console.log(`starshipStage.resize width, height`, width, height);
 		this.bounds.scale_x = width;
 		this.bounds.scale_y = height;
 		this.camera.setDimensions(width, height);

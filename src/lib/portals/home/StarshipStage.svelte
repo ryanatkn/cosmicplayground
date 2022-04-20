@@ -112,7 +112,13 @@
 </script>
 
 <div class="view" style:transform>
-	<World width={worldWidth} height={worldHeight} stages={[Stage]} bind:activeStageState />
+	<World
+		width={worldWidth}
+		height={worldHeight}
+		freezeCamera={!cameraUnlocked}
+		stages={[Stage]}
+		bind:activeStageState
+	/>
 </div>
 {#if currentStage}
 	<InteractiveSurface

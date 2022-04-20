@@ -84,10 +84,10 @@
 		viewHeight = (screenHeight * Math.min(1, screenAspectRatio / worldAspectRatio)) | 0;
 	}
 
-	// TODO is there a better place for this? maybe skip the first? `skip(1, () => ...))
+	// TODO refactor this to where? `starshipStage.resize`?
 	$: if (!cameraUnlocked) camera?.setPosition(worldWidth / 2, worldHeight / 2, SPRING_OPTS_HARD);
 
-	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
+	const starshipPortal = Symbol();
 
 	const primaryPortals = [
 		[soggyPlanetPortal],
