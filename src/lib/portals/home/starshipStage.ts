@@ -238,7 +238,8 @@ export class Stage extends BaseStage {
 
 	override update(dt: number): void {
 		// TODO time dilation controls
-		dt *= 3; // eslint-disable-line no-param-reassign
+		super.update(dt);
+
 		const {
 			collisions,
 			controller,
@@ -252,8 +253,6 @@ export class Stage extends BaseStage {
 			$camera,
 		} = this;
 
-		super.update(dt);
-
 		// TODO add a player controller component to handle this
 		updateDirection(controller, player, $camera);
 
@@ -264,7 +263,7 @@ export class Stage extends BaseStage {
 
 		// gives stages full control over the sim `update`
 		this.sim.update(
-			dt,
+			dt * 3, // TODO !!!!!!!!!!!!!!!!!!!!!!!! dont do this, triple the speeds of everything or w/e
 			(bodyA, bodyB, result) => {
 				collideRigidBodies(bodyA, bodyB, result);
 
