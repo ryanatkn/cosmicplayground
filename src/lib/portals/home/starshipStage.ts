@@ -91,7 +91,11 @@ export class Stage extends BaseStage {
 
 	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management?
 
-	async setup({width, height, freezeCamera}: StageSetupOptions): Promise<void> {
+	constructor(options: StageSetupOptions) {
+		super(options);
+
+		const {width, height, freezeCamera} = options;
+
 		if (this.status !== 'initial') return;
 		this.status = 'pending';
 
@@ -230,7 +234,8 @@ export class Stage extends BaseStage {
 		this.sim.removeBody(body);
 	}
 
-	async teardown(): Promise<void> {
+	destroy(): void {
+		// TODO refactor this out, maybe move everything to a component?
 		for (const subscription of this.subscriptions) {
 			subscription();
 		}
@@ -238,7 +243,7 @@ export class Stage extends BaseStage {
 
 	override update(dt: number): void {
 		// TODO time dilation controls
-		super.update(dt);
+		this.time += dt; // TODO maybe don't track this on the stage? clock?
 
 		const {
 			collisions,
