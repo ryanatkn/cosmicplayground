@@ -96,9 +96,6 @@ export class Stage extends BaseStage {
 
 		const {width, height, freezeCamera} = options;
 
-		if (this.status !== 'initial') return;
-		this.status = 'pending';
-
 		this.freezeCamera = freezeCamera;
 
 		const playerX = 850;
@@ -220,8 +217,6 @@ export class Stage extends BaseStage {
 
 		// TODO hack to keep the current view code -- see in 2 places
 		this.moonsArray.push(...moons);
-
-		this.status = 'success';
 	}
 
 	addBodies(bodies: EntityBody[]): void {

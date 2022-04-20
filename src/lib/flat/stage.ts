@@ -1,4 +1,4 @@
-import type {Flavored, AsyncStatus} from '@feltcoop/felt';
+import type {Flavored} from '@feltcoop/felt';
 import {toRandomSeeded, type Alea} from '@feltcoop/felt/util/randomSeeded.js';
 
 import type {Simulation} from '$lib/flat/Simulation';
@@ -31,9 +31,9 @@ export interface ExitStage {
 
 export abstract class Stage {
 	controller: Controller;
-	time = 0;
-	status: AsyncStatus = 'initial';
 	random: Alea;
+
+	time = 0;
 
 	constructor(options: StageSetupOptions) {
 		this.controller = options.controller || new Controller();
