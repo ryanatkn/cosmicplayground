@@ -70,12 +70,6 @@ export const toScores = (stage: Stage): StarshipStageScores => {
 const toCrewRescuedCount = (crew: boolean[]): number => crew.filter(Boolean).length;
 
 export class Stage extends BaseStage {
-	static override meta = {
-		name: 'starship',
-		icon: '🛸',
-	};
-
-	ready = false;
 	finished = false; // stops when the conditions are met and the player collides with the exit
 
 	// these are instantiated in `setup`
@@ -98,14 +92,13 @@ export class Stage extends BaseStage {
 	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management?
 
 	async setup({width, height, freezeCamera}: StageSetupOptions): Promise<void> {
+		if (this.status !== 'initial') return;
+		this.status = 'pending';
+
 		this.freezeCamera = freezeCamera;
 
 		const playerX = 850;
 		const playerY = 502;
-
-		// TODO refactor
-		if (this.ready) return;
-		this.ready = true;
 
 		this.camera = toCameraStore({
 			width,
@@ -223,6 +216,8 @@ export class Stage extends BaseStage {
 
 		// TODO hack to keep the current view code -- see in 2 places
 		this.moonsArray.push(...moons);
+
+		this.status = 'success';
 	}
 
 	addBodies(bodies: EntityBody[]): void {

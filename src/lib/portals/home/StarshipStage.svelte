@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {dequal} from 'dequal/lite';
+	import {onMount, onDestroy} from 'svelte';
 
 	import World from '$lib/flat/World.svelte';
 	import {
@@ -10,9 +11,9 @@
 		type StarshipStageScores,
 	} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
-	import type {StageState} from '$lib/flat/stageState';
 	import {getIdle} from '$lib/app/trackIdleState';
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
+	import {Controller} from '$lib/flat/Controller';
 
 	export let screenWidth: number;
 	export let screenHeight: number;
@@ -36,17 +37,30 @@
 	const idle = getIdle();
 	$: if ($idle) clock.pause();
 
-	let activeStageState: StageState<Stage> | null = null;
+	const controller = new Controller();
+	const stage = new Stage(controller);
 
-	$: currentStage = activeStageState?.stage ?? null;
-	$: currentStage && syncStageState(currentStage, $clock.dt);
+	let ready = false;
+	onMount(async () => {
+		console.log('SETTING UP');
+		await stage.setup({
+			width: worldWidth,
+			height: worldHeight,
+			freezeCamera: !cameraUnlocked,
+		});
+		ready = true;
+		console.log('DONE SETTING UP');
+	});
+	onDestroy(async () => {
+		await stage.teardown();
+	});
 
-	let elapsed = 0;
+	$: $clock, stage.status === 'success' && syncStageState(stage);
+
 	let finished = false;
 	const STAGE_DURATION = 30000;
 
-	// TODO pack this up in a class or something?
-	$: controller = currentStage?.controller;
+	// TODO refactor
 	$: if (controller) controller.screenWidth = screenWidth;
 	$: if (controller) controller.screenHeight = screenHeight;
 	$: if (controller) controller.viewWidth = viewWidth;
@@ -55,9 +69,8 @@
 	$: if (controller) controller.worldHeight = worldHeight;
 
 	// TODO this is clumsy
-	const syncStageState = (stage: Stage, dt: number) => {
-		elapsed += dt;
-		if (!finished && elapsed > STAGE_DURATION) {
+	const syncStageState = (stage: Stage) => {
+		if (!finished && stage.time > STAGE_DURATION) {
 			finished = true;
 			finish();
 		}
@@ -82,6 +95,7 @@
 			scores = nextScores;
 		}
 
+		// TODO refactor to be evented
 		if (stage.controller.pressingExit) {
 			exit();
 		}
@@ -111,21 +125,17 @@
 	};
 </script>
 
-<div class="view" style:transform>
-	<World
-		width={worldWidth}
-		height={worldHeight}
-		freezeCamera={!cameraUnlocked}
-		stages={[Stage]}
-		bind:activeStageState
-	/>
-</div>
-{#if currentStage}
-	<InteractiveSurface
-		width={screenWidth}
-		height={screenHeight}
-		controller={currentStage.controller}
-	/>
+{#if ready}
+	<div class="view" style:transform>
+		<World width={worldWidth} height={worldHeight} {stage} {controller} />
+	</div>
+	{#if currentStage}
+		<InteractiveSurface
+			width={screenWidth}
+			height={screenHeight}
+			controller={currentStage.controller}
+		/>
+	{/if}
 {/if}
 
 <style>
