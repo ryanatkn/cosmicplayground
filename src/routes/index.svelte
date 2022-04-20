@@ -31,6 +31,7 @@
 		Stage,
 		type StarshipStageScores,
 		rescuedAllCrew,
+		rescuedAllCrewAtOnce,
 	} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
 
@@ -44,7 +45,6 @@
 
 	$: ({width: screenWidth, height: screenHeight} = $dimensions);
 
-	$: cameraUnlocked = savedScoresRescuedAllMoons;
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
 	// TODO should we pass through plain numbers or a dimensions object?
@@ -137,11 +137,10 @@
 	// TODO refactor these into a single store that handles saving/loading
 	let scores: StarshipStageScores | undefined;
 	let savedScores = loadScores();
-	$: savedScoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
-	$: savedScoresRescuedAllMoons = !!savedScores && rescuedAllMoons(savedScores);
-	$: savedScoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
-	$: savedScoresRescuedAllCrewAtOnce =
-		!!savedScores && savedScores.crew.length === savedScores.crewRescuedAtOnceCount;
+	$: scoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
+	$: scoresRescuedAllMoons = !!savedScores && rescuedAllMoons(savedScores);
+	$: scoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
+	$: scoresRescuedAllCrewAtOnce = !!savedScores && rescuedAllCrewAtOnce(savedScores);
 
 	let finished = false;
 	const finish = () => {
@@ -162,11 +161,13 @@
 
 	const BOOSTER = '🙌';
 	let enableBooster = true;
-	$: boosterUnlocked = savedScoresRescuedAnyCrew;
+	$: boosterUnlocked = scoresRescuedAnyCrew;
 	$: boosterEnabled = boosterUnlocked && enableBooster;
 	const toggleBooster = () => {
 		enableBooster = !enableBooster;
 	};
+
+	$: cameraUnlocked = scoresRescuedAllMoons;
 
 	let starshipHeight: number;
 
@@ -279,16 +280,16 @@
 		</header>
 		{#if savedScores}
 			<PortalPreview
-				onClick={savedScoresRescuedAllCrew
+				onClick={scoresRescuedAllCrew
 					? undefined
 					: async () => {
 							if (!starshipMode) {
 								await enterStarshipMode();
 							}
 					  }}
-				href={savedScoresRescuedAllCrew ? '/starship' : undefined}
+				href={scoresRescuedAllCrew ? '/starship' : undefined}
 				><div
-					style:font-size={savedScoresRescuedAllCrewAtOnce
+					style:font-size={scoresRescuedAllCrewAtOnce
 						? 'var(--font_size_xl)'
 						: 'var(--font_size_lg)'}
 				>
@@ -311,7 +312,7 @@
 				{/each}
 			</ul>
 		{/each}
-		{#if savedScoresRescuedAllCrew}
+		{#if scoresRescuedAllCrew}
 			<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
 				<PendingAnimation
 					running={$settings.showMorePortals && $clock.running}
@@ -387,7 +388,7 @@
 					on:click={() => exitStarshipMode()}
 					style="font-size: var(--font_size_xl3)"
 				>
-					{#if savedScoresRescuedAnyCrew}{BOOSTER}{:else}↩{/if}
+					{#if scoresRescuedAnyCrew}{BOOSTER}{:else}↩{/if}
 				</FloatingIconButton>
 				<StarshipStageScore {scores} />
 			</div>
