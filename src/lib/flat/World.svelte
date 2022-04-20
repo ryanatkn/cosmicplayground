@@ -16,9 +16,9 @@
 
 	const clock = getClock();
 
-	$: if (!$clock.running && $moving && stage.status === 'success') clock.resume();
+	$: if (!$clock.running && $moving) clock.resume();
 
-	$: if (($clock.running || $dirty) && renderer.ctx && stage && stage.status === 'success') {
+	$: if (($clock.running || $dirty) && renderer.ctx) {
 		if ($clock.running) {
 			stage.update($clock.dt);
 		}
