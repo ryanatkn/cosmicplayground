@@ -2,13 +2,8 @@ import {Collisions} from '@ryanatkn/collisions';
 import {randomFloat} from '@feltcoop/felt/util/random.js';
 import {klona} from 'klona/json';
 
-import {Stage as BaseStage, type StageSetupOptions, type StageMeta} from '$lib/flat/stage';
-import type {
-	// type Entity,
-	EntityBody,
-	EntityCircle,
-	EntityPolygon,
-} from '$lib/flat/entity';
+import {Stage as BaseStage, type StageSetupOptions} from '$lib/flat/stage';
+import {frag, type EntityBody, type EntityCircle, type EntityPolygon} from '$lib/flat/entity';
 import type {Renderer} from '$lib/flat/renderer';
 import {Simulation} from '$lib/flat/Simulation';
 import {updateDirection} from '$lib/flat/Controller';
@@ -20,38 +15,19 @@ import {
 } from '$lib/flat/camera';
 import {collideRigidBodies} from '$lib/flat/collideRigidBodies';
 
-// TODO use the CSS values (generate a CSS vars file?)
 export const COLOR_DEFAULT = 'hsl(220, 100%, 70%)';
 export const COLOR_PLAIN = 'hsl(220, 20%, 70%)';
-export const COLOR_COLLIDING = 'hsl(340, 100%, 70%)';
 export const COLOR_EXIT = 'hsl(140, 100%, 70%)';
-export const COLOR_EXIT_INACTIVE = 'hsl(140, 30%, 30%)';
-export const COLOR_GHOST = 'purple';
 export const COLOR_PLAYER = 'violet';
 export const COLOR_MOLTEN = 'red';
 
-// TODO maybe use some of these instead: '🦓' '🐼' '🐭' '🦊' '🦄'
-export const MOON_ICONS = ['🐹', '🐸', '🐰', '🐶', '🐱'];
+export const MOON_ICONS = ['🐹', '🐸', '🐰', '🐼', '🐭'];
 
 export const PLAYER_SPEED = 0.2;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
 export const PLAYER_RADIUS = 100;
 
 const toIconFont = (radius: number): string => `${radius * 1.4}px sans-serif`;
-
-// TODO rewrite this to use a route Svelte component? `dealt.dev/tar/home`
-
-// TODO what if this file were named `home.stage.ts` instead of `0__home.ts` ?
-
-const meta: StageMeta = {
-	name: 'saucer',
-	icon: '🥚',
-};
-
-// interface ExitEntity {
-// 	stage_name: string;
-// 	entity: Entity;
-// }
 
 export interface StarshipStageScores {
 	crew: boolean[]; // mirrors `MOON_ICONS`
@@ -65,6 +41,8 @@ export const rescuedAnyCrew = (scores: StarshipStageScores): boolean => scores.c
 export const rescuedAllCrew = (scores: StarshipStageScores): boolean => scores.crew.every(Boolean);
 export const rescuedAllMoons = (scores: StarshipStageScores): boolean =>
 	scores.crew.slice(1).every(Boolean);
+export const rescuedAllCrewAtOnce = (scores: StarshipStageScores): boolean =>
+	scores.crew.length === scores.crewRescuedAtOnceCount;
 export const mergeScores = (
 	newScores: StarshipStageScores | undefined,
 	existingScores: StarshipStageScores | undefined,
@@ -92,7 +70,10 @@ export const toScores = (stage: Stage): StarshipStageScores => {
 const toCrewRescuedCount = (crew: boolean[]): number => crew.filter(Boolean).length;
 
 export class Stage extends BaseStage {
-	static override meta = meta;
+	static override meta = {
+		name: 'starship',
+		icon: '🛸',
+	};
 
 	ready = false;
 	finished = false; // stops when the conditions are met and the player collides with the exit
@@ -101,7 +82,6 @@ export class Stage extends BaseStage {
 	collisions!: Collisions;
 	sim!: Simulation;
 	player!: EntityCircle;
-	// exits: Map<Entity, ExitEntity> = new Map(); // TODO consider this pattern when we need more stuff
 	bounds!: EntityPolygon;
 	planet!: EntityCircle;
 	rock!: EntityCircle;
@@ -323,7 +303,7 @@ export class Stage extends BaseStage {
 					// handle collision between moon and anything molten
 					const moltenIsRock = _molten === _rock;
 					const moltenIsMoonFragment = _molten === _moonFragment;
-					const newMoonFragments = this.frag(_moon, collisions, 12) as EntityCircle[];
+					const newMoonFragments = frag(_moon, collisions, 12) as EntityCircle[];
 					(moonFragmentsToAdd || (moonFragmentsToAdd = [])).push(...newMoonFragments);
 					this.removeBody(_moon);
 					// TODO this logic is very hardcoded -- ideally it's all simulated,
@@ -350,7 +330,7 @@ export class Stage extends BaseStage {
 					// handle collision between rock and planet
 					this.removeBody(_rock);
 					this.removeBody(_planet);
-					const newPlanetFragments = this.frag(_planet, collisions, 42) as EntityCircle[];
+					const newPlanetFragments = frag(_planet, collisions, 42) as EntityCircle[];
 					(planetFragmentsToAdd || (planetFragmentsToAdd = [])).push(...newPlanetFragments);
 					for (const p of newPlanetFragments) {
 						p.speed = _rock.speed * 0.2 * randomFloat(0.5, 1.0);
@@ -358,7 +338,7 @@ export class Stage extends BaseStage {
 						p.directionY = randomFloat(-_rock.directionY / 2, _rock.directionY / 2);
 						p.color = COLOR_MOLTEN;
 					}
-					const newRockFragments = this.frag(_rock, collisions, 210) as EntityCircle[];
+					const newRockFragments = frag(_rock, collisions, 210) as EntityCircle[];
 					(rockFragmentsToAdd || (rockFragmentsToAdd = [])).push(...newRockFragments);
 					for (const r of newRockFragments) {
 						r.speed = randomFloat(_rock.speed / 2, _rock.speed * 2);

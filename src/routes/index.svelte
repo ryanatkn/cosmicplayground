@@ -30,6 +30,8 @@
 		rescuedAnyCrew,
 		Stage,
 		type StarshipStageScores,
+		rescuedAllCrew,
+		rescuedAllCrewAtOnce,
 	} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
 
@@ -43,7 +45,6 @@
 
 	$: ({width: screenWidth, height: screenHeight} = $dimensions);
 
-	$: cameraUnlocked = savedScoresRescuedAllMoons;
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
 	// TODO should we pass through plain numbers or a dimensions object?
@@ -133,18 +134,14 @@
 			return undefined;
 		}
 	};
+	// TODO refactor these into a single store that handles saving/loading
 	let scores: StarshipStageScores | undefined;
 	let savedScores = loadScores();
-	$: savedScoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
-	$: scoresRescuedAnyCrew = !!scores && rescuedAnyCrew(scores);
-	$: savedScoresRescuedAllMoons = !!savedScores && rescuedAllMoons(savedScores);
-	$: rescuredAllCrew = savedScores?.crew.every(Boolean);
-	$: rescuredAllCrewAtOnce =
-		savedScores && savedScores.crew.length === savedScores.crewRescuedAtOnceCount;
-	// TODO use these
-	// $: scoresRescuedAllMoons = !!scores && rescuedAllMoons(scores);
-	// $: savedScoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
-	// $: scoresRescuedAllCrew = !!scores && rescuedAllCrew(scores);
+	// TODO probably create a single scores object from this
+	$: scoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
+	$: scoresRescuedAllMoons = !!savedScores && rescuedAllMoons(savedScores);
+	$: scoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
+	$: scoresRescuedAllCrewAtOnce = !!savedScores && rescuedAllCrewAtOnce(savedScores);
 
 	let finished = false;
 	const finish = () => {
@@ -165,11 +162,13 @@
 
 	const BOOSTER = '🙌';
 	let enableBooster = true;
-	$: boosterUnlocked = savedScoresRescuedAnyCrew;
+	$: boosterUnlocked = scoresRescuedAnyCrew;
 	$: boosterEnabled = boosterUnlocked && enableBooster;
 	const toggleBooster = () => {
 		enableBooster = !enableBooster;
 	};
+
+	$: cameraUnlocked = scoresRescuedAllMoons;
 
 	let starshipHeight: number;
 
@@ -282,16 +281,18 @@
 		</header>
 		{#if savedScores}
 			<PortalPreview
-				onClick={rescuredAllCrew
+				onClick={scoresRescuedAllCrew
 					? undefined
 					: async () => {
 							if (!starshipMode) {
 								await enterStarshipMode();
 							}
 					  }}
-				href={rescuredAllCrew ? '/starship' : undefined}
+				href={scoresRescuedAllCrew ? '/starship' : undefined}
 				><div
-					style:font-size={rescuredAllCrewAtOnce ? 'var(--font_size_xl)' : 'var(--font_size_lg)'}
+					style:font-size={scoresRescuedAllCrewAtOnce
+						? 'var(--font_size_xl)'
+						: 'var(--font_size_lg)'}
 				>
 					{#each savedScores.crew as crew, index}{#if crew}{MOON_ICONS[index]}{:else}❔{/if}{/each}
 				</div></PortalPreview
@@ -312,35 +313,37 @@
 				{/each}
 			</ul>
 		{/each}
-		<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
-			<PendingAnimation
-				running={$settings.showMorePortals && $clock.running}
-				let:index
-				--animation_duration="var(--duration_6)"
-			>
-				{#if index === 0}
-					<img
-						src="/assets/earth/night_lights_1.png"
-						alt="night lights of Africa, Europe, and the Middle East"
-						style="width: 100px; height: 100px;"
-						class="mr-2"
-					/>
-				{:else if index === 1}
-					<img
-						src="/assets/earth/night_lights_2.png"
-						alt="night lights of the Americas"
-						style="width: 100px; height: 100px;"
-						class="mr-2"
-					/>
-				{:else}
-					<img
-						src="/assets/earth/night_lights_3.png"
-						alt="night lights of Asia and Australia"
-						style="width: 100px; height: 100px;"
-					/>
-				{/if}
-			</PendingAnimation>
-		</PortalPreview>
+		{#if scoresRescuedAllCrew}
+			<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
+				<PendingAnimation
+					running={$settings.showMorePortals && $clock.running}
+					let:index
+					--animation_duration="var(--duration_6)"
+				>
+					{#if index === 0}
+						<img
+							src="/assets/earth/night_lights_1.png"
+							alt="night lights of Africa, Europe, and the Middle East"
+							style="width: 100px; height: 100px;"
+							class="mr-2"
+						/>
+					{:else if index === 1}
+						<img
+							src="/assets/earth/night_lights_2.png"
+							alt="night lights of the Americas"
+							style="width: 100px; height: 100px;"
+							class="mr-2"
+						/>
+					{:else}
+						<img
+							src="/assets/earth/night_lights_3.png"
+							alt="night lights of Asia and Australia"
+							style="width: 100px; height: 100px;"
+						/>
+					{/if}
+				</PendingAnimation>
+			</PortalPreview>
+		{/if}
 		{#if $settings.showMorePortals}
 			{#each secondaryPortals as portals}
 				<ul class="portals">
