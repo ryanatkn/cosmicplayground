@@ -220,7 +220,10 @@
 		} else if (e.key === 'F2') {
 			e.stopPropagation();
 			e.preventDefault();
-			if (starshipMode) {
+			if (e.ctrlKey) {
+				toggleBooster();
+				if (!starshipMode) await scrollDown();
+			} else if (starshipMode) {
 				clock.pause();
 				finish();
 			} else {
