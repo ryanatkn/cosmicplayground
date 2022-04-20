@@ -21,6 +21,7 @@
 	export let worldWidth: number;
 	export let worldHeight: number;
 	export let boosterEnabled = false;
+	export let cameraUnlocked = false;
 	export let starshipX = 0;
 	export let starshipY = 0;
 	export let currentStage: Stage | null;
@@ -64,7 +65,9 @@
 		starshipX = stage.player.x;
 		starshipY = stage.player.y;
 
-		stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
+		stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED; // TODO refactor to be evented
+
+		stage.freezeCamera = !cameraUnlocked; // TODO refactor to be evented
 
 		// TODO ?
 		starshipAngle = updateAngle(starshipAngle, stage.player.directionX, stage.player.directionY);
@@ -73,7 +76,7 @@
 		}
 		starshipShieldRadius = stage.player.radius;
 
-		// TODO refactor - events?
+		// TODO refactor to be evented
 		const nextScores = toScores(stage);
 		if (!scores || !dequal(scores, nextScores)) {
 			scores = nextScores;
@@ -101,8 +104,6 @@
 		worldHeight: number,
 	): string => {
 		if (viewWidth === worldWidth && viewHeight === worldHeight) return '';
-		// TODO this is a hack to make it not stretch -- it should fill the screen
-		// but I don't think this is where that'll be fixed
 		const scaleX = viewWidth / worldWidth;
 		const scaleY = viewHeight / worldHeight;
 		const scale = Math.min(scaleX, scaleY);
@@ -111,7 +112,13 @@
 </script>
 
 <div class="view" style:transform>
-	<World width={worldWidth} height={worldHeight} stages={[Stage]} bind:activeStageState />
+	<World
+		width={worldWidth}
+		height={worldHeight}
+		freezeCamera={!cameraUnlocked}
+		stages={[Stage]}
+		bind:activeStageState
+	/>
 </div>
 {#if currentStage}
 	<InteractiveSurface

@@ -12,7 +12,12 @@ import type {
 import type {Renderer} from '$lib/flat/renderer';
 import {Simulation} from '$lib/flat/Simulation';
 import {updateDirection} from '$lib/flat/Controller';
-import {type CameraStore, toCameraStore, type CameraState} from '$lib/flat/camera';
+import {
+	type CameraStore,
+	toCameraStore,
+	type CameraState,
+	SPRING_OPTS_HARD,
+} from '$lib/flat/camera';
 import {collideRigidBodies} from '$lib/flat/collideRigidBodies';
 
 // TODO use the CSS values (generate a CSS vars file?)
@@ -26,7 +31,7 @@ export const COLOR_PLAYER = 'violet';
 export const COLOR_MOLTEN = 'red';
 
 // TODO maybe use some of these instead: '🦓' '🐼' '🐭' '🦊' '🦄'
-export const FRIEND_ICONS = ['🐹', '🐸', '🐰', '🐶', '🐱'];
+export const MOON_ICONS = ['🐹', '🐸', '🐰', '🐶', '🐱'];
 
 export const PLAYER_SPEED = 0.2;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
@@ -49,41 +54,42 @@ const meta: StageMeta = {
 // }
 
 export interface StarshipStageScores {
-	crew: boolean[]; // mirrors `FRIEND_ICONS`
-	crewSavedAtOnceCount: number;
+	crew: boolean[]; // mirrors `MOON_ICONS`
+	crewRescuedAtOnceCount: number;
 }
 export const toDefaultScores = (): StarshipStageScores => ({
-	crew: FRIEND_ICONS.map(() => false),
-	crewSavedAtOnceCount: 0,
+	crew: MOON_ICONS.map(() => false),
+	crewRescuedAtOnceCount: 0,
 });
 export const rescuedAnyCrew = (scores: StarshipStageScores): boolean => scores.crew.some(Boolean);
 export const rescuedAllCrew = (scores: StarshipStageScores): boolean => scores.crew.every(Boolean);
-export const rescuedAllFriends = (scores: StarshipStageScores): boolean =>
-	scores.crew.slice(1).every(Boolean); // TODO do we need this function?
+export const rescuedAllMoons = (scores: StarshipStageScores): boolean =>
+	scores.crew.slice(1).every(Boolean);
 export const mergeScores = (
 	newScores: StarshipStageScores | undefined,
 	existingScores: StarshipStageScores | undefined,
 ): StarshipStageScores => {
 	const finalScores = existingScores ? klona(existingScores) : toDefaultScores();
-	// TODO use a generic merge algorithm instead?
 	if (!newScores) return finalScores;
 	for (let i = 0; i < newScores.crew.length; i++) {
 		if (newScores.crew[i]) finalScores.crew[i] = true;
 	}
-	finalScores.crewSavedAtOnceCount = Math.max(
-		toCrewSavedCount(newScores.crew),
-		finalScores.crewSavedAtOnceCount,
+	// TODO would be cool to track the rescued combos and give special messages/behaviors/achievements,
+	// for example could show what the player achieved with each combination of enhancements (speed, unlock, push)
+	finalScores.crewRescuedAtOnceCount = Math.max(
+		toCrewRescuedCount(newScores.crew),
+		finalScores.crewRescuedAtOnceCount,
 	);
 	return finalScores;
 };
 export const toScores = (stage: Stage): StarshipStageScores => {
-	const crew = [!stage.planet.dead, ...stage.friendsArray.map((friend) => !friend.dead)];
+	const crew = [!stage.planet.dead, ...stage.moonsArray.map((moon) => !moon.dead)];
 	return {
 		crew,
-		crewSavedAtOnceCount: toCrewSavedCount(crew),
+		crewRescuedAtOnceCount: toCrewRescuedCount(crew),
 	};
 };
-const toCrewSavedCount = (crew: boolean[]): number => crew.filter(Boolean).length;
+const toCrewRescuedCount = (crew: boolean[]): number => crew.filter(Boolean).length;
 
 export class Stage extends BaseStage {
 	static override meta = meta;
@@ -99,32 +105,40 @@ export class Stage extends BaseStage {
 	bounds!: EntityPolygon;
 	planet!: EntityCircle;
 	rock!: EntityCircle;
-	readonly friends: Set<EntityCircle> = new Set();
-	readonly friendsArray: EntityCircle[] = []; // TODO hack to keep the current view code -- see in 2 places
-	readonly friendFragments: Set<EntityCircle> = new Set();
+	readonly moons: Set<EntityCircle> = new Set();
+	readonly moonsArray: EntityCircle[] = []; // TODO hack to keep the current view code -- see in 2 places
+	readonly moonFragments: Set<EntityCircle> = new Set();
 	readonly planetFragments: Set<EntityCircle> = new Set();
 	readonly rockFragments: Set<EntityCircle> = new Set();
 
 	camera!: CameraStore;
 	$camera!: CameraState;
 	freezeCamera = true; // is the camera fixed in place?
-	lockCamera = true; // is the player stuck inside the bounds of the camera?
 
 	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management?
 
-	// TODO not calling `setup` first is error-prone
-	async setup({width, height}: StageSetupOptions): Promise<void> {
+	async setup({width, height, freezeCamera}: StageSetupOptions): Promise<void> {
+		this.freezeCamera = freezeCamera;
+
+		const playerX = 850;
+		const playerY = 502;
+
 		// TODO refactor
 		if (this.ready) return;
 		this.ready = true;
 
-		this.camera = toCameraStore({width, height, x: width / 2, y: height / 2});
+		this.camera = toCameraStore({
+			width,
+			height,
+			x: freezeCamera ? width / 2 : playerX,
+			y: freezeCamera ? height / 2 : playerY,
+		});
 		// TODO this is a hint this should be a Svelte component ...
 		this.subscriptions.push(this.camera.subscribe(($camera) => (this.$camera = $camera)));
 
 		const collisions = (this.collisions = new Collisions());
 		const sim = (this.sim = new Simulation(collisions));
-		const {controller, friends} = this;
+		const {controller, moons} = this;
 		const {bodies} = sim;
 
 		// TODO instead of casting we could pass `EntityPolygon` as type param right?
@@ -132,7 +146,11 @@ export class Stage extends BaseStage {
 
 		console.log('setup stage, sim, controller', sim, controller);
 		// create the controllable player
-		const player = (this.player = collisions.createCircle(850, 502, PLAYER_RADIUS) as EntityCircle);
+		const player = (this.player = collisions.createCircle(
+			playerX,
+			playerY,
+			PLAYER_RADIUS,
+		) as EntityCircle);
 		player.speed = PLAYER_SPEED;
 		player.directionX = 0;
 		player.directionY = 0;
@@ -146,6 +164,7 @@ export class Stage extends BaseStage {
 			[1, 1],
 			[0, 1],
 		]) as EntityPolygon);
+		bounds.disableSimulation = true;
 		bounds.invisible = true;
 		bounds.scale_x = width;
 		bounds.scale_y = height;
@@ -159,7 +178,7 @@ export class Stage extends BaseStage {
 			-1750 + planetRadius / 2,
 			planetRadius,
 		) as EntityCircle);
-		planet.text = FRIEND_ICONS[0];
+		planet.text = MOON_ICONS[0];
 		planet.textOffsetX = 850;
 		planet.textOffsetY = 1150;
 		planet.font = '200px sans-serif';
@@ -182,48 +201,48 @@ export class Stage extends BaseStage {
 		rock.color = COLOR_PLAIN;
 		bodies.push(rock);
 
-		let friend = collisions.createCircle(1660, 1012, 43) as EntityCircle;
-		friend.text = FRIEND_ICONS[1];
-		friend.font = toIconFont(friend.radius);
-		friend.speed = 0.01;
-		friend.directionX = 0;
-		friend.directionY = 0;
-		friend.color = COLOR_EXIT;
-		bodies.push(friend);
-		friends.add(friend);
+		let moon = collisions.createCircle(1660, 1012, 43) as EntityCircle;
+		moon.text = MOON_ICONS[1];
+		moon.font = toIconFont(moon.radius);
+		moon.speed = 0.01;
+		moon.directionX = 0;
+		moon.directionY = 0;
+		moon.color = COLOR_EXIT;
+		bodies.push(moon);
+		moons.add(moon);
 
-		friend = collisions.createCircle(1420, 1104, 72) as EntityCircle;
-		friend.text = FRIEND_ICONS[2];
-		friend.font = toIconFont(friend.radius);
-		friend.speed = 0.01;
-		friend.directionX = 0;
-		friend.directionY = 0;
-		friend.color = COLOR_EXIT;
-		bodies.push(friend);
-		friends.add(friend);
+		moon = collisions.createCircle(1420, 1104, 72) as EntityCircle;
+		moon.text = MOON_ICONS[2];
+		moon.font = toIconFont(moon.radius);
+		moon.speed = 0.01;
+		moon.directionX = 0;
+		moon.directionY = 0;
+		moon.color = COLOR_EXIT;
+		bodies.push(moon);
+		moons.add(moon);
 
-		friend = collisions.createCircle(2010, 872, 19) as EntityCircle;
-		friend.text = FRIEND_ICONS[3];
-		friend.font = toIconFont(friend.radius);
-		friend.speed = 0.01;
-		friend.directionX = 0;
-		friend.directionY = 0;
-		friend.color = COLOR_EXIT;
-		bodies.push(friend);
-		friends.add(friend);
+		moon = collisions.createCircle(2010, 872, 19) as EntityCircle;
+		moon.text = MOON_ICONS[3];
+		moon.font = toIconFont(moon.radius);
+		moon.speed = 0.01;
+		moon.directionX = 0;
+		moon.directionY = 0;
+		moon.color = COLOR_EXIT;
+		bodies.push(moon);
+		moons.add(moon);
 
-		friend = collisions.createCircle(1870, 776, 27) as EntityCircle;
-		friend.text = FRIEND_ICONS[4];
-		friend.font = toIconFont(friend.radius);
-		friend.speed = 0.01;
-		friend.directionX = 0;
-		friend.directionY = 0;
-		friend.color = COLOR_EXIT;
-		bodies.push(friend);
-		friends.add(friend);
+		moon = collisions.createCircle(1870, 776, 27) as EntityCircle;
+		moon.text = MOON_ICONS[4];
+		moon.font = toIconFont(moon.radius);
+		moon.speed = 0.01;
+		moon.directionX = 0;
+		moon.directionY = 0;
+		moon.color = COLOR_EXIT;
+		bodies.push(moon);
+		moons.add(moon);
 
 		// TODO hack to keep the current view code -- see in 2 places
-		this.friendsArray.push(...friends);
+		this.moonsArray.push(...moons);
 	}
 
 	addBodies(bodies: EntityBody[]): void {
@@ -248,13 +267,12 @@ export class Stage extends BaseStage {
 		const {
 			collisions,
 			controller,
-			bounds,
 			player,
 			planet,
 			rock,
-			friends,
+			moons,
 			planetFragments,
-			friendFragments,
+			moonFragments,
 			rockFragments,
 			$camera,
 		} = this;
@@ -267,7 +285,7 @@ export class Stage extends BaseStage {
 		// TODO the `as any` is needed because flow control doesn't account for the callbacks setting this
 		let rockFragmentsToAdd: EntityCircle[] | null = null as any;
 		let planetFragmentsToAdd: EntityCircle[] | null = null as any;
-		let friendFragmentsToAdd: EntityCircle[] | null = null as any;
+		let moonFragmentsToAdd: EntityCircle[] | null = null as any;
 
 		// gives stages full control over the sim `update`
 		this.sim.update(
@@ -279,9 +297,9 @@ export class Stage extends BaseStage {
 				// TODO refactor into a system
 				const _rock = rock === bodyA ? bodyA : rock === bodyB ? bodyB : null;
 				const _planet = planet === bodyA ? bodyA : planet === bodyB ? bodyB : null;
-				const _friend = friends.has(bodyA as EntityCircle)
+				const _moon = moons.has(bodyA as EntityCircle)
 					? bodyA
-					: friends.has(bodyB as EntityCircle)
+					: moons.has(bodyB as EntityCircle)
 					? bodyB
 					: null;
 				const _rockFragment = rockFragments.has(bodyA as EntityCircle)
@@ -294,36 +312,36 @@ export class Stage extends BaseStage {
 					: planetFragments.has(bodyB as EntityCircle)
 					? bodyB
 					: null;
-				const _friendFragment = friendFragments.has(bodyA as EntityCircle)
+				const _moonFragment = moonFragments.has(bodyA as EntityCircle)
 					? bodyA
-					: friendFragments.has(bodyB as EntityCircle)
+					: moonFragments.has(bodyB as EntityCircle)
 					? bodyB
 					: null;
 
-				const _molten = _rock || _rockFragment || _planetFragment || _friendFragment;
-				if (_friend && _molten) {
-					// handle collision between friend and anything molten
+				const _molten = _rock || _rockFragment || _planetFragment || _moonFragment;
+				if (_moon && _molten) {
+					// handle collision between moon and anything molten
 					const moltenIsRock = _molten === _rock;
-					const moltenIsFriendFragment = _molten === _friendFragment;
-					const newFriendFragments = this.frag(_friend, collisions, 12) as EntityCircle[];
-					(friendFragmentsToAdd || (friendFragmentsToAdd = [])).push(...newFriendFragments);
-					this.removeBody(_friend);
+					const moltenIsMoonFragment = _molten === _moonFragment;
+					const newMoonFragments = this.frag(_moon, collisions, 12) as EntityCircle[];
+					(moonFragmentsToAdd || (moonFragmentsToAdd = [])).push(...newMoonFragments);
+					this.removeBody(_moon);
 					// TODO this logic is very hardcoded -- ideally it's all simulated,
 					// but we'd need to ensure the gameplay still works, which may be tricky or impossible
-					for (const f of newFriendFragments) {
+					for (const f of newMoonFragments) {
 						f.speed = moltenIsRock
 							? randomFloat(_molten.speed * 1.2, _molten.speed * 2.44)
-							: moltenIsFriendFragment
+							: moltenIsMoonFragment
 							? randomFloat(_molten.speed / 2, _molten.speed * 2)
 							: randomFloat(_molten.speed / 8, _molten.speed);
 						f.directionX = moltenIsRock
 							? randomFloat(_molten.directionX / 2, _molten.directionX * 2)
-							: moltenIsFriendFragment
+							: moltenIsMoonFragment
 							? randomFloat(_molten.directionX / 2, _molten.directionX * 2)
 							: randomFloat(-_molten.directionX / 2, _molten.directionX);
 						f.directionY = moltenIsRock
 							? randomFloat(_molten.directionY / 2, _molten.directionY * 2)
-							: moltenIsFriendFragment
+							: moltenIsMoonFragment
 							? randomFloat(_molten.directionY / 2, _molten.directionY * 2)
 							: randomFloat(-_molten.directionY / 2, _molten.directionY);
 						f.color = COLOR_MOLTEN;
@@ -347,24 +365,26 @@ export class Stage extends BaseStage {
 						r.directionX = randomFloat(-_rock.directionX * 2, _rock.directionX * 0.25);
 						r.directionY = randomFloat(-_rock.directionY * 2, _rock.directionY * 0.25);
 					}
-				} else if (_friendFragment && (_planet || _planetFragment || _rockFragment)) {
-					// TODO this logic is very similar to _molten but need to avoid double counting the same _friendFragment
-					// handle collision between friend fragment and anything molten except other friend fragments
-					this.removeBody(_friendFragment);
+				} else if (_moonFragment && (_planet || _planetFragment || _rockFragment)) {
+					// TODO this logic is very similar to _molten but need to avoid double counting the same _moonFragment
+					// handle collision between moon fragment and anything molten except other moon fragments
+					this.removeBody(_moonFragment);
 				}
 			},
 			(bodyA, bodyB) => {
-				if (bodyA.dead || bodyB.dead) return false;
-				if (bodyA === bounds || bodyB === bounds) return false; // TODO hmm
+				if (bodyA.dead || bodyB.dead || bodyA.disableSimulation || bodyB.disableSimulation) {
+					return false;
+				}
+
 				// TODO make a system for declaring collision groups -- bitmask?
 				const _player = player === bodyA ? bodyA : player === bodyB ? bodyB : null;
 				const _planet = planet === bodyA ? bodyA : planet === bodyB ? bodyB : null;
-				const _friend = friends.has(bodyA as EntityCircle)
+				const _moon = moons.has(bodyA as EntityCircle)
 					? bodyA
-					: friends.has(bodyB as EntityCircle)
+					: moons.has(bodyB as EntityCircle)
 					? bodyB
 					: null;
-				if (_player && (_planet || _friend)) {
+				if (_player && (_planet || _moon)) {
 					return false; // player doesn't collide with these
 				}
 				return true;
@@ -372,31 +392,24 @@ export class Stage extends BaseStage {
 		);
 
 		if (this.freezeCamera) {
-			if (this.lockCamera) {
-				// TODO make this generic
-				// TODO I tried to use an inverted collision test with `this.innerPlayerBounds`
-				// but without a collision result,
-				// we'll need a more complex algorithm to "contain" items inside others
-				const clampedRadius = player.radius + 1; // avoid the minor visual quirk of the border being rendered offscreen
-				const xMin = $camera.left + clampedRadius;
-				const xMax = $camera.right - clampedRadius;
-				if (player.x < xMin) {
-					player.x = xMin;
-				} else if (player.x > xMax) {
-					player.x = xMax;
-				}
-				const yMin = $camera.top + clampedRadius;
-				const yMax = $camera.bottom - clampedRadius;
-				if (player.y < yMin) {
-					player.y = yMin;
-				} else if (player.y > yMax) {
-					player.y = yMax;
-				}
-			} else if (!bounds.collides(player)) {
-				// detect if player touches bounds for the first time, and unfreeze if so
-				// TODO instead of the bounds, this should use `this.playerInnerBounds`,
-				// which is related to clamping, but I don't think we gain anything by using it there, only here
-				this.freezeCamera = false;
+			// TODO make this generic
+			// TODO I tried to use an inverted collision test with `this.innerPlayerBounds`
+			// but without a collision result,
+			// we'll need a more complex algorithm to "contain" items inside others
+			const clampedRadius = player.radius + 1; // avoid the minor visual quirk of the border being rendered offscreen
+			const xMin = $camera.left + clampedRadius;
+			const xMax = $camera.right - clampedRadius;
+			if (player.x < xMin) {
+				player.x = xMin;
+			} else if (player.x > xMax) {
+				player.x = xMax;
+			}
+			const yMin = $camera.top + clampedRadius;
+			const yMax = $camera.bottom - clampedRadius;
+			if (player.y < yMin) {
+				player.y = yMin;
+			} else if (player.y > yMax) {
+				player.y = yMax;
 			}
 		}
 
@@ -410,9 +423,9 @@ export class Stage extends BaseStage {
 			for (const p of planetFragmentsToAdd) planetFragments.add(p);
 			this.addBodies(planetFragmentsToAdd);
 		}
-		if (friendFragmentsToAdd) {
-			for (const f of friendFragmentsToAdd) friendFragments.add(f);
-			this.addBodies(friendFragmentsToAdd);
+		if (moonFragmentsToAdd) {
+			for (const f of moonFragmentsToAdd) moonFragments.add(f);
+			this.addBodies(moonFragmentsToAdd);
 		}
 	}
 
@@ -424,8 +437,8 @@ export class Stage extends BaseStage {
 		// renderer.render(this.rockFragments, this.$camera);
 		// renderer.render([this.planet], this.$camera);
 		// renderer.render(this.planetFragments, this.$camera);
-		// renderer.render(this.friends, this.$camera);
-		// renderer.render(this.friendFragments, this.$camera);
+		// renderer.render(this.moons, this.$camera);
+		// renderer.render(this.moonFragments, this.$camera);
 		// renderer.render([this.player], this.$camera);
 	}
 
@@ -433,5 +446,6 @@ export class Stage extends BaseStage {
 		this.bounds.scale_x = width;
 		this.bounds.scale_y = height;
 		this.camera.setDimensions(width, height);
+		if (this.freezeCamera) void this.camera.setPosition(width / 2, height / 2, SPRING_OPTS_HARD);
 	}
 }

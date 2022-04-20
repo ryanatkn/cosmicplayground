@@ -8,6 +8,7 @@ export interface Entity extends Body {
 	color: string;
 	invisible?: boolean;
 	dead?: boolean;
+	disableSimulation?: boolean;
 	text?: string;
 	textOffsetX?: number;
 	textOffsetY?: number;

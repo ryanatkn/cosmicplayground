@@ -20,8 +20,10 @@ export interface CameraState extends BaseCameraState {
 export interface CameraStore extends Readable<CameraState> {
 	zoom: (amount: number) => void;
 	setPosition: (x: number, y: number, opts?: SpringUpdateOpts | undefined) => Promise<void>;
-	setDimensions: (width: number, height: number) => void;
+	setDimensions: (width: number, height: number, opts?: SpringUpdateOpts) => void;
 }
+
+export const SPRING_OPTS_HARD = {hard: true};
 
 // TODO these aren't exported by Svelte, maybe try a PR?
 type SpringOpts = Exclude<Parameters<typeof spring>[1], undefined>;
@@ -65,7 +67,8 @@ export const toCameraStore = (
 			console.log(`zoom amount`, amount);
 		},
 		setPosition: (x, y, opts) => state.update(($camera) => ({...$camera, x, y}), opts),
-		setDimensions: (width, height) => state.update(($camera) => ({...$camera, width, height})),
+		setDimensions: (width, height, opts = SPRING_OPTS_HARD) =>
+			state.update(($camera) => ({...$camera, width, height}), opts),
 	};
 
 	return store;

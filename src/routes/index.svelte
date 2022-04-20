@@ -24,9 +24,9 @@
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clockStore';
 	import {
-		FRIEND_ICONS,
+		MOON_ICONS,
 		mergeScores,
-		rescuedAllFriends,
+		rescuedAllMoons,
 		rescuedAnyCrew,
 		Stage,
 		type StarshipStageScores,
@@ -43,7 +43,7 @@
 
 	$: ({width: screenWidth, height: screenHeight} = $dimensions);
 
-	$: viewUnlocked = savedScoresRescuedAllFriends;
+	$: cameraUnlocked = savedScoresRescuedAllMoons;
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
 	// TODO should we pass through plain numbers or a dimensions object?
@@ -53,32 +53,37 @@
 	let worldWidth: number;
 	let worldHeight: number;
 	$: viewScale = viewWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
-	$: if (viewUnlocked) {
-		// TODO expand view dimensions to fit screen when unlocked
+	// TODO make this a helper to clarify the deps `updateDimensions`
+	$: if (cameraUnlocked) {
 		// Expand the world dimensions to fit the screen dimensions.
-		// const aspectRatio = screenDimensions.width / screenDimensions.height; // TODO cache on dimensions?
+		// It needs to match the screen aspect ratio and
+		// cover the entire default world dimensions.
 		viewWidth = screenWidth;
 		viewHeight = screenHeight;
-		console.log(`viewHeight!!!!!!!!`, viewHeight);
-		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
-		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
+		const worldMinWidth = DEFAULT_WORLD_DIMENSIONS.width;
+		const worldMinHeight = DEFAULT_WORLD_DIMENSIONS.height;
+		const worldWidthRatio = worldMinWidth / viewWidth;
+		const worldHeightRatio = worldMinHeight / viewHeight;
+		if (worldHeightRatio > 1 && worldHeightRatio > worldWidthRatio) {
+			worldHeight = worldMinHeight;
+			worldWidth = (viewWidth * worldHeightRatio) | 0;
+		} else if (worldWidthRatio > 1) {
+			worldWidth = worldMinWidth;
+			worldHeight = (viewHeight * worldWidthRatio) | 0;
+		} else {
+			worldWidth = viewWidth;
+			worldHeight = viewHeight;
+		}
 	} else {
-		// TODO refactor with above and other things, should be able to get clear abstractions
 		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
 		const worldAspectRatio = worldWidth / worldHeight;
 		const screenAspectRatio = screenWidth / screenHeight;
-		viewWidth =
-			worldAspectRatio < screenAspectRatio
-				? (screenWidth * (worldAspectRatio / screenAspectRatio)) | 0
-				: screenWidth;
-		viewHeight =
-			worldAspectRatio > screenAspectRatio
-				? (screenHeight * (screenAspectRatio / worldAspectRatio)) | 0
-				: screenHeight;
+		viewWidth = (screenWidth * Math.min(1, worldAspectRatio / screenAspectRatio)) | 0;
+		viewHeight = (screenHeight * Math.min(1, screenAspectRatio / worldAspectRatio)) | 0;
 	}
 
-	const starshipPortal = Symbol(); // expected be the only symbol in `primaryPortals`
+	const starshipPortal = Symbol();
 
 	const primaryPortals = [
 		[soggyPlanetPortal],
@@ -132,12 +137,12 @@
 	let savedScores = loadScores();
 	$: savedScoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
 	$: scoresRescuedAnyCrew = !!scores && rescuedAnyCrew(scores);
-	$: savedScoresRescuedAllFriends = !!savedScores && rescuedAllFriends(savedScores);
-	$: savedAllCrew = savedScores?.crew.every(Boolean);
-	$: savedAllCrewAtOnce =
-		savedScores && savedScores.crew.length === savedScores.crewSavedAtOnceCount;
+	$: savedScoresRescuedAllMoons = !!savedScores && rescuedAllMoons(savedScores);
+	$: rescuredAllCrew = savedScores?.crew.every(Boolean);
+	$: rescuredAllCrewAtOnce =
+		savedScores && savedScores.crew.length === savedScores.crewRescuedAtOnceCount;
 	// TODO use these
-	// $: scoresRescuedAllFriends = !!scores && rescuedAllFriends(scores);
+	// $: scoresRescuedAllMoons = !!scores && rescuedAllMoons(scores);
 	// $: savedScoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
 	// $: scoresRescuedAllCrew = !!scores && rescuedAllCrew(scores);
 
@@ -277,18 +282,18 @@
 		</header>
 		{#if savedScores}
 			<PortalPreview
-				onClick={savedAllCrew
+				onClick={rescuredAllCrew
 					? undefined
 					: async () => {
 							if (!starshipMode) {
 								await enterStarshipMode();
 							}
 					  }}
-				href={savedAllCrew ? '/starship' : undefined}
-				><div style:font-size={savedAllCrewAtOnce ? 'var(--font_size_xl)' : 'var(--font_size_lg)'}>
-					{#each savedScores.crew as crew, index}{#if crew}{FRIEND_ICONS[
-								index
-							]}{:else}❔{/if}{/each}
+				href={rescuredAllCrew ? '/starship' : undefined}
+				><div
+					style:font-size={rescuredAllCrewAtOnce ? 'var(--font_size_xl)' : 'var(--font_size_lg)'}
+				>
+					{#each savedScores.crew as crew, index}{#if crew}{MOON_ICONS[index]}{:else}❔{/if}{/each}
 				</div></PortalPreview
 			>
 		{/if}
@@ -364,6 +369,7 @@
 			{worldWidth}
 			{worldHeight}
 			{boosterEnabled}
+			{cameraUnlocked}
 			bind:starshipX
 			bind:starshipY
 			bind:starshipAngle

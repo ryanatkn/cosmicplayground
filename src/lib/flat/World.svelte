@@ -14,6 +14,7 @@
 	export let stages: StageConstructor[];
 	export let renderer = new CanvasRenderer();
 	export let controller = new Controller();
+	export let freezeCamera: boolean; // TODO hacky, probably should just be the `camera`
 
 	$: ({dirty} = renderer);
 	$: ({moving} = controller);
@@ -107,6 +108,7 @@
 			seed: Math.random(),
 			width,
 			height,
+			freezeCamera,
 		});
 		console.log('all set up!');
 		settingUp = false; // TODO refactor
