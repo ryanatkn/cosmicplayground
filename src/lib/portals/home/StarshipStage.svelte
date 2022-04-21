@@ -35,9 +35,7 @@
 
 	$: stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
 	$: stage.freezeCamera = !cameraUnlocked;
-	$: if (cameraUnlocked) {
-		void stage.camera.setPosition(starshipX, starshipY);
-	}
+	$: if (cameraUnlocked) void stage.camera.setPosition(starshipX, starshipY);
 
 	// TODO refactor
 	$: if (controller) controller.screenWidth = screenWidth;

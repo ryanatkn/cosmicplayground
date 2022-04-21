@@ -147,7 +147,7 @@
 		}
 	};
 	// TODO refactor these into a single store that handles saving/loading
-	$: scores = stage?.scores;
+	$: currentStageScores = stage?.scores;
 	let savedScores = loadScores();
 	// TODO probably create a single scores object from this
 	$: scoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
@@ -159,10 +159,8 @@
 	const finish = () => {
 		if (finished) return;
 		finished = true;
-		const finalScores = mergeScores($scores!, savedScores);
+		const finalScores = mergeScores($currentStageScores!, savedScores);
 		if (!dequal(finalScores, savedScores)) {
-			console.log(`scores changed`, finalScores);
-			console.log(`previous scores`, savedScores);
 			localStorage.setItem(SCORES_KEY, JSON.stringify(finalScores));
 			savedScores = finalScores;
 		}
@@ -403,9 +401,9 @@
 					on:click={() => exitStarshipMode()}
 					style="font-size: var(--font_size_xl3)"
 				>
-					{#if $scores && rescuedAnyCrew($scores)}{BOOSTER}{:else}↩{/if}
+					{#if $currentStageScores && rescuedAnyCrew($currentStageScores)}{BOOSTER}{:else}↩{/if}
 				</FloatingIconButton>
-				<StarshipStageScore {scores} />
+				<StarshipStageScore scores={currentStageScores} />
 			</div>
 		{/if}
 	{/if}
