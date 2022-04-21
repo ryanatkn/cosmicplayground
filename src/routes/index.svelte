@@ -246,6 +246,7 @@
 			e.stopPropagation();
 			e.preventDefault();
 			resetScores();
+			finished = false;
 		} else if (e.key === 'F4') {
 			e.stopPropagation();
 			e.preventDefault();
