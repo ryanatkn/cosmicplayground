@@ -19,17 +19,26 @@
 		margin-bottom: 7px;
 	}
 	.cosmic-kitty {
-		animation: rotate-kitty 2.5s cubic-bezier(0.77, 0, 0.18, 1) infinite alternate;
+		animation: rotate-kitty 6s cubic-bezier(0.77, 0, 0.18, 1) infinite alternate;
 	}
 	:global(.paused) .cosmic-kitty {
 		animation-play-state: paused;
 	}
 	@keyframes rotate-kitty {
 		0% {
+			transform: rotate3d(0, 0, 1, -4deg);
+		}
+		5% {
+			transform: rotate3d(0, 0, 1, -3deg);
+		}
+		35% {
 			transform: rotate3d(0, 0, 1, -2deg);
 		}
+		45% {
+			transform: rotate3d(0, 0, 1, 2deg);
+		}
 		100% {
-			transform: rotate3d(0, 0, 1, 6deg);
+			transform: rotate3d(0, 0, 1, 2deg);
 		}
 	}
 </style>
