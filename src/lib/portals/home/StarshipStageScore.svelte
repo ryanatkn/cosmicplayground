@@ -1,20 +1,12 @@
 <script lang="ts">
+	import type {Writable} from 'svelte/store';
+
 	import {MOON_ICONS, type StarshipStageScores} from '$lib/portals/home/starshipStage';
 
-	export let scores: StarshipStageScores | undefined;
+	export let scores: Writable<StarshipStageScores> | undefined;
 
-	// TODO ?
-	// 	  '🔴',
-	//   '🟠',
-	// '🟡',
-	//  '🟢',
-	//  '🔵',
-	// '🟣',
-	//  '🟤',
-	//   '⚫',
-	//     '⚪',
 	$: icons = scores
-		? scores.crew.map((f, i) => (f ? MOON_ICONS[i] : null)).filter(Boolean)
+		? $scores!.crew.map((f, i) => (f ? MOON_ICONS[i] : null)).filter(Boolean)
 		: undefined;
 	$: iconsStr = icons?.join(' ') ?? '';
 

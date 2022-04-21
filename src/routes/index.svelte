@@ -33,7 +33,6 @@
 		rescuedAllCrewAtOnce,
 	} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
-
 	import {toSongData} from '$lib/music/songs';
 	import {goto} from '$app/navigation';
 	import {pauseAudio} from '$lib/audio/playAudio';
@@ -148,7 +147,7 @@
 		}
 	};
 	// TODO refactor these into a single store that handles saving/loading
-	let scores: StarshipStageScores | undefined;
+	$: scores = stage?.scores;
 	let savedScores = loadScores();
 	// TODO probably create a single scores object from this
 	$: scoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
@@ -160,7 +159,7 @@
 	const finish = () => {
 		if (finished) return;
 		finished = true;
-		const finalScores = mergeScores(savedScores, scores);
+		const finalScores = mergeScores($scores!, savedScores);
 		if (!dequal(finalScores, savedScores)) {
 			console.log(`scores changed`, finalScores);
 			console.log(`previous scores`, savedScores);
@@ -393,7 +392,6 @@
 			bind:starshipY
 			bind:starshipAngle
 			bind:starshipShieldRadius
-			bind:scores
 			{stage}
 			exit={exitStarshipMode}
 			{finish}
@@ -405,7 +403,7 @@
 					on:click={() => exitStarshipMode()}
 					style="font-size: var(--font_size_xl3)"
 				>
-					{#if scoresRescuedAnyCrew}{BOOSTER}{:else}↩{/if}
+					{#if $scores && rescuedAnyCrew($scores)}{BOOSTER}{:else}↩{/if}
 				</FloatingIconButton>
 				<StarshipStageScore {scores} />
 			</div>

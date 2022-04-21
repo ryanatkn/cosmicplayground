@@ -1,14 +1,6 @@
 <script lang="ts">
-	import {dequal} from 'dequal/lite';
-
 	import World from '$lib/flat/World.svelte';
-	import {
-		PLAYER_SPEED,
-		PLAYER_SPEED_BOOSTED,
-		Stage,
-		toScores,
-		type StarshipStageScores,
-	} from '$lib/portals/home/starshipStage';
+	import {PLAYER_SPEED, PLAYER_SPEED_BOOSTED, Stage} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
 	import {getIdle} from '$lib/app/trackIdleState';
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
@@ -25,7 +17,6 @@
 	export let starshipY = 0;
 	export let starshipAngle = 0;
 	export let starshipShieldRadius = 0;
-	export let scores: StarshipStageScores | undefined;
 	export let finish: () => void;
 	export let exit: () => void;
 	export let stage: Stage;
@@ -70,12 +61,6 @@
 		starshipAngle = updateAngle(starshipAngle, stage.player.directionX, stage.player.directionY);
 
 		starshipShieldRadius = stage.player.radius;
-
-		// TODO BLOCK refactor to be evented
-		const nextScores = toScores(stage);
-		if (!scores || !dequal(scores, nextScores)) {
-			scores = nextScores;
-		}
 
 		// TODO refactor to be evented
 		if (stage.controller.pressingExit) {

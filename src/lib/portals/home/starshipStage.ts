@@ -1,6 +1,7 @@
 import {Collisions} from '@ryanatkn/collisions';
 import {randomFloat} from '@feltcoop/felt/util/random.js';
 import {klona} from 'klona/json';
+import {get, writable, type Writable} from 'svelte/store';
 
 import {Stage as BaseStage, type StageSetupOptions} from '$lib/flat/stage';
 import {frag, type EntityBody, type EntityCircle, type EntityPolygon} from '$lib/flat/entity';
@@ -14,6 +15,7 @@ import {
 	SPRING_OPTS_HARD,
 } from '$lib/flat/camera';
 import {collideRigidBodies} from '$lib/flat/collideRigidBodies';
+import {dequal} from 'dequal/lite';
 
 export const COLOR_DEFAULT = 'hsl(220, 100%, 70%)';
 export const COLOR_PLAIN = 'hsl(220, 20%, 70%)';
@@ -29,14 +31,11 @@ export const PLAYER_RADIUS = 100;
 
 const toIconFont = (radius: number): string => `${radius * 1.4}px sans-serif`;
 
+// TODO refactor all of these
 export interface StarshipStageScores {
 	crew: boolean[]; // mirrors `MOON_ICONS`
 	crewRescuedAtOnceCount: number;
 }
-export const toDefaultScores = (): StarshipStageScores => ({
-	crew: MOON_ICONS.map(() => false),
-	crewRescuedAtOnceCount: 0,
-});
 export const rescuedAnyCrew = (scores: StarshipStageScores): boolean => scores.crew.some(Boolean);
 export const rescuedAllCrew = (scores: StarshipStageScores): boolean => scores.crew.every(Boolean);
 export const rescuedAllMoons = (scores: StarshipStageScores): boolean =>
@@ -44,10 +43,10 @@ export const rescuedAllMoons = (scores: StarshipStageScores): boolean =>
 export const rescuedAllCrewAtOnce = (scores: StarshipStageScores): boolean =>
 	scores.crew.length === scores.crewRescuedAtOnceCount;
 export const mergeScores = (
+	existingScores: StarshipStageScores,
 	newScores: StarshipStageScores | undefined,
-	existingScores: StarshipStageScores | undefined,
 ): StarshipStageScores => {
-	const finalScores = existingScores ? klona(existingScores) : toDefaultScores();
+	const finalScores = klona(existingScores);
 	if (!newScores) return finalScores;
 	for (let i = 0; i < newScores.crew.length; i++) {
 		if (newScores.crew[i]) finalScores.crew[i] = true;
@@ -62,6 +61,7 @@ export const mergeScores = (
 };
 export const toScores = (stage: Stage): StarshipStageScores => {
 	const crew = [!stage.planet.dead, ...stage.moonsArray.map((moon) => !moon.dead)];
+	console.log(`crew`, crew);
 	return {
 		crew,
 		crewRescuedAtOnceCount: toCrewRescuedCount(crew),
@@ -84,6 +84,13 @@ export class Stage extends BaseStage {
 	readonly moonFragments: Set<EntityCircle> = new Set();
 	readonly planetFragments: Set<EntityCircle> = new Set();
 	readonly rockFragments: Set<EntityCircle> = new Set();
+
+	scores: Writable<StarshipStageScores>;
+	updateScores(): void {
+		const newScores = toScores(this);
+		if (!dequal(newScores, get(this.scores))) this.scores.set(newScores);
+		console.log(`newScores`, newScores);
+	}
 
 	camera!: CameraStore;
 	$camera!: CameraState;
@@ -217,6 +224,8 @@ export class Stage extends BaseStage {
 
 		// TODO hack to keep the current view code -- see in 2 places
 		this.moonsArray.push(...moons);
+
+		this.scores = writable(toScores(this));
 	}
 
 	addBodies(bodies: EntityBody[]): void {
@@ -261,6 +270,8 @@ export class Stage extends BaseStage {
 		let planetFragmentsToAdd: EntityCircle[] | null = null as any;
 		let moonFragmentsToAdd: EntityCircle[] | null = null as any;
 
+		let shouldUpdateScores = false;
+
 		// gives stages full control over the sim `update`
 		this.sim.update(
 			dt * 3, // TODO !!!!!!!!!!!!!!!!!!!!!!!! dont do this, triple the speeds of everything or w/e
@@ -298,6 +309,7 @@ export class Stage extends BaseStage {
 					const moltenIsRock = _molten === _rock;
 					const moltenIsMoonFragment = _molten === _moonFragment;
 					const newMoonFragments = frag(_moon, collisions, 12) as EntityCircle[];
+					shouldUpdateScores = true;
 					(moonFragmentsToAdd || (moonFragmentsToAdd = [])).push(...newMoonFragments);
 					this.removeBody(_moon);
 					// TODO this logic is very hardcoded -- ideally it's all simulated,
@@ -325,6 +337,7 @@ export class Stage extends BaseStage {
 					this.removeBody(_rock);
 					this.removeBody(_planet);
 					const newPlanetFragments = frag(_planet, collisions, 42) as EntityCircle[];
+					shouldUpdateScores = true;
 					(planetFragmentsToAdd || (planetFragmentsToAdd = [])).push(...newPlanetFragments);
 					for (const p of newPlanetFragments) {
 						p.speed = _rock.speed * 0.2 * randomFloat(0.5, 1.0);
@@ -400,6 +413,10 @@ export class Stage extends BaseStage {
 		if (moonFragmentsToAdd) {
 			for (const f of moonFragmentsToAdd) moonFragments.add(f);
 			this.addBodies(moonFragmentsToAdd);
+		}
+
+		if (shouldUpdateScores) {
+			this.updateScores();
 		}
 	}
 
