@@ -25,9 +25,12 @@ export const COLOR_MOLTEN = 'red';
 
 export const MOON_ICONS = ['🐹', '🐸', '🐰', '🐼', '🐭'];
 
-export const PLAYER_SPEED = 0.2;
+export const PLAYER_SPEED = 0.6;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
 export const PLAYER_RADIUS = 100;
+
+const MOON_SPEED = 0.03;
+const ROCK_SPEED = 0.21;
 
 const toIconFont = (radius: number): string => `${radius * 1.4}px sans-serif`;
 
@@ -174,7 +177,7 @@ export class Stage extends BaseStage {
 			1200 + rockSize / 2,
 			rockSize,
 		) as EntityCircle);
-		rock.speed = 0.07;
+		rock.speed = ROCK_SPEED;
 		rock.directionX = -1;
 		rock.directionY = -0.7;
 		rock.color = COLOR_PLAIN;
@@ -183,7 +186,7 @@ export class Stage extends BaseStage {
 		let moon = collisions.createCircle(1660, 1012, 43) as EntityCircle;
 		moon.text = MOON_ICONS[1];
 		moon.font = toIconFont(moon.radius);
-		moon.speed = 0.01;
+		moon.speed = MOON_SPEED;
 		moon.directionX = 0;
 		moon.directionY = 0;
 		moon.color = COLOR_EXIT;
@@ -193,7 +196,7 @@ export class Stage extends BaseStage {
 		moon = collisions.createCircle(1420, 1104, 72) as EntityCircle;
 		moon.text = MOON_ICONS[2];
 		moon.font = toIconFont(moon.radius);
-		moon.speed = 0.01;
+		moon.speed = MOON_SPEED;
 		moon.directionX = 0;
 		moon.directionY = 0;
 		moon.color = COLOR_EXIT;
@@ -203,7 +206,7 @@ export class Stage extends BaseStage {
 		moon = collisions.createCircle(2010, 872, 19) as EntityCircle;
 		moon.text = MOON_ICONS[3];
 		moon.font = toIconFont(moon.radius);
-		moon.speed = 0.01;
+		moon.speed = MOON_SPEED;
 		moon.directionX = 0;
 		moon.directionY = 0;
 		moon.color = COLOR_EXIT;
@@ -213,7 +216,7 @@ export class Stage extends BaseStage {
 		moon = collisions.createCircle(1870, 776, 27) as EntityCircle;
 		moon.text = MOON_ICONS[4];
 		moon.font = toIconFont(moon.radius);
-		moon.speed = 0.01;
+		moon.speed = MOON_SPEED;
 		moon.directionX = 0;
 		moon.directionY = 0;
 		moon.color = COLOR_EXIT;
@@ -272,7 +275,7 @@ export class Stage extends BaseStage {
 
 		// gives stages full control over the sim `update`
 		this.sim.update(
-			dt * 3, // TODO !!!!!!!!!!!!!!!!!!!!!!!! dont do this, triple the speeds of everything or w/e
+			dt,
 			(bodyA, bodyB, result) => {
 				collideRigidBodies(bodyA, bodyB, result);
 
