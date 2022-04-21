@@ -2,6 +2,7 @@ import type PIXI from 'pixi.js';
 import {getContext, setContext, onMount, onDestroy} from 'svelte';
 
 // TODO initialized async because of this issue: https://github.com/sveltejs/kit/issues/1650
+// TODO BLOCK looks like it's fixed: https://github.com/sveltejs/kit/pull/2804/files
 
 export class PixiApp {
 	PIXI!: typeof PIXI;

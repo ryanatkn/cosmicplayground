@@ -35,6 +35,7 @@
 	const camera = new pixi.PIXI.Container();
 	scene.addChild(camera);
 
+	$: void updateSprite(imageUrl);
 	const updateSprite = async (url: string) => {
 		if (url !== imageUrl) return;
 		const resource = pixi.app.loader.resources[url];
@@ -81,8 +82,6 @@
 		camera.scale.set(scale);
 		camera.position.set(x, y);
 	};
-
-	$: void updateSprite(imageUrl);
 
 	// TODO handle failure and initial?
 	let loadingStatus: AsyncStatus;
