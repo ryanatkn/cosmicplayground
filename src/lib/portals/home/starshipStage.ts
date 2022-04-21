@@ -61,7 +61,6 @@ export const mergeScores = (
 };
 export const toScores = (stage: Stage): StarshipStageScores => {
 	const crew = [!stage.planet.dead, ...stage.moonsArray.map((moon) => !moon.dead)];
-	console.log(`crew`, crew);
 	return {
 		crew,
 		crewRescuedAtOnceCount: toCrewRescuedCount(crew),
@@ -89,7 +88,6 @@ export class Stage extends BaseStage {
 	updateScores(): void {
 		const newScores = toScores(this);
 		if (!dequal(newScores, get(this.scores))) this.scores.set(newScores);
-		console.log(`newScores`, newScores);
 	}
 
 	camera!: CameraStore;
