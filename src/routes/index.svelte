@@ -33,7 +33,6 @@
 		rescuedAllCrewAtOnce,
 	} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
-
 	import {toSongData} from '$lib/music/songs';
 	import {goto} from '$app/navigation';
 	import {pauseAudio} from '$lib/audio/playAudio';
@@ -114,7 +113,23 @@
 	let starshipY = 0;
 	let starshipAngle = 0;
 	let starshipShieldRadius = 0;
-	let stage: Stage | undefined;
+	let stage: Stage | null = null;
+	$: {
+		destroyStage();
+		if (starshipMode) createStage();
+	}
+	const createStage = () => {
+		stage = new Stage({
+			width: worldWidth,
+			height: worldHeight,
+			freezeCamera: !cameraUnlocked,
+		});
+	};
+	const destroyStage = () => {
+		if (!stage) return;
+		stage.destroy();
+		stage = null;
+	};
 	$: camera = stage?.camera;
 	$: player = stage?.player;
 
@@ -132,7 +147,7 @@
 		}
 	};
 	// TODO refactor these into a single store that handles saving/loading
-	let scores: StarshipStageScores | undefined;
+	$: currentStageScores = stage?.scores;
 	let savedScores = loadScores();
 	// TODO probably create a single scores object from this
 	$: scoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
@@ -144,10 +159,8 @@
 	const finish = () => {
 		if (finished) return;
 		finished = true;
-		const finalScores = mergeScores(savedScores, scores);
+		const finalScores = mergeScores($currentStageScores!, savedScores);
 		if (!dequal(finalScores, savedScores)) {
-			console.log(`scores changed`, finalScores);
-			console.log(`previous scores`, savedScores);
 			localStorage.setItem(SCORES_KEY, JSON.stringify(finalScores));
 			savedScores = finalScores;
 		}
@@ -220,7 +233,10 @@
 		} else if (e.key === 'F2') {
 			e.stopPropagation();
 			e.preventDefault();
-			if (starshipMode) {
+			if (e.ctrlKey) {
+				toggleBooster();
+				if (!starshipMode) await scrollDown();
+			} else if (starshipMode) {
 				clock.pause();
 				finish();
 			} else {
@@ -230,6 +246,7 @@
 			e.stopPropagation();
 			e.preventDefault();
 			resetScores();
+			finished = false;
 		} else if (e.key === 'F4') {
 			e.stopPropagation();
 			e.preventDefault();
@@ -360,7 +377,7 @@
 			</ul>
 		{/if}
 	</nav>
-	{#if starshipMode}
+	{#if stage}
 		<StarshipStage
 			{screenWidth}
 			{screenHeight}
@@ -374,8 +391,7 @@
 			bind:starshipY
 			bind:starshipAngle
 			bind:starshipShieldRadius
-			bind:scores
-			bind:stage
+			{stage}
 			exit={exitStarshipMode}
 			{finish}
 		/>
@@ -386,9 +402,9 @@
 					on:click={() => exitStarshipMode()}
 					style="font-size: var(--font_size_xl3)"
 				>
-					{#if scoresRescuedAnyCrew}{BOOSTER}{:else}↩{/if}
+					{#if $currentStageScores && rescuedAnyCrew($currentStageScores)}{BOOSTER}{:else}↩{/if}
 				</FloatingIconButton>
-				<StarshipStageScore {scores} />
+				<StarshipStageScore scores={currentStageScores} />
 			</div>
 		{/if}
 	{/if}

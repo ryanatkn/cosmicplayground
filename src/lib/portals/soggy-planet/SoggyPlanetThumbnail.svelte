@@ -13,6 +13,8 @@
 	$: textScale = earthWidth / THUMBNAIL_WIDTH_DEFAULT;
 </script>
 
+<!-- TODO this fake sphere is unsettling... -->
+
 <!-- TODO this isn't always a button so we don't use the button element,
 but it doesn't seem quite right - is there a better pattern for a conditional parent?
 I think there are some open Svelte issues about this. (like programmatic HTML tags) -->

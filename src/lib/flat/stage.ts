@@ -1,8 +1,8 @@
-import type {Flavored, AsyncStatus} from '@feltcoop/felt';
+import type {Flavored} from '@feltcoop/felt';
 import {toRandomSeeded, type Alea} from '@feltcoop/felt/util/randomSeeded.js';
 
 import type {Simulation} from '$lib/flat/Simulation';
-import type {Controller} from '$lib/flat/Controller';
+import {Controller} from '$lib/flat/Controller';
 import type {Renderer} from '$lib/flat/renderer';
 
 export interface StageMeta {
@@ -13,6 +13,8 @@ export interface StageMeta {
 export type StageName = Flavored<string, 'StageName'>;
 
 export interface StageSetupOptions {
+	controller?: Controller;
+	random?: Alea;
 	// these are the initial dimensions that are updated via `resize`
 	width: number;
 	height: number;
@@ -29,25 +31,20 @@ export interface ExitStage {
 
 export abstract class Stage {
 	controller: Controller;
-	time = 0;
-	status: AsyncStatus = 'initial';
 	random: Alea;
 
-	// TODO options object instead of all these params
-	constructor(controller: Controller, random: Alea = toRandomSeeded()) {
-		this.controller = controller;
-		this.random = random;
+	time = 0;
+
+	constructor(options: StageSetupOptions) {
+		this.controller = options.controller || new Controller();
+		this.random = options.random || toRandomSeeded();
 	}
 
 	// TODO add some default impls
-	abstract setup(options: StageSetupOptions): Promise<void>;
-	abstract teardown(): Promise<void>; // TODO probably emit event at the end of this
+	abstract destroy(): void; // TODO emit event?
 	abstract render(renderer: Renderer): void;
 	abstract resize(width: number, height: number): void; // update the dimensions initialized in `setup`
-
-	update(dt: number): void {
-		this.time += dt;
-	}
+	abstract update(dt: number): void;
 }
 
 export interface StageCreator {
