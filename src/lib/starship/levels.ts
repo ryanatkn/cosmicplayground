@@ -1,6 +1,9 @@
 import {toImageMeta, type ImageMeta} from '$lib/app/images';
 import {type SongData, toSongData} from '$lib/music/songs';
 
+// TODO probably rename Stage to Realm or something, each Level should have a Stage,
+// and maybe rename Level so there's Level 1a and 1b etc, then what are each sublevels? Sublevels?
+
 export interface LevelData {
 	name: string;
 	title: string;

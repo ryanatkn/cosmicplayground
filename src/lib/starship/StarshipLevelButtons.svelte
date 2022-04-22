@@ -1,6 +1,6 @@
 <script lang="ts">
+	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
-
 	import {
 		levelDatas,
 		levelSequences,
@@ -21,24 +21,44 @@
 		console.log('finished playing', level.name, level.song.name);
 	};
 
-	const playLevelSequence = async (sequence: LevelSequence): Promise<void> => {
-		// First stop anything that's playing.
+	// TODO refactor these so they're props -- maybe a `LevelManager` or something
+	export let selectedLevelSequence: LevelSequence | null = null;
+	export let selectedLevel: LevelData | null = null;
+
+	const playLevelSequence = async (levelSequence: LevelSequence): Promise<void> => {
+		console.log(`playing levelSequence`, levelSequence);
+		selectedLevelSequence = levelSequence;
+		console.log(`selectedLevelSequence`, selectedLevelSequence);
+
+		pauseAudio(); // TODO hacky, fixes problem where the first song is already playing
 
 		// Play each song in sequence.
-		console.log(`sequence`, sequence);
-		console.log(`levelDatas`, levelDatas);
-		for (const levelName of sequence.sequence) {
-			await playLevelSong(levelDatas.get(levelName)!); // eslint-disable-line no-await-in-loop
+		for (const levelName of levelSequence.sequence) {
+			const level = levelDatas.get(levelName)!;
+			selectedLevel = level;
+			await playLevelSong(level); // eslint-disable-line no-await-in-loop
 		}
+		selectedLevel = null;
+		selectedLevelSequence = null;
 	};
 </script>
 
-{#each levelSequences as sequence}
-	<button type="button" on:click={() => playLevelSequence(sequence)}>{sequence.name}</button>
+{#each levelSequences as levelSequence (levelSequence.name)}
+	<button
+		type="button"
+		class:selected={levelSequence === selectedLevelSequence}
+		on:click={() => playLevelSequence(levelSequence)}>{levelSequence.name}</button
+	>
 {/each}
 
 <style>
 	button {
 		font-size: var(--font_size_lg);
+		padding: var(--spacing_xs) var(--spacing_xs);
+	}
+	/* TODO refactor to be global (there are conflicting styles in places) */
+	.selected {
+		color: var(--pending_color);
+		border-color: var(--pending_color);
 	}
 </style>

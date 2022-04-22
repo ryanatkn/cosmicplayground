@@ -17,10 +17,12 @@ export interface SongPlayState {
 // TODO this API is not fun, resources should probably be stores
 export const playSong = async (
 	songData: SongData,
+	// TODO change these to use promises using the same pattern as `ended` (or rethink `ended` being a promise?)
 	onLoading?: (song: ResourceStore<AudioResource>) => any,
 	onLoaded?: (song: ResourceStore<AudioResource>) => any,
 ): Promise<SongPlayState | undefined> => {
 	const {url} = songData;
+	// TODO is this the desired behavior? if playing already, just pause and abort?
 	let abort = false;
 	pauseAudio((resource) => {
 		if (resource.url === songData.url) abort = true;

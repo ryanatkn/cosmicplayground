@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type {LevelData} from '$lib/starship/levels';
 	import {playSong} from '$lib/music/playSong';
-	import {playingAudio} from '$lib/audio/playAudio';
 
 	export let level: LevelData;
+	export let selected: boolean;
 
 	// TODO the `playingAudio` usage isn't reactive
 	// maybe use a `mutable` map?
@@ -14,7 +14,7 @@
 		on:click={() => {
 			void playSong(level.song);
 		}}
-		class:selected={playingAudio(level.song.url)}
+		class:selected
 	>
 		<div class="title">{level.title}</div>
 	</button>
@@ -47,6 +47,7 @@
 			font-size: var(--font_size_md);
 		}
 	}
+	/* TODO refactor to be global (there are conflicting styles in places) */
 	.selected {
 		color: var(--pending_color);
 		border-color: var(--pending_color);
