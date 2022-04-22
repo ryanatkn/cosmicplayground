@@ -26,20 +26,28 @@
 	export let selectedLevel: LevelData | null = null;
 
 	const playLevelSequence = async (levelSequence: LevelSequence): Promise<void> => {
+		cancel();
+
 		console.log(`playing levelSequence`, levelSequence);
 		selectedLevelSequence = levelSequence;
-		console.log(`selectedLevelSequence`, selectedLevelSequence);
-
-		pauseAudio(); // TODO hacky, fixes problem where the first song is already playing
 
 		// Play each song in sequence.
 		for (const levelName of levelSequence.sequence) {
 			const level = levelDatas.get(levelName)!;
 			selectedLevel = level;
 			await playLevelSong(level); // eslint-disable-line no-await-in-loop
+			if (selectedLevelSequence !== levelSequence || selectedLevel !== level) {
+				return; // canceled or changed
+			}
 		}
 		selectedLevel = null;
 		selectedLevelSequence = null;
+	};
+
+	const cancel = (): void => {
+		pauseAudio();
+		selectedLevelSequence = null;
+		selectedLevel = null;
 	};
 </script>
 
@@ -50,6 +58,7 @@
 		on:click={() => playLevelSequence(levelSequence)}>{levelSequence.name}</button
 	>
 {/each}
+<button type="button" on:click={cancel}>cancel</button>
 
 <style>
 	button {
