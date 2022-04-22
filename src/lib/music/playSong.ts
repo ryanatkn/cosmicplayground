@@ -7,14 +7,19 @@ import type {SongData} from '$lib/music/songs';
 
 let audioKey: symbol | undefined;
 
+export interface SongPlayState {
+	audio: HTMLAudioElement;
+	play: Promise<void>;
+	ended: Promise<unknown>;
+}
+
 // TODO extract an audio player store
 // TODO this API is not fun, resources should probably be stores
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const playSong = async (
 	songData: SongData,
 	onLoading?: (song: ResourceStore<AudioResource>) => any,
 	onLoaded?: (song: ResourceStore<AudioResource>) => any,
-) => {
+): Promise<SongPlayState | undefined> => {
 	const {url} = songData;
 	let abort = false;
 	pauseAudio((resource) => {
@@ -38,5 +43,9 @@ export const playSong = async (
 		throw Error('Failed to load song'); // TODO handle failures better (Dialog error?)
 	}
 	$s.audio.volume = 0.5; // TODO where?
-	return playAudio($s.audio);
+	return {
+		audio: $s.audio,
+		play: playAudio($s.audio),
+		ended: new Promise((r) => $s.audio?.addEventListener('ended', r, {once: true})),
+	};
 };

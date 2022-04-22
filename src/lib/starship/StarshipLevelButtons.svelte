@@ -1,18 +1,25 @@
 <script lang="ts">
-	import {levelDatas} from '$lib/starship/levels';
+	import {playSong} from '$lib/music/playSong';
 
-	interface LevelSequence {
-		name: string;
-		sequence: string[];
-	}
-	const levelSequencesByName: Map<string, LevelSequence> = new Map(
-		[
-			{name: 'light_quick', sequence: ['0a']},
-			{name: 'light_full', sequence: ['0a']},
-			{name: 'light_mixed', sequence: ['0a']},
-		].map((s) => [s.name, s]),
-	);
-	const levelSequences = Array.from(levelSequencesByName.values());
+	import {
+		levelDatas,
+		levelSequences,
+		type LevelData,
+		type LevelSequence,
+	} from '$lib/starship/levels';
+
+	const playLevelSong = async (level: LevelData): Promise<void> => {
+		console.log(`level`, level);
+		const playState = await playSong(level.song); // TODO global player controls
+		if (!playState) {
+			console.error('failed to play', playState);
+			return;
+		}
+		await playState.play;
+		console.log('playing', level.name, level.song.name);
+		await playState.ended;
+		console.log('finished playing', level.name, level.song.name);
+	};
 
 	const playLevelSequence = async (sequence: LevelSequence): Promise<void> => {
 		// First stop anything that's playing.
@@ -20,6 +27,9 @@
 		// Play each song in sequence.
 		console.log(`sequence`, sequence);
 		console.log(`levelDatas`, levelDatas);
+		for (const levelName of sequence.sequence) {
+			await playLevelSong(levelDatas.get(levelName)!); // eslint-disable-line no-await-in-loop
+		}
 	};
 </script>
 

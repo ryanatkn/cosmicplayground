@@ -12,7 +12,7 @@ with an open community and open source code.
 Join us if you want to improve your webdev skills
 with Svelte, SvelteKit, and TypeScript while making games in space!
 
-- community at [cosmicplayground.dev](https://www.cosmicplayground.dev)
+- (work in progress) community at [cosmicplayground.dev](https://www.cosmicplayground.dev)
   ([source](https://github.com/cosmicplayground/community),
   [contributing.md](https://github.com/cosmicplayground/community/blob/main/contributing.md))
 - There's a little action game on the home screen 🛸

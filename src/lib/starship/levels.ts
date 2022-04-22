@@ -114,3 +114,79 @@ for (const levelData of levelDatas.values()) {
 	if (!levelDatas) levelDatasByStageName.set(stage.name, (levelDatas = []));
 	levelDatas.push(levelData);
 }
+
+export interface LevelSequence {
+	name: string;
+	sequence: string[];
+}
+export const levelSequencesByName: Map<string, LevelSequence> = new Map(
+	[
+		{
+			name: 'light_pure',
+			sequence: ['0a', '1a', '2a', '3a', '4a', '5a', '6a', '7a', '8a', '9a', '10a', '11a', '12a'],
+		},
+		{
+			name: 'light_balanced',
+			sequence: [
+				'0a',
+				'0c',
+				'1a',
+				'1c',
+				'2a',
+				'2c',
+				'3a',
+				'3c',
+				'4a',
+				'4c',
+				'5a',
+				'6a',
+				'6c',
+				'7a',
+				'7c',
+				'8a',
+				'8c',
+				'9a',
+				'9c',
+				'10a',
+				'10c',
+				'11a',
+				'12c',
+			],
+		},
+		{
+			name: 'dark_pure',
+			sequence: ['0b', '1b', '2b', '3b', '4b', '5b', '6b', '7b', '8b', '9b', '10b', '11b', '12b'],
+		},
+		{
+			name: 'dark_balanced',
+			sequence: [
+				'0b',
+				'0c',
+				'1b',
+				'1c',
+				'2b',
+				'2c',
+				'3b',
+				'3c',
+				'4b',
+				'4c',
+				'5b',
+				'6b',
+				'6c',
+				'7b',
+				'7c',
+				'8b',
+				'8c',
+				'9b',
+				'9c',
+				'10b',
+				'10c',
+				'11b',
+				'12c',
+			],
+		},
+		// TODO randomly generate the sequence -- maybe make it an `Array | (random)=>Array`?
+		// {name: 'light_mixed', sequence: ['0a']},
+	].map((s) => [s.name, s]),
+);
+export const levelSequences = Array.from(levelSequencesByName.values());
