@@ -2,8 +2,12 @@
 	import {toStageDataByName} from '$lib/starship/levels';
 	import StarshipStage from '$lib/starship/StarshipStage.svelte';
 	import StarshipLevel from '$lib/starship/StarshipLevel.svelte';
+	import StarshipLevelButtons from './StarshipLevelButtons.svelte';
 </script>
 
+<div class="buttons">
+	<StarshipLevelButtons />
+</div>
 <div class="levels">
 	<section>
 		<StarshipStage stage={toStageDataByName('0')} let:level>
