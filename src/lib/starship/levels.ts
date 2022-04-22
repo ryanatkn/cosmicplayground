@@ -157,11 +157,11 @@ export const levelSequencesByName: Map<string, LevelSequence> = new Map(
 			],
 		},
 		{
-			name: 'dark_pure',
+			name: 'void_pure',
 			sequence: ['0b', '1b', '2b', '3b', '4b', '5b', '6b', '7b', '8b', '9b', '10b', '11b', '12b'],
 		},
 		{
-			name: 'dark_balanced',
+			name: 'void_balanced',
 			sequence: [
 				'0b',
 				'0c',
