@@ -3,6 +3,7 @@ import {Collisions, CollisionResult, type FilterPotentials} from '@ryanatkn/coll
 import type {EntityBody} from '$lib/flat/entity';
 
 const result = new CollisionResult();
+const potentials: EntityBody[] = [];
 
 // TODO should this be a Svelte store? or a Svelte component?
 
@@ -32,7 +33,6 @@ export class Simulation {
 		const {bodies} = this;
 
 		let speed: number;
-		const potentials: EntityBody[] = [];
 
 		// apply collisions
 		for (const bodyA of bodies) {
