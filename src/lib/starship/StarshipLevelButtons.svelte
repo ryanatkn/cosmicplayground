@@ -4,8 +4,9 @@
 	import {
 		levelDatas,
 		levelSequences,
+		toLevelSequenceData,
 		type LevelData,
-		type LevelSequence,
+		type LevelSequenceOrCreator,
 	} from '$lib/starship/levels';
 
 	const playLevelSong = async (level: LevelData): Promise<void> => {
@@ -22,17 +23,18 @@
 	};
 
 	// TODO refactor these so they're props -- maybe a `LevelManager` or something
-	export let selectedLevelSequence: LevelSequence | null = null;
+	export let selectedLevelSequence: LevelSequenceOrCreator | null = null;
 	export let selectedLevel: LevelData | null = null;
 
-	const playLevelSequence = async (levelSequence: LevelSequence): Promise<void> => {
+	const playLevelSequence = async (levelSequence: LevelSequenceOrCreator): Promise<void> => {
 		cancel();
 
-		console.log(`playing levelSequence`, levelSequence);
 		selectedLevelSequence = levelSequence;
+		const data = toLevelSequenceData(levelSequence);
+		console.log(`playing levelSequence`, levelSequence, data);
 
 		// Play each song in sequence.
-		for (const levelName of levelSequence.sequence) {
+		for (const levelName of data.sequence) {
 			const level = levelDatas.get(levelName)!;
 			selectedLevel = level;
 			await playLevelSong(level); // eslint-disable-line no-await-in-loop
@@ -51,11 +53,12 @@
 	};
 </script>
 
-{#each levelSequences as levelSequence (levelSequence.name)}
+{#each levelSequences as levelSequence (levelSequence)}
+	{@const data = toLevelSequenceData(levelSequence)}
 	<button
 		type="button"
 		class:selected={levelSequence === selectedLevelSequence}
-		on:click={() => playLevelSequence(levelSequence)}>{levelSequence.name}</button
+		on:click={() => playLevelSequence(levelSequence)}>{data.name}</button
 	>
 {/each}
 <button type="button" on:click={cancel}>cancel</button>

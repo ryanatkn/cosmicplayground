@@ -1,3 +1,5 @@
+import {randomItem} from '@feltcoop/felt/util/random.js';
+
 import {toImageMeta, type ImageMeta} from '$lib/app/images';
 import {type SongData, toSongData} from '$lib/music/songs';
 
@@ -118,11 +120,14 @@ for (const levelData of levelDatas.values()) {
 	levelDatas.push(levelData);
 }
 
+export const toLevelSequenceData = (l: LevelSequenceOrCreator): LevelSequence =>
+	typeof l === 'function' ? l() : l;
+export type LevelSequenceOrCreator = LevelSequence | (() => LevelSequence);
 export interface LevelSequence {
 	name: string;
 	sequence: string[];
 }
-export const levelSequencesByName: Map<string, LevelSequence> = new Map(
+export const levelSequencesByName: Map<string, LevelSequenceOrCreator> = new Map(
 	[
 		{
 			name: 'light_pure',
@@ -188,8 +193,62 @@ export const levelSequencesByName: Map<string, LevelSequence> = new Map(
 				'12c',
 			],
 		},
-		// TODO randomly generate the sequence -- maybe make it an `Array | (random)=>Array`?
-		// {name: 'light_mixed', sequence: ['0a']},
-	].map((s) => [s.name, s]),
+		() => ({
+			name: 'random_pure',
+			sequence: [
+				randomItem(['0a', '0b']),
+				randomItem(['1a', '1b']),
+				randomItem(['2a', '2b']),
+				randomItem(['3a', '3b']),
+				randomItem([
+					['4a', '5a'],
+					['4b', '5b'],
+				]),
+				randomItem(['6a', '6b']),
+				randomItem(['7a', '7b']),
+				randomItem(['8a', '8b']),
+				randomItem(['9a', '9b']),
+				randomItem([
+					['10a', '10c', '11a', '12a'],
+					['10b', '10c', '11b', '12b'],
+				]),
+			]
+				.flat()
+				.filter(Boolean),
+		}),
+		() => ({
+			name: 'random_balanced',
+			sequence: [
+				randomItem(['0a', '0b']),
+				'0c',
+				randomItem(['1a', '1b']),
+				'1c',
+				randomItem(['2a', '2b']),
+				'2c',
+				randomItem(['3a', '3b']),
+				'3c',
+				randomItem([
+					['4a', '5a'],
+					['4b', '4c', '5b'],
+				]),
+				randomItem(['6a', '6b']),
+				'6c',
+				randomItem(['7a', '7b']),
+				'7c',
+				randomItem(['8a', '8b']),
+				'8c',
+				randomItem(['9a', '9b']),
+				'9c',
+				randomItem([
+					['10a', '10c', '11a', '12a'],
+					['10a', '11a', '12a', '12c'], // TODO this relies on earlier events (what are they? maybe ~half of the c levels must be completed?)
+					['10b', '10c', '11b', '12b'],
+				]),
+			]
+				.flat()
+				.filter(Boolean),
+		}),
+		// TODO add `random`, that mimics any full valid playthrough
+	].map((s) => [toLevelSequenceData(s).name, s]),
 );
 export const levelSequences = Array.from(levelSequencesByName.values());
