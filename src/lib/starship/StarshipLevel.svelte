@@ -47,6 +47,11 @@
 			font-size: var(--font_size_md);
 		}
 	}
+	@media (max-width: 500px) {
+		.title {
+			font-size: var(--font_size_sm);
+		}
+	}
 	/* TODO refactor to be global (there are conflicting styles in places) */
 	.selected {
 		color: var(--pending_color);

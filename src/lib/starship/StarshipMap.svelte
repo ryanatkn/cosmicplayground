@@ -86,6 +86,8 @@
 <style>
 	.buttons {
 		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 	}
 	.levels {
 		display: flex;
