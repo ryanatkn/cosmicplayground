@@ -1,16 +1,16 @@
 <script lang="ts">
 	import type {LevelData} from '$lib/starship/levels';
-	import {playSong} from '$lib/music/playSong';
 
 	export let level: LevelData;
 	export let selected: boolean;
 	export let disabled: boolean;
+	export let selectLevel: (level: LevelData) => void; // TODO events instead of callbacks?
 </script>
 
 <div class="starship-level" title="level {level.name}">
 	<button
 		on:click={() => {
-			void playSong(level.song);
+			selectLevel(level);
 		}}
 		class:selected
 		class:buttonish={!disabled}
