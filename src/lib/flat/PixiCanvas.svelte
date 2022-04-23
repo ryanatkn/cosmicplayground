@@ -2,9 +2,9 @@
 	import * as Pixi from 'pixi.js';
 
 	import {getPixi} from '$lib/app/pixi'; // TODO BLOCK dont import from app...
-	import type {Stage} from '$lib/flat/stage';
+	import type {Stage} from '$lib/portals/home/starshipStage'; // TODO shouldnt import this
 	import type {CameraState} from '$lib/flat/camera';
-	import {onDestroy} from 'svelte';
+	import {onDestroy, onMount} from 'svelte';
 
 	// TODO refactor with the route component
 
@@ -22,29 +22,44 @@
 
 	console.log(`PixiCanvas width, height, stage`, width, height, stage);
 
-	$: ({camera} = stage); // TODO type? should it know nothing of the stage? or should all stages have cameras?
+	$: ({camera, sim} = stage);
 
 	const pixi = getPixi();
 	const scene = pixi.currentScene;
 
 	const container = new Pixi.Container();
-	scene.addChild(container);
+
+	onMount(() => {
+		scene.addChild(container);
+
+		// TODO how to create bodies that get added?
+		console.log(`stage`, stage.sim.bodies);
+		for (const entity of sim.bodies) {
+			if (entity.invisible) continue;
+			const graphics = new Pixi.Graphics();
+			if (entity._circle) {
+				graphics.beginFill(0xdefa89);
+				// TODO camera
+				graphics.drawCircle(entity.x, entity.y, entity.radius);
+			} else {
+				// TODO other graphics?
+				continue;
+			}
+			graphics.endFill();
+			container.addChild(graphics);
+		}
+	});
 
 	onDestroy(() => {
 		scene.removeChild(container);
 		container.destroy({children: true, baseTexture: true, texture: true});
 	});
 
-	const graphics = new Pixi.Graphics();
-	graphics.beginFill(0xdefa89);
-	graphics.drawRect(50, 50, 150, 250);
-	graphics.endFill();
-	container.addChild(graphics);
-
 	// TODO copied from `EarthPixiViewer`, extract camera store (see also `View.svelte` parent component)
 	$: updateCamera($camera);
 	const updateCamera = ($camera: CameraState) => {
-		// camera.scale.set(scale);
+		// container.width = $camera.width;
+		// container.height = $camera.height;
 		container.position.set($camera.x, $camera.y);
 	};
 </script>
