@@ -335,7 +335,7 @@ export const levelSequences: LevelSequenceOrCreator[] = [
 			addLevel(
 				randomItem([
 					['4a', '5a'],
-					['4b', cCount > 1 ? randomItem(['4c', null]) : null, '5b'],
+					['4b', cCount > 1 ? randomItem(['4c', null]) : null, '5b'], // TODO is 1 good?
 				]),
 			);
 			addLevel(randomItem(['6a', '6b']));
@@ -350,7 +350,7 @@ export const levelSequences: LevelSequenceOrCreator[] = [
 				randomItem(
 					[
 						['10a', '10c', '11a', '12a'],
-						cCount >= 4 ? ['10a', '11a', '12a', '12c'] : null,
+						cCount >= 4 ? ['10a', '11a', '12a', '12c'] : null, // TODO is 4 good?
 						['10b', '10c', '11b', '12b'],
 					].filter(Boolean),
 				),
