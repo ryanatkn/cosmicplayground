@@ -283,7 +283,7 @@ export const levelSequences: LevelSequenceOrCreator[] = [
 				'9c',
 				randomItem([
 					['10a', '10c', '11a', '12a'],
-					['10a', '11a', '12a', '12c'], // TODO this relies on earlier events (what are they? maybe ~half of the c levels must be completed?)
+					['10a', '11a', '12a', '12c'],
 					['10b', '10c', '11b', '12b'],
 				]),
 			].flat(),
