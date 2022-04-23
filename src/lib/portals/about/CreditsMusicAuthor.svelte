@@ -3,7 +3,7 @@
 	import {toSongDatasByAuthor} from '$lib/music/songs';
 
 	export let author: string;
-	const SONG_MAX_DEFAULT_COUNT = 3;
+	const SONG_MAX_DEFAULT_COUNT = 2;
 	$: songs1 = toSongDatasByAuthor(author)!;
 	$: songs1a = songs1.slice(0, SONG_MAX_DEFAULT_COUNT);
 	$: songs1b = songs1.slice(SONG_MAX_DEFAULT_COUNT);
@@ -14,7 +14,7 @@
 {#each songs1a as song}
 	<div class="audio-file">
 		<a href={song.url}>"{song.name}"</a>
-		<audio controls src={song.url} />
+		<audio preload="none" controls src={song.url} />
 	</div>
 {/each}
 {#if songs1b.length}
@@ -24,7 +24,7 @@
 			{#each songs1b as song}
 				<div class="audio-file">
 					<a href={song.url}>"{song.name}"</a>
-					<audio controls src={song.url} />
+					<audio preload="none" controls src={song.url} />
 				</div>
 			{/each}
 		</div>

@@ -13,6 +13,8 @@ export const playingAudio = (url: string): boolean => {
 };
 
 export const pauseAudio = (onPause?: (audio: AudioResource) => void): void => {
+	// TODO probably set playing audio to module-level state instead of this
+	// (seems fine because audio is a global UX)
 	for (const resourceStore of audios.values()) {
 		const resource = get(resourceStore); // TODO
 		if (resource.audio && !resource.audio.paused) {

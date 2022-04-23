@@ -9,9 +9,12 @@
 <div class="starship-stage" style:height="{stage.imageMeta.thumbnail.height * 2}px">
 	<img class="pixelated" src={stage.imageMeta.thumbnail.url} alt={stage.imageMeta.title} />
 	<div class="levels">
-		{#each levels as level (level.name)}
-			<slot {level} {levels} />
-		{/each}
+		<div class="main-levels">
+			<slot level={levels[0]} {levels} /><slot level={levels[1]} {levels} />
+		</div>
+		{#if levels.length > 2}<div class="secondary-levels">
+				<slot level={levels[2]} {levels} />
+			</div>{/if}
 	</div>
 </div>
 
@@ -30,8 +33,16 @@
 	}
 	.levels {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		flex-wrap: wrap;
+	}
+	.main-levels {
+		display: flex;
+		align-items: center;
+	}
+	.secondary-levels {
+		margin-top: var(--spacing_sm);
 	}
 </style>

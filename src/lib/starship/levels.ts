@@ -1,5 +1,9 @@
+import {randomItem} from '@feltcoop/felt/util/random.js';
+
 import {toImageMeta, type ImageMeta} from '$lib/app/images';
 import {type SongData, toSongData} from '$lib/music/songs';
+
+// TODO rename Stage to what? world, story? hmm
 
 export interface LevelData {
 	name: string;
@@ -89,10 +93,10 @@ export const levelDatas: Map<string, LevelData> = new Map(
 		{name: '8a', title: 'Jotunheim', song: 'Jotunheim', image: 'heic1007a'},
 		{name: '8b', title: 'Bleu', song: 'Bleu', image: 'heic1007a'},
 		{name: '8c', title: 'Desert Fox', song: 'Desert Fox', image: 'heic1007a'},
-		{name: '9a', title: 'The Expanse', song: 'The Expanse', image: 'heic1105a'},
+		{name: '9a', title: 'Fireworks', song: 'Fireworks', image: 'heic1107a'},
 		{name: '9b', title: 'The Desert', song: 'The Desert', image: 'heic1105a'},
 		{name: '9c', title: 'Assassin', song: 'Assassin', image: 'heic1105a'},
-		{name: '10a', title: 'Fireworks', song: 'Fireworks', image: 'heic1107a'},
+		{name: '10a', title: 'The Expanse', song: 'The Expanse', image: 'heic1105a'},
 		{name: '10b', title: 'Facing Storm', song: 'Facing Storm', image: 'heic1107a'},
 		{name: '10c', title: 'Lonely Mountain', song: 'Lonely Mountain', image: 'heic1107a'},
 		{name: '11a', title: 'Shining Stars', song: 'Shining Stars', image: 'heic1118a'},
@@ -114,3 +118,256 @@ for (const levelData of levelDatas.values()) {
 	if (!levelDatas) levelDatasByStageName.set(stage.name, (levelDatas = []));
 	levelDatas.push(levelData);
 }
+
+export type LevelSequenceOrCreator = {
+	name: string;
+	data: LevelSequenceData | (() => LevelSequenceData);
+};
+export interface LevelSequence {
+	name: string;
+	data: LevelSequenceData;
+}
+export interface LevelSequenceData {
+	sequence: string[];
+}
+export const toLevelSequence = (l: LevelSequenceOrCreator): LevelSequence =>
+	typeof l.data === 'function' ? {...l, data: l.data()} : (l as any); // TODO why doesn't this type narrow?
+export const levelSequences: LevelSequenceOrCreator[] = [
+	{
+		name: 'light_pure',
+		data: {
+			sequence: [
+				'0a',
+				'1a',
+				'2a',
+				'3a',
+				'4a',
+				'5a',
+				'6a',
+				'7a',
+				'8a',
+				'9a',
+				'10a',
+				'10c',
+				'11a',
+				'12a',
+			],
+		},
+	},
+	{
+		name: 'light_balanced',
+		data: {
+			sequence: [
+				'0a',
+				'0c',
+				'1a',
+				'1c',
+				'2a',
+				'2c',
+				'3a',
+				'3c',
+				'4a',
+				'5a',
+				'6a',
+				'6c',
+				'7a',
+				'7c',
+				'8a',
+				'8c',
+				'9a',
+				'9c',
+				'10a',
+				'11a',
+				'12a',
+				'12c',
+			],
+		},
+	},
+	{
+		name: 'void_pure',
+		data: {
+			sequence: [
+				'0b',
+				'1b',
+				'2b',
+				'3b',
+				'4b',
+				'5b',
+				'6b',
+				'7b',
+				'8b',
+				'9b',
+				'10b',
+				'10c',
+				'11b',
+				'12b',
+			],
+		},
+	},
+	{
+		name: 'void_balanced',
+		data: {
+			sequence: [
+				'0b',
+				'0c',
+				'1b',
+				'1c',
+				'2b',
+				'2c',
+				'3b',
+				'3c',
+				'4b',
+				'4c',
+				'5b',
+				'6b',
+				'6c',
+				'7b',
+				'7c',
+				'8b',
+				'8c',
+				'9b',
+				'9c',
+				'10b',
+				'10c',
+				'11b',
+				'12b',
+			],
+		},
+	},
+	{
+		name: 'random_pure',
+		data: () => ({
+			sequence: [
+				randomItem(['0a', '0b']),
+				randomItem(['1a', '1b']),
+				randomItem(['2a', '2b']),
+				randomItem(['3a', '3b']),
+				randomItem([
+					['4a', '5a'],
+					['4b', '5b'],
+				]),
+				randomItem(['6a', '6b']),
+				randomItem(['7a', '7b']),
+				randomItem(['8a', '8b']),
+				randomItem(['9a', '9b']),
+				randomItem([
+					['10a', '10c', '11a', '12a'],
+					['10b', '10c', '11b', '12b'],
+				]),
+			].flat(),
+		}),
+	},
+	{
+		name: 'random_balanced',
+		data: () => ({
+			sequence: [
+				randomItem(['0a', '0b']),
+				'0c',
+				randomItem(['1a', '1b']),
+				'1c',
+				randomItem(['2a', '2b']),
+				'2c',
+				randomItem(['3a', '3b']),
+				'3c',
+				randomItem([
+					['4a', '5a'],
+					['4b', '4c', '5b'],
+				]),
+				randomItem(['6a', '6b']),
+				'6c',
+				randomItem(['7a', '7b']),
+				'7c',
+				randomItem(['8a', '8b']),
+				'8c',
+				randomItem(['9a', '9b']),
+				'9c',
+				randomItem([
+					['10a', '10c', '11a', '12a'],
+					['10a', '11a', '12a', '12c'],
+					['10b', '10c', '11b', '12b'],
+				]),
+			].flat(),
+		}),
+	},
+	{
+		name: 'random_random',
+		data: (): LevelSequenceData => {
+			/*
+
+		Conditions that disallow 12c:
+		
+		- not enough balance (full a+c's is ok, maybe need more c's in that case, or perhaps it's naturally balanced because some c's  )
+		- too much void
+
+		*/
+			const sequence: string[] = [];
+			// let aCount = 0;
+			let bCount = 0;
+			let cCount = 0;
+			const addOneLevel = (name: string | null): void => {
+				if (!name) return;
+				// if (name.endsWith('a')) {
+				// 	aCount++;
+				// } else
+				if (name.endsWith('b')) {
+					bCount++;
+				} else if (name.endsWith('c')) {
+					cCount++;
+				}
+				sequence.push(name);
+			};
+			const addLevel = (names: string | null | Array<string | null>): void => {
+				if (Array.isArray(names)) {
+					names.forEach(addOneLevel);
+				} else {
+					addOneLevel(names);
+				}
+			};
+			addLevel(randomItem(['0a', '0b']));
+			addLevel(randomItem(['0c', null]));
+			addLevel(randomItem(['1a', '1b']));
+			addLevel(randomItem(['1c', null]));
+			addLevel(randomItem(['2a', '2b']));
+			addLevel(randomItem(['2c', null]));
+			addLevel(randomItem(['3a', '3b']));
+			addLevel(randomItem(['3c', null]));
+			addLevel(
+				randomItem([
+					['4a', '5a'],
+					['4b', cCount > MIN_C_COUNT_FOR_FANFARE ? randomItem(['4c', null]) : null, '5b'],
+				]),
+			);
+			addLevel(randomItem(['6a', '6b']));
+			addLevel(randomItem(['6c', null]));
+			addLevel(randomItem(['7a', '7b']));
+			addLevel(randomItem(['7c', null]));
+			addLevel(randomItem(['8a', '8b']));
+			addLevel(randomItem(['8c', null]));
+			addLevel(randomItem(['9a', '9b']));
+			addLevel(randomItem(['9c', null]));
+			addLevel(
+				randomItem(
+					[
+						['10a', '10c', '11a', '12a'],
+						cCount >= MIN_C_COUNT_FOR_GENDING && bCount <= MAX_B_COUNT_FOR_GENDING
+							? ['10a', '11a', '12a', '12c']
+							: null,
+						['10b', '10c', '11b', '12b'],
+					].filter(Boolean),
+				),
+			);
+			return {sequence};
+		},
+	},
+];
+export const levelSequencesByName: Map<string, LevelSequenceOrCreator> = new Map(
+	levelSequences.map((l) => [l.name, l]),
+);
+
+export const sequenceContains = (levelSequence: LevelSequence, level: LevelData): boolean =>
+	levelSequence.data.sequence.includes(level.name);
+
+// TODO maybe do this differently, specific level outcomes integrated with the store?
+const MIN_C_COUNT_FOR_FANFARE = 1;
+const MIN_C_COUNT_FOR_GENDING = 4;
+const MAX_B_COUNT_FOR_GENDING = 7;

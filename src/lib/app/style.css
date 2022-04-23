@@ -11,6 +11,7 @@ html {
 	--font_size_xl: 72px;
 	--font_size_lg: 48px;
 	--font_size_md: 32px;
+	--font_size_sm: 20px;
 	--ocean_hue: 214;
 	--land_hue: 124;
 	--space_hue: 304;
@@ -230,6 +231,10 @@ button {
 	justify-content: center;
 	flex-direction: column;
 	text-align: center;
+}
+button:disabled {
+	cursor: default;
+	opacity: 0.39;
 }
 button:focus {
 	/* TODO this is a hack for Chrome but bad for a11y/keyboard nav,
