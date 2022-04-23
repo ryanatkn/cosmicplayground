@@ -1,9 +1,10 @@
 <script lang="ts">
 	import * as Pixi from 'pixi.js';
 
-	import {getPixiScene} from '$lib/app/pixi'; // TODO BLOCK dont import from app...
+	import {getPixi} from '$lib/app/pixi'; // TODO BLOCK dont import from app...
 	import type {Stage} from '$lib/flat/stage';
 	import type {CameraState} from '$lib/flat/camera';
+	import {onDestroy} from 'svelte';
 
 	// TODO refactor with the route component
 
@@ -23,14 +24,16 @@
 
 	$: ({camera} = stage); // TODO type? should it know nothing of the stage? or should all stages have cameras?
 
-	const [pixi, scene] = getPixiScene({
-		loaded: async () => {
-			console.log('PixiCanvas LOADED');
-		},
-	});
+	const pixi = getPixi();
+	const scene = pixi.currentScene;
 
 	const container = new Pixi.Container();
 	scene.addChild(container);
+
+	onDestroy(() => {
+		scene.removeChild(container);
+		container.destroy({children: true, baseTexture: true, texture: true});
+	});
 
 	const graphics = new Pixi.Graphics();
 	graphics.beginFill(0xdefa89);

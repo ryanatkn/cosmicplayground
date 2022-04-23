@@ -99,7 +99,6 @@ export const getPixiScene = (
 	});
 
 	onDestroy(() => {
-		if (destroyed) throw Error('Already destroyed'); // TODO probably remove this
 		console.log('destroying pixi scene', scene, pixi);
 		hooks.destroy?.(scene, pixi.app.loader);
 		destroyed = true;
