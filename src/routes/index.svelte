@@ -141,8 +141,19 @@
 		const saved = localStorage.getItem(SCORES_KEY);
 		if (!saved) return undefined;
 		try {
-			return JSON.parse(saved);
+			const parsed: StarshipStageScores = JSON.parse(saved);
+			// TODO better validation, how? zod parser?
+			if (
+				typeof parsed.crewRescuedAtOnceCount !== 'number' ||
+				isNaN(parsed.crewRescuedAtOnceCount) ||
+				!Array.isArray(parsed.crew) ||
+				!parsed.crew.every((v) => typeof v === 'boolean')
+			) {
+				throw Error();
+			}
+			return parsed;
 		} catch (err) {
+			localStorage.removeItem(SCORES_KEY);
 			return undefined;
 		}
 	};

@@ -1,20 +1,20 @@
 <script lang="ts">
 	import type {LevelData} from '$lib/starship/levels';
-	import {playSong} from '$lib/music/playSong';
-	import {playingAudio} from '$lib/audio/playAudio';
 
 	export let level: LevelData;
-
-	// TODO the `playingAudio` usage isn't reactive
-	// maybe use a `mutable` map?
+	export let selected: boolean;
+	export let disabled: boolean;
+	export let selectLevel: (level: LevelData) => void; // TODO events instead of callbacks?
 </script>
 
-<div class="starship-level buttonish">
+<div class="starship-level" title="level {level.name}">
 	<button
 		on:click={() => {
-			void playSong(level.song);
+			selectLevel(level);
 		}}
-		class:selected={playingAudio(level.song.url)}
+		class:selected
+		class:buttonish={!disabled}
+		{disabled}
 	>
 		<div class="title">{level.title}</div>
 	</button>
@@ -47,6 +47,12 @@
 			font-size: var(--font_size_md);
 		}
 	}
+	@media (max-width: 500px) {
+		.title {
+			font-size: var(--font_size_sm);
+		}
+	}
+	/* TODO refactor to be global (there are conflicting styles in places) */
 	.selected {
 		color: var(--pending_color);
 		border-color: var(--pending_color);
