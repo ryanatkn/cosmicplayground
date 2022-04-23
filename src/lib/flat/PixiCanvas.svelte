@@ -38,7 +38,8 @@
 			if (entity.invisible) continue;
 			const graphics = new Pixi.Graphics();
 			if (entity._circle) {
-				graphics.beginFill(0xdefa89);
+				graphics.lineStyle(1, entity.colorHex);
+				graphics.beginFill(0, 0);
 				// TODO camera
 				graphics.drawCircle(entity.x, entity.y, entity.radius);
 			} else {

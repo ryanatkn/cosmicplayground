@@ -15,27 +15,7 @@ export const hueToRgb = (p: number, q: number, t: number): number => {
 	return p;
 };
 
-/**
- * Converts an HSL color value to RGB. Conversion formula
- * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
- * Values h/s/l are in the range [0,1] and
- * returns r/g/b in the range [0,255].
- */
-export const hslToRgb = (h: Hue, s: Saturation, l: Lightness): Rgb => {
-	let r: number, g: number, b: number;
-
-	if (s === 0) {
-		r = g = b = l; // achromatic
-	} else {
-		const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-		const p = 2 * l - q;
-		r = hueToRgb(p, q, h + 1 / 3);
-		g = hueToRgb(p, q, h);
-		b = hueToRgb(p, q, h - 1 / 3);
-	}
-
-	return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
-};
+export const rgbToHex = (r: number, g: number, b: number): number => (r << 16) + (g << 8) + b;
 
 /**
  * Converts an RGB color value to HSL. Conversion formula
@@ -51,7 +31,6 @@ export const rgbToHsl = (r: number, g: number, b: number): Hsl => {
 	const min = Math.min(r, g, b);
 	const l: Lightness = (max + min) / 2;
 	let h!: Hue, s: Saturation;
-
 	if (max === min) {
 		h = s = 0; // achromatic
 	} else {
@@ -70,17 +49,31 @@ export const rgbToHsl = (r: number, g: number, b: number): Hsl => {
 		}
 		h /= 6;
 	}
-
 	return [h, s, l];
 };
 
-export const hslToStr = (hsl: Hsl, alpha?: number): string => {
-	const [h, s, l] = hsl;
-	return alpha === undefined
-		? `hsl(${h * 360}, ${s * 100}%, ${l * 100}%)`
-		: `hsla(${h * 360}, ${s * 100}%, ${l * 100}%, ${alpha})`;
+/**
+ * Converts an HSL color value to RGB. Conversion formula
+ * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+ * Values h/s/l are in the range [0,1] and
+ * returns r/g/b in the range [0,255].
+ */
+export const hslToRgb = (h: Hue, s: Saturation, l: Lightness): Rgb => {
+	let r: number, g: number, b: number;
+	if (s === 0) {
+		r = g = b = l; // achromatic
+	} else {
+		const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+		const p = 2 * l - q;
+		r = hueToRgb(p, q, h + 1 / 3);
+		g = hueToRgb(p, q, h);
+		b = hueToRgb(p, q, h - 1 / 3);
+	}
+	return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 };
 
-export const rgbToHex = (r: number, g: number, b: number): number => {
-	return (r << 16) + (g << 8) + b;
-};
+export const hslToHex = (h: Hue, s: Saturation, l: Lightness): number =>
+	rgbToHex(...hslToRgb(h, s, l));
+
+export const hslToStr = (h: Hue, s: Saturation, l: Lightness): string =>
+	`hsl(${h * 360}, ${s * 100}%, ${l * 100}%)`;

@@ -5,7 +5,11 @@ export interface Entity extends Body {
 	speed: number;
 	directionX: number;
 	directionY: number;
+	// TODO this is hacky, requires setting both `color` and `colorHex`,
+	// see color usage in `starshipStage` --
+	// we don't want to convert values every time we use a color
 	color: string;
+	colorHex: number;
 	invisible?: boolean;
 	dead?: boolean;
 	disableSimulation?: boolean;
@@ -38,6 +42,7 @@ export const frag = (
 			fragment.directionX = entity.directionX;
 			fragment.directionY = entity.directionY;
 			fragment.color = entity.color;
+			fragment.colorHex = entity.colorHex;
 			entities.push(fragment);
 		}
 	}

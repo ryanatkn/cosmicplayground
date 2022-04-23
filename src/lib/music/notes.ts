@@ -76,5 +76,5 @@ export const noteChromaToHsl = Object.freeze(
 	}, {} as Record<Chroma, Hsl>),
 );
 export const noteChromaToHslString = Object.freeze(
-	mapRecord(noteChromaToHsl, (hsl) => hslToStr(hsl)),
+	mapRecord(noteChromaToHsl, ([h, s, l]) => hslToStr(h, s, l)),
 );

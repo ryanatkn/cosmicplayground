@@ -16,12 +16,25 @@ import {
 } from '$lib/flat/camera';
 import {collideRigidBodies} from '$lib/flat/collideRigidBodies';
 import {dequal} from 'dequal/lite';
+import {hslToHex, hslToStr, type Hsl} from '$lib/util/colors';
 
-export const COLOR_DEFAULT = 'hsl(220, 100%, 70%)';
-export const COLOR_PLAIN = 'hsl(220, 20%, 70%)';
-export const COLOR_EXIT = 'hsl(140, 100%, 70%)';
-export const COLOR_PLAYER = 'violet';
-export const COLOR_MOLTEN = 'red';
+// TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
+// and our `Hsl` is good for fast manipulation
+const COLOR_DEFAULT: Hsl = [0.611, 1, 0.7];
+const COLOR_DEFAULT_STR = hslToStr(...COLOR_DEFAULT);
+const COLOR_DEFAULT_HEX = hslToHex(...COLOR_DEFAULT);
+const COLOR_PLAIN: Hsl = [0.611, 0.2, 0.7];
+const COLOR_PLAIN_STR = hslToStr(...COLOR_PLAIN);
+const COLOR_PLAIN_HEX = hslToHex(...COLOR_PLAIN);
+const COLOR_EXIT: Hsl = [0.389, 1, 0.7];
+const COLOR_EXIT_STR = hslToStr(...COLOR_EXIT);
+const COLOR_EXIT_HEX = hslToHex(...COLOR_EXIT);
+const COLOR_PLAYER: Hsl = [0.833, 0.76, 0.72];
+const COLOR_PLAYER_STR = hslToStr(...COLOR_PLAYER);
+const COLOR_PLAYER_HEX = hslToHex(...COLOR_PLAYER);
+const COLOR_MOLTEN: Hsl = [0, 1, 0.5];
+const COLOR_MOLTEN_STR = hslToStr(...COLOR_MOLTEN);
+const COLOR_MOLTEN_HEX = hslToHex(...COLOR_MOLTEN);
 
 export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
 
@@ -136,7 +149,8 @@ export class Stage extends BaseStage {
 		player.speed = PLAYER_SPEED;
 		player.directionX = 0;
 		player.directionY = 0;
-		player.color = COLOR_PLAYER;
+		player.color = COLOR_PLAYER_STR;
+		player.colorHex = COLOR_PLAYER_HEX;
 		bodies.push(player);
 
 		// create the bounds around the stage edges
@@ -167,7 +181,8 @@ export class Stage extends BaseStage {
 		planet.speed = 0;
 		planet.directionX = 0;
 		planet.directionY = 0;
-		planet.color = COLOR_DEFAULT;
+		planet.color = COLOR_DEFAULT_STR;
+		planet.colorHex = COLOR_DEFAULT_HEX;
 		bodies.push(planet);
 
 		// TODO how will this work for polygons?
@@ -180,7 +195,8 @@ export class Stage extends BaseStage {
 		rock.speed = ROCK_SPEED;
 		rock.directionX = -1;
 		rock.directionY = -0.7;
-		rock.color = COLOR_PLAIN;
+		rock.color = COLOR_PLAIN_STR;
+		rock.colorHex = COLOR_PLAIN_HEX;
 		bodies.push(rock);
 
 		let moon = collisions.createCircle(1660, 1012, 43) as EntityCircle;
@@ -189,7 +205,8 @@ export class Stage extends BaseStage {
 		moon.speed = MOON_SPEED;
 		moon.directionX = 0;
 		moon.directionY = 0;
-		moon.color = COLOR_EXIT;
+		moon.color = COLOR_EXIT_STR;
+		moon.colorHex = COLOR_EXIT_HEX;
 		bodies.push(moon);
 		moons.add(moon);
 
@@ -199,7 +216,8 @@ export class Stage extends BaseStage {
 		moon.speed = MOON_SPEED;
 		moon.directionX = 0;
 		moon.directionY = 0;
-		moon.color = COLOR_EXIT;
+		moon.color = COLOR_EXIT_STR;
+		moon.colorHex = COLOR_EXIT_HEX;
 		bodies.push(moon);
 		moons.add(moon);
 
@@ -209,7 +227,8 @@ export class Stage extends BaseStage {
 		moon.speed = MOON_SPEED;
 		moon.directionX = 0;
 		moon.directionY = 0;
-		moon.color = COLOR_EXIT;
+		moon.color = COLOR_EXIT_STR;
+		moon.colorHex = COLOR_EXIT_HEX;
 		bodies.push(moon);
 		moons.add(moon);
 
@@ -219,7 +238,8 @@ export class Stage extends BaseStage {
 		moon.speed = MOON_SPEED;
 		moon.directionX = 0;
 		moon.directionY = 0;
-		moon.color = COLOR_EXIT;
+		moon.color = COLOR_EXIT_STR;
+		moon.colorHex = COLOR_EXIT_HEX;
 		bodies.push(moon);
 		moons.add(moon);
 
@@ -331,7 +351,8 @@ export class Stage extends BaseStage {
 							: moltenIsMoonFragment
 							? randomFloat(_molten.directionY / 2, _molten.directionY * 2)
 							: randomFloat(-_molten.directionY / 2, _molten.directionY);
-						f.color = COLOR_MOLTEN;
+						f.color = COLOR_MOLTEN_STR;
+						f.colorHex = COLOR_MOLTEN_HEX;
 					}
 				} else if (_rock && _planet) {
 					// handle collision between rock and planet
@@ -344,7 +365,8 @@ export class Stage extends BaseStage {
 						p.speed = _rock.speed * 0.2 * randomFloat(0.5, 1.0);
 						p.directionX = randomFloat(-_rock.directionX / 2, _rock.directionX / 2);
 						p.directionY = randomFloat(-_rock.directionY / 2, _rock.directionY / 2);
-						p.color = COLOR_MOLTEN;
+						p.color = COLOR_MOLTEN_STR;
+						p.colorHex = COLOR_MOLTEN_HEX;
 					}
 					const newRockFragments = frag(_rock, collisions, 210) as EntityCircle[];
 					(rockFragmentsToAdd || (rockFragmentsToAdd = [])).push(...newRockFragments);
