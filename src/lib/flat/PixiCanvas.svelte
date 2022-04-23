@@ -41,8 +41,7 @@
 			// - set `Entity.pixiContainer` (update either in a loop or even inline in the sim, or change the entity API to do this)
 			const entityContainer = new Pixi.Container();
 			container.addChild(entityContainer);
-			container.x = entity.x;
-			container.y = entity.y;
+			entityContainer.position.set(entity.x, entity.y);
 
 			if (entity._circle) {
 				const graphics = new Pixi.Graphics();
@@ -57,8 +56,7 @@
 			if (entity.text) {
 				const text = new Pixi.Text(entity.text, {fontSize: entity.fontSize});
 				entityContainer.addChild(text);
-				text.anchor.x = 0.5;
-				text.anchor.y = 0.5;
+				text.anchor.set(0.5, 0.5);
 			}
 		}
 	});
