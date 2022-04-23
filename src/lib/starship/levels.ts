@@ -3,8 +3,7 @@ import {randomItem} from '@feltcoop/felt/util/random.js';
 import {toImageMeta, type ImageMeta} from '$lib/app/images';
 import {type SongData, toSongData} from '$lib/music/songs';
 
-// TODO probably rename Stage to Realm or something, each Level should have a Stage,
-// and maybe rename Level so there's Level 1a and 1b etc, then what are each sublevels? Sublevels?
+// TODO BLOCK probably rename Stage to World
 
 export interface LevelData {
 	name: string;
@@ -120,21 +119,44 @@ for (const levelData of levelDatas.values()) {
 	levelDatas.push(levelData);
 }
 
-export const toLevelSequenceData = (l: LevelSequenceOrCreator): LevelSequence =>
-	typeof l === 'function' ? l() : l;
-export type LevelSequenceOrCreator = LevelSequence | (() => LevelSequence);
+export type LevelSequenceOrCreator = {
+	name: string;
+	data: LevelSequenceData | (() => LevelSequenceData);
+};
 export interface LevelSequence {
 	name: string;
+	data: LevelSequenceData;
+}
+export interface LevelSequenceData {
 	sequence: string[];
 }
-export const levelSequencesByName: Map<string, LevelSequenceOrCreator> = new Map(
-	[
-		{
-			name: 'light_pure',
-			sequence: ['0a', '1a', '2a', '3a', '4a', '5a', '6a', '7a', '8a', '9a', '10a', '11a', '12a'],
+export const toLevelSequence = (l: LevelSequenceOrCreator): LevelSequence =>
+	typeof l.data === 'function' ? {...l, data: l.data()} : (l as any); // TODO why doesn't this type narrow?
+export const levelSequences: LevelSequenceOrCreator[] = [
+	{
+		name: 'light_pure',
+		data: {
+			sequence: [
+				'0a',
+				'1a',
+				'2a',
+				'3a',
+				'4a',
+				'5a',
+				'6a',
+				'7a',
+				'8a',
+				'9a',
+				'10a',
+				'10c',
+				'11a',
+				'12a',
+			],
 		},
-		{
-			name: 'light_balanced',
+	},
+	{
+		name: 'light_balanced',
+		data: {
 			sequence: [
 				'0a',
 				'0c',
@@ -145,7 +167,6 @@ export const levelSequencesByName: Map<string, LevelSequenceOrCreator> = new Map
 				'3a',
 				'3c',
 				'4a',
-				'4c',
 				'5a',
 				'6a',
 				'6c',
@@ -156,17 +177,36 @@ export const levelSequencesByName: Map<string, LevelSequenceOrCreator> = new Map
 				'9a',
 				'9c',
 				'10a',
-				'10c',
 				'11a',
+				'12a',
 				'12c',
 			],
 		},
-		{
-			name: 'void_pure',
-			sequence: ['0b', '1b', '2b', '3b', '4b', '5b', '6b', '7b', '8b', '9b', '10b', '11b', '12b'],
+	},
+	{
+		name: 'void_pure',
+		data: {
+			sequence: [
+				'0b',
+				'1b',
+				'2b',
+				'3b',
+				'4b',
+				'5b',
+				'6b',
+				'7b',
+				'8b',
+				'9b',
+				'10b',
+				'10c',
+				'11b',
+				'12b',
+			],
 		},
-		{
-			name: 'void_balanced',
+	},
+	{
+		name: 'void_balanced',
+		data: {
 			sequence: [
 				'0b',
 				'0c',
@@ -190,11 +230,13 @@ export const levelSequencesByName: Map<string, LevelSequenceOrCreator> = new Map
 				'10b',
 				'10c',
 				'11b',
-				'12c',
+				'12b',
 			],
 		},
-		() => ({
-			name: 'random_pure',
+	},
+	{
+		name: 'random_pure',
+		data: () => ({
 			sequence: [
 				randomItem(['0a', '0b']),
 				randomItem(['1a', '1b']),
@@ -212,12 +254,12 @@ export const levelSequencesByName: Map<string, LevelSequenceOrCreator> = new Map
 					['10a', '10c', '11a', '12a'],
 					['10b', '10c', '11b', '12b'],
 				]),
-			]
-				.flat()
-				.filter(Boolean),
+			].flat(),
 		}),
-		() => ({
-			name: 'random_balanced',
+	},
+	{
+		name: 'random_balanced',
+		data: () => ({
 			sequence: [
 				randomItem(['0a', '0b']),
 				'0c',
@@ -244,11 +286,82 @@ export const levelSequencesByName: Map<string, LevelSequenceOrCreator> = new Map
 					['10a', '11a', '12a', '12c'], // TODO this relies on earlier events (what are they? maybe ~half of the c levels must be completed?)
 					['10b', '10c', '11b', '12b'],
 				]),
-			]
-				.flat()
-				.filter(Boolean),
+			].flat(),
 		}),
-		// TODO add `random`, that mimics any full valid playthrough
-	].map((s) => [toLevelSequenceData(s).name, s]),
+	},
+	{
+		name: 'random_random',
+		data: (): LevelSequenceData => {
+			/*
+
+		Conditions that disallow 12c:
+		
+		- not enough balance (full a+c's is ok, maybe need more c's in that case, or perhaps it's naturally balanced because some c's  )
+		- too much void
+
+		*/
+			const sequence: string[] = [];
+			let aCount = 0;
+			let bCount = 0;
+			let cCount = 0;
+			const addOneLevel = (name: string | null): void => {
+				if (!name) return;
+				if (name.endsWith('a')) {
+					aCount++;
+				} else if (name.endsWith('b')) {
+					bCount++;
+				} else if (name.endsWith('c')) {
+					cCount++;
+				} else {
+					console.error('unexpected level name', name);
+				}
+				sequence.push(name);
+			};
+			const addLevel = (names: string | null | Array<string | null>): void => {
+				if (Array.isArray(names)) {
+					names.forEach(addOneLevel);
+				} else {
+					addOneLevel(names);
+				}
+			};
+			addLevel(randomItem(['0a', '0b']));
+			addLevel(randomItem(['0c', null]));
+			addLevel(randomItem(['1a', '1b']));
+			addLevel(randomItem(['1c', null]));
+			addLevel(randomItem(['2a', '2b']));
+			addLevel(randomItem(['2c', null]));
+			addLevel(randomItem(['3a', '3b']));
+			addLevel(randomItem(['3c', null]));
+			addLevel(
+				randomItem([
+					['4a', '5a'],
+					['4b', cCount > 1 ? randomItem(['4c', null]) : null, '5b'],
+				]),
+			);
+			addLevel(randomItem(['6a', '6b']));
+			addLevel(randomItem(['6c', null]));
+			addLevel(randomItem(['7a', '7b']));
+			addLevel(randomItem(['7c', null]));
+			addLevel(randomItem(['8a', '8b']));
+			addLevel(randomItem(['8c', null]));
+			addLevel(randomItem(['9a', '9b']));
+			addLevel(randomItem(['9c', null]));
+			addLevel(
+				randomItem(
+					[
+						['10a', '10c', '11a', '12a'],
+						cCount >= 4 ? ['10a', '11a', '12a', '12c'] : null,
+						['10b', '10c', '11b', '12b'],
+					].filter(Boolean),
+				),
+			);
+			return {sequence};
+		},
+	},
+];
+export const levelSequencesByName: Map<string, LevelSequenceOrCreator> = new Map(
+	levelSequences.map((l) => [l.name, l]),
 );
-export const levelSequences = Array.from(levelSequencesByName.values());
+
+export const sequenceContains = (levelSequence: LevelSequence, level: LevelData): boolean =>
+	levelSequence.data.sequence.includes(level.name);

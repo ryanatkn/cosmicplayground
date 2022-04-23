@@ -4,17 +4,17 @@
 
 	export let level: LevelData;
 	export let selected: boolean;
-
-	// TODO the `playingAudio` usage isn't reactive
-	// maybe use a `mutable` map?
+	export let disabled: boolean;
 </script>
 
-<div class="starship-level buttonish">
+<div class="starship-level" title="level {level.name}">
 	<button
 		on:click={() => {
 			void playSong(level.song);
 		}}
 		class:selected
+		class:buttonish={!disabled}
+		{disabled}
 	>
 		<div class="title">{level.title}</div>
 	</button>

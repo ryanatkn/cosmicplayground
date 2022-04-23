@@ -4,8 +4,9 @@
 	import {
 		levelDatas,
 		levelSequences,
-		toLevelSequenceData,
+		toLevelSequence,
 		type LevelData,
+		type LevelSequence,
 		type LevelSequenceOrCreator,
 	} from '$lib/starship/levels';
 
@@ -23,42 +24,44 @@
 	};
 
 	// TODO refactor these so they're props -- maybe a `LevelManager` or something
-	export let selectedLevelSequence: LevelSequenceOrCreator | null = null;
+	export let selectedLevelSequenceOrCreator: LevelSequenceOrCreator | null = null;
+	export let selectedLevelSequence: LevelSequence | null = null;
 	export let selectedLevel: LevelData | null = null;
 
-	const playLevelSequence = async (levelSequence: LevelSequenceOrCreator): Promise<void> => {
+	const playLevelSequence = async (
+		levelSequenceOrCreator: LevelSequenceOrCreator,
+	): Promise<void> => {
 		cancel();
 
-		selectedLevelSequence = levelSequence;
-		const data = toLevelSequenceData(levelSequence);
-		console.log(`playing levelSequence`, levelSequence, data);
+		selectedLevelSequenceOrCreator = levelSequenceOrCreator;
+		selectedLevelSequence = toLevelSequence(levelSequenceOrCreator);
+		console.log(`playing levelSequence`, levelSequenceOrCreator, selectedLevelSequence);
 
 		// Play each song in sequence.
-		for (const levelName of data.sequence) {
+		for (const levelName of selectedLevelSequence.data.sequence) {
 			const level = levelDatas.get(levelName)!;
 			selectedLevel = level;
 			await playLevelSong(level); // eslint-disable-line no-await-in-loop
-			if (selectedLevelSequence !== levelSequence || selectedLevel !== level) {
+			if (selectedLevelSequenceOrCreator !== levelSequenceOrCreator || selectedLevel !== level) {
 				return; // canceled or changed
 			}
 		}
 		selectedLevel = null;
-		selectedLevelSequence = null;
+		selectedLevelSequenceOrCreator = null;
 	};
 
 	const cancel = (): void => {
 		pauseAudio();
-		selectedLevelSequence = null;
+		selectedLevelSequenceOrCreator = null;
 		selectedLevel = null;
 	};
 </script>
 
 {#each levelSequences as levelSequence (levelSequence)}
-	{@const data = toLevelSequenceData(levelSequence)}
 	<button
 		type="button"
-		class:selected={levelSequence === selectedLevelSequence}
-		on:click={() => playLevelSequence(levelSequence)}>{data.name}</button
+		class:selected={levelSequence === selectedLevelSequenceOrCreator}
+		on:click={() => playLevelSequence(levelSequence)}>{levelSequence.name}</button
 	>
 {/each}
 <button type="button" on:click={cancel}>cancel</button>
