@@ -3,7 +3,7 @@ import {randomItem} from '@feltcoop/felt/util/random.js';
 import {toImageMeta, type ImageMeta} from '$lib/app/images';
 import {type SongData, toSongData} from '$lib/music/songs';
 
-// TODO BLOCK probably rename Stage to World
+// TODO rename Stage to what? world, story? hmm
 
 export interface LevelData {
 	name: string;
