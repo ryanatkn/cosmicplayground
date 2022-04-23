@@ -16,6 +16,7 @@
 	$: ({moving} = controller);
 
 	const clock = getClock();
+	// TODO ensure clock stopping stops pixi rendering
 
 	$: if (!$clock.running && $moving) clock.resume();
 

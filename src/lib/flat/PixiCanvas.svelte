@@ -36,18 +36,30 @@
 		console.log(`stage`, stage.sim.bodies);
 		for (const entity of sim.bodies) {
 			if (entity.invisible) continue;
-			const graphics = new Pixi.Graphics();
+			// TODO how to store these?
+			// - make a map and lookup each loop, apply styles
+			// - set `Entity.pixiContainer` (update either in a loop or even inline in the sim, or change the entity API to do this)
+			const entityContainer = new Pixi.Container();
+			container.addChild(entityContainer);
+			container.x = entity.x;
+			container.y = entity.y;
+
 			if (entity._circle) {
+				const graphics = new Pixi.Graphics();
+				entityContainer.addChild(graphics);
 				graphics.lineStyle(1, entity.colorHex);
 				graphics.beginFill(0, 0);
-				// TODO camera
-				graphics.drawCircle(entity.x, entity.y, entity.radius);
-			} else {
-				// TODO other graphics?
-				continue;
+				graphics.drawCircle(0, 0, entity.radius);
+				graphics.endFill();
 			}
-			graphics.endFill();
-			container.addChild(graphics);
+			// TODO other graphics?
+
+			if (entity.text) {
+				const text = new Pixi.Text(entity.text, {fontSize: entity.fontSize});
+				entityContainer.addChild(text);
+				text.anchor.x = 0.5;
+				text.anchor.y = 0.5;
+			}
 		}
 	});
 

@@ -126,6 +126,6 @@ const drawText = (ctx: CanvasRenderingContext2D, entity: EntityBody, camera: Cam
 		(entity.y - camera.y) * camera.scale + camera.height / 2 + (entity.textOffsetY || 0);
 	ctx.textAlign = 'center';
 	ctx.textBaseline = 'middle';
-	ctx.font = entity.font || '30px serif';
+	ctx.font = entity.font || '30px sans-serif';
 	ctx.fillText(entity.text!, viewX, viewY); // TODO type? maybe pass `text` instead of `entity`?
 };

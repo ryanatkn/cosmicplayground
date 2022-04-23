@@ -118,6 +118,7 @@
 
 		if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			// global pause
+			// TODO BLOCK app.stop()
 			clock.toggle();
 		} else if (e.key === '`' && e.ctrlKey) {
 			// toggle dev mode

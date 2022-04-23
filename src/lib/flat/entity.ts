@@ -16,6 +16,7 @@ export interface Entity extends Body {
 	text?: string;
 	textOffsetX?: number;
 	textOffsetY?: number;
+	fontSize?: number;
 	font?: string;
 }
 
