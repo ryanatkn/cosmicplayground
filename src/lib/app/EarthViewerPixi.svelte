@@ -10,6 +10,9 @@
 	import {getPixiScene} from '$lib/app/pixi';
 	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
 
+	// TODO looks like we could use `Pixi.Prepare` to make initial rendering smoother:
+	// https://pixijs.download/release/docs/PIXI.Prepare.html
+
 	// TODO should we cache stuff at the module scope? mainly thinking of the render textures
 	// or should we free all resources when this is unmounted? including all base textures?
 

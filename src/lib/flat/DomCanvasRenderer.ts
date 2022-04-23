@@ -4,7 +4,7 @@ import type {Renderer} from '$lib/flat/renderer';
 import type {EntityBody, EntityCircle} from '$lib/flat/entity';
 import type {CameraState} from '$lib/flat/camera';
 
-export class CanvasRenderer implements Renderer {
+export class DomCanvasRenderer implements Renderer {
 	width = -1;
 	height = -1;
 

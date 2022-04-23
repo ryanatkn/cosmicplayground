@@ -1,7 +1,8 @@
 <script lang="ts">
-	import Canvas from '$lib/flat/Canvas.svelte';
+	import DomCanvas from '$lib/flat/DomCanvas.svelte';
+	import PixiCanvas from '$lib/flat/PixiCanvas.svelte';
 	import {getClock} from '$lib/app/clockStore';
-	import {CanvasRenderer} from '$lib/flat/CanvasRenderer';
+	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
 	import type {Controller} from '$lib/flat/Controller';
 	import type {Stage} from '$lib/flat/stage';
 
@@ -9,7 +10,7 @@
 	export let height: number;
 	export let stage: Stage;
 	export let controller: Controller;
-	export let renderer = new CanvasRenderer();
+	export let renderer = new DomCanvasRenderer();
 
 	$: ({dirty} = renderer);
 	$: ({moving} = controller);
@@ -37,7 +38,8 @@
 <svelte:window on:keydown={onKeydown} on:keyup={onKeyup} />
 
 <div class="world" style:width="{width}px" style:height="{height}px">
-	<Canvas {width} {height} {stage} {renderer} />
+	<DomCanvas {width} {height} {stage} {renderer} />
+	<PixiCanvas {width} {height} {stage} />
 	<slot />
 </div>
 

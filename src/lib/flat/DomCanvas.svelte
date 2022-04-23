@@ -1,13 +1,13 @@
 <script lang="ts">
 	import {onMount} from 'svelte';
 
-	import type {CanvasRenderer} from '$lib/flat/CanvasRenderer';
+	import type {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
 	import type {Stage} from '$lib/flat/stage';
 
 	export let width: number;
 	export let height: number;
 	export let stage: Stage;
-	export let renderer: CanvasRenderer; // TODO isn't reactive
+	export let renderer: DomCanvasRenderer; // TODO isn't reactive
 
 	let el: HTMLCanvasElement;
 	let canvasWidth: number;
