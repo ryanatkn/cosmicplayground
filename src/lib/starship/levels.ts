@@ -301,19 +301,18 @@ export const levelSequences: LevelSequenceOrCreator[] = [
 
 		*/
 			const sequence: string[] = [];
-			let aCount = 0;
+			// let aCount = 0;
 			let bCount = 0;
 			let cCount = 0;
 			const addOneLevel = (name: string | null): void => {
 				if (!name) return;
-				if (name.endsWith('a')) {
-					aCount++;
-				} else if (name.endsWith('b')) {
+				// if (name.endsWith('a')) {
+				// 	aCount++;
+				// } else
+				if (name.endsWith('b')) {
 					bCount++;
 				} else if (name.endsWith('c')) {
 					cCount++;
-				} else {
-					console.error('unexpected level name', name);
 				}
 				sequence.push(name);
 			};
@@ -335,7 +334,7 @@ export const levelSequences: LevelSequenceOrCreator[] = [
 			addLevel(
 				randomItem([
 					['4a', '5a'],
-					['4b', cCount > 1 ? randomItem(['4c', null]) : null, '5b'], // TODO is 1 good?
+					['4b', cCount > MIN_C_COUNT_FOR_FANFARE ? randomItem(['4c', null]) : null, '5b'],
 				]),
 			);
 			addLevel(randomItem(['6a', '6b']));
@@ -350,7 +349,9 @@ export const levelSequences: LevelSequenceOrCreator[] = [
 				randomItem(
 					[
 						['10a', '10c', '11a', '12a'],
-						cCount >= 4 ? ['10a', '11a', '12a', '12c'] : null, // TODO is 4 good?
+						cCount >= MIN_C_COUNT_FOR_GENDING && bCount <= MAX_B_COUNT_FOR_GENDING
+							? ['10a', '11a', '12a', '12c']
+							: null,
 						['10b', '10c', '11b', '12b'],
 					].filter(Boolean),
 				),
@@ -365,3 +366,8 @@ export const levelSequencesByName: Map<string, LevelSequenceOrCreator> = new Map
 
 export const sequenceContains = (levelSequence: LevelSequence, level: LevelData): boolean =>
 	levelSequence.data.sequence.includes(level.name);
+
+// TODO maybe do this differently, specific level outcomes integrated with the store?
+const MIN_C_COUNT_FOR_FANFARE = 1;
+const MIN_C_COUNT_FOR_GENDING = 4;
+const MAX_B_COUNT_FOR_GENDING = 7;
