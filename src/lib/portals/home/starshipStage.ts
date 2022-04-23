@@ -23,7 +23,7 @@ export const COLOR_EXIT = 'hsl(140, 100%, 70%)';
 export const COLOR_PLAYER = 'violet';
 export const COLOR_MOLTEN = 'red';
 
-export const MOON_ICONS = ['🐹', '🐸', '🐰', '🐼', '🐭'];
+export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
 
 export const PLAYER_SPEED = 0.6;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;

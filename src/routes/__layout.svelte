@@ -7,6 +7,7 @@
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
 	import {goto} from '$app/navigation';
+	import * as Pixi from 'pixi.js';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBgStore';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
@@ -49,11 +50,10 @@
 		if (redirecting) await redirecting;
 
 		loadingStatus = 'pending';
-		// TODO importing PIXI async due to this issue: https://github.com/sveltejs/kit/issues/1650
-		const pixiModule = await import('pixi.js');
-		(window as any).pixi = pixiModule as any;
+
+		(window as any).pixi = Pixi as any;
 		try {
-			pixi.init(pixiModule, {width: $dimensions.width, height: $dimensions.height}); // TODO do the dimensions need to be reactive?
+			pixi.init({width: $dimensions.width, height: $dimensions.height}); // TODO do the dimensions need to be reactive?
 			supportsWebGL = true;
 		} catch (err) {
 			console.error('failed to create PixiApp', err);
@@ -61,11 +61,10 @@
 			pixi = {} as any; // TODO this is just a hack for type safety
 			console.error(err);
 		}
-		// pixi.PIXI.utils.clearTextureCache();
+		// pixi.Pixi.utils.clearTextureCache();
 		if (!pixi.app.loader.resources[bgImageUrl]) {
 			pixi.app.loader.add(bgImageUrl).load(() => {
 				bg = createPixiBgStore(
-					pixi.PIXI,
 					pixi.app.loader.resources[bgImageUrl].texture!,
 					$dimensions.width,
 					$dimensions.height,
