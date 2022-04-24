@@ -1,10 +1,12 @@
 <script lang="ts">
+	import type * as Pixi from 'pixi.js';
+
 	import DomCanvas from '$lib/flat/DomCanvas.svelte';
 	import PixiCanvas from '$lib/flat/PixiCanvas.svelte';
 	import {getClock} from '$lib/app/clockStore';
 	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
 	import type {Controller} from '$lib/flat/Controller';
-	import type {Stage} from '$lib/flat/stage';
+	import type {Stage} from '$lib/flat/Stage';
 
 	export let worldWidth: number;
 	export let worldHeight: number;
@@ -13,6 +15,7 @@
 	export let viewWidth: number;
 	export let viewHeight: number;
 	export let stage: Stage;
+	export let scene: Pixi.Container;
 	export let controller: Controller;
 	export let renderer = new DomCanvasRenderer();
 
@@ -44,7 +47,7 @@
 
 <div class="world" style:width="{worldWidth}px" style:height="{worldHeight}px">
 	<DomCanvas width={worldWidth} height={worldHeight} {stage} {renderer} />
-	<PixiCanvas {worldWidth} {worldHeight} {viewWidth} {viewHeight} {stage} />
+	<PixiCanvas {worldWidth} {worldHeight} {viewWidth} {viewHeight} {stage} {scene} />
 	<slot />
 </div>
 

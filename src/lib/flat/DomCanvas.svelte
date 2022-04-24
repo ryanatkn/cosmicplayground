@@ -2,7 +2,7 @@
 	import {onMount} from 'svelte';
 
 	import type {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
-	import type {Stage} from '$lib/flat/stage';
+	import type {Stage} from '$lib/flat/Stage';
 
 	export let width: number;
 	export let height: number;

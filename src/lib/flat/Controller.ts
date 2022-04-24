@@ -1,6 +1,6 @@
 import {writable} from 'svelte/store';
 
-import type {Entity} from '$lib/flat/entity';
+import type {IEntityBody} from '$lib/flat/entityBody';
 import type {CameraState} from '$lib/flat/camera';
 
 // TODO rethink and handle dynamic mappings
@@ -122,7 +122,7 @@ const MIN_MAGNITUDE = 6; // TODO this is still janky, see more comments below
 // TODO maybe return values instead?
 export const updateDirection = (
 	controller: Controller,
-	entity: Entity,
+	entity: IEntityBody,
 	camera: CameraState,
 ): void => {
 	if (

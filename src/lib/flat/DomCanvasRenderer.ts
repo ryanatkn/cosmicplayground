@@ -1,8 +1,9 @@
 import {writable} from 'svelte/store';
 
 import type {Renderer} from '$lib/flat/renderer';
-import type {EntityBody, EntityCircle} from '$lib/flat/entity';
+import type {EntityBody, EntityCircle} from '$lib/flat/entityBody';
 import type {CameraState} from '$lib/flat/camera';
+import type {Entity} from '$lib/flat/Entity';
 
 export class DomCanvasRenderer implements Renderer {
 	width = -1;
@@ -50,7 +51,7 @@ export class DomCanvasRenderer implements Renderer {
 		ctx.clearRect(0, 0, width, height);
 	}
 
-	render(entities: Iterable<EntityBody>, camera: CameraState): void {
+	render(entities: Iterable<Entity>, camera: CameraState): void {
 		const {ctx, width, height} = this;
 		if (!ctx) throw Error('Expected rendering context');
 		if (width === -1 || height === -1) throw Error('Expected renderer dimensions');
@@ -60,16 +61,16 @@ export class DomCanvasRenderer implements Renderer {
 		for (const entity of entities) {
 			if (entity.invisible) continue;
 			ctx.beginPath();
-			ctx.strokeStyle = entity.color || '#fff';
-			if (entity._circle) {
-				drawCircle(ctx, entity, camera);
+			ctx.strokeStyle = entity.colorStr || '#fff';
+			if (entity.body._circle) {
+				drawCircle(ctx, entity.body, camera);
 			} else {
 				// drawPolygon(ctx, entity, camera);
 				throw Error('TODO');
 			}
 			ctx.stroke();
 			if (entity.text) {
-				drawText(ctx, entity, camera);
+				drawText(ctx, entity.body, camera);
 			}
 		}
 	}

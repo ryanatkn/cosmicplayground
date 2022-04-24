@@ -4,38 +4,24 @@ import {klona} from 'klona/json';
 import {get, writable, type Writable} from 'svelte/store';
 import * as Pixi from 'pixi.js';
 
-import {Stage as BaseStage, type StageSetupOptions} from '$lib/flat/stage';
-import {frag, type EntityBody, type EntityCircle, type EntityPolygon} from '$lib/flat/entity';
+import {Stage as BaseStage, type StageSetupOptions} from '$lib/flat/Stage';
+import type {EntityCircle, EntityPolygon} from '$lib/flat/entityBody';
+import {frag} from '$lib/flat/entityHelpers';
 import type {Renderer} from '$lib/flat/renderer';
 import {Simulation} from '$lib/flat/Simulation';
 import {updateDirection} from '$lib/flat/Controller';
-import {
-	type CameraStore,
-	toCameraStore,
-	type CameraState,
-	SPRING_OPTS_HARD,
-} from '$lib/flat/camera';
 import {collideRigidBodies} from '$lib/flat/collideRigidBodies';
 import {dequal} from 'dequal/lite';
-import {hslToHex, hslToStr, type Hsl} from '$lib/util/colors';
+import type {Hsl} from '$lib/util/colors';
+import {Entity} from '$lib/flat/Entity';
 
 // TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
 // and our `Hsl` is good for fast manipulation
 const COLOR_DEFAULT: Hsl = [0.611, 1, 0.7];
-const COLOR_DEFAULT_STR = hslToStr(...COLOR_DEFAULT);
-const COLOR_DEFAULT_HEX = hslToHex(...COLOR_DEFAULT);
 const COLOR_PLAIN: Hsl = [0.611, 0.2, 0.7];
-const COLOR_PLAIN_STR = hslToStr(...COLOR_PLAIN);
-const COLOR_PLAIN_HEX = hslToHex(...COLOR_PLAIN);
 const COLOR_EXIT: Hsl = [0.389, 1, 0.7];
-const COLOR_EXIT_STR = hslToStr(...COLOR_EXIT);
-const COLOR_EXIT_HEX = hslToHex(...COLOR_EXIT);
 const COLOR_PLAYER: Hsl = [0.833, 0.76, 0.72];
-const COLOR_PLAYER_STR = hslToStr(...COLOR_PLAYER);
-const COLOR_PLAYER_HEX = hslToHex(...COLOR_PLAYER);
 const COLOR_MOLTEN: Hsl = [0, 1, 0.5];
-const COLOR_MOLTEN_STR = hslToStr(...COLOR_MOLTEN);
-const COLOR_MOLTEN_HEX = hslToHex(...COLOR_MOLTEN);
 
 export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
 
@@ -91,15 +77,15 @@ export class Stage extends BaseStage {
 	// these are instantiated in `setup`
 	collisions!: Collisions;
 	sim!: Simulation;
-	player!: EntityCircle;
-	bounds!: EntityPolygon;
-	planet!: EntityCircle;
-	rock!: EntityCircle;
-	readonly moons: Set<EntityCircle> = new Set();
-	readonly moonsArray: EntityCircle[] = []; // TODO hack to keep the current view code -- see in 2 places
-	readonly moonFragments: Set<EntityCircle> = new Set();
-	readonly planetFragments: Set<EntityCircle> = new Set();
-	readonly rockFragments: Set<EntityCircle> = new Set();
+	player!: Entity<EntityCircle>;
+	bounds!: Entity<EntityPolygon>;
+	planet!: Entity<EntityCircle>;
+	rock!: Entity<EntityCircle>;
+	readonly moons: Set<Entity<EntityCircle>> = new Set();
+	readonly moonsArray: Array<Entity<EntityCircle>> = []; // TODO hack to keep the current view code -- see in 2 places
+	readonly moonFragments: Set<Entity<EntityCircle>> = new Set();
+	readonly planetFragments: Set<Entity<EntityCircle>> = new Set();
+	readonly rockFragments: Set<Entity<EntityCircle>> = new Set();
 
 	scores: Writable<StarshipStageScores>;
 	updateScores(): void {
@@ -107,32 +93,13 @@ export class Stage extends BaseStage {
 		if (!dequal(newScores, get(this.scores))) this.scores.set(newScores);
 	}
 
-	camera!: CameraStore;
-	$camera!: CameraState;
-	freezeCamera = true; // is the camera fixed in place?
-
-	container = new Pixi.Container();
-
-	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management?
-
 	constructor(options: StageSetupOptions) {
 		super(options);
 
-		const {width, height, freezeCamera} = options;
-
-		this.freezeCamera = freezeCamera;
+		const {width, height} = options;
 
 		const playerX = 850;
 		const playerY = 502;
-
-		this.camera = toCameraStore({
-			width,
-			height,
-			x: freezeCamera ? width / 2 : playerX,
-			y: freezeCamera ? height / 2 : playerY,
-		});
-		// TODO this is a hint this should be a Svelte component ...
-		this.subscriptions.push(this.camera.subscribe(($camera) => (this.$camera = $camera)));
 
 		const collisions = (this.collisions = new Collisions());
 		const sim = (this.sim = new Simulation(collisions));
@@ -143,39 +110,40 @@ export class Stage extends BaseStage {
 
 		console.log('setup stage, sim, controller', sim, controller);
 		// create the controllable player
-		const player = (this.player = collisions.createCircle(
-			playerX,
-			playerY,
-			PLAYER_RADIUS,
-		) as EntityCircle);
+		const player = (this.player = new Entity(
+			collisions.createCircle(playerX, playerY, PLAYER_RADIUS) as EntityCircle,
+		));
 		player.speed = PLAYER_SPEED;
 		player.directionX = 0;
 		player.directionY = 0;
-		player.color = COLOR_PLAYER_STR;
-		player.colorHex = COLOR_PLAYER_HEX;
-		this.addBody(player);
+		player.color = COLOR_PLAYER;
+		this.addEntity(player);
 
 		// create the bounds around the stage edges
-		const bounds = (this.bounds = collisions.createPolygon(0, 0, [
-			[0, 0],
-			[1, 0],
-			[1, 1],
-			[0, 1],
-		]) as EntityPolygon);
+		const bounds = (this.bounds = new Entity(
+			collisions.createPolygon(0, 0, [
+				[0, 0],
+				[1, 0],
+				[1, 1],
+				[0, 1],
+			]) as EntityPolygon,
+		));
 		bounds.disableSimulation = true;
 		bounds.invisible = true;
 		bounds.scale_x = width;
 		bounds.scale_y = height;
-		this.addBody(bounds);
+		this.addEntity(bounds);
 
 		// create the stuff
 		// TODO create these programmatically from data
 		const planetRadius = 1618;
-		const planet = (this.planet = collisions.createCircle(
-			-1450 + planetRadius / 2,
-			-1750 + planetRadius / 2,
-			planetRadius,
-		) as EntityCircle);
+		const planet = (this.planet = new Entity(
+			collisions.createCircle(
+				-1450 + planetRadius / 2,
+				-1750 + planetRadius / 2,
+				planetRadius,
+			) as EntityCircle,
+		));
 		planet.text = MOON_ICONS[0];
 		planet.textOffsetX = 850;
 		planet.textOffsetY = 1150;
@@ -184,70 +152,62 @@ export class Stage extends BaseStage {
 		planet.speed = 0;
 		planet.directionX = 0;
 		planet.directionY = 0;
-		planet.color = COLOR_DEFAULT_STR;
-		planet.colorHex = COLOR_DEFAULT_HEX;
-		this.addBody(planet);
+		planet.color = COLOR_DEFAULT;
+		this.addEntity(planet);
 
 		// TODO how will this work for polygons?
 		const rockSize = 262;
-		const rock = (this.rock = collisions.createCircle(
-			2275 + rockSize / 2,
-			1200 + rockSize / 2,
-			rockSize,
-		) as EntityCircle);
+		const rock = (this.rock = new Entity(
+			collisions.createCircle(2275 + rockSize / 2, 1200 + rockSize / 2, rockSize) as EntityCircle,
+		));
 		rock.speed = ROCK_SPEED;
 		rock.directionX = -1;
 		rock.directionY = -0.7;
-		rock.color = COLOR_PLAIN_STR;
-		rock.colorHex = COLOR_PLAIN_HEX;
-		this.addBody(rock);
+		rock.color = COLOR_PLAIN;
+		this.addEntity(rock);
 
-		let moon = collisions.createCircle(1660, 1012, 43) as EntityCircle;
+		let moon = new Entity(collisions.createCircle(1660, 1012, 43) as EntityCircle);
 		moon.text = MOON_ICONS[1];
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.font = `${moon.fontSize}px sans-serif`;
 		moon.speed = MOON_SPEED;
 		moon.directionX = 0;
 		moon.directionY = 0;
-		moon.color = COLOR_EXIT_STR;
-		moon.colorHex = COLOR_EXIT_HEX;
-		this.addBody(moon);
+		moon.color = COLOR_EXIT;
+		this.addEntity(moon);
 		moons.add(moon);
 
-		moon = collisions.createCircle(1420, 1104, 72) as EntityCircle;
+		moon = new Entity(collisions.createCircle(1420, 1104, 72) as EntityCircle);
 		moon.text = MOON_ICONS[2];
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.font = `${moon.fontSize}px sans-serif`;
 		moon.speed = MOON_SPEED;
 		moon.directionX = 0;
 		moon.directionY = 0;
-		moon.color = COLOR_EXIT_STR;
-		moon.colorHex = COLOR_EXIT_HEX;
-		this.addBody(moon);
+		moon.color = COLOR_EXIT;
+		this.addEntity(moon);
 		moons.add(moon);
 
-		moon = collisions.createCircle(2010, 872, 19) as EntityCircle;
+		moon = new Entity(collisions.createCircle(2010, 872, 19) as EntityCircle);
 		moon.text = MOON_ICONS[3];
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.font = `${moon.fontSize}px sans-serif`;
 		moon.speed = MOON_SPEED;
 		moon.directionX = 0;
 		moon.directionY = 0;
-		moon.color = COLOR_EXIT_STR;
-		moon.colorHex = COLOR_EXIT_HEX;
-		this.addBody(moon);
+		moon.color = COLOR_EXIT;
+		this.addEntity(moon);
 		moons.add(moon);
 
-		moon = collisions.createCircle(1870, 776, 27) as EntityCircle;
+		moon = new Entity(collisions.createCircle(1870, 776, 27) as EntityCircle);
 		moon.text = MOON_ICONS[4];
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.font = `${moon.fontSize}px sans-serif`;
 		moon.speed = MOON_SPEED;
 		moon.directionX = 0;
 		moon.directionY = 0;
-		moon.color = COLOR_EXIT_STR;
-		moon.colorHex = COLOR_EXIT_HEX;
-		this.addBody(moon);
+		moon.color = COLOR_EXIT;
+		this.addEntity(moon);
 		moons.add(moon);
 
 		// TODO hack to keep the current view code -- see in 2 places
@@ -256,47 +216,40 @@ export class Stage extends BaseStage {
 		this.scores = writable(toScores(this));
 	}
 
-	addBody(body: EntityBody): void {
-		this.sim.addBody(body);
+	addEntity(entity: Entity): void {
+		this.sim.addBody(entity);
 
-		if (body.invisible) return; // TODO this isn't reactive!
+		if (entity.invisible) return; // TODO this isn't reactive!
 
 		// TODO how to store these?
 		// - make a map and lookup each loop, apply styles
 		// - set `Entity.pixiContainer` (update either in a loop or even inline in the sim, or change the entity API to do this)
-		const entityContainer = new Pixi.Container();
-		this.container.addChild(entityContainer);
-		entityContainer.position.set(body.x, body.y);
+		entity.container = new Pixi.Container();
+		this.container.addChild(entity.container);
+		entity.container.position.set(entity.x, entity.y);
 
-		if (body._circle) {
+		if (entity._circle) {
 			const graphics = new Pixi.Graphics();
-			entityContainer.addChild(graphics);
-			graphics.lineStyle(1, body.colorHex);
+			entity.container.addChild(graphics);
+			graphics.lineStyle(1, entity.colorHex);
 			graphics.beginFill(0, 0);
-			graphics.drawCircle(0, 0, body.radius);
+			graphics.drawCircle(0, 0, entity.radius);
 			graphics.endFill();
 		}
 		// TODO other graphics?
 
-		if (body.text) {
-			const text = new Pixi.Text(body.text, {fontSize: body.fontSize});
-			entityContainer.addChild(text);
+		if (entity.text) {
+			const text = new Pixi.Text(entity.text, {fontSize: entity.fontSize});
+			entity.container.addChild(text);
 			text.anchor.set(0.5, 0.5);
 		}
 	}
 
-	removeBody(body: EntityBody): void {
-		body.dead = true;
+	removeEntity(entity: Entity): void {
+		entity.dead = true;
+		entity.container.destroy({children: true, texture: true}); // TODO BLOCK ??????????????????????????
 		// TODO remove from the other collections? maybe after figuring out the tagging/type/bitmask system
-		this.sim.removeBody(body);
-	}
-
-	destroy(): void {
-		this.container.destroy({children: true, baseTexture: true, texture: true});
-		// TODO refactor this out, maybe move everything to a component?
-		for (const subscription of this.subscriptions) {
-			subscription();
-		}
+		this.sim.removeBody(entity);
 	}
 
 	override update(dt: number): void {
@@ -365,7 +318,7 @@ export class Stage extends BaseStage {
 					const newMoonFragments = frag(_moon, collisions, 12) as EntityCircle[];
 					shouldUpdateScores = true;
 					(moonFragmentsToAdd || (moonFragmentsToAdd = [])).push(...newMoonFragments);
-					this.removeBody(_moon);
+					this.removeEntity(_moon);
 					// TODO this logic is very hardcoded -- ideally it's all simulated,
 					// but we'd need to ensure the gameplay still works,
 					// which may be tricky or impossible without some ridiculous physics
@@ -387,13 +340,12 @@ export class Stage extends BaseStage {
 							: moltenIsMoonFragment
 							? randomFloat(_molten.directionY / 2, _molten.directionY * 2)
 							: randomFloat(-_molten.directionY / 2, _molten.directionY);
-						f.color = COLOR_MOLTEN_STR;
-						f.colorHex = COLOR_MOLTEN_HEX;
+						f.color = COLOR_MOLTEN;
 					}
 				} else if (_rock && _planet) {
 					// handle collision between rock and planet
-					this.removeBody(_rock);
-					this.removeBody(_planet);
+					this.removeEntity(_rock);
+					this.removeEntity(_planet);
 					const newPlanetFragments = frag(_planet, collisions, 42) as EntityCircle[];
 					shouldUpdateScores = true;
 					(planetFragmentsToAdd || (planetFragmentsToAdd = [])).push(...newPlanetFragments);
@@ -401,8 +353,7 @@ export class Stage extends BaseStage {
 						p.speed = _rock.speed * 0.2 * randomFloat(0.5, 1.0);
 						p.directionX = randomFloat(-_rock.directionX / 2, _rock.directionX / 2);
 						p.directionY = randomFloat(-_rock.directionY / 2, _rock.directionY / 2);
-						p.color = COLOR_MOLTEN_STR;
-						p.colorHex = COLOR_MOLTEN_HEX;
+						p.color = COLOR_MOLTEN;
 					}
 					const newRockFragments = frag(_rock, collisions, 210) as EntityCircle[];
 					(rockFragmentsToAdd || (rockFragmentsToAdd = [])).push(...newRockFragments);
@@ -414,7 +365,7 @@ export class Stage extends BaseStage {
 				} else if (_moonFragment && (_planet || _planetFragment || _rockFragment)) {
 					// TODO this logic is very similar to _molten but need to avoid double counting the same _moonFragment
 					// handle collision between moon fragment and anything molten except other moon fragments
-					this.removeBody(_moonFragment);
+					this.removeEntity(_moonFragment);
 				}
 			},
 			(bodyA, bodyB) => {
@@ -464,19 +415,19 @@ export class Stage extends BaseStage {
 		if (rockFragmentsToAdd) {
 			for (const r of rockFragmentsToAdd) {
 				rockFragments.add(r);
-				this.addBody(r);
+				this.addEntity(r);
 			}
 		}
 		if (planetFragmentsToAdd) {
 			for (const p of planetFragmentsToAdd) {
 				planetFragments.add(p);
-				this.addBody(p);
+				this.addEntity(p);
 			}
 		}
 		if (moonFragmentsToAdd) {
 			for (const f of moonFragmentsToAdd) {
 				moonFragments.add(f);
-				this.addBody(f);
+				this.addEntity(f);
 			}
 		}
 
@@ -499,10 +450,9 @@ export class Stage extends BaseStage {
 		// renderer.render([this.player], this.$camera);
 	}
 
-	resize(width: number, height: number): void {
+	override resize(width: number, height: number): void {
+		super.resize(width, height);
 		this.bounds.scale_x = width;
 		this.bounds.scale_y = height;
-		this.camera.setDimensions(width, height);
-		if (this.freezeCamera) void this.camera.setPosition(width / 2, height / 2, SPRING_OPTS_HARD);
 	}
 }

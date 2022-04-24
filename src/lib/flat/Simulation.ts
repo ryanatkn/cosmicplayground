@@ -1,11 +1,14 @@
 import {Collisions, CollisionResult, type FilterPotentials} from '@ryanatkn/collisions';
 
-import type {EntityBody} from '$lib/flat/entity';
+import type {EntityBody} from '$lib/flat/entityBody';
 
 const result = new CollisionResult();
 const potentials: EntityBody[] = [];
 
 // TODO should this be a Svelte store? or a Svelte component?
+
+// TODO BLOCK should the simulation act on bodies or entities?
+// maybe we don't want to extend the collision systems objects at all?
 
 export class Simulation {
 	readonly collisions: Collisions;

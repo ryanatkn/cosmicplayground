@@ -4,6 +4,7 @@
 	import {getClock} from '$lib/app/clockStore';
 	import {getIdle} from '$lib/app/trackIdleState';
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
+	import {getPixi} from '$lib/app/pixi';
 
 	export let screenWidth: number;
 	export let screenHeight: number;
@@ -24,6 +25,7 @@
 	$: ({controller} = stage);
 
 	const clock = getClock();
+	const pixi = getPixi();
 
 	const idle = getIdle();
 	$: if ($idle) clock.pause();
@@ -89,7 +91,15 @@
 </script>
 
 <div class="view" style:transform>
-	<World {worldWidth} {worldHeight} {viewWidth} {viewHeight} {stage} {controller} />
+	<World
+		{worldWidth}
+		{worldHeight}
+		{viewWidth}
+		{viewHeight}
+		{stage}
+		scene={pixi.currentScene}
+		{controller}
+	/>
 </div>
 <InteractiveSurface width={screenWidth} height={screenHeight} {controller} />
 
