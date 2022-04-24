@@ -6,8 +6,12 @@
 	import type {Controller} from '$lib/flat/Controller';
 	import type {Stage} from '$lib/flat/stage';
 
-	export let width: number;
-	export let height: number;
+	export let worldWidth: number;
+	export let worldHeight: number;
+	// TODO added these view dimensions for the Pixi renderer but probably want to refactor,
+	// maybe using the camera? then `worldWidth` above becomes `width` again
+	export let viewWidth: number;
+	export let viewHeight: number;
 	export let stage: Stage;
 	export let controller: Controller;
 	export let renderer = new DomCanvasRenderer();
@@ -38,9 +42,9 @@
 
 <svelte:window on:keydown={onKeydown} on:keyup={onKeyup} />
 
-<div class="world" style:width="{width}px" style:height="{height}px">
-	<DomCanvas {width} {height} {stage} {renderer} />
-	<PixiCanvas {width} {height} {stage} />
+<div class="world" style:width="{worldWidth}px" style:height="{worldHeight}px">
+	<DomCanvas width={worldWidth} height={worldHeight} {stage} {renderer} />
+	<PixiCanvas {worldWidth} {worldHeight} {viewWidth} {viewHeight} {stage} />
 	<slot />
 </div>
 

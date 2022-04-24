@@ -16,11 +16,13 @@
 	// But then we'll throw away loading assets if they're not done. (does the browser cache tho?)
 	// Probably want to encapsulate this possibly-concurrent loader logic, maybe in `getPixiScene`?
 
-	export let width: number;
-	export let height: number;
+	export let worldWidth: number;
+	export let worldHeight: number;
+	export let viewWidth: number;
+	export let viewHeight: number;
 	export let stage: Stage;
 
-	console.log(`PixiCanvas width, height, stage`, width, height, stage);
+	console.log(`PixiCanvas width, height, stage`, worldWidth, worldHeight, stage);
 
 	$: ({camera, sim} = stage);
 
@@ -69,8 +71,9 @@
 	// TODO copied from `EarthPixiViewer`, extract camera store (see also `View.svelte` parent component)
 	$: updateCamera($camera);
 	const updateCamera = ($camera: CameraState) => {
-		// container.width = $camera.width;
-		// container.height = $camera.height;
+		console.log(`$camera`, $camera);
+		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight); // TODO block get from camera? then remove `viewWidth/height`?
+		container.scale.set(scale);
 		container.position.set($camera.x, $camera.y);
 	};
 </script>

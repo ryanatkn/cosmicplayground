@@ -83,15 +83,13 @@
 		worldHeight: number,
 	): string => {
 		if (viewWidth === worldWidth && viewHeight === worldHeight) return '';
-		const scaleX = viewWidth / worldWidth;
-		const scaleY = viewHeight / worldHeight;
-		const scale = Math.min(scaleX, scaleY);
+		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight);
 		return `scale3d(${scale}, ${scale}, 1)`;
 	};
 </script>
 
 <div class="view" style:transform>
-	<World width={worldWidth} height={worldHeight} {stage} {controller} />
+	<World {worldWidth} {worldHeight} {viewWidth} {viewHeight} {stage} {controller} />
 </div>
 <InteractiveSurface width={screenWidth} height={screenHeight} {controller} />
 
