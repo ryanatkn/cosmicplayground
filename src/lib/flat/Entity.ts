@@ -5,6 +5,10 @@ import {hslToHex, hslToStr, type Hsl} from '$lib/util/colors';
 
 const DEFAULT_COLOR: Hsl = [0.611, 1, 0.7];
 
+/**
+ * The `Entity` class wraps collision simulation and rendering into one object.
+ * We may evolve towards and ECS design but this is fine for now.
+ */
 export class Entity<T extends EntityBody = EntityBody> {
 	private _color!: Hsl;
 	colorStr!: string;
@@ -32,6 +36,9 @@ export class Entity<T extends EntityBody = EntityBody> {
 
 	invisible = false;
 	dead = false;
+	// TODO removed the only usage of this,
+	// but leaving it because it seems it'll be useful,
+	// like "frozen in stasis", may need more system-disabling granularity tho
 	disableSimulation = false;
 
 	constructor(
