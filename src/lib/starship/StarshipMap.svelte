@@ -86,9 +86,7 @@
 	};
 </script>
 
-<div class="buttons">
-	<StarshipLevelButtons {selectedLevelSequenceOrCreator} {playLevelSequence} {cancel} />
-</div>
+<StarshipLevelButtons {selectedLevelSequenceOrCreator} {playLevelSequence} {cancel} />
 <!-- TODO probably render the active stage+level here -->
 <div class="levels">
 	<section>
@@ -227,11 +225,6 @@
 </div>
 
 <style>
-	.buttons {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-	}
 	.levels {
 		display: flex;
 		flex-direction: column;
