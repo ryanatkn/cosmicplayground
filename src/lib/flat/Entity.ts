@@ -34,7 +34,7 @@ export class Entity<T extends EntityBody = EntityBody> {
 	directionX = 0;
 	directionY = 0;
 
-	invisible = false;
+	invisible = false; // TODO setter that also updates container
 	dead = false;
 	// TODO removed the only usage of this,
 	// but leaving it because it seems it'll be useful,

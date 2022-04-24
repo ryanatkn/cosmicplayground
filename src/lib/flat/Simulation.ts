@@ -32,15 +32,18 @@ export class Simulation {
 		filter?: (bodyA: EntityBody, bodyB: EntityBody) => boolean,
 	): void {
 		this.collisions.update();
-		const {entities} = this;
 
 		let speed: number;
 
 		// apply collisions
-		for (const entityA of entities) {
+		for (const entityA of this.entities) {
 			if (entityA.disableSimulation) continue;
 			speed = entityA.speed * dt;
 
+			// TODO this moves one entity and then tests for collisions,
+			// but we're calling `collisions.update()` above --
+			// will we get better behavior if we move everything first,
+			// then update the collisions, then test for collisions?
 			entityA.x += entityA.directionX * speed;
 			entityA.y += entityA.directionY * speed;
 
