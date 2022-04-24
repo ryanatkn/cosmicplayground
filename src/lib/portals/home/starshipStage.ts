@@ -2,10 +2,9 @@ import {Collisions} from '@ryanatkn/collisions';
 import {randomFloat} from '@feltcoop/felt/util/random.js';
 import {klona} from 'klona/json';
 import {get, writable, type Writable} from 'svelte/store';
-import * as Pixi from 'pixi.js';
 
 import {Stage as BaseStage, type StageSetupOptions} from '$lib/flat/Stage';
-import type {EntityCircle, EntityPolygon} from '$lib/flat/entityBody';
+import type {EntityCircle} from '$lib/flat/entityBody';
 import {frag, collide} from '$lib/flat/entityHelpers';
 import type {Renderer} from '$lib/flat/renderer';
 import {Simulation} from '$lib/flat/Simulation';
