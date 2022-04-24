@@ -2,6 +2,7 @@ import {Collisions} from '@ryanatkn/collisions';
 import {randomFloat} from '@feltcoop/felt/util/random.js';
 import {klona} from 'klona/json';
 import {get, writable, type Writable} from 'svelte/store';
+import * as Pixi from 'pixi.js';
 
 import {Stage as BaseStage, type StageSetupOptions} from '$lib/flat/stage';
 import {frag, type EntityBody, type EntityCircle, type EntityPolygon} from '$lib/flat/entity';
@@ -110,6 +111,8 @@ export class Stage extends BaseStage {
 	$camera!: CameraState;
 	freezeCamera = true; // is the camera fixed in place?
 
+	container = new Pixi.Container();
+
 	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management?
 
 	constructor(options: StageSetupOptions) {
@@ -134,7 +137,6 @@ export class Stage extends BaseStage {
 		const collisions = (this.collisions = new Collisions());
 		const sim = (this.sim = new Simulation(collisions));
 		const {controller, moons} = this;
-		const {bodies} = sim;
 
 		// TODO instead of casting we could pass `EntityPolygon` as type param right?
 		// and improve the type safety compared to casting? though not sure it'll catch any bugs
@@ -151,7 +153,7 @@ export class Stage extends BaseStage {
 		player.directionY = 0;
 		player.color = COLOR_PLAYER_STR;
 		player.colorHex = COLOR_PLAYER_HEX;
-		bodies.push(player);
+		this.addBody(player);
 
 		// create the bounds around the stage edges
 		const bounds = (this.bounds = collisions.createPolygon(0, 0, [
@@ -164,7 +166,7 @@ export class Stage extends BaseStage {
 		bounds.invisible = true;
 		bounds.scale_x = width;
 		bounds.scale_y = height;
-		bodies.push(bounds);
+		this.addBody(bounds);
 
 		// create the stuff
 		// TODO create these programmatically from data
@@ -184,7 +186,7 @@ export class Stage extends BaseStage {
 		planet.directionY = 0;
 		planet.color = COLOR_DEFAULT_STR;
 		planet.colorHex = COLOR_DEFAULT_HEX;
-		bodies.push(planet);
+		this.addBody(planet);
 
 		// TODO how will this work for polygons?
 		const rockSize = 262;
@@ -198,7 +200,7 @@ export class Stage extends BaseStage {
 		rock.directionY = -0.7;
 		rock.color = COLOR_PLAIN_STR;
 		rock.colorHex = COLOR_PLAIN_HEX;
-		bodies.push(rock);
+		this.addBody(rock);
 
 		let moon = collisions.createCircle(1660, 1012, 43) as EntityCircle;
 		moon.text = MOON_ICONS[1];
@@ -209,7 +211,7 @@ export class Stage extends BaseStage {
 		moon.directionY = 0;
 		moon.color = COLOR_EXIT_STR;
 		moon.colorHex = COLOR_EXIT_HEX;
-		bodies.push(moon);
+		this.addBody(moon);
 		moons.add(moon);
 
 		moon = collisions.createCircle(1420, 1104, 72) as EntityCircle;
@@ -221,7 +223,7 @@ export class Stage extends BaseStage {
 		moon.directionY = 0;
 		moon.color = COLOR_EXIT_STR;
 		moon.colorHex = COLOR_EXIT_HEX;
-		bodies.push(moon);
+		this.addBody(moon);
 		moons.add(moon);
 
 		moon = collisions.createCircle(2010, 872, 19) as EntityCircle;
@@ -233,7 +235,7 @@ export class Stage extends BaseStage {
 		moon.directionY = 0;
 		moon.color = COLOR_EXIT_STR;
 		moon.colorHex = COLOR_EXIT_HEX;
-		bodies.push(moon);
+		this.addBody(moon);
 		moons.add(moon);
 
 		moon = collisions.createCircle(1870, 776, 27) as EntityCircle;
@@ -245,7 +247,7 @@ export class Stage extends BaseStage {
 		moon.directionY = 0;
 		moon.color = COLOR_EXIT_STR;
 		moon.colorHex = COLOR_EXIT_HEX;
-		bodies.push(moon);
+		this.addBody(moon);
 		moons.add(moon);
 
 		// TODO hack to keep the current view code -- see in 2 places
@@ -254,8 +256,33 @@ export class Stage extends BaseStage {
 		this.scores = writable(toScores(this));
 	}
 
-	addBodies(bodies: EntityBody[]): void {
-		this.sim.bodies.push(...bodies);
+	addBody(body: EntityBody): void {
+		this.sim.addBody(body);
+
+		if (body.invisible) return; // TODO this isn't reactive!
+
+		// TODO how to store these?
+		// - make a map and lookup each loop, apply styles
+		// - set `Entity.pixiContainer` (update either in a loop or even inline in the sim, or change the entity API to do this)
+		const entityContainer = new Pixi.Container();
+		this.container.addChild(entityContainer);
+		entityContainer.position.set(body.x, body.y);
+
+		if (body._circle) {
+			const graphics = new Pixi.Graphics();
+			entityContainer.addChild(graphics);
+			graphics.lineStyle(1, body.colorHex);
+			graphics.beginFill(0, 0);
+			graphics.drawCircle(0, 0, body.radius);
+			graphics.endFill();
+		}
+		// TODO other graphics?
+
+		if (body.text) {
+			const text = new Pixi.Text(body.text, {fontSize: body.fontSize});
+			entityContainer.addChild(text);
+			text.anchor.set(0.5, 0.5);
+		}
 	}
 
 	removeBody(body: EntityBody): void {
@@ -265,6 +292,7 @@ export class Stage extends BaseStage {
 	}
 
 	destroy(): void {
+		this.container.destroy({children: true, baseTexture: true, texture: true});
 		// TODO refactor this out, maybe move everything to a component?
 		for (const subscription of this.subscriptions) {
 			subscription();
@@ -339,7 +367,10 @@ export class Stage extends BaseStage {
 					(moonFragmentsToAdd || (moonFragmentsToAdd = [])).push(...newMoonFragments);
 					this.removeBody(_moon);
 					// TODO this logic is very hardcoded -- ideally it's all simulated,
-					// but we'd need to ensure the gameplay still works, which may be tricky or impossible
+					// but we'd need to ensure the gameplay still works,
+					// which may be tricky or impossible without some ridiculous physics
+					// because things are hardcoded in a particular way for gameplay outcomes
+					// (like the fixed velocities of moving objects, and vectors/speeds after fragging)
 					for (const f of newMoonFragments) {
 						f.speed = moltenIsRock
 							? randomFloat(_molten.speed * 1.2, _molten.speed * 2.44)
@@ -431,16 +462,22 @@ export class Stage extends BaseStage {
 		// TODO how to make this generic? could wrap in an object
 		// with a `type` if we have to, don't want the garbage tho
 		if (rockFragmentsToAdd) {
-			for (const r of rockFragmentsToAdd) rockFragments.add(r);
-			this.addBodies(rockFragmentsToAdd);
+			for (const r of rockFragmentsToAdd) {
+				rockFragments.add(r);
+				this.addBody(r);
+			}
 		}
 		if (planetFragmentsToAdd) {
-			for (const p of planetFragmentsToAdd) planetFragments.add(p);
-			this.addBodies(planetFragmentsToAdd);
+			for (const p of planetFragmentsToAdd) {
+				planetFragments.add(p);
+				this.addBody(p);
+			}
 		}
 		if (moonFragmentsToAdd) {
-			for (const f of moonFragmentsToAdd) moonFragments.add(f);
-			this.addBodies(moonFragmentsToAdd);
+			for (const f of moonFragmentsToAdd) {
+				moonFragments.add(f);
+				this.addBody(f);
+			}
 		}
 
 		if (shouldUpdateScores) {
@@ -449,6 +486,7 @@ export class Stage extends BaseStage {
 	}
 
 	render(renderer: Renderer): void {
+		//TODO BLOCK pixi renderer? or totally remove this method?
 		renderer.clear();
 		renderer.render(this.sim.bodies, this.$camera);
 		// TODO batch render? or maybe just use pixi? see in 2 places

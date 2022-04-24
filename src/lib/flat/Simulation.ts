@@ -9,19 +9,19 @@ const potentials: EntityBody[] = [];
 
 export class Simulation {
 	readonly collisions: Collisions;
-	readonly bodies: EntityBody[] = []; // TODO
+	readonly bodies: Set<EntityBody> = new Set();
 
 	constructor(collisions: Collisions) {
 		this.collisions = collisions;
 	}
 
 	addBody(body: EntityBody): void {
-		this.bodies.push(body);
+		this.bodies.add(body);
 	}
 
 	removeBody(body: EntityBody): void {
 		body.remove();
-		this.bodies.splice(this.bodies.indexOf(body), 1);
+		this.bodies.delete(body);
 	}
 
 	update(

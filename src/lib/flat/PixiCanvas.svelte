@@ -1,10 +1,8 @@
 <script lang="ts">
-	import * as Pixi from 'pixi.js';
-
 	import {getPixi} from '$lib/app/pixi'; // TODO BLOCK dont import from app...
 	import type {Stage} from '$lib/portals/home/starshipStage'; // TODO shouldnt import this
 	import type {CameraState} from '$lib/flat/camera';
-	import {onDestroy, onMount} from 'svelte';
+	import {onDestroy} from 'svelte';
 
 	// TODO refactor with the route component
 
@@ -20,58 +18,33 @@
 	export let worldHeight: number;
 	export let viewWidth: number;
 	export let viewHeight: number;
-	export let stage: Stage;
+	export let stage: Stage; // is not reactive
 
-	console.log(`PixiCanvas width, height, stage`, worldWidth, worldHeight, stage);
-
-	$: ({camera, sim} = stage);
+	$: ({camera} = stage);
 
 	const pixi = getPixi();
 	const scene = pixi.currentScene;
+	const {container} = stage;
+	scene.addChild(container);
 
-	const container = new Pixi.Container();
+	/*
 
-	onMount(() => {
-		scene.addChild(container);
+  TODO We're implementing Pixi directly in the starship stage,
+  which undesirably couples rendering to the stage and simulation.
+  We'll look at refactoring things once everything is working well.
+  One idea was to essentially diff the entities in the simulation
+  with the Pixi objects here in this component,
+  but that seems too wasteful to go with for now.
 
-		// TODO how to create bodies that get added?
-		console.log(`stage`, stage.sim.bodies);
-		for (const entity of sim.bodies) {
-			if (entity.invisible) continue;
-			// TODO how to store these?
-			// - make a map and lookup each loop, apply styles
-			// - set `Entity.pixiContainer` (update either in a loop or even inline in the sim, or change the entity API to do this)
-			const entityContainer = new Pixi.Container();
-			container.addChild(entityContainer);
-			entityContainer.position.set(entity.x, entity.y);
-
-			if (entity._circle) {
-				const graphics = new Pixi.Graphics();
-				entityContainer.addChild(graphics);
-				graphics.lineStyle(1, entity.colorHex);
-				graphics.beginFill(0, 0);
-				graphics.drawCircle(0, 0, entity.radius);
-				graphics.endFill();
-			}
-			// TODO other graphics?
-
-			if (entity.text) {
-				const text = new Pixi.Text(entity.text, {fontSize: entity.fontSize});
-				entityContainer.addChild(text);
-				text.anchor.set(0.5, 0.5);
-			}
-		}
-	});
+  */
 
 	onDestroy(() => {
 		scene.removeChild(container);
-		container.destroy({children: true, baseTexture: true, texture: true});
 	});
 
 	// TODO copied from `EarthPixiViewer`, extract camera store (see also `View.svelte` parent component)
 	$: updateCamera($camera);
 	const updateCamera = ($camera: CameraState) => {
-		console.log(`$camera`, $camera);
 		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight); // TODO block get from camera? then remove `viewWidth/height`?
 		container.scale.set(scale);
 		container.position.set($camera.x, $camera.y);

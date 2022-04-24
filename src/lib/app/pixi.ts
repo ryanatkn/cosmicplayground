@@ -15,8 +15,8 @@ export class PixiApp {
 		this.app = new Pixi.Application(options);
 
 		const defaultScene = new Pixi.Container();
-		this.defaultScene = defaultScene;
-		this.currentScene = defaultScene;
+		defaultScene.interactiveChildren = false;
+		this.defaultScene = this.currentScene = defaultScene;
 		this.app.stage.addChild(defaultScene);
 	}
 
@@ -75,6 +75,7 @@ export const getPixiScene = (
 	// Mount the scene right away. When loading, we'll show a black background
 	// and the scene component can display whatever it wants.
 	const scene = new Pixi.Container();
+	scene.interactiveChildren = false;
 	pixi.mountScene(scene);
 
 	let destroyed = false; // TODO good for store state?
