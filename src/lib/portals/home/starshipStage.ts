@@ -77,7 +77,6 @@ export class Stage extends BaseStage {
 	collisions!: Collisions;
 	sim!: Simulation;
 	player!: Entity<EntityCircle>;
-	bounds!: Entity<EntityPolygon>;
 	planet!: Entity<EntityCircle>;
 	rock!: Entity<EntityCircle>;
 	readonly moons: Set<Entity<EntityCircle>> = new Set();
@@ -94,8 +93,6 @@ export class Stage extends BaseStage {
 
 	constructor(options: StageSetupOptions) {
 		super(options);
-
-		const {width, height} = options;
 
 		const playerX = 850;
 		const playerY = 502;
@@ -117,21 +114,6 @@ export class Stage extends BaseStage {
 		player.directionY = 0;
 		player.color = COLOR_PLAYER;
 		this.addEntity(player);
-
-		// create the bounds around the stage edges
-		const bounds = (this.bounds = new Entity(
-			collisions.createPolygon(0, 0, [
-				[0, 0],
-				[1, 0],
-				[1, 1],
-				[0, 1],
-			]) as EntityPolygon,
-		));
-		bounds.disableSimulation = true;
-		bounds.invisible = true;
-		bounds.scale_x = width;
-		bounds.scale_y = height;
-		this.addEntity(bounds);
 
 		// create the stuff
 		// TODO create these programmatically from data
@@ -450,11 +432,5 @@ export class Stage extends BaseStage {
 		// renderer.render(this.moons, this.$camera);
 		// renderer.render(this.moonFragments, this.$camera);
 		// renderer.render([this.player], this.$camera);
-	}
-
-	override resize(width: number, height: number): void {
-		super.resize(width, height);
-		this.bounds.scale_x = width;
-		this.bounds.scale_y = height;
 	}
 }
