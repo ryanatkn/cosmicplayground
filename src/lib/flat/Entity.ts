@@ -18,12 +18,29 @@ export class Entity<T extends EntityBody = EntityBody> {
 		this.colorHex = hslToHex(...hsl);
 	}
 
+	// TODO `radius` with setter to both the container and body?
+
+	text?: string;
+	textOffsetX?: number;
+	textOffsetY?: number;
+	fontSize?: number;
+	font?: string; // TODO BLOCK fontStr? user a setter like with `color`
+
+	speed: number;
+	directionX: number;
+	directionY: number;
+
+	invisible = false;
+	dead = false;
+	disableSimulation = false;
+
 	constructor(
 		public readonly body: T,
 		public readonly container: Pixi.Container = new Pixi.Container(),
 	) {
 		// TODO add an options object? or just do assignments after construction? more reusable to do options
 		this.color = DEFAULT_COLOR;
+		body.entity = this;
 	}
 
 	set x(x: number) {

@@ -20,7 +20,7 @@ export interface StageMeta {
 export type StageName = Flavored<string, 'StageName'>;
 
 export interface StageSetupOptions {
-	container?: Pixi.Container;
+	scene?: Pixi.Container;
 	controller?: Controller;
 	random?: Alea;
 	// these are the initial dimensions that are updated via `resize`
@@ -42,7 +42,7 @@ export abstract class Stage {
 	// or change the concept of a `Renderer`,
 	// and we want support for multiple renderers anyway,
 	// so you can draw canvas over the Pixi for e.g. debugging collisions
-	container: Pixi.Container;
+	scene: Pixi.Container;
 	controller: Controller;
 	random: Alea;
 
@@ -58,12 +58,12 @@ export abstract class Stage {
 		const {
 			width,
 			height,
-			container = new Pixi.Container(),
+			scene = new Pixi.Container(),
 			controller = new Controller(),
 			random = toRandomSeeded(),
 		} = options;
 
-		this.container = container;
+		this.scene = scene;
 		this.controller = controller;
 		this.random = random;
 
@@ -81,7 +81,7 @@ export abstract class Stage {
 
 	// TODO add some default impls
 	destroy(): void {
-		this.container.destroy({children: true, baseTexture: true, texture: true});
+		this.scene.destroy({children: true, baseTexture: true, texture: true});
 		// TODO refactor this out, maybe move everything to a component?
 		for (const subscription of this.subscriptions) {
 			subscription();

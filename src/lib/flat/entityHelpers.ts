@@ -1,5 +1,5 @@
 import {randomFloat} from '@feltcoop/felt/util/random.js';
-import type {Collisions} from '@ryanatkn/collisions';
+import type {CollisionResult, Collisions} from '@ryanatkn/collisions';
 
 import {Entity} from '$lib/flat/Entity';
 import type {EntityCircle} from './entityBody';
@@ -11,18 +11,18 @@ export const frag = (
 	scaleVariance = 48,
 ): Entity[] => {
 	const entities: Entity[] = [];
-	const {body} = entity;
 	// TODO get random list of scales distributing the area according to `scaleVariance`
-	if (body._circle) {
-		const radii = toRandomRadii(Math.PI * body.radius ** 2, count, scaleVariance);
+	if (entity.body._circle) {
+		// TODO BLOCK read the radius from the entity?
+		const radii = toRandomRadii(Math.PI * entity.body.radius ** 2, count, scaleVariance);
 		for (let i = 0; i < count; i++) {
 			// get point around towards the center and draw a triangle
 			const fragment = new Entity(
 				collisions.createCircle(entity.x, entity.y, radii[i]) as EntityCircle,
 			);
-			fragment.body.speed = body.speed;
-			fragment.body.directionX = body.directionX;
-			fragment.body.directionY = body.directionY;
+			fragment.speed = entity.speed;
+			fragment.directionX = entity.directionX;
+			fragment.directionY = entity.directionY;
 			fragment.color = entity.color;
 			entities.push(fragment);
 		}
@@ -41,4 +41,26 @@ const toRandomRadii = (totalArea: number, count: number, scaleVariance: number):
 	const areas = multPcts.map((m) => m * totalArea);
 	const radii = areas.map((a) => Math.sqrt(a / Math.PI));
 	return radii;
+};
+
+export const collide = (entityA: Entity, entityB: Entity, result: CollisionResult): void => {
+	const overlap_x = result.overlap! * result.overlap_x;
+	const overlap_y = result.overlap! * result.overlap_y;
+	const body2_pct = entityB.speed / (entityB.speed + entityA.speed); // TODO add more factors (what? push? weight? inertia?)
+	const body1_pct = 1 - body2_pct;
+	entityA.x -= body1_pct * overlap_x;
+	entityA.y -= body1_pct * overlap_y;
+	entityB.x += body2_pct * overlap_x;
+	entityB.y += body2_pct * overlap_y;
+
+	// TODO delete this after figuring out where to use similar concepts
+	// dot = directionX * result.overlap_y + directionY * -result.overlap_x;
+
+	// body.directionX = 2 * dot * result.overlap_y - directionX;
+	// body.directionY = 2 * dot * -result.overlap_x - directionY;
+
+	// dot = body2.directionX * result.overlap_y + body2.directionY * -result.overlap_x;
+
+	// body2.directionX = 2 * dot * result.overlap_y - body2.directionX;
+	// body2.directionY = 2 * dot * -result.overlap_x - body2.directionY;
 };

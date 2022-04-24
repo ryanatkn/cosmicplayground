@@ -1,7 +1,7 @@
 import {writable} from 'svelte/store';
 
 import type {Renderer} from '$lib/flat/renderer';
-import type {EntityBody, EntityCircle} from '$lib/flat/entityBody';
+import type {EntityCircle} from '$lib/flat/entityBody';
 import type {CameraState} from '$lib/flat/camera';
 import type {Entity} from '$lib/flat/Entity';
 
@@ -70,7 +70,7 @@ export class DomCanvasRenderer implements Renderer {
 			}
 			ctx.stroke();
 			if (entity.text) {
-				drawText(ctx, entity.body, camera);
+				drawText(ctx, entity, camera);
 			}
 		}
 	}
@@ -121,7 +121,7 @@ const drawCircle = (
 	ctx.arc(viewX, viewY, radius, 0, Math.PI * 2);
 };
 
-const drawText = (ctx: CanvasRenderingContext2D, entity: EntityBody, camera: CameraState): void => {
+const drawText = (ctx: CanvasRenderingContext2D, entity: Entity, camera: CameraState): void => {
 	const viewX = (entity.x - camera.x) * camera.scale + camera.width / 2 + (entity.textOffsetX || 0);
 	const viewY =
 		(entity.y - camera.y) * camera.scale + camera.height / 2 + (entity.textOffsetY || 0);

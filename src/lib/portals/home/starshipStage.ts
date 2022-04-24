@@ -6,11 +6,10 @@ import * as Pixi from 'pixi.js';
 
 import {Stage as BaseStage, type StageSetupOptions} from '$lib/flat/Stage';
 import type {EntityCircle, EntityPolygon} from '$lib/flat/entityBody';
-import {frag} from '$lib/flat/entityHelpers';
+import {frag, collide} from '$lib/flat/entityHelpers';
 import type {Renderer} from '$lib/flat/renderer';
 import {Simulation} from '$lib/flat/Simulation';
 import {updateDirection} from '$lib/flat/Controller';
-import {collideRigidBodies} from '$lib/flat/collideRigidBodies';
 import {dequal} from 'dequal/lite';
 import type {Hsl} from '$lib/util/colors';
 import {Entity} from '$lib/flat/Entity';
@@ -217,18 +216,14 @@ export class Stage extends BaseStage {
 	}
 
 	addEntity(entity: Entity): void {
-		this.sim.addBody(entity);
+		this.sim.addEntity(entity);
 
 		if (entity.invisible) return; // TODO this isn't reactive!
 
-		// TODO how to store these?
-		// - make a map and lookup each loop, apply styles
-		// - set `Entity.pixiContainer` (update either in a loop or even inline in the sim, or change the entity API to do this)
-		entity.container = new Pixi.Container();
-		this.container.addChild(entity.container);
+		this.scene.addChild(entity.container);
 		entity.container.position.set(entity.x, entity.y);
 
-		if (entity._circle) {
+		if (entity.body._circle) {
 			const graphics = new Pixi.Graphics();
 			entity.container.addChild(graphics);
 			graphics.lineStyle(1, entity.colorHex);
@@ -249,7 +244,7 @@ export class Stage extends BaseStage {
 		entity.dead = true;
 		entity.container.destroy({children: true, texture: true}); // TODO BLOCK ??????????????????????????
 		// TODO remove from the other collections? maybe after figuring out the tagging/type/bitmask system
-		this.sim.removeBody(entity);
+		this.sim.removeEntity(entity);
 	}
 
 	override update(dt: number): void {
@@ -273,41 +268,41 @@ export class Stage extends BaseStage {
 		updateDirection(controller, player, $camera);
 
 		// TODO the `as any` is needed because flow control doesn't account for the callbacks setting this
-		let rockFragmentsToAdd: EntityCircle[] | null = null as any;
-		let planetFragmentsToAdd: EntityCircle[] | null = null as any;
-		let moonFragmentsToAdd: EntityCircle[] | null = null as any;
+		let rockFragmentsToAdd: Array<Entity<EntityCircle>> | null = null as any;
+		let planetFragmentsToAdd: Array<Entity<EntityCircle>> | null = null as any;
+		let moonFragmentsToAdd: Array<Entity<EntityCircle>> | null = null as any;
 
 		let shouldUpdateScores = false;
 
 		// gives stages full control over the sim `update`
 		this.sim.update(
 			dt,
-			(bodyA, bodyB, result) => {
-				collideRigidBodies(bodyA, bodyB, result);
+			(entityA, entityB, result) => {
+				collide(entityA, entityB, result);
 
 				// TODO remove all these casts somehow
 				// TODO refactor into a system
-				const _rock = rock === bodyA ? bodyA : rock === bodyB ? bodyB : null;
-				const _planet = planet === bodyA ? bodyA : planet === bodyB ? bodyB : null;
-				const _moon = moons.has(bodyA as EntityCircle)
-					? bodyA
-					: moons.has(bodyB as EntityCircle)
-					? bodyB
+				const _rock = rock === entityA ? entityA : rock === entityB ? entityB : null;
+				const _planet = planet === entityA ? entityA : planet === entityB ? entityB : null;
+				const _moon = moons.has(entityA)
+					? entityA
+					: moons.has(entityB as Entity<EntityCircle>)
+					? entityB
 					: null;
-				const _rockFragment = rockFragments.has(bodyA as EntityCircle)
-					? bodyA
-					: rockFragments.has(bodyB as EntityCircle)
-					? bodyB
+				const _rockFragment = rockFragments.has(entityA as Entity<EntityCircle>)
+					? entityA
+					: rockFragments.has(entityB as Entity<EntityCircle>)
+					? entityB
 					: null;
-				const _planetFragment = planetFragments.has(bodyA as EntityCircle)
-					? bodyA
-					: planetFragments.has(bodyB as EntityCircle)
-					? bodyB
+				const _planetFragment = planetFragments.has(entityA as Entity<EntityCircle>)
+					? entityA
+					: planetFragments.has(entityB as Entity<EntityCircle>)
+					? entityB
 					: null;
-				const _moonFragment = moonFragments.has(bodyA as EntityCircle)
-					? bodyA
-					: moonFragments.has(bodyB as EntityCircle)
-					? bodyB
+				const _moonFragment = moonFragments.has(entityA as Entity<EntityCircle>)
+					? entityA
+					: moonFragments.has(entityB as Entity<EntityCircle>)
+					? entityB
 					: null;
 
 				const _molten = _rock || _rockFragment || _planetFragment || _moonFragment;
@@ -315,7 +310,7 @@ export class Stage extends BaseStage {
 					// handle collision between moon and anything molten
 					const moltenIsRock = _molten === _rock;
 					const moltenIsMoonFragment = _molten === _moonFragment;
-					const newMoonFragments = frag(_moon, collisions, 12) as EntityCircle[];
+					const newMoonFragments = frag(_moon, collisions, 12) as Array<Entity<EntityCircle>>;
 					shouldUpdateScores = true;
 					(moonFragmentsToAdd || (moonFragmentsToAdd = [])).push(...newMoonFragments);
 					this.removeEntity(_moon);
@@ -346,7 +341,7 @@ export class Stage extends BaseStage {
 					// handle collision between rock and planet
 					this.removeEntity(_rock);
 					this.removeEntity(_planet);
-					const newPlanetFragments = frag(_planet, collisions, 42) as EntityCircle[];
+					const newPlanetFragments = frag(_planet, collisions, 42) as Array<Entity<EntityCircle>>;
 					shouldUpdateScores = true;
 					(planetFragmentsToAdd || (planetFragmentsToAdd = [])).push(...newPlanetFragments);
 					for (const p of newPlanetFragments) {
@@ -355,7 +350,7 @@ export class Stage extends BaseStage {
 						p.directionY = randomFloat(-_rock.directionY / 2, _rock.directionY / 2);
 						p.color = COLOR_MOLTEN;
 					}
-					const newRockFragments = frag(_rock, collisions, 210) as EntityCircle[];
+					const newRockFragments = frag(_rock, collisions, 210) as Array<Entity<EntityCircle>>;
 					(rockFragmentsToAdd || (rockFragmentsToAdd = [])).push(...newRockFragments);
 					for (const r of newRockFragments) {
 						r.speed = randomFloat(_rock.speed / 2, _rock.speed * 2);
@@ -369,17 +364,24 @@ export class Stage extends BaseStage {
 				}
 			},
 			(bodyA, bodyB) => {
-				if (bodyA.dead || bodyB.dead || bodyA.disableSimulation || bodyB.disableSimulation) {
+				const entityA = bodyA.entity;
+				const entityB = bodyB.entity;
+				if (
+					entityA.dead ||
+					entityB.dead ||
+					entityA.disableSimulation ||
+					entityB.disableSimulation
+				) {
 					return false;
 				}
 
 				// TODO make a system for declaring collision groups -- bitmask?
-				const _player = player === bodyA ? bodyA : player === bodyB ? bodyB : null;
-				const _planet = planet === bodyA ? bodyA : planet === bodyB ? bodyB : null;
-				const _moon = moons.has(bodyA as EntityCircle)
-					? bodyA
-					: moons.has(bodyB as EntityCircle)
-					? bodyB
+				const _player = player === entityA ? entityA : player === entityB ? entityB : null;
+				const _planet = planet === entityA ? entityA : planet === entityB ? entityB : null;
+				const _moon = moons.has(entityA as Entity<EntityCircle>)
+					? entityA
+					: moons.has(entityB as Entity<EntityCircle>)
+					? entityB
 					: null;
 				if (_player && (_planet || _moon)) {
 					return false; // player doesn't collide with these
@@ -437,9 +439,9 @@ export class Stage extends BaseStage {
 	}
 
 	render(renderer: Renderer): void {
-		//TODO BLOCK pixi renderer? or totally remove this method?
+		//TODO BLOCK pixi renderer? or totally remove this method? need to support multiple renderers
 		renderer.clear();
-		renderer.render(this.sim.bodies, this.$camera);
+		renderer.render(this.sim.entities, this.$camera);
 		// TODO batch render? or maybe just use pixi? see in 2 places
 		// renderer.render([this.rock], this.$camera);
 		// renderer.render(this.rockFragments, this.$camera);
