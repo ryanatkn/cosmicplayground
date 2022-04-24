@@ -110,8 +110,6 @@ export class Stage extends BaseStage {
 			collisions.createCircle(playerX, playerY, PLAYER_RADIUS) as EntityCircle,
 		));
 		player.speed = PLAYER_SPEED;
-		player.directionX = 0;
-		player.directionY = 0;
 		player.color = COLOR_PLAYER;
 		this.addEntity(player);
 
@@ -130,9 +128,6 @@ export class Stage extends BaseStage {
 		planet.textOffsetY = 1150;
 		planet.fontSize = 200;
 		planet.font = `${planet.fontSize}px sans-serif`; // TODO refactor
-		planet.speed = 0;
-		planet.directionX = 0;
-		planet.directionY = 0;
 		planet.color = COLOR_DEFAULT;
 		this.addEntity(planet);
 
@@ -152,8 +147,6 @@ export class Stage extends BaseStage {
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.font = `${moon.fontSize}px sans-serif`;
 		moon.speed = MOON_SPEED;
-		moon.directionX = 0;
-		moon.directionY = 0;
 		moon.color = COLOR_EXIT;
 		this.addEntity(moon);
 		moons.add(moon);
@@ -163,8 +156,6 @@ export class Stage extends BaseStage {
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.font = `${moon.fontSize}px sans-serif`;
 		moon.speed = MOON_SPEED;
-		moon.directionX = 0;
-		moon.directionY = 0;
 		moon.color = COLOR_EXIT;
 		this.addEntity(moon);
 		moons.add(moon);
@@ -174,8 +165,6 @@ export class Stage extends BaseStage {
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.font = `${moon.fontSize}px sans-serif`;
 		moon.speed = MOON_SPEED;
-		moon.directionX = 0;
-		moon.directionY = 0;
 		moon.color = COLOR_EXIT;
 		this.addEntity(moon);
 		moons.add(moon);
@@ -185,8 +174,6 @@ export class Stage extends BaseStage {
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.font = `${moon.fontSize}px sans-serif`;
 		moon.speed = MOON_SPEED;
-		moon.directionX = 0;
-		moon.directionY = 0;
 		moon.color = COLOR_EXIT;
 		this.addEntity(moon);
 		moons.add(moon);
@@ -197,29 +184,19 @@ export class Stage extends BaseStage {
 		this.scores = writable(toScores(this));
 	}
 
+	// TODO BLOCK maybe change to return the entity so it can be called around the constructor,
+	// unless the values set after creation are needed
 	addEntity(entity: Entity): void {
 		this.sim.addEntity(entity);
 
 		if (entity.invisible) return; // TODO this isn't reactive!
 
 		this.scene.addChild(entity.container);
-		entity.container.position.set(entity.x, entity.y);
 
-		if (entity.body._circle) {
-			const graphics = new Pixi.Graphics();
-			entity.container.addChild(graphics);
-			graphics.lineStyle(1, entity.colorHex);
-			graphics.beginFill(0, 0);
-			graphics.drawCircle(0, 0, entity.radius);
-			graphics.endFill();
-		}
-		// TODO other graphics?
-
-		if (entity.text) {
-			const text = new Pixi.Text(entity.text, {fontSize: entity.fontSize});
-			entity.container.addChild(text);
-			text.anchor.set(0.5, 0.5);
-		}
+		// TODO BLOCK where does this belong?
+		// problem is we want to wait until their values are fully initialized,
+		// which happens imperatively in the setup
+		entity.draw();
 	}
 
 	removeEntity(entity: Entity): void {
@@ -266,7 +243,7 @@ export class Stage extends BaseStage {
 				// TODO refactor into a system
 				const _rock = rock === entityA ? entityA : rock === entityB ? entityB : null;
 				const _planet = planet === entityA ? entityA : planet === entityB ? entityB : null;
-				const _moon = moons.has(entityA)
+				const _moon = moons.has(entityA as Entity<EntityCircle>)
 					? entityA
 					: moons.has(entityB as Entity<EntityCircle>)
 					? entityB
