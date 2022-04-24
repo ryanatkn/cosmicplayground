@@ -4,15 +4,17 @@ import type {EntityBody} from '$lib/flat/entityBody';
 import {hslToHex, hslToStr, type Hsl} from '$lib/util/colors';
 
 const DEFAULT_COLOR: Hsl = [0.611, 1, 0.7];
+const DEFAULT_COLOR_STR = hslToStr(...DEFAULT_COLOR);
+const DEFAULT_COLOR_HEX = hslToHex(...DEFAULT_COLOR);
 
 /**
  * The `Entity` class wraps collision simulation and rendering into one object.
  * We may evolve towards and ECS design but this is fine for now.
  */
 export class Entity<T extends EntityBody = EntityBody> {
-	private _color!: Hsl;
-	colorStr!: string;
-	colorHex!: number;
+	private _color: Hsl = DEFAULT_COLOR;
+	colorStr = DEFAULT_COLOR_STR;
+	colorHex = DEFAULT_COLOR_HEX;
 	get color(): Hsl {
 		return this._color;
 	}
@@ -46,7 +48,6 @@ export class Entity<T extends EntityBody = EntityBody> {
 		public readonly container: Pixi.Container = new Pixi.Container(),
 	) {
 		// TODO add an options object? or just do assignments after construction? more reusable to do options
-		this.color = DEFAULT_COLOR;
 		body.entity = this;
 	}
 
