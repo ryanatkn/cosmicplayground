@@ -21,14 +21,14 @@ export class Entity<T extends EntityBody = EntityBody> {
 	// TODO `radius` with setter to both the container and body?
 
 	text?: string;
-	textOffsetX?: number;
-	textOffsetY?: number;
+	textOffsetX = 0;
+	textOffsetY = 0;
 	fontSize?: number;
 	font?: string; // TODO BLOCK fontStr? user a setter like with `color`
 
-	speed: number;
-	directionX: number;
-	directionY: number;
+	speed = 0;
+	directionX = 0;
+	directionY = 0;
 
 	invisible = false;
 	dead = false;

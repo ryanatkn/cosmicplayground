@@ -122,9 +122,8 @@ const drawCircle = (
 };
 
 const drawText = (ctx: CanvasRenderingContext2D, entity: Entity, camera: CameraState): void => {
-	const viewX = (entity.x - camera.x) * camera.scale + camera.width / 2 + (entity.textOffsetX || 0);
-	const viewY =
-		(entity.y - camera.y) * camera.scale + camera.height / 2 + (entity.textOffsetY || 0);
+	const viewX = (entity.x - camera.x) * camera.scale + camera.width / 2 + entity.textOffsetX;
+	const viewY = (entity.y - camera.y) * camera.scale + camera.height / 2 + entity.textOffsetY;
 	ctx.textAlign = 'center';
 	ctx.textBaseline = 'middle';
 	ctx.font = entity.font || '30px sans-serif';
