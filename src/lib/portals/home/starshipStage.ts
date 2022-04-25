@@ -178,8 +178,6 @@ export class Stage extends BaseStage {
 	addEntity(entity: Entity): void {
 		this.sim.addEntity(entity);
 
-		if (entity.invisible) return; // TODO BLOCK this isn't reactive! check when rendering in both pixi and canvas
-
 		this.container.addChild(entity.container);
 
 		// TODO handle redrawing when graphics change, see `entity.draw`

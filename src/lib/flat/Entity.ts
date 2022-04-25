@@ -18,7 +18,14 @@ export class Entity<T extends EntityBody = EntityBody> {
 
 	radius: number; // TODO support polygons/etc, types might be tricky, might need to extend base entity class (later, we'll probably refactor to an ECS)
 
-	invisible = false; // TODO setter that also updates container
+	_invisible = false;
+	get invisible(): boolean {
+		return this._invisible;
+	}
+	set invisible(invisible: boolean) {
+		this._invisible = invisible;
+		this.container.visible = !invisible;
+	}
 	dead = false;
 	// TODO removed the only usage of this,
 	// but leaving it because it seems it'll be useful,
