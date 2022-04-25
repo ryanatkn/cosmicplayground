@@ -231,7 +231,7 @@
 	on:keydown={async (e) => {
 		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		if (e.key === 'Escape') {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			if (e.ctrlKey) {
 				await goto('/starship');
@@ -243,7 +243,7 @@
 				}
 			}
 		} else if (e.key === 'F2') {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			if (e.ctrlKey) {
 				toggleBooster();
@@ -255,32 +255,32 @@
 				await scrollDown();
 			}
 		} else if (e.key === 'F10') {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			resetScores();
 			finished = false;
 		} else if (e.key === 'F4') {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			await toggleShowMorePortals();
 		} else if (e.key === '1' && e.ctrlKey) {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			await playSong(toSongData('Spacey Intro'));
 		} else if (e.key === '2' && e.ctrlKey) {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			await playSong(toSongData('Spacey Outro'));
 		} else if (e.key === '3' && e.ctrlKey) {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			await playSong(toSongData('Futuristic 4'));
 		} else if (e.key === '4' && e.ctrlKey) {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			await playSong(toSongData('Futuristic 1'));
 		} else if (e.key === '0' && e.ctrlKey) {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			await playSong(toSongData('Space Ambience'));
 		}

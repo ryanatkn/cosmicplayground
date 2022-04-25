@@ -144,9 +144,13 @@
 			if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 				settings.update((s) => ({...s, idleMode: !s.idleMode}));
 				console.log('idle mode is now', $settings.idleMode);
+				e.stopImmediatePropagation();
+				e.preventDefault();
 			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 				settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
 				console.log('recording mode is now', $settings.recordingMode);
+				e.stopImmediatePropagation();
+				e.preventDefault();
 			}
 		}
 	};
