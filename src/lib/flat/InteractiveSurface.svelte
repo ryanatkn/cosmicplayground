@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type {Controller} from '$lib/flat/Controller';
 
-	// TODO same name as `$lib/app/InteractiveSurface.svelte` but different
+	// TODO merge with `$lib/app/InteractiveSurface.svelte`
 
 	export const width: number = undefined as any; // TODO ? see below
 	export const height: number = undefined as any; // TODO ? see below
@@ -82,5 +82,6 @@ allow it to bubble and do whatever
 	.interactive-surface {
 		position: absolute;
 		inset: 0;
+		user-select: none;
 	}
 </style>
