@@ -125,16 +125,20 @@
 		: $settings.timeToGoIdle;
 	setAudioCtx(); // allows components to do `const audioCtx = getAudioCtx();` which uses svelte's `getContext`
 
+	// TODO integrate this with the controls in `index.svelte` and `World.svelte`
 	const onKeyDown = (e: KeyboardEvent) => {
 		// TODO main menu!
 
 		if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			// global pause
 			clock.toggle();
+			e.stopImmediatePropagation();
+			e.preventDefault();
 		} else if (e.key === '`' && e.ctrlKey) {
 			// toggle dev mode
 			settings.update((s) => ({...s, devMode: !s.devMode}));
-			console.log('dev mode is now', $settings.devMode);
+			e.stopImmediatePropagation();
+			e.preventDefault();
 		} else if ($settings.devMode) {
 			// dev mode hotkeys
 			if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {

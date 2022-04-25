@@ -6,7 +6,7 @@ import {get, writable, type Writable} from 'svelte/store';
 import {Stage as BaseStage, type StageSetupOptions} from '$lib/flat/Stage';
 import type {EntityCircle} from '$lib/flat/entityBody';
 import {frag, collide} from '$lib/flat/entityHelpers';
-import type {Renderer} from '$lib/flat/renderer';
+import type {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
 import {Simulation} from '$lib/flat/Simulation';
 import {updateDirection} from '$lib/flat/Controller';
 import {dequal} from 'dequal/lite';
@@ -391,7 +391,7 @@ export class Stage extends BaseStage {
 		}
 	}
 
-	render(renderer: Renderer): void {
+	render(renderer: DomCanvasRenderer): void {
 		//TODO BLOCK pixi renderer? or totally remove this method? need to support multiple renderers
 		renderer.clear();
 		renderer.render(this.sim.entities, this.$camera);

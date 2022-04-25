@@ -132,6 +132,7 @@
 	};
 	$: camera = stage?.camera;
 	$: player = stage?.player;
+	$: enableDomCanvasRenderer = $settings.devMode;
 
 	$: starshipRotation = starshipAngle + Math.PI / 2;
 
@@ -228,7 +229,7 @@
 
 <svelte:window
 	on:keydown={async (e) => {
-		// TODO use controller instead
+		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		if (e.key === 'Escape') {
 			e.stopPropagation();
 			e.preventDefault();
@@ -405,6 +406,7 @@
 			{stage}
 			exit={exitStarshipMode}
 			{finish}
+			{enableDomCanvasRenderer}
 		/>
 		{#if finished}
 			<div class="exit">

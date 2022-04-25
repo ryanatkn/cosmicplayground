@@ -1,11 +1,10 @@
 import {writable} from 'svelte/store';
 
-import type {Renderer} from '$lib/flat/renderer';
 import type {EntityCircle} from '$lib/flat/entityBody';
 import type {CameraState} from '$lib/flat/camera';
 import type {Entity} from '$lib/flat/Entity';
 
-export class DomCanvasRenderer implements Renderer {
+export class DomCanvasRenderer {
 	width = -1;
 	height = -1;
 

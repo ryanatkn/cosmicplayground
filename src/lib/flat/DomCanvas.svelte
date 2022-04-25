@@ -7,30 +7,28 @@
 	export let width: number;
 	export let height: number;
 	export let stage: Stage;
-	export let renderer: DomCanvasRenderer; // TODO isn't reactive
+	export let domCanvasRenderer: DomCanvasRenderer; // TODO isn't reactive
 
 	let el: HTMLCanvasElement;
 	let canvasWidth: number;
 	let canvasHeight: number;
 
-	let mounted = false;
-	$: if (mounted && (canvasWidth !== width || canvasHeight !== height)) {
+	$: if (el && (canvasWidth !== width || canvasHeight !== height)) {
 		resize(width, height);
 	}
 
 	const resize = (width: number, height: number): void => {
 		// TODO maybe refactor this component to fire a `resize` event
 		stage.resize(width, height);
-		renderer.resize(width, height); // also updates `el` `width` and `height`
+		domCanvasRenderer.resize(width, height); // also updates `el` `width` and `height`
 		canvasWidth = width;
 		canvasHeight = height;
 	};
 
 	onMount(() => {
-		renderer.setCanvas(el);
-		mounted = true;
+		domCanvasRenderer.setCanvas(el);
 		return () => {
-			renderer.unsetCanvas();
+			domCanvasRenderer.unsetCanvas();
 		};
 	});
 </script>

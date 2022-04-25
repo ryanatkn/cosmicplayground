@@ -5,6 +5,7 @@
 	import {getIdle} from '$lib/app/trackIdleState';
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
 	import {getPixi} from '$lib/app/pixi';
+	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
 
 	export let screenWidth: number;
 	export let screenHeight: number;
@@ -21,11 +22,14 @@
 	export let finish: () => void;
 	export let exit: () => void;
 	export let stage: Stage;
+	export let enableDomCanvasRenderer = false;
 
 	$: ({controller} = stage);
 
 	const clock = getClock();
 	const pixi = getPixi();
+
+	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;
 
 	const idle = getIdle();
 	$: if ($idle) clock.pause();
@@ -99,6 +103,7 @@
 		{stage}
 		scene={pixi.currentScene}
 		{controller}
+		{domCanvasRenderer}
 	/>
 </div>
 <InteractiveSurface width={screenWidth} height={screenHeight} {controller} />

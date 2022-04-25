@@ -104,13 +104,16 @@ export class Entity<T extends EntityBody = EntityBody> {
 	drawn = false;
 	draw(): void {
 		// TODO remove this hack to handle updating an entity's graphics
-		if (this.drawn) throw Error('TODO NYI allow drawing more than once');
+		if (this.drawn) throw Error('TODO allow drawing an entity more than once');
 		this.drawn = true;
 
 		if (this.body._circle) {
 			const graphics = new Pixi.Graphics();
 			this.container.addChild(graphics);
-			graphics.lineStyle(1, this.colorHex);
+			// TODO probably want increments of 2-3 px for line width in the design language,
+			// and connect it to an `Entity` property like
+			// `toughness` or `armor` or `shielding` or `shieldStrength` or something
+			graphics.lineStyle(2, this.colorHex);
 			graphics.beginFill(0, 0);
 			graphics.drawCircle(0, 0, this.radius);
 			graphics.endFill();
