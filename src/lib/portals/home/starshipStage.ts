@@ -96,6 +96,10 @@ export class Stage extends BaseStage {
 		const playerX = 850;
 		const playerY = 502;
 
+		if (!this.freezeCamera) {
+			void this.camera.setPosition(playerX, playerY, {hard: true});
+		}
+
 		const collisions = (this.collisions = new Collisions());
 		const sim = (this.sim = new Simulation(collisions));
 		const {controller, moons} = this;
@@ -190,7 +194,7 @@ export class Stage extends BaseStage {
 
 		if (entity.invisible) return; // TODO this isn't reactive!
 
-		this.scene.addChild(entity.container);
+		this.container.addChild(entity.container);
 
 		// TODO BLOCK where does this belong?
 		// problem is we want to wait until their values are fully initialized,

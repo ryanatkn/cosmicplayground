@@ -42,7 +42,7 @@ export abstract class Stage {
 	// or change the concept of a `Renderer`,
 	// and we want support for multiple renderers anyway,
 	// so you can draw canvas over the Pixi for e.g. debugging collisions
-	scene: Pixi.Container;
+	container: Pixi.Container;
 	controller: Controller;
 	random: Alea;
 
@@ -63,25 +63,20 @@ export abstract class Stage {
 			random = toRandomSeeded(),
 		} = options;
 
-		this.scene = scene;
+		this.container = scene;
 		this.controller = controller;
 		this.random = random;
 
 		this.freezeCamera = options.freezeCamera ?? true;
 
-		this.camera = toCameraStore({
-			width,
-			height,
-			x: this.freezeCamera ? width / 2 : playerX, // TODO BLOCK how to get these values? cameraX/cameraY?
-			y: this.freezeCamera ? height / 2 : playerY,
-		});
+		this.camera = toCameraStore({width, height, x: width / 2, y: height / 2});
 		// TODO this is a hint this should be a Svelte component ...
 		this.subscriptions.push(this.camera.subscribe(($camera) => (this.$camera = $camera)));
 	}
 
 	// TODO add some default impls
 	destroy(): void {
-		this.scene.destroy({children: true, baseTexture: true, texture: true});
+		this.container.destroy({children: true, baseTexture: true, texture: true});
 		// TODO refactor this out, maybe move everything to a component?
 		for (const subscription of this.subscriptions) {
 			subscription();
