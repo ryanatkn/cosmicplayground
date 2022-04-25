@@ -13,8 +13,7 @@ export const frag = (
 	const entities: Entity[] = [];
 	// TODO get random list of scales distributing the area according to `scaleVariance`
 	if (entity.body._circle) {
-		// TODO BLOCK read the radius from the entity?
-		const radii = toRandomRadii(Math.PI * entity.body.radius ** 2, count, scaleVariance);
+		const radii = toRandomRadii(Math.PI * entity.radius ** 2, count, scaleVariance);
 		for (let i = 0; i < count; i++) {
 			// get point around towards the center and draw a triangle
 			const fragment = new Entity(
@@ -26,6 +25,8 @@ export const frag = (
 			fragment.color = entity.color;
 			entities.push(fragment);
 		}
+	} else {
+		throw Error('TODO more types than circles');
 	}
 	return entities;
 };
