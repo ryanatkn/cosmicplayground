@@ -103,7 +103,7 @@ export class Entity<T extends EntityBody = EntityBody> {
 
 	drawn = false;
 	draw(): void {
-		// TODO BLOCK remove this hack to handle updating an entity's graphics
+		// TODO remove this hack to handle updating an entity's graphics
 		if (this.drawn) throw Error('TODO NYI allow drawing more than once');
 		this.drawn = true;
 

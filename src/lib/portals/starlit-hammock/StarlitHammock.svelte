@@ -35,8 +35,6 @@
 	});
 	const camera = new Pixi.Container();
 	scene.addChild(camera);
-	// TODO BLOCK remove on destroy?
-	// scene.removeChild(camera);
 
 	$: void updateSprite(imageUrl);
 	const updateSprite = async (url: string) => {

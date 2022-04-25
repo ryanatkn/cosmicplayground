@@ -182,18 +182,14 @@ export class Stage extends BaseStage {
 		this.scores = writable(toScores(this));
 	}
 
-	// TODO BLOCK maybe change to return the entity so it can be called around the constructor,
-	// unless the values set after creation are needed
 	addEntity(entity: Entity): void {
 		this.sim.addEntity(entity);
 
-		if (entity.invisible) return; // TODO this isn't reactive!
+		if (entity.invisible) return; // TODO BLOCK this isn't reactive! check when rendering
 
 		this.container.addChild(entity.container);
 
-		// TODO BLOCK where does this belong?
-		// problem is we want to wait until their values are fully initialized,
-		// which happens imperatively in the setup
+		// TODO handle redrawing when graphics change, see `entity.draw`
 		entity.draw();
 	}
 
