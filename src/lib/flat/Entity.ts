@@ -12,6 +12,19 @@ const DEFAULT_COLOR_HEX = hslToHex(...DEFAULT_COLOR);
  * We may evolve towards and ECS design but this is fine for now.
  */
 export class Entity<T extends EntityBody = EntityBody> {
+	speed = 0;
+	directionX = 0;
+	directionY = 0;
+
+	radius: number; // TODO support polygons/etc, types might be tricky, might need to extend base entity class (later, we'll probably refactor to an ECS)
+
+	invisible = false; // TODO setter that also updates container
+	dead = false;
+	// TODO removed the only usage of this,
+	// but leaving it because it seems it'll be useful,
+	// like "frozen in stasis", may need more system-disabling granularity tho
+	disableSimulation = false;
+
 	private _color: Hsl = DEFAULT_COLOR;
 	colorStr = DEFAULT_COLOR_STR;
 	colorHex = DEFAULT_COLOR_HEX;
@@ -26,24 +39,29 @@ export class Entity<T extends EntityBody = EntityBody> {
 
 	// TODO `radius` with setter to both the container and body?
 
-	text?: string;
+	text: string | null = null;
 	textOffsetX = 0;
 	textOffsetY = 0;
-	fontSize?: number;
-	font?: string; // TODO BLOCK fontStr? user a setter like with `color`
-
-	speed = 0;
-	directionX = 0;
-	directionY = 0;
-
-	radius: number; // TODO support polygons/etc, types might be tricky, might need to extend base entity class (later, we'll probably refactor to an ECS)
-
-	invisible = false; // TODO setter that also updates container
-	dead = false;
-	// TODO removed the only usage of this,
-	// but leaving it because it seems it'll be useful,
-	// like "frozen in stasis", may need more system-disabling granularity tho
-	disableSimulation = false;
+	_fontFamily = 'Arial';
+	_fontSize = 26;
+	_font = '26px Arial';
+	get fontSize(): number {
+		return this._fontSize;
+	}
+	set fontSize(fontSize: number) {
+		this._fontSize = fontSize;
+		this._font = `${fontSize}px ${this._fontFamily}`;
+	}
+	get fontFamily(): string {
+		return this._fontFamily;
+	}
+	set fontFamily(fontFamily: string) {
+		this._fontFamily = fontFamily;
+		this._font = `${this._fontSize}px ${fontFamily}`;
+	}
+	get font(): string {
+		return this._font;
+	}
 
 	constructor(
 		public readonly body: T,
@@ -101,7 +119,7 @@ export class Entity<T extends EntityBody = EntityBody> {
 		}
 
 		if (this.text) {
-			const text = new Pixi.Text(this.text, {fontSize: this.fontSize});
+			const text = new Pixi.Text(this.text, {fontSize: this.fontSize, fontFamily: this.fontFamily});
 			this.container.addChild(text);
 			text.anchor.set(0.5, 0.5);
 		}

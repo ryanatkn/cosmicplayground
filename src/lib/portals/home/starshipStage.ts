@@ -130,7 +130,6 @@ export class Stage extends BaseStage {
 		planet.textOffsetX = 850;
 		planet.textOffsetY = 1150;
 		planet.fontSize = 200;
-		planet.font = `${planet.fontSize}px sans-serif`; // TODO refactor
 		planet.color = COLOR_DEFAULT;
 		this.addEntity(planet);
 
@@ -148,7 +147,6 @@ export class Stage extends BaseStage {
 		let moon = new Entity(collisions.createCircle(1660, 1012, 43) as EntityCircle);
 		moon.text = MOON_ICONS[1];
 		moon.fontSize = toIconFontSize(moon.radius);
-		moon.font = `${moon.fontSize}px sans-serif`;
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_EXIT;
 		this.addEntity(moon);
@@ -157,7 +155,6 @@ export class Stage extends BaseStage {
 		moon = new Entity(collisions.createCircle(1420, 1104, 72) as EntityCircle);
 		moon.text = MOON_ICONS[2];
 		moon.fontSize = toIconFontSize(moon.radius);
-		moon.font = `${moon.fontSize}px sans-serif`;
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_EXIT;
 		this.addEntity(moon);
@@ -166,7 +163,6 @@ export class Stage extends BaseStage {
 		moon = new Entity(collisions.createCircle(2010, 872, 19) as EntityCircle);
 		moon.text = MOON_ICONS[3];
 		moon.fontSize = toIconFontSize(moon.radius);
-		moon.font = `${moon.fontSize}px sans-serif`;
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_EXIT;
 		this.addEntity(moon);
@@ -175,7 +171,6 @@ export class Stage extends BaseStage {
 		moon = new Entity(collisions.createCircle(1870, 776, 27) as EntityCircle);
 		moon.text = MOON_ICONS[4];
 		moon.fontSize = toIconFontSize(moon.radius);
-		moon.font = `${moon.fontSize}px sans-serif`;
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_EXIT;
 		this.addEntity(moon);
