@@ -31,7 +31,10 @@
 		if ($clock.running) {
 			stage.update($clock.dt);
 		}
-		if (domCanvasRenderer?.ctx) stage.render(domCanvasRenderer);
+		if (domCanvasRenderer?.ctx) {
+			domCanvasRenderer.clear();
+			domCanvasRenderer.render(stage.sim.entities, stage.$camera);
+		}
 	}
 
 	// TODO actions -- refactor this with the controls in `__layout.svelte` and `index.svelte`

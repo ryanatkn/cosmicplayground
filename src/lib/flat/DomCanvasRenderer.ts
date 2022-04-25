@@ -46,14 +46,13 @@ export class DomCanvasRenderer {
 		const {ctx, width, height} = this;
 		if (!ctx) throw Error('Expected rendering context');
 		if (width === -1 || height === -1) throw Error('Expected renderer dimensions');
-
 		ctx.clearRect(0, 0, width, height);
 	}
 
 	render(entities: Iterable<Entity>, camera: CameraState): void {
-		const {ctx, width, height} = this;
+		const {ctx} = this;
 		if (!ctx) throw Error('Expected rendering context');
-		if (width === -1 || height === -1) throw Error('Expected renderer dimensions');
+		if (this.width === -1 || this.height === -1) throw Error('Expected renderer dimensions');
 
 		this.dirty.set(false);
 

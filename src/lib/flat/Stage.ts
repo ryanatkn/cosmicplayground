@@ -1,10 +1,10 @@
 import type {Flavored} from '@feltcoop/felt';
 import {toRandomSeeded, type Alea} from '@feltcoop/felt/util/randomSeeded.js';
 import * as Pixi from 'pixi.js';
+import {Collisions} from '@ryanatkn/collisions';
 
-import type {Simulation} from '$lib/flat/Simulation';
+import {Simulation} from '$lib/flat/Simulation';
 import {Controller} from '$lib/flat/Controller';
-import type {Renderer} from '$lib/flat/renderer';
 import {
 	type CameraStore,
 	type CameraState,
@@ -20,6 +20,8 @@ export interface StageMeta {
 export type StageName = Flavored<string, 'StageName'>;
 
 export interface StageSetupOptions {
+	sim?: Simulation;
+	collisions?: Collisions;
 	scene?: Pixi.Container;
 	controller?: Controller;
 	random?: Alea;
@@ -42,6 +44,8 @@ export abstract class Stage {
 	// or change the concept of a `Renderer`,
 	// and we want support for multiple renderers anyway,
 	// so you can draw canvas over the Pixi for e.g. debugging collisions
+	sim: Simulation;
+	collisions: Collisions;
 	container: Pixi.Container;
 	controller: Controller;
 	random: Alea;
@@ -58,11 +62,15 @@ export abstract class Stage {
 		const {
 			width,
 			height,
+			collisions = new Collisions(),
+			sim = new Simulation(collisions),
 			scene = new Pixi.Container(),
 			controller = new Controller(),
 			random = toRandomSeeded(),
 		} = options;
 
+		this.sim = sim;
+		this.collisions = collisions;
 		this.container = scene;
 		this.controller = controller;
 		this.random = random;
@@ -83,7 +91,6 @@ export abstract class Stage {
 		}
 	}
 
-	abstract render(renderer: Renderer): void;
 	abstract update(dt: number): void;
 
 	/**

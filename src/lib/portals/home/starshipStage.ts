@@ -1,4 +1,3 @@
-import {Collisions} from '@ryanatkn/collisions';
 import {randomFloat} from '@feltcoop/felt/util/random.js';
 import {klona} from 'klona/json';
 import {get, writable, type Writable} from 'svelte/store';
@@ -6,8 +5,6 @@ import {get, writable, type Writable} from 'svelte/store';
 import {Stage as BaseStage, type StageSetupOptions} from '$lib/flat/Stage';
 import type {EntityCircle} from '$lib/flat/entityBody';
 import {frag, collide} from '$lib/flat/entityHelpers';
-import type {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
-import {Simulation} from '$lib/flat/Simulation';
 import {updateDirection} from '$lib/flat/Controller';
 import {dequal} from 'dequal/lite';
 import type {Hsl} from '$lib/util/colors';
@@ -73,8 +70,6 @@ export class Stage extends BaseStage {
 	finished = false; // stops when the conditions are met and the player collides with the exit
 
 	// these are instantiated in `setup`
-	collisions!: Collisions;
-	sim!: Simulation;
 	player!: Entity<EntityCircle>;
 	planet!: Entity<EntityCircle>;
 	rock!: Entity<EntityCircle>;
@@ -100,9 +95,7 @@ export class Stage extends BaseStage {
 			void this.camera.setPosition(playerX, playerY, {hard: true});
 		}
 
-		const collisions = (this.collisions = new Collisions());
-		const sim = (this.sim = new Simulation(collisions));
-		const {controller, moons} = this;
+		const {sim, collisions, controller, moons} = this;
 
 		// TODO instead of casting we could pass `EntityPolygon` as type param right?
 		// and improve the type safety compared to casting? though not sure it'll catch any bugs
@@ -185,7 +178,7 @@ export class Stage extends BaseStage {
 	addEntity(entity: Entity): void {
 		this.sim.addEntity(entity);
 
-		if (entity.invisible) return; // TODO BLOCK this isn't reactive! check when rendering
+		if (entity.invisible) return; // TODO BLOCK this isn't reactive! check when rendering in both pixi and canvas
 
 		this.container.addChild(entity.container);
 
@@ -389,19 +382,5 @@ export class Stage extends BaseStage {
 		if (shouldUpdateScores) {
 			this.updateScores();
 		}
-	}
-
-	render(renderer: DomCanvasRenderer): void {
-		//TODO BLOCK pixi renderer? or totally remove this method? need to support multiple renderers
-		renderer.clear();
-		renderer.render(this.sim.entities, this.$camera);
-		// TODO batch render? or maybe just use pixi? see in 2 places
-		// renderer.render([this.rock], this.$camera);
-		// renderer.render(this.rockFragments, this.$camera);
-		// renderer.render([this.planet], this.$camera);
-		// renderer.render(this.planetFragments, this.$camera);
-		// renderer.render(this.moons, this.$camera);
-		// renderer.render(this.moonFragments, this.$camera);
-		// renderer.render([this.player], this.$camera);
 	}
 }
