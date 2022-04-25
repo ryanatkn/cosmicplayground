@@ -15,9 +15,9 @@ with Svelte, SvelteKit, and TypeScript while making games in space!
 - (work in progress) community at [cosmicplayground.dev](https://www.cosmicplayground.dev)
   ([source](https://github.com/cosmicplayground/community),
   [contributing.md](https://github.com/cosmicplayground/community/blob/main/contributing.md))
-- There's a little action game on the home screen 🛸
-  it's still a work in progress: activate the starship `🛸`
-  and press the escape and backtick `\`` keys (needs better mobile controls)
+- There's a little action game on the home screen (it's still a work in progress):
+  activate the starship `🛸` and try pressing the escape and backtick `\`` keys
+  (needs better mobile controls, works with mouse+keyboard (and soon gamepads))
 - [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
   where sea levels fall and rise and the lights of civilization shine through the night.
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)

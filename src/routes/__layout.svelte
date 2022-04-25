@@ -53,7 +53,7 @@
 
 		(window as any).pixi = Pixi as any;
 		try {
-			pixi.init({width: $dimensions.width, height: $dimensions.height}); // TODO do the dimensions need to be reactive?
+			pixi.init({width: $dimensions.width, height: $dimensions.height, sharedTicker: true}); // TODO do the dimensions need to be reactive?
 			supportsWebGL = true;
 		} catch (err) {
 			console.error('failed to create PixiApp', err);
@@ -96,6 +96,18 @@
 	clock.resume();
 	$: updateRenderStats($clock.dt);
 
+	// TODO We want to do this to avoid unnecessary rendering when the app is paused,
+	// but the problem is it breaks some experiences like soggy planet.
+	// One fix would be to detect a stopped ticker and render on user input,
+	// but that seems tedious and error prone.
+	// $: if (pixi.app) {
+	// 	if ($clock.running) {
+	// 		if (!pixi.app.ticker.started) pixi.app.ticker.start();
+	// 	} else {
+	// 		if (pixi.app.ticker.started) pixi.app.ticker.stop();
+	// 	}
+	// }
+
 	const portals = createPortalsStore({
 		data: portalsData,
 		selectedPortal: portalsData.portalsBySlug.get($page.url.pathname.substring(1)) || null,
@@ -118,7 +130,6 @@
 
 		if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			// global pause
-			// TODO BLOCK app.stop()
 			clock.toggle();
 		} else if (e.key === '`' && e.ctrlKey) {
 			// toggle dev mode

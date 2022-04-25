@@ -13,6 +13,9 @@ export class PixiApp {
 		Pixi.settings.SCALE_MODE = Pixi.SCALE_MODES.NEAREST;
 
 		this.app = new Pixi.Application(options);
+		// this.app.ticker.add((dt) => {
+		// 	console.log(`dt`, dt);
+		// });
 
 		const defaultScene = new Pixi.Container();
 		defaultScene.interactiveChildren = false;
