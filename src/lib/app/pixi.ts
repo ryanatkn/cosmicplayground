@@ -75,13 +75,31 @@ export const getPixiScene = (
 	hooks: PixiSceneHooks,
 	pixi: PixiApp = getPixi(),
 ): [PixiApp, Pixi.Container] => {
+	let destroyed = false;
+
+	// Disable the app, and use the `Pixi.Prepare` plugin
+	// to re-enable it when ready to avoid jank:
+	// https://pixijs.download/release/docs/PIXI.Prepare.html
+	// This may be overly cautious but seems robust.
+	const wasStarted = pixi.app.ticker.started;
+	if (wasStarted) pixi.app.stop();
+	let readyCount = 0; // wait for both onMount and upload
+	const ready = (force = false) => {
+		if (destroyed || !wasStarted) return;
+		readyCount++;
+		if (force || readyCount >= 2) pixi.app.start();
+	};
+
 	// Mount the scene right away. When loading, we'll show a black background
 	// and the scene component can display whatever it wants.
 	const scene = new Pixi.Container();
 	scene.interactiveChildren = false;
 	pixi.mountScene(scene);
 
-	let destroyed = false; // TODO good for store state?
+	// See above -- avoids jank.
+	pixi.app.renderer.plugins.prepare.upload(scene, () => {
+		ready();
+	});
 
 	// If we're already loading while creating a new scene,
 	// cancel whatever's going on in the loader.
@@ -99,11 +117,13 @@ export const getPixiScene = (
 		pixi.app.loader.load((loader, resources) => {
 			if (destroyed) return; // in case the scene is destroyed before loading finishes
 			hooks.loaded?.(scene, resources, loader);
+			ready();
 		});
 	});
 
 	onDestroy(() => {
 		console.log('destroying pixi scene', scene, pixi);
+		ready(true);
 		hooks.destroy?.(scene, pixi.app.loader);
 		destroyed = true;
 		pixi.unmountScene(scene);
