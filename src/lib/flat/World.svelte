@@ -26,14 +26,13 @@
 
 	$: if (!$clock.running && $moving) clock.resume();
 
-	$: if ($clock.running || $dirty) {
-		if ($clock.running) {
-			stage.update($clock.dt);
-		}
-		if (domCanvasRenderer?.ctx) {
-			domCanvasRenderer.clear();
-			domCanvasRenderer.render(stage.sim.entities, stage.$camera);
-		}
+	$: if ($clock.running) {
+		stage.update($clock.dt);
+	}
+
+	$: if (domCanvasRenderer?.ctx && ($clock.running || $dirty)) {
+		domCanvasRenderer.clear();
+		domCanvasRenderer.render(stage.sim.entities, stage.$camera);
 	}
 
 	$: stage.resize(worldWidth, worldHeight);
