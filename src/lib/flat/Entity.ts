@@ -130,6 +130,9 @@ export class Entity<T extends EntityBody = EntityBody> {
 
 		if (this.text) {
 			const text = new Pixi.Text(this.text, {fontSize: this.fontSize, fontFamily: this.fontFamily});
+			if (this.textOffsetX || this.textOffsetY) {
+				text.position.set(this.textOffsetX, this.textOffsetY);
+			}
 			this.container.addChild(text);
 			text.anchor.set(0.5, 0.5);
 		}
