@@ -15,7 +15,7 @@ import {Entity} from '$lib/flat/Entity';
 const COLOR_PLAYER: Hsl = [0.833, 0.76, 0.72];
 const COLOR_PLANET: Hsl = [0.611, 1, 0.7];
 const COLOR_MOON: Hsl = [0.389, 0.8, 0.6];
-const COLOR_ROCK: Hsl = [0.611, 0.2, 0.7];
+const COLOR_ROCK: Hsl = [0.12, 0.16, 0.5];
 const COLOR_MOLTEN: Hsl = [0, 1, 0.5];
 
 export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
