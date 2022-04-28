@@ -20,10 +20,20 @@
 	});
 
 	// TODO copied from `EarthPixiViewer`, extract camera store (see also `View.svelte` parent component)
-	$: updateCamera($camera);
-	const updateCamera = ($camera: CameraState) => {
-		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight); // TODO block get from camera? then remove `viewWidth/height`?
+	$: updateCamera($camera, worldWidth, worldHeight, viewWidth, viewHeight);
+	const updateCamera = (
+		$camera: CameraState,
+		worldWidth: number,
+		worldHeight: number,
+		viewWidth: number,
+		viewHeight: number,
+	) => {
+		// TODO get from camera
+		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight);
+		console.log(`viewWidth, viewHeight`, viewWidth, viewHeight);
+		console.log(`worldWidth, worldHeight`, worldWidth, worldHeight);
 		container.scale.set(scale);
+		console.log(`scale`, scale);
 		const positionX = (-$camera.x + $camera.width / 2) * scale;
 		const positionY = (-$camera.y + $camera.height / 2) * scale;
 		container.position.set(positionX, positionY);
