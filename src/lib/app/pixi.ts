@@ -83,11 +83,9 @@ export const getPixiScene = (
 	// This may be overly cautious but seems robust.
 	const wasStarted = pixi.app.ticker.started;
 	if (wasStarted) pixi.app.stop();
-	let readyCount = 0; // wait for both onMount and upload
-	const ready = (force = false) => {
+	const ready = () => {
 		if (destroyed || !wasStarted) return;
-		readyCount++;
-		if (force || readyCount >= 2) pixi.app.start();
+		pixi.app.start();
 	};
 
 	// Mount the scene right away. When loading, we'll show a black background
@@ -95,11 +93,6 @@ export const getPixiScene = (
 	const scene = new Pixi.Container();
 	scene.interactiveChildren = false;
 	pixi.mountScene(scene);
-
-	// See above -- avoids jank.
-	pixi.app.renderer.plugins.prepare.upload(scene, () => {
-		ready();
-	});
 
 	// If we're already loading while creating a new scene,
 	// cancel whatever's going on in the loader.
@@ -117,13 +110,14 @@ export const getPixiScene = (
 		pixi.app.loader.load((loader, resources) => {
 			if (destroyed) return; // in case the scene is destroyed before loading finishes
 			hooks.loaded?.(scene, resources, loader);
-			ready();
+			// See `ready` above -- avoids jank.
+			pixi.app.renderer.plugins.prepare.upload(scene, () => ready());
 		});
 	});
 
 	onDestroy(() => {
 		console.log('destroying pixi scene', scene, pixi);
-		ready(true);
+		ready();
 		hooks.destroy?.(scene, pixi.app.loader);
 		destroyed = true;
 		pixi.unmountScene(scene);
