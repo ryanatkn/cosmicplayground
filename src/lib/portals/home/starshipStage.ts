@@ -12,10 +12,10 @@ import {Entity} from '$lib/flat/Entity';
 
 // TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
 // and our `Hsl` is good for fast manipulation
-const COLOR_DEFAULT: Hsl = [0.611, 1, 0.7];
-const COLOR_PLAIN: Hsl = [0.611, 0.2, 0.7];
-const COLOR_EXIT: Hsl = [0.389, 1, 0.7];
 const COLOR_PLAYER: Hsl = [0.833, 0.76, 0.72];
+const COLOR_PLANET: Hsl = [0.611, 1, 0.7];
+const COLOR_MOON: Hsl = [0.389, 0.8, 0.6];
+const COLOR_ROCK: Hsl = [0.611, 0.2, 0.7];
 const COLOR_MOLTEN: Hsl = [0, 1, 0.5];
 
 export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
@@ -123,7 +123,7 @@ export class Stage extends BaseStage {
 		planet.textOffsetX = 850;
 		planet.textOffsetY = 1150;
 		planet.fontSize = 200;
-		planet.color = COLOR_DEFAULT;
+		planet.color = COLOR_PLANET;
 		this.addEntity(planet);
 
 		// TODO how will this work for polygons?
@@ -134,14 +134,14 @@ export class Stage extends BaseStage {
 		rock.speed = ROCK_SPEED;
 		rock.directionX = -1;
 		rock.directionY = -0.7;
-		rock.color = COLOR_PLAIN;
+		rock.color = COLOR_ROCK;
 		this.addEntity(rock);
 
 		let moon = new Entity(collisions.createCircle(1660, 1012, 43) as EntityCircle);
 		moon.text = MOON_ICONS[1];
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
-		moon.color = COLOR_EXIT;
+		moon.color = COLOR_MOON;
 		this.addEntity(moon);
 		moons.add(moon);
 
@@ -149,7 +149,7 @@ export class Stage extends BaseStage {
 		moon.text = MOON_ICONS[2];
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
-		moon.color = COLOR_EXIT;
+		moon.color = COLOR_MOON;
 		this.addEntity(moon);
 		moons.add(moon);
 
@@ -157,7 +157,7 @@ export class Stage extends BaseStage {
 		moon.text = MOON_ICONS[3];
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
-		moon.color = COLOR_EXIT;
+		moon.color = COLOR_MOON;
 		this.addEntity(moon);
 		moons.add(moon);
 
@@ -165,7 +165,7 @@ export class Stage extends BaseStage {
 		moon.text = MOON_ICONS[4];
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
-		moon.color = COLOR_EXIT;
+		moon.color = COLOR_MOON;
 		this.addEntity(moon);
 		moons.add(moon);
 

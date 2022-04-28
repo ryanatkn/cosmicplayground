@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {onMount} from 'svelte';
+
 	import World from '$lib/flat/World.svelte';
 	import {PLAYER_SPEED, PLAYER_SPEED_BOOSTED, Stage} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
@@ -6,6 +8,7 @@
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
 	import {getPixi} from '$lib/app/pixi';
 	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
+	import type {CameraStore} from '$lib/flat/camera';
 
 	export let screenWidth: number;
 	export let screenHeight: number;
@@ -34,6 +37,28 @@
 	const idle = getIdle();
 	$: if ($idle) clock.pause();
 
+	let camera: CameraStore;
+	$: ({camera} = stage);
+
+	// This stops the app's rendering when paused for efficiency.
+	// It will need some tweaking if/when we add camera zoom.
+	// It'd also be nice to have a general solution, not hardcoded to this one component.
+	$: if ($clock.running) {
+		pixi.app.start();
+	} else {
+		pixi.app.stop();
+		void camera.setPosition($camera.x, $camera.y, {hard: true});
+	}
+	onMount(() => {
+		// render because the stage is paused initially
+		pixi.app.render();
+		return () => {
+			pixi.app.render();
+			pixi.app.start();
+		};
+	});
+	$: worldWidth, worldHeight, pixi.app.render(); // render on resize - TODO maybe refactor with World resizing
+
 	$: $clock, syncStageState();
 
 	let finished = false;
@@ -41,7 +66,7 @@
 
 	$: stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
 	$: stage.freezeCamera = !cameraUnlocked;
-	$: if (cameraUnlocked) void stage.camera.setPosition(starshipX, starshipY);
+	$: if (cameraUnlocked) void camera.setPosition(starshipX, starshipY);
 
 	// TODO refactor
 	$: if (controller) controller.screenWidth = screenWidth;

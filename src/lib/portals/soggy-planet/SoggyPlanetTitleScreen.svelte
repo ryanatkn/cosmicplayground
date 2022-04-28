@@ -40,7 +40,7 @@
 	<Panel>
 		<section class="markup">
 			<p>
-				Soggy Planet is an interactive map of Earth where sea levels fall and rise and the lights of
+				Soggy Planet is an interactive map of Earth where sea levels rise and fall and the lights of
 				civilization shine through the night. The code and image data are
 				<a href="https://github.com/cosmicplayground/cosmicplayground">open source on GitHub</a>.
 				Credits are below.
