@@ -2,11 +2,9 @@
 	import {onMount} from 'svelte';
 
 	import type {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
-	import type {Stage} from '$lib/flat/Stage';
 
 	export let width: number;
 	export let height: number;
-	export let stage: Stage;
 	export let domCanvasRenderer: DomCanvasRenderer; // TODO isn't reactive
 
 	let el: HTMLCanvasElement;
@@ -18,8 +16,6 @@
 	}
 
 	const resize = (width: number, height: number): void => {
-		// TODO maybe refactor this component to fire a `resize` event
-		stage.resize(width, height);
 		domCanvasRenderer.resize(width, height); // also updates `el` `width` and `height`
 		canvasWidth = width;
 		canvasHeight = height;

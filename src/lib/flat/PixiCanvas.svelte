@@ -30,12 +30,10 @@
 	) => {
 		// TODO get from camera
 		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight);
-		console.log(`viewWidth, viewHeight`, viewWidth, viewHeight);
-		console.log(`worldWidth, worldHeight`, worldWidth, worldHeight);
 		container.scale.set(scale);
-		console.log(`scale`, scale);
-		const positionX = (-$camera.x + $camera.width / 2) * scale;
-		const positionY = (-$camera.y + $camera.height / 2) * scale;
-		container.position.set(positionX, positionY);
+		container.position.set(
+			(-$camera.x + $camera.width / 2) * scale,
+			(-$camera.y + $camera.height / 2) * scale,
+		);
 	};
 </script>

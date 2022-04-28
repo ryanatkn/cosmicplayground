@@ -36,6 +36,8 @@
 		}
 	}
 
+	$: stage.resize(worldWidth, worldHeight);
+
 	// TODO actions -- refactor this with the controls in `__layout.svelte` and `index.svelte`
 	const onKeydown = (e: KeyboardEvent) => {
 		controller.handleKeydown(e.key);
@@ -49,7 +51,7 @@
 
 <div class="world" style:width="{worldWidth}px" style:height="{worldHeight}px">
 	{#if domCanvasRenderer}
-		<DomCanvas width={worldWidth} height={worldHeight} {stage} {domCanvasRenderer} />
+		<DomCanvas width={worldWidth} height={worldHeight} {domCanvasRenderer} />
 	{/if}
 	<PixiCanvas {worldWidth} {worldHeight} {viewWidth} {viewHeight} {stage} {scene} />
 	<slot />
