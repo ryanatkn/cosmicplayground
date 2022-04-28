@@ -131,7 +131,7 @@
 		{domCanvasRenderer}
 	/>
 </div>
-<InteractiveSurface width={screenWidth} height={screenHeight} {controller} />
+<InteractiveSurface {controller} />
 
 <style>
 	.view {

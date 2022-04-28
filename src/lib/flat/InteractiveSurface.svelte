@@ -3,17 +3,12 @@
 
 	// TODO merge with `$lib/app/InteractiveSurface.svelte`
 
-	export const width: number = undefined as any; // TODO ? see below
-	export const height: number = undefined as any; // TODO ? see below
 	export let controller: Controller;
 
 	let el: HTMLElement;
 
 	const updatePointer = (e: {clientX: number; clientY: number}) => {
-		controller.setPointerLocation(
-			e.clientX - el.clientLeft, //  - width / 2
-			e.clientY - el.clientTop, //  - height / 2
-		);
+		controller.setPointerLocation(e.clientX - el.clientLeft, e.clientY - el.clientTop);
 	};
 
 	const onMousedown = (e: MouseEvent) => {

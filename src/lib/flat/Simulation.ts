@@ -50,6 +50,7 @@ export class Simulation {
 			for (const bodyB of potentials) {
 				if (entityA.body.collides(bodyB, result)) {
 					collide(entityA, bodyB.entity, result);
+					if (entityA.dead) break;
 				}
 			}
 		}

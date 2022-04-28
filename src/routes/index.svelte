@@ -460,7 +460,6 @@
 		align-items: center;
 		justify-content: center;
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
-		will-change: transform; /* might prevent some jank but may use unnecessary resources */
 	}
 	.starship-mode nav {
 		user-select: none;
