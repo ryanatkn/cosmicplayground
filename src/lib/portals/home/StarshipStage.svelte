@@ -86,15 +86,10 @@
 		starshipX = stage.player.x;
 		starshipY = stage.player.y;
 
-		// TODO ?
+		// TODO animate instead of setting instantly (and have rotation acceleration/velocity properties on entities)
 		starshipAngle = updateAngle(starshipAngle, stage.player.directionX, stage.player.directionY);
 
 		starshipShieldRadius = stage.player.radius;
-
-		// TODO refactor to be evented
-		if (stage.controller.pressingExit) {
-			exit();
-		}
 	};
 
 	const updateAngle = (currentAngle: number, directionX: number, directionY: number): number =>
@@ -117,7 +112,18 @@
 		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight);
 		return `scale3d(${scale}, ${scale}, 1)`;
 	};
+
+	// TODO actions -- refactor this with the controls in `__layout.svelte` and `index.svelte` and `World.svelte`
+	const onKeydown = (e: KeyboardEvent) => {
+		if (e.key === 'Escape') {
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			exit();
+		}
+	};
 </script>
+
+<svelte:window on:keydown={onKeydown} />
 
 <div class="view" style:transform>
 	<World
