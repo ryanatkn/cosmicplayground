@@ -1,5 +1,6 @@
 import type {Body, Circle, Point, Polygon} from '@ryanatkn/collisions';
-import type {Entity} from './Entity';
+
+import type {Entity} from '$lib/flat/Entity';
 
 export interface IEntityBody extends Body {
 	entity: Entity;

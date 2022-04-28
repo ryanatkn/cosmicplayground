@@ -7,6 +7,11 @@ const DEFAULT_COLOR: Hsl = [0.611, 1, 0.7];
 const DEFAULT_COLOR_STR = hslToStr(...DEFAULT_COLOR);
 const DEFAULT_COLOR_HEX = hslToHex(...DEFAULT_COLOR);
 
+// TODO probably want increments of ~3px for line width in the design language,
+// and connect it to an `Entity` property like
+// `toughness` or `armor` or `shielding` or `shieldStrength` or something
+const ENTITY_LINE_WIDTH = 3;
+
 /**
  * The `Entity` class wraps collision simulation and rendering into one object.
  * We may evolve towards and ECS design but this is fine for now.
@@ -117,10 +122,7 @@ export class Entity<T extends EntityBody = EntityBody> {
 		if (this.body._circle) {
 			const graphics = new Pixi.Graphics();
 			this.container.addChild(graphics);
-			// TODO probably want increments of 2-3 px for line width in the design language,
-			// and connect it to an `Entity` property like
-			// `toughness` or `armor` or `shielding` or `shieldStrength` or something
-			graphics.lineStyle(2, this.colorHex);
+			graphics.lineStyle(ENTITY_LINE_WIDTH, this.colorHex);
 			graphics.beginFill(0, 0);
 			graphics.drawCircle(0, 0, this.radius);
 			graphics.endFill();
