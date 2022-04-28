@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type {Readable} from 'svelte/store';
-	import type PIXI from 'pixi.js';
+	import * as Pixi from 'pixi.js';
 
 	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum';
 	import {
@@ -9,6 +9,9 @@
 	} from '$lib/app/blendedImagesCycle';
 	import {getPixiScene} from '$lib/app/pixi';
 	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
+
+	// TODO looks like we could use `Pixi.Prepare` to make initial rendering smoother:
+	// https://pixijs.download/release/docs/PIXI.Prepare.html
 
 	// TODO should we cache stuff at the module scope? mainly thinking of the render textures
 	// or should we free all resources when this is unmounted? including all base textures?
@@ -56,10 +59,10 @@
 			}
 		},
 		loaded: (scene, resources, _loader) => {
-			mapContainer = new pixi.PIXI.Container();
+			mapContainer = new Pixi.Container();
 			scene.addChild(mapContainer);
 
-			landContainer = new pixi.PIXI.Container();
+			landContainer = new Pixi.Container();
 			mapContainer.addChild(landContainer);
 			landContainer.sortableChildren = true;
 			for (const landImage of landImages) {
@@ -70,7 +73,7 @@
 			updateSpriteTransforms(landSprites, tilePositionX, tilePositionY, $scale);
 			updateLandOpacities(activeLandValue);
 
-			seashoreContainer = new pixi.PIXI.Container();
+			seashoreContainer = new Pixi.Container();
 			mapContainer.addChild(seashoreContainer);
 			for (const seaImage of seaImages) {
 				const sprite = createMapSprite(resources[seaImage]!.texture!);
@@ -92,10 +95,10 @@
 			updateSeaOpacities(activeSeaLevel);
 
 			if (lightsImage) {
-				overlayContainer = new pixi.PIXI.Container();
+				overlayContainer = new Pixi.Container();
 				mapContainer.addChild(overlayContainer);
 
-				const nightfallSprite = new pixi.PIXI.TilingSprite(pixi.PIXI.Texture.WHITE, width, height);
+				const nightfallSprite = new Pixi.TilingSprite(Pixi.Texture.WHITE, width, height);
 				nightfallSprite.tint = 0x000000;
 				nightfallSprite.alpha = 0;
 				overlayContainer.addChild(nightfallSprite);
@@ -115,13 +118,13 @@
 		},
 	});
 
-	const landSprites: PIXI.TilingSprite[] = []; // not reactive
-	const seashoreSprites: PIXI.TilingSprite[] = []; // not reactive
-	const overlaySprites: PIXI.TilingSprite[] = []; // not reactive
-	let mapContainer: PIXI.Container;
-	let landContainer: PIXI.Container;
-	let seashoreContainer: PIXI.Container; // includes shore sprites
-	let overlayContainer: PIXI.Container;
+	const landSprites: Pixi.TilingSprite[] = []; // not reactive
+	const seashoreSprites: Pixi.TilingSprite[] = []; // not reactive
+	const overlaySprites: Pixi.TilingSprite[] = []; // not reactive
+	let mapContainer: Pixi.Container;
+	let landContainer: Pixi.Container;
+	let seashoreContainer: Pixi.Container; // includes shore sprites
+	let overlayContainer: Pixi.Container;
 
 	$: tilePositionX = -$x * $scale + width / 2;
 	$: tilePositionY = -$y * $scale + height / 2;
@@ -139,7 +142,7 @@
 	$: updateSpriteDimensions(landSprites, width, height);
 	$: updateSpriteDimensions(seashoreSprites, width, height);
 	$: updateSpriteDimensions(overlaySprites, width, height);
-	const updateSpriteDimensions = (sprites: PIXI.TilingSprite[], width: number, height: number) => {
+	const updateSpriteDimensions = (sprites: Pixi.TilingSprite[], width: number, height: number) => {
 		for (const sprite of sprites) {
 			sprite.width = width;
 			sprite.height = height;
@@ -149,7 +152,7 @@
 	$: updateSpriteTransforms(seashoreSprites, tilePositionX, tilePositionY, $scale);
 	$: updateSpriteTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
 	const updateSpriteTransforms = (
-		sprites: PIXI.TilingSprite[],
+		sprites: Pixi.TilingSprite[],
 		tilePositionX: number,
 		tilePositionY: number,
 		$scale: number,
@@ -201,22 +204,22 @@
 		}
 	};
 
-	const createMapSprite = (texture: PIXI.Texture) => {
-		const tempSprite1 = new pixi.PIXI.Sprite(texture);
-		const tempSprite2 = new pixi.PIXI.Sprite(texture);
+	const createMapSprite = (texture: Pixi.Texture) => {
+		const tempSprite1 = new Pixi.Sprite(texture);
+		const tempSprite2 = new Pixi.Sprite(texture);
 		tempSprite2.angle = 180;
 		tempSprite2.y = imageHeight * 2;
 		tempSprite2.x = imageWidth;
-		const tempTextureContainer = new pixi.PIXI.Container();
+		const tempTextureContainer = new Pixi.Container();
 		tempTextureContainer.addChild(tempSprite1);
 		tempTextureContainer.addChild(tempSprite2);
 		// TODO cache this at module scope? see comment at top of file
-		const renderTexture = pixi.PIXI.RenderTexture.create({
+		const renderTexture = Pixi.RenderTexture.create({
 			width: imageWidth,
 			height: imageHeight * 2,
 		});
 		pixi.app.renderer.render(tempTextureContainer, {renderTexture});
-		return new pixi.PIXI.TilingSprite(renderTexture, width, height);
+		return new Pixi.TilingSprite(renderTexture, width, height);
 	};
 </script>
 

@@ -8,16 +8,14 @@
 	<h1>
 		<div class="header-content">
 			cosmicplayground
-			<button
-				type="button"
-				class="image-button cosm"
-				on:click={() => {
-					// eslint-disable-next-line no-alert
-					alert('coming soon!');
-				}}
-			>
-				<img src="/assets/characters/cosm.png" alt="more to come!" class="pixelated" width="16" />
-			</button>
+			<a href="https://www.cosmicplayground.dev" class="cosm">
+				<img
+					src="/assets/characters/cosm.png"
+					alt="icon for cosm, a little purple friend"
+					class="pixelated image-button"
+					width="16"
+				/>
+			</a>
 		</div>
 	</h1>
 	<h2>tools and toys for expanding minds</h2>
@@ -98,8 +96,9 @@
 	}
 	.cosm {
 		position: absolute;
-		bottom: 50px;
 		right: -20px;
+		height: 16px;
+		width: 16px;
 	}
 	@media (max-width: 900px) {
 		header h1 {

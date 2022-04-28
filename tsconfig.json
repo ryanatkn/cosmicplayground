@@ -1,16 +1,26 @@
 {
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
+		"moduleResolution": "node",
+		"target": "es2021",
+		"module": "esnext",
+		"lib": ["esnext", "dom"],
 		"types": ["@sveltejs/kit"],
 		"strict": true,
 		"useUnknownInCatchVariables": false,
 		"exactOptionalPropertyTypes": false,
+		"forceConsistentCasingInFileNames": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"noImplicitOverride": true,
 		"noFallthroughCasesInSwitch": true,
+		"resolveJsonModule": true,
+		"sourceMap": true,
 		"importHelpers": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"checkJs": true,
 		"preserveValueImports": true
 	}
 }

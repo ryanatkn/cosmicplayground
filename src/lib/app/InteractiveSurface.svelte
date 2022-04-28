@@ -1,4 +1,6 @@
 <script lang="ts">
+	// TODO merge with `$lib/flat/InteractiveSurface.svelte`
+
 	// TODO separate camera stuff from this component, maybe a higher order component?
 
 	export let width: number;
@@ -65,6 +67,12 @@
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
 		zoomCamera(scaleDelta, lastMouseX, lastMouseY);
 	};
+	const onContextmenu = (e: MouseEvent) => {
+		if (!e.shiftKey) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
+	};
 </script>
 
 <div
@@ -76,6 +84,7 @@
 	on:mouseenter={onMouseEnter}
 	on:mouseleave={onMouseLeave}
 	on:wheel|passive={onWheel}
+	on:contextmenu={onContextmenu}
 >
 	<slot />
 </div>

@@ -1,29 +1,24 @@
-import {Collisions} from '@ryanatkn/collisions';
 import {randomFloat} from '@feltcoop/felt/util/random.js';
 import {klona} from 'klona/json';
 import {get, writable, type Writable} from 'svelte/store';
 
-import {Stage as BaseStage, type StageSetupOptions} from '$lib/flat/stage';
-import {frag, type EntityBody, type EntityCircle, type EntityPolygon} from '$lib/flat/entity';
-import type {Renderer} from '$lib/flat/renderer';
-import {Simulation} from '$lib/flat/Simulation';
+import {Stage as BaseStage, type StageSetupOptions} from '$lib/flat/Stage';
+import type {EntityCircle} from '$lib/flat/entityBody';
+import {frag, collide} from '$lib/flat/entityHelpers';
 import {updateDirection} from '$lib/flat/Controller';
-import {
-	type CameraStore,
-	toCameraStore,
-	type CameraState,
-	SPRING_OPTS_HARD,
-} from '$lib/flat/camera';
-import {collideRigidBodies} from '$lib/flat/collideRigidBodies';
 import {dequal} from 'dequal/lite';
+import type {Hsl} from '$lib/util/colors';
+import {Entity} from '$lib/flat/Entity';
 
-export const COLOR_DEFAULT = 'hsl(220, 100%, 70%)';
-export const COLOR_PLAIN = 'hsl(220, 20%, 70%)';
-export const COLOR_EXIT = 'hsl(140, 100%, 70%)';
-export const COLOR_PLAYER = 'violet';
-export const COLOR_MOLTEN = 'red';
+// TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
+// and our `Hsl` is good for fast manipulation
+const COLOR_PLAYER: Hsl = [0.833, 0.76, 0.72];
+const COLOR_PLANET: Hsl = [0.611, 1, 0.7];
+const COLOR_MOON: Hsl = [0.389, 0.8, 0.6];
+const COLOR_ROCK: Hsl = [0.12, 0.16, 0.5];
+const COLOR_MOLTEN: Hsl = [0, 1, 0.5];
 
-export const MOON_ICONS = ['🐹', '🐸', '🐰', '🐼', '🐭'];
+export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
 
 export const PLAYER_SPEED = 0.6;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
@@ -32,7 +27,7 @@ export const PLAYER_RADIUS = 100;
 const MOON_SPEED = 0.03;
 const ROCK_SPEED = 0.21;
 
-const toIconFont = (radius: number): string => `${radius * 1.4}px sans-serif`;
+const toIconFontSize = (radius: number): number => radius * 1.4;
 
 // TODO refactor all of these
 export interface StarshipStageScores {
@@ -75,17 +70,14 @@ export class Stage extends BaseStage {
 	finished = false; // stops when the conditions are met and the player collides with the exit
 
 	// these are instantiated in `setup`
-	collisions!: Collisions;
-	sim!: Simulation;
-	player!: EntityCircle;
-	bounds!: EntityPolygon;
-	planet!: EntityCircle;
-	rock!: EntityCircle;
-	readonly moons: Set<EntityCircle> = new Set();
-	readonly moonsArray: EntityCircle[] = []; // TODO hack to keep the current view code -- see in 2 places
-	readonly moonFragments: Set<EntityCircle> = new Set();
-	readonly planetFragments: Set<EntityCircle> = new Set();
-	readonly rockFragments: Set<EntityCircle> = new Set();
+	player!: Entity<EntityCircle>;
+	planet!: Entity<EntityCircle>;
+	rock!: Entity<EntityCircle>;
+	readonly moons: Set<Entity<EntityCircle>> = new Set();
+	readonly moonsArray: Array<Entity<EntityCircle>> = []; // TODO hack to keep the current view code -- see in 2 places
+	readonly moonFragments: Set<Entity<EntityCircle>> = new Set();
+	readonly planetFragments: Set<Entity<EntityCircle>> = new Set();
+	readonly rockFragments: Set<Entity<EntityCircle>> = new Set();
 
 	scores: Writable<StarshipStageScores>;
 	updateScores(): void {
@@ -93,134 +85,88 @@ export class Stage extends BaseStage {
 		if (!dequal(newScores, get(this.scores))) this.scores.set(newScores);
 	}
 
-	camera!: CameraStore;
-	$camera!: CameraState;
-	freezeCamera = true; // is the camera fixed in place?
-
-	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management?
-
 	constructor(options: StageSetupOptions) {
 		super(options);
-
-		const {width, height, freezeCamera} = options;
-
-		this.freezeCamera = freezeCamera;
 
 		const playerX = 850;
 		const playerY = 502;
 
-		this.camera = toCameraStore({
-			width,
-			height,
-			x: freezeCamera ? width / 2 : playerX,
-			y: freezeCamera ? height / 2 : playerY,
-		});
-		// TODO this is a hint this should be a Svelte component ...
-		this.subscriptions.push(this.camera.subscribe(($camera) => (this.$camera = $camera)));
+		if (!this.freezeCamera) {
+			void this.camera.setPosition(playerX, playerY, {hard: true});
+		}
 
-		const collisions = (this.collisions = new Collisions());
-		const sim = (this.sim = new Simulation(collisions));
-		const {controller, moons} = this;
-		const {bodies} = sim;
+		const {sim, collisions, controller, moons} = this;
 
 		// TODO instead of casting we could pass `EntityPolygon` as type param right?
 		// and improve the type safety compared to casting? though not sure it'll catch any bugs
 
 		console.log('setup stage, sim, controller', sim, controller);
 		// create the controllable player
-		const player = (this.player = collisions.createCircle(
-			playerX,
-			playerY,
-			PLAYER_RADIUS,
-		) as EntityCircle);
+		const player = (this.player = new Entity(
+			collisions.createCircle(playerX, playerY, PLAYER_RADIUS) as EntityCircle,
+		));
 		player.speed = PLAYER_SPEED;
-		player.directionX = 0;
-		player.directionY = 0;
 		player.color = COLOR_PLAYER;
-		bodies.push(player);
-
-		// create the bounds around the stage edges
-		const bounds = (this.bounds = collisions.createPolygon(0, 0, [
-			[0, 0],
-			[1, 0],
-			[1, 1],
-			[0, 1],
-		]) as EntityPolygon);
-		bounds.disableSimulation = true;
-		bounds.invisible = true;
-		bounds.scale_x = width;
-		bounds.scale_y = height;
-		bodies.push(bounds);
+		this.addEntity(player);
 
 		// create the stuff
 		// TODO create these programmatically from data
 		const planetRadius = 1618;
-		const planet = (this.planet = collisions.createCircle(
-			-1450 + planetRadius / 2,
-			-1750 + planetRadius / 2,
-			planetRadius,
-		) as EntityCircle);
+		const planet = (this.planet = new Entity(
+			collisions.createCircle(
+				-1450 + planetRadius / 2,
+				-1750 + planetRadius / 2,
+				planetRadius,
+			) as EntityCircle,
+		));
 		planet.text = MOON_ICONS[0];
 		planet.textOffsetX = 850;
 		planet.textOffsetY = 1150;
-		planet.font = '200px sans-serif';
-		planet.speed = 0;
-		planet.directionX = 0;
-		planet.directionY = 0;
-		planet.color = COLOR_DEFAULT;
-		bodies.push(planet);
+		planet.fontSize = 200;
+		planet.color = COLOR_PLANET;
+		this.addEntity(planet);
 
 		// TODO how will this work for polygons?
 		const rockSize = 262;
-		const rock = (this.rock = collisions.createCircle(
-			2275 + rockSize / 2,
-			1200 + rockSize / 2,
-			rockSize,
-		) as EntityCircle);
+		const rock = (this.rock = new Entity(
+			collisions.createCircle(2275 + rockSize / 2, 1200 + rockSize / 2, rockSize) as EntityCircle,
+		));
 		rock.speed = ROCK_SPEED;
 		rock.directionX = -1;
 		rock.directionY = -0.7;
-		rock.color = COLOR_PLAIN;
-		bodies.push(rock);
+		rock.color = COLOR_ROCK;
+		this.addEntity(rock);
 
-		let moon = collisions.createCircle(1660, 1012, 43) as EntityCircle;
+		let moon = new Entity(collisions.createCircle(1660, 1012, 43) as EntityCircle);
 		moon.text = MOON_ICONS[1];
-		moon.font = toIconFont(moon.radius);
+		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
-		moon.directionX = 0;
-		moon.directionY = 0;
-		moon.color = COLOR_EXIT;
-		bodies.push(moon);
+		moon.color = COLOR_MOON;
+		this.addEntity(moon);
 		moons.add(moon);
 
-		moon = collisions.createCircle(1420, 1104, 72) as EntityCircle;
+		moon = new Entity(collisions.createCircle(1420, 1104, 72) as EntityCircle);
 		moon.text = MOON_ICONS[2];
-		moon.font = toIconFont(moon.radius);
+		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
-		moon.directionX = 0;
-		moon.directionY = 0;
-		moon.color = COLOR_EXIT;
-		bodies.push(moon);
+		moon.color = COLOR_MOON;
+		this.addEntity(moon);
 		moons.add(moon);
 
-		moon = collisions.createCircle(2010, 872, 19) as EntityCircle;
+		moon = new Entity(collisions.createCircle(2010, 872, 19) as EntityCircle);
 		moon.text = MOON_ICONS[3];
-		moon.font = toIconFont(moon.radius);
+		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
-		moon.directionX = 0;
-		moon.directionY = 0;
-		moon.color = COLOR_EXIT;
-		bodies.push(moon);
+		moon.color = COLOR_MOON;
+		this.addEntity(moon);
 		moons.add(moon);
 
-		moon = collisions.createCircle(1870, 776, 27) as EntityCircle;
+		moon = new Entity(collisions.createCircle(1870, 776, 27) as EntityCircle);
 		moon.text = MOON_ICONS[4];
-		moon.font = toIconFont(moon.radius);
+		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
-		moon.directionX = 0;
-		moon.directionY = 0;
-		moon.color = COLOR_EXIT;
-		bodies.push(moon);
+		moon.color = COLOR_MOON;
+		this.addEntity(moon);
 		moons.add(moon);
 
 		// TODO hack to keep the current view code -- see in 2 places
@@ -229,21 +175,20 @@ export class Stage extends BaseStage {
 		this.scores = writable(toScores(this));
 	}
 
-	addBodies(bodies: EntityBody[]): void {
-		this.sim.bodies.push(...bodies);
+	addEntity(entity: Entity): void {
+		this.sim.addEntity(entity);
+
+		this.container.addChild(entity.container);
+
+		// TODO handle redrawing when graphics change, see `entity.draw`
+		entity.draw();
 	}
 
-	removeBody(body: EntityBody): void {
-		body.dead = true;
+	removeEntity(entity: Entity): void {
+		this.container.removeChild(entity.container);
+		this.sim.removeEntity(entity);
+		entity.destroy();
 		// TODO remove from the other collections? maybe after figuring out the tagging/type/bitmask system
-		this.sim.removeBody(body);
-	}
-
-	destroy(): void {
-		// TODO refactor this out, maybe move everything to a component?
-		for (const subscription of this.subscriptions) {
-			subscription();
-		}
 	}
 
 	override update(dt: number): void {
@@ -267,41 +212,41 @@ export class Stage extends BaseStage {
 		updateDirection(controller, player, $camera);
 
 		// TODO the `as any` is needed because flow control doesn't account for the callbacks setting this
-		let rockFragmentsToAdd: EntityCircle[] | null = null as any;
-		let planetFragmentsToAdd: EntityCircle[] | null = null as any;
-		let moonFragmentsToAdd: EntityCircle[] | null = null as any;
+		let rockFragmentsToAdd: Array<Entity<EntityCircle>> | null = null as any;
+		let planetFragmentsToAdd: Array<Entity<EntityCircle>> | null = null as any;
+		let moonFragmentsToAdd: Array<Entity<EntityCircle>> | null = null as any;
 
 		let shouldUpdateScores = false;
 
 		// gives stages full control over the sim `update`
 		this.sim.update(
 			dt,
-			(bodyA, bodyB, result) => {
-				collideRigidBodies(bodyA, bodyB, result);
+			(entityA, entityB, result) => {
+				collide(entityA, entityB, result);
 
 				// TODO remove all these casts somehow
 				// TODO refactor into a system
-				const _rock = rock === bodyA ? bodyA : rock === bodyB ? bodyB : null;
-				const _planet = planet === bodyA ? bodyA : planet === bodyB ? bodyB : null;
-				const _moon = moons.has(bodyA as EntityCircle)
-					? bodyA
-					: moons.has(bodyB as EntityCircle)
-					? bodyB
+				const _rock = rock === entityA ? entityA : rock === entityB ? entityB : null;
+				const _planet = planet === entityA ? entityA : planet === entityB ? entityB : null;
+				const _moon = moons.has(entityA as Entity<EntityCircle>)
+					? entityA
+					: moons.has(entityB as Entity<EntityCircle>)
+					? entityB
 					: null;
-				const _rockFragment = rockFragments.has(bodyA as EntityCircle)
-					? bodyA
-					: rockFragments.has(bodyB as EntityCircle)
-					? bodyB
+				const _rockFragment = rockFragments.has(entityA as Entity<EntityCircle>)
+					? entityA
+					: rockFragments.has(entityB as Entity<EntityCircle>)
+					? entityB
 					: null;
-				const _planetFragment = planetFragments.has(bodyA as EntityCircle)
-					? bodyA
-					: planetFragments.has(bodyB as EntityCircle)
-					? bodyB
+				const _planetFragment = planetFragments.has(entityA as Entity<EntityCircle>)
+					? entityA
+					: planetFragments.has(entityB as Entity<EntityCircle>)
+					? entityB
 					: null;
-				const _moonFragment = moonFragments.has(bodyA as EntityCircle)
-					? bodyA
-					: moonFragments.has(bodyB as EntityCircle)
-					? bodyB
+				const _moonFragment = moonFragments.has(entityA as Entity<EntityCircle>)
+					? entityA
+					: moonFragments.has(entityB as Entity<EntityCircle>)
+					? entityB
 					: null;
 
 				const _molten = _rock || _rockFragment || _planetFragment || _moonFragment;
@@ -309,12 +254,15 @@ export class Stage extends BaseStage {
 					// handle collision between moon and anything molten
 					const moltenIsRock = _molten === _rock;
 					const moltenIsMoonFragment = _molten === _moonFragment;
-					const newMoonFragments = frag(_moon, collisions, 12) as EntityCircle[];
+					const newMoonFragments = frag(_moon, collisions, 12) as Array<Entity<EntityCircle>>;
 					shouldUpdateScores = true;
 					(moonFragmentsToAdd || (moonFragmentsToAdd = [])).push(...newMoonFragments);
-					this.removeBody(_moon);
+					this.removeEntity(_moon);
 					// TODO this logic is very hardcoded -- ideally it's all simulated,
-					// but we'd need to ensure the gameplay still works, which may be tricky or impossible
+					// but we'd need to ensure the gameplay still works,
+					// which may be tricky or impossible without some ridiculous physics
+					// because things are hardcoded in a particular way for gameplay outcomes
+					// (like the fixed velocities of moving objects, and vectors/speeds after fragging)
 					for (const f of newMoonFragments) {
 						f.speed = moltenIsRock
 							? randomFloat(_molten.speed * 1.2, _molten.speed * 2.44)
@@ -335,9 +283,9 @@ export class Stage extends BaseStage {
 					}
 				} else if (_rock && _planet) {
 					// handle collision between rock and planet
-					this.removeBody(_rock);
-					this.removeBody(_planet);
-					const newPlanetFragments = frag(_planet, collisions, 42) as EntityCircle[];
+					this.removeEntity(_rock);
+					this.removeEntity(_planet);
+					const newPlanetFragments = frag(_planet, collisions, 42) as Array<Entity<EntityCircle>>;
 					shouldUpdateScores = true;
 					(planetFragmentsToAdd || (planetFragmentsToAdd = [])).push(...newPlanetFragments);
 					for (const p of newPlanetFragments) {
@@ -346,7 +294,7 @@ export class Stage extends BaseStage {
 						p.directionY = randomFloat(-_rock.directionY / 2, _rock.directionY / 2);
 						p.color = COLOR_MOLTEN;
 					}
-					const newRockFragments = frag(_rock, collisions, 210) as EntityCircle[];
+					const newRockFragments = frag(_rock, collisions, 210) as Array<Entity<EntityCircle>>;
 					(rockFragmentsToAdd || (rockFragmentsToAdd = [])).push(...newRockFragments);
 					for (const r of newRockFragments) {
 						r.speed = randomFloat(_rock.speed / 2, _rock.speed * 2);
@@ -356,21 +304,28 @@ export class Stage extends BaseStage {
 				} else if (_moonFragment && (_planet || _planetFragment || _rockFragment)) {
 					// TODO this logic is very similar to _molten but need to avoid double counting the same _moonFragment
 					// handle collision between moon fragment and anything molten except other moon fragments
-					this.removeBody(_moonFragment);
+					this.removeEntity(_moonFragment);
 				}
 			},
 			(bodyA, bodyB) => {
-				if (bodyA.dead || bodyB.dead || bodyA.disableSimulation || bodyB.disableSimulation) {
+				const entityA = bodyA.entity;
+				const entityB = bodyB.entity;
+				if (
+					entityA.dead ||
+					entityB.dead ||
+					entityA.disableSimulation ||
+					entityB.disableSimulation
+				) {
 					return false;
 				}
 
 				// TODO make a system for declaring collision groups -- bitmask?
-				const _player = player === bodyA ? bodyA : player === bodyB ? bodyB : null;
-				const _planet = planet === bodyA ? bodyA : planet === bodyB ? bodyB : null;
-				const _moon = moons.has(bodyA as EntityCircle)
-					? bodyA
-					: moons.has(bodyB as EntityCircle)
-					? bodyB
+				const _player = player === entityA ? entityA : player === entityB ? entityB : null;
+				const _planet = planet === entityA ? entityA : planet === entityB ? entityB : null;
+				const _moon = moons.has(entityA as Entity<EntityCircle>)
+					? entityA
+					: moons.has(entityB as Entity<EntityCircle>)
+					? entityB
 					: null;
 				if (_player && (_planet || _moon)) {
 					return false; // player doesn't collide with these
@@ -404,40 +359,26 @@ export class Stage extends BaseStage {
 		// TODO how to make this generic? could wrap in an object
 		// with a `type` if we have to, don't want the garbage tho
 		if (rockFragmentsToAdd) {
-			for (const r of rockFragmentsToAdd) rockFragments.add(r);
-			this.addBodies(rockFragmentsToAdd);
+			for (const r of rockFragmentsToAdd) {
+				rockFragments.add(r);
+				this.addEntity(r);
+			}
 		}
 		if (planetFragmentsToAdd) {
-			for (const p of planetFragmentsToAdd) planetFragments.add(p);
-			this.addBodies(planetFragmentsToAdd);
+			for (const p of planetFragmentsToAdd) {
+				planetFragments.add(p);
+				this.addEntity(p);
+			}
 		}
 		if (moonFragmentsToAdd) {
-			for (const f of moonFragmentsToAdd) moonFragments.add(f);
-			this.addBodies(moonFragmentsToAdd);
+			for (const f of moonFragmentsToAdd) {
+				moonFragments.add(f);
+				this.addEntity(f);
+			}
 		}
 
 		if (shouldUpdateScores) {
 			this.updateScores();
 		}
-	}
-
-	render(renderer: Renderer): void {
-		renderer.clear();
-		renderer.render(this.sim.bodies, this.$camera);
-		// TODO batch render? or maybe just use pixi? see in 2 places
-		// renderer.render([this.rock], this.$camera);
-		// renderer.render(this.rockFragments, this.$camera);
-		// renderer.render([this.planet], this.$camera);
-		// renderer.render(this.planetFragments, this.$camera);
-		// renderer.render(this.moons, this.$camera);
-		// renderer.render(this.moonFragments, this.$camera);
-		// renderer.render([this.player], this.$camera);
-	}
-
-	resize(width: number, height: number): void {
-		this.bounds.scale_x = width;
-		this.bounds.scale_y = height;
-		this.camera.setDimensions(width, height);
-		if (this.freezeCamera) void this.camera.setPosition(width / 2, height / 2, SPRING_OPTS_HARD);
 	}
 }

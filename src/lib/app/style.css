@@ -55,7 +55,7 @@ html {
 	--clickable_transform__active: scale3d(1.2, 1.2, 1.2);
 	--clickable_transform_sm__hover: scale3d(1.03, 1.03, 1.03);
 	--clickable_transform_sm__active: scale3d(1.09, 1.09, 1.09);
-	--clickable_transition: transform 0.06s ease-out;
+	--clickable_transition: transform 0.05s ease-out;
 	--clickable_opacity: 0.7;
 	--clickable_opacity__hover: 0.85;
 	--clickable_opacity__active: 1;

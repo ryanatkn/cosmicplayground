@@ -1,19 +1,14 @@
 <script lang="ts">
 	import type {Controller} from '$lib/flat/Controller';
 
-	// TODO same name as `$lib/app/InteractiveSurface.svelte` but different
+	// TODO merge with `$lib/app/InteractiveSurface.svelte`
 
-	export const width: number = undefined as any; // TODO ? see below
-	export const height: number = undefined as any; // TODO ? see below
 	export let controller: Controller;
 
 	let el: HTMLElement;
 
 	const updatePointer = (e: {clientX: number; clientY: number}) => {
-		controller.setPointerLocation(
-			e.clientX - el.clientLeft, //  - width / 2
-			e.clientY - el.clientTop, //  - height / 2
-		);
+		controller.setPointerLocation(e.clientX - el.clientLeft, e.clientY - el.clientTop);
 	};
 
 	const onMousedown = (e: MouseEvent) => {
@@ -82,5 +77,6 @@ allow it to bubble and do whatever
 	.interactive-surface {
 		position: absolute;
 		inset: 0;
+		user-select: none;
 	}
 </style>

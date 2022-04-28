@@ -1,9 +1,14 @@
 <script lang="ts">
+	import {onMount} from 'svelte';
+
 	import World from '$lib/flat/World.svelte';
 	import {PLAYER_SPEED, PLAYER_SPEED_BOOSTED, Stage} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
 	import {getIdle} from '$lib/app/trackIdleState';
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
+	import {getPixi} from '$lib/app/pixi';
+	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
+	import type {CameraStore} from '$lib/flat/camera';
 
 	export let screenWidth: number;
 	export let screenHeight: number;
@@ -20,13 +25,39 @@
 	export let finish: () => void;
 	export let exit: () => void;
 	export let stage: Stage;
+	export let enableDomCanvasRenderer = false;
 
 	$: ({controller} = stage);
 
 	const clock = getClock();
+	const pixi = getPixi();
+
+	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;
 
 	const idle = getIdle();
 	$: if ($idle) clock.pause();
+
+	let camera: CameraStore;
+	$: ({camera} = stage);
+
+	// This stops the app's rendering when paused for efficiency.
+	// It will need some tweaking if/when we add camera zoom.
+	// It'd also be nice to have a general solution, not hardcoded to this one component.
+	$: if ($clock.running) {
+		pixi.app.start();
+	} else {
+		pixi.app.stop();
+		void camera.setPosition($camera.x, $camera.y, {hard: true});
+	}
+	onMount(() => {
+		// render because the stage is paused initially
+		pixi.app.render();
+		return () => {
+			pixi.app.render();
+			pixi.app.start();
+		};
+	});
+	$: worldWidth, worldHeight, pixi.app.render(); // render on resize - TODO maybe refactor with World resizing
 
 	$: $clock, syncStageState();
 
@@ -35,7 +66,7 @@
 
 	$: stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
 	$: stage.freezeCamera = !cameraUnlocked;
-	$: if (cameraUnlocked) void stage.camera.setPosition(starshipX, starshipY);
+	$: if (cameraUnlocked) void camera.setPosition(starshipX, starshipY);
 
 	// TODO refactor
 	$: if (controller) controller.screenWidth = screenWidth;
@@ -55,15 +86,10 @@
 		starshipX = stage.player.x;
 		starshipY = stage.player.y;
 
-		// TODO ?
+		// TODO animate instead of setting instantly (and have rotation acceleration/velocity properties on entities)
 		starshipAngle = updateAngle(starshipAngle, stage.player.directionX, stage.player.directionY);
 
 		starshipShieldRadius = stage.player.radius;
-
-		// TODO refactor to be evented
-		if (stage.controller.pressingExit) {
-			exit();
-		}
 	};
 
 	const updateAngle = (currentAngle: number, directionX: number, directionY: number): number =>
@@ -83,17 +109,35 @@
 		worldHeight: number,
 	): string => {
 		if (viewWidth === worldWidth && viewHeight === worldHeight) return '';
-		const scaleX = viewWidth / worldWidth;
-		const scaleY = viewHeight / worldHeight;
-		const scale = Math.min(scaleX, scaleY);
+		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight);
 		return `scale3d(${scale}, ${scale}, 1)`;
+	};
+
+	// TODO actions -- refactor this with the controls in `__layout.svelte` and `index.svelte` and `World.svelte`
+	const onKeydown = (e: KeyboardEvent) => {
+		if (e.key === 'Escape') {
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			exit();
+		}
 	};
 </script>
 
+<svelte:window on:keydown={onKeydown} />
+
 <div class="view" style:transform>
-	<World width={worldWidth} height={worldHeight} {stage} {controller} />
+	<World
+		{worldWidth}
+		{worldHeight}
+		{viewWidth}
+		{viewHeight}
+		{stage}
+		scene={pixi.currentScene}
+		{controller}
+		{domCanvasRenderer}
+	/>
 </div>
-<InteractiveSurface width={screenWidth} height={screenHeight} {controller} />
+<InteractiveSurface {controller} />
 
 <style>
 	.view {

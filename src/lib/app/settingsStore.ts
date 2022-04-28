@@ -15,7 +15,7 @@ export interface SettingsStore {
 	update: Writable<SettingsState>['update'];
 }
 
-// TODO if this doesn't need anything special, make it a simple writable
+// TODO refactor to `getApp` and make each an individual store
 export const createSettingsStore = (initialState: Partial<SettingsState>): SettingsStore => {
 	const store = writable({
 		audioEnabled: true,
@@ -26,7 +26,6 @@ export const createSettingsStore = (initialState: Partial<SettingsState>): Setti
 		showMorePortals: false,
 		...initialState,
 	});
-	// TODO we might not want to expose `update` directly, but for now it's fine
 	const {subscribe, update} = store;
 	return {subscribe, update};
 };

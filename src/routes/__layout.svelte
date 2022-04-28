@@ -7,6 +7,7 @@
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
 	import {goto} from '$app/navigation';
+	import * as Pixi from 'pixi.js';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBgStore';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
@@ -49,11 +50,10 @@
 		if (redirecting) await redirecting;
 
 		loadingStatus = 'pending';
-		// TODO importing PIXI async due to this issue: https://github.com/sveltejs/kit/issues/1650
-		const pixiModule = await import('pixi.js');
-		(window as any).pixi = pixiModule as any;
+
+		(window as any).pixi = Pixi as any;
 		try {
-			pixi.init(pixiModule, {width: $dimensions.width, height: $dimensions.height}); // TODO do the dimensions need to be reactive?
+			pixi.init({width: $dimensions.width, height: $dimensions.height, sharedTicker: true}); // TODO do the dimensions need to be reactive?
 			supportsWebGL = true;
 		} catch (err) {
 			console.error('failed to create PixiApp', err);
@@ -61,11 +61,10 @@
 			pixi = {} as any; // TODO this is just a hack for type safety
 			console.error(err);
 		}
-		// pixi.PIXI.utils.clearTextureCache();
+		// pixi.Pixi.utils.clearTextureCache();
 		if (!pixi.app.loader.resources[bgImageUrl]) {
 			pixi.app.loader.add(bgImageUrl).load(() => {
 				bg = createPixiBgStore(
-					pixi.PIXI,
 					pixi.app.loader.resources[bgImageUrl].texture!,
 					$dimensions.width,
 					$dimensions.height,
@@ -97,6 +96,18 @@
 	clock.resume();
 	$: updateRenderStats($clock.dt);
 
+	// TODO We want to do this to avoid unnecessary rendering when the app is paused,
+	// but the problem is it breaks some experiences like soggy planet.
+	// One fix would be to detect a stopped ticker and render on user input,
+	// but that seems tedious and error prone.
+	// $: if (pixi.app) {
+	// 	if ($clock.running) {
+	// 		if (!pixi.app.ticker.started) pixi.app.ticker.start();
+	// 	} else {
+	// 		if (pixi.app.ticker.started) pixi.app.ticker.stop();
+	// 	}
+	// }
+
 	const portals = createPortalsStore({
 		data: portalsData,
 		selectedPortal: portalsData.portalsBySlug.get($page.url.pathname.substring(1)) || null,
@@ -114,24 +125,32 @@
 		: $settings.timeToGoIdle;
 	setAudioCtx(); // allows components to do `const audioCtx = getAudioCtx();` which uses svelte's `getContext`
 
+	// TODO integrate this with the controls in `index.svelte` and `World.svelte`
 	const onKeyDown = (e: KeyboardEvent) => {
 		// TODO main menu!
 
 		if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			// global pause
 			clock.toggle();
+			e.stopImmediatePropagation();
+			e.preventDefault();
 		} else if (e.key === '`' && e.ctrlKey) {
 			// toggle dev mode
 			settings.update((s) => ({...s, devMode: !s.devMode}));
-			console.log('dev mode is now', $settings.devMode);
+			e.stopImmediatePropagation();
+			e.preventDefault();
 		} else if ($settings.devMode) {
 			// dev mode hotkeys
 			if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 				settings.update((s) => ({...s, idleMode: !s.idleMode}));
 				console.log('idle mode is now', $settings.idleMode);
+				e.stopImmediatePropagation();
+				e.preventDefault();
 			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 				settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
 				console.log('recording mode is now', $settings.recordingMode);
+				e.stopImmediatePropagation();
+				e.preventDefault();
 			}
 		}
 	};

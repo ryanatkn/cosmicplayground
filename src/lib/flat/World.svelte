@@ -1,31 +1,43 @@
 <script lang="ts">
-	import Canvas from '$lib/flat/Canvas.svelte';
+	import type * as Pixi from 'pixi.js';
+
+	import DomCanvas from '$lib/flat/DomCanvas.svelte';
+	import PixiCanvas from '$lib/flat/PixiCanvas.svelte';
 	import {getClock} from '$lib/app/clockStore';
-	import {CanvasRenderer} from '$lib/flat/CanvasRenderer';
+	import type {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
 	import type {Controller} from '$lib/flat/Controller';
-	import type {Stage} from '$lib/flat/stage';
+	import type {Stage} from '$lib/flat/Stage';
 
-	export let width: number;
-	export let height: number;
+	export let worldWidth: number;
+	export let worldHeight: number;
+	// TODO added these view dimensions for the Pixi renderer but probably want to refactor,
+	// maybe using the camera? then `worldWidth` above becomes `width` again
+	export let viewWidth: number;
+	export let viewHeight: number;
 	export let stage: Stage;
+	export let scene: Pixi.Container;
 	export let controller: Controller;
-	export let renderer = new CanvasRenderer();
+	export let domCanvasRenderer: DomCanvasRenderer | null = null;
 
-	$: ({dirty} = renderer);
+	$: dirty = domCanvasRenderer?.dirty;
 	$: ({moving} = controller);
 
 	const clock = getClock();
 
 	$: if (!$clock.running && $moving) clock.resume();
 
-	$: if (($clock.running || $dirty) && renderer.ctx) {
-		if ($clock.running) {
-			stage.update($clock.dt);
-		}
-		stage.render(renderer);
+	$: if ($clock.running) {
+		stage.update($clock.dt);
 	}
 
-	// TODO actions
+	$: if (domCanvasRenderer?.ctx && ($clock.running || $dirty)) {
+		domCanvasRenderer.clear();
+		domCanvasRenderer.render(stage.sim.entities, stage.$camera);
+	}
+
+	$: stage.resize(worldWidth, worldHeight);
+
+	// TODO actions -- refactor this with the controls in `__layout.svelte` and `index.svelte`
 	const onKeydown = (e: KeyboardEvent) => {
 		controller.handleKeydown(e.key);
 	};
@@ -36,8 +48,11 @@
 
 <svelte:window on:keydown={onKeydown} on:keyup={onKeyup} />
 
-<div class="world" style:width="{width}px" style:height="{height}px">
-	<Canvas {width} {height} {stage} {renderer} />
+<div class="world" style:width="{worldWidth}px" style:height="{worldHeight}px">
+	{#if domCanvasRenderer}
+		<DomCanvas width={worldWidth} height={worldHeight} {domCanvasRenderer} />
+	{/if}
+	<PixiCanvas {worldWidth} {worldHeight} {viewWidth} {viewHeight} {stage} {scene} />
 	<slot />
 </div>
 

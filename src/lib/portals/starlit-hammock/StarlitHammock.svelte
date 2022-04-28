@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type {AsyncStatus} from '@feltcoop/felt';
-	import type PIXI from 'pixi.js';
+	import * as Pixi from 'pixi.js';
 
 	import {getPixiScene} from '$lib/app/pixi';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
@@ -9,7 +9,8 @@
 
 	// TODO This code is hacky and complex because the Pixi loader API is a headache :/
 	// Biggest problem is it throws an error if you add a resource while it's loading.
-	// Maybe we could look in `PIXI.BaseTextureCache`
+	// (looking at this much later, can we just detect if a resource has already been loaded?)
+	// Maybe we could look in `Pixi.BaseTextureCache`
 	// and be aggressive about calling `loader.reset`?
 	// But then we'll throw away loading assets if they're not done. (does the browser cache tho?)
 	// Probably want to encapsulate this possibly-concurrent loader logic, maybe in `getPixiScene`?
@@ -19,7 +20,7 @@
 	export let cameraScale: number;
 	export let imageUrl: string;
 
-	let sprite: PIXI.Sprite | null = null;
+	let sprite: Pixi.Sprite | null = null;
 	let destroyed = false;
 
 	const [pixi, scene] = getPixiScene({
@@ -32,7 +33,7 @@
 			destroyed = true;
 		},
 	});
-	const camera = new pixi.PIXI.Container();
+	const camera = new Pixi.Container();
 	scene.addChild(camera);
 
 	$: void updateSprite(imageUrl);
@@ -61,11 +62,11 @@
 		}
 	};
 
-	const createSprite = (texture: PIXI.Texture) => {
+	const createSprite = (texture: Pixi.Texture) => {
 		if (sprite) destroySprite();
 		// I think I'd prefer nearest neighbor, but that causes weird artifacts with slow animation
-		texture.baseTexture.setStyle(pixi.PIXI.SCALE_MODES.LINEAR); // TODO where to do this? ideally on load
-		sprite = new pixi.PIXI.Sprite(texture);
+		texture.baseTexture.setStyle(Pixi.SCALE_MODES.LINEAR); // TODO where to do this? ideally on load
+		sprite = new Pixi.Sprite(texture);
 		camera.addChild(sprite);
 	};
 
@@ -78,7 +79,7 @@
 
 	// TODO copied from `EarthPixiViewer`, extract camera store (see also `View.svelte` parent component)
 	$: updateCamera(camera, cameraX, cameraY, cameraScale);
-	const updateCamera = (camera: PIXI.Container, x: number, y: number, scale: number) => {
+	const updateCamera = (camera: Pixi.Container, x: number, y: number, scale: number) => {
 		camera.scale.set(scale);
 		camera.position.set(x, y);
 	};

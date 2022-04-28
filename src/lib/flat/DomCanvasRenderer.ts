@@ -1,10 +1,10 @@
 import {writable} from 'svelte/store';
 
-import type {Renderer} from '$lib/flat/renderer';
-import type {EntityBody, EntityCircle} from '$lib/flat/entity';
+import type {EntityCircle} from '$lib/flat/entityBody';
 import type {CameraState} from '$lib/flat/camera';
+import type {Entity} from '$lib/flat/Entity';
 
-export class CanvasRenderer implements Renderer {
+export class DomCanvasRenderer {
 	width = -1;
 	height = -1;
 
@@ -46,23 +46,22 @@ export class CanvasRenderer implements Renderer {
 		const {ctx, width, height} = this;
 		if (!ctx) throw Error('Expected rendering context');
 		if (width === -1 || height === -1) throw Error('Expected renderer dimensions');
-
 		ctx.clearRect(0, 0, width, height);
 	}
 
-	render(entities: Iterable<EntityBody>, camera: CameraState): void {
-		const {ctx, width, height} = this;
+	render(entities: Iterable<Entity>, camera: CameraState): void {
+		const {ctx} = this;
 		if (!ctx) throw Error('Expected rendering context');
-		if (width === -1 || height === -1) throw Error('Expected renderer dimensions');
+		if (this.width === -1 || this.height === -1) throw Error('Expected renderer dimensions');
 
 		this.dirty.set(false);
 
 		for (const entity of entities) {
 			if (entity.invisible) continue;
 			ctx.beginPath();
-			ctx.strokeStyle = entity.color || '#fff';
-			if (entity._circle) {
-				drawCircle(ctx, entity, camera);
+			ctx.strokeStyle = entity.colorStr || '#fff';
+			if (entity.body._circle) {
+				drawCircle(ctx, entity.body, camera);
 			} else {
 				// drawPolygon(ctx, entity, camera);
 				throw Error('TODO');
@@ -120,12 +119,11 @@ const drawCircle = (
 	ctx.arc(viewX, viewY, radius, 0, Math.PI * 2);
 };
 
-const drawText = (ctx: CanvasRenderingContext2D, entity: EntityBody, camera: CameraState): void => {
-	const viewX = (entity.x - camera.x) * camera.scale + camera.width / 2 + (entity.textOffsetX || 0);
-	const viewY =
-		(entity.y - camera.y) * camera.scale + camera.height / 2 + (entity.textOffsetY || 0);
+const drawText = (ctx: CanvasRenderingContext2D, entity: Entity, camera: CameraState): void => {
+	const viewX = (entity.x - camera.x) * camera.scale + camera.width / 2 + entity.textOffsetX;
+	const viewY = (entity.y - camera.y) * camera.scale + camera.height / 2 + entity.textOffsetY;
 	ctx.textAlign = 'center';
 	ctx.textBaseline = 'middle';
-	ctx.font = entity.font || '30px serif';
+	ctx.font = entity.font || '30px sans-serif';
 	ctx.fillText(entity.text!, viewX, viewY); // TODO type? maybe pass `text` instead of `entity`?
 };

@@ -1,7 +1,7 @@
 import {writable} from 'svelte/store';
 
-import type {Entity} from '$lib/flat/entity';
 import type {CameraState} from '$lib/flat/camera';
+import type {Entity} from '$lib/flat/Entity';
 
 // TODO rethink and handle dynamic mappings
 
@@ -13,7 +13,6 @@ export class Controller {
 	movingRight = false;
 	movingUp = false;
 	movingDown = false;
-	pressingExit = false;
 
 	pointerDown = false;
 	setPointerDown(down: boolean): void {
@@ -69,10 +68,6 @@ export class Controller {
 				this.moving.set(true);
 				break;
 			}
-			case 'Escape': {
-				this.pressingExit = true;
-				break;
-			}
 			default: {
 				console.log('unhandled keydown', key);
 			}
@@ -103,10 +98,6 @@ export class Controller {
 			case 's': {
 				this.movingDown = false;
 				this.moving.set(this.isMoving());
-				break;
-			}
-			case 'Escape': {
-				this.pressingExit = false;
 				break;
 			}
 			default: {

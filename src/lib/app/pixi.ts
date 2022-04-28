@@ -1,31 +1,29 @@
-import type PIXI from 'pixi.js';
+import * as Pixi from 'pixi.js';
 import {getContext, setContext, onMount, onDestroy} from 'svelte';
 
-// TODO initialized async because of this issue: https://github.com/sveltejs/kit/issues/1650
-
 export class PixiApp {
-	PIXI!: typeof PIXI;
-	app!: PIXI.Application;
-	defaultScene!: PIXI.Container;
-	currentScene!: PIXI.Container;
+	app!: Pixi.Application;
+	defaultScene!: Pixi.Container;
+	currentScene!: Pixi.Container;
 
-	init(pixiModule: typeof PIXI, options: PIXI.IApplicationOptions): void {
-		this.PIXI = pixiModule;
-
-		// Tell PIXI to use pixelated image scaling by default. BIG PX
+	init(options: Pixi.IApplicationOptions): void {
+		// Tell Pixi to use pixelated image scaling by default. BIG PX
 		// Unfortunately this can cause choppy movement. We may want to revert this global default.
 		// Here's how to change it back to the default for a resource:
-		pixiModule.settings.SCALE_MODE = pixiModule.SCALE_MODES.NEAREST;
+		Pixi.settings.SCALE_MODE = Pixi.SCALE_MODES.NEAREST;
 
-		this.app = new pixiModule.Application(options);
+		this.app = new Pixi.Application(options);
+		// this.app.ticker.add((dt) => {
+		// 	console.log(`dt`, dt);
+		// });
 
-		const defaultScene = new pixiModule.Container();
-		this.defaultScene = defaultScene;
-		this.currentScene = defaultScene;
+		const defaultScene = new Pixi.Container();
+		defaultScene.interactiveChildren = false;
+		this.defaultScene = this.currentScene = defaultScene;
 		this.app.stage.addChild(defaultScene);
 	}
 
-	mountScene(scene: PIXI.Container): void {
+	mountScene(scene: Pixi.Container): void {
 		// these checks prevent mistakes, but we may want to change the behavior
 		if (this.currentScene === scene) {
 			throw Error(`Cannot mount scene that's already mounted. Unmount it first.`);
@@ -38,7 +36,7 @@ export class PixiApp {
 		this.app.stage.addChild(scene);
 	}
 
-	unmountScene(scene: PIXI.Container): void {
+	unmountScene(scene: Pixi.Container): void {
 		if (this.currentScene !== scene) {
 			throw Error(`Cannot unmount scene because it's not currently mounted`);
 		}
@@ -64,25 +62,37 @@ export const setPixi = (pixi: PixiApp): PixiApp => {
 };
 
 export interface PixiSceneHooks {
-	load?: (loader: PIXI.Loader) => void;
+	load?: (loader: Pixi.Loader) => void;
 	loaded?: (
-		scene: PIXI.Container,
-		resources: Partial<Record<string, PIXI.LoaderResource>>, // TODO PIXI.IResourceDictionary ? why is it partial?
-		loader: PIXI.Loader,
+		scene: Pixi.Container,
+		resources: Partial<Record<string, Pixi.LoaderResource>>, // TODO Pixi.IResourceDictionary ? why is it partial?
+		loader: Pixi.Loader,
 	) => void;
-	destroy?: (scene: PIXI.Container | null, loader: PIXI.Loader) => void;
+	destroy?: (scene: Pixi.Container | null, loader: Pixi.Loader) => void;
 }
 
 export const getPixiScene = (
 	hooks: PixiSceneHooks,
 	pixi: PixiApp = getPixi(),
-): [PixiApp, PIXI.Container] => {
+): [PixiApp, Pixi.Container] => {
+	let destroyed = false;
+
+	// Disable the app, and use the `Pixi.Prepare` plugin
+	// to re-enable it when ready to avoid jank:
+	// https://pixijs.download/release/docs/PIXI.Prepare.html
+	// This may be overly cautious but seems robust.
+	const wasStarted = pixi.app.ticker.started;
+	if (wasStarted) pixi.app.stop();
+	const ready = () => {
+		if (destroyed || !wasStarted) return;
+		pixi.app.start();
+	};
+
 	// Mount the scene right away. When loading, we'll show a black background
 	// and the scene component can display whatever it wants.
-	const scene = new pixi.PIXI.Container();
+	const scene = new Pixi.Container();
+	scene.interactiveChildren = false;
 	pixi.mountScene(scene);
-
-	let destroyed = false; // TODO good for store state?
 
 	// If we're already loading while creating a new scene,
 	// cancel whatever's going on in the loader.
@@ -100,16 +110,18 @@ export const getPixiScene = (
 		pixi.app.loader.load((loader, resources) => {
 			if (destroyed) return; // in case the scene is destroyed before loading finishes
 			hooks.loaded?.(scene, resources, loader);
+			// See `ready` above -- avoids jank.
+			pixi.app.renderer.plugins.prepare.upload(scene, () => ready());
 		});
 	});
 
 	onDestroy(() => {
-		if (destroyed) throw Error('Already destroyed'); // TODO probably remove this
 		console.log('destroying pixi scene', scene, pixi);
+		ready();
 		hooks.destroy?.(scene, pixi.app.loader);
 		destroyed = true;
 		pixi.unmountScene(scene);
-		// pixi.PIXI.utils.clearTextureCache(); // TODO see below
+		// pixi.Pixi.utils.clearTextureCache(); // TODO see below
 		scene.destroy({
 			children: true,
 			texture: false,

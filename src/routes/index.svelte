@@ -132,6 +132,7 @@
 	};
 	$: camera = stage?.camera;
 	$: player = stage?.player;
+	$: enableDomCanvasRenderer = $settings.devMode;
 
 	$: starshipRotation = starshipAngle + Math.PI / 2;
 
@@ -228,9 +229,9 @@
 
 <svelte:window
 	on:keydown={async (e) => {
-		// TODO use controller instead
+		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		if (e.key === 'Escape') {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			if (e.ctrlKey) {
 				await goto('/starship');
@@ -242,7 +243,7 @@
 				}
 			}
 		} else if (e.key === 'F2') {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			if (e.ctrlKey) {
 				toggleBooster();
@@ -254,32 +255,32 @@
 				await scrollDown();
 			}
 		} else if (e.key === 'F10') {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			resetScores();
 			finished = false;
 		} else if (e.key === 'F4') {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			await toggleShowMorePortals();
 		} else if (e.key === '1' && e.ctrlKey) {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			await playSong(toSongData('Spacey Intro'));
 		} else if (e.key === '2' && e.ctrlKey) {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			await playSong(toSongData('Spacey Outro'));
 		} else if (e.key === '3' && e.ctrlKey) {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			await playSong(toSongData('Futuristic 4'));
 		} else if (e.key === '4' && e.ctrlKey) {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			await playSong(toSongData('Futuristic 1'));
 		} else if (e.key === '0' && e.ctrlKey) {
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			e.preventDefault();
 			await playSong(toSongData('Space Ambience'));
 		}
@@ -405,6 +406,7 @@
 			{stage}
 			exit={exitStarshipMode}
 			{finish}
+			{enableDomCanvasRenderer}
 		/>
 		{#if finished}
 			<div class="exit">
@@ -458,7 +460,6 @@
 		align-items: center;
 		justify-content: center;
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
-		will-change: transform; /* might prevent some jank but may use unnecessary resources */
 	}
 	.starship-mode nav {
 		user-select: none;
