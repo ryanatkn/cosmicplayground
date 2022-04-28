@@ -24,6 +24,8 @@
 	const updateCamera = ($camera: CameraState) => {
 		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight); // TODO block get from camera? then remove `viewWidth/height`?
 		container.scale.set(scale);
-		container.position.set($camera.x, $camera.y);
+		const positionX = (-$camera.x + $camera.width / 2) * scale;
+		const positionY = (-$camera.y + $camera.height / 2) * scale;
+		container.position.set(positionX, positionY);
 	};
 </script>
