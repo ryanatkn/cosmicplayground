@@ -185,10 +185,10 @@ export class Stage extends BaseStage {
 	}
 
 	removeEntity(entity: Entity): void {
-		entity.dead = true;
-		entity.container.destroy({children: true, texture: true}); // TODO BLOCK ??????????????????????????
-		// TODO remove from the other collections? maybe after figuring out the tagging/type/bitmask system
+		this.container.removeChild(entity.container);
 		this.sim.removeEntity(entity);
+		entity.destroy();
+		// TODO remove from the other collections? maybe after figuring out the tagging/type/bitmask system
 	}
 
 	override update(dt: number): void {

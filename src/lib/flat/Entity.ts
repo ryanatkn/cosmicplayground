@@ -134,4 +134,9 @@ export class Entity<T extends EntityBody = EntityBody> {
 			text.anchor.set(0.5, 0.5);
 		}
 	}
+
+	destroy(): void {
+		this.dead = true;
+		this.container.destroy({children: true, texture: true, baseTexture: true});
+	}
 }

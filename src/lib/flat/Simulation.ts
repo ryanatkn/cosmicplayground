@@ -19,10 +19,6 @@ export class Simulation {
 	}
 
 	removeEntity(entity: Entity): void {
-		// TODO BLOCK  wait ... there's a different between
-		// removing the body from collisions and destroying the entity,
-		// do we want to call `entity.destroy` here?
-		// also I think this is probably related to the setting of x/y sometimes after destruction
 		entity.body.remove();
 		this.entities.delete(entity);
 	}
