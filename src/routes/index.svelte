@@ -37,6 +37,7 @@
 	import {goto} from '$app/navigation';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
+	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -94,7 +95,7 @@
 
 	const settings = getSettings();
 	const toggleShowMorePortals = async () => {
-		settings.update(($settings) => ({...$settings, showMorePortals: !$settings.showMorePortals}));
+		showMorePortals = !showMorePortals;
 		await scrollDown();
 	};
 
@@ -136,10 +137,11 @@
 
 	$: starshipRotation = starshipAngle + Math.PI / 2;
 
-	const SCORES_KEY = 'homeScores';
+	// TODO extract to a custom store
+	const STORAGE_KEY_SCORES = 'cpg_home_scores';
 	const loadScores = (): StarshipStageScores | undefined => {
 		if (!browser) return undefined;
-		const saved = localStorage.getItem(SCORES_KEY);
+		const saved = localStorage.getItem(STORAGE_KEY_SCORES);
 		if (!saved) return undefined;
 		try {
 			const parsed: StarshipStageScores = JSON.parse(saved);
@@ -154,7 +156,7 @@
 			}
 			return parsed;
 		} catch (err) {
-			localStorage.removeItem(SCORES_KEY);
+			localStorage.removeItem(STORAGE_KEY_SCORES);
 			return undefined;
 		}
 	};
@@ -173,24 +175,31 @@
 		finished = true;
 		const finalScores = mergeScores($currentStageScores!, savedScores);
 		if (!dequal(finalScores, savedScores)) {
-			localStorage.setItem(SCORES_KEY, JSON.stringify(finalScores));
+			localStorage.setItem(STORAGE_KEY_SCORES, JSON.stringify(finalScores));
 			savedScores = finalScores;
 		}
 	};
 	const resetScores = () => {
-		localStorage.removeItem(SCORES_KEY);
+		if (showMorePortals) showMorePortals = false;
+		localStorage.removeItem(STORAGE_KEY_SCORES);
 		savedScores = undefined;
 	};
 
+	const STORAGE_KEY_ENABLE_SPEED_BOOSTER = 'cpg_show_more_portals';
 	const BOOSTER = '🙌';
-	let enableBooster = true;
+	let enableSpeedBooster = loadFromStorage(STORAGE_KEY_ENABLE_SPEED_BOOSTER, true);
+	$: setInStorage(STORAGE_KEY_ENABLE_SPEED_BOOSTER, !!enableSpeedBooster); // TODO unnecessary first run
 	$: boosterUnlocked = scoresRescuedAnyCrew;
-	$: boosterEnabled = boosterUnlocked && enableBooster;
+	$: boosterEnabled = boosterUnlocked && enableSpeedBooster;
 	const toggleBooster = () => {
-		enableBooster = !enableBooster;
+		enableSpeedBooster = !enableSpeedBooster;
 	};
 
-	$: strengthBoosted = $settings.showMorePortals; // TODO BLOCK
+	const STORAGE_KEY_SHOW_MORE_PORTALS = 'cpg_show_more_portals';
+	let showMorePortals = loadFromStorage(STORAGE_KEY_SHOW_MORE_PORTALS, false);
+	$: setInStorage(STORAGE_KEY_SHOW_MORE_PORTALS, !!showMorePortals); // TODO unnecessary first run
+	$: strengthUnlocked = scoresRescuedAllCrew;
+	$: strengthBoosted = strengthUnlocked && showMorePortals;
 
 	$: cameraUnlocked = scoresRescuedAllMoons;
 
@@ -341,10 +350,10 @@
 				{/each}
 			</ul>
 		{/each}
-		{#if scoresRescuedAllCrew}
+		{#if strengthUnlocked}
 			<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
 				<PendingAnimation
-					running={$settings.showMorePortals && $clock.running}
+					running={showMorePortals && $clock.running}
 					let:index
 					--animation_duration="var(--duration_6)"
 				>
@@ -372,7 +381,7 @@
 				</PendingAnimation>
 			</PortalPreview>
 		{/if}
-		{#if $settings.showMorePortals}
+		{#if showMorePortals}
 			{#each secondaryPortals as portals}
 				<ul class="portals">
 					{#each portals as portal}
