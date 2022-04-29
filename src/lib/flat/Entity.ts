@@ -12,13 +12,15 @@ const DEFAULT_COLOR_HEX = hslToHex(...DEFAULT_COLOR);
 // `toughness` or `armor` or `shielding` or `shieldStrength` or something
 const ENTITY_LINE_WIDTH = 3;
 
+export const DEFAULT_STRENGTH = 1;
+
 /**
  * The `Entity` class wraps collision simulation and rendering into one object.
  * We may evolve towards and ECS design but this is fine for now.
  */
 export class Entity<T extends EntityBody = EntityBody> {
 	speed = 0;
-	strength = 1;
+	strength = DEFAULT_STRENGTH;
 	directionX = 0;
 	directionY = 0;
 

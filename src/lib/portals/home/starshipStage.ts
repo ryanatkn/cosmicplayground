@@ -8,7 +8,7 @@ import {frag, collide} from '$lib/flat/entityHelpers';
 import {updateDirection} from '$lib/flat/Controller';
 import {dequal} from 'dequal/lite';
 import type {Hsl} from '$lib/util/colors';
-import {Entity} from '$lib/flat/Entity';
+import {DEFAULT_STRENGTH, Entity} from '$lib/flat/Entity';
 
 // TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
 // and our `Hsl` is good for fast manipulation
@@ -22,6 +22,8 @@ export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
 
 export const PLAYER_SPEED = 0.6;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
+export const PLAYER_STRENGTH = DEFAULT_STRENGTH;
+export const PLAYER_STRENGTH_BOOSTED = 1.22;
 export const PLAYER_RADIUS = 100;
 
 const MOON_SPEED = 0.03;
@@ -106,7 +108,6 @@ export class Stage extends BaseStage {
 			collisions.createCircle(playerX, playerY, PLAYER_RADIUS) as EntityCircle,
 		));
 		player.speed = PLAYER_SPEED;
-		player.strength = 1.22; // TODO BLOCK only when unlocked /.
 		player.color = COLOR_PLAYER;
 		this.addEntity(player);
 
