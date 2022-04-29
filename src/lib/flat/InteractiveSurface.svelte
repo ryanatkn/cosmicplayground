@@ -31,6 +31,7 @@
 	};
 	const onContextmenu = (e: MouseEvent) => {
 		if (!e.shiftKey) {
+			// handles mobile issue
 			e.stopPropagation();
 			e.preventDefault();
 		}
