@@ -139,6 +139,8 @@
 		{worldHeight}
 		{viewWidth}
 		{viewHeight}
+		{screenWidth}
+		{screenHeight}
 		{stage}
 		scene={pixi.currentScene}
 		{controller}

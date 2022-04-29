@@ -14,6 +14,8 @@
 	// maybe using the camera? then `worldWidth` above becomes `width` again
 	export let viewWidth: number;
 	export let viewHeight: number;
+	export let screenWidth: number;
+	export let screenHeight: number;
 	export let stage: Stage;
 	export let scene: Pixi.Container;
 	export let controller: Controller;
@@ -35,7 +37,6 @@
 		domCanvasRenderer.render(stage.sim.entities, stage.$camera);
 	}
 
-	// TODO BLOCK the view height needs to be respected by the pixi camera
 	$: stage.resize(worldWidth, worldHeight);
 
 	// TODO actions -- refactor this with the controls in `__layout.svelte` and `index.svelte`
@@ -53,7 +54,16 @@
 	{#if domCanvasRenderer}
 		<DomCanvas width={worldWidth} height={worldHeight} {domCanvasRenderer} />
 	{/if}
-	<PixiCanvas {worldWidth} {worldHeight} {viewWidth} {viewHeight} {stage} {scene} />
+	<PixiCanvas
+		{worldWidth}
+		{worldHeight}
+		{viewWidth}
+		{viewHeight}
+		{screenWidth}
+		{screenHeight}
+		{stage}
+		{scene}
+	/>
 	<slot />
 </div>
 
