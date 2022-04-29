@@ -47,7 +47,9 @@ const toRandomRadii = (totalArea: number, count: number, scaleVariance: number):
 export const collide = (entityA: Entity, entityB: Entity, result: CollisionResult): void => {
 	const overlap_x = result.overlap! * result.overlap_x;
 	const overlap_y = result.overlap! * result.overlap_y;
-	const body2_pct = entityB.speed / (entityB.speed + entityA.speed); // TODO add more factors (what? push? weight? inertia?)
+	const body2_pct =
+		(entityA.strength / (entityA.strength + entityB.strength)) *
+		(entityB.speed / (entityB.speed + entityA.speed)); // TODO add more factors (what? push? weight? inertia?)
 	const body1_pct = 1 - body2_pct;
 	entityA.x -= body1_pct * overlap_x;
 	entityA.y -= body1_pct * overlap_y;

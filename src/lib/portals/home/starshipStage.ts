@@ -106,6 +106,7 @@ export class Stage extends BaseStage {
 			collisions.createCircle(playerX, playerY, PLAYER_RADIUS) as EntityCircle,
 		));
 		player.speed = PLAYER_SPEED;
+		player.strength = 1.22; // TODO BLOCK only when unlocked
 		player.color = COLOR_PLAYER;
 		this.addEntity(player);
 

@@ -18,6 +18,7 @@ const ENTITY_LINE_WIDTH = 3;
  */
 export class Entity<T extends EntityBody = EntityBody> {
 	speed = 0;
+	strength = 1;
 	directionX = 0;
 	directionY = 0;
 
