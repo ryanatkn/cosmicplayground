@@ -137,24 +137,22 @@
 	const STORAGE_KEY_SCORES = 'cpg_home_scores';
 	const loadScores = (): StarshipStageScores | undefined => {
 		if (!browser) return undefined;
-		const saved = localStorage.getItem(STORAGE_KEY_SCORES);
-		if (!saved) return undefined;
-		try {
-			const parsed: StarshipStageScores = JSON.parse(saved);
-			// TODO better validation, how? zod parser?
-			if (
-				typeof parsed.crewRescuedAtOnceCount !== 'number' ||
-				isNaN(parsed.crewRescuedAtOnceCount) ||
-				!Array.isArray(parsed.crew) ||
-				!parsed.crew.every((v) => typeof v === 'boolean')
-			) {
-				throw Error();
-			}
-			return parsed;
-		} catch (err) {
-			localStorage.removeItem(STORAGE_KEY_SCORES);
-			return undefined;
-		}
+		return loadFromStorage<StarshipStageScores | undefined>(
+			STORAGE_KEY_SCORES,
+			undefined,
+			(value) => {
+				// TODO better validation, how? zod parser?
+				if (
+					!value ||
+					typeof value.crewRescuedAtOnceCount !== 'number' ||
+					isNaN(value.crewRescuedAtOnceCount) ||
+					!Array.isArray(value.crew) ||
+					!value.crew.every((v: any) => typeof v === 'boolean')
+				) {
+					throw Error();
+				}
+			},
+		);
 	};
 	// TODO refactor these into a single store that handles saving/loading
 	$: currentStageScores = stage?.scores;
@@ -171,7 +169,7 @@
 		finished = true;
 		const finalScores = mergeScores($currentStageScores!, savedScores);
 		if (!dequal(finalScores, savedScores)) {
-			localStorage.setItem(STORAGE_KEY_SCORES, JSON.stringify(finalScores));
+			setInStorage(STORAGE_KEY_SCORES, finalScores);
 			savedScores = finalScores;
 			// TODO this is very messy and duplicative but I'm not sure how to do this reactively,
 			// probably need to restructure some things
@@ -186,7 +184,7 @@
 	const resetScores = () => {
 		if (speedBoosterToggled) speedBoosterToggled = false;
 		if (strengthBoosterToggled) strengthBoosterToggled = false;
-		localStorage.removeItem(STORAGE_KEY_SCORES);
+		setInStorage(STORAGE_KEY_SCORES, undefined);
 		savedScores = undefined;
 	};
 
@@ -319,14 +317,14 @@
 		</header>
 		{#if savedScores}
 			<PortalPreview
-				onClick={scoresRescuedAllCrew
+				onClick={scoresRescuedAllCrewAtOnce
 					? undefined
 					: async () => {
 							if (!starshipMode) {
 								await enterStarshipMode();
 							}
 					  }}
-				href={scoresRescuedAllCrew ? '/starship' : undefined}
+				href={scoresRescuedAllCrewAtOnce ? '/starship' : undefined}
 				><div
 					style:font-size={scoresRescuedAllCrewAtOnce
 						? 'var(--font_size_xl)'

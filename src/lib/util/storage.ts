@@ -1,3 +1,11 @@
+/**
+ * Loads `key` and falls back to `defaultValue`.
+ * If `validate` is provided and throws, it removes the `key` and returns `undefined`.
+ * @param key
+ * @param defaultValue
+ * @param validate
+ * @returns
+ */
 export const loadFromStorage = <T>(
 	key: string,
 	defaultValue: T,
@@ -16,6 +24,13 @@ export const loadFromStorage = <T>(
 	}
 };
 
+/**
+ * Sets `value` at `key`.
+ * Importantly, if `value` is `undefined` the `key` is removed,
+ * but a `value` of `null` is stored.
+ * @param key
+ * @param value
+ */
 export const setInStorage = (key: string, value: any): void => {
 	console.log('setting', key, value);
 	if (value === undefined) {
