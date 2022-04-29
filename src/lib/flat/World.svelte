@@ -35,6 +35,7 @@
 		domCanvasRenderer.render(stage.sim.entities, stage.$camera);
 	}
 
+	// TODO BLOCK the view height needs to be respected by the pixi camera
 	$: stage.resize(worldWidth, worldHeight);
 
 	// TODO actions -- refactor this with the controls in `__layout.svelte` and `index.svelte`
