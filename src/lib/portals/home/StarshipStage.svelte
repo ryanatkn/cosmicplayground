@@ -66,6 +66,7 @@
 			pixi.app.start();
 		};
 	});
+	// TODO BLOCK move this logic to the PixiCanvas
 	// rerender on resize - TODO probably refactor with World resizing,
 	// shouldn't be a concern of this component
 	$: worldWidth,

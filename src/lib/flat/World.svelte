@@ -32,6 +32,7 @@
 		stage.update($clock.dt);
 	}
 
+	// TODO BLOCK move this logic to the DomCanvas
 	$: if (domCanvasRenderer?.ctx && ($clock.running || $dirty)) {
 		domCanvasRenderer.clear();
 		domCanvasRenderer.render(stage.sim.entities, stage.$camera);
