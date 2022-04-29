@@ -23,7 +23,7 @@ export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
 export const PLAYER_SPEED = 0.6;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
 export const PLAYER_STRENGTH = DEFAULT_STRENGTH;
-export const PLAYER_STRENGTH_BOOSTED = 1.22;
+export const PLAYER_STRENGTH_BOOSTED = 1.09;
 export const PLAYER_RADIUS = 100;
 
 const MOON_SPEED = 0.03;
@@ -147,7 +147,7 @@ export class Stage extends BaseStage {
 		this.addEntity(moon);
 		moons.add(moon);
 
-		moon = new Entity(collisions.createCircle(1420, 1104, 72) as EntityCircle);
+		moon = new Entity(collisions.createCircle(1420, 1174, 72) as EntityCircle);
 		moon.text = MOON_ICONS[2];
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
