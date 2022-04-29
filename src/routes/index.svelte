@@ -190,7 +190,7 @@
 		enableBooster = !enableBooster;
 	};
 
-	$: strengthBoosted = $settings.showMorePortals;
+	$: strengthBoosted = $settings.showMorePortals; // TODO BLOCK
 
 	$: cameraUnlocked = scoresRescuedAllMoons;
 
