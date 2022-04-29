@@ -64,7 +64,7 @@
 			pixi.app.start();
 		};
 	});
-	$: worldWidth, worldHeight, pixi.app.render(); // render on resize - TODO maybe refactor with World resizing
+	$: worldWidth, worldHeight, viewWidth, viewHeight, screenWidth, screenHeight, pixi.app.render(); // render on resize - TODO maybe refactor with World resizing
 
 	$: $clock, syncStageState();
 
