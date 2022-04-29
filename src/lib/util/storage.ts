@@ -1,9 +1,10 @@
 export const loadFromStorage = <T>(
 	key: string,
 	defaultValue: T,
-	validate?: (value: any) => void,
+	validate?: (value: any) => asserts value is T,
 ): T => {
 	const stored = localStorage.getItem(key);
+	console.log('loading', key, stored);
 	if (!stored) return defaultValue;
 	try {
 		const parsed = JSON.parse(stored);
@@ -16,6 +17,7 @@ export const loadFromStorage = <T>(
 };
 
 export const setInStorage = (key: string, value: any): void => {
+	console.log('setting', key, value);
 	if (value === undefined) {
 		localStorage.removeItem(key);
 	} else {
