@@ -190,6 +190,8 @@
 		enableBooster = !enableBooster;
 	};
 
+	$: strengthBoosted = $settings.showMorePortals;
+
 	$: cameraUnlocked = scoresRescuedAllMoons;
 
 	let starshipHeight: number;
@@ -398,6 +400,7 @@
 			{worldWidth}
 			{worldHeight}
 			{boosterEnabled}
+			{strengthBoosted}
 			{cameraUnlocked}
 			bind:starshipX
 			bind:starshipY

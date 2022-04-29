@@ -2,7 +2,13 @@
 	import {onMount} from 'svelte';
 
 	import World from '$lib/flat/World.svelte';
-	import {PLAYER_SPEED, PLAYER_SPEED_BOOSTED, Stage} from '$lib/portals/home/starshipStage';
+	import {
+		PLAYER_SPEED,
+		PLAYER_SPEED_BOOSTED,
+		PLAYER_STRENGTH,
+		PLAYER_STRENGTH_BOOSTED,
+		Stage,
+	} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
 	import {getIdle} from '$lib/app/trackIdleState';
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
@@ -18,6 +24,7 @@
 	export let worldHeight: number;
 	export let boosterEnabled = false;
 	export let cameraUnlocked = false;
+	export let strengthBoosted = false;
 	export let starshipX = 0;
 	export let starshipY = 0;
 	export let starshipAngle = 0;
@@ -65,6 +72,7 @@
 	const STAGE_DURATION = 30000;
 
 	$: stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
+	$: stage.player.strength = strengthBoosted ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH;
 	$: stage.freezeCamera = !cameraUnlocked;
 	$: if (cameraUnlocked) void camera.setPosition(starshipX, starshipY);
 
