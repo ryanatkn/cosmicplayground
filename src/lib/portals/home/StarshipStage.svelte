@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {onMount} from 'svelte';
+	import {onMount, tick} from 'svelte';
 
 	import World from '$lib/flat/World.svelte';
 	import {
@@ -58,14 +58,29 @@
 	}
 	onMount(() => {
 		// render because the stage is paused initially
-		pixi.app.render();
+		// TODO this was needed before the `await tick()` below, but that'll be refactored too,
+		// and also see below that this logic doesn't belong in this component
+		// pixi.app.render();
 		return () => {
 			pixi.app.render();
 			pixi.app.start();
 		};
 	});
-	$: worldWidth, worldHeight, viewWidth, viewHeight, screenWidth, screenHeight, pixi.app.render(); // render on resize - TODO maybe refactor with World resizing
+	// rerender on resize - TODO probably refactor with World resizing,
+	// shouldn't be a concern of this component
+	$: worldWidth,
+		worldHeight,
+		viewWidth,
+		viewHeight,
+		screenWidth,
+		screenHeight,
+		void queueRerender();
+	const queueRerender = async () => {
+		await tick(); // TODO this is a hack to let the camera update first
+		pixi.app.render();
+	};
 
+	// TODO maybe replace all `clock` usage with the app ticker
 	$: $clock, syncStageState();
 
 	let finished = false;

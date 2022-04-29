@@ -47,5 +47,7 @@
 			(-$camera.x + $camera.width / 2) * scale + (screenWidth - viewWidth) / 2,
 			(-$camera.y + $camera.height / 2) * scale + (screenHeight - viewHeight) / 2,
 		);
+		// TODO see `await tick()` rerender comment in `StarshipStage` --
+		// we may want to queue a rerender here if the app ticker is stopped (or $clock?)
 	};
 </script>
