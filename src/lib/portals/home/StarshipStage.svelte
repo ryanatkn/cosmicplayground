@@ -22,9 +22,9 @@
 	export let viewHeight: number;
 	export let worldWidth: number;
 	export let worldHeight: number;
-	export let boosterEnabled = false;
 	export let cameraUnlocked = false;
-	export let strengthBoosted = false;
+	export let speedBoosterEnabled = false;
+	export let strengthBoosterEnabled = false;
 	export let starshipX = 0;
 	export let starshipY = 0;
 	export let starshipAngle = 0;
@@ -71,8 +71,8 @@
 	let finished = false;
 	const STAGE_DURATION = 30000;
 
-	$: stage.player.speed = boosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
-	$: stage.player.strength = strengthBoosted ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH;
+	$: stage.player.speed = speedBoosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
+	$: stage.player.strength = strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH;
 	$: stage.freezeCamera = !cameraUnlocked;
 	$: if (cameraUnlocked) void camera.setPosition(starshipX, starshipY);
 

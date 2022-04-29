@@ -37,6 +37,7 @@
 	import {goto} from '$app/navigation';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
+	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -93,10 +94,6 @@
 	const secondaryPortals = [[freqSpeedsPortal, clocksPortal, freqSpectaclePortal]];
 
 	const settings = getSettings();
-	const toggleShowMorePortals = async () => {
-		settings.update(($settings) => ({...$settings, showMorePortals: !$settings.showMorePortals}));
-		await scrollDown();
-	};
 
 	const scrollDown = async (): Promise<void> => {
 		await tick();
@@ -136,27 +133,26 @@
 
 	$: starshipRotation = starshipAngle + Math.PI / 2;
 
-	const SCORES_KEY = 'homeScores';
+	// TODO extract to a custom store
+	const STORAGE_KEY_SCORES = 'cpg_home_scores';
 	const loadScores = (): StarshipStageScores | undefined => {
 		if (!browser) return undefined;
-		const saved = localStorage.getItem(SCORES_KEY);
-		if (!saved) return undefined;
-		try {
-			const parsed: StarshipStageScores = JSON.parse(saved);
-			// TODO better validation, how? zod parser?
-			if (
-				typeof parsed.crewRescuedAtOnceCount !== 'number' ||
-				isNaN(parsed.crewRescuedAtOnceCount) ||
-				!Array.isArray(parsed.crew) ||
-				!parsed.crew.every((v) => typeof v === 'boolean')
-			) {
-				throw Error();
-			}
-			return parsed;
-		} catch (err) {
-			localStorage.removeItem(SCORES_KEY);
-			return undefined;
-		}
+		return loadFromStorage<StarshipStageScores | undefined>(
+			STORAGE_KEY_SCORES,
+			undefined,
+			(value) => {
+				// TODO better validation, how? zod parser?
+				if (
+					!value ||
+					typeof value.crewRescuedAtOnceCount !== 'number' ||
+					isNaN(value.crewRescuedAtOnceCount) ||
+					!Array.isArray(value.crew) ||
+					!value.crew.every((v: any) => typeof v === 'boolean')
+				) {
+					throw Error();
+				}
+			},
+		);
 	};
 	// TODO refactor these into a single store that handles saving/loading
 	$: currentStageScores = stage?.scores;
@@ -173,24 +169,44 @@
 		finished = true;
 		const finalScores = mergeScores($currentStageScores!, savedScores);
 		if (!dequal(finalScores, savedScores)) {
-			localStorage.setItem(SCORES_KEY, JSON.stringify(finalScores));
+			setInStorage(STORAGE_KEY_SCORES, finalScores);
 			savedScores = finalScores;
+			// TODO this is very messy and duplicative but I'm not sure how to do this reactively,
+			// probably need to restructure some things
+			if (!scoresRescuedAnyCrew && rescuedAnyCrew(finalScores)) {
+				toggleSpeedBooster();
+			}
+			if (!scoresRescuedAllCrew && rescuedAllCrew(finalScores)) {
+				void toggleStrengthBooster();
+			}
 		}
 	};
 	const resetScores = () => {
-		localStorage.removeItem(SCORES_KEY);
+		if (speedBoosterToggled) speedBoosterToggled = false;
+		if (strengthBoosterToggled) strengthBoosterToggled = false;
+		setInStorage(STORAGE_KEY_SCORES, undefined);
 		savedScores = undefined;
 	};
 
-	const BOOSTER = '🙌';
-	let enableBooster = true;
-	$: boosterUnlocked = scoresRescuedAnyCrew;
-	$: boosterEnabled = boosterUnlocked && enableBooster;
-	const toggleBooster = () => {
-		enableBooster = !enableBooster;
+	const STORAGE_KEY_SPEED_BOOSTER_TOGGLED = 'cpg_speed_booster_toggled';
+	const BOOSTER_SYMBOL = '🙌';
+	let speedBoosterToggled = loadFromStorage(STORAGE_KEY_SPEED_BOOSTER_TOGGLED, false);
+	$: setInStorage(STORAGE_KEY_SPEED_BOOSTER_TOGGLED, !!speedBoosterToggled); // TODO unnecessary first run
+	$: speedBoosterUnlocked = scoresRescuedAnyCrew;
+	$: speedBoosterEnabled = speedBoosterUnlocked && speedBoosterToggled;
+	const toggleSpeedBooster = () => {
+		speedBoosterToggled = !speedBoosterToggled;
 	};
 
-	$: strengthBoosted = $settings.showMorePortals;
+	const STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED = 'cpg_strength_booster_toggled';
+	let strengthBoosterToggled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED, false);
+	$: setInStorage(STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED, !!strengthBoosterToggled); // TODO unnecessary first run
+	$: strengthBoosterUnlocked = scoresRescuedAllCrew;
+	$: strengthBoosterEnabled = strengthBoosterUnlocked && strengthBoosterToggled;
+	const toggleStrengthBooster = async () => {
+		strengthBoosterToggled = !strengthBoosterToggled;
+		if (strengthBoosterToggled) await scrollDown();
+	};
 
 	$: cameraUnlocked = scoresRescuedAllMoons;
 
@@ -232,6 +248,7 @@
 <svelte:window
 	on:keydown={async (e) => {
 		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
+		// TODO controls for toggling the speed/strength boosters
 		if (e.key === 'Escape') {
 			e.stopImmediatePropagation();
 			e.preventDefault();
@@ -248,23 +265,14 @@
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			if (e.ctrlKey) {
-				toggleBooster();
-				if (!starshipMode) await scrollDown();
+				resetScores();
+				finished = false;
 			} else if (starshipMode) {
 				clock.pause();
 				finish();
 			} else {
 				await scrollDown();
 			}
-		} else if (e.key === 'F10') {
-			e.stopImmediatePropagation();
-			e.preventDefault();
-			resetScores();
-			finished = false;
-		} else if (e.key === 'F4') {
-			e.stopImmediatePropagation();
-			e.preventDefault();
-			await toggleShowMorePortals();
 		} else if (e.key === '1' && e.ctrlKey) {
 			e.stopImmediatePropagation();
 			e.preventDefault();
@@ -309,14 +317,14 @@
 		</header>
 		{#if savedScores}
 			<PortalPreview
-				onClick={scoresRescuedAllCrew
+				onClick={scoresRescuedAllCrewAtOnce
 					? undefined
 					: async () => {
 							if (!starshipMode) {
 								await enterStarshipMode();
 							}
 					  }}
-				href={scoresRescuedAllCrew ? '/starship' : undefined}
+				href={scoresRescuedAllCrewAtOnce ? '/starship' : undefined}
 				><div
 					style:font-size={scoresRescuedAllCrewAtOnce
 						? 'var(--font_size_xl)'
@@ -341,10 +349,10 @@
 				{/each}
 			</ul>
 		{/each}
-		{#if scoresRescuedAllCrew}
-			<PortalPreview classes="show-more-button" onClick={toggleShowMorePortals}>
+		{#if strengthBoosterUnlocked}
+			<PortalPreview classes="show-more-button" onClick={() => void toggleStrengthBooster()}>
 				<PendingAnimation
-					running={$settings.showMorePortals && $clock.running}
+					running={strengthBoosterToggled && $clock.running}
 					let:index
 					--animation_duration="var(--duration_6)"
 				>
@@ -372,7 +380,7 @@
 				</PendingAnimation>
 			</PortalPreview>
 		{/if}
-		{#if $settings.showMorePortals}
+		{#if strengthBoosterToggled}
 			{#each secondaryPortals as portals}
 				<ul class="portals">
 					{#each portals as portal}
@@ -383,10 +391,11 @@
 				</ul>
 			{/each}
 		{/if}
-		{#if boosterUnlocked}
+		{#if speedBoosterUnlocked}
 			<ul class="portals">
-				<PortalPreview onClick={() => toggleBooster()}
-					><span class="booster" class:disabled={!boosterEnabled}>{BOOSTER}</span></PortalPreview
+				<PortalPreview onClick={toggleSpeedBooster}
+					><span class="booster" class:disabled={!speedBoosterEnabled}>{BOOSTER_SYMBOL}</span
+					></PortalPreview
 				>
 			</ul>
 		{/if}
@@ -399,8 +408,8 @@
 			{viewHeight}
 			{worldWidth}
 			{worldHeight}
-			{boosterEnabled}
-			{strengthBoosted}
+			{speedBoosterEnabled}
+			{strengthBoosterEnabled}
 			{cameraUnlocked}
 			bind:starshipX
 			bind:starshipY
@@ -418,7 +427,7 @@
 					on:click={() => exitStarshipMode()}
 					style="font-size: var(--font_size_xl3)"
 				>
-					{#if $currentStageScores && rescuedAnyCrew($currentStageScores)}{BOOSTER}{:else}↩{/if}
+					{#if $currentStageScores && rescuedAnyCrew($currentStageScores)}{BOOSTER_SYMBOL}{:else}↩{/if}
 				</FloatingIconButton>
 				<StarshipStageScore scores={currentStageScores} />
 			</div>
