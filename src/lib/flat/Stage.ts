@@ -106,22 +106,13 @@ export abstract class Stage {
 			x: worldWidth / 2,
 			y: worldHeight / 2,
 		});
-		// TODO this is a hint this should be a Svelte component ...
+		// TODO this is a hint this should be a Svelte component ... see also the cleanup below
 		this.subscriptions.push(this.camera.subscribe(($camera) => (this.$camera = $camera)));
 	}
 
-	// TODO add some default impls
 	destroy(): void {
-		// if (this.mask) {
-		// 	// this.mask.parent.removeChild(this.mask);
-		// 	console.log(`this.mask.destroyed before`, this.mask.destroyed);
-		// 	this.mask.destroy({baseTexture: true, texture: true});
-		// 	console.log(`this.mask.destroyed`, this.mask.destroyed);
-		// }
-		console.log(`this.mask.destroyed before`, this.mask?.destroyed);
 		this.container.destroy({children: true, baseTexture: true, texture: true});
-		console.log(`this.mask.destroyed`, this.mask?.destroyed);
-		// TODO refactor this out, maybe move everything to a component?
+		// TODO refactor this out, maybe move everything to a component? see also the usage above
 		for (const subscription of this.subscriptions) {
 			subscription();
 		}
@@ -165,7 +156,7 @@ export abstract class Stage {
 		if (maskX === 0 && maskY === 0) {
 			if (this.mask) {
 				this.container.mask = null;
-				// this.mask.parent.removeChild(this.mask);
+				this.mask.parent.removeChild(this.mask);
 				this.mask.destroy({baseTexture: true, texture: true});
 				this.mask = null;
 			}
@@ -173,12 +164,12 @@ export abstract class Stage {
 			if (!this.mask) {
 				this.mask = new Pixi.Graphics();
 				this.container.mask = this.mask;
-				// this.container.addChild(this.mask);
+				this.container.addChild(this.mask);
 			} else {
 				this.mask.clear();
 			}
 			this.mask.beginFill(0x000000);
-			this.mask.drawRect(maskX, maskY, this.viewWidth, this.viewHeight);
+			this.mask.drawRect(0, 0, this.worldWidth, this.worldHeight);
 			this.mask.endFill();
 		}
 	}
