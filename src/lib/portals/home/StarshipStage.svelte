@@ -6,6 +6,7 @@
 		PLAYER_STRENGTH,
 		PLAYER_STRENGTH_BOOSTED,
 		Stage,
+		type StarshipStageScores,
 	} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
 	import {getIdle} from '$lib/app/trackIdleState';
@@ -13,6 +14,8 @@
 	import {getPixi} from '$lib/app/pixi';
 	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
 	import type {CameraStore} from '$lib/flat/camera';
+	import type {Writable} from 'svelte/store';
+	import type {Controller} from '$lib/flat/Controller';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;
@@ -27,12 +30,10 @@
 	export let starshipY = 0;
 	export let starshipAngle = 0;
 	export let starshipShieldRadius = 0;
-	export let finish: () => void;
+	export let finish: (scores: StarshipStageScores) => void;
 	export let exit: () => void;
 	export let stage: Stage;
 	export let enableDomCanvasRenderer = false;
-
-	$: ({controller} = stage);
 
 	const clock = getClock();
 	const pixi = getPixi();
@@ -42,9 +43,10 @@
 	const idle = getIdle();
 	$: if ($idle) clock.pause();
 
-	// TODO BLOCK can this be moved to PixiCanvas as well?
 	let camera: CameraStore;
-	$: ({camera} = stage);
+	let scores: Writable<StarshipStageScores>;
+	let controller: Controller;
+	$: ({camera, scores, controller} = stage);
 
 	// TODO maybe replace all `clock` usage with the app ticker
 	$: $clock, syncStageState();
@@ -55,6 +57,8 @@
 	$: stage.player.speed = speedBoosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
 	$: stage.player.strength = strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH;
 	$: stage.freezeCamera = !cameraUnlocked;
+	// TODO BLOCK can this be moved to PixiCanvas as well? need `cameraUnlocked` to be passed if so,
+	// or it needs to read `freezeCamera` reactively -- maybe `camera.frozen`?
 	$: if (cameraUnlocked) void camera.setPosition(starshipX, starshipY);
 
 	// TODO refactor
@@ -65,11 +69,11 @@
 	$: if (controller) controller.worldWidth = worldWidth;
 	$: if (controller) controller.worldHeight = worldHeight;
 
-	// TODO this is clumsy
+	// TODO this is clumsy, keep refactoring to shrink it
 	const syncStageState = () => {
 		if (!finished && stage.time > STAGE_DURATION) {
 			finished = true;
-			finish();
+			finish($scores);
 		}
 
 		starshipX = stage.player.x;

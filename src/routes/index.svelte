@@ -31,6 +31,7 @@
 		type StarshipStageScores,
 		rescuedAllCrew,
 		rescuedAllCrewAtOnce,
+		toInitialScores,
 	} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {toSongData} from '$lib/music/songs';
@@ -168,10 +169,10 @@
 	$: scoresRescuedAllCrewAtOnce = !!savedScores && rescuedAllCrewAtOnce(savedScores);
 
 	let finished = false;
-	const finish = () => {
+	const finish = (scores: StarshipStageScores): void => {
 		if (finished) return;
 		finished = true;
-		const finalScores = mergeScores($currentStageScores!, savedScores);
+		const finalScores = mergeScores(scores, savedScores);
 		if (!dequal(finalScores, savedScores)) {
 			setInStorage(STORAGE_KEY_SCORES, finalScores);
 			savedScores = finalScores;
@@ -239,8 +240,7 @@
 	const exitStarshipMode = async () => {
 		if (!starshipMode) return;
 		console.log('exitStarshipMode');
-		// TODO BLOCK do this so if the player exits early, they see the crew placeholders
-		// if (!finished)  finish(defaultScores)
+		if (!finished) finish(toInitialScores(stage!)); // show the crew placeholders if the user exits early
 		starshipAngle = 0;
 		starshipMode = false;
 		pauseAudio();
@@ -249,10 +249,12 @@
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
 	};
-</script>
 
-<svelte:window
-	on:keydown={async (e) => {
+	const onWindowKeydown = async (
+		e: KeyboardEvent & {
+			currentTarget: EventTarget & Window;
+		},
+	) => {
 		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		// TODO controls for toggling the speed/strength boosters
 		if (e.key === 'Escape') {
@@ -275,9 +277,7 @@
 				finished = false;
 			} else if (starshipMode) {
 				clock.pause();
-				finish();
-			} else {
-				await scrollDown();
+				if ($currentStageScores) finish($currentStageScores);
 			}
 		} else if (e.key === '1' && e.ctrlKey) {
 			e.stopImmediatePropagation();
@@ -300,8 +300,10 @@
 			e.preventDefault();
 			await playSong(toSongData('Space Ambience'));
 		}
-	}}
-/>
+	};
+</script>
+
+<svelte:window on:keydown={(e) => void onWindowKeydown(e)} />
 
 <div
 	class="home"
