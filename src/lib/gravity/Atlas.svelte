@@ -130,7 +130,6 @@
 		</Level>
 	</section>
 	<section>
-		<!-- TODO only 4c from 4b -->
 		<Level level={toLevelDataByName('4')} let:phase>
 			<Phase
 				{phase}
@@ -191,7 +190,6 @@
 		</Level>
 	</section>
 	<section>
-		<!-- TODO only 10c from 10b -->
 		<Level level={toLevelDataByName('10')} let:phase>
 			<Phase
 				{phase}
@@ -212,7 +210,6 @@
 		</Level>
 	</section>
 	<section>
-		<!-- TODO only 12c from 12a -->
 		<Level level={toLevelDataByName('12')} let:phase>
 			<Phase
 				{phase}
