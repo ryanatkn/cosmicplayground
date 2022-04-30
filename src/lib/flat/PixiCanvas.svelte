@@ -15,9 +15,9 @@
 	export let stage: Stage; // is not reactive
 
 	const {container, camera} = stage;
-	stage.initScene(scene); // TODO this overlaps weirdly with create/destroy
+	scene.addChild(container);
 	onDestroy(() => {
-		stage.destroyScene(scene); // TODO this overlaps weirdly with create/destroy
+		scene.removeChild(container);
 	});
 
 	// TODO copied from `EarthPixiViewer`, extract camera store (see also `View.svelte` parent component)
@@ -41,7 +41,6 @@
 	) => {
 		// TODO get scale from camera
 		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight);
-		console.log(`scale`, scale);
 		container.scale.set(scale);
 		container.position.set(
 			(-$camera.x + $camera.width / 2) * scale + (viewportWidth - viewWidth) / 2,

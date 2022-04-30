@@ -127,14 +127,6 @@ export abstract class Stage {
 		}
 	}
 
-	initScene(scene: Pixi.Container): void {
-		scene.addChild(this.container);
-	}
-
-	destroyScene(scene: Pixi.Container): void {
-		scene.removeChild(this.container);
-	}
-
 	abstract update(dt: number): void;
 
 	/**
@@ -163,7 +155,7 @@ export abstract class Stage {
 		}
 	}
 
-	drawMask(): void {
+	private drawMask(): void {
 		const maskX = (this.viewportWidth - this.viewWidth) / 2;
 		const maskY = (this.viewportHeight - this.viewHeight) / 2;
 		if (maskX === 0 && maskY === 0) {
