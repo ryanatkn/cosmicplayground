@@ -9,16 +9,15 @@
 	export let worldHeight: number;
 	export let viewWidth: number;
 	export let viewHeight: number;
-	export let screenWidth: number;
-	export let screenHeight: number;
+	export let viewportWidth: number;
+	export let viewportHeight: number;
 	export let scene: Pixi.Container; // is not reactive
 	export let stage: Stage; // is not reactive
 
 	const {container, camera} = stage;
-	scene.addChild(container);
-
+	stage.initScene(scene); // TODO this overlaps weirdly with create/destroy
 	onDestroy(() => {
-		scene.removeChild(container);
+		stage.destroyScene(scene); // TODO this overlaps weirdly with create/destroy
 	});
 
 	// TODO copied from `EarthPixiViewer`, extract camera store (see also `View.svelte` parent component)
@@ -28,8 +27,8 @@
 		worldHeight,
 		viewWidth,
 		viewHeight,
-		screenWidth,
-		screenHeight,
+		viewportWidth,
+		viewportHeight,
 	);
 	const updateCamera = (
 		$camera: CameraState,
@@ -37,15 +36,16 @@
 		worldHeight: number,
 		viewWidth: number,
 		viewHeight: number,
-		screenWidth: number,
-		screenHeight: number,
+		viewportWidth: number,
+		viewportHeight: number,
 	) => {
 		// TODO get scale from camera
 		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight);
+		console.log(`scale`, scale);
 		container.scale.set(scale);
 		container.position.set(
-			(-$camera.x + $camera.width / 2) * scale + (screenWidth - viewWidth) / 2,
-			(-$camera.y + $camera.height / 2) * scale + (screenHeight - viewHeight) / 2,
+			(-$camera.x + $camera.width / 2) * scale + (viewportWidth - viewWidth) / 2,
+			(-$camera.y + $camera.height / 2) * scale + (viewportHeight - viewHeight) / 2,
 		);
 		// TODO see `await tick()` rerender comment in `StarshipStage` --
 		// we may want to queue a rerender here if the app ticker is stopped (or $clock?)

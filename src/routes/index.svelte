@@ -42,7 +42,7 @@
 	const dimensions = getDimensions();
 	const clock = getClock();
 
-	$: ({width: screenWidth, height: screenHeight} = $dimensions);
+	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
 
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
@@ -55,11 +55,11 @@
 	$: viewScale = viewWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
 	// TODO make this a helper to clarify the deps `updateDimensions`
 	$: if (cameraUnlocked) {
-		// Expand the world dimensions to fit the screen dimensions.
-		// It needs to match the screen aspect ratio and
+		// Expand the world dimensions to fit the viewport dimensions.
+		// It needs to match the viewport aspect ratio and
 		// cover the entire default world dimensions.
-		viewWidth = screenWidth;
-		viewHeight = screenHeight;
+		viewWidth = viewportWidth;
+		viewHeight = viewportHeight;
 		const worldMinWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		const worldMinHeight = DEFAULT_WORLD_DIMENSIONS.height;
 		const worldWidthRatio = worldMinWidth / viewWidth;
@@ -78,9 +78,9 @@
 		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
 		const worldAspectRatio = worldWidth / worldHeight;
-		const screenAspectRatio = screenWidth / screenHeight;
-		viewWidth = (screenWidth * Math.min(1, worldAspectRatio / screenAspectRatio)) | 0;
-		viewHeight = (screenHeight * Math.min(1, screenAspectRatio / worldAspectRatio)) | 0;
+		const viewportAspectRatio = viewportWidth / viewportHeight;
+		viewWidth = (viewportWidth * Math.min(1, worldAspectRatio / viewportAspectRatio)) | 0;
+		viewHeight = (viewportHeight * Math.min(1, viewportAspectRatio / worldAspectRatio)) | 0;
 	}
 
 	const starshipPortal = Symbol();
@@ -117,8 +117,12 @@
 	}
 	const createStage = () => {
 		stage = new Stage({
-			width: worldWidth,
-			height: worldHeight,
+			worldWidth,
+			worldHeight,
+			viewWidth,
+			viewHeight,
+			viewportWidth,
+			viewportHeight,
 			freezeCamera: !cameraUnlocked,
 		});
 	};
@@ -215,8 +219,8 @@
 	$: starshipScale = player ? ((player.radius * 2) / starshipHeight) * viewScale : 1; // TODO isn't reactive to player radius
 	$: starshipViewX = ($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * viewScale;
 	$: starshipViewY = $camera
-		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - screenHeight) / 2
-		: starshipY - (starshipHeight - screenHeight) / 2;
+		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - viewportHeight) / 2
+		: starshipY - (starshipHeight - viewportHeight) / 2;
 
 	let pausedClock = false;
 	const enterStarshipMode = async () => {
@@ -402,8 +406,8 @@
 	</nav>
 	{#if stage}
 		<StarshipStage
-			{screenWidth}
-			{screenHeight}
+			{viewportWidth}
+			{viewportHeight}
 			{viewWidth}
 			{viewHeight}
 			{worldWidth}

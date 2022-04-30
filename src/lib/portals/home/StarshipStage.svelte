@@ -16,8 +16,8 @@
 	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
 	import type {CameraStore} from '$lib/flat/camera';
 
-	export let screenWidth: number;
-	export let screenHeight: number;
+	export let viewportWidth: number;
+	export let viewportHeight: number;
 	export let viewWidth: number;
 	export let viewHeight: number;
 	export let worldWidth: number;
@@ -73,8 +73,8 @@
 		worldHeight,
 		viewWidth,
 		viewHeight,
-		screenWidth,
-		screenHeight,
+		viewportWidth,
+		viewportHeight,
 		void queueRerender();
 	const queueRerender = async () => {
 		await tick(); // TODO this is a hack to let the camera update first
@@ -93,8 +93,8 @@
 	$: if (cameraUnlocked) void camera.setPosition(starshipX, starshipY);
 
 	// TODO refactor
-	$: if (controller) controller.screenWidth = screenWidth;
-	$: if (controller) controller.screenHeight = screenHeight;
+	$: if (controller) controller.viewportWidth = viewportWidth;
+	$: if (controller) controller.viewportHeight = viewportHeight;
 	$: if (controller) controller.viewWidth = viewWidth;
 	$: if (controller) controller.viewHeight = viewHeight;
 	$: if (controller) controller.worldWidth = worldWidth;
@@ -155,8 +155,8 @@
 		{worldHeight}
 		{viewWidth}
 		{viewHeight}
-		{screenWidth}
-		{screenHeight}
+		{viewportWidth}
+		{viewportHeight}
 		{stage}
 		scene={pixi.currentScene}
 		{controller}

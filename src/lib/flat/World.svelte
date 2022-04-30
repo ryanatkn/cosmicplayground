@@ -14,8 +14,8 @@
 	// maybe using the camera? then `worldWidth` above becomes `width` again
 	export let viewWidth: number;
 	export let viewHeight: number;
-	export let screenWidth: number;
-	export let screenHeight: number;
+	export let viewportWidth: number;
+	export let viewportHeight: number;
 	export let stage: Stage;
 	export let scene: Pixi.Container;
 	export let controller: Controller;
@@ -38,7 +38,7 @@
 		domCanvasRenderer.render(stage.sim.entities, stage.$camera);
 	}
 
-	$: stage.resize(worldWidth, worldHeight);
+	$: stage.resize(worldWidth, worldHeight, viewWidth, viewHeight, viewportWidth, viewportHeight);
 
 	// TODO actions -- refactor this with the controls in `__layout.svelte` and `index.svelte`
 	const onKeydown = (e: KeyboardEvent) => {
@@ -60,8 +60,8 @@
 		{worldHeight}
 		{viewWidth}
 		{viewHeight}
-		{screenWidth}
-		{screenHeight}
+		{viewportWidth}
+		{viewportHeight}
 		{stage}
 		{scene}
 	/>
