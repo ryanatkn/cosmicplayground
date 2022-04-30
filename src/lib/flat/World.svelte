@@ -3,10 +3,10 @@
 
 	import DomCanvas from '$lib/flat/DomCanvas.svelte';
 	import PixiCanvas from '$lib/flat/PixiCanvas.svelte';
-	import {getClock} from '$lib/app/clockStore';
 	import type {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
 	import type {Controller} from '$lib/flat/Controller';
 	import type {Stage} from '$lib/flat/Stage';
+	import type {ClockStore} from '$lib/app/clockStore';
 
 	export let worldWidth: number;
 	export let worldHeight: number;
@@ -20,22 +20,14 @@
 	export let scene: Pixi.Container;
 	export let controller: Controller;
 	export let domCanvasRenderer: DomCanvasRenderer | null = null;
+	export let clock: ClockStore;
 
-	$: dirty = domCanvasRenderer?.dirty;
 	$: ({moving} = controller);
-
-	const clock = getClock();
 
 	$: if (!$clock.running && $moving) clock.resume();
 
 	$: if ($clock.running) {
 		stage.update($clock.dt);
-	}
-
-	// TODO BLOCK move this logic to the DomCanvas
-	$: if (domCanvasRenderer?.ctx && ($clock.running || $dirty)) {
-		domCanvasRenderer.clear();
-		domCanvasRenderer.render(stage.sim.entities, stage.$camera);
 	}
 
 	$: stage.resize(worldWidth, worldHeight, viewWidth, viewHeight, viewportWidth, viewportHeight);
@@ -53,7 +45,7 @@
 
 <div class="world" style:width="{worldWidth}px" style:height="{worldHeight}px">
 	{#if domCanvasRenderer}
-		<DomCanvas width={worldWidth} height={worldHeight} {domCanvasRenderer} />
+		<DomCanvas width={worldWidth} height={worldHeight} {domCanvasRenderer} {stage} {clock} />
 	{/if}
 	<PixiCanvas
 		{worldWidth}

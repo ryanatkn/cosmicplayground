@@ -161,6 +161,7 @@
 		scene={pixi.currentScene}
 		{controller}
 		{domCanvasRenderer}
+		{clock}
 	/>
 </div>
 <InteractiveSurface {controller} />
