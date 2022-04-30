@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {onDestroy, onMount} from 'svelte';
+	import {onDestroy} from 'svelte';
 
 	import type {Stage} from '$lib/flat/Stage'; // TODO shouldnt import this
 	import type {CameraState} from '$lib/flat/camera';
@@ -15,6 +15,8 @@
 	export let pixi: PixiApp; // is not reactive
 	export let stage: Stage; // is not reactive
 	export let clock: ClockStore;
+
+	$: ({running} = $clock);
 
 	const {container, camera} = stage;
 	pixi.currentScene.addChild(container);
@@ -51,29 +53,29 @@
 	};
 
 	// This stops the app's rendering when paused for efficiency.
-	// It will need some tweaking if/when we add camera zoom.
-	// It'd also be nice to have a general solution, not hardcoded to this one component.
-	$: if ($clock.running) {
+	// TODO It will need some tweaking if/when we add camera zoom.
+	// TODO It'd also be nice to have a general solution, not hardcoded to this one component,
+	// and a better solution is probably to integrate the clock with `pixi` (and its ticker? but what about canvas rendering?)
+	$: if (running) {
 		pixi.app.start();
 	} else {
 		pixi.app.stop();
 		void camera.setPosition($camera.x, $camera.y, {hard: true});
 	}
-	onMount(() => {
+	onDestroy(() => {
 		// render because the stage is paused initially
-		return () => {
-			// TODO BLOCK use clock instead?
-			pixi.app.render();
-			pixi.app.start();
-		};
+		// TODO BLOCK use clock instead?
+		pixi.app.render();
+		pixi.app.start();
 	});
 
-	// This must follow `updateCamera`.
-	$: worldWidth,
+	// This must follow `updateCamera`. It's *not* called when the camera itself changes.
+	$: !running &&
+		(worldWidth,
 		worldHeight,
 		viewWidth,
 		viewHeight,
 		viewportWidth,
 		viewportHeight,
-		pixi.app.render();
+		pixi.app.render());
 </script>

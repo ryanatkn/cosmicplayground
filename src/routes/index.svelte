@@ -239,6 +239,8 @@
 	const exitStarshipMode = async () => {
 		if (!starshipMode) return;
 		console.log('exitStarshipMode');
+		// TODO BLOCK do this so if the player exits early, they see the crew placeholders
+		// if (!finished)  finish(defaultScores)
 		starshipAngle = 0;
 		starshipMode = false;
 		pauseAudio();
