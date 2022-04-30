@@ -124,6 +124,10 @@ export abstract class Stage {
 	 * Update the dimensions initialized in `setup`.
 	 * @param worldWidth
 	 * @param worldHeight
+	 * @param viewWidth
+	 * @param viewHeight
+	 * @param viewportWidth
+	 * @param viewportHeight
 	 */
 	resize(
 		worldWidth: number,
