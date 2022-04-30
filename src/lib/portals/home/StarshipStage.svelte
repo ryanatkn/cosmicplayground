@@ -57,8 +57,7 @@
 	$: stage.player.speed = speedBoosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
 	$: stage.player.strength = strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH;
 	$: stage.freezeCamera = !cameraUnlocked;
-	// TODO BLOCK can this be moved to PixiCanvas as well? need `cameraUnlocked` to be passed if so,
-	// or it needs to read `freezeCamera` reactively -- maybe `camera.frozen`?
+	// TODO refactor, maybe `camera.frozen`?
 	$: if (cameraUnlocked) void camera.setPosition(starshipX, starshipY);
 
 	// TODO refactor

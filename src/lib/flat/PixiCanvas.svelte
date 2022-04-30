@@ -64,7 +64,7 @@
 	}
 	onDestroy(() => {
 		// render because the stage is paused initially
-		// TODO BLOCK use clock instead?
+		// TODO refactor with clock?
 		pixi.app.render();
 		pixi.app.start();
 	});
