@@ -9,7 +9,7 @@
 	import {goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
 
-	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBgStore';
+	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
 	import {setIdle, trackIdleState} from '$lib/app/trackIdleState';
 	import PixiView from '$lib/app/PixiView.svelte';
@@ -17,8 +17,8 @@
 	import HomeButton from '$lib/app/HomeButton.svelte';
 	import Panel from '$lib/app/Panel.svelte';
 	import {setClock} from '$lib/app/clockStore';
-	import {setSettings} from '$lib/app/settingsStore';
-	import {setPortals, createPortalsStore} from '$lib/app/portalsStore';
+	import {setSettings} from '$lib/app/settings';
+	import {setPortals, createPortalsStore} from '$lib/app/portals';
 	import {updateRenderStats} from '$lib/app/renderStats';
 	import {portalsData} from '$lib/portals/index';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';

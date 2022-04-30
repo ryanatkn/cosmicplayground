@@ -9,7 +9,7 @@
 	import CreditsProjectSignature from '$lib/portals/about/CreditsProjectSignature.svelte';
 	import AboutPortalPreview from '$lib/portals/about/Preview.svelte';
 	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
-	import type {ResourcesStore} from '$lib/app/resourcesStore';
+	import type {ResourcesStore} from '$lib/app/resources';
 	import PortalLink from '$lib/app/PortalLink.svelte';
 
 	export let resources: ResourcesStore;

@@ -9,8 +9,8 @@
 	import Hud from '$lib/app/Hud.svelte';
 	import EarthViewerDom from '$lib/app/EarthViewerDom.svelte';
 	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
-	import {createResourcesStore} from '$lib/app/resourcesStore';
-	import {getSettings} from '$lib/app/settingsStore';
+	import {createResourcesStore} from '$lib/app/resources';
+	import {getSettings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import SoggyPlanetDevHud from '$lib/portals/soggy-planet/SoggyPlanetDevHud.svelte';
 	import {getClock} from '$lib/app/clockStore';

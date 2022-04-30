@@ -2,7 +2,7 @@
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import {getPortals} from '$lib/app/portalsStore';
+	import {getPortals} from '$lib/app/portals';
 	import PortalLink from '$lib/app/PortalLink.svelte';
 
 	const portals = getPortals();

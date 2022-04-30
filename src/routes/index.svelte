@@ -16,7 +16,7 @@
 	import freqSpeedsPortal from '$lib/portals/freq-speeds/data';
 	import clocksPortal from '$lib/portals/clocks/data';
 	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
-	import {getSettings} from '$lib/app/settingsStore';
+	import {getSettings} from '$lib/app/settings';
 	import StarshipStage from '$lib/portals/home/StarshipStage.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';

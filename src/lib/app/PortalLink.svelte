@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {getPortals} from '$lib/app/portalsStore';
+	import {getPortals} from '$lib/app/portals';
 
 	export let slug: string;
 
