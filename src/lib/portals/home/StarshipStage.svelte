@@ -1,6 +1,4 @@
 <script lang="ts">
-	import {onMount, tick} from 'svelte';
-
 	import World from '$lib/flat/World.svelte';
 	import {
 		PLAYER_SPEED,
@@ -44,42 +42,9 @@
 	const idle = getIdle();
 	$: if ($idle) clock.pause();
 
+	// TODO BLOCK can this be moved to PixiCanvas as well?
 	let camera: CameraStore;
 	$: ({camera} = stage);
-
-	// This stops the app's rendering when paused for efficiency.
-	// It will need some tweaking if/when we add camera zoom.
-	// It'd also be nice to have a general solution, not hardcoded to this one component.
-	$: if ($clock.running) {
-		pixi.app.start();
-	} else {
-		pixi.app.stop();
-		void camera.setPosition($camera.x, $camera.y, {hard: true});
-	}
-	onMount(() => {
-		// render because the stage is paused initially
-		// TODO this was needed before the `await tick()` below, but that'll be refactored too,
-		// and also see below that this logic doesn't belong in this component
-		// pixi.app.render();
-		return () => {
-			pixi.app.render();
-			pixi.app.start();
-		};
-	});
-	// TODO BLOCK move this logic to the PixiCanvas
-	// rerender on resize - TODO probably refactor with World resizing,
-	// shouldn't be a concern of this component
-	$: worldWidth,
-		worldHeight,
-		viewWidth,
-		viewHeight,
-		viewportWidth,
-		viewportHeight,
-		void queueRerender();
-	const queueRerender = async () => {
-		await tick(); // TODO this is a hack to let the camera update first
-		pixi.app.render();
-	};
 
 	// TODO maybe replace all `clock` usage with the app ticker
 	$: $clock, syncStageState();
@@ -158,7 +123,7 @@
 		{viewportWidth}
 		{viewportHeight}
 		{stage}
-		scene={pixi.currentScene}
+		{pixi}
 		{controller}
 		{domCanvasRenderer}
 		{clock}
