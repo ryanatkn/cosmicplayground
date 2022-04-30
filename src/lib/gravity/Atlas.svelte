@@ -1,231 +1,231 @@
 <script lang="ts">
 	import {
-		toStageDataByName,
-		type LevelData,
-		type LevelSequenceOrCreator,
+		toLevelDataByName,
+		type PhaseData,
+		type PhaseSequenceOrCreator,
 		sequenceContains,
-		type LevelSequence,
-		levelDatas,
-		toLevelSequence,
-	} from '$lib/gravity/levels';
-	import StarshipStage from '$lib/gravity/Stage.svelte';
-	import StarshipLevel from '$lib/gravity/Level.svelte';
-	import StarshipLevelButtons from '$lib/gravity/LevelButtons.svelte';
+		type PhaseSequence,
+		PhaseDatas,
+		toPhaseSequence,
+	} from '$lib/gravity/phases';
+	import Level from '$lib/gravity/Level.svelte';
+	import Phase from '$lib/gravity/Phase.svelte';
+	import LevelButtons from '$lib/gravity/LevelButtons.svelte';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
 
 	// TODO refactor this so it doesn't use `bind`
-	let selectedLevel: LevelData | null = null;
-	let selectedLevelSequenceOrCreator: LevelSequenceOrCreator | null = null;
-	let selectedLevelSequence: LevelSequence | null = null;
+	let selectedPhase: PhaseData | null = null;
+	let selectedPhaseSequenceOrCreator: PhaseSequenceOrCreator | null = null;
+	let selectedPhaseSequence: PhaseSequence | null = null;
 
-	const playLevelSong = async (level: LevelData): Promise<void> => {
-		console.log(`playLevelSong`, level);
-		const playState = await playSong(level.song); // TODO global player controls
+	const playPhaseSong = async (phase: PhaseData): Promise<void> => {
+		console.log(`playPhaseSong`, phase);
+		const playState = await playSong(phase.song); // TODO global player controls
 		if (!playState) return;
 		await playState.play;
-		console.log('playing', level.name, level.song.name);
+		console.log('playing', phase.name, phase.song.name);
 		await playState.ended;
-		console.log('finished playing', level.name, level.song.name);
+		console.log('finished playing', phase.name, phase.song.name);
 	};
 
 	// TODO refactor, maybe a `LevelManager` or something
-	const playLevelSequence = async (
-		levelSequenceOrCreator: LevelSequenceOrCreator,
-		jumpToLevel: LevelData | null = null,
+	const playPhaseSequence = async (
+		phaseSequenceOrCreator: PhaseSequenceOrCreator,
+		jumpToPhase: PhaseData | null = null,
 	): Promise<void> => {
-		if (jumpToLevel && levelSequenceOrCreator === selectedLevelSequenceOrCreator) {
+		if (jumpToPhase && phaseSequenceOrCreator === selectedPhaseSequenceOrCreator) {
 			pauseAudio();
 		} else {
 			cancel();
-			selectedLevelSequenceOrCreator = levelSequenceOrCreator;
-			selectedLevelSequence = toLevelSequence(levelSequenceOrCreator);
-			console.log(`playing levelSequence`, levelSequenceOrCreator, selectedLevelSequence);
+			selectedPhaseSequenceOrCreator = phaseSequenceOrCreator;
+			selectedPhaseSequence = toPhaseSequence(phaseSequenceOrCreator);
+			console.log(`playing phaseSequence`, phaseSequenceOrCreator, selectedPhaseSequence);
 		}
 
-		const {sequence} = selectedLevelSequence!.data;
+		const {sequence} = selectedPhaseSequence!.data;
 
 		// If trying to play a level that isn't part of the sequence,
 		// cancel the sequence and just play the song.
 		let remainingSequence = sequence;
-		if (jumpToLevel) {
-			const jumpToIndex = sequence.indexOf(jumpToLevel.name);
+		if (jumpToPhase) {
+			const jumpToIndex = sequence.indexOf(jumpToPhase.name);
 			if (jumpToIndex === -1) {
 				cancel();
-				return playLevelSong(jumpToLevel);
+				return playPhaseSong(jumpToPhase);
 			}
 			remainingSequence = sequence.slice(jumpToIndex);
 		}
 
 		// Play each song in sequence.
-		for (const levelName of remainingSequence) {
-			const level = levelDatas.get(levelName)!;
-			selectedLevel = level;
-			await playLevelSong(level); // eslint-disable-line no-await-in-loop
-			if (selectedLevelSequenceOrCreator !== levelSequenceOrCreator || selectedLevel !== level) {
+		for (const phaseName of remainingSequence) {
+			const phase = PhaseDatas.get(phaseName)!;
+			selectedPhase = phase;
+			await playPhaseSong(phase); // eslint-disable-line no-await-in-loop
+			if (selectedPhaseSequenceOrCreator !== phaseSequenceOrCreator || selectedPhase !== phase) {
 				return; // canceled or changed
 			}
 		}
-		selectedLevel = null;
-		selectedLevelSequenceOrCreator = null;
+		selectedPhase = null;
+		selectedPhaseSequenceOrCreator = null;
 	};
 
 	const cancel = (): void => {
 		pauseAudio();
-		selectedLevelSequenceOrCreator = null;
-		selectedLevelSequence = null;
-		selectedLevel = null;
+		selectedPhaseSequenceOrCreator = null;
+		selectedPhaseSequence = null;
+		selectedPhase = null;
 	};
 
-	const selectLevel = (level: LevelData) => {
-		console.log(`selectLevel`, level);
-		if (!selectedLevelSequenceOrCreator) {
-			return playLevelSong(level);
+	const selectPhase = (phase: PhaseData) => {
+		console.log(`selectPhase`, phase);
+		if (!selectedPhaseSequenceOrCreator) {
+			return playPhaseSong(phase);
 		}
-		return playLevelSequence(selectedLevelSequenceOrCreator, level);
+		return playPhaseSequence(selectedPhaseSequenceOrCreator, phase);
 	};
 </script>
 
-<StarshipLevelButtons {selectedLevelSequenceOrCreator} {playLevelSequence} {cancel} />
+<LevelButtons {selectedPhaseSequenceOrCreator} {playPhaseSequence} {cancel} />
 <!-- TODO probably render the active stage+level here -->
-<div class="levels">
+<div class="atlas">
 	<section>
-		<StarshipStage stage={toStageDataByName('0')} let:level>
-			<StarshipLevel
-				{level}
-				{selectLevel}
-				selected={level === selectedLevel}
-				disabled={!!selectedLevelSequence && !sequenceContains(selectedLevelSequence, level)}
+		<Level level={toLevelDataByName('0')} let:phase>
+			<Phase
+				{phase}
+				{selectPhase}
+				selected={phase === selectedPhase}
+				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
 			/>
-		</StarshipStage>
+		</Level>
 	</section>
 	<section>
-		<StarshipStage stage={toStageDataByName('1')} let:level>
-			<StarshipLevel
-				{level}
-				{selectLevel}
-				selected={level === selectedLevel}
-				disabled={!!selectedLevelSequence && !sequenceContains(selectedLevelSequence, level)}
+		<Level level={toLevelDataByName('1')} let:phase>
+			<Phase
+				{phase}
+				{selectPhase}
+				selected={phase === selectedPhase}
+				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
 			/>
-		</StarshipStage>
+		</Level>
 	</section>
 	<section>
-		<StarshipStage stage={toStageDataByName('2')} let:level>
-			<StarshipLevel
-				{level}
-				{selectLevel}
-				selected={level === selectedLevel}
-				disabled={!!selectedLevelSequence && !sequenceContains(selectedLevelSequence, level)}
+		<Level level={toLevelDataByName('2')} let:phase>
+			<Phase
+				{phase}
+				{selectPhase}
+				selected={phase === selectedPhase}
+				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
 			/>
-		</StarshipStage>
+		</Level>
 	</section>
 	<section>
-		<StarshipStage stage={toStageDataByName('3')} let:level>
-			<StarshipLevel
-				{level}
-				{selectLevel}
-				selected={level === selectedLevel}
-				disabled={!!selectedLevelSequence && !sequenceContains(selectedLevelSequence, level)}
+		<Level level={toLevelDataByName('3')} let:phase>
+			<Phase
+				{phase}
+				{selectPhase}
+				selected={phase === selectedPhase}
+				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
 			/>
-		</StarshipStage>
+		</Level>
 	</section>
 	<section>
 		<!-- TODO only 4c from 4b -->
-		<StarshipStage stage={toStageDataByName('4')} let:level>
-			<StarshipLevel
-				{level}
-				{selectLevel}
-				selected={level === selectedLevel}
-				disabled={!!selectedLevelSequence && !sequenceContains(selectedLevelSequence, level)}
+		<Level level={toLevelDataByName('4')} let:phase>
+			<Phase
+				{phase}
+				{selectPhase}
+				selected={phase === selectedPhase}
+				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
 			/>
-		</StarshipStage>
+		</Level>
 	</section>
 	<section>
-		<StarshipStage stage={toStageDataByName('5')} let:level>
-			<StarshipLevel
-				{level}
-				{selectLevel}
-				selected={level === selectedLevel}
-				disabled={!!selectedLevelSequence && !sequenceContains(selectedLevelSequence, level)}
+		<Level level={toLevelDataByName('5')} let:phase>
+			<Phase
+				{phase}
+				{selectPhase}
+				selected={phase === selectedPhase}
+				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
 			/>
-		</StarshipStage>
+		</Level>
 	</section>
 	<section>
-		<StarshipStage stage={toStageDataByName('6')} let:level>
-			<StarshipLevel
-				{level}
-				{selectLevel}
-				selected={level === selectedLevel}
-				disabled={!!selectedLevelSequence && !sequenceContains(selectedLevelSequence, level)}
+		<Level level={toLevelDataByName('6')} let:phase>
+			<Phase
+				{phase}
+				{selectPhase}
+				selected={phase === selectedPhase}
+				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
 			/>
-		</StarshipStage>
+		</Level>
 	</section>
 	<section>
-		<StarshipStage stage={toStageDataByName('7')} let:level>
-			<StarshipLevel
-				{level}
-				{selectLevel}
-				selected={level === selectedLevel}
-				disabled={!!selectedLevelSequence && !sequenceContains(selectedLevelSequence, level)}
+		<Level level={toLevelDataByName('7')} let:phase>
+			<Phase
+				{phase}
+				{selectPhase}
+				selected={phase === selectedPhase}
+				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
 			/>
-		</StarshipStage>
+		</Level>
 	</section>
 	<section>
-		<StarshipStage stage={toStageDataByName('8')} let:level>
-			<StarshipLevel
-				{level}
-				{selectLevel}
-				selected={level === selectedLevel}
-				disabled={!!selectedLevelSequence && !sequenceContains(selectedLevelSequence, level)}
+		<Level level={toLevelDataByName('8')} let:phase>
+			<Phase
+				{phase}
+				{selectPhase}
+				selected={phase === selectedPhase}
+				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
 			/>
-		</StarshipStage>
+		</Level>
 	</section>
 	<section>
-		<StarshipStage stage={toStageDataByName('9')} let:level>
-			<StarshipLevel
-				{level}
-				{selectLevel}
-				selected={level === selectedLevel}
-				disabled={!!selectedLevelSequence && !sequenceContains(selectedLevelSequence, level)}
+		<Level level={toLevelDataByName('9')} let:phase>
+			<Phase
+				{phase}
+				{selectPhase}
+				selected={phase === selectedPhase}
+				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
 			/>
-		</StarshipStage>
+		</Level>
 	</section>
 	<section>
 		<!-- TODO only 10c from 10b -->
-		<StarshipStage stage={toStageDataByName('10')} let:level>
-			<StarshipLevel
-				{level}
-				{selectLevel}
-				selected={level === selectedLevel}
-				disabled={!!selectedLevelSequence && !sequenceContains(selectedLevelSequence, level)}
+		<Level level={toLevelDataByName('10')} let:phase>
+			<Phase
+				{phase}
+				{selectPhase}
+				selected={phase === selectedPhase}
+				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
 			/>
-		</StarshipStage>
+		</Level>
 	</section>
 	<section>
-		<StarshipStage stage={toStageDataByName('11')} let:level>
-			<StarshipLevel
-				{level}
-				{selectLevel}
-				selected={level === selectedLevel}
-				disabled={!!selectedLevelSequence && !sequenceContains(selectedLevelSequence, level)}
+		<Level level={toLevelDataByName('11')} let:phase>
+			<Phase
+				{phase}
+				{selectPhase}
+				selected={phase === selectedPhase}
+				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
 			/>
-		</StarshipStage>
+		</Level>
 	</section>
 	<section>
 		<!-- TODO only 12c from 12a -->
-		<StarshipStage stage={toStageDataByName('12')} let:level>
-			<StarshipLevel
-				{level}
-				{selectLevel}
-				selected={level === selectedLevel}
-				disabled={!!selectedLevelSequence && !sequenceContains(selectedLevelSequence, level)}
+		<Level level={toLevelDataByName('12')} let:phase>
+			<Phase
+				{phase}
+				{selectPhase}
+				selected={phase === selectedPhase}
+				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
 			/>
-		</StarshipStage>
+		</Level>
 	</section>
 </div>
 
 <style>
-	.levels {
+	.atlas {
 		display: flex;
 		flex-direction: column;
 		align-items: center;

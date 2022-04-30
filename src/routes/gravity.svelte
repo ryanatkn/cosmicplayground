@@ -1,13 +1,13 @@
 <script lang="ts">
-	import StarshipMap from '$lib/gravity/Atlas.svelte';
+	import Atlas from '$lib/gravity/Atlas.svelte';
 </script>
 
-<div class="starship">
-	<StarshipMap />
+<div class="gravity">
+	<Atlas />
 </div>
 
 <style>
-	.starship {
+	.gravity {
 		display: flex;
 		flex-direction: column;
 		align-items: center;

@@ -1,24 +1,24 @@
 <script lang="ts">
-	import {levelSequences, type LevelSequenceOrCreator} from '$lib/gravity/levels';
+	import {phaseSequences, type PhaseSequenceOrCreator} from '$lib/gravity/phases';
 
-	export let selectedLevelSequenceOrCreator: LevelSequenceOrCreator | null = null;
-	export let playLevelSequence: (levelSequenceOrCreator: LevelSequenceOrCreator) => Promise<void>;
+	export let selectedPhaseSequenceOrCreator: PhaseSequenceOrCreator | null = null;
+	export let playPhaseSequence: (phaseSequenceOrCreator: PhaseSequenceOrCreator) => Promise<void>;
 	export let cancel: () => void;
 </script>
 
 <ul>
-	{#each levelSequences as levelSequence (levelSequence)}
+	{#each phaseSequences as phaseSequence (phaseSequence)}
 		<li>
 			<button
 				type="button"
-				class:selected={levelSequence === selectedLevelSequenceOrCreator}
-				on:click={() => playLevelSequence(levelSequence)}>{levelSequence.name}</button
+				class:selected={phaseSequence === selectedPhaseSequenceOrCreator}
+				on:click={() => playPhaseSequence(phaseSequence)}>{phaseSequence.name}</button
 			>
 		</li>
 	{/each}
 </ul>
 <div>
-	{#if selectedLevelSequenceOrCreator}
+	{#if selectedPhaseSequenceOrCreator}
 		<button type="button" on:click={cancel}>cancel</button>
 	{/if}
 </div>

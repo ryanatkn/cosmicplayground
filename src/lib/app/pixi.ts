@@ -18,7 +18,7 @@ export class PixiApp {
 		// });
 
 		const defaultScene = new Pixi.Container();
-		defaultScene.interactiveChildren = false;
+		(defaultScene as any).interactiveChildren = false; // TODO this type error goes away with `esModuleInterop: true` in tsconfig, but that causes gross js output and it's not needed at runtime
 		this.defaultScene = this.currentScene = defaultScene;
 		this.app.stage.addChild(defaultScene);
 	}
@@ -91,7 +91,7 @@ export const getPixiScene = (
 	// Mount the scene right away. When loading, we'll show a black background
 	// and the scene component can display whatever it wants.
 	const scene = new Pixi.Container();
-	scene.interactiveChildren = false;
+	(scene as any).interactiveChildren = false; // TODO this type error goes away with `esModuleInterop: true` in tsconfig, but that causes gross js output and it's not needed at runtime
 	pixi.mountScene(scene);
 
 	// If we're already loading while creating a new scene,

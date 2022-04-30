@@ -1,60 +1,48 @@
 <script lang="ts">
-	import type {LevelData} from '$lib/gravity/levels';
+	import {toPhaseDatasByLevelName, type LevelData} from '$lib/gravity/phases';
 
 	export let level: LevelData;
-	export let selected: boolean;
-	export let disabled: boolean;
-	export let selectLevel: (level: LevelData) => void; // TODO events instead of callbacks?
+
+	$: phases = toPhaseDatasByLevelName(level.name);
 </script>
 
-<div class="starship-level" title="level {level.name}">
-	<button
-		on:click={() => {
-			selectLevel(level);
-		}}
-		class:selected
-		class:buttonish={!disabled}
-		{disabled}
-	>
-		<div class="title">{level.title}</div>
-	</button>
+<div class="level" style:height="{level.imageMeta.thumbnail.height * 2}px">
+	<img class="pixelated" src={level.imageMeta.thumbnail.url} alt={level.imageMeta.title} />
+	<div class="phases">
+		<div class="main-phases">
+			<slot phase={phases[0]} {phases} /><slot phase={phases[1]} {phases} />
+		</div>
+		{#if phases.length > 2}<div class="secondary-phases">
+				<slot phase={phases[2]} {phases} />
+			</div>{/if}
+	</div>
 </div>
 
 <style>
-	.starship-level {
-		margin: 0 var(--spacing_xs3);
-	}
-	.starship-level:first-child {
-		margin-left: 0;
-	}
-	.starship-level:last-child {
-		margin-right: 0;
-	}
-	button {
-		position: relative;
-		padding: var(--spacing_xs3) var(--spacing_xs);
-	}
-	.title {
+	.level {
 		display: flex;
+		position: relative;
+	}
+	img {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		height: 100%;
+		width: auto;
+		margin: auto;
+	}
+	.phases {
+		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		font-size: var(--font_size_lg);
-		text-align: center;
-		text-shadow: 2px 2px 3px #000;
+		flex-wrap: wrap;
 	}
-	@media (max-width: 1100px) {
-		.title {
-			font-size: var(--font_size_md);
-		}
+	.main-phases {
+		display: flex;
+		align-items: center;
 	}
-	@media (max-width: 500px) {
-		.title {
-			font-size: var(--font_size_sm);
-		}
-	}
-	/* TODO refactor to be global (there are conflicting styles in places) */
-	.selected {
-		color: var(--pending_color);
-		border-color: var(--pending_color);
+	.secondary-phases {
+		margin-top: var(--spacing_sm);
 	}
 </style>
