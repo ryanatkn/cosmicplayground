@@ -21,8 +21,8 @@ export class Controller {
 	}
 
 	// TODO pack this up in a class or something?
-	screenWidth = 0;
-	screenHeight = 0;
+	viewportWidth = 0;
+	viewportHeight = 0;
 	viewWidth = 0;
 	viewHeight = 0;
 	worldWidth = 0;
@@ -123,9 +123,9 @@ export const updateDirection = (
 	) {
 		const viewScale = controller.viewWidth / controller.worldWidth;
 		const pointerViewX =
-			controller.pointerScreenX - controller.screenWidth / 2 + controller.viewWidth / 2;
+			controller.pointerScreenX - controller.viewportWidth / 2 + controller.viewWidth / 2;
 		const pointerViewY =
-			controller.pointerScreenY - controller.screenHeight / 2 + controller.viewHeight / 2;
+			controller.pointerScreenY - controller.viewportHeight / 2 + controller.viewHeight / 2;
 		// TODO cache pointer world coordinates? where?
 		const pointerWorldX = pointerViewX / viewScale + camera.x - camera.width / 2;
 		const pointerWorldY = pointerViewY / viewScale + camera.y - camera.height / 2;

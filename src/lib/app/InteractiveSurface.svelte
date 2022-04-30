@@ -43,16 +43,13 @@
 		lastMouseX = e.clientX;
 		lastMouseY = e.clientY;
 	};
-	const onMouseDown = (e: MouseEvent) => {
+	const onMouseDown = () => {
 		if (!inputEnabled) return;
 		startDragging();
-		e.preventDefault();
 	};
-	const onMouseUp = (e: MouseEvent) => {
+	const onMouseUp = () => {
 		if (!inputEnabled) return;
-		if (stopDragging()) {
-			e.stopPropagation();
-		}
+		stopDragging();
 	};
 	const onMouseEnter = () => {
 		if (!inputEnabled) return;
@@ -69,6 +66,7 @@
 	};
 	const onContextmenu = (e: MouseEvent) => {
 		if (!e.shiftKey) {
+			// handles mobile issue
 			e.stopPropagation();
 			e.preventDefault();
 		}
@@ -78,9 +76,9 @@
 <div
 	class="interactive-surface"
 	style="width: {width}px; height: {height}px;"
-	on:mousemove={onMouseMove}
-	on:mousedown={onMouseDown}
-	on:mouseup={onMouseUp}
+	on:mousemove|stopPropagation|preventDefault={onMouseMove}
+	on:mousedown|stopPropagation|preventDefault={onMouseDown}
+	on:mouseup|stopPropagation|preventDefault={onMouseUp}
 	on:mouseenter={onMouseEnter}
 	on:mouseleave={onMouseLeave}
 	on:wheel|passive={onWheel}

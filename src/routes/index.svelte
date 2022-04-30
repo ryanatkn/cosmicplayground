@@ -31,6 +31,7 @@
 		type StarshipStageScores,
 		rescuedAllCrew,
 		rescuedAllCrewAtOnce,
+		toInitialScores,
 	} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {toSongData} from '$lib/music/songs';
@@ -42,7 +43,7 @@
 	const dimensions = getDimensions();
 	const clock = getClock();
 
-	$: ({width: screenWidth, height: screenHeight} = $dimensions);
+	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
 
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
@@ -55,11 +56,11 @@
 	$: viewScale = viewWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
 	// TODO make this a helper to clarify the deps `updateDimensions`
 	$: if (cameraUnlocked) {
-		// Expand the world dimensions to fit the screen dimensions.
-		// It needs to match the screen aspect ratio and
+		// Expand the world dimensions to fit the viewport dimensions.
+		// It needs to match the viewport aspect ratio and
 		// cover the entire default world dimensions.
-		viewWidth = screenWidth;
-		viewHeight = screenHeight;
+		viewWidth = viewportWidth;
+		viewHeight = viewportHeight;
 		const worldMinWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		const worldMinHeight = DEFAULT_WORLD_DIMENSIONS.height;
 		const worldWidthRatio = worldMinWidth / viewWidth;
@@ -78,9 +79,9 @@
 		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
 		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
 		const worldAspectRatio = worldWidth / worldHeight;
-		const screenAspectRatio = screenWidth / screenHeight;
-		viewWidth = (screenWidth * Math.min(1, worldAspectRatio / screenAspectRatio)) | 0;
-		viewHeight = (screenHeight * Math.min(1, screenAspectRatio / worldAspectRatio)) | 0;
+		const viewportAspectRatio = viewportWidth / viewportHeight;
+		viewWidth = (viewportWidth * Math.min(1, worldAspectRatio / viewportAspectRatio)) | 0;
+		viewHeight = (viewportHeight * Math.min(1, viewportAspectRatio / worldAspectRatio)) | 0;
 	}
 
 	const starshipPortal = Symbol();
@@ -117,8 +118,12 @@
 	}
 	const createStage = () => {
 		stage = new Stage({
-			width: worldWidth,
-			height: worldHeight,
+			worldWidth,
+			worldHeight,
+			viewWidth,
+			viewHeight,
+			viewportWidth,
+			viewportHeight,
 			freezeCamera: !cameraUnlocked,
 		});
 	};
@@ -164,10 +169,10 @@
 	$: scoresRescuedAllCrewAtOnce = !!savedScores && rescuedAllCrewAtOnce(savedScores);
 
 	let finished = false;
-	const finish = () => {
+	const finish = (scores: StarshipStageScores): void => {
 		if (finished) return;
 		finished = true;
-		const finalScores = mergeScores($currentStageScores!, savedScores);
+		const finalScores = mergeScores(scores, savedScores);
 		if (!dequal(finalScores, savedScores)) {
 			setInStorage(STORAGE_KEY_SCORES, finalScores);
 			savedScores = finalScores;
@@ -215,8 +220,8 @@
 	$: starshipScale = player ? ((player.radius * 2) / starshipHeight) * viewScale : 1; // TODO isn't reactive to player radius
 	$: starshipViewX = ($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * viewScale;
 	$: starshipViewY = $camera
-		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - screenHeight) / 2
-		: starshipY - (starshipHeight - screenHeight) / 2;
+		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - viewportHeight) / 2
+		: starshipY - (starshipHeight - viewportHeight) / 2;
 
 	let pausedClock = false;
 	const enterStarshipMode = async () => {
@@ -235,6 +240,7 @@
 	const exitStarshipMode = async () => {
 		if (!starshipMode) return;
 		console.log('exitStarshipMode');
+		if (!finished) finish(toInitialScores(stage!)); // show the crew placeholders if the user exits early
 		starshipAngle = 0;
 		starshipMode = false;
 		pauseAudio();
@@ -243,10 +249,12 @@
 		await wait(TRANSITION_DURATION);
 		transitioningStarshipModeCount--;
 	};
-</script>
 
-<svelte:window
-	on:keydown={async (e) => {
+	const onWindowKeydown = async (
+		e: KeyboardEvent & {
+			currentTarget: EventTarget & Window;
+		},
+	) => {
 		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		// TODO controls for toggling the speed/strength boosters
 		if (e.key === 'Escape') {
@@ -269,9 +277,7 @@
 				finished = false;
 			} else if (starshipMode) {
 				clock.pause();
-				finish();
-			} else {
-				await scrollDown();
+				if ($currentStageScores) finish($currentStageScores);
 			}
 		} else if (e.key === '1' && e.ctrlKey) {
 			e.stopImmediatePropagation();
@@ -294,8 +300,10 @@
 			e.preventDefault();
 			await playSong(toSongData('Space Ambience'));
 		}
-	}}
-/>
+	};
+</script>
+
+<svelte:window on:keydown={(e) => void onWindowKeydown(e)} />
 
 <div
 	class="home"
@@ -402,8 +410,8 @@
 	</nav>
 	{#if stage}
 		<StarshipStage
-			{screenWidth}
-			{screenHeight}
+			{viewportWidth}
+			{viewportHeight}
 			{viewWidth}
 			{viewHeight}
 			{worldWidth}

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import {onMount} from 'svelte';
-
 	import World from '$lib/flat/World.svelte';
 	import {
 		PLAYER_SPEED,
@@ -8,6 +6,7 @@
 		PLAYER_STRENGTH,
 		PLAYER_STRENGTH_BOOSTED,
 		Stage,
+		type StarshipStageScores,
 	} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clockStore';
 	import {getIdle} from '$lib/app/trackIdleState';
@@ -15,9 +14,11 @@
 	import {getPixi} from '$lib/app/pixi';
 	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
 	import type {CameraStore} from '$lib/flat/camera';
+	import type {Writable} from 'svelte/store';
+	import type {Controller} from '$lib/flat/Controller';
 
-	export let screenWidth: number;
-	export let screenHeight: number;
+	export let viewportWidth: number;
+	export let viewportHeight: number;
 	export let viewWidth: number;
 	export let viewHeight: number;
 	export let worldWidth: number;
@@ -29,12 +30,10 @@
 	export let starshipY = 0;
 	export let starshipAngle = 0;
 	export let starshipShieldRadius = 0;
-	export let finish: () => void;
+	export let finish: (scores: StarshipStageScores) => void;
 	export let exit: () => void;
 	export let stage: Stage;
 	export let enableDomCanvasRenderer = false;
-
-	$: ({controller} = stage);
 
 	const clock = getClock();
 	const pixi = getPixi();
@@ -45,27 +44,11 @@
 	$: if ($idle) clock.pause();
 
 	let camera: CameraStore;
-	$: ({camera} = stage);
+	let scores: Writable<StarshipStageScores>;
+	let controller: Controller;
+	$: ({camera, scores, controller} = stage);
 
-	// This stops the app's rendering when paused for efficiency.
-	// It will need some tweaking if/when we add camera zoom.
-	// It'd also be nice to have a general solution, not hardcoded to this one component.
-	$: if ($clock.running) {
-		pixi.app.start();
-	} else {
-		pixi.app.stop();
-		void camera.setPosition($camera.x, $camera.y, {hard: true});
-	}
-	onMount(() => {
-		// render because the stage is paused initially
-		pixi.app.render();
-		return () => {
-			pixi.app.render();
-			pixi.app.start();
-		};
-	});
-	$: worldWidth, worldHeight, pixi.app.render(); // render on resize - TODO maybe refactor with World resizing
-
+	// TODO maybe replace all `clock` usage with the app ticker
 	$: $clock, syncStageState();
 
 	let finished = false;
@@ -74,21 +57,22 @@
 	$: stage.player.speed = speedBoosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
 	$: stage.player.strength = strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH;
 	$: stage.freezeCamera = !cameraUnlocked;
+	// TODO refactor, maybe `camera.frozen`?
 	$: if (cameraUnlocked) void camera.setPosition(starshipX, starshipY);
 
 	// TODO refactor
-	$: if (controller) controller.screenWidth = screenWidth;
-	$: if (controller) controller.screenHeight = screenHeight;
+	$: if (controller) controller.viewportWidth = viewportWidth;
+	$: if (controller) controller.viewportHeight = viewportHeight;
 	$: if (controller) controller.viewWidth = viewWidth;
 	$: if (controller) controller.viewHeight = viewHeight;
 	$: if (controller) controller.worldWidth = worldWidth;
 	$: if (controller) controller.worldHeight = worldHeight;
 
-	// TODO this is clumsy
+	// TODO this is clumsy, keep refactoring to shrink it
 	const syncStageState = () => {
 		if (!finished && stage.time > STAGE_DURATION) {
 			finished = true;
-			finish();
+			finish($scores);
 		}
 
 		starshipX = stage.player.x;
@@ -139,10 +123,13 @@
 		{worldHeight}
 		{viewWidth}
 		{viewHeight}
+		{viewportWidth}
+		{viewportHeight}
 		{stage}
-		scene={pixi.currentScene}
+		{pixi}
 		{controller}
 		{domCanvasRenderer}
+		{clock}
 	/>
 </div>
 <InteractiveSurface {controller} />

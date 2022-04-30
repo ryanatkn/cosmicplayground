@@ -31,6 +31,7 @@
 	};
 	const onContextmenu = (e: MouseEvent) => {
 		if (!e.shiftKey) {
+			// handles mobile issue
 			e.stopPropagation();
 			e.preventDefault();
 		}
@@ -65,9 +66,9 @@ allow it to bubble and do whatever
 <div
 	bind:this={el}
 	class="interactive-surface"
-	on:mousedown={onMousedown}
-	on:mouseup={onMouseup}
-	on:mousemove={onMousemove}
+	on:mousedown|stopPropagation|preventDefault={onMousedown}
+	on:mouseup|stopPropagation|preventDefault={onMouseup}
+	on:mousemove|stopPropagation|preventDefault={onMousemove}
 	on:mouseenter={onMouseenter}
 	on:mouseleave={onMouseleave}
 	on:contextmenu={onContextmenu}

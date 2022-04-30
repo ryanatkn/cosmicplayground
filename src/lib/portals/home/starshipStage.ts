@@ -66,6 +66,10 @@ export const toScores = (stage: Stage): StarshipStageScores => {
 		crewRescuedAtOnceCount: toCrewRescuedCount(crew),
 	};
 };
+export const toInitialScores = (stage: Stage): StarshipStageScores => ({
+	crew: [false, ...stage.moonsArray.map(() => false)],
+	crewRescuedAtOnceCount: 0,
+});
 const toCrewRescuedCount = (crew: boolean[]): number => crew.filter(Boolean).length;
 
 export class Stage extends BaseStage {
