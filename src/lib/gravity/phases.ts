@@ -5,41 +5,41 @@ import {type SongData, toSongData} from '$lib/music/songs';
 
 // TODO rename Stage to what? world, story? hmm
 
-export interface LevelData {
+export interface PhaseData {
 	name: string;
 	title: string;
-	stage: StageData;
+	stage: LevelData;
 	song: SongData;
 }
 
-export interface StageData {
+export interface LevelData {
 	name: string;
 	image: string;
 	imageMeta: ImageMeta;
 }
 
-export const toLevelData = (name: string): LevelData => {
-	const data = levelDatas.get(name);
+export const toPhaseData = (name: string): PhaseData => {
+	const data = PhaseDatas.get(name);
 	if (!data) throw Error('Unknown level: ' + name);
 	return data;
 };
 
-export const toLevelDatasByStageName = (name: string): LevelData[] => {
-	const data = levelDatasByStageName.get(name);
+export const toPhaseDatasByLevelName = (name: string): PhaseData[] => {
+	const data = PhaseDatasByLevelName.get(name);
 	if (!data) throw Error('Unknown stage: ' + name);
 	return data;
 };
 
-export const toStageDataByName = (name: string): StageData => {
-	const data = stageDatas.get(name);
+export const toLevelDataByName = (name: string): LevelData => {
+	const data = LevelDatas.get(name);
 	if (!data) throw Error('Unknown stage: ' + name);
 	return data;
 };
 
-export const toStageDataByLevelName = (levelName: string): StageData =>
-	toStageDataByName(levelName.slice(0, -1));
+export const toPhaseDataByLevelName = (levelName: string): LevelData =>
+	toLevelDataByName(levelName.slice(0, -1));
 
-export const stageDatas: Map<string, StageData> = new Map(
+export const LevelDatas: Map<string, LevelData> = new Map(
 	[
 		{name: '0', image: 'heic0206a'},
 		{name: '1', image: 'heic0406a'},
@@ -55,12 +55,12 @@ export const stageDatas: Map<string, StageData> = new Map(
 		{name: '11', image: 'heic1118a'},
 		{name: '12', image: 'heic1302a'},
 	].map((v) => {
-		(v as unknown as StageData).imageMeta = toImageMeta(v.image);
-		return [v.name, v as unknown as StageData];
+		(v as unknown as LevelData).imageMeta = toImageMeta(v.image);
+		return [v.name, v as unknown as LevelData];
 	}),
 );
 
-export const levelDatas: Map<string, LevelData> = new Map(
+export const PhaseDatas: Map<string, PhaseData> = new Map(
 	[
 		{name: '0a', title: 'Traveler', song: 'Traveler', image: 'heic0206a'},
 		{
@@ -105,34 +105,34 @@ export const levelDatas: Map<string, LevelData> = new Map(
 		{name: '12b', title: 'Terra Mystica', song: 'Terra Mystica', image: 'heic1302a'},
 		{name: '12c', title: 'Dream', song: 'Dream', image: 'heic1302a'},
 	].map((v) => {
-		(v as unknown as LevelData).song = toSongData(v.song);
-		(v as unknown as LevelData).stage = toStageDataByLevelName(v.name);
-		return [v.name, v as unknown as LevelData];
+		(v as unknown as PhaseData).song = toSongData(v.song);
+		(v as unknown as PhaseData).stage = toPhaseDataByLevelName(v.name);
+		return [v.name, v as unknown as PhaseData];
 	}),
 );
 
-const levelDatasByStageName = new Map<string, LevelData[]>();
-for (const levelData of levelDatas.values()) {
-	const stage = toStageDataByLevelName(levelData.name);
-	let levelDatas = levelDatasByStageName.get(stage.name);
-	if (!levelDatas) levelDatasByStageName.set(stage.name, (levelDatas = []));
-	levelDatas.push(levelData);
+const PhaseDatasByLevelName = new Map<string, PhaseData[]>();
+for (const PhaseData of PhaseDatas.values()) {
+	const stage = toPhaseDataByLevelName(PhaseData.name);
+	let PhaseDatas = PhaseDatasByLevelName.get(stage.name);
+	if (!PhaseDatas) PhaseDatasByLevelName.set(stage.name, (PhaseDatas = []));
+	PhaseDatas.push(PhaseData);
 }
 
-export type LevelSequenceOrCreator = {
+export type PhaseSequenceOrCreator = {
 	name: string;
-	data: LevelSequenceData | (() => LevelSequenceData);
+	data: PhaseSequenceData | (() => PhaseSequenceData);
 };
-export interface LevelSequence {
+export interface PhaseSequence {
 	name: string;
-	data: LevelSequenceData;
+	data: PhaseSequenceData;
 }
-export interface LevelSequenceData {
+export interface PhaseSequenceData {
 	sequence: string[];
 }
-export const toLevelSequence = (l: LevelSequenceOrCreator): LevelSequence =>
+export const toPhaseSequence = (l: PhaseSequenceOrCreator): PhaseSequence =>
 	typeof l.data === 'function' ? {...l, data: l.data()} : (l as any); // TODO why doesn't this type narrow?
-export const levelSequences: LevelSequenceOrCreator[] = [
+export const phaseSequences: PhaseSequenceOrCreator[] = [
 	{
 		name: 'light_pure',
 		data: {
@@ -291,7 +291,7 @@ export const levelSequences: LevelSequenceOrCreator[] = [
 	},
 	{
 		name: 'random_random',
-		data: (): LevelSequenceData => {
+		data: (): PhaseSequenceData => {
 			/*
 
 		Conditions that disallow 12c:
@@ -316,36 +316,36 @@ export const levelSequences: LevelSequenceOrCreator[] = [
 				}
 				sequence.push(name);
 			};
-			const addLevel = (names: string | null | Array<string | null>): void => {
+			const addPhase = (names: string | null | Array<string | null>): void => {
 				if (Array.isArray(names)) {
 					names.forEach(addOneLevel);
 				} else {
 					addOneLevel(names);
 				}
 			};
-			addLevel(randomItem(['0a', '0b']));
-			addLevel(randomItem(['0c', null]));
-			addLevel(randomItem(['1a', '1b']));
-			addLevel(randomItem(['1c', null]));
-			addLevel(randomItem(['2a', '2b']));
-			addLevel(randomItem(['2c', null]));
-			addLevel(randomItem(['3a', '3b']));
-			addLevel(randomItem(['3c', null]));
-			addLevel(
+			addPhase(randomItem(['0a', '0b']));
+			addPhase(randomItem(['0c', null]));
+			addPhase(randomItem(['1a', '1b']));
+			addPhase(randomItem(['1c', null]));
+			addPhase(randomItem(['2a', '2b']));
+			addPhase(randomItem(['2c', null]));
+			addPhase(randomItem(['3a', '3b']));
+			addPhase(randomItem(['3c', null]));
+			addPhase(
 				randomItem([
 					['4a', '5a'],
 					['4b', cCount > MIN_C_COUNT_FOR_FANFARE ? randomItem(['4c', null]) : null, '5b'],
 				]),
 			);
-			addLevel(randomItem(['6a', '6b']));
-			addLevel(randomItem(['6c', null]));
-			addLevel(randomItem(['7a', '7b']));
-			addLevel(randomItem(['7c', null]));
-			addLevel(randomItem(['8a', '8b']));
-			addLevel(randomItem(['8c', null]));
-			addLevel(randomItem(['9a', '9b']));
-			addLevel(randomItem(['9c', null]));
-			addLevel(
+			addPhase(randomItem(['6a', '6b']));
+			addPhase(randomItem(['6c', null]));
+			addPhase(randomItem(['7a', '7b']));
+			addPhase(randomItem(['7c', null]));
+			addPhase(randomItem(['8a', '8b']));
+			addPhase(randomItem(['8c', null]));
+			addPhase(randomItem(['9a', '9b']));
+			addPhase(randomItem(['9c', null]));
+			addPhase(
 				randomItem(
 					[
 						['10a', '10c', '11a', '12a'],
@@ -360,12 +360,12 @@ export const levelSequences: LevelSequenceOrCreator[] = [
 		},
 	},
 ];
-export const levelSequencesByName: Map<string, LevelSequenceOrCreator> = new Map(
-	levelSequences.map((l) => [l.name, l]),
+export const phaseSequencesByName: Map<string, PhaseSequenceOrCreator> = new Map(
+	phaseSequences.map((l) => [l.name, l]),
 );
 
-export const sequenceContains = (levelSequence: LevelSequence, level: LevelData): boolean =>
-	levelSequence.data.sequence.includes(level.name);
+export const sequenceContains = (phaseSequence: PhaseSequence, phase: PhaseData): boolean =>
+	phaseSequence.data.sequence.includes(phase.name);
 
 // TODO maybe do this differently, specific level outcomes integrated with the store?
 const MIN_C_COUNT_FOR_FANFARE = 1;

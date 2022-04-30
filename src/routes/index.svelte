@@ -261,7 +261,7 @@
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			if (e.ctrlKey) {
-				await goto('/starship');
+				await goto('/gravity');
 			} else {
 				if (!starshipMode) {
 					await enterStarshipMode();
@@ -332,7 +332,7 @@
 								await enterStarshipMode();
 							}
 					  }}
-				href={scoresRescuedAllCrewAtOnce ? '/starship' : undefined}
+				href={scoresRescuedAllCrewAtOnce ? '/gravity' : undefined}
 				><div
 					style:font-size={scoresRescuedAllCrewAtOnce
 						? 'var(--font_size_xl)'

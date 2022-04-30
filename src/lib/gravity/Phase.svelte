@@ -1,33 +1,33 @@
 <script lang="ts">
-	import type {LevelData} from '$lib/starship/levels';
+	import type {PhaseData} from '$lib/gravity/phases';
 
-	export let level: LevelData;
+	export let phase: PhaseData;
 	export let selected: boolean;
 	export let disabled: boolean;
-	export let selectLevel: (level: LevelData) => void; // TODO events instead of callbacks?
+	export let selectPhase: (phase: PhaseData) => void; // TODO events instead of callbacks?
 </script>
 
-<div class="starship-level" title="level {level.name}">
+<div class="phase" title="phase {phase.name}">
 	<button
 		on:click={() => {
-			selectLevel(level);
+			selectPhase(phase);
 		}}
 		class:selected
 		class:buttonish={!disabled}
 		{disabled}
 	>
-		<div class="title">{level.title}</div>
+		<div class="title">{phase.title}</div>
 	</button>
 </div>
 
 <style>
-	.starship-level {
+	.phase {
 		margin: 0 var(--spacing_xs3);
 	}
-	.starship-level:first-child {
+	.phase:first-child {
 		margin-left: 0;
 	}
-	.starship-level:last-child {
+	.phase:last-child {
 		margin-right: 0;
 	}
 	button {
