@@ -155,26 +155,27 @@ export abstract class Stage {
 		}
 	}
 
+	/**
+	 * The mask constraints the visible content to an arbitrary view subset of the viewport.
+	 * If the view and viewport are equal, no mask is created.
+	 */
 	private drawMask(): void {
 		const maskX = (this.viewportWidth - this.viewWidth) / 2;
 		const maskY = (this.viewportHeight - this.viewHeight) / 2;
 		if (maskX === 0 && maskY === 0) {
 			if (this.mask) {
 				this.container.mask = null;
-				this.mask.destroy({baseTexture: true, texture: true});
 				// this.mask.parent.removeChild(this.mask);
+				this.mask.destroy({baseTexture: true, texture: true});
 				this.mask = null;
-				console.log('DESTROYING MASK');
 			}
 		} else {
 			if (!this.mask) {
-				console.log('CREATING MASK');
 				this.mask = new Pixi.Graphics();
 				this.container.mask = this.mask;
 				// this.container.addChild(this.mask);
 			} else {
 				this.mask.clear();
-				console.log('UPDATING MASK');
 			}
 			this.mask.beginFill(0x000000);
 			this.mask.drawRect(maskX, maskY, this.viewWidth, this.viewHeight);
