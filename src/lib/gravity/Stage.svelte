@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {toLevelDatasByStageName, type StageData} from '$lib/starship/levels';
+	import {toLevelDatasByStageName, type StageData} from '$lib/gravity/levels';
 
 	export let stage: StageData;
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import StarshipMap from '$lib/starship/StarshipMap.svelte';
+	import StarshipMap from '$lib/gravity/Atlas.svelte';
 </script>
 
 <div class="starship">

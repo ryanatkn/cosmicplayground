@@ -7,10 +7,10 @@
 		type LevelSequence,
 		levelDatas,
 		toLevelSequence,
-	} from '$lib/starship/levels';
-	import StarshipStage from '$lib/starship/StarshipStage.svelte';
-	import StarshipLevel from '$lib/starship/StarshipLevel.svelte';
-	import StarshipLevelButtons from './StarshipLevelButtons.svelte';
+	} from '$lib/gravity/levels';
+	import StarshipStage from '$lib/gravity/Stage.svelte';
+	import StarshipLevel from '$lib/gravity/Level.svelte';
+	import StarshipLevelButtons from '$lib/gravity/LevelButtons.svelte';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
 

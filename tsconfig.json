@@ -18,7 +18,6 @@
 		"resolveJsonModule": true,
 		"sourceMap": true,
 		"importHelpers": true,
-		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"checkJs": true,
 		"preserveValueImports": true

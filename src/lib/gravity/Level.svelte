@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {LevelData} from '$lib/starship/levels';
+	import type {LevelData} from '$lib/gravity/levels';
 
 	export let level: LevelData;
 	export let selected: boolean;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {levelSequences, type LevelSequenceOrCreator} from '$lib/starship/levels';
+	import {levelSequences, type LevelSequenceOrCreator} from '$lib/gravity/levels';
 
 	export let selectedLevelSequenceOrCreator: LevelSequenceOrCreator | null = null;
 	export let playLevelSequence: (levelSequenceOrCreator: LevelSequenceOrCreator) => Promise<void>;
