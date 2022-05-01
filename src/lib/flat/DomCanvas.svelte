@@ -2,7 +2,7 @@
 	import {onMount} from 'svelte';
 
 	import type {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
-	import type {ClockStore} from '$lib/app/clockStore';
+	import type {ClockStore} from '$lib/app/clock';
 	import type {Stage} from '$lib/flat/Stage';
 
 	export let width: number;

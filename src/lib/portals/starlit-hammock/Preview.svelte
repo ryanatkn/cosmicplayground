@@ -1,6 +1,6 @@
 <script lang="ts">
 	import GalaxyBg from './GalaxyBg.svelte';
-	import {getClock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clock';
 
 	const clock = getClock();
 </script>

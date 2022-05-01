@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {getClock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clock';
 	import ClockControls from '$lib/portals/clocks/ClockControls.svelte';
 
 	const clock = getClock();

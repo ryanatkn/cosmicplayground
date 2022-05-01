@@ -1,6 +1,6 @@
 {
   "name": "cosmicplayground",
-  "description": "tools and toys for expanding minds 🌌",
+  "description": "tools and toys for expanding minds 🌌 educational hobby project for people curious about the web, games, coding, open source, and some of the rest of the cosmos",
   "homepage": "https://www.cosmicplayground.org",
   "license": "Unlicense",
   "version": "0.1.0",
@@ -22,12 +22,14 @@
   "keywords": [
     "space",
     "web",
+    "games",
+    "typescript",
     "svelte"
   ],
   "author": {
-    "name": "Ryan Atkinson",
-    "email": "mail@ryanatkn.com",
-    "url": "https://www.ryanatkn.com"
+    "name": "Blit Wagon",
+    "email": "blitwagon@gmail.com",
+    "url": "https://www.blitwagon.net"
   },
   "engines": {
     "node": ">=16.6"

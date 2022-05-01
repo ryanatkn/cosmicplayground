@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FreqSpectacle from '$lib/portals/freq-spectacle/FreqSpectacle.svelte';
-	import {getClock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 
 	const dimensions = getDimensions();

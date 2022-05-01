@@ -90,6 +90,7 @@
 <!-- TODO probably render the active stage+level here -->
 <div class="atlas">
 	<section>
+		<!-- TODO maybe have the `Level` mount the `Phase` as well -->
 		<Level level={toLevelDataByName('0')} let:phase>
 			<Phase
 				{phase}

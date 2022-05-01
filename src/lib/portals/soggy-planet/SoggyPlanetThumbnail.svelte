@@ -1,6 +1,6 @@
 <script lang="ts">
 	import EarthThumbnail from '$lib/app/EarthThumbnail.svelte';
-	import {getClock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clock';
 	import {THUMBNAIL_WIDTH_DEFAULT} from '$lib/portals/soggy-planet/constants';
 
 	export let earthWidth = THUMBNAIL_WIDTH_DEFAULT;

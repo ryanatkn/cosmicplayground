@@ -1,24 +1,24 @@
 <div class="credits-personal-signature">
 	<div class="item" style="padding: 0;">
-		<a class="clickable" href="https://twitter.com/ryanatkn">
+		<a class="clickable" href="https://twitter.com/blitwagon">
 			<img
 				src="/assets/characters/twit.png"
-				alt="@ryanatkn on Twitter"
-				title="@ryanatkn on Twitter"
+				alt="@blitwagon on Twitter"
+				title="@blitwagon on Twitter"
 				width="64"
 				height="64"
 			/>
 		</a>
 	</div>
 	<div class="item">
-		<a href="https://www.ryanatkn.com">ryanatkn.com</a>
+		<a href="https://www.blitwagon.net">blitwagon.net</a>
 	</div>
 	<div class="item">
-		<a class="clickable" href="https://github.com/ryanatkn">
+		<a class="clickable" href="https://github.com/blitwagon">
 			<img
 				src="/assets/characters/octocat.png"
-				alt="@ryanatkn on GitHub"
-				title="@ryanatkn on GitHub"
+				alt="@blitwagon on GitHub"
+				title="@blitwagon on GitHub"
 				width="40"
 				height="40"
 			/>

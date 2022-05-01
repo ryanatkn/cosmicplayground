@@ -11,18 +11,18 @@
 	import Hud from '$lib/app/Hud.svelte';
 	import EarthViewerDom from '$lib/app/EarthViewerDom.svelte';
 	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
-	import {createResourcesStore, type AudioResource} from '$lib/app/resourcesStore';
+	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTour} from '$lib/portals/deep-breath/deepBreathTour';
-	import {createTourStore, type TourData, type TourStep, type TourStore} from '$lib/app/tourStore';
+	import {createTourStore, type TourData, type TourStep, type TourStore} from '$lib/app/tour';
 	import DeepBreathTourIntro from '$lib/portals/deep-breath/DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from '$lib/portals/deep-breath/DeepBreathTourTitle.svelte';
 	import DeepBreathTourCredits from '$lib/portals/deep-breath/DeepBreathTourCredits.svelte';
-	import {getSettings} from '$lib/app/settingsStore';
+	import {getSettings} from '$lib/app/settings';
 	import {resetRenderStats, getRenderStats} from '$lib/app/renderStats';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import DeepBreathDevHud from '$lib/portals/deep-breath/DeepBreathDevHud.svelte';
-	import {getClock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys} from '$lib/util/dom';
 
