@@ -39,6 +39,10 @@
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
+	import {
+		STORAGE_KEY_STRENGTH_BOOSTER2,
+		STORAGE_KEY_STRENGTH_BOOSTER3,
+	} from '$lib/portals/home/data';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -212,6 +216,9 @@
 		strengthBoosterToggled = !strengthBoosterToggled;
 		if (strengthBoosterToggled) await scrollDown();
 	};
+
+	const strengthBooster2Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
+	const strengthBooster3Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false);
 
 	$: cameraUnlocked = scoresRescuedAllMoons;
 
@@ -418,6 +425,8 @@
 			{worldHeight}
 			{speedBoosterEnabled}
 			{strengthBoosterEnabled}
+			{strengthBooster2Enabled}
+			{strengthBooster3Enabled}
 			{cameraUnlocked}
 			bind:starshipX
 			bind:starshipY

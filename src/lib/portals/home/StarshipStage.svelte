@@ -5,6 +5,8 @@
 		PLAYER_SPEED_BOOSTED,
 		PLAYER_STRENGTH,
 		PLAYER_STRENGTH_BOOSTED,
+		PLAYER_STRENGTH_BOOSTED2,
+		PLAYER_STRENGTH_BOOSTED3,
 		Stage,
 		type StarshipStageScores,
 	} from '$lib/portals/home/starshipStage';
@@ -26,6 +28,8 @@
 	export let cameraUnlocked = false;
 	export let speedBoosterEnabled = false;
 	export let strengthBoosterEnabled = false;
+	export let strengthBooster2Enabled = false;
+	export let strengthBooster3Enabled = false;
 	export let starshipX = 0;
 	export let starshipY = 0;
 	export let starshipAngle = 0;
@@ -55,7 +59,12 @@
 	const STAGE_DURATION = 30000;
 
 	$: stage.player.speed = speedBoosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
-	$: stage.player.strength = strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH;
+	$: stage.player.strength =
+		(strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH) +
+		(strengthBooster2Enabled ? PLAYER_STRENGTH_BOOSTED2 : 0) +
+		(strengthBooster3Enabled ? PLAYER_STRENGTH_BOOSTED3 : 0);
+	// const loadFromStorage(STORAGE_KEY_STRENGTH_HYPERBOOSTER_1);
+
 	$: stage.freezeCamera = !cameraUnlocked;
 	// TODO refactor, maybe `camera.frozen`?
 	$: if (cameraUnlocked) void camera.setPosition(starshipX, starshipY);

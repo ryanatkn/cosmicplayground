@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Atlas from '$lib/gravity/Atlas.svelte';
+	import Atlas from '$lib/portals/gravity/Atlas.svelte';
 </script>
 
 <div class="gravity">

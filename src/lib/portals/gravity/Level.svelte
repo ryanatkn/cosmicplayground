@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {toPhaseDatasByLevelName, type LevelData} from '$lib/gravity/phases';
+	import {toPhaseDatasByLevelName, type LevelData} from '$lib/portals/gravity/phases';
 
 	export let level: LevelData;
 

@@ -34,6 +34,7 @@ export const toClockStore = (initialState: Partial<ClockState> = {}): ClockStore
 	);
 
 	const onFrame = (t: number): void => {
+		// TODO cap `t` here? or on the
 		if (lastTime !== undefined) {
 			const dt = t - lastTime;
 			update(($clock) => ({running: $clock.running, time: $clock.time + dt, dt}));

@@ -9,3 +9,6 @@ const data: PortalData = {
 };
 
 export default data;
+
+export const STORAGE_KEY_STRENGTH_BOOSTER2 = 'cpg_strength_booster2';
+export const STORAGE_KEY_STRENGTH_BOOSTER3 = 'cpg_strength_booster3';
