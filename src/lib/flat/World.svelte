@@ -4,7 +4,7 @@
 	import type {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
 	import type {Controller} from '$lib/flat/Controller';
 	import type {Stage} from '$lib/flat/Stage';
-	import type {ClockStore} from '$lib/app/clockStore';
+	import type {ClockStore} from '$lib/app/clock';
 	import type {PixiApp} from '$lib/app/pixi';
 
 	export let worldWidth: number;

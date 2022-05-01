@@ -21,7 +21,7 @@
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
 	import {browser} from '$app/env';
-	import {getClock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clock';
 	import {
 		MOON_ICONS,
 		mergeScores,

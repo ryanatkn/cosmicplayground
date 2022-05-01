@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {getClock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 
 	const clock = getClock();

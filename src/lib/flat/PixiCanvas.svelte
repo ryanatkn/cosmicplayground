@@ -3,7 +3,7 @@
 
 	import type {Stage} from '$lib/flat/Stage'; // TODO shouldnt import this
 	import type {CameraState} from '$lib/flat/camera';
-	import type {ClockStore} from '$lib/app/clockStore';
+	import type {ClockStore} from '$lib/app/clock';
 	import type {PixiApp} from '$lib/app/pixi';
 
 	export let worldWidth: number;

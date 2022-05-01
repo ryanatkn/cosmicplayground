@@ -8,7 +8,7 @@
 		Stage,
 		type StarshipStageScores,
 	} from '$lib/portals/home/starshipStage';
-	import {getClock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clock';
 	import {getIdle} from '$lib/app/trackIdleState';
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
 	import {getPixi} from '$lib/app/pixi';

@@ -6,7 +6,7 @@
 	import ImagePicker from '$lib/app/ImagePicker.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import {spaceImages, type ImageMeta} from '$lib/app/images';
-	import {getClock} from '$lib/app/clockStore';
+	import {getClock} from '$lib/app/clock';
 	import ImageCreditsCaption from '$lib/app/ImageCreditsCaption.svelte';
 	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
 	import Panel from '$lib/app/Panel.svelte';
