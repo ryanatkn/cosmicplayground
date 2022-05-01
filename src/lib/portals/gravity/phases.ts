@@ -51,9 +51,9 @@ export const LevelDatas: Map<string, LevelData> = new Map(
 		{name: '7', image: 'heic1712a'},
 		{name: '8', image: 'heic0817a'},
 		{name: '9', image: 'potw2029a'},
-		{name: '10', image: 'heic1107a'},
+		{name: '10', image: 'heic0817a'},
 		{name: '11', image: 'heic0206a'},
-		{name: '12', image: 'heic1118a'},
+		{name: '12', image: 'heic1107a'},
 	].map((v) => {
 		(v as unknown as LevelData).imageMeta = toImageMeta(v.image);
 		return [v.name, v as unknown as LevelData];
@@ -93,17 +93,17 @@ export const PhaseDatas: Map<string, PhaseData> = new Map(
 		{name: '8a', title: 'Jotunheim', song: 'Jotunheim', image: 'heic0817a'},
 		{name: '8b', title: 'Bleu', song: 'Bleu', image: 'heic0817a'},
 		{name: '8c', title: 'Desert Fox', song: 'Desert Fox', image: 'heic0817a'},
-		{name: '9a', title: 'Fireworks', song: 'Fireworks', image: 'heic1107a'},
+		{name: '9a', title: 'Fireworks', song: 'Fireworks', image: 'heic0817a'},
 		{name: '9b', title: 'The Desert', song: 'The Desert', image: 'potw2029a'},
 		{name: '9c', title: 'Assassin', song: 'Assassin', image: 'potw2029a'},
 		{name: '10a', title: 'The Expanse', song: 'The Expanse', image: 'potw2029a'},
-		{name: '10b', title: 'Facing Storm', song: 'Facing Storm', image: 'heic1107a'},
-		{name: '10c', title: 'Lonely Mountain', song: 'Lonely Mountain', image: 'heic1107a'},
+		{name: '10b', title: 'Facing Storm', song: 'Facing Storm', image: 'heic0817a'},
+		{name: '10c', title: 'Lonely Mountain', song: 'Lonely Mountain', image: 'heic0817a'},
 		{name: '11a', title: 'Shining Stars', song: 'Shining Stars', image: 'heic0206a'},
 		{name: '11b', title: 'Nomadic Sunset', song: 'Nomadic Sunset', image: 'heic0206a'},
-		{name: '12a', title: 'Chemical Z', song: 'Chemical Z', image: 'heic1118a'},
-		{name: '12b', title: 'Terra Mystica', song: 'Terra Mystica', image: 'heic1118a'},
-		{name: '12c', title: 'Dream', song: 'Dream', image: 'heic1118a'},
+		{name: '12a', title: 'Chemical Z', song: 'Chemical Z', image: 'heic1107a'},
+		{name: '12b', title: 'Terra Mystica', song: 'Terra Mystica', image: 'heic1107a'},
+		{name: '12c', title: 'Dream', song: 'Dream', image: 'heic1107a'},
 	].map((v) => {
 		(v as unknown as PhaseData).song = toSongData(v.song);
 		(v as unknown as PhaseData).stage = toPhaseDataByLevelName(v.name);
