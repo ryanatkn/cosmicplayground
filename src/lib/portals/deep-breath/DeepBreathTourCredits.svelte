@@ -16,11 +16,11 @@
 <div class="tour-credits" class:displayForVideo>
 	<section in:blur={{duration: transitionDuration, amount: blurAmount}}>
 		<h2>created by</h2>
-		Ryan Atkinson<br />
-		<a href="https://twitter.com/ryanatkn">
-			@ryanatkn <img
+		Blit Wagon<br />
+		<a href="https://twitter.com/blitwagon">
+			@blitwagon <img
 				src="/assets/characters/twit.png"
-				alt="@ryanatkn on Twitter"
+				alt="@blitwagon on Twitter"
 				style="opacity: 0.8;"
 				width="64"
 				height="64"
@@ -35,7 +35,7 @@
 				style="margin: 0 16px 0 4px; opacity: 0.8;"
 			/>
 		</a>
-		<a href="https://www.ryanatkn.com">ryanatkn.com</a>
+		<a href="https://www.blitwagon.net">blitwagon.net</a>
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 1, amount: blurAmount}}>
 		<h2>interactive webpage</h2>
