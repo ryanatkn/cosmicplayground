@@ -63,6 +63,12 @@
 		(strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH) +
 		(strengthBooster2Enabled ? PLAYER_STRENGTH_BOOSTED2 : 0) +
 		(strengthBooster3Enabled ? PLAYER_STRENGTH_BOOSTED3 : 0);
+	// $: console.log(
+	// 	`stage.player.strength`,
+	// 	(strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH) +
+	// 		(strengthBooster2Enabled ? PLAYER_STRENGTH_BOOSTED2 : 0) +
+	// 		(strengthBooster3Enabled ? PLAYER_STRENGTH_BOOSTED3 : 0),
+	// );
 	// const loadFromStorage(STORAGE_KEY_STRENGTH_HYPERBOOSTER_1);
 
 	$: stage.freezeCamera = !cameraUnlocked;

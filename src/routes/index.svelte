@@ -51,8 +51,8 @@
 	const dimensions = getDimensions();
 	const clock = getClock();
 
-	const strengthBooster2Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
-	const strengthBooster3Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false);
+	let strengthBooster2Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
+	let strengthBooster3Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false);
 
 	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
 
@@ -206,10 +206,20 @@
 		}
 	};
 	const resetScores = () => {
-		if (speedBoosterToggled) speedBoosterToggled = false;
-		if (strengthBoosterToggled) strengthBoosterToggled = false;
 		setInStorage(STORAGE_KEY_SCORES, undefined);
 		savedScores = undefined;
+
+		setInStorage(STORAGE_KEY_SPEED_BOOSTER_TOGGLED, false);
+		speedBoosterToggled = false;
+
+		setInStorage(STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED, false);
+		strengthBoosterToggled = false;
+
+		setInStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
+		strengthBooster2Enabled = false;
+
+		setInStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false);
+		strengthBooster3Enabled = false;
 	};
 
 	const STORAGE_KEY_SPEED_BOOSTER_TOGGLED = 'cpg_speed_booster_toggled';
