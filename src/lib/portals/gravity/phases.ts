@@ -352,7 +352,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 					[
 						['10a', '10c', '11a', '12a'],
 						cCount >= MIN_C_COUNT_FOR_GENDING && bCount <= MAX_B_COUNT_FOR_GENDING
-							? ['10a', '11a', '12a', '12c']
+							? ['10a', '11a', '12c']
 							: null,
 						['10b', '10c', '11b', '12b'],
 					].filter(Boolean),
