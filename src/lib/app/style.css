@@ -317,3 +317,6 @@ summary:active {
 		transform: scale3d(1.02, 1.02, 1.02);
 	}
 }
+.pulsing {
+	animation: pulsing var(--pulsing_duration, 0.2s) linear infinite alternate;
+}

@@ -51,7 +51,7 @@
 
 <!-- TODO refactor this lol. also, do wackier thingg with it. -->
 <div class="view" on:click={toggle}>
-	<div class="item">
+	<div class="item" class:pulsing={$settings.secretEnabled}>
 		<FreqSpectacle
 			{width}
 			height={height * 0.7}
@@ -61,7 +61,7 @@
 			bind:getHzItemSelectedIndices
 		/>
 	</div>
-	<div class="item bottom">
+	<div class="item bottom" class:pulsing={$settings.secretEnabled}>
 		<div class="item bottom-left">
 			<FreqSpectacle
 				width={width * 0.25}
@@ -120,8 +120,8 @@
 	.item {
 		display: flex;
 	}
-	:global(.secret) .item {
-		animation: pulsing 0.167s linear infinite alternate;
+	.item:first-child {
+		--pulsing_duration: 0.5s;
 	}
 	.bottom {
 		display: flex;

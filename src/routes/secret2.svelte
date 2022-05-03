@@ -45,7 +45,7 @@
 </script>
 
 <div class="view" on:click={toggle}>
-	<div class="item">
+	<div class="item" class:pulsing={$settings.secretEnabled}>
 		<FreqSpeeds
 			width={$dimensions.width}
 			height={$dimensions.height / 2}
@@ -55,7 +55,7 @@
 			bind:getHzItemSelectedIndices
 		/>
 	</div>
-	<div class="item">
+	<div class="item" class:pulsing={$settings.secretEnabled}>
 		<FreqSpeeds
 			width={$dimensions.width}
 			height={$dimensions.height / 2}
@@ -76,7 +76,7 @@
 	.item {
 		display: flex;
 	}
-	:global(.secret) .item {
-		animation: pulsing 0.167s linear infinite alternate;
+	.item:first-child {
+		--pulsing_duration: 0.5s;
 	}
 </style>

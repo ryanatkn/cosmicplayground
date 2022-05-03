@@ -17,8 +17,8 @@
 
 	const clock = getClock();
 
-	const hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60];
-	const WINNING_HZ_ITEMS = new Set([0, 59, 60, 119]);
+	const hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60, 144];
+	const WINNING_HZ_ITEMS = new Set([0, 143, 144, 287]);
 
 	const toggle = () => {
 		clock.toggle();
@@ -50,7 +50,7 @@
 
 <!-- TODO refactor this lol. also, do wackier thingg with it. -->
 <div class="view" on:click={toggle}>
-	<div class="item">
+	<div class="item" class:pulsing={$settings.secretEnabled}>
 		<FreqSpectacle
 			{width}
 			height={height * 0.3}
@@ -60,7 +60,7 @@
 			bind:getHzItemSelectedIndices
 		/>
 	</div>
-	<div class="item bottom">
+	<div class="item bottom" class:pulsing={$settings.secretEnabled}>
 		<div class="item bottom-left">
 			<FreqSpectacle
 				width={width * 0.25}
@@ -104,7 +104,7 @@
 			/>
 		</div>
 	</div>
-	<div class="item">
+	<div class="item" class:pulsing={$settings.secretEnabled}>
 		<FreqSpectacle
 			width={width * 0.25}
 			height={height * 0.1}
@@ -136,7 +136,7 @@
 			{hzItems}
 		/>
 	</div>
-	<div class="item">
+	<div class="item" class:pulsing={$settings.secretEnabled}>
 		<FreqSpectacle
 			width={width * 0.25}
 			height={height * 0.25}
@@ -183,9 +183,6 @@
 	.item {
 		display: flex;
 	}
-	:global(.secret) .item {
-		animation: pulsing 0.167s linear infinite alternate;
-	}
 	.bottom {
 		display: flex;
 		justify-content: center;
@@ -195,5 +192,9 @@
 		flex: 0;
 		display: flex;
 		flex-direction: column;
+	}
+	.item:first-child,
+	.item:last-child {
+		--pulsing_duration: 0.5s;
 	}
 </style>
