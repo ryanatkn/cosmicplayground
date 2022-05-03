@@ -6,9 +6,9 @@
 </script>
 
 <FreqSpectacle
-	elapsedTime={$clock.time}
-	width={150}
+	elapsedTime={$clock.time / 2}
+	width={162}
 	height={75}
-	hzItems={[2, 3, 4]}
+	hzItems={[3, 4]}
 	lowestHzItemCount={1}
 />

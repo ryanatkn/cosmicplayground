@@ -308,7 +308,7 @@ The original observations of Westerlund 2 were obtained by the science team: Ant
 		info: {url: '/assets/space/opo0415a.webp', width: 3628, height: 2357},
 		thumbnail: {url: '/assets/space/opo0415a_thumbnail.webp', width: 300, height: 195},
 		credits: {
-			url: 'https://www.spacetelescope.org/images/heic0406a/',
+			url: 'https://www.spacetelescope.org/images/opo0415a/',
 			attribution: `${NASA}, ${ESA}, and the ${HubbleHeritageTeam} (${AURA}/${STScI}), ${IMAGE_PROCESSING_CREDIT}`,
 		},
 	},

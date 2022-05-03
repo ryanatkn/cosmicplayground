@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {phaseSequences, type PhaseSequenceOrCreator} from '$lib/gravity/phases';
+	import {phaseSequences, type PhaseSequenceOrCreator} from '$lib/portals/gravity/phases';
 
 	export let selectedPhaseSequenceOrCreator: PhaseSequenceOrCreator | null = null;
 	export let playPhaseSequence: (phaseSequenceOrCreator: PhaseSequenceOrCreator) => Promise<void>;

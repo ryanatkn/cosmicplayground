@@ -7,10 +7,10 @@
 		type PhaseSequence,
 		PhaseDatas,
 		toPhaseSequence,
-	} from '$lib/gravity/phases';
-	import Level from '$lib/gravity/Level.svelte';
-	import Phase from '$lib/gravity/Phase.svelte';
-	import LevelButtons from '$lib/gravity/LevelButtons.svelte';
+	} from '$lib/portals/gravity/phases';
+	import Level from '$lib/portals/gravity/Level.svelte';
+	import Phase from '$lib/portals/gravity/Phase.svelte';
+	import LevelButtons from '$lib/portals/gravity/LevelButtons.svelte';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
 

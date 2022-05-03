@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {PhaseData} from '$lib/gravity/phases';
+	import type {PhaseData} from '$lib/portals/gravity/phases';
 
 	export let phase: PhaseData;
 	export let selected: boolean;

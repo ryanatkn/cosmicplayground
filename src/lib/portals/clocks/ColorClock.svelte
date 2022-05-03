@@ -1,6 +1,8 @@
 <script lang="ts">
 	import FreqSpectacle from '$lib/portals/freq-spectacle/FreqSpectacle.svelte';
 
+	// TODO consider setting a CSS var from 0 to 1 or 0 to 360, and calculate the hue+position smoothly, linearly
+
 	// TODO what are the perf characteristics if we use the clock store directly?
 	// will anything get updated unnecessarily every frame?
 

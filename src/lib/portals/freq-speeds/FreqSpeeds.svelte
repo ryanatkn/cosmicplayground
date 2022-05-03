@@ -16,9 +16,10 @@
 	export let hzItems: number[] = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]; // correspond to a # of hz - `halfCycleLength` needs to be evenly divisible, or we get visual bugs
 	// TODO are there any low-hanging high-impact optimizations here? maybe not re-allocating arrays each tick?
 	$: hzItemCounts = hzItems.map((v) => (v * halfCycleLength) / 1000);
-	$: hzItemActiveIndices = hzItemCounts.map((v) => Math.floor(relativeCyclePct * v));
+	$: hzItemSelectedIndices = hzItemCounts.map((v) => Math.floor(relativeCyclePct * v));
 	$: hzItemHeight = height / hzItems.length;
 	$: hzItemWidths = hzItems.map((_v, i) => width / hzItemCounts[i]);
+	export const getHzItemSelectedIndices = (): number[] => hzItemSelectedIndices; // TODO better pattern?
 </script>
 
 <svg {width} {height} {style}>
@@ -31,7 +32,7 @@
 						y={i * hzItemHeight}
 						width={hzItemWidths[i]}
 						height={hzItemHeight}
-						fill="hsl({35 + 360 * (j / hzItem)}, {j % 2 ? '25%' : '30%'}, {hzItemActiveIndices[
+						fill="hsl({35 + 360 * (j / hzItem)}, {j % 2 ? '25%' : '30%'}, {hzItemSelectedIndices[
 							i
 						] === j
 							? '50%'

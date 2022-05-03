@@ -177,7 +177,12 @@
 		>
 			<PixiView {pixi} width={$dimensions.width} height={$dimensions.height} />
 		</div>
-		<main class="fade-in" class:paused={!$clock.running} class:idle={$idle || $settings.idleMode}>
+		<main
+			class="fade-in"
+			class:paused={!$clock.running}
+			class:secret={$settings.secretEnabled}
+			class:idle={$idle || $settings.idleMode}
+		>
 			{#if !$portals.selectedPortal || $portals.selectedPortal.showHomeButton}
 				<Hud>
 					<HomeButton />
@@ -218,7 +223,7 @@
 		display: flex;
 		flex-direction: column;
 	}
-	.paused {
+	.paused:not(.secret) {
 		filter: grayscale();
 	}
 </style>

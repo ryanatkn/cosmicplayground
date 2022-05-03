@@ -7,6 +7,7 @@ export interface SettingsState {
 	recordingMode: boolean;
 	idleMode: boolean;
 	timeToGoIdle: number;
+	secretEnabled: boolean;
 }
 
 export interface SettingsStore {
@@ -22,6 +23,7 @@ export const createSettingsStore = (initialState: Partial<SettingsState>): Setti
 		recordingMode: false,
 		idleMode: false,
 		timeToGoIdle: 6000,
+		secretEnabled: false,
 		...initialState,
 	});
 	const {subscribe, update} = store;
