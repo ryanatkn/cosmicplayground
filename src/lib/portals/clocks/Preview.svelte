@@ -6,7 +6,7 @@
 </script>
 
 <div class="preview">
-	<ColorClock time={$clock.time} />
+	<ColorClock time={$clock.time / 2} />
 	<h2>clocks</h2>
 </div>
 
