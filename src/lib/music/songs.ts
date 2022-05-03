@@ -187,6 +187,11 @@ export const songDatas: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Facing_Storm.mp3',
 		},
 		{
+			name: 'Alive (Instrumental)',
+			author: 'Punch Deck',
+			url: '/assets/audio/Punch_Deck__Alive.mp3',
+		},
+		{
 			name: 'Lonely Mountain',
 			author: 'Rafael Krux',
 			url: '/assets/audio/Rafael_Krux__Lonely_Mountain.mp3',

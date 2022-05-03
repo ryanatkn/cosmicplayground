@@ -308,3 +308,12 @@ summary:active {
 .image-button:active {
 	transform: var(--clickable_transform__active);
 }
+
+@keyframes pulsing {
+	0% {
+		transform: scale3d(1, 1, 1);
+	}
+	100% {
+		transform: scale3d(1.02, 1.02, 1.02);
+	}
+}

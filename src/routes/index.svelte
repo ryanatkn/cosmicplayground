@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {tick} from 'svelte';
 	import {wait} from '@feltcoop/felt';
+	import {EMPTY_ARRAY} from '@feltcoop/felt/util/array.js';
 	import PendingAnimation from '@feltcoop/felt/ui/PendingAnimation.svelte';
 	import {dequal} from 'dequal/lite';
 
@@ -14,6 +15,8 @@
 	import hearingTestPortal from '$lib/portals/hearing-test/data';
 	import underConstructionPortal from '$lib/portals/under-construction/data';
 	import freqSpeedsPortal from '$lib/portals/freq-speeds/data';
+	import strengthBooster2Portal from '$lib/portals/secret2/data';
+	import strengthBooster3Portal from '$lib/portals/secret3/data';
 	import clocksPortal from '$lib/portals/clocks/data';
 	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
 	import {getSettings} from '$lib/app/settings';
@@ -43,9 +46,13 @@
 		STORAGE_KEY_STRENGTH_BOOSTER2,
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from '$lib/portals/home/data';
+	import type {PortalData} from '$lib/portals/portal';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
+
+	const strengthBooster2Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
+	const strengthBooster3Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false);
 
 	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
 
@@ -88,15 +95,23 @@
 		viewHeight = (viewportHeight * Math.min(1, viewportAspectRatio / worldAspectRatio)) | 0;
 	}
 
-	const starshipPortal = Symbol();
+	const starshipPortal: any = Symbol();
 
-	const primaryPortals = [
+	const primaryPortals: PortalData[][] = [
 		[soggyPlanetPortal],
 		[starlitHammockPortal],
 		[easings2Portal, paintFreqsPortal, easings1Portal],
-		[starshipPortal as any, hearingTestPortal, underConstructionPortal],
+		[starshipPortal, hearingTestPortal, underConstructionPortal],
 	];
-	const secondaryPortals = [[freqSpeedsPortal, clocksPortal, freqSpectaclePortal]];
+	const secondaryPortals: PortalData[][] = [
+		[
+			...(strengthBooster2Enabled ? [strengthBooster2Portal] : EMPTY_ARRAY),
+			freqSpeedsPortal,
+			clocksPortal,
+			freqSpectaclePortal,
+			...(strengthBooster3Enabled ? [strengthBooster3Portal] : EMPTY_ARRAY),
+		],
+	];
 
 	const settings = getSettings();
 
@@ -216,9 +231,6 @@
 		strengthBoosterToggled = !strengthBoosterToggled;
 		if (strengthBoosterToggled) await scrollDown();
 	};
-
-	const strengthBooster2Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
-	const strengthBooster3Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false);
 
 	$: cameraUnlocked = scoresRescuedAllMoons;
 
@@ -397,7 +409,7 @@
 		{/if}
 		{#if strengthBoosterToggled}
 			{#each secondaryPortals as portals}
-				<ul class="portals">
+				<ul class="portals strength-portals">
 					{#each portals as portal}
 						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
 							<svelte:component this={portal.Preview} />
@@ -475,6 +487,9 @@
 		align-items: center;
 		flex-wrap: wrap;
 	}
+	.strength-portals {
+		position: relative;
+	}
 	.starship-mode .portals {
 		flex-wrap: nowrap;
 	}
@@ -518,7 +533,6 @@
 	:global(.portal-preview--starship) {
 		border-color: var(--photon_color) !important;
 	}
-
 	.exit {
 		position: fixed;
 		left: 0;

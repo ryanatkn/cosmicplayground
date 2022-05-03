@@ -60,6 +60,7 @@ export const LevelDatas: Map<string, LevelData> = new Map(
 	}),
 );
 
+// TODO could add "light", 0-1, and sort by it on atlas
 export const PhaseDatas: Map<string, PhaseData> = new Map(
 	[
 		{name: '0a', title: 'Traveler', song: 'Traveler', image: 'heic0506a'},
@@ -95,6 +96,7 @@ export const PhaseDatas: Map<string, PhaseData> = new Map(
 		{name: '8c', title: 'Desert Fox', song: 'Desert Fox', image: 'heic1712a'},
 		{name: '9a', title: 'Fireworks', song: 'Fireworks', image: 'potw2029a'},
 		{name: '9b', title: 'The Desert', song: 'The Desert', image: 'potw2029a'},
+		{name: '9d', title: 'Alive', song: 'Alive (Instrumental)', image: 'potw2029a'},
 		{name: '9c', title: 'Assassin', song: 'Assassin', image: 'potw2029a'},
 		{name: '10a', title: 'The Expanse', song: 'The Expanse', image: 'heic0817a'},
 		{name: '10b', title: 'Facing Storm', song: 'Facing Storm', image: 'heic0817a'},
@@ -175,7 +177,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'8a',
 				'8c',
 				'9a',
-				'9c',
+				'9d',
 				'10a',
 				'11a',
 				'12a',
@@ -280,7 +282,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				randomItem(['8a', '8b']),
 				'8c',
 				randomItem(['9a', '9b']),
-				'9c',
+				randomItem(['9c', '9d']),
 				randomItem([
 					['10a', '10c', '11a', '12a'],
 					['10a', '11a', '12a', '12c'],
@@ -344,7 +346,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 			addPhase(randomItem(['8a', '8b']));
 			addPhase(randomItem(['8c', null]));
 			addPhase(randomItem(['9a', '9b']));
-			addPhase(randomItem(['9c', null]));
+			addPhase(randomItem(['9c', '9d', null]));
 			addPhase(
 				randomItem(
 					[

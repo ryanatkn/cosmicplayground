@@ -5,8 +5,7 @@
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {getSettings} from '$lib/app/settings';
-	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '$lib/portals/home/data';
-	import {setInStorage} from '$lib/util/storage';
+	import {unlockSatisfyingSecret} from '$lib/util/secret';
 
 	const dimensions = getDimensions();
 	const settings = getSettings();
@@ -19,7 +18,7 @@
 	const clock = getClock();
 
 	const hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60];
-	const WINNING_HZ_ITEMS = new Set([0, 119, 59, 60]);
+	const WINNING_HZ_ITEMS = new Set([0, 59, 60, 119]);
 
 	const toggle = () => {
 		clock.toggle();
@@ -27,7 +26,7 @@
 			const hzItemSelectedIndices = getHzItemSelectedIndices();
 			const hzSelectedIndex = hzItemSelectedIndices.at(-1)!;
 			if (WINNING_HZ_ITEMS.has(hzSelectedIndex)) {
-				setInStorage(STORAGE_KEY_STRENGTH_BOOSTER3, true);
+				unlockSatisfyingSecret();
 				if (!$settings.secretEnabled) {
 					settings.update(($settings) => ({...$settings, secretEnabled: true}));
 				}
@@ -54,7 +53,7 @@
 	<div class="item">
 		<FreqSpectacle
 			{width}
-			height={height * 0.7}
+			height={height * 0.3}
 			elapsedTime={$clock.time}
 			lowestHzItemCount={2}
 			{hzItems}
@@ -81,7 +80,7 @@
 		</div>
 		<FreqSpectacle
 			width={width * 0.5}
-			height={height * 0.3}
+			height={height * 0.35}
 			style="transform: rotate(180deg);"
 			elapsedTime={$clock.time}
 			lowestHzItemCount={2}
@@ -104,6 +103,70 @@
 				{hzItems}
 			/>
 		</div>
+	</div>
+	<div class="item">
+		<FreqSpectacle
+			width={width * 0.25}
+			height={height * 0.1}
+			style="transform: rotate(180deg);"
+			elapsedTime={$clock.time}
+			lowestHzItemCount={2}
+			{hzItems}
+		/>
+		<FreqSpectacle
+			width={width * 0.25}
+			height={height * 0.1}
+			elapsedTime={$clock.time}
+			lowestHzItemCount={2}
+			{hzItems}
+		/>
+		<FreqSpectacle
+			width={width * 0.25}
+			height={height * 0.1}
+			style="transform: rotate(180deg);"
+			elapsedTime={$clock.time}
+			lowestHzItemCount={2}
+			{hzItems}
+		/>
+		<FreqSpectacle
+			width={width * 0.25}
+			height={height * 0.1}
+			elapsedTime={$clock.time}
+			lowestHzItemCount={2}
+			{hzItems}
+		/>
+	</div>
+	<div class="item">
+		<FreqSpectacle
+			width={width * 0.25}
+			height={height * 0.25}
+			style="transform: rotate(180deg);"
+			elapsedTime={$clock.time}
+			lowestHzItemCount={4}
+			{hzItems}
+		/>
+		<FreqSpectacle
+			width={width * 0.25}
+			height={height * 0.25}
+			elapsedTime={$clock.time}
+			lowestHzItemCount={4}
+			{hzItems}
+		/>
+		<FreqSpectacle
+			width={width * 0.25}
+			height={height * 0.25}
+			style="transform: rotate(180deg);"
+			elapsedTime={$clock.time}
+			lowestHzItemCount={4}
+			{hzItems}
+		/>
+		<FreqSpectacle
+			width={width * 0.25}
+			height={height * 0.25}
+			elapsedTime={$clock.time}
+			lowestHzItemCount={4}
+			{hzItems}
+		/>
 	</div>
 </div>
 

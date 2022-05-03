@@ -84,4 +84,23 @@
 			</li>
 		</ul>
 	</CreditsMusicAuthor>
+	<CreditsMusicAuthor author="Punch Deck">
+		<ul slot="links">
+			<li>
+				<a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>
+			</li>
+			<li>
+				<a href="https://www.youtube.com/channel/UC3M9CX5HWSw25k5QL3FkDEA">YouTube</a> (<a
+					href="https://www.youtube.com/watch?v=oWLrgj0oo68">1</a
+				>)
+			</li>
+			<li>
+				<a href="https://punchdeck.bandcamp.com">Bandcamp</a>
+			</li>
+			<li>
+				<a href="https://soundcloud.com/punch-deck">Soundcloud</a>
+			</li>
+			<li><a href="https://twitter.com/punch_deck">Twitter</a></li>
+		</ul>
+	</CreditsMusicAuthor>
 </div>

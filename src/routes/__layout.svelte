@@ -180,7 +180,7 @@
 		<main
 			class="fade-in"
 			class:paused={!$clock.running}
-			class:secret={!$settings.secretEnabled}
+			class:secret={$settings.secretEnabled}
 			class:idle={$idle || $settings.idleMode}
 		>
 			{#if !$portals.selectedPortal || $portals.selectedPortal.showHomeButton}
@@ -223,7 +223,7 @@
 		display: flex;
 		flex-direction: column;
 	}
-	.paused {
+	.paused:not(.secret) {
 		filter: grayscale();
 	}
 </style>

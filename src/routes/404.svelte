@@ -1,4 +1,7 @@
 <script lang="ts">
+	import {page} from '$app/stores';
+	import LinkPath from '@feltcoop/felt/ui/LinkPath.svelte';
+
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
@@ -13,6 +16,9 @@
 	<Panel>
 		<h1>oh no!</h1>
 		<h3>no portal exists here</h3>
+		<blockquote>
+			<LinkPath path={$page.url.pathname} />
+		</blockquote>
 		<a href="/">
 			<ChunkyButton>go back home</ChunkyButton>
 		</a>
