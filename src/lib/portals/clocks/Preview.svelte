@@ -33,7 +33,6 @@
 <style>
 	.preview {
 		display: flex;
-		padding: var(--portal_padding);
 	}
 	.item {
 		display: flex;
