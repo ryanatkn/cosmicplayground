@@ -7,7 +7,7 @@
 
 <FreqSpectacle
 	elapsedTime={$clock.time / 4}
-	width={150}
+	width={100}
 	height={10}
 	hzItems={[5]}
 	lowestHzItemCount={1}
