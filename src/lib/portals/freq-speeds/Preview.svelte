@@ -5,10 +5,10 @@
 	const clock = getClock();
 </script>
 
-<FreqSpeeds elapsedTime={$clock.time} width={200} height={61} hzItems={[3]} lowestHzItemCount={2} />
+<FreqSpeeds elapsedTime={$clock.time} width={162} height={61} hzItems={[3]} lowestHzItemCount={2} />
 <FreqSpeeds
 	elapsedTime={$clock.time}
-	width={200}
+	width={162}
 	height={61}
 	hzItems={[3]}
 	lowestHzItemCount={2}
