@@ -100,6 +100,7 @@ export const PhaseDatas: Map<string, PhaseData> = new Map(
 		{name: '9c', title: 'Assassin', song: 'Assassin', image: 'potw2029a'},
 		{name: '10a', title: 'The Expanse', song: 'The Expanse', image: 'heic0817a'},
 		{name: '10b', title: 'Facing Storm', song: 'Facing Storm', image: 'heic0817a'},
+		{name: '10d', title: "He's a Parrot", song: "He's a Parrot", image: 'heic0817a'},
 		{name: '10c', title: 'Lonely Mountain', song: 'Lonely Mountain', image: 'heic0817a'},
 		{name: '11a', title: 'Shining Stars', song: 'Shining Stars', image: 'heic0206a'},
 		{name: '11b', title: 'Nomadic Sunset', song: 'Nomadic Sunset', image: 'heic0206a'},
@@ -180,6 +181,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'9a',
 				'9d',
 				'10a',
+				'10d',
 				'11c',
 				'12c',
 			],
@@ -288,7 +290,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				randomItem([
 					// TODO should be weighted or enabled by how many balance points accumulated before this
 					['10a', '10c', '11a', '12a'],
-					['10a', '11c', '12c'],
+					['10a', '10d', '11c', '12c'],
 					['10b', '10c', '11b', '12b'],
 				]),
 			].flat(),
@@ -355,7 +357,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 					[
 						['10a', '10c', '11a', '12a'],
 						cCount >= MIN_C_COUNT_FOR_GENDING && bCount <= MAX_B_COUNT_FOR_GENDING
-							? ['10a', '11c', '12c']
+							? ['10a', '10d', '11c', '12c']
 							: null,
 						['10b', '10c', '11b', '12b'],
 					].filter(Boolean),

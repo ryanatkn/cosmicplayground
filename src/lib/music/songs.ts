@@ -177,6 +177,11 @@ export const songDatas: Map<string, SongData> = new Map(
 			url: '/assets/audio/Rafael_Krux__Assassin.mp3',
 		},
 		{
+			name: 'Alive (Instrumental)',
+			author: 'Punch Deck',
+			url: '/assets/audio/Punch_Deck__Alive.mp3',
+		},
+		{
 			name: 'Fireworks',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Fireworks.mp3',
@@ -187,9 +192,9 @@ export const songDatas: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Facing_Storm.mp3',
 		},
 		{
-			name: 'Alive (Instrumental)',
-			author: 'Punch Deck',
-			url: '/assets/audio/Punch_Deck__Alive.mp3',
+			name: "He's a Parrot",
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Hes_A_Parrot.mp3',
 		},
 		{
 			name: 'Lonely Mountain',
