@@ -207,6 +207,11 @@ export const songDatas: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Nomadic_Sunset.mp3',
 		},
 		{
+			name: 'Life',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Life.mp3',
+		},
+		{
 			name: 'Chemical Z',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Chemical_Z.mp3',

@@ -103,6 +103,7 @@ export const PhaseDatas: Map<string, PhaseData> = new Map(
 		{name: '10c', title: 'Lonely Mountain', song: 'Lonely Mountain', image: 'heic0817a'},
 		{name: '11a', title: 'Shining Stars', song: 'Shining Stars', image: 'heic0206a'},
 		{name: '11b', title: 'Nomadic Sunset', song: 'Nomadic Sunset', image: 'heic0206a'},
+		{name: '11c', title: 'Life', song: 'Life', image: 'heic0206a'},
 		{name: '12a', title: 'Chemical Z', song: 'Chemical Z', image: 'heic1107a'},
 		{name: '12b', title: 'Terra Mystica', song: 'Terra Mystica', image: 'heic1107a'},
 		{name: '12c', title: 'Dream', song: 'Dream', image: 'heic1107a'},
@@ -179,8 +180,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'9a',
 				'9d',
 				'10a',
-				'11a',
-				'12a',
+				'11c',
 				'12c',
 			],
 		},
@@ -281,11 +281,14 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'7c',
 				randomItem(['8a', '8b']),
 				'8c',
-				randomItem(['9a', '9b']),
-				randomItem(['9c', '9d']),
 				randomItem([
+					['9a', '9d'],
+					['9b', '9c'],
+				]),
+				randomItem([
+					// TODO should be weighted or enabled by how many balance points accumulated before this
 					['10a', '10c', '11a', '12a'],
-					['10a', '11a', '12a', '12c'],
+					['10a', '11c', '12c'],
 					['10b', '10c', '11b', '12b'],
 				]),
 			].flat(),
@@ -352,7 +355,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 					[
 						['10a', '10c', '11a', '12a'],
 						cCount >= MIN_C_COUNT_FOR_GENDING && bCount <= MAX_B_COUNT_FOR_GENDING
-							? ['10a', '11a', '12c']
+							? ['10a', '11c', '12c']
 							: null,
 						['10b', '10c', '11b', '12b'],
 					].filter(Boolean),
