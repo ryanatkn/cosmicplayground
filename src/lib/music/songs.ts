@@ -47,11 +47,6 @@ export const songDatas: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Adventure.mp3',
 		},
 		{
-			name: 'Chronos',
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Chronos.mp3',
-		},
-		{
 			name: 'Piña Colada',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Piña_Colada.mp3',
@@ -62,9 +57,9 @@ export const songDatas: Map<string, SongData> = new Map(
 			url: '/assets/audio/Komiku__La_Citadelle.mp3',
 		},
 		{
-			name: 'Flynyrd Mynyrd',
+			name: 'Chronos',
 			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Flynyrd_Mynyrd.mp3',
+			url: '/assets/audio/Alexander_Nakarada__Chronos.mp3',
 		},
 		{
 			name: 'Chemical X',
@@ -77,6 +72,11 @@ export const songDatas: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Celebration.mp3',
 		},
 		{
+			name: 'Bouchedag',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Bouchedag.mp3',
+		},
+		{
 			name: 'Blacksmith',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Blacksmith.mp3',
@@ -87,9 +87,9 @@ export const songDatas: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__The_Crown.mp3',
 		},
 		{
-			name: 'Bouchedag',
+			name: 'Spacebuckler',
 			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Bouchedag.mp3',
+			url: '/assets/audio/Alexander_Nakarada__Spacebuckler.mp3',
 		},
 		{
 			name: 'Brewing Potions',
@@ -160,6 +160,11 @@ export const songDatas: Map<string, SongData> = new Map(
 			name: 'Desert Fox',
 			author: 'Rafael Krux',
 			url: '/assets/audio/Rafael_Krux__Desert_Fox.mp3',
+		},
+		{
+			name: 'Flynyrd Mynyrd',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Flynyrd_Mynyrd.mp3',
 		},
 		{
 			name: 'The Expanse',

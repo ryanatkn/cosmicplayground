@@ -290,7 +290,7 @@
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			if (e.ctrlKey) {
-				await goto('/gravity');
+				await goto('/gravity-unlock');
 			} else {
 				if (!starshipMode) {
 					await enterStarshipMode();
@@ -361,7 +361,7 @@
 								await enterStarshipMode();
 							}
 					  }}
-				href={scoresRescuedAllCrewAtOnce ? '/gravity' : undefined}
+				href={scoresRescuedAllCrewAtOnce ? '/gravity-unlock' : undefined}
 				><div
 					style:font-size={scoresRescuedAllCrewAtOnce
 						? 'var(--font_size_xl)'
