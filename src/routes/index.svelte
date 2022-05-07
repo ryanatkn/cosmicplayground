@@ -23,10 +23,10 @@
 	import StarshipStage from '$lib/portals/home/StarshipStage.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
+	import GravityUnlockPortalPreview from '$lib/portals/gravity-unlock/Preview.svelte';
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clock';
 	import {
-		MOON_ICONS,
 		mergeScores,
 		rescuedAllMoons,
 		rescuedAnyCrew,
@@ -351,7 +351,9 @@
 			</PortalPreview>
 		</header>
 		{#if savedScores}
-			<PortalPreview
+			<GravityUnlockPortalPreview
+				unlocked={scoresRescuedAllCrewAtOnce}
+				scores={savedScores}
 				onClick={scoresRescuedAllCrewAtOnce
 					? undefined
 					: async () => {
@@ -359,15 +361,7 @@
 								await enterStarshipMode();
 							}
 					  }}
-				href={scoresRescuedAllCrewAtOnce ? '/gravity-unlock' : undefined}
-				><div
-					style:font-size={scoresRescuedAllCrewAtOnce
-						? 'var(--font_size_xl)'
-						: 'var(--font_size_lg)'}
-				>
-					{#each savedScores.crew as crew, index}{#if crew}{MOON_ICONS[index]}{:else}❔{/if}{/each}
-				</div></PortalPreview
-			>
+			/>
 		{/if}
 		{#each primaryPortals as portals}
 			<ul class="portals">

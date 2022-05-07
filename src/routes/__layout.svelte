@@ -113,7 +113,7 @@
 		selectedPortal: portalsData.portalsBySlug.get($page.url.pathname.substring(1)) || null,
 	});
 	setPortals(portals);
-	$: selectedPortalSlugFromPath = $page.url.pathname.substring(1);
+	$: selectedPortalSlugFromPath = $page.url.pathname.substring(1).split('/')[0];
 	$: portals.select(selectedPortalSlugFromPath); // TODO hmm?
 
 	const idle = writable(false);

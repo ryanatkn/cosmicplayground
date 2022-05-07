@@ -9,7 +9,7 @@
 	export let time: number;
 </script>
 
-<div class="flex flex-col" on:click>
+<div class="color-clock" on:click>
 	{#each {length: 2} as _, i (i)}
 		<div class="flex" class:mirror-y={i === 1}>
 			<FreqSpectacle
@@ -31,3 +31,10 @@
 		</div>
 	{/each}
 </div>
+
+<style>
+	.color-clock {
+		display: flex;
+		flex-direction: column;
+	}
+</style>
