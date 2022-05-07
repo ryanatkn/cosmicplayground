@@ -340,11 +340,12 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 			addPhase(randomItem(['2a', '2b']));
 			addPhase(randomItem(['2c', null]));
 			addPhase(randomItem(['3a', '3b']));
-			addPhase(randomItem(['3c', null]));
+			// had to suppress reaction at least once to get this option
+			addPhase(randomItem([cCount > MIN_C_COUNT_FOR_3C ? randomItem(['3c', null]) : null, null]));
 			addPhase(
 				randomItem([
 					['4a', '5a'],
-					['4b', cCount > MIN_C_COUNT_FOR_FANFARE ? randomItem(['4c', null]) : null, '5b'],
+					['4b', cCount > MIN_C_COUNT_FOR_4C ? randomItem(['4c', null]) : null, '5b'],
 				]),
 			);
 			addPhase(randomItem(['6a', '6b']));
@@ -359,7 +360,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				randomItem(
 					[
 						['10a', '10c', '11a', '12a'],
-						cCount >= MIN_C_COUNT_FOR_GENDING && bCount <= MAX_B_COUNT_FOR_GENDING
+						cCount >= MIN_C_COUNT_FOR_BALANCED_ENDING && bCount <= MAX_B_COUNT_FOR_BALANCED_ENDING
 							? ['10a', '10d', '11c', '12c']
 							: null,
 						['10b', '10c', '11b', '12b'],
@@ -378,6 +379,7 @@ export const sequenceContains = (phaseSequence: PhaseSequence, phase: PhaseData)
 	phaseSequence.data.sequence.includes(phase.name);
 
 // TODO maybe do this differently, specific level outcomes integrated with the store?
-const MIN_C_COUNT_FOR_FANFARE = 1;
-const MIN_C_COUNT_FOR_GENDING = 4;
-const MAX_B_COUNT_FOR_GENDING = 7;
+const MIN_C_COUNT_FOR_3C = 1;
+const MIN_C_COUNT_FOR_4C = 1;
+const MIN_C_COUNT_FOR_BALANCED_ENDING = 4;
+const MAX_B_COUNT_FOR_BALANCED_ENDING = 7;
