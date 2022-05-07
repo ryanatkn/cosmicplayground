@@ -1,7 +1,8 @@
 <script lang="ts">
+	import StageBuilder from '$lib/flat/StageBuilder.svelte';
 </script>
 
-<div class="gravity-unlock-studio">studio layout</div>
+<div class="gravity-unlock-studio"><StageBuilder /></div>
 
 <style>
 	.gravity-unlock-studio {
