@@ -5,6 +5,7 @@
 		PLAYER_SPEED_BOOSTED,
 		PLAYER_STRENGTH,
 		PLAYER_STRENGTH_BOOSTED,
+		PLAYER_STRENGTH_BOOSTED1,
 		PLAYER_STRENGTH_BOOSTED2,
 		PLAYER_STRENGTH_BOOSTED3,
 		Stage,
@@ -28,6 +29,7 @@
 	export let cameraUnlocked = false;
 	export let speedBoosterEnabled = false;
 	export let strengthBoosterEnabled = false;
+	export let strengthBooster1Enabled = false;
 	export let strengthBooster2Enabled = false;
 	export let strengthBooster3Enabled = false;
 	export let starshipX = 0;
@@ -61,15 +63,9 @@
 	$: stage.player.speed = speedBoosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
 	$: stage.player.strength =
 		(strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH) +
+		(strengthBooster1Enabled ? PLAYER_STRENGTH_BOOSTED1 : 0) +
 		(strengthBooster2Enabled ? PLAYER_STRENGTH_BOOSTED2 : 0) +
 		(strengthBooster3Enabled ? PLAYER_STRENGTH_BOOSTED3 : 0);
-	// $: console.log(
-	// 	`stage.player.strength`,
-	// 	(strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH) +
-	// 		(strengthBooster2Enabled ? PLAYER_STRENGTH_BOOSTED2 : 0) +
-	// 		(strengthBooster3Enabled ? PLAYER_STRENGTH_BOOSTED3 : 0),
-	// );
-	// const loadFromStorage(STORAGE_KEY_STRENGTH_HYPERBOOSTER_1);
 
 	$: stage.freezeCamera = !cameraUnlocked;
 	// TODO refactor, maybe `camera.frozen`?

@@ -42,6 +42,7 @@
 	import {playSong} from '$lib/music/playSong';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 	import {
+		STORAGE_KEY_STRENGTH_BOOSTER1,
 		STORAGE_KEY_STRENGTH_BOOSTER2,
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from '$lib/portals/home/data';
@@ -50,6 +51,7 @@
 	const dimensions = getDimensions();
 	const clock = getClock();
 
+	let strengthBooster1Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER1, false);
 	let strengthBooster2Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
 	let strengthBooster3Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false);
 
@@ -102,12 +104,13 @@
 		[easings2Portal, paintFreqsPortal, easings1Portal],
 		[starshipPortal, hearingTestPortal, underConstructionPortal],
 	];
-	const secondaryPortals: PortalData[][] = [
+	let secondaryPortals: PortalData[][];
+	$: secondaryPortals = [
 		[
 			...(strengthBooster2Enabled ? [strengthBooster2Portal] : EMPTY_ARRAY),
-			freqSpeedsPortal,
+			...(strengthBooster1Enabled ? [freqSpeedsPortal] : EMPTY_ARRAY),
 			clocksPortal,
-			freqSpectaclePortal,
+			...(strengthBooster1Enabled ? [freqSpectaclePortal] : EMPTY_ARRAY),
 			...(strengthBooster3Enabled ? [strengthBooster3Portal] : EMPTY_ARRAY),
 		],
 	];
@@ -213,6 +216,9 @@
 
 		setInStorage(STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED, false);
 		strengthBoosterToggled = false;
+
+		setInStorage(STORAGE_KEY_STRENGTH_BOOSTER1, false);
+		strengthBooster1Enabled = false;
 
 		setInStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
 		strengthBooster2Enabled = false;
@@ -439,6 +445,7 @@
 			{worldHeight}
 			{speedBoosterEnabled}
 			{strengthBoosterEnabled}
+			{strengthBooster1Enabled}
 			{strengthBooster2Enabled}
 			{strengthBooster3Enabled}
 			{cameraUnlocked}

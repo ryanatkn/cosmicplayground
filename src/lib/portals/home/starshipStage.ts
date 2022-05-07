@@ -22,10 +22,11 @@ export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
 
 export const PLAYER_SPEED = 0.6;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
-export const PLAYER_STRENGTH = DEFAULT_STRENGTH * 0.98; // where'd my 2 cents go
+export const PLAYER_STRENGTH = DEFAULT_STRENGTH * 0.96;
 export const PLAYER_STRENGTH_BOOSTED = 1.09;
-export const PLAYER_STRENGTH_BOOSTED2 = 0.01; // take a penny leave a penny
-export const PLAYER_STRENGTH_BOOSTED3 = 0.01; // take a penny leave a penny
+export const PLAYER_STRENGTH_BOOSTED1 = 0.01;
+export const PLAYER_STRENGTH_BOOSTED2 = 0.01;
+export const PLAYER_STRENGTH_BOOSTED3 = 0.01;
 export const PLAYER_RADIUS = 100;
 
 const MOON_SPEED = 0.03;
