@@ -34,7 +34,6 @@
 		type StarshipStageScores,
 		rescuedAllCrew,
 		rescuedAllCrewAtOnce,
-		toInitialScores,
 	} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {toSongData} from '$lib/music/songs';
@@ -269,7 +268,6 @@
 	const exitStarshipMode = async () => {
 		if (!starshipMode) return;
 		console.log('exitStarshipMode');
-		if (!finished) finish(toInitialScores(stage!)); // show the crew placeholders if the user exits early
 		starshipAngle = 0;
 		starshipMode = false;
 		pauseAudio();
