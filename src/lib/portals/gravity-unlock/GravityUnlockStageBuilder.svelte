@@ -176,15 +176,18 @@ TODO ideas
 		<!-- <Checkbox /> -->
 	{/if}
 </div>
-<div class="stage-data-controls">
-	{#if stage}
-		<label><input type="checkbox" bind:checked={cameraUnlocked} /> free camera</label>
-		<label
-			><input type="range" bind:value={playerSpeed} min={0.2} max={4} step={0.1} />
-			<div>{playerSpeed} player speed</div></label
-		>
-	{/if}
-</div>
+
+{#if expandControls}
+	<div class="stage-data-controls">
+		{#if stage}
+			<label><input type="checkbox" bind:checked={cameraUnlocked} /> free camera</label>
+			<label
+				><input type="range" bind:value={playerSpeed} min={0.2} max={4} step={0.1} />
+				<div>{playerSpeed} player speed</div></label
+			>
+		{/if}
+	</div>
+{/if}
 
 {#if expandControls}
 	<div class="markup">
