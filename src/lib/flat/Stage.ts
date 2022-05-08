@@ -56,6 +56,7 @@ export abstract class Stage {
 	random: Alea;
 
 	time = 0;
+	timeDilation = 1;
 
 	worldWidth: number;
 	worldHeight: number;
@@ -118,6 +119,10 @@ export abstract class Stage {
 		}
 	}
 
+	/**
+	 * Updates the stage's simulation by a `dt` amount of time.
+	 * @param dt The time delta in milliseconds after `timeDilation` is applied, if the implementing stage wants.
+	 */
 	update(dt: number): void {
 		// TODO time dilation controls
 		this.time += dt; // TODO maybe don't track this on the stage? clock?

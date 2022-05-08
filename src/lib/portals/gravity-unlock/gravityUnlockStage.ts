@@ -19,7 +19,8 @@ const COLOR_ROCK: Hsl = [0.12, 0.16, 0.5];
 const COLOR_MOLTEN: Hsl = [0, 1, 0.5];
 
 export const PLAYER_ICON = '🐢'; // TODO pick from MOON_ICONS
-export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
+export const MOON_ICONS = ['💧', '🐬', '🦈', '🐡', '🐟'];
+export const ROCK_ICON = '🪨';
 
 export const PLAYER_SPEED = 0.6; // TODO this is
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
@@ -131,6 +132,8 @@ export class Stage extends BaseStage {
 		rock.speed = ROCK_SPEED;
 		rock.directionX = -1;
 		rock.directionY = -0.7;
+		rock.text = ROCK_ICON;
+		rock.fontSize = toIconFontSize(rock.radius);
 		rock.color = COLOR_ROCK;
 		this.addEntity(rock);
 
@@ -189,7 +192,7 @@ export class Stage extends BaseStage {
 	}
 
 	override update(_dt: number): void {
-		const dt = Math.min(Math.max(_dt, 0), MAX_DT);
+		const dt = this.timeDilation * Math.min(Math.max(_dt, 0), MAX_DT);
 		super.update(dt);
 
 		const {

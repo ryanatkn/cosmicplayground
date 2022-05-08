@@ -203,7 +203,7 @@ export class Stage extends BaseStage {
 	}
 
 	override update(_dt: number): void {
-		const dt = Math.min(Math.max(_dt, 0), MAX_DT);
+		const dt = this.timeDilation * Math.min(Math.max(_dt, 0), MAX_DT);
 		super.update(dt);
 
 		const {
