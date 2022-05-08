@@ -32,7 +32,10 @@
 			data = JSON.parse(raw);
 		} catch (err) {
 			alert('failed to parse'); // eslint-disable-line no-alert
+			return;
 		}
+		cameraUnlocked = !data.freezeCamera;
+		createStage();
 	};
 
 	let cameraUnlocked = false; // TODO `see `freezeCamera`
@@ -103,9 +106,10 @@
 	};
 
 	const toggleFreezeCamera = () => {
+		cameraUnlocked = !cameraUnlocked;
 		// TODO make this a WYSIWYG JSON editor component instead
 		if (!stage) return;
-		stage.freezeCamera = !stage.freezeCamera; // TODO does this need to go through a method?
+		stage.freezeCamera = cameraUnlocked; // TODO does this need to go through a method?
 		console.log(`stage.freezeCamera`, stage.freezeCamera);
 	};
 
@@ -154,19 +158,22 @@
 {/if}
 
 {#if stage}
-	<GravityUnlockStage
-		{viewportWidth}
-		{viewportHeight}
-		{viewWidth}
-		{viewHeight}
-		{worldWidth}
-		{worldHeight}
-		{cameraUnlocked}
-		{stage}
-		{exit}
-		{finish}
-		{enableDomCanvasRenderer}
-	/>
+	<!-- TODO ideally this is reactive to `stage`, not keyed, is fine for now -->
+	{#key stage}
+		<GravityUnlockStage
+			{viewportWidth}
+			{viewportHeight}
+			{viewWidth}
+			{viewHeight}
+			{worldWidth}
+			{worldHeight}
+			{cameraUnlocked}
+			{stage}
+			{exit}
+			{finish}
+			{enableDomCanvasRenderer}
+		/>
+	{/key}
 {/if}
 
 <style>

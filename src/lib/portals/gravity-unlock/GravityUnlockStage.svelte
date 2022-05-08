@@ -41,7 +41,7 @@
 	$: ({camera, scores, controller} = stage);
 
 	// TODO maybe replace all `clock` usage with the app ticker
-	$: $clock, syncStageState();
+	$: $clock, stage, syncStageState();
 
 	let finished = false;
 	const STAGE_DURATION = 30000;
@@ -81,18 +81,7 @@
 		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight);
 		return `scale3d(${scale}, ${scale}, 1)`;
 	};
-
-	// TODO actions -- refactor this with the controls in `__layout.svelte` and `index.svelte` and `World.svelte`
-	const onKeydown = (e: KeyboardEvent) => {
-		if (e.key === 'Escape') {
-			e.preventDefault();
-			e.stopImmediatePropagation();
-			exit();
-		}
-	};
 </script>
-
-<svelte:window on:keydown={onKeydown} />
 
 <div class="view" style:transform>
 	<World
