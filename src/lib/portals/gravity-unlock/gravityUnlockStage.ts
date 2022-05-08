@@ -35,48 +35,31 @@ const ROCK_SPEED = 0.21;
 const toIconFontSize = (radius: number): number => radius * 1.4;
 
 // TODO refactor all of these
-export interface StarshipStageScores {
-	crew: boolean[]; // mirrors `MOON_ICONS`
-	crewRescuedAtOnceCount: number;
+export interface GravityUnlockStageScores {
+	bonus: number; // TODO ?
 }
-export const rescuedAnyCrew = (scores: StarshipStageScores): boolean => scores.crew.some(Boolean);
-export const rescuedAllCrew = (scores: StarshipStageScores): boolean => scores.crew.every(Boolean);
-export const rescuedAllMoons = (scores: StarshipStageScores): boolean =>
-	scores.crew.slice(1).every(Boolean);
-export const rescuedAllCrewAtOnce = (scores: StarshipStageScores): boolean =>
-	scores.crew.length === scores.crewRescuedAtOnceCount;
 export const mergeScores = (
-	existingScores: StarshipStageScores,
-	newScores: StarshipStageScores | undefined,
-): StarshipStageScores => {
+	existingScores: GravityUnlockStageScores,
+	newScores: GravityUnlockStageScores | undefined,
+): GravityUnlockStageScores => {
 	const finalScores = klona(existingScores);
 	if (!newScores) return finalScores;
-	for (let i = 0; i < newScores.crew.length; i++) {
-		if (newScores.crew[i]) finalScores.crew[i] = true;
-	}
-	// TODO would be cool to track the rescued combos and give special messages/behaviors/achievements,
-	// for example could show what the player achieved with each combination of enhancements (speed, unlock, push)
-	finalScores.crewRescuedAtOnceCount = Math.max(
-		toCrewRescuedCount(newScores.crew),
-		finalScores.crewRescuedAtOnceCount,
-	);
+	finalScores.bonus = Math.max(newScores.bonus, finalScores.bonus);
 	return finalScores;
 };
-export const toScores = (stage: Stage): StarshipStageScores => {
-	const crew = [!stage.planet.dead, ...stage.moonsArray.map((moon) => !moon.dead)];
+export const toScores = (stage: Stage): GravityUnlockStageScores => {
 	return {
-		crew,
-		crewRescuedAtOnceCount: toCrewRescuedCount(crew),
+		bonus: stage.bonus,
 	};
 };
-export const toInitialScores = (stage: Stage): StarshipStageScores => ({
-	crew: [false, ...stage.moonsArray.map(() => false)],
-	crewRescuedAtOnceCount: 0,
+export const toInitialScores = (stage: Stage): GravityUnlockStageScores => ({
+	bonus: stage.bonus,
 });
-const toCrewRescuedCount = (crew: boolean[]): number => crew.filter(Boolean).length;
 
 export class Stage extends BaseStage {
 	finished = false; // stops when the conditions are met and the player collides with the exit
+
+	bonus = 0; // TODO is a placeholder
 
 	// these are instantiated in `setup`
 	player!: Entity<EntityCircle>;
@@ -88,7 +71,7 @@ export class Stage extends BaseStage {
 	readonly planetFragments: Set<Entity<EntityCircle>> = new Set();
 	readonly rockFragments: Set<Entity<EntityCircle>> = new Set();
 
-	scores: Writable<StarshipStageScores>;
+	scores: Writable<GravityUnlockStageScores>;
 	updateScores(): void {
 		const newScores = toScores(this);
 		if (!dequal(newScores, get(this.scores))) this.scores.set(newScores);

@@ -3,8 +3,19 @@
 
 	import type {StageData} from '$lib/portals/gravity-unlock/stage';
 	import GravityUnlockStage from '$lib/portals/gravity-unlock/GravityUnlockStage.svelte';
+	import {Stage} from '$lib/portals/gravity-unlock/gravityUnlockStage';
+	import {getDimensions} from '$lib/app/dimensions';
 
 	export let data: StageData;
+
+	const enableDomCanvasRenderer = false; // TODO use this?
+
+	const dimensions = getDimensions();
+	// const clock = getClock();
+
+	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
+
+	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440}; // TODO
 
 	const dispatch = createEventDispatcher<{save: StageData}>();
 
@@ -12,9 +23,6 @@
 	// and maybe save automatically sometimes?
 	const saveData = () => {
 		dispatch('save', data);
-	};
-	const exportData = () => {
-		prompt('exported data', JSON.stringify(data)); // eslint-disable-line no-alert
 	};
 	const importData = () => {
 		const raw = prompt('imported data', JSON.stringify(data)); // eslint-disable-line no-alert
@@ -25,35 +33,108 @@
 			alert('failed to parse'); // eslint-disable-line no-alert
 		}
 	};
+
+	let cameraUnlocked = false; // TODO `see `freezeCamera`
+
+	// TODO should we pass through plain numbers or a dimensions object?
+	// // TODO what about the camera zoom relative to what can fit in the dimensions?
+	let viewWidth: number;
+	let viewHeight: number;
+	let worldWidth: number;
+	let worldHeight: number;
+	// TODO make this a helper to clarify the deps `updateDimensions`
+	$: if (cameraUnlocked) {
+		// Expand the world dimensions to fit the viewport dimensions.
+		// It needs to match the viewport aspect ratio and
+		// cover the entire default world dimensions.
+		viewWidth = viewportWidth;
+		viewHeight = viewportHeight;
+		const worldMinWidth = DEFAULT_WORLD_DIMENSIONS.width;
+		const worldMinHeight = DEFAULT_WORLD_DIMENSIONS.height;
+		const worldWidthRatio = worldMinWidth / viewWidth;
+		const worldHeightRatio = worldMinHeight / viewHeight;
+		if (worldHeightRatio > 1 && worldHeightRatio > worldWidthRatio) {
+			worldHeight = worldMinHeight;
+			worldWidth = (viewWidth * worldHeightRatio) | 0;
+		} else if (worldWidthRatio > 1) {
+			worldWidth = worldMinWidth;
+			worldHeight = (viewHeight * worldWidthRatio) | 0;
+		} else {
+			worldWidth = viewWidth;
+			worldHeight = viewHeight;
+		}
+	} else {
+		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
+		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
+		const worldAspectRatio = worldWidth / worldHeight;
+		const viewportAspectRatio = viewportWidth / viewportHeight;
+		viewWidth = (viewportWidth * Math.min(1, worldAspectRatio / viewportAspectRatio)) | 0;
+		viewHeight = (viewportHeight * Math.min(1, viewportAspectRatio / worldAspectRatio)) | 0;
+	}
+
+	let stage: Stage | null = null;
+
+	const destroyStage = () => {
+		if (!stage) return;
+		stage.destroy();
+	};
+	const createStage = () => {
+		destroyStage();
+		stage = new Stage({
+			viewHeight,
+			viewWidth,
+			viewportHeight,
+			viewportWidth,
+			worldHeight,
+			worldWidth,
+		});
+	};
+
+	const finish = () => {
+		console.log('FINISH');
+		// probably don't destroy
+	};
+	const exit = () => {
+		console.log('EXIT');
+		destroyStage();
+	};
 </script>
 
-<button on:click={exportData}>export</button>
-<button on:click={importData}>import</button>
-<button on:click={saveData}>save</button>
+<div class="controls">
+	<button on:click={importData}>import</button>
+	<button on:click={saveData}>save</button>
+	{#if stage}
+		<button on:click={destroyStage}>destroy stage</button>
+	{:else}
+		<button on:click={createStage}>create stage</button>
+	{/if}
+</div>
 
 <div class="markup">
 	<pre>{data ? JSON.stringify(data) : null}</pre>
 </div>
 
-<GravityUnlockStage
-	{viewportWidth}
-	{viewportHeight}
-	{viewWidth}
-	{viewHeight}
-	{worldWidth}
-	{worldHeight}
-	{speedBoosterEnabled}
-	{strengthBoosterEnabled}
-	{strengthBooster1Enabled}
-	{strengthBooster2Enabled}
-	{strengthBooster3Enabled}
-	{cameraUnlocked}
-	bind:starshipX
-	bind:starshipY
-	bind:starshipAngle
-	bind:starshipShieldRadius
-	{stage}
-	exit={exitStarshipMode}
-	{finish}
-	{enableDomCanvasRenderer}
-/>
+{#if stage}
+	<GravityUnlockStage
+		{viewportWidth}
+		{viewportHeight}
+		{viewWidth}
+		{viewHeight}
+		{worldWidth}
+		{worldHeight}
+		{cameraUnlocked}
+		{stage}
+		{exit}
+		{finish}
+		{enableDomCanvasRenderer}
+	/>
+{/if}
+
+<style>
+	.controls {
+		position: absolute;
+		top: 0;
+		right: 0;
+		z-index: 1;
+	}
+</style>
