@@ -13,6 +13,7 @@ const DEFAULT_COLOR_HEX = hslToHex(...DEFAULT_COLOR);
 const ENTITY_LINE_WIDTH = 3;
 
 export const DEFAULT_STRENGTH = 1;
+export const DEFAULT_TIME_DILATION = 1;
 
 /**
  * The `Entity` class wraps collision simulation and rendering into one object.

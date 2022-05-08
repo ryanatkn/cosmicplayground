@@ -43,7 +43,12 @@ TODO ideas
 	// TODO disable save if the data is unchanged (should we use immer, or what?)
 	// and maybe save automatically sometimes?
 	const saveData = () => {
-		const updatedData: StageData = {freezeCamera: !cameraUnlocked, playerSpeed, timeDilation}; // TODO maybe cache this?
+		const updatedData: StageData = {
+			freezeCamera: !cameraUnlocked,
+			playerSpeed,
+			playerStrength,
+			timeDilation,
+		}; // TODO maybe cache this?
 		dispatch('save', updatedData);
 	};
 	const importData = () => {
@@ -63,6 +68,7 @@ TODO ideas
 		// TODO refactor with code below
 		cameraUnlocked = !data.freezeCamera;
 		playerSpeed = data.playerSpeed;
+		playerStrength = data.playerStrength;
 		timeDilation = data.timeDilation;
 		createStage();
 	};
@@ -70,9 +76,11 @@ TODO ideas
 	// TODO refactor with code above
 	let cameraUnlocked = !data.freezeCamera; // TODO `see `freezeCamera`
 	let playerSpeed = data.playerSpeed;
+	let playerStrength = data.playerStrength;
 	let timeDilation = data.timeDilation;
 	$: if (stage) stage.freezeCamera = cameraUnlocked; // TODO make this a method?
 	$: if (stage) stage.player.speed = playerSpeed;
+	$: if (stage) stage.player.strength = playerStrength;
 	$: if (stage) stage.timeDilation = timeDilation;
 
 	// TODO should we pass through plain numbers or a dimensions object?
@@ -188,12 +196,16 @@ TODO ideas
 		{#if stage}
 			<label><input type="checkbox" bind:checked={cameraUnlocked} /> free camera</label>
 			<label
-				><input type="range" bind:value={playerSpeed} min={0} max={7} step={0.1} />
-				<div>{playerSpeed} player speed</div></label
+				><input type="range" bind:value={playerStrength} min={0} max={10} step={0.1} />
+				{playerStrength} player strength</label
 			>
 			<label
-				><input type="range" bind:value={timeDilation} min={0} max={7} step={0.1} />
-				<div>{timeDilation} time dilation</div></label
+				><input type="range" bind:value={playerSpeed} min={0} max={10} step={0.1} />
+				{playerSpeed} player speed</label
+			>
+			<label
+				><input type="range" bind:value={timeDilation} min={0} max={10} step={0.1} />
+				{timeDilation} time dilation</label
 			>
 		{/if}
 	</div>
