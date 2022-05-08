@@ -28,6 +28,7 @@ TODO ideas
 	const clock = getClock();
 
 	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
+	$: ({running} = $clock);
 
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440}; // TODO
 
@@ -134,6 +135,10 @@ TODO ideas
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			resetStage();
+		} else if (e.key === 's' && e.ctrlKey) {
+			e.stopImmediatePropagation();
+			e.preventDefault();
+			saveData();
 		}
 	};
 </script>
@@ -141,17 +146,22 @@ TODO ideas
 <svelte:window on:keydown={onWindowKeydown} />
 
 <div class="controls">
-	<button on:click={toggleExpandControls}
+	<button
+		on:click={toggleExpandControls}
+		aria-label={expandControls ? 'hide controls' : 'show controls'}
+		title="{expandControls ? 'hide controls' : 'show controls'} (Escape)"
 		>{#if expandControls}-{:else}+{/if}</button
 	>
 	{#if expandControls}
-		<button on:click={importData}>import</button>
-		<button on:click={saveData}>save</button>
-		<button on:click={resetStage}>reset</button>
+		<button title="import JSON data" on:click={importData}>import</button>
+		<button title="save to localStorage (ctrl+s)" on:click={saveData}>save</button>
+		<button title="reset the simulation (Spacebar)" on:click={resetStage}>reset</button>
 		{#if stage}
 			<label><input type="checkbox" bind:checked={cameraUnlocked} /> free camera</label>
-			<button on:click={() => clock.toggle()}
-				>{#if $clock.running}pause{:else}play{/if}</button
+			<button
+				title="{running ? 'pause the simulation' : 'play the simulation'} (Backtick)"
+				on:click={() => clock.toggle()}
+				>{#if running}pause{:else}play{/if}</button
 			>
 		{/if}
 		<!-- <Checkbox /> -->
