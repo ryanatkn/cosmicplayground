@@ -16,7 +16,7 @@ export interface StageData {
 }
 
 export const initialStageData: StageData = {
-	freezeCamera: true,
+	freezeCamera: false,
 	playerSpeed: 0.6,
 	playerStrength: DEFAULT_STRENGTH,
 	timeDilation: DEFAULT_TIME_DILATION,
