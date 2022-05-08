@@ -1,11 +1,24 @@
 <script lang="ts">
-	import {createEventDispatcher} from 'svelte';
+	import {createEventDispatcher, onMount} from 'svelte';
 
 	import type {StageData} from '$lib/portals/gravity-unlock/stage';
 	import GravityUnlockStage from '$lib/portals/gravity-unlock/GravityUnlockStage.svelte';
 	import {Stage} from '$lib/portals/gravity-unlock/gravityUnlockStage';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {getClock} from '$lib/app/clock';
+
+	/*
+
+TODO ideas
+
+- input the width/height of the world (useful only in `freezeCamera`, unless we want to allow making the game screens smaller)
+	- does that make sense? windowing for the world that doesn't match the view?
+- think about how we want scaling to work -- maybe no scaling?
+
+- what if you could snapshot anywhere and go back to that state?
+	- spacebar would go back to the most recent snapshot (none means t=0)
+
+*/
 
 	export let data: StageData;
 
@@ -19,6 +32,10 @@
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440}; // TODO
 
 	const dispatch = createEventDispatcher<{save: StageData}>();
+
+	onMount(() => {
+		createStage();
+	});
 
 	// TODO disable save if the data is unchanged (should we use immer, or what?)
 	// and maybe save automatically sometimes?
@@ -78,13 +95,15 @@
 
 	let stage: Stage | null = null;
 
+	$: if (stage) stage.freezeCamera = cameraUnlocked; // TODO make this a method?
+
 	const destroyStage = () => {
 		if (!stage) return;
 		stage.destroy();
 		stage = null;
 	};
 	const createStage = () => {
-		destroyStage();
+		if (stage) destroyStage();
 		stage = new Stage({
 			viewHeight,
 			viewWidth,
@@ -94,19 +113,13 @@
 			worldWidth,
 		});
 	};
-	const toggleStage = () => (stage ? destroyStage() : createStage());
+	const resetStage = () => {
+		createStage();
+	};
 
 	const finish = async () => {
 		console.log('FINISH');
 		clock.pause();
-	};
-
-	const toggleFreezeCamera = () => {
-		cameraUnlocked = !cameraUnlocked;
-		// TODO make this a WYSIWYG JSON editor component instead
-		if (!stage) return;
-		stage.freezeCamera = cameraUnlocked; // TODO does this need to go through a method?
-		console.log(`stage.freezeCamera`, stage.freezeCamera);
 	};
 
 	let expandControls = true;
@@ -120,7 +133,7 @@
 		} else if (e.key === ' ') {
 			e.stopImmediatePropagation();
 			e.preventDefault();
-			toggleStage();
+			resetStage();
 		}
 	};
 </script>
@@ -134,14 +147,12 @@
 	{#if expandControls}
 		<button on:click={importData}>import</button>
 		<button on:click={saveData}>save</button>
+		<button on:click={resetStage}>reset</button>
 		{#if stage}
-			<button on:click={destroyStage}>destroy stage</button>
-			<button on:click={toggleFreezeCamera}>toggle <code>freezeCamera</code></button>
+			<label><input type="checkbox" bind:checked={cameraUnlocked} /> free camera</label>
 			<button on:click={() => clock.toggle()}
 				>{#if $clock.running}pause{:else}play{/if}</button
 			>
-		{:else}
-			<button on:click={createStage}>create stage</button>
 		{/if}
 		<!-- <Checkbox /> -->
 	{/if}

@@ -6,6 +6,7 @@
 	import type {Stage} from '$lib/flat/Stage';
 	import type {ClockStore} from '$lib/app/clock';
 	import type {PixiApp} from '$lib/app/pixi';
+	import {onMount} from 'svelte';
 
 	export let worldWidth: number;
 	export let worldHeight: number;
@@ -22,14 +23,27 @@
 	export let clock: ClockStore;
 
 	$: ({moving} = controller);
+	$: ({running} = $clock);
 
-	$: if (!$clock.running && $moving) clock.resume();
+	$: if (!running && $moving) clock.resume();
 
-	$: if ($clock.running) {
+	onMount(() => {
+		stage.update(0);
+		forceRender();
+	});
+
+	$: if (running) {
+		// TODO this needs to use the app ticker's dt
 		stage.update($clock.dt);
 	}
 
-	$: stage.resize(worldWidth, worldHeight, viewWidth, viewHeight, viewportWidth, viewportHeight);
+	$: stage.resize(worldWidth, worldHeight, viewWidth, viewHeight, viewportWidth, viewportHeight),
+		!running && forceRender();
+
+	// TODO rename? `rerender`?
+	const forceRender = () => {
+		pixi.app.render();
+	};
 
 	// TODO actions -- refactor this with the controls in `__layout.svelte` and `index.svelte`
 	const onKeydown = (e: KeyboardEvent) => {
@@ -46,17 +60,7 @@
 	{#if domCanvasRenderer}
 		<DomCanvas width={worldWidth} height={worldHeight} {domCanvasRenderer} {stage} {clock} />
 	{/if}
-	<PixiCanvas
-		{worldWidth}
-		{worldHeight}
-		{viewWidth}
-		{viewHeight}
-		{viewportWidth}
-		{viewportHeight}
-		{stage}
-		{pixi}
-		{clock}
-	/>
+	<PixiCanvas {stage} {pixi} {clock} />
 	<slot />
 </div>
 

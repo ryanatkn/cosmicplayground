@@ -62,7 +62,7 @@
 	const syncStageState = () => {
 		if (!finished && stage.time > STAGE_DURATION) {
 			finished = true;
-			finish($scores);
+			void finish($scores);
 		}
 	};
 

@@ -188,10 +188,9 @@ export class Stage extends BaseStage {
 		// TODO remove from the other collections? maybe after figuring out the tagging/type/bitmask system
 	}
 
-	override update(dt: number): void {
-		dt = Math.min(Math.max(dt, 0), MAX_DT); // eslint-disable-line no-param-reassign
-		// TODO time dilation controls
-		this.time += dt; // TODO maybe don't track this on the stage? clock?
+	override update(_dt: number): void {
+		const dt = Math.min(Math.max(_dt, 0), MAX_DT);
+		super.update(dt);
 
 		const {
 			collisions,
