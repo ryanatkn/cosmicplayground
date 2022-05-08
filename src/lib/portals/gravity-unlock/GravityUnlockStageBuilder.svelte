@@ -5,13 +5,14 @@
 	import GravityUnlockStage from '$lib/portals/gravity-unlock/GravityUnlockStage.svelte';
 	import {Stage} from '$lib/portals/gravity-unlock/gravityUnlockStage';
 	import {getDimensions} from '$lib/app/dimensions';
+	import {getClock} from '$lib/app/clock';
 
 	export let data: StageData;
 
 	const enableDomCanvasRenderer = false; // TODO use this?
 
 	const dimensions = getDimensions();
-	// const clock = getClock();
+	const clock = getClock();
 
 	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
 
@@ -136,6 +137,9 @@
 		{#if stage}
 			<button on:click={destroyStage}>destroy stage</button>
 			<button on:click={toggleFreezeCamera}>toggle <code>freezeCamera</code></button>
+			<button on:click={() => clock.toggle()}
+				>{#if $clock.running}pause{:else}play{/if}</button
+			>
 		{:else}
 			<button on:click={createStage}>create stage</button>
 		{/if}
