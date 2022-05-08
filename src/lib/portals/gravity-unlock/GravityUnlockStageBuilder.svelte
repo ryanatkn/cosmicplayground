@@ -96,13 +96,9 @@
 	};
 	const toggleStage = () => (stage ? destroyStage() : createStage());
 
-	const finish = () => {
+	const finish = async () => {
 		console.log('FINISH');
-		// probably don't destroy
-	};
-	const exit = () => {
-		console.log('EXIT');
-		destroyStage();
+		clock.pause();
 	};
 
 	const toggleFreezeCamera = () => {
@@ -169,7 +165,6 @@
 			{worldHeight}
 			{cameraUnlocked}
 			{stage}
-			{exit}
 			{finish}
 			{enableDomCanvasRenderer}
 		/>

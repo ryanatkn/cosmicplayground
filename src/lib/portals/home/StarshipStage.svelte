@@ -36,8 +36,7 @@
 	export let starshipY = 0;
 	export let starshipAngle = 0;
 	export let starshipShieldRadius = 0;
-	export let finish: (scores: StarshipStageScores) => void;
-	export let exit: () => void;
+	export let finish: (scores: StarshipStageScores | null) => Promise<void>;
 	export let stage: Stage;
 	export let enableDomCanvasRenderer = false;
 
@@ -83,7 +82,7 @@
 	const syncStageState = () => {
 		if (!finished && stage.time > STAGE_DURATION) {
 			finished = true;
-			finish($scores);
+			void finish($scores);
 		}
 
 		starshipX = stage.player.x;
@@ -121,7 +120,7 @@
 		if (e.key === 'Escape') {
 			e.preventDefault();
 			e.stopImmediatePropagation();
-			exit();
+			void finish(null);
 		}
 	};
 </script>

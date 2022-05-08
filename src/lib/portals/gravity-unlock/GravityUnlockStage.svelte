@@ -20,8 +20,7 @@
 	export let worldWidth: number;
 	export let worldHeight: number;
 	export let cameraUnlocked = false;
-	export let finish: (scores: GravityUnlockStageScores) => void;
-	export let exit: () => void;
+	export let finish: (scores: GravityUnlockStageScores) => Promise<void>;
 	export let stage: Stage;
 	export let enableDomCanvasRenderer = false;
 

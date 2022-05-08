@@ -190,8 +190,9 @@
 	$: scoresRescuedAllCrewAtOnce = !!savedScores && rescuedAllCrewAtOnce(savedScores);
 
 	let finished = false;
-	const finish = (scores: StarshipStageScores): void => {
+	const finish = async (scores: StarshipStageScores | null): Promise<void> => {
 		if (finished) return;
+		if (!scores) return exitStarshipMode();
 		finished = true;
 		const finalScores = mergeScores(scores, savedScores);
 		if (!dequal(finalScores, savedScores)) {
@@ -203,7 +204,7 @@
 				toggleSpeedBooster();
 			}
 			if (!scoresRescuedAllCrew && rescuedAllCrew(finalScores)) {
-				void toggleStrengthBooster();
+				await toggleStrengthBooster();
 			}
 		}
 	};
@@ -310,7 +311,7 @@
 				finished = false;
 			} else if (starshipMode) {
 				clock.pause();
-				if ($currentStageScores) finish($currentStageScores);
+				if ($currentStageScores) await finish($currentStageScores);
 			}
 		} else if (e.key === '1' && e.ctrlKey) {
 			e.stopImmediatePropagation();
@@ -454,7 +455,6 @@
 			bind:starshipAngle
 			bind:starshipShieldRadius
 			{stage}
-			exit={exitStarshipMode}
 			{finish}
 			{enableDomCanvasRenderer}
 		/>
