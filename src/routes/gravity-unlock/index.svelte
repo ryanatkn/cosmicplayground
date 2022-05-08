@@ -7,8 +7,8 @@
 	<section class="markup">
 		<h1>gravity unlock</h1>
 		<ul>
-			<li><a href="/gravity-unlock/atlas">atlas</a></li>
 			<li><a href="/gravity-unlock/studio">studio</a></li>
+			<li><a href="/gravity-unlock/atlas">atlas</a></li>
 		</ul>
 	</section>
 
