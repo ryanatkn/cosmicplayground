@@ -121,7 +121,7 @@ export abstract class Stage {
 
 	/**
 	 * Updates the stage's simulation by a `dt` amount of time.
-	 * @param dt The time delta in milliseconds after `timeDilation` is applied.
+	 * @param dt The time delta in milliseconds after `timeDilation` is applied, if the implementing stage wants.
 	 */
 	update(dt: number): void {
 		// TODO time dilation controls
