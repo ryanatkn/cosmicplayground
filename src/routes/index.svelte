@@ -23,10 +23,10 @@
 	import StarshipStage from '$lib/portals/home/StarshipStage.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
+	import GravityUnlockPortalPreview from '$lib/portals/gravity-unlock/Preview.svelte';
 	import {browser} from '$app/env';
 	import {getClock} from '$lib/app/clock';
 	import {
-		MOON_ICONS,
 		mergeScores,
 		rescuedAllMoons,
 		rescuedAnyCrew,
@@ -42,6 +42,7 @@
 	import {playSong} from '$lib/music/playSong';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 	import {
+		STORAGE_KEY_STRENGTH_BOOSTER1,
 		STORAGE_KEY_STRENGTH_BOOSTER2,
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from '$lib/portals/home/data';
@@ -50,6 +51,7 @@
 	const dimensions = getDimensions();
 	const clock = getClock();
 
+	let strengthBooster1Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER1, false);
 	let strengthBooster2Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
 	let strengthBooster3Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false);
 
@@ -102,12 +104,13 @@
 		[easings2Portal, paintFreqsPortal, easings1Portal],
 		[starshipPortal, hearingTestPortal, underConstructionPortal],
 	];
-	const secondaryPortals: PortalData[][] = [
+	let secondaryPortals: PortalData[][];
+	$: secondaryPortals = [
 		[
 			...(strengthBooster2Enabled ? [strengthBooster2Portal] : EMPTY_ARRAY),
-			freqSpeedsPortal,
+			...(strengthBooster1Enabled ? [freqSpeedsPortal] : EMPTY_ARRAY),
 			clocksPortal,
-			freqSpectaclePortal,
+			...(strengthBooster1Enabled ? [freqSpectaclePortal] : EMPTY_ARRAY),
 			...(strengthBooster3Enabled ? [strengthBooster3Portal] : EMPTY_ARRAY),
 		],
 	];
@@ -187,8 +190,9 @@
 	$: scoresRescuedAllCrewAtOnce = !!savedScores && rescuedAllCrewAtOnce(savedScores);
 
 	let finished = false;
-	const finish = (scores: StarshipStageScores): void => {
+	const finish = async (scores: StarshipStageScores | null): Promise<void> => {
 		if (finished) return;
+		if (!scores) return exitStarshipMode();
 		finished = true;
 		const finalScores = mergeScores(scores, savedScores);
 		if (!dequal(finalScores, savedScores)) {
@@ -200,7 +204,7 @@
 				toggleSpeedBooster();
 			}
 			if (!scoresRescuedAllCrew && rescuedAllCrew(finalScores)) {
-				void toggleStrengthBooster();
+				await toggleStrengthBooster();
 			}
 		}
 	};
@@ -213,6 +217,9 @@
 
 		setInStorage(STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED, false);
 		strengthBoosterToggled = false;
+
+		setInStorage(STORAGE_KEY_STRENGTH_BOOSTER1, false);
+		strengthBooster1Enabled = false;
 
 		setInStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
 		strengthBooster2Enabled = false;
@@ -284,7 +291,7 @@
 	) => {
 		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		// TODO controls for toggling the speed/strength boosters
-		if (e.key === 'Escape') {
+		if (e.key === 'Escape' && !e.ctrlKey) {
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			if (e.ctrlKey) {
@@ -304,7 +311,7 @@
 				finished = false;
 			} else if (starshipMode) {
 				clock.pause();
-				if ($currentStageScores) finish($currentStageScores);
+				if ($currentStageScores) await finish($currentStageScores);
 			}
 		} else if (e.key === '1' && e.ctrlKey) {
 			e.stopImmediatePropagation();
@@ -351,7 +358,9 @@
 			</PortalPreview>
 		</header>
 		{#if savedScores}
-			<PortalPreview
+			<GravityUnlockPortalPreview
+				unlocked={scoresRescuedAllCrewAtOnce}
+				scores={savedScores}
 				onClick={scoresRescuedAllCrewAtOnce
 					? undefined
 					: async () => {
@@ -359,15 +368,7 @@
 								await enterStarshipMode();
 							}
 					  }}
-				href={scoresRescuedAllCrewAtOnce ? '/gravity-unlock' : undefined}
-				><div
-					style:font-size={scoresRescuedAllCrewAtOnce
-						? 'var(--font_size_xl)'
-						: 'var(--font_size_lg)'}
-				>
-					{#each savedScores.crew as crew, index}{#if crew}{MOON_ICONS[index]}{:else}❔{/if}{/each}
-				</div></PortalPreview
-			>
+			/>
 		{/if}
 		{#each primaryPortals as portals}
 			<ul class="portals">
@@ -445,6 +446,7 @@
 			{worldHeight}
 			{speedBoosterEnabled}
 			{strengthBoosterEnabled}
+			{strengthBooster1Enabled}
 			{strengthBooster2Enabled}
 			{strengthBooster3Enabled}
 			{cameraUnlocked}
@@ -453,7 +455,6 @@
 			bind:starshipAngle
 			bind:starshipShieldRadius
 			{stage}
-			exit={exitStarshipMode}
 			{finish}
 			{enableDomCanvasRenderer}
 		/>

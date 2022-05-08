@@ -113,7 +113,7 @@
 		selectedPortal: portalsData.portalsBySlug.get($page.url.pathname.substring(1)) || null,
 	});
 	setPortals(portals);
-	$: selectedPortalSlugFromPath = $page.url.pathname.substring(1);
+	$: selectedPortalSlugFromPath = $page.url.pathname.substring(1).split('/')[0];
 	$: portals.select(selectedPortalSlugFromPath); // TODO hmm?
 
 	const idle = writable(false);
@@ -126,31 +126,36 @@
 	setAudioCtx(); // allows components to do `const audioCtx = getAudioCtx();` which uses svelte's `getContext`
 
 	// TODO integrate this with the controls in `index.svelte` and `World.svelte`
-	const onKeyDown = (e: KeyboardEvent) => {
+	const onKeyDown = async (e: KeyboardEvent) => {
 		// TODO main menu!
 
 		if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			// global pause
-			clock.toggle();
 			e.stopImmediatePropagation();
 			e.preventDefault();
+			clock.toggle();
 		} else if (e.key === '`' && e.ctrlKey) {
 			// toggle dev mode
-			settings.update((s) => ({...s, devMode: !s.devMode}));
 			e.stopImmediatePropagation();
 			e.preventDefault();
+			settings.update((s) => ({...s, devMode: !s.devMode}));
+		} else if (e.key === 'Escape' && e.ctrlKey) {
+			// global nav up one
+			e.stopImmediatePropagation();
+			e.preventDefault();
+			await goto($page.url.pathname.split('/').slice(0, -1).join('/') || '/');
 		} else if ($settings.devMode) {
 			// dev mode hotkeys
 			if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+				e.stopImmediatePropagation();
+				e.preventDefault();
 				settings.update((s) => ({...s, idleMode: !s.idleMode}));
 				console.log('idle mode is now', $settings.idleMode);
+			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 				e.stopImmediatePropagation();
 				e.preventDefault();
-			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 				settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
 				console.log('recording mode is now', $settings.recordingMode);
-				e.stopImmediatePropagation();
-				e.preventDefault();
 			}
 		}
 	};

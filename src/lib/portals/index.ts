@@ -4,6 +4,7 @@ import type {PortalsData, PortalData} from '$lib/portals/portal';
 // This is all necessary because of the dynamic root route `[...slug].svelte`.
 import HomePortalData from '$lib/portals/home/data';
 import AboutPortalData from '$lib/portals/about/data';
+import GravityUnlockPortalData from '$lib/portals/gravity-unlock/data';
 import SoggyPlanetPortalData from '$lib/portals/soggy-planet/data';
 import DeepBreathPortalData from '$lib/portals/deep-breath/data';
 import StarlitHammockPortalData from '$lib/portals/starlit-hammock/data';
@@ -19,6 +20,7 @@ import FreqSpectaclePortalData from '$lib/portals/freq-spectacle/data';
 const portals: PortalData[] = [
 	HomePortalData,
 	AboutPortalData,
+	GravityUnlockPortalData,
 	SoggyPlanetPortalData,
 	DeepBreathPortalData,
 	StarlitHammockPortalData,

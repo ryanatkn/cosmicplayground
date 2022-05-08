@@ -100,13 +100,13 @@
 		} else {
 			// map screen
 			if (tour) {
-				if (e.key === 'Escape') {
+				if (e.key === 'Escape' && !e.ctrlKey) {
 					e.stopPropagation();
 					tour.cancel();
 				}
 			} else {
 				if (!inputEnabled) return;
-				if (e.key === 'Escape' && enableGlobalHotkeys(e.target)) {
+				if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 					e.stopPropagation();
 					returnToTitleScreen();
 				} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {

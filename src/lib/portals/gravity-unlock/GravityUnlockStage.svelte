@@ -1,16 +1,5 @@
 <script lang="ts">
 	import World from '$lib/flat/World.svelte';
-	import {
-		PLAYER_SPEED,
-		PLAYER_SPEED_BOOSTED,
-		PLAYER_STRENGTH,
-		PLAYER_STRENGTH_BOOSTED,
-		PLAYER_STRENGTH_BOOSTED1,
-		PLAYER_STRENGTH_BOOSTED2,
-		PLAYER_STRENGTH_BOOSTED3,
-		Stage,
-		type StarshipStageScores,
-	} from '$lib/portals/home/starshipStage';
 	import {getClock} from '$lib/app/clock';
 	import {getIdle} from '$lib/app/trackIdleState';
 	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
@@ -19,6 +8,10 @@
 	import type {CameraStore} from '$lib/flat/camera';
 	import type {Writable} from 'svelte/store';
 	import type {Controller} from '$lib/flat/Controller';
+	import type {
+		GravityUnlockStageScores,
+		Stage,
+	} from '$lib/portals/gravity-unlock/gravityUnlockStage';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;
@@ -27,18 +20,11 @@
 	export let worldWidth: number;
 	export let worldHeight: number;
 	export let cameraUnlocked = false;
-	export let speedBoosterEnabled = false;
-	export let strengthBoosterEnabled = false;
-	export let strengthBooster1Enabled = false;
-	export let strengthBooster2Enabled = false;
-	export let strengthBooster3Enabled = false;
-	export let starshipX = 0;
-	export let starshipY = 0;
-	export let starshipAngle = 0;
-	export let starshipShieldRadius = 0;
-	export let finish: (scores: StarshipStageScores | null) => Promise<void>;
+	export let finish: (scores: GravityUnlockStageScores) => Promise<void>;
 	export let stage: Stage;
 	export let enableDomCanvasRenderer = false;
+
+	$: console.log(`GravityUnlockStage.svelte stage`, stage);
 
 	const clock = getClock();
 	const pixi = getPixi();
@@ -49,26 +35,20 @@
 	$: if ($idle) clock.pause();
 
 	let camera: CameraStore;
-	let scores: Writable<StarshipStageScores>;
+	let scores: Writable<GravityUnlockStageScores>;
 	let controller: Controller;
 	$: ({camera, scores, controller} = stage);
 
 	// TODO maybe replace all `clock` usage with the app ticker
-	$: $clock, syncStageState();
+	$: $clock, stage, syncStageState();
 
 	let finished = false;
 	const STAGE_DURATION = 30000;
 
-	$: stage.player.speed = speedBoosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
-	$: stage.player.strength =
-		(strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH) +
-		(strengthBooster1Enabled ? PLAYER_STRENGTH_BOOSTED1 : 0) +
-		(strengthBooster2Enabled ? PLAYER_STRENGTH_BOOSTED2 : 0) +
-		(strengthBooster3Enabled ? PLAYER_STRENGTH_BOOSTED3 : 0);
-
 	$: stage.freezeCamera = !cameraUnlocked;
+	// TODO should this be on the stage class?
 	// TODO refactor, maybe `camera.frozen`?
-	$: if (cameraUnlocked) void camera.setPosition(starshipX, starshipY);
+	$: if (cameraUnlocked) void camera.setPosition(stage.player.x, stage.player.y);
 
 	// TODO refactor
 	$: if (controller) controller.viewportWidth = viewportWidth;
@@ -84,21 +64,7 @@
 			finished = true;
 			void finish($scores);
 		}
-
-		starshipX = stage.player.x;
-		starshipY = stage.player.y;
-
-		// TODO animate instead of setting instantly (and have rotation acceleration/velocity properties on entities)
-		starshipAngle = updateAngle(starshipAngle, stage.player.directionX, stage.player.directionY);
-
-		starshipShieldRadius = stage.player.radius;
 	};
-
-	const updateAngle = (currentAngle: number, directionX: number, directionY: number): number =>
-		!directionX && !directionY ? currentAngle : toTargetAngle(directionX, directionY);
-
-	const toTargetAngle = (directionX: number, directionY: number): number =>
-		Math.atan2(directionY, directionX);
 
 	$: transform = computeWorldTransform(viewWidth, viewHeight, worldWidth, worldHeight);
 
@@ -114,18 +80,7 @@
 		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight);
 		return `scale3d(${scale}, ${scale}, 1)`;
 	};
-
-	// TODO actions -- refactor this with the controls in `__layout.svelte` and `index.svelte` and `World.svelte`
-	const onKeydown = (e: KeyboardEvent) => {
-		if (e.key === 'Escape' && !e.ctrlKey) {
-			e.preventDefault();
-			e.stopImmediatePropagation();
-			void finish(null);
-		}
-	};
 </script>
-
-<svelte:window on:keydown={onKeydown} />
 
 <div class="view" style:transform>
 	<World

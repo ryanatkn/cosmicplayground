@@ -118,7 +118,11 @@ export abstract class Stage {
 		}
 	}
 
-	abstract update(dt: number): void;
+	update(dt: number): void {
+		// TODO time dilation controls
+		this.time += dt; // TODO maybe don't track this on the stage? clock?
+		this.updateCameraPosition();
+	}
 
 	/**
 	 * Update the dimensions initialized in `setup`.
@@ -145,9 +149,21 @@ export abstract class Stage {
 		this.viewportHeight = viewportHeight;
 		this.drawMask();
 		this.camera.setDimensions(worldWidth, worldHeight);
+		// TODO this is hacky, doesn't seem to belong in `updateCameraPosition` for some reason
 		if (this.freezeCamera) {
 			void this.camera.setPosition(worldWidth / 2, worldHeight / 2, SPRING_OPTS_HARD);
 		}
+		this.updateCameraPosition();
+	}
+
+	updateCameraPosition(): void {
+		const {container, viewWidth, viewHeight, $camera} = this;
+		const scale = Math.min(viewWidth / this.worldWidth, viewHeight / this.worldHeight);
+		container.scale.set(scale);
+		container.position.set(
+			(-$camera.x + $camera.width / 2) * scale + (this.viewportWidth - viewWidth) / 2,
+			(-$camera.y + $camera.height / 2) * scale + (this.viewportHeight - viewHeight) / 2,
+		);
 	}
 
 	/**
