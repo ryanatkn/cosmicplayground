@@ -43,7 +43,7 @@
 	$: $clock, stage, syncStageState();
 
 	let finished = false;
-	const STAGE_DURATION = 30000;
+	const STAGE_DURATION = 30000; // TODO add to controls (multiple "finish" conditions)
 
 	$: stage.freezeCamera = !cameraUnlocked;
 	// TODO should this be on the stage class?

@@ -107,7 +107,7 @@ export class Controller {
 	}
 }
 
-const MIN_MAGNITUDE = 6; // TODO this is still janky, see more comments below
+const MIN_MAGNITUDE = 5; // TODO this is still janky, see more comments below
 
 // TODO move this where?
 // TODO maybe return values instead?
@@ -132,7 +132,7 @@ export const updateDirection = (
 		const x = pointerWorldX - entity.x;
 		const y = pointerWorldY - entity.y;
 		const magnitude = Math.hypot(x, y);
-		const zeroes = !magnitude || magnitude < MIN_MAGNITUDE; // TODO this is still janky, especially with low fps
+		const zeroes = !magnitude || magnitude < MIN_MAGNITUDE * entity.speed; // TODO this is still janky, especially with low fps
 		entity.directionX = zeroes ? 0 : x / magnitude;
 		entity.directionY = zeroes ? 0 : y / magnitude;
 	} else {

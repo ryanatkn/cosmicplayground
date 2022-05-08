@@ -173,16 +173,16 @@ TODO ideas
 	<button
 		on:click={toggleExpandControls}
 		aria-label={expandControls ? 'hide controls' : 'show controls'}
-		title="{expandControls ? 'hide controls' : 'show controls'} (Escape)"
+		title="[Escape] {expandControls ? 'hide controls' : 'show controls'}"
 		>{#if expandControls}-{:else}+{/if}</button
 	>
 	{#if expandControls}
 		<button title="import JSON data" on:click={importData}>import</button>
-		<button title="save to localStorage (ctrl+s)" on:click={saveData}>save</button>
-		<button title="reset the simulation (Spacebar)" on:click={resetStage}>reset</button>
+		<button title="[ctrl+s] save to localStorage" on:click={saveData}>save</button>
+		<button title="[Spacebar] reset the simulation" on:click={resetStage}>reset</button>
 		{#if stage}
 			<button
-				title="{running ? 'pause the simulation' : 'play the simulation'} (Backtick)"
+				title="[Backtick] {running ? 'pause the simulation' : 'play the simulation'}"
 				on:click={() => clock.toggle()}
 				>{#if running}pause{:else}play{/if}</button
 			>
