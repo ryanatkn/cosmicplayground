@@ -75,6 +75,10 @@ export class Stage extends BaseStage {
 	readonly planetFragments: Set<Entity<EntityCircle>> = new Set();
 	readonly rockFragments: Set<Entity<EntityCircle>> = new Set();
 
+	// TODO refactor, is only used for the camera
+	lastPlayerX = 0;
+	lastPlayerY = 0;
+
 	scores: Writable<GravityUnlockStageScores>;
 	updateScores(): void {
 		const newScores = toScores(this);
@@ -334,6 +338,7 @@ export class Stage extends BaseStage {
 			},
 		);
 
+		const {x: playerX, y: playerY} = player;
 		if (this.freezeCamera) {
 			// TODO make this generic
 			// TODO I tried to use an inverted collision test with `this.innerPlayerBounds`
@@ -342,17 +347,24 @@ export class Stage extends BaseStage {
 			const clampedRadius = player.radius + 1; // avoid the minor visual quirk of the border being rendered offscreen
 			const xMin = $camera.left + clampedRadius;
 			const xMax = $camera.right - clampedRadius;
-			if (player.x < xMin) {
+			if (playerX < xMin) {
 				player.x = xMin;
-			} else if (player.x > xMax) {
+			} else if (playerX > xMax) {
 				player.x = xMax;
 			}
 			const yMin = $camera.top + clampedRadius;
 			const yMax = $camera.bottom - clampedRadius;
-			if (player.y < yMin) {
+			if (playerY < yMin) {
 				player.y = yMin;
-			} else if (player.y > yMax) {
+			} else if (playerY > yMax) {
 				player.y = yMax;
+			}
+		} else {
+			if (playerX !== this.lastPlayerX || playerY !== this.lastPlayerY) {
+				// TODO different algorithms for tracking the player with the camera (`camera.follow` option?)
+				void this.camera.setPosition(playerX, playerY);
+				this.lastPlayerX = playerX;
+				this.lastPlayerY = playerY;
 			}
 		}
 
