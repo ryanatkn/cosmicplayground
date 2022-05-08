@@ -18,6 +18,7 @@ const COLOR_MOON: Hsl = [0.389, 0.8, 0.6];
 const COLOR_ROCK: Hsl = [0.12, 0.16, 0.5];
 const COLOR_MOLTEN: Hsl = [0, 1, 0.5];
 
+export const PLAYER_ICON = '🐢'; // TODO pick from MOON_ICONS
 export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
 
 export const PLAYER_SPEED = 0.6;
@@ -31,6 +32,8 @@ export const PLAYER_RADIUS = 100;
 
 const MOON_SPEED = 0.03;
 const ROCK_SPEED = 0.21;
+
+const MAX_DT = 100; // max 10 fps
 
 const toIconFontSize = (radius: number): number => radius * 1.4;
 
@@ -97,6 +100,8 @@ export class Stage extends BaseStage {
 		const player = (this.player = new Entity(
 			collisions.createCircle(playerX, playerY, PLAYER_RADIUS) as EntityCircle,
 		));
+		player.text = PLAYER_ICON;
+		player.fontSize = toIconFontSize(player.radius);
 		player.speed = PLAYER_SPEED;
 		player.color = COLOR_PLAYER;
 		this.addEntity(player);
@@ -184,6 +189,7 @@ export class Stage extends BaseStage {
 	}
 
 	override update(dt: number): void {
+		dt = Math.min(Math.max(dt, 0), MAX_DT); // eslint-disable-line no-param-reassign
 		// TODO time dilation controls
 		this.time += dt; // TODO maybe don't track this on the stage? clock?
 

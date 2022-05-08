@@ -32,6 +32,8 @@ export const PLAYER_RADIUS = 100;
 const MOON_SPEED = 0.03;
 const ROCK_SPEED = 0.21;
 
+const MAX_DT = 100; // max 10 fps
+
 const toIconFontSize = (radius: number): number => radius * 1.4;
 
 // TODO refactor all of these
@@ -201,6 +203,8 @@ export class Stage extends BaseStage {
 	}
 
 	override update(dt: number): void {
+		dt = Math.min(Math.max(dt, 0), MAX_DT); // eslint-disable-line no-param-reassign
+
 		// TODO time dilation controls
 		this.time += dt; // TODO maybe don't track this on the stage? clock?
 

@@ -90,6 +90,7 @@
 			worldWidth,
 		});
 	};
+	const toggleStage = () => (stage ? destroyStage() : createStage());
 
 	const finish = () => {
 		console.log('FINISH');
@@ -115,6 +116,10 @@
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			toggleExpandControls();
+		} else if (e.key === ' ') {
+			e.stopImmediatePropagation();
+			e.preventDefault();
+			toggleStage();
 		}
 	};
 </script>
