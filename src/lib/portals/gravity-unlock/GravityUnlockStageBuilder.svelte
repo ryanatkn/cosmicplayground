@@ -77,6 +77,7 @@
 	const destroyStage = () => {
 		if (!stage) return;
 		stage.destroy();
+		stage = null;
 	};
 	const createStage = () => {
 		destroyStage();
@@ -98,21 +99,50 @@
 		console.log('EXIT');
 		destroyStage();
 	};
+
+	const toggleFreezeCamera = () => {
+		// TODO make this a WYSIWYG JSON editor component instead
+		if (!stage) return;
+		stage.freezeCamera = !stage.freezeCamera; // TODO does this need to go through a method?
+		console.log(`stage.freezeCamera`, stage.freezeCamera);
+	};
+
+	let expandControls = true;
+	const toggleExpandControls = () => (expandControls = !expandControls);
+
+	const onWindowKeydown = (e: KeyboardEvent) => {
+		if (e.key === 'Escape') {
+			e.stopImmediatePropagation();
+			e.preventDefault();
+			toggleExpandControls();
+		}
+	};
 </script>
 
+<svelte:window on:keydown={onWindowKeydown} />
+
 <div class="controls">
-	<button on:click={importData}>import</button>
-	<button on:click={saveData}>save</button>
-	{#if stage}
-		<button on:click={destroyStage}>destroy stage</button>
-	{:else}
-		<button on:click={createStage}>create stage</button>
+	<button on:click={toggleExpandControls}
+		>{#if expandControls}-{:else}+{/if}</button
+	>
+	{#if expandControls}
+		<button on:click={importData}>import</button>
+		<button on:click={saveData}>save</button>
+		{#if stage}
+			<button on:click={destroyStage}>destroy stage</button>
+			<button on:click={toggleFreezeCamera}>toggle <code>freezeCamera</code></button>
+		{:else}
+			<button on:click={createStage}>create stage</button>
+		{/if}
+		<!-- <Checkbox /> -->
 	{/if}
 </div>
 
-<div class="markup">
-	<pre>{data ? JSON.stringify(data) : null}</pre>
-</div>
+{#if expandControls}
+	<div class="markup">
+		<pre>{data ? JSON.stringify(data) : null}</pre>
+	</div>
+{/if}
 
 {#if stage}
 	<GravityUnlockStage
@@ -136,5 +166,8 @@
 		top: 0;
 		right: 0;
 		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
 	}
 </style>
