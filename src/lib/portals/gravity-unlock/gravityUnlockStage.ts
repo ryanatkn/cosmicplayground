@@ -21,7 +21,7 @@ const COLOR_MOLTEN: Hsl = [0, 1, 0.5];
 export const PLAYER_ICON = '🐢'; // TODO pick from MOON_ICONS
 export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
 
-export const PLAYER_SPEED = 0.6;
+export const PLAYER_SPEED = 0.6; // TODO this is
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
 export const PLAYER_STRENGTH = DEFAULT_STRENGTH * 0.96;
 export const PLAYER_STRENGTH_BOOSTED = 1.09;
@@ -102,7 +102,7 @@ export class Stage extends BaseStage {
 		));
 		player.text = PLAYER_ICON;
 		player.fontSize = toIconFontSize(player.radius);
-		player.speed = PLAYER_SPEED;
+		player.speed = PLAYER_SPEED; // TODO how to do with `playerSpeed`? entity with `name='player'` that we use for defaults here?
 		player.color = COLOR_PLAYER;
 		this.addEntity(player);
 

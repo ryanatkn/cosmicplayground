@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {createEventDispatcher, onMount} from 'svelte';
 
-	import type {StageData} from '$lib/portals/gravity-unlock/stage';
+	import {initialStageData, type StageData} from '$lib/portals/gravity-unlock/stage';
 	import GravityUnlockStage from '$lib/portals/gravity-unlock/GravityUnlockStage.svelte';
 	import {Stage} from '$lib/portals/gravity-unlock/gravityUnlockStage';
 	import {getDimensions} from '$lib/app/dimensions';
@@ -11,6 +11,7 @@
 
 TODO ideas
 
+- input player speed
 - input the width/height of the world (useful only in `freezeCamera`, unless we want to allow making the game screens smaller)
 	- does that make sense? windowing for the world that doesn't match the view?
 - think about how we want scaling to work -- maybe no scaling?
@@ -44,19 +45,30 @@ TODO ideas
 		dispatch('save', data);
 	};
 	const importData = () => {
-		const raw = prompt('imported data', JSON.stringify(data)); // eslint-disable-line no-alert
-		if (!raw) return;
-		try {
-			data = JSON.parse(raw);
-		} catch (err) {
-			alert('failed to parse'); // eslint-disable-line no-alert
-			return;
+		let raw = prompt('imported data', JSON.stringify(data)); // eslint-disable-line no-alert
+		if (raw === null) return;
+		raw = raw.trim();
+		if (raw) {
+			try {
+				data = JSON.parse(raw);
+			} catch (err) {
+				alert('failed to parse'); // eslint-disable-line no-alert
+				return;
+			}
+		} else {
+			data = initialStageData;
 		}
+		// TODO refactor with code below
 		cameraUnlocked = !data.freezeCamera;
+		playerSpeed = data.playerSpeed;
 		createStage();
 	};
 
-	let cameraUnlocked = false; // TODO `see `freezeCamera`
+	// TODO refactor with code above
+	let cameraUnlocked = !initialStageData.freezeCamera; // TODO `see `freezeCamera`
+	let playerSpeed = initialStageData.playerSpeed;
+	$: if (stage) stage.freezeCamera = cameraUnlocked; // TODO make this a method?
+	$: if (stage) stage.player.speed = playerSpeed;
 
 	// TODO should we pass through plain numbers or a dimensions object?
 	// // TODO what about the camera zoom relative to what can fit in the dimensions?
@@ -95,8 +107,6 @@ TODO ideas
 	}
 
 	let stage: Stage | null = null;
-
-	$: if (stage) stage.freezeCamera = cameraUnlocked; // TODO make this a method?
 
 	const destroyStage = () => {
 		if (!stage) return;
@@ -157,7 +167,6 @@ TODO ideas
 		<button title="save to localStorage (ctrl+s)" on:click={saveData}>save</button>
 		<button title="reset the simulation (Spacebar)" on:click={resetStage}>reset</button>
 		{#if stage}
-			<label><input type="checkbox" bind:checked={cameraUnlocked} /> free camera</label>
 			<button
 				title="{running ? 'pause the simulation' : 'play the simulation'} (Backtick)"
 				on:click={() => clock.toggle()}
@@ -165,6 +174,15 @@ TODO ideas
 			>
 		{/if}
 		<!-- <Checkbox /> -->
+	{/if}
+</div>
+<div class="stage-data-controls">
+	{#if stage}
+		<label><input type="checkbox" bind:checked={cameraUnlocked} /> free camera</label>
+		<label
+			><input type="range" bind:value={playerSpeed} min={0.2} max={4} step={0.1} />
+			<div>{playerSpeed} player speed</div></label
+		>
 	{/if}
 </div>
 
@@ -201,5 +219,13 @@ TODO ideas
 		display: flex;
 		flex-direction: column;
 		align-items: stretch;
+	}
+	.stage-data-controls {
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
 	}
 </style>
