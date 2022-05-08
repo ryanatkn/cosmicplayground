@@ -190,12 +190,6 @@ TODO ideas
 	</div>
 {/if}
 
-{#if expandControls}
-	<div class="markup">
-		<pre>{data ? JSON.stringify(data) : null}</pre>
-	</div>
-{/if}
-
 {#if stage}
 	<!-- TODO ideally this is reactive to `stage`, not keyed, is fine for now -->
 	{#key stage}
