@@ -87,7 +87,7 @@
 			// }
 		} else {
 			// map screen
-			if (e.key === 'Escape' && enableGlobalHotkeys(e.target)) {
+			if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 				e.stopPropagation();
 				returnToTitleScreen();
 			} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {

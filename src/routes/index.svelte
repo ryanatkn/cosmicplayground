@@ -291,7 +291,7 @@
 	) => {
 		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		// TODO controls for toggling the speed/strength boosters
-		if (e.key === 'Escape') {
+		if (e.key === 'Escape' && !e.ctrlKey) {
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			if (e.ctrlKey) {

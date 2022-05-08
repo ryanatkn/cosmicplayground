@@ -117,7 +117,7 @@
 
 	// TODO actions -- refactor this with the controls in `__layout.svelte` and `index.svelte` and `World.svelte`
 	const onKeydown = (e: KeyboardEvent) => {
-		if (e.key === 'Escape') {
+		if (e.key === 'Escape' && !e.ctrlKey) {
 			e.preventDefault();
 			e.stopImmediatePropagation();
 			void finish(null);

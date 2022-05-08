@@ -113,7 +113,7 @@
 	const toggleExpandControls = () => (expandControls = !expandControls);
 
 	const onWindowKeydown = (e: KeyboardEvent) => {
-		if (e.key === 'Escape') {
+		if (e.key === 'Escape' && !e.ctrlKey) {
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			toggleExpandControls();
