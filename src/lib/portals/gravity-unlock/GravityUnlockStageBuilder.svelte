@@ -42,7 +42,8 @@ TODO ideas
 	// TODO disable save if the data is unchanged (should we use immer, or what?)
 	// and maybe save automatically sometimes?
 	const saveData = () => {
-		dispatch('save', data);
+		const updatedData: StageData = {freezeCamera: !cameraUnlocked, playerSpeed}; // TODO maybe cache this?
+		dispatch('save', updatedData);
 	};
 	const importData = () => {
 		let raw = prompt('imported data', JSON.stringify(data)); // eslint-disable-line no-alert
@@ -65,8 +66,8 @@ TODO ideas
 	};
 
 	// TODO refactor with code above
-	let cameraUnlocked = !initialStageData.freezeCamera; // TODO `see `freezeCamera`
-	let playerSpeed = initialStageData.playerSpeed;
+	let cameraUnlocked = !data.freezeCamera; // TODO `see `freezeCamera`
+	let playerSpeed = data.playerSpeed;
 	$: if (stage) stage.freezeCamera = cameraUnlocked; // TODO make this a method?
 	$: if (stage) stage.player.speed = playerSpeed;
 
