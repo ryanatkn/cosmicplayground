@@ -84,6 +84,8 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [@Sinova/Collisions](https://github.com/Sinova/Collisions/) ∙
 [TypeScript](https://github.com/microsoft/TypeScript) ∙
 [uvu](https://github.com/lukeed/uvu) ∙
+[klona](https://github.com/lukeed/klona) ∙
+[dequal](https://github.com/lukeed/dequal) ∙
 [Gro](https://github.com/feltcoop/gro) ∙
 [ESLint](https://github.com/eslint/eslint)
 [Prettier](https://github.com/prettier/prettier)
