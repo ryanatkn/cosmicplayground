@@ -291,7 +291,7 @@ TODO ideas
 		width: 100%;
 		z-index: 1;
 		display: flex;
-		justify-content: space-between;
+		justify-content: flex-end;
 	}
 	.control {
 		display: flex;
@@ -300,8 +300,13 @@ TODO ideas
 	.stage-data-controls-wrapper {
 		display: flex;
 		align-items: flex-start;
+		flex: 1;
 	}
 	.stage-data-controls {
+		display: flex;
+		flex-direction: column;
+	}
+	.main-controls {
 		display: flex;
 		flex-direction: column;
 	}
