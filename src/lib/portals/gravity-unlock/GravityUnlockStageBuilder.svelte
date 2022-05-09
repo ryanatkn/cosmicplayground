@@ -162,11 +162,11 @@ TODO ideas
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			saveData();
-		} else if (e.key === '+' && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === '}' && enableGlobalHotkeys(e.target)) {
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			simulate(100);
-		} else if (e.key === '=' && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === ']' && enableGlobalHotkeys(e.target)) {
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			if (e.ctrlKey) {
@@ -199,14 +199,6 @@ TODO ideas
 		<button title="import JSON data" on:click={importData}>import</button>
 		<button title="[ctrl+s] save to localStorage" on:click={saveData}>save</button>
 		<button title="[Spacebar] reset the simulation" on:click={resetStage}>reset</button>
-		{#if stage}
-			<button
-				title="[Backtick] {running ? 'pause the simulation' : 'play the simulation'}"
-				on:click={() => clock.toggle()}
-				>{#if running}pause{:else}play{/if}</button
-			>
-		{/if}
-		<!-- <Checkbox /> -->
 	{/if}
 </div>
 
@@ -228,17 +220,22 @@ TODO ideas
 			>
 			<div class="buttons">
 				<button
-					title="[=] simulate 1 tick"
+					title="[Backtick] {running ? 'pause the simulation' : 'play the simulation'}"
+					on:click={() => clock.toggle()}
+					>{#if running}⏸{:else}▶️{/if}</button
+				>
+				<button
+					title="[]] simulate 1 tick"
 					aria-label="simulate 1 tick"
 					on:click={() => simulate(1)}>→</button
 				>
 				<button
-					title="[ctrl+=] simulate 10 ticks"
+					title="[ctrl+]] simulate 10 ticks"
 					aria-label="simulate 10 ticks"
 					on:click={() => simulate(10)}>↠</button
 				>
 				<button
-					title="[shift+=] simulate 100 ticks"
+					title="[shift+]] simulate 100 ticks"
 					aria-label="simulate 100 ticks"
 					on:click={() => simulate(100)}>⇶</button
 				>
