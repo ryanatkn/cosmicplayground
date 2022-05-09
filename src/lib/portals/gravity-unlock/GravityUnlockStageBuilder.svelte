@@ -6,6 +6,7 @@
 	import {Stage} from '$lib/portals/gravity-unlock/gravityUnlockStage';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {getClock} from '$lib/app/clock';
+	import {getPixi} from '$lib/app/pixi';
 	// import {enableGlobalHotkeys} from '$lib/util/dom'; // TODO see below
 
 	/*
@@ -28,6 +29,7 @@ TODO ideas
 
 	const dimensions = getDimensions();
 	const clock = getClock();
+	const pixi = getPixi();
 
 	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
 	$: ({running} = $clock);
@@ -160,7 +162,27 @@ TODO ideas
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			saveData();
+		} else if (e.key === '+' && enableGlobalHotkeys(e.target)) {
+			e.stopImmediatePropagation();
+			e.preventDefault();
+			simulate(100);
+		} else if (e.key === '=' && enableGlobalHotkeys(e.target)) {
+			e.stopImmediatePropagation();
+			e.preventDefault();
+			if (e.ctrlKey) {
+				simulate(10);
+			} else {
+				simulate(1);
+			}
 		}
+	};
+
+	const simulate = (ticks: number): void => {
+		if (!stage) return;
+		for (let i = 0; i < ticks; i++) {
+			stage.update(1000 / 60);
+		}
+		if (!running) pixi.app.render(); // TODO should `stage` wrap the `app` and ticker? wouldn't need `pixi` here then
 	};
 </script>
 
@@ -204,6 +226,23 @@ TODO ideas
 				><input type="range" bind:value={timeDilation} min={0} max={10} step={0.1} />
 				{timeDilation} time dilation</label
 			>
+			<div class="buttons">
+				<button
+					title="[=] simulate 1 tick"
+					aria-label="simulate 1 tick"
+					on:click={() => simulate(1)}>→</button
+				>
+				<button
+					title="[ctrl+=] simulate 10 ticks"
+					aria-label="simulate 10 ticks"
+					on:click={() => simulate(10)}>↠</button
+				>
+				<button
+					title="[shift+=] simulate 100 ticks"
+					aria-label="simulate 100 ticks"
+					on:click={() => simulate(100)}>⇶</button
+				>
+			</div>
 		{/if}
 	</div>
 {/if}
@@ -243,5 +282,11 @@ TODO ideas
 		z-index: 1;
 		display: flex;
 		flex-direction: column;
+	}
+	.buttons {
+		display: flex;
+	}
+	.buttons button {
+		font-size: var(--font_size_lg);
 	}
 </style>
