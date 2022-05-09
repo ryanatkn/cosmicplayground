@@ -21,7 +21,7 @@ export interface StageMeta {
 export type StageName = Flavored<string, 'StageName'>;
 
 export interface StageSetupOptions {
-	data: Partial<StageData>;
+	data?: Partial<StageData>;
 	sim?: Simulation;
 	collisions?: Collisions;
 	container?: Pixi.Container;
@@ -87,10 +87,13 @@ export abstract class Stage {
 			random = toRandomSeeded(),
 		} = options;
 
-		if (data.freezeCamera !== undefined) this.freezeCamera = data.freezeCamera;
-		if (data.timeDilation !== undefined) this.timeDilation = data.timeDilation;
-		// playerSpeed: number; // TODO should this be `entities: [{name: 'player'}]`
-		// playerStrength: number; // TODO should this be `entities: [{name: 'player'}]`
+		if (data) {
+			if (data.freezeCamera !== undefined) this.freezeCamera = data.freezeCamera;
+			if (data.timeDilation !== undefined) this.timeDilation = data.timeDilation;
+			// TODO probably something like `entities: [{name: 'player', speed: 1.5, strength: 1.1}]`
+			// playerSpeed: number;
+			// playerStrength: number;
+		}
 
 		this.sim = sim;
 		this.collisions = collisions;

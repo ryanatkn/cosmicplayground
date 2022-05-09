@@ -87,6 +87,7 @@ export class Stage extends BaseStage {
 
 	constructor(options: StageSetupOptions) {
 		super(options);
+		const {data} = options;
 
 		const playerX = 850;
 		const playerY = 502;
@@ -107,7 +108,8 @@ export class Stage extends BaseStage {
 		));
 		player.text = PLAYER_ICON;
 		player.fontSize = toIconFontSize(player.radius);
-		player.speed = PLAYER_SPEED; // TODO how to do with `playerSpeed`? entity with `name='player'` that we use for defaults here?
+		player.speed = data?.playerSpeed ?? PLAYER_SPEED; // TODO how to do with `playerSpeed`? entity with `name='player'` that we use for defaults here?
+		player.strength = data?.playerStrength ?? PLAYER_STRENGTH; // TODO how to do with `playerSpeed`? entity with `name='player'` that we use for defaults here?
 		player.color = COLOR_PLAYER;
 		this.addEntity(player);
 
