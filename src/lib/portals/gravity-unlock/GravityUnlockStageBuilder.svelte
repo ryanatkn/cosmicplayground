@@ -40,6 +40,10 @@ TODO ideas
 
 	let savedData: StageData | null = null;
 
+	$: console.log(`GravityUnlockStageBuilder data changed`, data);
+	let unsaved = false;
+	$: saveEnabled = (!!savedData && savedData !== data) || unsaved;
+
 	onMount(() => {
 		createStage();
 	});
@@ -50,6 +54,7 @@ TODO ideas
 		if (!stage) return;
 		savedData = stage.toData();
 		dispatch('save', savedData);
+		unsaved = false; // TODO BLOCK hmm?
 	};
 	const importData = () => {
 		let raw = prompt('imported data', JSON.stringify(data)); // eslint-disable-line no-alert
@@ -82,6 +87,11 @@ TODO ideas
 	$: if (stage) stage.player.speed = playerSpeed;
 	$: if (stage) stage.player.strength = playerStrength;
 	$: if (stage) stage.timeDilation = timeDilation;
+	// TODO BLOCK unsaved stuff
+	// $: if (cameraUnlocked !== !data.freezeCamera) unsaved = true;
+	// $: if (playerSpeed !== data.playerSpeed) unsaved = true;
+	// $: if (playerStrength !== data.playerStrength) unsaved = true;
+	// $: if (timeDilation !== data.timeDilation) unsaved = true;
 
 	// TODO should we pass through plain numbers or a dimensions object?
 	// // TODO what about the camera zoom relative to what can fit in the dimensions?
@@ -191,65 +201,71 @@ TODO ideas
 <svelte:window on:keydown={onWindowKeydown} />
 
 <div class="controls">
-	<button
-		on:click={toggleExpandControls}
-		aria-label={expandControls ? 'Hide controls' : 'Show controls'}
-		title="[Escape] {expandControls ? 'Hide controls' : 'Show controls'}"
-		>{#if expandControls}-{:else}+{/if}</button
-	>
 	{#if expandControls}
-		<button title="Import JSON data" on:click={importData}>import</button>
-		<button title="[ctrl+s] Save to localStorage" on:click={saveData}>save</button>
+		<div class="stage-data-controls-wrapper">
+			{#if stage}
+				<div class="stage-data-controls">
+					<label><input type="checkbox" bind:checked={cameraUnlocked} /> free camera</label>
+					<div class="control">
+						<input type="range" bind:value={playerStrength} min={0} max={10} step={0.1} />
+						<label> <input type="number" bind:value={playerStrength} /> player strength</label>
+					</div>
+					<div class="control">
+						<input type="range" bind:value={playerSpeed} min={0} max={10} step={0.1} />
+						<label> <input type="number" bind:value={playerSpeed} /> player speed</label>
+					</div>
+					<div class="control">
+						<input type="range" bind:value={timeDilation} min={0} max={10} step={0.1} />
+						<label> <input type="number" bind:value={timeDilation} /> time dilation</label>
+					</div>
+					<div class="buttons">
+						<button
+							title="[Spacebar] Reset the simulation"
+							aria-label="Reset the simulation"
+							on:click={resetStage}>⏮</button
+						>
+						<button
+							title="[Backtick] {running ? 'Pause the simulation' : 'Play the simulation'}"
+							aria-label={running ? 'Pause the simulation' : 'Play the simulation'}
+							on:click={() => clock.toggle()}
+							>{#if running}⏸{:else}▶️{/if}</button
+						>
+						<button
+							title="[]] Simulate 1 tick"
+							aria-label="Simulate 1 tick"
+							on:click={() => simulate(1)}>→</button
+						>
+						<button
+							title="[ctrl+]] Simulate 10 ticks"
+							aria-label="Simulate 10 ticks"
+							on:click={() => simulate(10)}>↠</button
+						>
+						<button
+							title="[shift+]] Simulate 100 ticks"
+							aria-label="Simulate 100 ticks"
+							on:click={() => simulate(100)}>⇶</button
+						>
+					</div>
+				</div>
+				<slot />
+			{/if}
+		</div>
 	{/if}
-</div>
-
-{#if expandControls}
-	<div class="stage-data-controls">
-		{#if stage}
-			<label><input type="checkbox" bind:checked={cameraUnlocked} /> free camera</label>
-			<div class="control">
-				<input type="range" bind:value={playerStrength} min={0} max={10} step={0.1} />
-				<label> <input type="number" bind:value={playerStrength} /> player strength</label>
-			</div>
-			<div class="control">
-				<input type="range" bind:value={playerSpeed} min={0} max={10} step={0.1} />
-				<label> <input type="number" bind:value={playerSpeed} /> player speed</label>
-			</div>
-			<div class="control">
-				<input type="range" bind:value={timeDilation} min={0} max={10} step={0.1} />
-				<label> <input type="number" bind:value={timeDilation} /> time dilation</label>
-			</div>
-			<div class="buttons">
-				<button
-					title="[Spacebar] Reset the simulation"
-					aria-label="Reset the simulation"
-					on:click={resetStage}>⏮</button
-				>
-				<button
-					title="[Backtick] {running ? 'Pause the simulation' : 'Play the simulation'}"
-					aria-label={running ? 'Pause the simulation' : 'Play the simulation'}
-					on:click={() => clock.toggle()}
-					>{#if running}⏸{:else}▶️{/if}</button
-				>
-				<button
-					title="[]] Simulate 1 tick"
-					aria-label="Simulate 1 tick"
-					on:click={() => simulate(1)}>→</button
-				>
-				<button
-					title="[ctrl+]] Simulate 10 ticks"
-					aria-label="Simulate 10 ticks"
-					on:click={() => simulate(10)}>↠</button
-				>
-				<button
-					title="[shift+]] Simulate 100 ticks"
-					aria-label="Simulate 100 ticks"
-					on:click={() => simulate(100)}>⇶</button
-				>
-			</div>
+	<div class="main-controls">
+		<button
+			on:click={toggleExpandControls}
+			aria-label={expandControls ? 'Hide controls' : 'Show controls'}
+			title="[Escape] {expandControls ? 'Hide controls' : 'Show controls'}"
+			>{#if expandControls}-{:else}+{/if}</button
+		>
+		{#if expandControls}
+			<button title="Import JSON data" on:click={importData}>import</button>
+			<button title="[ctrl+s] Save to localStorage" on:click={saveData} disabled={!saveEnabled}
+				>save</button
+			>
 		{/if}
 	</div>
-{/if}
+</div>
 
 {#if stage}
 	<!-- TODO ideally this is reactive to `stage`, not keyed, is fine for now -->
@@ -272,22 +288,20 @@ TODO ideas
 <style>
 	.controls {
 		position: absolute;
-		top: 0;
-		right: 0;
+		width: 100%;
 		z-index: 1;
 		display: flex;
-		flex-direction: column;
-		align-items: stretch;
+		justify-content: space-between;
 	}
 	.control {
 		display: flex;
 		align-items: center;
 	}
+	.stage-data-controls-wrapper {
+		display: flex;
+		align-items: flex-start;
+	}
 	.stage-data-controls {
-		position: absolute;
-		left: 0;
-		top: 0;
-		z-index: 1;
 		display: flex;
 		flex-direction: column;
 	}

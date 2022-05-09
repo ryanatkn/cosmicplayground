@@ -14,6 +14,7 @@
 	let selectedDataIndex = loadFromStorage(STORAGE_KEY_SELECTED_DATA_INDEX, 0);
 	$: setInStorage(STORAGE_KEY_SELECTED_DATA_INDEX, selectedDataIndex);
 
+	const MAX_DATA_COUNT = 10;
 	let dataCount = loadFromStorage(STORAGE_KEY_DATA_COUNT, 0);
 	$: setInStorage(STORAGE_KEY_DATA_COUNT, dataCount); // TODO is wasteful on first run
 
@@ -39,31 +40,44 @@
 		deleteAtIndex(selectedDataIndex);
 	};
 
+	const updateSelectedData = (d: StageData) => {
+		updateAtIndex(selectedDataIndex, d);
+	};
+	const updateAtIndex = (index: number, d: StageData) => {
+		datas = datas.slice(0, index).concat(d, datas.slice(index + 1));
+		setInStorage(`${STORAGE_KEY_STAGES}_${index}`, d);
+	};
+
 	const addData = () => {
+		if (datas.length >= MAX_DATA_COUNT) return;
 		datas = datas.concat(klona(selectedData));
 		selectIndex(datas.length - 1);
 	};
+
+	// TODO BLOCK either combine tabs with controls in the stage builder or extract elsewhere
+
+	$: console.log(`selectedData`, selectedData);
 </script>
 
 <div class="gravity-unlock-studio">
-	<ul class="controls">
-		{#if datas.length >= 2}
-			<button on:click={() => deleteSelected()}>✕</button>
-			<Tabs bind:selectedIndex={selectedDataIndex} items={datas} let:selected let:index>
-				<button
-					class:selected
-					on:click={selected ? undefined : () => selectIndex(index)}
-					disabled={selected}>{index}</button
-				>
-			</Tabs>
-		{/if}
-		<button on:click={() => addData()}>+</button>
-	</ul>
 	<!-- TODO key off the `selectedData` or handle it reactively? -->
-	<GravityUnlockStageBuilder
-		data={selectedData}
-		on:save={(e) => setInStorage(selectedDataStorageKey, e.detail)}
-	/>
+	<GravityUnlockStageBuilder data={selectedData} on:save={(e) => updateSelectedData(e.detail)}>
+		<div class="controls">
+			{#if datas.length >= 2}
+				<button on:click={() => deleteSelected()}>✕</button>
+				<Tabs bind:selectedIndex={selectedDataIndex} items={datas} let:selected let:index>
+					<button
+						class:selected
+						on:click={selected ? undefined : () => selectIndex(index)}
+						disabled={selected}>{index}</button
+					>
+				</Tabs>
+			{/if}
+			{#if datas.length < MAX_DATA_COUNT}
+				<button on:click={() => addData()}>+</button>
+			{/if}
+		</div>
+	</GravityUnlockStageBuilder>
 </div>
 
 <style>
@@ -73,11 +87,9 @@
 		align-items: center;
 	}
 	.controls {
-		position: absolute;
-		z-index: 1;
-		width: 100%;
 		display: flex;
 		justify-content: center;
+		align-items: center;
 	}
 	.controls button {
 		font-size: var(--font_size_lg);
