@@ -6,6 +6,7 @@
 	import {Stage} from '$lib/portals/gravity-unlock/gravityUnlockStage';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {getClock} from '$lib/app/clock';
+	import {getPixi} from '$lib/app/pixi';
 	// import {enableGlobalHotkeys} from '$lib/util/dom'; // TODO see below
 
 	/*
@@ -28,6 +29,7 @@ TODO ideas
 
 	const dimensions = getDimensions();
 	const clock = getClock();
+	const pixi = getPixi();
 
 	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
 	$: ({running} = $clock);
@@ -36,6 +38,8 @@ TODO ideas
 
 	const dispatch = createEventDispatcher<{save: StageData}>();
 
+	let savedData: StageData | null = null;
+
 	onMount(() => {
 		createStage();
 	});
@@ -43,13 +47,9 @@ TODO ideas
 	// TODO disable save if the data is unchanged (should we use immer, or what?)
 	// and maybe save automatically sometimes?
 	const saveData = () => {
-		const updatedData: StageData = {
-			freezeCamera: !cameraUnlocked,
-			playerSpeed,
-			playerStrength,
-			timeDilation,
-		}; // TODO maybe cache this?
-		dispatch('save', updatedData);
+		if (!stage) return;
+		savedData = stage.toData();
+		dispatch('save', savedData);
 	};
 	const importData = () => {
 		let raw = prompt('imported data', JSON.stringify(data)); // eslint-disable-line no-alert
@@ -135,6 +135,7 @@ TODO ideas
 			viewportWidth,
 			worldHeight,
 			worldWidth,
+			data: savedData || data,
 		});
 	};
 	const resetStage = () => {
@@ -163,7 +164,27 @@ TODO ideas
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			saveData();
+		} else if (e.key === '}' && enableGlobalHotkeys(e.target)) {
+			e.stopImmediatePropagation();
+			e.preventDefault();
+			simulate(100);
+		} else if (e.key === ']' && enableGlobalHotkeys(e.target)) {
+			e.stopImmediatePropagation();
+			e.preventDefault();
+			if (e.ctrlKey) {
+				simulate(10);
+			} else {
+				simulate(1);
+			}
 		}
+	};
+
+	const simulate = (ticks: number): void => {
+		if (!stage) return;
+		for (let i = 0; i < ticks; i++) {
+			stage.update(1000 / 60);
+		}
+		if (!running) pixi.app.render(); // TODO should `stage` wrap the `app` and ticker? wouldn't need `pixi` here then
 	};
 </script>
 
@@ -172,22 +193,13 @@ TODO ideas
 <div class="controls">
 	<button
 		on:click={toggleExpandControls}
-		aria-label={expandControls ? 'hide controls' : 'show controls'}
-		title="[Escape] {expandControls ? 'hide controls' : 'show controls'}"
+		aria-label={expandControls ? 'Hide controls' : 'Show controls'}
+		title="[Escape] {expandControls ? 'Hide controls' : 'Show controls'}"
 		>{#if expandControls}-{:else}+{/if}</button
 	>
 	{#if expandControls}
-		<button title="import JSON data" on:click={importData}>import</button>
-		<button title="[ctrl+s] save to localStorage" on:click={saveData}>save</button>
-		<button title="[Spacebar] reset the simulation" on:click={resetStage}>reset</button>
-		{#if stage}
-			<button
-				title="[Backtick] {running ? 'pause the simulation' : 'play the simulation'}"
-				on:click={() => clock.toggle()}
-				>{#if running}pause{:else}play{/if}</button
-			>
-		{/if}
-		<!-- <Checkbox /> -->
+		<button title="Import JSON data" on:click={importData}>import</button>
+		<button title="[ctrl+s] Save to localStorage" on:click={saveData}>save</button>
 	{/if}
 </div>
 
@@ -195,18 +207,46 @@ TODO ideas
 	<div class="stage-data-controls">
 		{#if stage}
 			<label><input type="checkbox" bind:checked={cameraUnlocked} /> free camera</label>
-			<label
-				><input type="range" bind:value={playerStrength} min={0} max={10} step={0.1} />
-				{playerStrength} player strength</label
-			>
-			<label
-				><input type="range" bind:value={playerSpeed} min={0} max={10} step={0.1} />
-				{playerSpeed} player speed</label
-			>
-			<label
-				><input type="range" bind:value={timeDilation} min={0} max={10} step={0.1} />
-				{timeDilation} time dilation</label
-			>
+			<div class="control">
+				<input type="range" bind:value={playerStrength} min={0} max={10} step={0.1} />
+				<label> <input type="number" bind:value={playerStrength} /> player strength</label>
+			</div>
+			<div class="control">
+				<input type="range" bind:value={playerSpeed} min={0} max={10} step={0.1} />
+				<label> <input type="number" bind:value={playerSpeed} /> player speed</label>
+			</div>
+			<div class="control">
+				<input type="range" bind:value={timeDilation} min={0} max={10} step={0.1} />
+				<label> <input type="number" bind:value={timeDilation} /> time dilation</label>
+			</div>
+			<div class="buttons">
+				<button
+					title="[Spacebar] Reset the simulation"
+					aria-label="Reset the simulation"
+					on:click={resetStage}>⏮</button
+				>
+				<button
+					title="[Backtick] {running ? 'Pause the simulation' : 'Play the simulation'}"
+					aria-label={running ? 'Pause the simulation' : 'Play the simulation'}
+					on:click={() => clock.toggle()}
+					>{#if running}⏸{:else}▶️{/if}</button
+				>
+				<button
+					title="[]] Simulate 1 tick"
+					aria-label="Simulate 1 tick"
+					on:click={() => simulate(1)}>→</button
+				>
+				<button
+					title="[ctrl+]] Simulate 10 ticks"
+					aria-label="Simulate 10 ticks"
+					on:click={() => simulate(10)}>↠</button
+				>
+				<button
+					title="[shift+]] Simulate 100 ticks"
+					aria-label="Simulate 100 ticks"
+					on:click={() => simulate(100)}>⇶</button
+				>
+			</div>
 		{/if}
 	</div>
 {/if}
@@ -239,6 +279,10 @@ TODO ideas
 		flex-direction: column;
 		align-items: stretch;
 	}
+	.control {
+		display: flex;
+		align-items: center;
+	}
 	.stage-data-controls {
 		position: absolute;
 		left: 0;
@@ -246,5 +290,16 @@ TODO ideas
 		z-index: 1;
 		display: flex;
 		flex-direction: column;
+	}
+	.buttons {
+		display: flex;
+	}
+	.buttons button {
+		font-size: var(--font_size_lg);
+	}
+	input[type='number'] {
+		width: 50px;
+		background: transparent;
+		color: var(--text_color);
 	}
 </style>

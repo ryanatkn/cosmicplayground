@@ -21,10 +21,9 @@
 	const toggle = () => {
 		clock.toggle();
 		if (!$clock.running) {
-			const hzItemSelectedIndices = getHzItemSelectedIndices();
-			const hzSelectedIndex = hzItemSelectedIndices.at(-1)!;
-			console.log(`hzSelectedIndex`, hzSelectedIndex);
-			if (WINNING_HZ_ITEMS.has(hzSelectedIndex)) {
+			const hzSelectedIndex = getHzItemSelectedIndices().at(-1)!;
+			const hzSelectedIndex2 = getHzItemSelectedIndices2().at(-1)!;
+			if (WINNING_HZ_ITEMS.has(hzSelectedIndex) && WINNING_HZ_ITEMS.has(hzSelectedIndex2)) {
 				setInStorage(STORAGE_KEY_STRENGTH_BOOSTER1, true);
 				if (!$settings.secretEnabled) {
 					settings.update(($settings) => ({...$settings, secretEnabled: true}));
@@ -45,22 +44,42 @@
 	});
 
 	let getHzItemSelectedIndices: () => number[];
+	let getHzItemSelectedIndices2: () => number[];
 </script>
 
 <div class="view" on:click={toggle}>
 	<div class="item" class:pulsing={$settings.secretEnabled}>
 		<FreqSpeeds
 			width={$dimensions.width / 2}
-			height={$dimensions.height}
+			height={$dimensions.height / 2}
 			style="transform: scale3d(-1, 1, 1);"
 			elapsedTime={$clock.time / 4}
 			lowestHzItemCount={1}
 			{hzItems}
 			bind:getHzItemSelectedIndices
 		/>
+		<FreqSpeeds
+			width={$dimensions.width / 2}
+			height={$dimensions.height / 2}
+			style="transform: scale3d(-1, -1, 1);"
+			elapsedTime={$clock.time / 4}
+			lowestHzItemCount={1}
+			{hzItems}
+		/>
+	</div>
+	<div class="item" class:pulsing={$settings.secretEnabled}>
 		<FreqSpectacle
 			width={$dimensions.width * 0.5}
-			height={$dimensions.height}
+			height={$dimensions.height / 2}
+			elapsedTime={$clock.time / 8}
+			lowestHzItemCount={1}
+			{hzItems}
+			bind:getHzItemSelectedIndices={getHzItemSelectedIndices2}
+		/>
+		<FreqSpectacle
+			width={$dimensions.width * 0.5}
+			height={$dimensions.height / 2}
+			style="transform: scale3d(1, -1, 1);"
 			elapsedTime={$clock.time / 8}
 			lowestHzItemCount={1}
 			{hzItems}
@@ -72,14 +91,12 @@
 	.view {
 		display: flex;
 		flex: 1;
-		flex-direction: column;
 		overflow: hidden;
 		position: relative;
 	}
 	.item {
 		display: flex;
-		position: absolute;
-		inset: 0;
+		flex-direction: column;
 	}
 	.item:first-child {
 		--pulsing_duration: 0.5s;

@@ -11,6 +11,7 @@ import {
 	toCameraStore,
 	SPRING_OPTS_HARD,
 } from '$lib/flat/camera';
+import type {StageData} from '$lib/portals/gravity-unlock/stage';
 
 export interface StageMeta {
 	name: string;
@@ -20,6 +21,7 @@ export interface StageMeta {
 export type StageName = Flavored<string, 'StageName'>;
 
 export interface StageSetupOptions {
+	data?: Partial<StageData>;
 	sim?: Simulation;
 	collisions?: Collisions;
 	container?: Pixi.Container;
@@ -32,8 +34,6 @@ export interface StageSetupOptions {
 	viewHeight: number;
 	viewportWidth: number;
 	viewportHeight: number;
-	// TODO probably move this to the `camera`
-	freezeCamera?: boolean;
 }
 
 // TODO rethink -- maybe events?
@@ -67,12 +67,13 @@ export abstract class Stage {
 
 	camera!: CameraStore;
 	$camera!: CameraState;
-	freezeCamera; // is the camera fixed in place?
+	freezeCamera = false; // is the camera fixed in place?
 
 	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management? or otherwise refactor this
 
 	constructor(options: StageSetupOptions) {
 		const {
+			data,
 			worldWidth,
 			worldHeight,
 			viewWidth,
@@ -86,13 +87,19 @@ export abstract class Stage {
 			random = toRandomSeeded(),
 		} = options;
 
+		if (data) {
+			if (data.freezeCamera !== undefined) this.freezeCamera = data.freezeCamera;
+			if (data.timeDilation !== undefined) this.timeDilation = data.timeDilation;
+			// TODO probably something like `entities: [{name: 'player', speed: 1.5, strength: 1.1}]`
+			// playerSpeed: number;
+			// playerStrength: number;
+		}
+
 		this.sim = sim;
 		this.collisions = collisions;
 		this.container = container;
 		this.controller = controller;
 		this.random = random;
-
-		this.freezeCamera = options.freezeCamera ?? true;
 
 		this.worldWidth = worldWidth;
 		this.worldHeight = worldHeight;
@@ -127,6 +134,15 @@ export abstract class Stage {
 		// TODO time dilation controls
 		this.time += dt; // TODO maybe don't track this on the stage? clock?
 		this.updateCameraPosition();
+	}
+
+	toData(): StageData {
+		return {
+			freezeCamera: this.freezeCamera,
+			playerSpeed: (this as any).player.speed, // TODO should be generic per entity, entities tagged with 'player_controller'
+			playerStrength: (this as any).player.strength, // TODO should be generic per entity, entities tagged with 'player_controller'
+			timeDilation: this.timeDilation,
+		};
 	}
 
 	/**

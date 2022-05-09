@@ -1,9 +1,10 @@
-// interface EntityData {
-// 	id: number;
-
 import {DEFAULT_STRENGTH, DEFAULT_TIME_DILATION} from '$lib/flat/Entity';
 
+// interface EntityData {
+// 	id: number;
 // }
+
+// TODO rename this? maybe `StageDefData`? `StageDef`? `StageWad`?
 export interface StageData {
 	freezeCamera: boolean;
 	playerSpeed: number; // TODO should this be `entities: [{name: 'player'}]`
