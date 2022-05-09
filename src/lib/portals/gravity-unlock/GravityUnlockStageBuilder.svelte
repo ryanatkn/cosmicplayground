@@ -193,14 +193,13 @@ TODO ideas
 <div class="controls">
 	<button
 		on:click={toggleExpandControls}
-		aria-label={expandControls ? 'hide controls' : 'show controls'}
-		title="[Escape] {expandControls ? 'hide controls' : 'show controls'}"
+		aria-label={expandControls ? 'Hide controls' : 'Show controls'}
+		title="[Escape] {expandControls ? 'Hide controls' : 'Show controls'}"
 		>{#if expandControls}-{:else}+{/if}</button
 	>
 	{#if expandControls}
-		<button title="import JSON data" on:click={importData}>import</button>
-		<button title="[ctrl+s] save to localStorage" on:click={saveData}>save</button>
-		<button title="[Spacebar] reset the simulation" on:click={resetStage}>reset</button>
+		<button title="Import JSON data" on:click={importData}>import</button>
+		<button title="[ctrl+s] Save to localStorage" on:click={saveData}>save</button>
 	{/if}
 </div>
 
@@ -208,37 +207,43 @@ TODO ideas
 	<div class="stage-data-controls">
 		{#if stage}
 			<label><input type="checkbox" bind:checked={cameraUnlocked} /> free camera</label>
-			<label
-				><input type="range" bind:value={playerStrength} min={0} max={10} step={0.1} />
-				{playerStrength} player strength</label
-			>
-			<label
-				><input type="range" bind:value={playerSpeed} min={0} max={10} step={0.1} />
-				{playerSpeed} player speed</label
-			>
-			<label
-				><input type="range" bind:value={timeDilation} min={0} max={10} step={0.1} />
-				{timeDilation} time dilation</label
-			>
+			<div class="control">
+				<input type="range" bind:value={playerStrength} min={0} max={10} step={0.1} />
+				<label> <input type="number" bind:value={playerStrength} /> player strength</label>
+			</div>
+			<div class="control">
+				<input type="range" bind:value={playerSpeed} min={0} max={10} step={0.1} />
+				<label> <input type="number" bind:value={playerSpeed} /> player speed</label>
+			</div>
+			<div class="control">
+				<input type="range" bind:value={timeDilation} min={0} max={10} step={0.1} />
+				<label> <input type="number" bind:value={timeDilation} /> time dilation</label>
+			</div>
 			<div class="buttons">
 				<button
-					title="[Backtick] {running ? 'pause the simulation' : 'play the simulation'}"
+					title="[Spacebar] Reset the simulation"
+					aria-label="Reset the simulation"
+					on:click={resetStage}>⏮</button
+				>
+				<button
+					title="[Backtick] {running ? 'Pause the simulation' : 'Play the simulation'}"
+					aria-label={running ? 'Pause the simulation' : 'Play the simulation'}
 					on:click={() => clock.toggle()}
 					>{#if running}⏸{:else}▶️{/if}</button
 				>
 				<button
-					title="[]] simulate 1 tick"
-					aria-label="simulate 1 tick"
+					title="[]] Simulate 1 tick"
+					aria-label="Simulate 1 tick"
 					on:click={() => simulate(1)}>→</button
 				>
 				<button
-					title="[ctrl+]] simulate 10 ticks"
-					aria-label="simulate 10 ticks"
+					title="[ctrl+]] Simulate 10 ticks"
+					aria-label="Simulate 10 ticks"
 					on:click={() => simulate(10)}>↠</button
 				>
 				<button
-					title="[shift+]] simulate 100 ticks"
-					aria-label="simulate 100 ticks"
+					title="[shift+]] Simulate 100 ticks"
+					aria-label="Simulate 100 ticks"
 					on:click={() => simulate(100)}>⇶</button
 				>
 			</div>
@@ -274,6 +279,10 @@ TODO ideas
 		flex-direction: column;
 		align-items: stretch;
 	}
+	.control {
+		display: flex;
+		align-items: center;
+	}
 	.stage-data-controls {
 		position: absolute;
 		left: 0;
@@ -287,5 +296,10 @@ TODO ideas
 	}
 	.buttons button {
 		font-size: var(--font_size_lg);
+	}
+	input[type='number'] {
+		width: 50px;
+		background: transparent;
+		color: var(--text_color);
 	}
 </style>
