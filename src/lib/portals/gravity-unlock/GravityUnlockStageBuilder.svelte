@@ -38,6 +38,8 @@ TODO ideas
 
 	const dispatch = createEventDispatcher<{save: StageData}>();
 
+	let savedData: StageData | null = null;
+
 	onMount(() => {
 		createStage();
 	});
@@ -45,7 +47,9 @@ TODO ideas
 	// TODO disable save if the data is unchanged (should we use immer, or what?)
 	// and maybe save automatically sometimes?
 	const saveData = () => {
-		dispatch('save', updatedData);
+		if (!stage) return;
+		savedData = stage.toData();
+		dispatch('save', savedData);
 	};
 	const importData = () => {
 		let raw = prompt('imported data', JSON.stringify(data)); // eslint-disable-line no-alert
@@ -78,8 +82,6 @@ TODO ideas
 	$: if (stage) stage.player.speed = playerSpeed;
 	$: if (stage) stage.player.strength = playerStrength;
 	$: if (stage) stage.timeDilation = timeDilation;
-	let updatedData: StageData;
-	$: updatedData = {freezeCamera: !cameraUnlocked, playerSpeed, playerStrength, timeDilation};
 
 	// TODO should we pass through plain numbers or a dimensions object?
 	// // TODO what about the camera zoom relative to what can fit in the dimensions?
@@ -133,7 +135,7 @@ TODO ideas
 			viewportWidth,
 			worldHeight,
 			worldWidth,
-			data: updatedData,
+			data: savedData || data,
 		});
 	};
 	const resetStage = () => {

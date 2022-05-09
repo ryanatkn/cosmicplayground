@@ -48,7 +48,6 @@ export abstract class Stage {
 	// or change the concept of a `Renderer`,
 	// and we want support for multiple renderers anyway,
 	// so you can draw canvas over the Pixi for e.g. debugging collisions
-	data: Partial<StageData>;
 	sim: Simulation;
 	collisions: Collisions;
 	container: Pixi.Container;
@@ -68,7 +67,7 @@ export abstract class Stage {
 
 	camera!: CameraStore;
 	$camera!: CameraState;
-	freezeCamera; // is the camera fixed in place?
+	freezeCamera = false; // is the camera fixed in place?
 
 	subscriptions: Array<() => void> = []; // TODO maybe use a component instead, for automatic lifecycle management? or otherwise refactor this
 
@@ -88,7 +87,6 @@ export abstract class Stage {
 			random = toRandomSeeded(),
 		} = options;
 
-		this.data = data;
 		if (data.freezeCamera !== undefined) this.freezeCamera = data.freezeCamera;
 		if (data.timeDilation !== undefined) this.timeDilation = data.timeDilation;
 		// playerSpeed: number; // TODO should this be `entities: [{name: 'player'}]`
@@ -133,6 +131,15 @@ export abstract class Stage {
 		// TODO time dilation controls
 		this.time += dt; // TODO maybe don't track this on the stage? clock?
 		this.updateCameraPosition();
+	}
+
+	toData(): StageData {
+		return {
+			freezeCamera: this.freezeCamera,
+			playerSpeed: (this as any).player.speed, // TODO should be generic per entity, entities tagged with 'player_controller'
+			playerStrength: (this as any).player.strength, // TODO should be generic per entity, entities tagged with 'player_controller'
+			timeDilation: this.timeDilation,
+		};
 	}
 
 	/**
