@@ -11,6 +11,7 @@ import {
 	toCameraStore,
 	SPRING_OPTS_HARD,
 } from '$lib/flat/camera';
+import type {StageData} from '$lib/portals/gravity-unlock/stage';
 
 export interface StageMeta {
 	name: string;
@@ -20,6 +21,7 @@ export interface StageMeta {
 export type StageName = Flavored<string, 'StageName'>;
 
 export interface StageSetupOptions {
+	data: Partial<StageData>;
 	sim?: Simulation;
 	collisions?: Collisions;
 	container?: Pixi.Container;
@@ -32,8 +34,6 @@ export interface StageSetupOptions {
 	viewHeight: number;
 	viewportWidth: number;
 	viewportHeight: number;
-	// TODO probably move this to the `camera`
-	freezeCamera?: boolean;
 }
 
 // TODO rethink -- maybe events?
@@ -48,6 +48,7 @@ export abstract class Stage {
 	// or change the concept of a `Renderer`,
 	// and we want support for multiple renderers anyway,
 	// so you can draw canvas over the Pixi for e.g. debugging collisions
+	data: Partial<StageData>;
 	sim: Simulation;
 	collisions: Collisions;
 	container: Pixi.Container;
@@ -73,6 +74,7 @@ export abstract class Stage {
 
 	constructor(options: StageSetupOptions) {
 		const {
+			data,
 			worldWidth,
 			worldHeight,
 			viewWidth,
@@ -86,13 +88,17 @@ export abstract class Stage {
 			random = toRandomSeeded(),
 		} = options;
 
+		this.data = data;
+		if (data.freezeCamera !== undefined) this.freezeCamera = data.freezeCamera;
+		if (data.timeDilation !== undefined) this.timeDilation = data.timeDilation;
+		// playerSpeed: number; // TODO should this be `entities: [{name: 'player'}]`
+		// playerStrength: number; // TODO should this be `entities: [{name: 'player'}]`
+
 		this.sim = sim;
 		this.collisions = collisions;
 		this.container = container;
 		this.controller = controller;
 		this.random = random;
-
-		this.freezeCamera = options.freezeCamera ?? true;
 
 		this.worldWidth = worldWidth;
 		this.worldHeight = worldHeight;

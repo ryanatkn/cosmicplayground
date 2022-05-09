@@ -43,12 +43,6 @@ TODO ideas
 	// TODO disable save if the data is unchanged (should we use immer, or what?)
 	// and maybe save automatically sometimes?
 	const saveData = () => {
-		const updatedData: StageData = {
-			freezeCamera: !cameraUnlocked,
-			playerSpeed,
-			playerStrength,
-			timeDilation,
-		}; // TODO maybe cache this?
 		dispatch('save', updatedData);
 	};
 	const importData = () => {
@@ -82,6 +76,8 @@ TODO ideas
 	$: if (stage) stage.player.speed = playerSpeed;
 	$: if (stage) stage.player.strength = playerStrength;
 	$: if (stage) stage.timeDilation = timeDilation;
+	let updatedData: StageData;
+	$: updatedData = {freezeCamera: !cameraUnlocked, playerSpeed, playerStrength, timeDilation};
 
 	// TODO should we pass through plain numbers or a dimensions object?
 	// // TODO what about the camera zoom relative to what can fit in the dimensions?
@@ -135,6 +131,7 @@ TODO ideas
 			viewportWidth,
 			worldHeight,
 			worldWidth,
+			data: updatedData,
 		});
 	};
 	const resetStage = () => {

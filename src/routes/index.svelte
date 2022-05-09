@@ -145,7 +145,7 @@
 			viewHeight,
 			viewportWidth,
 			viewportHeight,
-			freezeCamera: !cameraUnlocked,
+			data: {freezeCamera: !cameraUnlocked},
 		});
 	};
 	const destroyStage = () => {
@@ -302,6 +302,15 @@
 				} else {
 					await exitStarshipMode();
 				}
+			}
+		} else if (e.key === ' ') {
+			if (starshipMode) {
+				// && enableGlobalHotkeys(e.target)
+				e.stopImmediatePropagation();
+				e.preventDefault();
+				void exitStarshipMode();
+				await tick();
+				await enterStarshipMode();
 			}
 		} else if (e.key === 'F2') {
 			e.stopImmediatePropagation();
