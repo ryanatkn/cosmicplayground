@@ -9,11 +9,16 @@
 	// TODO store an index and each separate?
 	const STORAGE_KEY_STAGES = 'gravity_unlock_stages';
 	const STORAGE_KEY_SELECTED_DATA_INDEX = 'gravity_unlock_selected_data_index';
-
-	let datas: StageData[] = [];
+	const STORAGE_KEY_DATA_COUNT = 'gravity_unlock_data_count';
 
 	let selectedDataIndex = loadFromStorage(STORAGE_KEY_SELECTED_DATA_INDEX, 0);
 	$: setInStorage(STORAGE_KEY_SELECTED_DATA_INDEX, selectedDataIndex);
+
+	let dataCount = loadFromStorage(STORAGE_KEY_DATA_COUNT, 0);
+	$: setInStorage(STORAGE_KEY_DATA_COUNT, dataCount); // TODO is wasteful on first run
+
+	let datas: StageData[] = Array.from({length: dataCount});
+	$: dataCount = datas.length; // does this work? if so, bravo Svelte
 
 	$: selectedDataStorageKey = `${STORAGE_KEY_STAGES}_${selectedDataIndex}`;
 	$: selectedData =
