@@ -7,7 +7,7 @@
 	import {getDimensions} from '$lib/app/dimensions';
 	import {getClock} from '$lib/app/clock';
 	import {getPixi} from '$lib/app/pixi';
-	// import {enableGlobalHotkeys} from '$lib/util/dom'; // TODO see below
+	import {enableGlobalHotkeys} from '$lib/util/dom';
 
 	/*
 
@@ -156,7 +156,6 @@ TODO ideas
 	const toggleExpandControls = () => (expandControls = !expandControls);
 
 	const onWindowKeydown = (e: KeyboardEvent) => {
-		const enableGlobalHotkeys = (_: any) => true; // TODO remove this once Felt is upgraded, see in 2 places
 		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			e.stopImmediatePropagation();
 			e.preventDefault();
