@@ -6,6 +6,9 @@
 	import Tabs from '$lib/ui/Tabs.svelte';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 
+	// TODO needs a lot of refactoring -- either combine tabs with controls
+	// in the stage builder or extract elsewhere
+
 	// TODO store an index and each separate?
 	const STORAGE_KEY_STAGES = 'gravity_unlock_stages';
 	const STORAGE_KEY_SELECTED_DATA_INDEX = 'gravity_unlock_selected_data_index';
@@ -52,8 +55,6 @@
 		datas = datas.concat(klona(selectedData));
 		selectIndex(datas.length - 1);
 	};
-
-	// TODO either combine tabs with controls in the stage builder or extract elsewhere
 </script>
 
 <div class="gravity-unlock-studio">
