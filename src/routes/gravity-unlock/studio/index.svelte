@@ -26,6 +26,7 @@
 		datas[selectedDataIndex] ||
 		(datas[selectedDataIndex] = loadFromStorage(selectedDataStorageKey, klona(initialStageData)));
 
+	// TODO extract a custom store to handle this list of items
 	const selectIndex = (index: number): void => {
 		selectedDataIndex = index;
 	};
