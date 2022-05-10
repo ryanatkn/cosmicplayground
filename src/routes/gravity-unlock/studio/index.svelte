@@ -32,9 +32,7 @@
 	};
 
 	const deleteAtIndex = (index: number): void => {
-		console.log(`datas`, index, datas);
 		datas = datas.slice(0, index).concat(datas.slice(index + 1));
-		console.log(`datas after`, datas);
 		if (selectedDataIndex >= datas.length) selectedDataIndex--;
 	};
 	const deleteSelected = (): void => {
@@ -55,9 +53,7 @@
 		selectIndex(datas.length - 1);
 	};
 
-	// TODO BLOCK either combine tabs with controls in the stage builder or extract elsewhere
-
-	$: console.log(`selectedData`, selectedData);
+	// TODO either combine tabs with controls in the stage builder or extract elsewhere
 </script>
 
 <div class="gravity-unlock-studio">

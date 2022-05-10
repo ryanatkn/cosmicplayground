@@ -38,10 +38,7 @@ TODO ideas
 
 	const dispatch = createEventDispatcher<{save: StageData}>();
 
-	let savedData: StageData | null = null;
-
-	$: console.log(`GravityUnlockStageBuilder data changed`, data);
-	$: saveEnabled = !!savedData && savedData !== data;
+	let savedData: StageData = data;
 
 	onMount(() => {
 		createStage();
@@ -68,7 +65,12 @@ TODO ideas
 		} else {
 			data = initialStageData;
 		}
-		// TODO refactor with code below
+	};
+
+	$: updateFromData(data);
+	const updateFromData = (data: StageData) => {
+		console.log(`updateFromData`, data);
+		savedData = data;
 		cameraUnlocked = !data.freezeCamera;
 		playerSpeed = data.playerSpeed;
 		playerStrength = data.playerStrength;
@@ -253,9 +255,7 @@ TODO ideas
 		>
 		{#if expandControls}
 			<button title="Import JSON data" on:click={importData}>import</button>
-			<button title="[ctrl+s] Save to localStorage" on:click={saveData} disabled={!saveEnabled}
-				>save</button
-			>
+			<button title="[ctrl+s] Save to localStorage" on:click={saveData}>save</button>
 		{/if}
 	</div>
 </div>
