@@ -41,8 +41,7 @@ TODO ideas
 	let savedData: StageData | null = null;
 
 	$: console.log(`GravityUnlockStageBuilder data changed`, data);
-	let unsaved = false;
-	$: saveEnabled = (!!savedData && savedData !== data) || unsaved;
+	$: saveEnabled = !!savedData && savedData !== data;
 
 	onMount(() => {
 		createStage();
@@ -54,7 +53,6 @@ TODO ideas
 		if (!stage) return;
 		savedData = stage.toData();
 		dispatch('save', savedData);
-		unsaved = false; // TODO BLOCK hmm?
 	};
 	const importData = () => {
 		let raw = prompt('imported data', JSON.stringify(data)); // eslint-disable-line no-alert
@@ -87,11 +85,6 @@ TODO ideas
 	$: if (stage) stage.player.speed = playerSpeed;
 	$: if (stage) stage.player.strength = playerStrength;
 	$: if (stage) stage.timeDilation = timeDilation;
-	// TODO BLOCK unsaved stuff
-	// $: if (cameraUnlocked !== !data.freezeCamera) unsaved = true;
-	// $: if (playerSpeed !== data.playerSpeed) unsaved = true;
-	// $: if (playerStrength !== data.playerStrength) unsaved = true;
-	// $: if (timeDilation !== data.timeDilation) unsaved = true;
 
 	// TODO should we pass through plain numbers or a dimensions object?
 	// // TODO what about the camera zoom relative to what can fit in the dimensions?

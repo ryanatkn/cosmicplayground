@@ -69,7 +69,7 @@
 					<button
 						class:selected
 						on:click={selected ? undefined : () => selectIndex(index)}
-						disabled={selected}>{index}</button
+						disabled={selected}>{index + 1}</button
 					>
 				</Tabs>
 			{/if}
