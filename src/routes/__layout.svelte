@@ -24,7 +24,7 @@
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 	import {setAudioCtx} from '$lib/audio/audioCtx';
 	import {setDimensions} from '$lib/app/dimensions';
-	// import {enableGlobalHotkeys} from '$lib/util/dom'; // TODO see below
+	import {enableGlobalHotkeys} from '$lib/util/dom';
 
 	const dimensions = writable({
 		width: browser ? window.innerWidth : 1,
@@ -128,8 +128,6 @@
 	// TODO integrate this with the controls in `index.svelte` and `World.svelte`
 	const onKeyDown = async (e: KeyboardEvent) => {
 		// TODO main menu!
-		const enableGlobalHotkeys = (_: any) => true; // TODO remove this once Felt is upgraded, see in 2 places
-
 		if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			// global pause
 			e.stopImmediatePropagation();
