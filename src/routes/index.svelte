@@ -338,10 +338,6 @@
 			e.stopImmediatePropagation();
 			e.preventDefault();
 			await playSong(toSongData('Futuristic 1'));
-		} else if (e.key === '0' && e.ctrlKey) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
-			await playSong(toSongData('Space Ambience'));
 		}
 	};
 </script>
