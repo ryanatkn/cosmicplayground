@@ -53,9 +53,8 @@
 	--dark_border_md: var(--border_width_3) var(--clickable_border_style) var(--bg_dark_lighter);
 	--portal_padding: 12px; /* TODO maybe swap for spacing_3 */
 	--panel_border: var(--border_width_5) var(--clickable_border_style) var(--light_border_color);
-	/* TODO Felt */
-	--border_radius_lg: 15px;
-	--border_radius_md: 7px;
+	--border_radius_4: 15px;
+	--border_radius_3: 7px;
 	--text_shadow_sm: 1px 1px rgba(0, 0, 0, 0.6);
 	--text_shadow_reverse_sm: -1px -1px rgba(0, 0, 0, 0.6);
 	--hud_element_size: 100px;
@@ -193,15 +192,6 @@ summary:active {
 
 .fade-in {
 	animation: fade-in 1s linear;
-}
-/* TODO upgrade Felt */
-@keyframes fade-in {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
 }
 
 .image-button {
