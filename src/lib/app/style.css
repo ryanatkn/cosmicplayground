@@ -59,6 +59,8 @@
 	--text_shadow_reverse_sm: -1px -1px rgba(0, 0, 0, 0.6);
 	--hud_element_size: 100px;
 	--earth_wobble: 23.5deg;
+	/* TODO maybe upstream this to Felt, so underlining only happens inside `.markup` */
+	--link_text_decoration_hover: none;
 }
 
 html {
@@ -69,6 +71,10 @@ html {
 body {
 	height: 100%;
 	background-color: #000;
+}
+
+.markup {
+	--link_text_decoration_hover: underline;
 }
 
 hr {
@@ -134,17 +140,15 @@ h3 {
 	transform: var(--clickable_transform_sm__active);
 }
 
-button {
+button,
+button:hover,
+button:active,
+button:focus {
 	background: transparent;
 	box-shadow: none;
 }
 button:disabled {
 	opacity: 0.39;
-}
-button:focus {
-	/* TODO this is a hack for Chrome but bad for a11y/keyboard nav,
-	need to figure out better styles that don't uglify the general case... */
-	outline: none;
 }
 
 .idle {
