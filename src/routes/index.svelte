@@ -376,7 +376,7 @@
 			/>
 		{/if}
 		{#each primaryPortals as portals}
-			<ul class="portals">
+			<div class="portals">
 				{#each portals as portal (portal)}
 					{#if portal === starshipPortal}
 						<PortalPreview onClick={enterStarshipMode} classes="portal-preview--starship"
@@ -388,7 +388,7 @@
 						</PortalPreview>
 					{/if}
 				{/each}
-			</ul>
+			</div>
 		{/each}
 		{#if strengthBoosterUnlocked}
 			<PortalPreview classes="show-more-button" onClick={() => void toggleStrengthBooster()}>
@@ -423,22 +423,22 @@
 		{/if}
 		{#if strengthBoosterToggled}
 			{#each secondaryPortals as portals}
-				<ul class="portals strength-portals">
+				<div class="portals strength-portals">
 					{#each portals as portal}
 						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
 							<svelte:component this={portal.Preview} />
 						</PortalPreview>
 					{/each}
-				</ul>
+				</div>
 			{/each}
 		{/if}
 		{#if speedBoosterUnlocked}
-			<ul class="portals">
+			<div class="portals">
 				<PortalPreview onClick={toggleSpeedBooster}
 					><span class="booster" class:disabled={!speedBoosterEnabled}>{BOOSTER_SYMBOL}</span
 					></PortalPreview
 				>
-			</ul>
+			</div>
 		{/if}
 	</nav>
 	{#if stage}

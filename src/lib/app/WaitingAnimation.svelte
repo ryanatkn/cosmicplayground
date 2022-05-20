@@ -20,6 +20,6 @@
 		color: var(--success_color);
 	}
 	.failure {
-		color: var(--failure_color);
+		color: var(--error_color);
 	}
 </style>

@@ -1,6 +1,4 @@
-html {
-	background-color: #000;
-	height: 100%;
+:root {
 	--ocean_hue: 214;
 	--land_hue: 124;
 	--space_hue: 304;
@@ -11,11 +9,8 @@ html {
 	--space_color: hsl(var(--space_hue), 45%, 30%);
 	--photon_color: hsl(46, 54%, 30%);
 	--lava_color: hsl(0, 65%, 55%);
-	--error_color: var(--lava_color);
 	--pending_color: var(--ocean_color);
 	--success_color: var(--land_color);
-	--failure_color: var(--error_color);
-	--text_color: hsl(0, 0%, 80%);
 	--text_color_dark: hsl(0, 0%, 60%);
 	--ocean_text_color: hsl(var(--ocean_hue), 65%, 50%);
 	--land_text_color: hsl(var(--land_hue), 65%, 50%);
@@ -26,6 +21,9 @@ html {
 		60%,
 		65%
 	); /*  TODO probably make this a lighter shade of the primary color */
+	--text_color: hsl(0, 0%, 80%);
+	--button_text_color: var(--text_color);
+	--link_color: var(--ocean_text_color);
 	--light_border_color: rgba(255, 255, 255, 0.13);
 	/* TODO reuse --ocean_color and --land_color, maybe using the substitution trick */
 	--bg_1: rgba(27, 71, 128, 0.3);
@@ -54,12 +52,18 @@ html {
 	--dark_border_md: var(--border_width_3) var(--clickable_border_style) var(--bg_dark_lighter);
 	--portal_padding: 12px; /* TODO maybe swap for spacing_3 */
 	--panel_border: var(--border_width_5) var(--clickable_border_style) var(--light_border_color);
+	/* TODO Felt */
 	--border_radius_lg: 15px;
 	--border_radius_md: 7px;
 	--text_shadow_sm: 1px 1px rgba(0, 0, 0, 0.6);
 	--text_shadow_reverse_sm: -1px -1px rgba(0, 0, 0, 0.6);
 	--hud_element_size: 100px;
 	--earth_wobble: 23.5deg;
+}
+
+html {
+	background-color: #000;
+	height: 100%;
 }
 
 body {
@@ -77,32 +81,10 @@ hr {
 	margin: var(--spacing-5) 0;
 }
 
-img,
-video {
-	max-width: 100%;
-	height: auto;
-}
-
 code {
 	background: var(--bg_1);
 	padding: 1px 8px;
 	text-shadow: var(--text_shadow_sm);
-}
-
-ul {
-	list-style: none;
-	padding-left: 0;
-	margin: var(--spacing-5) 0 0 0; /* TODO hacky, maybe we want a <ContentSpacer/>? */
-}
-
-p {
-	margin: var(--spacing-5) 0 0 0; /* TODO hacky, maybe we want a <ContentSpacer/>? */
-}
-
-/* TODO use felt styles */
-.markup ul {
-	list-style: initial;
-	padding-left: var(--spacing-8);
 }
 
 /* TODO this assumes a horizontal layout - maybe make a component from this with a layout prop? */
@@ -136,40 +118,9 @@ h3 {
 	margin: 0;
 }
 
-.pixelated {
-	image-rendering: -webkit-optimize-contrast; /* Safari */
-	image-rendering: -o-crisp-edges; /* OS X & Windows Opera (12.02+) */
-	image-rendering: pixelated; /* in case crisp-edges isn't supported */
-	image-rendering: crisp-edges; /* the recommended pixel art setting according to MDN */
-}
-
 .grayscale {
 	filter: grayscale(1);
 }
-
-a {
-	cursor: pointer;
-	text-decoration: none;
-	color: var(--ocean_text_color);
-	font-weight: 600;
-}
-a:hover {
-	text-decoration: underline;
-}
-a.buttonish:hover {
-	text-decoration: none;
-}
-/* 
-TODO
-input {
-	background: transparent;
-	color: var(--text_color);
-}
-
-select {
-	background: transparent;
-	color: var(--text_color);
-} */
 
 .buttonish {
 	transform: var(--clickable_transform_sm);
@@ -184,18 +135,10 @@ select {
 }
 
 button {
-	cursor: pointer;
-	color: var(--text_color);
-	font-family: inherit;
 	background: transparent;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	text-align: center;
+	box-shadow: none;
 }
 button:disabled {
-	cursor: default;
 	opacity: 0.39;
 }
 button:focus {
@@ -243,6 +186,7 @@ summary:active {
 .fade-in {
 	animation: fade-in 1s linear;
 }
+/* TODO upgrade Felt */
 @keyframes fade-in {
 	from {
 		opacity: 0;
