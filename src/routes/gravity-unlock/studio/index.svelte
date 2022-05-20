@@ -90,6 +90,6 @@
 		align-items: center;
 	}
 	.controls button {
-		font-size: var(--font_size_lg);
+		font-size: var(--font_size_xl4);
 	}
 </style>

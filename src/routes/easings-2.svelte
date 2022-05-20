@@ -444,7 +444,7 @@
 		display: flex;
 		align-items: center;
 		font-weight: bold;
-		border: var(--border_width_md) var(--clickable_border_style) transparent;
+		border: var(--border_width_3) var(--clickable_border_style) transparent;
 		padding: 10px 15px;
 	}
 	.tween-radio.active input {

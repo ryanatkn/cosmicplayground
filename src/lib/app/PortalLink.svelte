@@ -18,7 +18,7 @@
 		border-radius: 5px;
 		color: var(--color_3);
 		font-weight: bold;
-		border: var(--border_width_md) solid transparent;
+		border: var(--border_width_3) solid transparent;
 		text-shadow: var(--text_shadow_sm);
 		white-space: nowrap;
 	}

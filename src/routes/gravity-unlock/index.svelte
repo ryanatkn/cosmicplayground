@@ -28,9 +28,9 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		font-size: var(--font_size_lg);
+		font-size: var(--font_size_xl4);
 	}
 	section {
-		margin-top: var(--spacing_lg);
+		margin-top: var(--spacing_xl7);
 	}
 </style>

@@ -468,7 +468,7 @@
 				<FloatingIconButton
 					label="return home"
 					on:click={() => exitStarshipMode()}
-					style="font-size: var(--font_size_xl3)"
+					style="font-size: var(--font_size_xl9)"
 				>
 					{#if $currentStageScores && rescuedAnyCrew($currentStageScores)}{BOOSTER_SYMBOL}{:else}↩{/if}
 				</FloatingIconButton>

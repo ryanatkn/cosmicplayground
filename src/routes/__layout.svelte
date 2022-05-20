@@ -1,6 +1,8 @@
 <script lang="ts">
+	import '@feltcoop/felt/ui/style.css';
 	import '$lib/app/style.css';
 	import '$lib/app/style-utilities.css';
+
 	import {onMount} from 'svelte';
 	import type {AsyncStatus} from '@feltcoop/felt';
 	import {browser} from '$app/env';

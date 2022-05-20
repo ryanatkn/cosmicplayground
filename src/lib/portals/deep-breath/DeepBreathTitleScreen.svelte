@@ -75,7 +75,7 @@
 				The download is about 75MB of images. If that's cool with you, click this button! <button
 					class="inline"
 					on:click={load}
-					><span style:font-size="var(--font_size_lg)" style:line-height="0">↓</span></button
+					><span style:font-size="var(--font_size_xl4)" style:line-height="0">↓</span></button
 				>
 			</p>
 			<ChunkyButton on:click={load}>continue with 75MB download!</ChunkyButton>
@@ -126,6 +126,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding: var(--spacing_lg) 0;
+		padding: var(--spacing_xl7) 0;
 	}
 </style>

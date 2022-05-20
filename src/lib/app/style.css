@@ -1,17 +1,6 @@
 html {
 	background-color: #000;
 	height: 100%;
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
-	font-family: Segoe UI, Roboto, -apple-system, BlinkMacSystemFont, Oxygen, Ubuntu, Cantarell,
-		Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-	--font_size_xl5: 262px;
-	--font_size_xl3: 162px;
-	--font_size_xl: 72px;
-	--font_size_lg: 48px;
-	--font_size_md: 32px;
-	--font_size_sm: 20px;
 	--ocean_hue: 214;
 	--land_hue: 124;
 	--space_hue: 304;
@@ -46,7 +35,7 @@ html {
 	--bg_dark: rgba(0, 0, 0, 0.6);
 	--bg_dark_lighter: rgba(0, 0, 0, 0.35);
 	--clickable_border_style: double;
-	--clickable_border_style__hover: dashed;
+	--clickable_border_style__hover: solid;
 	--clickable_border_style__active: dotted;
 	--clickable_border_style_sm: solid; /* too small for double, also `_sm` hover/active styles are not needed */
 	--clickable_transform: scale3d(1, 1, 1);
@@ -60,49 +49,22 @@ html {
 	--clickable_opacity__hover: 0.85;
 	--clickable_opacity__active: 1;
 	--fade_transition: opacity 0.5s linear;
-	--border_width_sm: 1px;
-	--border_width_md: 3px;
-	--border_width_lg: 5px;
-	--border_width_xl: 7px;
-	--portal_border: var(--border_width_xl) var(--clickable_border_style) var(--light_border_color);
+	--portal_border: var(--border_width_6) var(--clickable_border_style) var(--light_border_color);
 	--portal_border_radius: 7px;
-	--dark_border_md: var(--border_width_md) var(--clickable_border_style) var(--bg_dark_lighter);
+	--dark_border_md: var(--border_width_3) var(--clickable_border_style) var(--bg_dark_lighter);
 	--portal_padding: 12px; /* TODO maybe swap for spacing_3 */
-	--panel_border: var(--border_width_lg) var(--clickable_border_style) var(--light_border_color);
+	--panel_border: var(--border_width_5) var(--clickable_border_style) var(--light_border_color);
 	--border_radius_lg: 15px;
 	--border_radius_md: 7px;
 	--text_shadow_sm: 1px 1px rgba(0, 0, 0, 0.6);
 	--text_shadow_reverse_sm: -1px -1px rgba(0, 0, 0, 0.6);
-	--spacing_xs3: 16px;
-	--spacing_xs2: 20px;
-	--spacing_xs: 24px;
-	--spacing_sm: 32px;
-	--spacing_md: 48px;
-	--spacing_lg: 64px;
-	--spacing_xl: 100px;
-	--hud_element_size: var(--spacing_xl);
-	--waiting_animation_duration: 1.5s;
+	--hud_element_size: 100px;
 	--earth_wobble: 23.5deg;
-
-	/* TODO use Felt style.css */
-	--duration_6: 3s;
-}
-
-/* border-box all the things, but let parents override children */
-*,
-*:before,
-*:after {
-	box-sizing: inherit;
 }
 
 body {
 	height: 100%;
-	padding: 0;
-	margin: 0;
 	background-color: #000;
-	color: var(--text_color);
-	font-size: 18px;
-	line-height: 1.2;
 }
 
 hr {

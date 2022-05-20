@@ -38,7 +38,7 @@
 <style>
 	h2 {
 		margin-bottom: 10px;
-		font-size: var(--font_size_lg);
+		font-size: var(--font_size_xl4);
 	}
 	.resources-loading-progress {
 		display: flex;
@@ -68,6 +68,6 @@
 		background-color: var(--success_color);
 	}
 	.waiting-animation-wrapper {
-		font-size: var(--font_size_xl);
+		font-size: var(--font_size_xl5);
 	}
 </style>

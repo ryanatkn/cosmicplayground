@@ -33,7 +33,7 @@
 
 <style>
 	h3 {
-		margin-top: var(--spacing_lg);
+		margin-top: var(--spacing_xl7);
 	}
 	h3:first-child {
 		margin-top: 0;
