@@ -37,9 +37,11 @@
 				open source on <a href="https://github.com/cosmicplayground/cosmicplayground">GitHub</a>
 			</li>
 			<li>
-				community at <a href="https://www.cosmicplayground.dev">cosmicplayground.dev</a>
+				community (coming soon) at <a href="https://www.cosmicplayground.dev"
+					>cosmicplayground.dev</a
+				>
 			</li>
-			<li>
+			<!-- <li>
 				learn more about <a
 					href="https://github.com/cosmicplayground/community/blob/main/contributing.md"
 					>contributing</a
@@ -48,7 +50,7 @@
 				<a href="https://github.com/cosmicplayground/community/blob/main/code_of_conduct.md"
 					>code of conduct</a
 				>
-			</li>
+			</li> -->
 		</ul>
 	</div>
 </Panel>

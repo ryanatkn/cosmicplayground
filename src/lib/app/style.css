@@ -22,6 +22,7 @@
 		65%
 	); /*  TODO probably make this a lighter shade of the primary color */
 	--text_color: hsl(0, 0%, 80%);
+	--text_color_light: hsl(0, 0%, 62%);
 	--button_text_color: var(--text_color);
 	--link_color: var(--ocean_text_color);
 	--light_border_color: rgba(255, 255, 255, 0.13);
@@ -145,7 +146,8 @@ button,
 button:hover,
 button:active,
 button:focus,
-button.selected {
+button.selected,
+button:disabled {
 	background: transparent;
 	box-shadow: none;
 }

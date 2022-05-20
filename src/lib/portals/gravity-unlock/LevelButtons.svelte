@@ -28,9 +28,9 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
+		flex-direction: row;
 	}
 	button {
-		font-size: var(--font_size_xl4);
 		padding: var(--spacing_xl3) var(--spacing_xl3);
 	}
 	/* TODO refactor to be global (there are conflicting styles in places) */
