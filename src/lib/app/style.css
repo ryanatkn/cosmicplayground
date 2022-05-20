@@ -71,6 +71,7 @@ html {
 body {
 	height: 100%;
 	background-color: #000;
+	font-size: 1.8rem; /* TODO hmm */
 }
 
 .markup {
@@ -143,7 +144,8 @@ h3 {
 button,
 button:hover,
 button:active,
-button:focus {
+button:focus,
+button.selected {
 	background: transparent;
 	box-shadow: none;
 }
@@ -217,6 +219,11 @@ summary:active {
 }
 .image-button:active {
 	transform: var(--clickable_transform__active);
+}
+
+/* TODO dark mode */
+input[type='range'] {
+	background: transparent;
 }
 
 @keyframes pulsing {
