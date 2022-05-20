@@ -4,7 +4,7 @@
 </script>
 
 <div class="gravity-unlock">
-	<section class="markup">
+	<section class="markup column">
 		<h1>gravity unlock</h1>
 		<ul>
 			<li><a href="/gravity-unlock/studio">studio</a></li>
