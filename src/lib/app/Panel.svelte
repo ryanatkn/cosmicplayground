@@ -7,8 +7,8 @@
 <style>
 	.panel {
 		border: var(--panel_border);
-		border-radius: var(--border_radius_lg);
-		margin: var(--spacing_lg) auto;
+		border-radius: var(--border_radius_4);
+		margin: var(--spacing_xl7) auto;
 		padding: 20px;
 		background-color: var(--bg_dark);
 		padding: var(--spacing-3);
@@ -20,6 +20,6 @@
 	.panel-content {
 		padding: var(--spacing-5);
 		background-color: var(--bg_light);
-		border-radius: var(--border_radius_md);
+		border-radius: var(--border_radius_3);
 	}
 </style>

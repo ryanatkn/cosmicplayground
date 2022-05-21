@@ -2,7 +2,7 @@
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
 		"moduleResolution": "node",
-		"target": "es2021",
+		"target": "esnext",
 		"module": "esnext",
 		"lib": ["esnext", "dom"],
 		"types": ["@sveltejs/kit"],

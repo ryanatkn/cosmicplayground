@@ -52,6 +52,6 @@
 	.secondary-phases {
 		display: flex;
 		align-items: center;
-		margin-top: var(--spacing_sm);
+		margin-top: var(--spacing_xl4);
 	}
 </style>

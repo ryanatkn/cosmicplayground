@@ -7,7 +7,7 @@
 	import {getDimensions} from '$lib/app/dimensions';
 	import {getClock} from '$lib/app/clock';
 	import {getPixi} from '$lib/app/pixi';
-	import {enableGlobalHotkeys} from '$lib/util/dom';
+	import {enableGlobalHotkeys, swallow} from '$lib/util/dom';
 
 	/*
 
@@ -157,24 +157,19 @@ TODO ideas
 
 	const onWindowKeydown = (e: KeyboardEvent) => {
 		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			toggleExpandControls();
 		} else if (e.key === ' ' && enableGlobalHotkeys(e.target)) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			resetStage();
 		} else if (e.key === 's' && e.ctrlKey && enableGlobalHotkeys(e.target)) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			saveData();
 		} else if (e.key === '}' && enableGlobalHotkeys(e.target)) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			simulate(100);
 		} else if (e.key === ']' && enableGlobalHotkeys(e.target)) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			if (e.ctrlKey) {
 				simulate(10);
 			} else {
@@ -281,9 +276,9 @@ TODO ideas
 	.controls {
 		position: absolute;
 		width: 100%;
-		z-index: 1;
 		display: flex;
 		justify-content: flex-end;
+		align-items: flex-start;
 	}
 	.control {
 		display: flex;
@@ -295,10 +290,14 @@ TODO ideas
 		flex: 1;
 	}
 	.stage-data-controls {
+		position: relative;
+		z-index: 1;
 		display: flex;
 		flex-direction: column;
 	}
 	.main-controls {
+		position: relative;
+		z-index: 1;
 		display: flex;
 		flex-direction: column;
 	}
@@ -306,7 +305,7 @@ TODO ideas
 		display: flex;
 	}
 	.buttons button {
-		font-size: var(--font_size_lg);
+		font-size: var(--font_size_xl4);
 	}
 	input[type='number'] {
 		width: 50px;

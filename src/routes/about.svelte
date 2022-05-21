@@ -20,11 +20,11 @@
 	</h1>
 	<h2>tools and toys for expanding minds</h2>
 </header>
-<figure style:margin="var(--spacing_lg) auto 0">
+<figure style:margin="var(--spacing_xl7) auto 0">
 	<img src="/favicon.png" width="192" height="192" alt="cosmicplayground icon" />
 </figure>
-<Panel>
-	<div class="markup">
+<div class="markup">
+	<Panel>
 		<h2>About</h2>
 		<p>
 			Cosmicplayground is a playful exploration of some tools and toys using web technology. It's an
@@ -37,9 +37,17 @@
 				open source on <a href="https://github.com/cosmicplayground/cosmicplayground">GitHub</a>
 			</li>
 			<li>
-				community at <a href="https://www.cosmicplayground.dev">cosmicplayground.dev</a>
+				work in progress forkable educational project at <a href="https://flat.cosmicplayground.org"
+					>flat.cosmicplayground.org</a
+				>
+				(<a href="https://github.com/cosmicplayground/flat">source</a>)
 			</li>
 			<li>
+				community (coming soon) at <a href="https://www.cosmicplayground.dev"
+					>cosmicplayground.dev</a
+				>
+			</li>
+			<!-- <li>
 				learn more about <a
 					href="https://github.com/cosmicplayground/community/blob/main/contributing.md"
 					>contributing</a
@@ -48,16 +56,14 @@
 				<a href="https://github.com/cosmicplayground/community/blob/main/code_of_conduct.md"
 					>code of conduct</a
 				>
-			</li>
+			</li> -->
 		</ul>
-	</div>
-</Panel>
-<Panel>
-	<CreditsProjectSignature />
-</Panel>
-<Credits />
-<Panel>
-	<div class="markup">
+	</Panel>
+	<Panel>
+		<CreditsProjectSignature />
+	</Panel>
+	<Credits />
+	<Panel>
 		<h2>Privacy</h2>
 		<p>
 			This website tracks nothing beyond <a href="https://pages.github.com/">GitHub Pages</a>
@@ -65,10 +71,8 @@
 			requests. See
 			<a href="https://github.com/cosmicplayground/cosmicplayground">the source code</a> for more.
 		</p>
-	</div>
-</Panel>
-<Panel>
-	<div class="markup">
+	</Panel>
+	<Panel>
 		<CreditsProjectSignature />
 		<div style="position: relative; cursor: none; height: 0">
 			<img
@@ -78,8 +82,8 @@
 				on:click={() => window.open('https://www.spiderspace.org')}
 			/>
 		</div>
-	</div>
-</Panel>
+	</Panel>
+</div>
 
 <style>
 	header {
@@ -99,6 +103,9 @@
 		right: -20px;
 		height: 16px;
 		width: 16px;
+	}
+	.markup {
+		margin-bottom: var(--spacing_xl9);
 	}
 	@media (max-width: 900px) {
 		header h1 {

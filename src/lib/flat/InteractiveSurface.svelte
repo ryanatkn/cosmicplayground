@@ -29,36 +29,34 @@
 		updatePointer(e);
 		controller.setPointerDown(false);
 	};
-	const onContextmenu = (e: MouseEvent) => {
-		if (!e.shiftKey) {
-			// handles mobile issue
-			e.stopPropagation();
-			e.preventDefault();
-		}
-	};
+	// const onContextmenu = (e: MouseEvent) => {
+	// 	if (!e.shiftKey) {
+	// 		// handles mobile issue (maybe do touch events instead?)
+	// 		e.stopPropagation();
+	// 		e.preventDefault();
+	// 	}
+	// };
 
-	// TODO mount only for mobile
+	// TODO can we mount only for mobile?
 	// TODO handle all touches
-	// const onTouchstart = (e: TouchEvent) => {
-	// 	updatePointer(e.changedTouches[0]);
-	// 	controller.setPointerDown(true);
-	// };
-	// const onTouchend = (e: TouchEvent) => {
-	// 	updatePointer(e.changedTouches[0]);
-	// 	controller.setPointerDown(false);
-	// };
-	// const onTouchcancel = (e: TouchEvent) => {
-	// 	updatePointer(e.changedTouches[0]);
-	// 	controller.setPointerDown(false);
-	// };
-	// const onTouchmove = (e: TouchEvent) => {
-	// 	updatePointer(e.changedTouches[0]);
-	// };
-	// on:touchstart={onTouchstart}
-	// on:touchend={onTouchend}
-	// on:touchcancel={onTouchcancel}
-	// on:touchmove={onTouchmove}
+	const onTouchstart = (e: TouchEvent) => {
+		updatePointer(e.changedTouches[0]);
+		controller.setPointerDown(true);
+	};
+	const onTouchend = (e: TouchEvent) => {
+		updatePointer(e.changedTouches[0]);
+		controller.setPointerDown(false);
+	};
+	const onTouchcancel = (e: TouchEvent) => {
+		updatePointer(e.changedTouches[0]);
+		controller.setPointerDown(false);
+	};
+	const onTouchmove = (e: TouchEvent) => {
+		updatePointer(e.changedTouches[0]);
+	};
 </script>
+
+<!-- on:contextmenu={onContextmenu} -->
 
 <!-- TODO instead of trapping the click with `stopPropagation`,
 allow it to bubble and do whatever
@@ -71,7 +69,10 @@ allow it to bubble and do whatever
 	on:mousemove|stopPropagation|preventDefault={onMousemove}
 	on:mouseenter={onMouseenter}
 	on:mouseleave={onMouseleave}
-	on:contextmenu={onContextmenu}
+	on:touchstart={onTouchstart}
+	on:touchend={onTouchend}
+	on:touchcancel={onTouchcancel}
+	on:touchmove={onTouchmove}
 />
 
 <style>

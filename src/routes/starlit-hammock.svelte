@@ -299,6 +299,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding-bottom: var(--spacing_lg);
+		padding-bottom: var(--spacing_xl7);
 	}
 </style>

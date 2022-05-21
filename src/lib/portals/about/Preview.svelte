@@ -3,7 +3,7 @@
 
 <div class="preview">
 	<h1>cosmicplayground</h1>
-	<h3>
+	<div class="info">
 		about
 		<img
 			src="/assets/icon.png"
@@ -21,7 +21,7 @@
 			style:margin="10px"
 		/>
 		contact
-	</h3>
+	</div>
 </div>
 
 <style>
@@ -37,11 +37,18 @@
 		text-align: center;
 		width: 100%;
 	}
+	.info {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 28px;
+		font-weight: 300;
+	}
 	@media (max-width: 600px) {
 		h1 {
 			font-size: 40px;
 		}
-		h3 {
+		.info {
 			font-size: 24px;
 		}
 	}
@@ -49,7 +56,7 @@
 		h1 {
 			font-size: 32px;
 		}
-		h3 {
+		.info {
 			font-size: 20px;
 		}
 	}
@@ -57,7 +64,7 @@
 		h1 {
 			font-size: 26px;
 		}
-		h3 {
+		.info {
 			font-size: 16px;
 		}
 	}

@@ -51,10 +51,9 @@
 		if (!inputEnabled) return;
 		stopDragging();
 	};
-	const onMouseEnter = () => {
-		if (!inputEnabled) return;
-		// console.log('onMouseEnter', e);
-	};
+	// const onMouseEnter = () => {
+	// 	if (!inputEnabled) return;
+	// };
 	const onMouseLeave = () => {
 		if (!inputEnabled) return;
 		stopDragging();
@@ -73,13 +72,14 @@
 	};
 </script>
 
+<!-- on:mouseenter={onMouseEnter} -->
+
 <div
 	class="interactive-surface"
 	style="width: {width}px; height: {height}px;"
 	on:mousemove|stopPropagation|preventDefault={onMouseMove}
 	on:mousedown|stopPropagation|preventDefault={onMouseDown}
 	on:mouseup|stopPropagation|preventDefault={onMouseUp}
-	on:mouseenter={onMouseEnter}
 	on:mouseleave={onMouseLeave}
 	on:wheel|passive={onWheel}
 	on:contextmenu={onContextmenu}

@@ -33,10 +33,10 @@
 
 <style>
 	h3 {
-		margin-top: var(--spacing_lg);
+		margin-top: var(--spacing_xl8) !important;
 	}
 	h3:first-child {
-		margin-top: 0;
+		margin-top: 0 !important;
 	}
 	.audio-file {
 		display: flex;

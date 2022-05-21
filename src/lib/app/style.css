@@ -1,17 +1,4 @@
-html {
-	background-color: #000;
-	height: 100%;
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
-	font-family: Segoe UI, Roboto, -apple-system, BlinkMacSystemFont, Oxygen, Ubuntu, Cantarell,
-		Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-	--font_size_xl5: 262px;
-	--font_size_xl3: 162px;
-	--font_size_xl: 72px;
-	--font_size_lg: 48px;
-	--font_size_md: 32px;
-	--font_size_sm: 20px;
+:root {
 	--ocean_hue: 214;
 	--land_hue: 124;
 	--space_hue: 304;
@@ -22,11 +9,8 @@ html {
 	--space_color: hsl(var(--space_hue), 45%, 30%);
 	--photon_color: hsl(46, 54%, 30%);
 	--lava_color: hsl(0, 65%, 55%);
-	--error_color: var(--lava_color);
 	--pending_color: var(--ocean_color);
 	--success_color: var(--land_color);
-	--failure_color: var(--error_color);
-	--text_color: hsl(0, 0%, 80%);
 	--text_color_dark: hsl(0, 0%, 60%);
 	--ocean_text_color: hsl(var(--ocean_hue), 65%, 50%);
 	--land_text_color: hsl(var(--land_hue), 65%, 50%);
@@ -37,6 +21,10 @@ html {
 		60%,
 		65%
 	); /*  TODO probably make this a lighter shade of the primary color */
+	--text_color: hsl(0, 0%, 80%);
+	--text_color_light: hsl(0, 0%, 62%);
+	--button_text_color: var(--text_color);
+	--link_color: var(--ocean_text_color);
 	--light_border_color: rgba(255, 255, 255, 0.13);
 	/* TODO reuse --ocean_color and --land_color, maybe using the substitution trick */
 	--bg_1: rgba(27, 71, 128, 0.3);
@@ -46,8 +34,8 @@ html {
 	--bg_dark: rgba(0, 0, 0, 0.6);
 	--bg_dark_lighter: rgba(0, 0, 0, 0.35);
 	--clickable_border_style: double;
-	--clickable_border_style__hover: dashed;
-	--clickable_border_style__active: dotted;
+	--clickable_border_style__hover: solid;
+	--clickable_border_style__active: solid;
 	--clickable_border_style_sm: solid; /* too small for double, also `_sm` hover/active styles are not needed */
 	--clickable_transform: scale3d(1, 1, 1);
 	--clickable_transform__hover: scale3d(1.1, 1.1, 1.1);
@@ -60,49 +48,48 @@ html {
 	--clickable_opacity__hover: 0.85;
 	--clickable_opacity__active: 1;
 	--fade_transition: opacity 0.5s linear;
-	--border_width_sm: 1px;
-	--border_width_md: 3px;
-	--border_width_lg: 5px;
-	--border_width_xl: 7px;
-	--portal_border: var(--border_width_xl) var(--clickable_border_style) var(--light_border_color);
+	--portal_border: var(--border_width_6) var(--clickable_border_style) var(--light_border_color);
 	--portal_border_radius: 7px;
-	--dark_border_md: var(--border_width_md) var(--clickable_border_style) var(--bg_dark_lighter);
+	--dark_border_md: var(--border_width_3) var(--clickable_border_style) var(--bg_dark_lighter);
 	--portal_padding: 12px; /* TODO maybe swap for spacing_3 */
-	--panel_border: var(--border_width_lg) var(--clickable_border_style) var(--light_border_color);
-	--border_radius_lg: 15px;
-	--border_radius_md: 7px;
+	--panel_border: var(--border_width_5) var(--clickable_border_style) var(--light_border_color);
+	--border_radius_4: 15px;
+	--border_radius_3: 7px;
 	--text_shadow_sm: 1px 1px rgba(0, 0, 0, 0.6);
 	--text_shadow_reverse_sm: -1px -1px rgba(0, 0, 0, 0.6);
-	--spacing_xs3: 16px;
-	--spacing_xs2: 20px;
-	--spacing_xs: 24px;
-	--spacing_sm: 32px;
-	--spacing_md: 48px;
-	--spacing_lg: 64px;
-	--spacing_xl: 100px;
-	--hud_element_size: var(--spacing_xl);
-	--waiting_animation_duration: 1.5s;
+	--hud_element_size: 100px;
 	--earth_wobble: 23.5deg;
-
-	/* TODO use Felt style.css */
-	--duration_6: 3s;
+	/* TODO maybe upstream this to Felt, so underlining only happens inside `.markup` */
+	--link_text_decoration_hover: none;
+	/* TODO dark mode */
+	--bg: #000;
+	--input_bg_color: #000;
+	--interactive_color_lighter: #000;
+	--interactive_color_hover: #000;
+	--interactive_color_disabled: #00;
 }
 
-/* border-box all the things, but let parents override children */
-*,
-*:before,
-*:after {
-	box-sizing: inherit;
+html {
+	background-color: #000;
+	height: 100%;
 }
 
 body {
 	height: 100%;
-	padding: 0;
-	margin: 0;
 	background-color: #000;
+	font-size: 1.8rem; /* TODO hmm */
+}
+
+/* TODO probably don't need this when doing dark mode correctly */
+input,
+select {
 	color: var(--text_color);
-	font-size: 18px;
-	line-height: 1.2;
+}
+
+.markup {
+	--link_text_decoration_hover: underline;
+	/* TODO upstream, use a different class for padding */
+	padding: 0;
 }
 
 hr {
@@ -115,32 +102,15 @@ hr {
 	margin: var(--spacing-5) 0;
 }
 
-img,
-video {
-	max-width: 100%;
-	height: auto;
-}
-
 code {
 	background: var(--bg_1);
 	padding: 1px 8px;
 	text-shadow: var(--text_shadow_sm);
 }
 
-ul {
-	list-style: none;
-	padding-left: 0;
-	margin: var(--spacing-5) 0 0 0; /* TODO hacky, maybe we want a <ContentSpacer/>? */
-}
-
-p {
-	margin: var(--spacing-5) 0 0 0; /* TODO hacky, maybe we want a <ContentSpacer/>? */
-}
-
-/* TODO use felt styles */
-.markup ul {
-	list-style: initial;
-	padding-left: var(--spacing-8);
+label {
+	/* TODO maybe upstream */
+	justify-content: flex-start;
 }
 
 /* TODO this assumes a horizontal layout - maybe make a component from this with a layout prop? */
@@ -174,40 +144,9 @@ h3 {
 	margin: 0;
 }
 
-.pixelated {
-	image-rendering: -webkit-optimize-contrast; /* Safari */
-	image-rendering: -o-crisp-edges; /* OS X & Windows Opera (12.02+) */
-	image-rendering: pixelated; /* in case crisp-edges isn't supported */
-	image-rendering: crisp-edges; /* the recommended pixel art setting according to MDN */
-}
-
 .grayscale {
 	filter: grayscale(1);
 }
-
-a {
-	cursor: pointer;
-	text-decoration: none;
-	color: var(--ocean_text_color);
-	font-weight: 600;
-}
-a:hover {
-	text-decoration: underline;
-}
-a.buttonish:hover {
-	text-decoration: none;
-}
-/* 
-TODO
-input {
-	background: transparent;
-	color: var(--text_color);
-}
-
-select {
-	background: transparent;
-	color: var(--text_color);
-} */
 
 .buttonish {
 	transform: var(--clickable_transform_sm);
@@ -221,25 +160,17 @@ select {
 	transform: var(--clickable_transform_sm__active);
 }
 
-button {
-	cursor: pointer;
-	color: var(--text_color);
-	font-family: inherit;
+button,
+button:hover,
+button:active,
+button:focus,
+button.selected,
+button:disabled {
 	background: transparent;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	text-align: center;
+	box-shadow: none;
 }
 button:disabled {
-	cursor: default;
 	opacity: 0.39;
-}
-button:focus {
-	/* TODO this is a hack for Chrome but bad for a11y/keyboard nav,
-	need to figure out better styles that don't uglify the general case... */
-	outline: none;
 }
 
 .idle {
@@ -280,14 +211,6 @@ summary:active {
 
 .fade-in {
 	animation: fade-in 1s linear;
-}
-@keyframes fade-in {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
 }
 
 .image-button {

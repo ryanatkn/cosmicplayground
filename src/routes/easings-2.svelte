@@ -444,7 +444,7 @@
 		display: flex;
 		align-items: center;
 		font-weight: bold;
-		border: var(--border_width_md) var(--clickable_border_style) transparent;
+		border: var(--border_width_3) var(--clickable_border_style) transparent;
 		padding: 10px 15px;
 	}
 	.tween-radio.active input {
@@ -462,7 +462,11 @@
 		margin: 0 10px;
 		width: 300px;
 	}
+	/* TODO upstream and figure out custom appearance */
 	input[type='radio'] {
+		--input_width_min: var(--input_height);
+		width: var(--input_height);
+		appearance: auto;
 		padding: 0;
 		margin: 0 5px 0 0;
 		opacity: 0.4;

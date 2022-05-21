@@ -366,6 +366,6 @@
 		position: fixed;
 		bottom: 0;
 		right: 0;
-		--font_size: var(--font_size_md);
+		--font_size: var(--font_size_xl2);
 	}
 </style>

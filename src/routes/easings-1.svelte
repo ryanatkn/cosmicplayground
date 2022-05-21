@@ -215,7 +215,8 @@
 		margin-right: 4px;
 	}
 	select {
-		width: 150px;
+		min-width: 150px;
 		height: 40px;
+		flex: 1;
 	}
 </style>

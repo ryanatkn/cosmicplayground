@@ -47,6 +47,7 @@
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from '$lib/portals/home/data';
 	import type {PortalData} from '$lib/portals/portal';
+	import {scrollDown, swallow} from '$lib/util/dom';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -116,11 +117,6 @@
 	];
 
 	const settings = getSettings();
-
-	const scrollDown = async (): Promise<void> => {
-		await tick();
-		window.scrollTo({left: window.scrollX, top: 9000, behavior: 'smooth'}); // `9000` bc `Infinity` doesn't work and I don't care to calculate it
-	};
 
 	let starshipMode = false;
 	const TRANSITION_DURATION = 500;
@@ -292,8 +288,7 @@
 		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		// TODO controls for toggling the speed/strength boosters
 		if (e.key === 'Escape' && !e.ctrlKey) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			if (e.ctrlKey) {
 				await goto('/gravity-unlock');
 			} else {
@@ -313,8 +308,7 @@
 				await enterStarshipMode();
 			}
 		} else if (e.key === 'F2') {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			if (e.ctrlKey) {
 				resetScores();
 				finished = false;
@@ -323,20 +317,16 @@
 				if ($currentStageScores) await finish($currentStageScores);
 			}
 		} else if (e.key === '1' && e.ctrlKey) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			await playSong(toSongData('Spacey Intro'));
 		} else if (e.key === '2' && e.ctrlKey) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			await playSong(toSongData('Spacey Outro'));
 		} else if (e.key === '3' && e.ctrlKey) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			await playSong(toSongData('Futuristic 4'));
 		} else if (e.key === '4' && e.ctrlKey) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			await playSong(toSongData('Futuristic 1'));
 		}
 	};
@@ -376,7 +366,7 @@
 			/>
 		{/if}
 		{#each primaryPortals as portals}
-			<ul class="portals">
+			<div class="portals">
 				{#each portals as portal (portal)}
 					{#if portal === starshipPortal}
 						<PortalPreview onClick={enterStarshipMode} classes="portal-preview--starship"
@@ -388,7 +378,7 @@
 						</PortalPreview>
 					{/if}
 				{/each}
-			</ul>
+			</div>
 		{/each}
 		{#if strengthBoosterUnlocked}
 			<PortalPreview classes="show-more-button" onClick={() => void toggleStrengthBooster()}>
@@ -401,21 +391,19 @@
 						<img
 							src="/assets/earth/night_lights_1.png"
 							alt="night lights of Africa, Europe, and the Middle East"
-							style="width: 100px; height: 100px;"
-							class="mr-2"
+							class="night-light"
 						/>
 					{:else if index === 1}
 						<img
 							src="/assets/earth/night_lights_2.png"
 							alt="night lights of the Americas"
-							style="width: 100px; height: 100px;"
-							class="mr-2"
+							class="night-light"
 						/>
 					{:else}
 						<img
 							src="/assets/earth/night_lights_3.png"
 							alt="night lights of Asia and Australia"
-							style="width: 100px; height: 100px;"
+							class="night-light"
 						/>
 					{/if}
 				</PendingAnimation>
@@ -423,22 +411,22 @@
 		{/if}
 		{#if strengthBoosterToggled}
 			{#each secondaryPortals as portals}
-				<ul class="portals strength-portals">
+				<div class="portals strength-portals">
 					{#each portals as portal}
 						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
 							<svelte:component this={portal.Preview} />
 						</PortalPreview>
 					{/each}
-				</ul>
+				</div>
 			{/each}
 		{/if}
 		{#if speedBoosterUnlocked}
-			<ul class="portals">
+			<div class="portals">
 				<PortalPreview onClick={toggleSpeedBooster}
 					><span class="booster" class:disabled={!speedBoosterEnabled}>{BOOSTER_SYMBOL}</span
 					></PortalPreview
 				>
-			</ul>
+			</div>
 		{/if}
 	</nav>
 	{#if stage}
@@ -468,7 +456,7 @@
 				<FloatingIconButton
 					label="return home"
 					on:click={() => exitStarshipMode()}
-					style="font-size: var(--font_size_xl3)"
+					style="font-size: var(--font_size_xl9)"
 				>
 					{#if $currentStageScores && rescuedAnyCrew($currentStageScores)}{BOOSTER_SYMBOL}{:else}↩{/if}
 				</FloatingIconButton>
@@ -484,18 +472,17 @@
 		left: 0;
 		top: 0;
 		width: 100%;
-		overflow: hidden; /* hide x overflow during transition and y overflow in `starshipMode` */
 	}
 	.home.starship-mode,
 	.home.starship-transitioning {
 		/* hide the vertical scrollbar */
 		height: 100%;
+		overflow: hidden; /* hide x overflow during transition and y overflow in `starshipMode` */
 	}
 	header {
 		margin-top: 15px;
 	}
 	.portals {
-		width: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -560,5 +547,13 @@
 		--clickable_opacity: 1;
 		--clickable_opacity__hover: 1;
 		--clickable_opacity__active: 1;
+	}
+	.night-light {
+		width: 100px;
+		height: 100px;
+		margin-right: var(--spacing-2);
+	}
+	.night-light:last-child {
+		margin-right: 0;
 	}
 </style>

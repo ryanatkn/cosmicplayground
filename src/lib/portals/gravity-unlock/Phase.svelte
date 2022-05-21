@@ -22,7 +22,7 @@
 
 <style>
 	.phase {
-		margin: 0 var(--spacing_xs3);
+		margin: 0 var(--spacing_xl);
 	}
 	.phase:first-child {
 		margin-left: 0;
@@ -32,24 +32,24 @@
 	}
 	button {
 		position: relative;
-		padding: var(--spacing_xs3) var(--spacing_xs);
+		padding: var(--spacing_xl) var(--spacing_xl3);
 	}
 	.title {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: var(--font_size_lg);
+		font-size: var(--font_size_xl4);
 		text-align: center;
 		text-shadow: 2px 2px 3px #000;
 	}
 	@media (max-width: 1100px) {
 		.title {
-			font-size: var(--font_size_md);
+			font-size: var(--font_size_xl2);
 		}
 	}
 	@media (max-width: 500px) {
 		.title {
-			font-size: var(--font_size_sm);
+			font-size: var(--font_size_lg);
 		}
 	}
 	/* TODO refactor to be global (there are conflicting styles in places) */

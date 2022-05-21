@@ -11,7 +11,7 @@
 <style>
 	button {
 		height: var(--hud_element_size);
-		font-size: var(--font_size_lg);
+		font-size: var(--font_size_xl2);
 		font-weight: 300;
 		text-shadow: var(--text_shadow_sm);
 		white-space: nowrap;

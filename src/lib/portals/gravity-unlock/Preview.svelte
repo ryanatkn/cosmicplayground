@@ -11,7 +11,7 @@
 <PortalPreview
 	onClick={unlocked ? undefined : onClick}
 	href={unlocked ? '/gravity-unlock' : undefined}
-	><div style:font-size={unlocked ? 'var(--font_size_xl)' : 'var(--font_size_lg)'}>
+	><div style:font-size={unlocked ? 'var(--font_size_xl5)' : 'var(--font_size_xl4)'}>
 		{#each scores.crew as crew, index}{#if crew}{MOON_ICONS[index]}{:else}❔{/if}{/each}
 	</div></PortalPreview
 >
