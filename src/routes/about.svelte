@@ -37,8 +37,8 @@
 				open source on <a href="https://github.com/cosmicplayground/cosmicplayground">GitHub</a>
 			</li>
 			<li>
-				work in progress forkable educational project at <a href="https://flat.cosmicplayground.org"
-					>flat.cosmicplayground.org</a
+				work in progress forkable educational game project at <a
+					href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a
 				>
 				(<a href="https://github.com/cosmicplayground/flat">source</a>)
 			</li>
