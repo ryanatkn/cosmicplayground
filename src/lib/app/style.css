@@ -61,6 +61,12 @@
 	--earth_wobble: 23.5deg;
 	/* TODO maybe upstream this to Felt, so underlining only happens inside `.markup` */
 	--link_text_decoration_hover: none;
+	/* TODO dark mode */
+	--bg: #000;
+	--input_bg_color: #000;
+	--interactive_color_lighter: #000;
+	--interactive_color_hover: #000;
+	--interactive_color_disabled: #00;
 }
 
 html {
@@ -72,6 +78,12 @@ body {
 	height: 100%;
 	background-color: #000;
 	font-size: 1.8rem; /* TODO hmm */
+}
+
+/* TODO probably don't need this when doing dark mode correctly */
+input,
+select {
+	color: var(--text_color);
 }
 
 .markup {
@@ -211,11 +223,6 @@ summary:active {
 }
 .image-button:active {
 	transform: var(--clickable_transform__active);
-}
-
-/* TODO dark mode */
-input[type='range'] {
-	background: transparent;
 }
 
 @keyframes pulsing {

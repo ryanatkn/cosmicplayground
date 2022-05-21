@@ -462,7 +462,11 @@
 		margin: 0 10px;
 		width: 300px;
 	}
+	/* TODO upstream and figure out custom appearance */
 	input[type='radio'] {
+		--input_width_min: var(--input_height);
+		width: var(--input_height);
+		appearance: auto;
 		padding: 0;
 		margin: 0 5px 0 0;
 		opacity: 0.4;
