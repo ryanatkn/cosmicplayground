@@ -29,13 +29,6 @@
 		updatePointer(e);
 		controller.setPointerDown(false);
 	};
-	// const onContextmenu = (e: MouseEvent) => {
-	// 	if (!e.shiftKey) {
-	// 		// handles mobile issue (maybe do touch events instead?)
-	// 		e.stopPropagation();
-	// 		e.preventDefault();
-	// 	}
-	// };
 
 	// TODO can we mount only for mobile?
 	// TODO handle all touches
@@ -56,17 +49,15 @@
 	};
 </script>
 
-<!-- on:contextmenu={onContextmenu} -->
-
 <!-- TODO instead of trapping the click with `stopPropagation`,
 allow it to bubble and do whatever
 -->
 <div
 	bind:this={el}
 	class="interactive-surface"
-	on:mousedown|stopPropagation|preventDefault={onMousedown}
-	on:mouseup|stopPropagation|preventDefault={onMouseup}
-	on:mousemove|stopPropagation|preventDefault={onMousemove}
+	on:mousedown|stopPropagation={onMousedown}
+	on:mouseup|stopPropagation={onMouseup}
+	on:mousemove|stopPropagation={onMousemove}
 	on:mouseenter={onMouseenter}
 	on:mouseleave={onMouseleave}
 	on:touchstart={onTouchstart}

@@ -77,9 +77,9 @@
 <div
 	class="interactive-surface"
 	style="width: {width}px; height: {height}px;"
-	on:mousemove|stopPropagation|preventDefault={onMouseMove}
-	on:mousedown|stopPropagation|preventDefault={onMouseDown}
-	on:mouseup|stopPropagation|preventDefault={onMouseUp}
+	on:mousemove|stopPropagation={onMouseMove}
+	on:mousedown|stopPropagation={onMouseDown}
+	on:mouseup|stopPropagation={onMouseUp}
 	on:mouseleave={onMouseLeave}
 	on:wheel|passive={onWheel}
 	on:contextmenu={onContextmenu}
