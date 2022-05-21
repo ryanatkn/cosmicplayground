@@ -30,4 +30,5 @@ export const createPortalsStore = (initialState: PortalsState): PortalsStore => 
 
 export const portalsContextKey = {};
 export const getPortals = (): PortalsStore => getContext(portalsContextKey);
-export const setPortals = (portals: PortalsStore): void => setContext(portalsContextKey, portals);
+export const setPortals = (portals: PortalsStore): PortalsStore =>
+	setContext(portalsContextKey, portals);
