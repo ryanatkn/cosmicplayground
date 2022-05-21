@@ -34,6 +34,7 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		flex-grow: 0;
 		transition: var(--clickable_transition);
 		transform: scale3d(1, 1, 1);
 	}

@@ -484,12 +484,12 @@
 		left: 0;
 		top: 0;
 		width: 100%;
-		overflow: hidden; /* hide x overflow during transition and y overflow in `starshipMode` */
 	}
 	.home.starship-mode,
 	.home.starship-transitioning {
 		/* hide the vertical scrollbar */
 		height: 100%;
+		overflow: hidden; /* hide x overflow during transition and y overflow in `starshipMode` */
 	}
 	header {
 		margin-top: 15px;
