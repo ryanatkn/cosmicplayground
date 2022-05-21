@@ -6,6 +6,7 @@
 	import SoggyPlanetTitleScreen from '$lib/portals/soggy-planet/SoggyPlanetTitleScreen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
+	import DaylightHud from '$lib/app/DaylightHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import EarthViewerDom from '$lib/app/EarthViewerDom.svelte';
 	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
@@ -285,6 +286,12 @@
 					</FloatingIconButton>
 				</div>
 				<div class="hud-left-controls">
+					<DaylightHud
+						daylight={activeDaylight}
+						{selectedDaylight}
+						{selectDaylight}
+						{hoverDaylight}
+					/>
 					{#if devMode}
 						<SoggyPlanetDevHud
 							{x}

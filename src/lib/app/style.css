@@ -2,17 +2,19 @@
 	--ocean_hue: 214;
 	--land_hue: 124;
 	--space_hue: 304;
+	--photon_hue: 46;
 	/* --orange???_hue: 34; */
 	/* TODO clean up color consistency between names, color_, bg_, _text_, etc */
 	--ocean_color: hsl(var(--ocean_hue), 65%, 30%);
 	--land_color: hsl(var(--land_hue), 65%, 30%);
 	--space_color: hsl(var(--space_hue), 45%, 30%);
-	--photon_color: hsl(46, 54%, 30%);
+	--photon_color: hsl(var(--photon_hue), 54%, 30%);
 	--lava_color: hsl(0, 65%, 55%);
 	--pending_color: var(--ocean_color);
 	--success_color: var(--land_color);
 	--text_color_dark: hsl(0, 0%, 60%);
 	--ocean_text_color: hsl(var(--ocean_hue), 65%, 50%);
+	--photon_text_color: hsl(var(--photon_hue), 65%, 50%);
 	--land_text_color: hsl(var(--land_hue), 65%, 50%);
 	--space_text_color: hsl(var(--space_hue), 45%, 50%);
 	--color_2: #7094db; /* TODO probably make this a lighter shade of `--ocean_color` */
