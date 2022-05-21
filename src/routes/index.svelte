@@ -47,7 +47,7 @@
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from '$lib/portals/home/data';
 	import type {PortalData} from '$lib/portals/portal';
-	import {swallow} from '$lib/util/dom';
+	import {scrollDown, swallow} from '$lib/util/dom';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -117,11 +117,6 @@
 	];
 
 	const settings = getSettings();
-
-	const scrollDown = async (): Promise<void> => {
-		await tick();
-		window.scrollTo({left: window.scrollX, top: 9000, behavior: 'smooth'}); // `9000` bc `Infinity` doesn't work and I don't care to calculate it
-	};
 
 	let starshipMode = false;
 	const TRANSITION_DURATION = 500;
