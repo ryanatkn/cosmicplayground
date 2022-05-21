@@ -88,6 +88,8 @@ select {
 
 .markup {
 	--link_text_decoration_hover: underline;
+	/* TODO upstream, use a different class for padding */
+	padding: 0;
 }
 
 hr {
@@ -104,6 +106,11 @@ code {
 	background: var(--bg_1);
 	padding: 1px 8px;
 	text-shadow: var(--text_shadow_sm);
+}
+
+label {
+	/* TODO maybe upstream */
+	justify-content: flex-start;
 }
 
 /* TODO this assumes a horizontal layout - maybe make a component from this with a layout prop? */

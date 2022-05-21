@@ -276,9 +276,9 @@ TODO ideas
 	.controls {
 		position: absolute;
 		width: 100%;
-		z-index: 1;
 		display: flex;
 		justify-content: flex-end;
+		align-items: flex-start;
 	}
 	.control {
 		display: flex;
@@ -290,10 +290,14 @@ TODO ideas
 		flex: 1;
 	}
 	.stage-data-controls {
+		position: relative;
+		z-index: 1;
 		display: flex;
 		flex-direction: column;
 	}
 	.main-controls {
+		position: relative;
+		z-index: 1;
 		display: flex;
 		flex-direction: column;
 	}
