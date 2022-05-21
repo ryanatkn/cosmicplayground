@@ -26,7 +26,7 @@
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 	import {setAudioCtx} from '$lib/audio/audioCtx';
 	import {setDimensions} from '$lib/app/dimensions';
-	import {enableGlobalHotkeys} from '$lib/util/dom';
+	import {enableGlobalHotkeys, swallow} from '$lib/util/dom';
 
 	const dimensions = writable({
 		width: browser ? window.innerWidth : 1,
@@ -132,18 +132,15 @@
 		// TODO main menu!
 		if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			// global pause
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			clock.toggle();
 		} else if (e.key === '`' && e.ctrlKey) {
 			// toggle dev mode
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			settings.update((s) => ({...s, devMode: !s.devMode}));
 		} else if (e.key === 'Escape' && e.ctrlKey) {
 			// global nav up one
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			await goto($page.url.pathname.split('/').slice(0, -1).join('/') || '/');
 		} else if ($settings.devMode) {
 			// dev mode hotkeys

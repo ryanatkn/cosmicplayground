@@ -47,6 +47,7 @@
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from '$lib/portals/home/data';
 	import type {PortalData} from '$lib/portals/portal';
+	import {swallow} from '$lib/util/dom';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -292,8 +293,7 @@
 		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		// TODO controls for toggling the speed/strength boosters
 		if (e.key === 'Escape' && !e.ctrlKey) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			if (e.ctrlKey) {
 				await goto('/gravity-unlock');
 			} else {
@@ -313,8 +313,7 @@
 				await enterStarshipMode();
 			}
 		} else if (e.key === 'F2') {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			if (e.ctrlKey) {
 				resetScores();
 				finished = false;
@@ -323,20 +322,16 @@
 				if ($currentStageScores) await finish($currentStageScores);
 			}
 		} else if (e.key === '1' && e.ctrlKey) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			await playSong(toSongData('Spacey Intro'));
 		} else if (e.key === '2' && e.ctrlKey) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			await playSong(toSongData('Spacey Outro'));
 		} else if (e.key === '3' && e.ctrlKey) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			await playSong(toSongData('Futuristic 4'));
 		} else if (e.key === '4' && e.ctrlKey) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			await playSong(toSongData('Futuristic 1'));
 		}
 	};
@@ -401,21 +396,19 @@
 						<img
 							src="/assets/earth/night_lights_1.png"
 							alt="night lights of Africa, Europe, and the Middle East"
-							style="width: 100px; height: 100px;"
-							class="mr-2"
+							class="night-light"
 						/>
 					{:else if index === 1}
 						<img
 							src="/assets/earth/night_lights_2.png"
 							alt="night lights of the Americas"
-							style="width: 100px; height: 100px;"
-							class="mr-2"
+							class="night-light"
 						/>
 					{:else}
 						<img
 							src="/assets/earth/night_lights_3.png"
 							alt="night lights of Asia and Australia"
-							style="width: 100px; height: 100px;"
+							class="night-light"
 						/>
 					{/if}
 				</PendingAnimation>
@@ -559,5 +552,13 @@
 		--clickable_opacity: 1;
 		--clickable_opacity__hover: 1;
 		--clickable_opacity__active: 1;
+	}
+	.night-light {
+		width: 100px;
+		height: 100px;
+		margin-right: var(--spacing-2);
+	}
+	.night-light:last-child {
+		margin-right: 0;
 	}
 </style>

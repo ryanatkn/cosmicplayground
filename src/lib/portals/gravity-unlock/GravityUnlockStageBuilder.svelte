@@ -7,7 +7,7 @@
 	import {getDimensions} from '$lib/app/dimensions';
 	import {getClock} from '$lib/app/clock';
 	import {getPixi} from '$lib/app/pixi';
-	import {enableGlobalHotkeys} from '$lib/util/dom';
+	import {enableGlobalHotkeys, swallow} from '$lib/util/dom';
 
 	/*
 
@@ -157,24 +157,19 @@ TODO ideas
 
 	const onWindowKeydown = (e: KeyboardEvent) => {
 		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			toggleExpandControls();
 		} else if (e.key === ' ' && enableGlobalHotkeys(e.target)) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			resetStage();
 		} else if (e.key === 's' && e.ctrlKey && enableGlobalHotkeys(e.target)) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			saveData();
 		} else if (e.key === '}' && enableGlobalHotkeys(e.target)) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			simulate(100);
 		} else if (e.key === ']' && enableGlobalHotkeys(e.target)) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			swallow(e);
 			if (e.ctrlKey) {
 				simulate(10);
 			} else {

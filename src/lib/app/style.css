@@ -35,7 +35,7 @@
 	--bg_dark_lighter: rgba(0, 0, 0, 0.35);
 	--clickable_border_style: double;
 	--clickable_border_style__hover: solid;
-	--clickable_border_style__active: dotted;
+	--clickable_border_style__active: solid;
 	--clickable_border_style_sm: solid; /* too small for double, also `_sm` hover/active styles are not needed */
 	--clickable_transform: scale3d(1, 1, 1);
 	--clickable_transform__hover: scale3d(1.1, 1.1, 1.1);
