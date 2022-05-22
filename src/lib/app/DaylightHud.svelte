@@ -31,9 +31,9 @@
 <style>
 	.daylight {
 		/* TODO make this not fixed */
-		position: fixed;
+		/* position: absolute;
 		top: 0;
-		right: 0;
+		left: 0; */
 		width: var(--hud_element_size);
 		height: calc(100% - var(--hud_element_size)); /* TODO */
 		display: flex;
