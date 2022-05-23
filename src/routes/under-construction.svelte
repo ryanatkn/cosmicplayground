@@ -238,4 +238,7 @@
 		justify-content: center;
 		overflow: hidden;
 	}
+	img {
+		display: inline-block;
+	}
 </style>

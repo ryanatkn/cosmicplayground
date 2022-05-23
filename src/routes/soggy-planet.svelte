@@ -348,12 +348,12 @@
 		display: flex;
 	}
 	.hud-left-controls {
-		position: absolute;
+		position: fixed;
 		left: 0;
 		top: var(--hud_element_size);
+		height: calc(100% - 2 * var(--hud_element_size));
 		font-size: 72px;
 	}
-
 	.month-wrapper {
 		/* TODO make this not fixed */
 		position: fixed;

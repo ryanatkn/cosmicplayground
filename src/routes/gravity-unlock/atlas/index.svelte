@@ -5,6 +5,11 @@
 <div class="gravity-unlock-atlas">
 	<Atlas />
 </div>
+<footer>
+	<a href="https://github.com/cosmicplayground/cosmicplayground/issues/50"
+		>TODO make a music player</a
+	>
+</footer>
 
 <style>
 	.gravity-unlock-atlas {

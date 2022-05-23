@@ -30,16 +30,17 @@
 
 <style>
 	.daylight {
-		/* TODO make this not fixed */
-		/* position: absolute;
+		position: absolute;
 		top: 0;
-		left: 0; */
+		left: 0;
+		z-index: 1;
 		width: var(--hud_element_size);
-		height: calc(100% - var(--hud_element_size)); /* TODO */
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-end;
+		cursor: pointer;
 	}
 	.daylight-fill {
 		width: 7px;
@@ -49,7 +50,7 @@
 		box-shadow: 1px 0 2px 1px #000, 2px 0 7px #000;
 	}
 	.selected .daylight-fill {
-		box-shadow: -1px 0 2px 1px var(--ocean_text_color), -2px 0 7px #000;
+		box-shadow: -1px 0 2px 1px var(--photon_text_color), -2px 0 7px #000;
 	}
 	.daylight:active .daylight-fill {
 		opacity: 1;

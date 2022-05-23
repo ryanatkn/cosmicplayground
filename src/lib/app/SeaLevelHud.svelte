@@ -33,14 +33,15 @@
 	.water-level {
 		/* TODO make this not fixed */
 		position: fixed;
-		top: 0;
+		top: var(--hud_element_size);
 		right: 0;
 		width: var(--hud_element_size);
-		height: calc(100% - var(--hud_element_size)); /* TODO */
+		height: calc(100% - 2 * var(--hud_element_size));
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-end;
+		cursor: pointer;
 	}
 	.water-level-fill {
 		width: 7px;
