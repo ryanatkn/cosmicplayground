@@ -294,6 +294,7 @@ TODO ideas
 		z-index: 1;
 		display: flex;
 		flex-direction: column;
+		flex-shrink: 0;
 	}
 	.main-controls {
 		position: relative;
