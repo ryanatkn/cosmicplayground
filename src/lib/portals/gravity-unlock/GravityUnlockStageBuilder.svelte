@@ -197,15 +197,19 @@ TODO ideas
 					<label><input type="checkbox" bind:checked={cameraUnlocked} /> free camera</label>
 					<div class="control">
 						<input type="range" bind:value={playerStrength} min={0} max={10} step={0.1} />
-						<label> <input type="number" bind:value={playerStrength} /> player strength</label>
+						<label>
+							<input type="number" bind:value={playerStrength} step={0.1} /> player strength</label
+						>
 					</div>
 					<div class="control">
 						<input type="range" bind:value={playerSpeed} min={0} max={10} step={0.1} />
-						<label> <input type="number" bind:value={playerSpeed} /> player speed</label>
+						<label> <input type="number" bind:value={playerSpeed} step={0.1} /> player speed</label>
 					</div>
 					<div class="control">
 						<input type="range" bind:value={timeDilation} min={0} max={10} step={0.1} />
-						<label> <input type="number" bind:value={timeDilation} /> time dilation</label>
+						<label>
+							<input type="number" bind:value={timeDilation} step={0.1} /> time dilation</label
+						>
 					</div>
 					<div class="buttons">
 						<button
