@@ -11,10 +11,10 @@ It's being developed in public with an open community and open source code.
 Join us if you want to improve your webdev skills
 with Svelte, SvelteKit, and TypeScript while making games in space!
 
-- (work in progress) forkable educational game project at
+- forkable educational game project at
   [flat.cosmicplayground.org](https://flat.cosmicplayground.org)
   ([source](https://github.com/cosmicplayground/flat))
-- (work in progress) community at [cosmicplayground.dev](https://www.cosmicplayground.dev)
+- community at [cosmicplayground.dev](https://www.cosmicplayground.dev)
   ([source](https://github.com/cosmicplayground/community))
 - There's a little action game on the home screen
   (still a work in progress, you'll know you've "beaten the game" when you can play sequences of music).
