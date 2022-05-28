@@ -99,7 +99,7 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 
 ## license 🐦
 
-code is public domain ([The Unlicense](license))
+code is public domain ⚘ [The Unlicense](license)
 
 For the licenses and copyright info of the
 graphics, audio, and other non-code assets,
