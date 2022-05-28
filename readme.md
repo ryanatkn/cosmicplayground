@@ -6,7 +6,7 @@
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
 
 [cosmicplayground.org](https://www.cosmicplayground.org)
-is an educational hobby project exploring some tools and toys using web technology.
+is a hobby project exploring some tools and toys using web technology for fun and learning.
 It's being developed in public with an open community and open source code.
 Join us if you want to improve your webdev skills
 with Svelte, SvelteKit, and TypeScript while making games in space!
