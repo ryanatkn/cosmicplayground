@@ -4,9 +4,10 @@
 </script>
 
 <div class="gravity-unlock">
-	<section class="markup column">
+	<section class="column">
 		<h1>gravity unlock</h1>
-		<ul>
+		<ul class="markup">
+			<li><a href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a></li>
 			<li><a href="/gravity-unlock/studio">studio</a></li>
 			<li><a href="/gravity-unlock/atlas">atlas</a></li>
 		</ul>
@@ -28,7 +29,19 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		font-size: var(--font_size_xl4);
+		font-size: var(--font_size_xl3);
+	}
+	@media (max-width: 530px) {
+		.gravity-unlock {
+			font-size: var(--font_size_xl);
+		}
+	}
+	ul {
+		align-items: center;
+		text-align: center;
+	}
+	a {
+		font-weight: 300;
 	}
 	section {
 		margin-top: var(--spacing_xl7);
