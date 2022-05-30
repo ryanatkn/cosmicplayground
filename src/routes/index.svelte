@@ -307,7 +307,7 @@
 			void exitStarshipMode();
 			await tick();
 			await enterStarshipMode();
-		} else if (e.key === 'Escape') {
+		} else if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.currentTarget)) {
 			if (!$dialogs.length) {
 				// TODO different contents if `starshipMode`
 				dialogs.update(($dialogs) =>

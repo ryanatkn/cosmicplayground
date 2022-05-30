@@ -5,7 +5,7 @@
 	import {enableGlobalHotkeys} from '$lib/util/dom';
 
 	const onKeydown = async (e: KeyboardEvent) => {
-		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+		if (e.key === 'Escape' && e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			e.stopPropagation();
 			await goto('/');
 		}
