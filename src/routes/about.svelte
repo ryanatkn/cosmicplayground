@@ -27,25 +27,23 @@
 	<Panel>
 		<h2>About</h2>
 		<p>
-			Cosmicplayground is a playful exploration of some tools and toys using web technology. It's an
-			experiment in developing an educational project in public with an open community and open
-			source code. Join us if you want to improve your webdev skills with Svelte, SvelteKit, and
-			TypeScript while making games in space!
+			Cosmicplayground is a hobby project exploring some tools and toys using web technology for fun
+			and learning. It's being developed in public with an open community and open source code. Join
+			us if you want to improve your webdev skills with Svelte, SvelteKit, and TypeScript while
+			making games in space!
 		</p>
 		<ul>
 			<li>
 				open source on <a href="https://github.com/cosmicplayground/cosmicplayground">GitHub</a>
 			</li>
 			<li>
-				work in progress forkable educational game project at <a
+				forkable game and creative educational environment at <a
 					href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a
 				>
 				(<a href="https://github.com/cosmicplayground/flat">source</a>)
 			</li>
 			<li>
-				community (coming soon) at <a href="https://www.cosmicplayground.dev"
-					>cosmicplayground.dev</a
-				>
+				community at <a href="https://www.cosmicplayground.dev">cosmicplayground.dev</a>
 			</li>
 			<!-- <li>
 				learn more about <a

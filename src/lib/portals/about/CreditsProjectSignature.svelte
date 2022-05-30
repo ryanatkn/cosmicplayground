@@ -12,7 +12,10 @@
 			</a>
 		</div>
 		<div class="item">
-			<a href="https://github.com/cosmicplayground/cosmicplayground"> public domain source code</a>
+			<div class="centered">
+				<div>public⚘domain</div>
+				<div><a href="https://github.com/cosmicplayground/cosmicplayground">source code</a></div>
+			</div>
 		</div>
 		<div class="item">
 			<a class="clickable" href="https://github.com/cosmicplayground">

@@ -130,6 +130,7 @@
 			<img
 				src="/assets/construction/person-dig-pause.gif"
 				alt="under construction: person dig pause"
+				style="transform: scale3d(-1, 1, 1);"
 			/>
 			<img
 				src="/assets/construction/person-dig-quick.gif"

@@ -11,8 +11,7 @@
 
 	const getSeaLevel = (y: number): number => {
 		const rect = waterLevelEl.getBoundingClientRect();
-		const height = rect.bottom - rect.top;
-		const value = (1 - y / height) * seaIndexMax;
+		const value = (1 - (y - rect.top) / (rect.bottom - rect.top)) * seaIndexMax;
 		return value;
 	};
 </script>
@@ -33,14 +32,15 @@
 	.water-level {
 		/* TODO make this not fixed */
 		position: fixed;
-		top: 0;
+		top: var(--hud_element_size);
 		right: 0;
 		width: var(--hud_element_size);
-		height: calc(100% - var(--hud_element_size)); /* TODO */
+		height: calc(100% - 2 * var(--hud_element_size));
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-end;
+		cursor: pointer;
 	}
 	.water-level-fill {
 		width: 7px;

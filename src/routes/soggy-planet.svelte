@@ -6,6 +6,7 @@
 	import SoggyPlanetTitleScreen from '$lib/portals/soggy-planet/SoggyPlanetTitleScreen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
+	import DaylightHud from '$lib/app/DaylightHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import EarthViewerDom from '$lib/app/EarthViewerDom.svelte';
 	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
@@ -106,24 +107,15 @@
 	const landImages = Array.from({length: 12}, (_, i) => `/assets/earth/land_${i + 1}.png`);
 	let cycledLandValue = 0;
 	$: cycledLandIndex = Math.floor(cycledLandValue);
-	const landDelay = 230;
-	let landTimer = 0;
 
 	// Earth's lights
-	let showLights = true;
-	const toggleShowLights = () => {
-		showLights = !showLights;
-		if (showLights) {
-			lightsTimer = LIGHTS_OPACITY_CYCLE_TIMER * 1.7; // init to darkness, `* 2` being the midpoint
-		}
-	};
 	const LIGHTS_IMAGE = `/assets/earth/lights.png`;
 	const LIGHTS_OPACITY_MIN = 0;
 	const LIGHTS_OPACITY_MAX = 0.91;
 	const LIGHTS_OPACITY_CYCLE_TIMER = 3000; // larger is slower
 	let lightsOpacity = LIGHTS_OPACITY_MIN;
-	let lightsTimer = LIGHTS_OPACITY_CYCLE_TIMER * 2.5;
-	$: if (showLights) lightsTimer += $clock.dt;
+	let lightsTimer = LIGHTS_OPACITY_CYCLE_TIMER * 1.7;
+	$: if (selectedDaylight === null) lightsTimer += $clock.dt;
 	$: lightsOpacity = toLightsOpacity(lightsTimer);
 	const toLightsOpacity = (time: number): number =>
 		LIGHTS_OPACITY_MIN +
@@ -131,7 +123,7 @@
 			(Math.sin(time / LIGHTS_OPACITY_CYCLE_TIMER) + 1)) /
 			2;
 	// TODO would be cool to have nightfall overlay the shape of the real thing, not global
-	$: nightfallOpacity = (lightsOpacity - LIGHTS_OPACITY_MIN) * 0.48;
+	$: nightfallOpacity = (activeDaylight - LIGHTS_OPACITY_MIN) * 0.48;
 
 	// TODO this is weird because the shore images were bolted on after the fact.
 	// Refactoring the sea images to have a single base and later the second/third above would be ideal
@@ -153,21 +145,29 @@
 	$: seaLevel = toSeaLevel(seaLevelTimer);
 
 	// update every clock tick
+	const LAND_DELAY = 230;
+	let landTimer = 0;
 	$: if (selectedLandIndex === null && hoveredLandIndex === null) {
 		landTimer += $clock.dt;
-		cycledLandValue = (landTimer / landDelay) % landImages.length;
+		cycledLandValue = (landTimer / LAND_DELAY) % landImages.length;
 	}
 
 	let selectedSeaLevel: number | null = null;
 	let hoveredSeaLevel: number | null = null;
 	$: activeSeaLevel = hoveredSeaLevel ?? selectedSeaLevel ?? seaLevel;
+	const selectSeaLevel = (value: number | null) => {
+		selectedSeaLevel = value;
+	};
+	const hoverSeaLevel = (value: number | null) => {
+		hoveredSeaLevel = value;
+	};
+
 	let selectedLandIndex: number | null = null;
 	let hoveredLandIndex: number | null = null;
 	$: activeLandIndex = hoveredLandIndex ?? selectedLandIndex ?? cycledLandIndex;
 	$: activeLandValue = activeLandIndex === cycledLandIndex ? cycledLandValue : activeLandIndex;
-
 	const setCycledLandValue = (value: number) => {
-		landTimer = landDelay * value;
+		landTimer = LAND_DELAY * value;
 	};
 	const selectLandIndex = (index: number | null) => {
 		selectedLandIndex = index;
@@ -177,11 +177,15 @@
 		hoveredLandIndex = index;
 		if (index !== null) setCycledLandValue(index);
 	};
-	const selectSeaLevel = (value: number | null) => {
-		selectedSeaLevel = value;
+
+	let selectedDaylight: number | null = null;
+	let hoveredDaylight: number | null = null;
+	$: activeDaylight = hoveredDaylight ?? selectedDaylight ?? lightsOpacity;
+	const selectDaylight = (value: number | null) => {
+		selectedDaylight = value;
 	};
-	const hoverSeaLevel = (value: number | null) => {
-		hoveredSeaLevel = value;
+	const hoverDaylight = (value: number | null) => {
+		hoveredDaylight = value;
 	};
 
 	// Make the two Earths tile seamlessly when possible.
@@ -232,9 +236,9 @@
 				{shoreImages}
 				{seashoreFloorIndex}
 				lightsImage={LIGHTS_IMAGE}
-				{lightsOpacity}
+				lightsOpacity={activeDaylight}
 				{nightfallOpacity}
-				{showLights}
+				showLights={true}
 				{activeLandValue}
 				{activeSeaLevel}
 				{width}
@@ -263,9 +267,9 @@
 				{shoreImages}
 				{seashoreFloorIndex}
 				lightsImage={LIGHTS_IMAGE}
-				{lightsOpacity}
+				lightsOpacity={activeDaylight}
 				{nightfallOpacity}
-				{showLights}
+				showLights={true}
 				{activeLandValue}
 				{activeSeaLevel}
 			/>
@@ -285,6 +289,12 @@
 					</FloatingIconButton>
 				</div>
 				<div class="hud-left-controls">
+					<DaylightHud
+						daylight={activeDaylight}
+						{selectedDaylight}
+						{selectDaylight}
+						{hoverDaylight}
+					/>
 					{#if devMode}
 						<SoggyPlanetDevHud
 							{x}
@@ -297,17 +307,6 @@
 				</div>
 				<div class="month-wrapper">
 					<MonthHud {activeLandIndex} {selectedLandIndex} {selectLandIndex} {hoverLandIndex} />
-				</div>
-				<div class="lights-control">
-					<FloatingIconButton
-						pressed={showLights}
-						label="toggle lights"
-						on:click={toggleShowLights}
-					>
-						<span class:grayscale={true}>
-							{#if showLights}🔆{:else}🔅{/if}
-						</span>
-					</FloatingIconButton>
 				</div>
 				<SeaLevelHud
 					seaLevel={activeSeaLevel}
@@ -349,23 +348,17 @@
 		display: flex;
 	}
 	.hud-left-controls {
-		position: absolute;
+		position: fixed;
 		left: 0;
 		top: var(--hud_element_size);
+		height: calc(100% - 2 * var(--hud_element_size));
 		font-size: 72px;
 	}
-
 	.month-wrapper {
 		/* TODO make this not fixed */
 		position: fixed;
 		bottom: 0;
 		left: 0;
-		width: calc(100% - var(--hud_element_size));
-	}
-	.lights-control {
-		position: fixed;
-		bottom: 0;
-		right: 0;
-		--font_size: var(--font_size_xl2);
+		width: 100%;
 	}
 </style>

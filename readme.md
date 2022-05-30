@@ -1,6 +1,6 @@
 # cosmicplayground
 
-[<img src="/src/static/assets/characters/cosmic-kitty.webp" align="right" width="192" height="192">](https://www.cosmicplayground.org)
+[<img src="/src/static/favicon.png" align="right" width="192" height="192">](https://www.cosmicplayground.org)
 
 > tools and toys for expanding minds
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
@@ -102,7 +102,7 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 
 ## license 🐦
 
-code is public domain ([The Unlicense](license))
+code is public domain ⚘ [The Unlicense](license)
 
 For the licenses and copyright info of the
 graphics, audio, and other non-code assets,

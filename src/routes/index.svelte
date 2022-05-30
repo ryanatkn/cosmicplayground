@@ -121,7 +121,7 @@
 	let starshipMode = false;
 	const TRANSITION_DURATION = 500;
 	let transitioningStarshipModeCount = 0; // counter so it handles concurrent calls without much code
-	$: transitioningStarshipMode = !!transitioningStarshipModeCount;
+	$: transitioningStarshipMode = transitioningStarshipModeCount > 0;
 	$: starshipReady = starshipMode && !transitioningStarshipMode;
 
 	let starshipX = 0;
@@ -266,6 +266,7 @@
 		clock.reset();
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
+		await wait(); // prevents glitchy horizontal scrollbar that appears for a frame
 		transitioningStarshipModeCount--;
 	};
 	const exitStarshipMode = async () => {
@@ -277,6 +278,7 @@
 		if (pausedClock) clock.resume();
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
+		await wait(); // prevents glitchy horizontal scrollbar that appears for a frame
 		transitioningStarshipModeCount--;
 	};
 
