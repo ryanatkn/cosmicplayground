@@ -8,10 +8,11 @@
 
 	let daylightEl: HTMLElement;
 
+	$: console.log(`daylight`, daylight);
+
 	const getDaylight = (y: number): number => {
 		const rect = daylightEl.getBoundingClientRect();
-		const height = rect.bottom - rect.top;
-		const value = 1 - y / height;
+		const value = 1 - (y - rect.top) / (rect.bottom - rect.top);
 		return value;
 	};
 </script>

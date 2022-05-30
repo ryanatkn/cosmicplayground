@@ -123,7 +123,7 @@
 			(Math.sin(time / LIGHTS_OPACITY_CYCLE_TIMER) + 1)) /
 			2;
 	// TODO would be cool to have nightfall overlay the shape of the real thing, not global
-	$: nightfallOpacity = (lightsOpacity - LIGHTS_OPACITY_MIN) * 0.48;
+	$: nightfallOpacity = (activeDaylight - LIGHTS_OPACITY_MIN) * 0.48;
 
 	// TODO this is weird because the shore images were bolted on after the fact.
 	// Refactoring the sea images to have a single base and later the second/third above would be ideal
@@ -180,7 +180,7 @@
 
 	let selectedDaylight: number | null = null;
 	let hoveredDaylight: number | null = null;
-	$: activeDaylight = hoveredDaylight ?? selectedDaylight ?? seaLevel;
+	$: activeDaylight = hoveredDaylight ?? selectedDaylight ?? lightsOpacity;
 	const selectDaylight = (value: number | null) => {
 		selectedDaylight = value;
 	};
@@ -236,7 +236,7 @@
 				{shoreImages}
 				{seashoreFloorIndex}
 				lightsImage={LIGHTS_IMAGE}
-				{lightsOpacity}
+				lightsOpacity={activeDaylight}
 				{nightfallOpacity}
 				showLights={true}
 				{activeLandValue}
@@ -267,7 +267,7 @@
 				{shoreImages}
 				{seashoreFloorIndex}
 				lightsImage={LIGHTS_IMAGE}
-				{lightsOpacity}
+				lightsOpacity={activeDaylight}
 				{nightfallOpacity}
 				showLights={true}
 				{activeLandValue}

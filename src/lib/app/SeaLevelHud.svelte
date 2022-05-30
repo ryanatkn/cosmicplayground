@@ -11,8 +11,7 @@
 
 	const getSeaLevel = (y: number): number => {
 		const rect = waterLevelEl.getBoundingClientRect();
-		const height = rect.bottom - rect.top;
-		const value = (1 - y / height) * seaIndexMax;
+		const value = (1 - (y - rect.top) / (rect.bottom - rect.top)) * seaIndexMax;
 		return value;
 	};
 </script>
