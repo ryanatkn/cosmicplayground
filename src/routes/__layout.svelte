@@ -29,7 +29,6 @@
 	import {setDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys, swallow} from '$lib/util/dom';
 	import {dialogs} from '$lib/app/dialogs';
-	import A4 from './404.svelte';
 
 	const dimensions = writable({
 		width: browser ? window.innerWidth : 1,
