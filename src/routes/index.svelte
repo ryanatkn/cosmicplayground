@@ -311,7 +311,9 @@
 				await tick();
 				await enterStarshipMode();
 			} else {
-				dialogs.update(($dialogs) => $dialogs.concat({Component: StarshipMenu}));
+				if (!$dialogs.length) {
+					dialogs.update(($dialogs) => $dialogs.concat({Component: StarshipMenu}));
+				}
 			}
 		} else if (e.key === 'F2') {
 			swallow(e);
