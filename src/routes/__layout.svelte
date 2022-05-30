@@ -10,6 +10,7 @@
 	import {page} from '$app/stores';
 	import {goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
+	import Dialogs from '@feltcoop/felt/ui/dialog/Dialogs.svelte';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
@@ -27,6 +28,8 @@
 	import {setAudioCtx} from '$lib/audio/audioCtx';
 	import {setDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys, swallow} from '$lib/util/dom';
+	import {dialogs} from '$lib/app/dialogs';
+	import A4 from './404.svelte';
 
 	const dimensions = writable({
 		width: browser ? window.innerWidth : 1,
@@ -210,6 +213,7 @@
 		</p>
 	</Panel>
 {/if}
+<Dialogs {dialogs} on:close={() => dialogs.update(($d) => $d.slice(0, -1))} />
 
 <!-- TODO should we have a `<Portals/>` component that the `App` mounts? -->
 <style>

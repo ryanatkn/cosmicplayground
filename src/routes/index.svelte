@@ -25,6 +25,7 @@
 	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
 	import GravityUnlockPortalPreview from '$lib/portals/gravity-unlock/Preview.svelte';
 	import {browser} from '$app/env';
+	import StarshipMenu from '$lib/portals/home/StarshipMenu.svelte';
 	import {getClock} from '$lib/app/clock';
 	import {
 		mergeScores,
@@ -48,6 +49,7 @@
 	} from '$lib/portals/home/data';
 	import type {PortalData} from '$lib/portals/portal';
 	import {scrollDown, swallow} from '$lib/util/dom';
+	import {dialogs} from '$lib/app/dialogs';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -256,7 +258,7 @@
 
 	let pausedClock = false;
 	const enterStarshipMode = async () => {
-		if (starshipMode) return;
+		if (starshipMode || $dialogs.length) return;
 		console.log('enterStarshipMode');
 		finished = false;
 		starshipAngle = 0;
@@ -289,7 +291,7 @@
 	) => {
 		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		// TODO controls for toggling the speed/strength boosters
-		if (e.key === 'Escape' && !e.ctrlKey) {
+		if (e.key === 'Escape' && !e.ctrlKey && !$dialogs.length) {
 			swallow(e);
 			if (e.ctrlKey) {
 				await goto('/gravity-unlock');
@@ -308,6 +310,8 @@
 				void exitStarshipMode();
 				await tick();
 				await enterStarshipMode();
+			} else {
+				dialogs.update(($dialogs) => $dialogs.concat({Component: StarshipMenu}));
 			}
 		} else if (e.key === 'F2') {
 			swallow(e);
