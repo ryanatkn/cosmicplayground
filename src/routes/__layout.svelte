@@ -147,13 +147,11 @@
 		} else if ($settings.devMode) {
 			// dev mode hotkeys
 			if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
-				e.stopImmediatePropagation();
-				e.preventDefault();
+				swallow(e);
 				settings.update((s) => ({...s, idleMode: !s.idleMode}));
 				console.log('idle mode is now', $settings.idleMode);
 			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
-				e.stopImmediatePropagation();
-				e.preventDefault();
+				swallow(e);
 				settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
 				console.log('recording mode is now', $settings.recordingMode);
 			}
@@ -212,7 +210,13 @@
 		</p>
 	</Panel>
 {/if}
-<Dialogs {dialogs} on:close={() => dialogs.update(($d) => $d.slice(0, -1))} />
+<Dialogs
+	{dialogs}
+	on:close={() => {
+		dialogs.update(($d) => $d.slice(0, -1));
+		if ($dialogs.length === 0) clock.resume(); // TODO use a pause stack to safely unpause (also see in 2 places)
+	}}
+/>
 
 <!-- TODO should we have a `<Portals/>` component that the `App` mounts? -->
 <style>

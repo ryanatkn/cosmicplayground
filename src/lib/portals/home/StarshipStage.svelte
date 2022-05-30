@@ -19,6 +19,7 @@
 	import type {CameraStore} from '$lib/flat/camera';
 	import type {Writable} from 'svelte/store';
 	import type {Controller} from '$lib/flat/Controller';
+	import {swallow} from '@feltcoop/felt/util/dom.js';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;
@@ -115,11 +116,12 @@
 		return `scale3d(${scale}, ${scale}, 1)`;
 	};
 
+	// TODO BLOCK instead of this, show the dialog with the finish button
 	// TODO actions -- refactor this with the controls in `__layout.svelte` and `index.svelte` and `World.svelte`
 	const onKeydown = (e: KeyboardEvent) => {
-		if (e.key === 'Escape' && !e.ctrlKey) {
-			e.preventDefault();
-			e.stopImmediatePropagation();
+		if (e.key === 'q' && !e.ctrlKey) {
+			// TODO q or e for exit?
+			swallow(e);
 			void finish(null);
 		}
 	};

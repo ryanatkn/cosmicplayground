@@ -38,7 +38,6 @@
 	} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {toSongData} from '$lib/music/songs';
-	import {goto} from '$app/navigation';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
@@ -48,7 +47,7 @@
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from '$lib/portals/home/data';
 	import type {PortalData} from '$lib/portals/portal';
-	import {scrollDown, swallow} from '$lib/util/dom';
+	import {enableGlobalHotkeys, scrollDown, swallow} from '$lib/util/dom';
 	import {dialogs} from '$lib/app/dialogs';
 
 	const dimensions = getDimensions();
@@ -291,29 +290,41 @@
 	) => {
 		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		// TODO controls for toggling the speed/strength boosters
-		if (e.key === 'Escape' && !e.ctrlKey && !$dialogs.length) {
+		if (e.key === ' ' && !e.ctrlKey && !$dialogs.length && enableGlobalHotkeys(e.currentTarget)) {
 			swallow(e);
-			if (e.ctrlKey) {
-				await goto('/gravity-unlock');
-			} else {
-				if (!starshipMode) {
-					await enterStarshipMode();
-				} else {
-					await exitStarshipMode();
-				}
-			}
-		} else if (e.key === ' ') {
 			if (starshipMode) {
-				// && enableGlobalHotkeys(e.target)
-				e.stopImmediatePropagation();
-				e.preventDefault();
-				void exitStarshipMode();
-				await tick();
-				await enterStarshipMode();
+				await exitStarshipMode();
 			} else {
-				if (!$dialogs.length) {
-					dialogs.update(($dialogs) => $dialogs.concat({Component: StarshipMenu}));
-				}
+				await enterStarshipMode();
+			}
+		} else if (
+			e.key === 'r' &&
+			!e.ctrlKey &&
+			!$dialogs.length &&
+			enableGlobalHotkeys(e.currentTarget)
+		) {
+			swallow(e);
+			void exitStarshipMode();
+			await tick();
+			await enterStarshipMode();
+		} else if (e.key === 'Escape') {
+			if (!$dialogs.length) {
+				// TODO different contents if `starshipMode`
+				dialogs.update(($dialogs) =>
+					$dialogs.concat({
+						Component: StarshipMenu,
+						props: {
+							exit: () => {
+								dialogs.update(($d) => $d.slice(0, -1));
+								if ($dialogs.length === 0) clock.resume(); // TODO use a pause stack to safely unpause (also see in 2 places)
+								if (starshipMode && !$dialogs.length) {
+									void exitStarshipMode();
+								}
+							},
+						},
+					}),
+				);
+				clock.pause(); // TODO make this add to a stack so we can safely unpause
 			}
 		} else if (e.key === 'F2') {
 			swallow(e);
