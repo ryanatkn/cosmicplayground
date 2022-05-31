@@ -2,43 +2,46 @@ import type {ActionReturn} from 'svelte/action';
 
 export type Options = boolean;
 
-// TODO
-// const cache: WeakMap<HTMLImageElement, string> = new WeakMap();
+const dataUrlCache: Map<any, string> = new Map();
+
+// TODO memoize helper?
+export const cacheBy = <TKey, TValue>(
+	cache: Map<TKey, TValue>,
+	key: TKey,
+	compute: () => TValue,
+): TValue => {
+	if (cache.has(key)) return cache.get(key)!;
+	const value = compute();
+	cache.set(key, value);
+	return value;
+};
+
+let canvas: HTMLCanvasElement;
+const getCanvas = (): HTMLCanvasElement => canvas || (canvas = document.createElement('canvas'));
 
 const draw = (canvas: HTMLCanvasElement, img: HTMLImageElement): string => {
-	//
 	const ctx = canvas.getContext('2d');
-	if (!ctx) throw Error('no drawing ctx');
-	console.log(`img.getBoundingClientRect()`, img.getBoundingClientRect());
-	console.log(`img.getClientRects();`, img.getClientRects());
+	if (!ctx) throw Error('failed to get canvas context');
 	const height = img.naturalHeight;
 	const width = img.naturalWidth;
-	console.log(`width, height`, width, height);
 	canvas.width = width;
 	canvas.height = height;
-	// TODO clearRect is unnecessary right?
+	console.log('COMPUTE');
 	ctx.drawImage(img, 0, 0);
-	// const data = ctx.getImageData(0, 0, width, height);
-	// console.log(`data`, data);
 	return canvas.toDataURL();
 };
 
 export const freezeframe = (img: HTMLImageElement, freeze: Options): ActionReturn<Options> => {
-	let src: string;
-	const toDataUrl = (): string => {
-		if (!src) src = img.src;
-
-		const canvas = document.createElement('canvas');
-		const str = draw(canvas, img); // TODO BLOCK draw only when needed
-
-		return str;
-	};
+	const src = img.src;
+	if (freeze) {
+		img.src = cacheBy(dataUrlCache, src, () => draw(getCanvas(), img));
+	}
 
 	return {
 		update: (freeze) => {
 			console.log('TODO UPDATE', freeze);
 			if (freeze) {
-				img.src = toDataUrl();
+				img.src = cacheBy(dataUrlCache, src, () => draw(getCanvas(), img));
 			} else {
 				img.src = src;
 			}
