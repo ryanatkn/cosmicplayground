@@ -1,20 +1,10 @@
 import type {ActionReturn} from 'svelte/action';
 
+import {memoize} from '$lib/util/memoize';
+
 export type Options = boolean;
 
 const dataUrlCache: Map<any, string> = new Map();
-
-// TODO memoize helper?
-export const cacheBy = <TKey, TValue>(
-	cache: Map<TKey, TValue>,
-	key: TKey,
-	compute: () => TValue,
-): TValue => {
-	if (cache.has(key)) return cache.get(key)!;
-	const value = compute();
-	cache.set(key, value);
-	return value;
-};
 
 let canvas: HTMLCanvasElement;
 const getCanvas = (): HTMLCanvasElement => canvas || (canvas = document.createElement('canvas'));
@@ -34,14 +24,14 @@ const draw = (canvas: HTMLCanvasElement, img: HTMLImageElement): string => {
 export const freezeframe = (img: HTMLImageElement, freeze: Options): ActionReturn<Options> => {
 	const src = img.src;
 	if (freeze) {
-		img.src = cacheBy(dataUrlCache, src, () => draw(getCanvas(), img));
+		img.src = memoize(dataUrlCache, src, () => draw(getCanvas(), img));
 	}
 
 	return {
 		update: (freeze) => {
 			console.log('TODO UPDATE', freeze);
 			if (freeze) {
-				img.src = cacheBy(dataUrlCache, src, () => draw(getCanvas(), img));
+				img.src = memoize(dataUrlCache, src, () => draw(getCanvas(), img));
 			} else {
 				img.src = src;
 			}
