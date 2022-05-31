@@ -16,28 +16,27 @@ const draw = (canvas: HTMLCanvasElement, img: HTMLImageElement): string => {
 	const width = img.naturalWidth;
 	canvas.width = width;
 	canvas.height = height;
-	console.log('COMPUTE');
 	ctx.drawImage(img, 0, 0);
 	return canvas.toDataURL();
 };
 
 export const freezeframe = (img: HTMLImageElement, freeze: Options): ActionReturn<Options> => {
+	// TODO BLOCK fix so this handles changes, at least on updates
 	const src = img.src;
+
+	const toDataUrl = () => memoize(dataUrlCache, src, () => draw(getCanvas(), img));
+
 	if (freeze) {
-		img.src = memoize(dataUrlCache, src, () => draw(getCanvas(), img));
+		img.src = toDataUrl();
 	}
 
 	return {
 		update: (freeze) => {
-			console.log('TODO UPDATE', freeze);
 			if (freeze) {
-				img.src = memoize(dataUrlCache, src, () => draw(getCanvas(), img));
+				img.src = toDataUrl();
 			} else {
 				img.src = src;
 			}
-		},
-		destroy: () => {
-			console.log('TODO DESTROY');
 		},
 	};
 };
