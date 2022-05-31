@@ -1,13 +1,15 @@
 <script lang="ts">
 	import {getClock} from '$lib/app/clock';
+	import {freezeframe} from '$lib/app/freezeframe';
 
 	const clock = getClock();
+
+	$: freeze = !$clock.running;
 </script>
 
 <img
-	src={$clock.running
-		? '/assets/construction/person-dig-idea.gif'
-		: '/assets/construction/person-dig-idea.gif'}
+	src="/assets/construction/person-dig-idea.gif"
+	use:freezeframe={freeze}
 	alt="under construction: person rock"
 	style="width: 96px; height: 96px;"
 	class="pixelated"

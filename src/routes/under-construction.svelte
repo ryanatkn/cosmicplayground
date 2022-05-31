@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
+	import {freezeframe} from '$lib/app/freezeframe';
 
 	const clock = getClock();
 	const dimensions = getDimensions();
@@ -12,6 +13,8 @@
 	$: scale = Math.min(xScale, yScale);
 
 	const toggleClock = () => clock.toggle();
+
+	$: freeze = !$clock.running;
 </script>
 
 <div
@@ -22,11 +25,13 @@
 		<div style={`width: ${maxWidth}px; height: ${maxHeight}px;`}>
 			<img
 				src="/assets/construction/line-1.gif"
+				use:freezeframe={freeze}
 				alt="under construction: line 1"
 				class="pixelated w-100"
 			/>
 			<img
 				src="/assets/construction/person-dig-idea.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig idea"
 				style="width: 350px; height: 350px;"
 				class="pixelated"
@@ -34,6 +39,7 @@
 			<button type="button" class="image-button" on:click={toggleClock}>
 				<img
 					src="/assets/construction/person-rock.gif"
+					use:freezeframe={freeze}
 					alt="under construction: person rock"
 					style="width: 60px; height: 37px;"
 					class="pixelated"
@@ -41,11 +47,13 @@
 			</button>
 			<img
 				src="/assets/construction/person-dig-fast.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig fast"
 			/>
 			<button type="button" class="image-button" on:click={toggleClock}>
 				<img
 					src="/assets/construction/person-rock.gif"
+					use:freezeframe={freeze}
 					alt="under construction: person rock"
 					style="width: 60px; height: 37px;"
 					class="pixelated"
@@ -53,129 +61,157 @@
 			</button>
 			<img
 				src="/assets/construction/person-dig-fast.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig fast"
 			/>
 			<img
 				src="/assets/construction/person-dig-fast.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig fast"
 			/>
 			<img
 				src="/assets/construction/person-dig-fast.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig fast"
 			/>
 			<img
 				src="/assets/construction/person-dig-pause.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig pause"
 				style="width: 150px; height: 150px;"
 				class="pixelated"
 			/>
 			<img
 				src="/assets/construction/person-dig-slow.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig slow"
 			/>
 			<img
 				src="/assets/construction/person-dig-slow.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig slow"
 			/>
 			<img
 				src="/assets/construction/person-dig-slow.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig slow"
 			/>
 			<img
 				src="/assets/construction/person-dig-slow.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig slow"
 			/>
 			<img
 				src="/assets/construction/person-dig-slow.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig slow"
 			/>
 			<img
 				src="/assets/construction/person-dig-slow.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig slow"
 			/>
 			<img
 				src="/assets/construction/person-dig-slow.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig slow"
 			/>
 			<img
 				src="/assets/construction/person-dig-slow.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig slow"
 			/>
 			<img
 				src="/assets/construction/person-dig-pause.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig pause"
 				style="width: 76px; height: 76px; transform: scale3d(-1, 1, 1);"
 				class="pixelated"
 			/>
 			<img
 				src="/assets/construction/person-dig-slow.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig slow"
 			/>
 			<img
 				src="/assets/construction/person-dig-slow.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig slow"
 			/>
 			<img
 				src="/assets/construction/person-dig-pause.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig pause"
 			/>
 			<img
 				src="/assets/construction/person-dig-slow.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig slow"
 			/>
 			<img
 				src="/assets/construction/person-dig-pause.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig pause"
 			/>
 			<img
 				src="/assets/construction/person-dig-pause.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig pause"
 				style="transform: scale3d(-1, 1, 1);"
 			/>
 			<img
 				src="/assets/construction/person-dig-quick.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig quick"
 			/>
 			<img
 				src="/assets/construction/person-dig-fast.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig fast"
 			/>
 			<img
 				src="/assets/construction/person-dig-fast.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig fast"
 			/>
 			<img
 				src="/assets/construction/person-computer.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person computer"
 				style="width: 40px; height: 40px;"
 				class="pixelated"
 			/>
 			<img
 				src="/assets/construction/person-computer.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person computer large"
 				style="width: 100px; height: 100px;"
 				class="pixelated"
 			/>
 			<img
 				src="/assets/construction/person-computer.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person computer huge"
 				style="width: 300px; height: 300px;"
 				class="pixelated"
 			/>
 			<img
 				src="/assets/construction/person-dig-pause.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig pause"
 				style="width: 200px; height: 200px;"
 				class="pixelated"
 			/>
 			<img
 				src="/assets/construction/person-dig-pause.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig pause"
 				style="width: 80px; height: 80px;"
 				class="pixelated"
 			/>
 			<img
 				src="/assets/construction/person-dig-pause.gif"
+				use:freezeframe={freeze}
 				alt="under construction: person dig pause"
 			/>
 			<div
@@ -184,18 +220,21 @@
 			>
 				<img
 					src="/assets/construction/line-2.gif"
+					use:freezeframe={freeze}
 					alt="under construction: line 2"
 					class="absolute"
 					style="width: 90%; top: 38px; left: 5%"
 				/>
 				<img
 					src="/assets/construction/line-2.gif"
+					use:freezeframe={freeze}
 					alt="under construction: line 2"
 					class="absolute"
 					style="width: 80%; bottom: 46px; left: 14%"
 				/>
 				<img
 					src="/assets/construction/line-2.gif"
+					use:freezeframe={freeze}
 					alt="under construction: line 2"
 					class="w-100 absolute"
 					style="bottom: 38px; left: 0"
@@ -204,6 +243,7 @@
 			<div class="relative inline-block" style="width: 144px; height: 144px;">
 				<img
 					src="/assets/construction/mammal.gif"
+					use:freezeframe={freeze}
 					alt="under construction: mammal"
 					class="pixelated"
 				/>
@@ -217,12 +257,14 @@
 			</div>
 			<img
 				src="/assets/construction/line-2.gif"
+				use:freezeframe={freeze}
 				alt="under construction: line 2"
 				style="transform: scale3d(1, -1, 1);"
 				class="pixelated w-100"
 			/>
 			<img
 				src="/assets/construction/line-1.gif"
+				use:freezeframe={freeze}
 				alt="under construction: line 1"
 				style="top: -8px; transform: scale3d(1, -1, 1);"
 				class="pixelated w-100 relative"
