@@ -2,8 +2,11 @@
 	import Breadcrumbs from '@feltcoop/felt/ui/Breadcrumbs.svelte';
 
 	import Panel from '$lib/app/Panel.svelte';
+	import StarshipPreview from '$lib/portals/home/Preview.svelte';
 
 	export let exit: () => void;
+	export let starshipMode: boolean;
+	export let toggleStarshipMode: () => void;
 
 	// TODO BLOCK
 	/*
@@ -20,7 +23,13 @@
 <Panel>
 	<div class="markup">
 		<Breadcrumbs>🌠</Breadcrumbs>
-		<h1>?????</h1>
+		<StarshipPreview
+			onClick={() => {
+				exit();
+				toggleStarshipMode();
+			}}
+			{starshipMode}
+		/>
 		<button on:click={() => exit()}>resume</button>
 	</div>
 </Panel>

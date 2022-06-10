@@ -5,7 +5,8 @@
 	import PendingAnimation from '@feltcoop/felt/ui/PendingAnimation.svelte';
 	import {dequal} from 'dequal/lite';
 
-	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
+	import PortalPreview from '$lib/app/PortalPreview.svelte';
+	import StarshipPreview from '$lib/portals/home/Preview.svelte';
 	import aboutPortal from '$lib/portals/about/data';
 	import soggyPlanetPortal from '$lib/portals/soggy-planet/data';
 	import starlitHammockPortal from '$lib/portals/starlit-hammock/data';
@@ -257,7 +258,7 @@
 
 	let pausedClock = false;
 	const enterStarshipMode = async () => {
-		if (starshipMode || $dialogs.length) return;
+		if (starshipMode) return;
 		console.log('enterStarshipMode');
 		finished = false;
 		starshipAngle = 0;
@@ -282,6 +283,7 @@
 		await wait(); // prevents glitchy horizontal scrollbar that appears for a frame
 		transitioningStarshipModeCount--;
 	};
+	const toggleStarshipMode = () => (starshipMode ? exitStarshipMode() : enterStarshipMode());
 
 	const onWindowKeydown = async (
 		e: KeyboardEvent & {
@@ -292,11 +294,7 @@
 		// TODO controls for toggling the speed/strength boosters
 		if (e.key === ' ' && !e.ctrlKey && !$dialogs.length && enableGlobalHotkeys(e.currentTarget)) {
 			swallow(e);
-			if (starshipMode) {
-				await exitStarshipMode();
-			} else {
-				await enterStarshipMode();
-			}
+			await toggleStarshipMode();
 		} else if (
 			e.key === 'r' &&
 			!e.ctrlKey &&
@@ -310,6 +308,7 @@
 		} else if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.currentTarget)) {
 			if (!$dialogs.length) {
 				// TODO different contents if `starshipMode`
+				console.log(`!!starshipMode`, starshipMode);
 				dialogs.update(($dialogs) =>
 					$dialogs.concat({
 						Component: StarshipMenu,
@@ -317,10 +316,9 @@
 							exit: () => {
 								dialogs.update(($d) => $d.slice(0, -1));
 								if ($dialogs.length === 0) clock.resume(); // TODO use a pause stack to safely unpause (also see in 2 places)
-								if (starshipMode && !$dialogs.length) {
-									void exitStarshipMode();
-								}
 							},
+							starshipMode,
+							toggleStarshipMode,
 						},
 					}),
 				);
@@ -388,9 +386,7 @@
 			<div class="portals">
 				{#each portals as portal (portal)}
 					{#if portal === starshipPortal}
-						<PortalPreview onClick={enterStarshipMode} classes="portal-preview--starship"
-							><div class="starship">🛸</div></PortalPreview
-						>
+						<StarshipPreview onClick={toggleStarshipMode} classes="portal-preview--starship" />
 					{:else}
 						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
 							<svelte:component this={portal.Preview} />
@@ -527,9 +523,6 @@
 	}
 	.starship-mode nav {
 		user-select: none;
-	}
-	.starship {
-		font-size: 84px;
 	}
 
 	/* TODO not sure about this name */
