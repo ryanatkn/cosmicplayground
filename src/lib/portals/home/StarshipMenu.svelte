@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LinkPath from '@feltcoop/felt/ui/LinkPath.svelte';
+	import Breadcrumbs from '@feltcoop/felt/ui/Breadcrumbs.svelte';
 
 	import Panel from '$lib/app/Panel.svelte';
 
@@ -19,7 +19,7 @@
 
 <Panel>
 	<div class="markup">
-		<LinkPath>🌠</LinkPath>
+		<Breadcrumbs>🌠</Breadcrumbs>
 		<h1>?????</h1>
 		<button on:click={() => exit()}>resume</button>
 	</div>
