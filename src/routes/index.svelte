@@ -5,7 +5,8 @@
 	import PendingAnimation from '@feltcoop/felt/ui/PendingAnimation.svelte';
 	import {dequal} from 'dequal/lite';
 
-	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
+	import PortalPreview from '$lib/app/PortalPreview.svelte';
+	import StarshipPreview from '$lib/portals/home/Preview.svelte';
 	import aboutPortal from '$lib/portals/about/data';
 	import soggyPlanetPortal from '$lib/portals/soggy-planet/data';
 	import starlitHammockPortal from '$lib/portals/starlit-hammock/data';
@@ -25,6 +26,8 @@
 	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
 	import GravityUnlockPortalPreview from '$lib/portals/gravity-unlock/Preview.svelte';
 	import {browser} from '$app/env';
+	import StarshipMenu from '$lib/portals/home/StarshipMenu.svelte';
+	import AppDialog from '$lib/app/AppDialog.svelte';
 	import {getClock} from '$lib/app/clock';
 	import {
 		mergeScores,
@@ -32,12 +35,13 @@
 		rescuedAnyCrew,
 		Stage,
 		type StarshipStageScores,
+		parseStarshipStageScores,
 		rescuedAllCrew,
 		rescuedAllCrewAtOnce,
+		toInitialScores,
 	} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {toSongData} from '$lib/music/songs';
-	import {goto} from '$app/navigation';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
@@ -47,7 +51,7 @@
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from '$lib/portals/home/data';
 	import type {PortalData} from '$lib/portals/portal';
-	import {scrollDown, swallow} from '$lib/util/dom';
+	import {enableGlobalHotkeys, scrollDown, swallow} from '$lib/util/dom';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -143,6 +147,10 @@
 			viewportHeight,
 			data: {freezeCamera: !cameraUnlocked},
 		});
+		if (!savedScores) {
+			initialScores = toInitialScores(stage);
+			saveScores(initialScores);
+		}
 	};
 	const destroyStage = () => {
 		if (!stage) return;
@@ -179,11 +187,18 @@
 	// TODO refactor these into a single store that handles saving/loading
 	$: currentStageScores = stage?.scores;
 	let savedScores = loadScores();
+	let initialScores: StarshipStageScores | undefined;
 	// TODO probably create a single scores object from this
 	$: scoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
 	$: scoresRescuedAllMoons = !!savedScores && rescuedAllMoons(savedScores);
 	$: scoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
 	$: scoresRescuedAllCrewAtOnce = !!savedScores && rescuedAllCrewAtOnce(savedScores);
+	const saveScores = (scores: StarshipStageScores): boolean => {
+		if (dequal(scores, savedScores)) return false;
+		setInStorage(STORAGE_KEY_SCORES, scores);
+		savedScores = scores;
+		return true;
+	};
 
 	let finished = false;
 	const finish = async (scores: StarshipStageScores | null): Promise<void> => {
@@ -191,9 +206,7 @@
 		if (!scores) return exitStarshipMode();
 		finished = true;
 		const finalScores = mergeScores(scores, savedScores);
-		if (!dequal(finalScores, savedScores)) {
-			setInStorage(STORAGE_KEY_SCORES, finalScores);
-			savedScores = finalScores;
+		if (saveScores(finalScores)) {
 			// TODO this is very messy and duplicative but I'm not sure how to do this reactively,
 			// probably need to restructure some things
 			if (!scoresRescuedAnyCrew && rescuedAnyCrew(finalScores)) {
@@ -204,6 +217,7 @@
 			}
 		}
 	};
+	// TODO refactor, `ScoresManager` component?
 	const resetScores = () => {
 		setInStorage(STORAGE_KEY_SCORES, undefined);
 		savedScores = undefined;
@@ -222,6 +236,34 @@
 
 		setInStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false);
 		strengthBooster3Enabled = false;
+	};
+	const importScores = (): void => {
+		// eslint-disable-next-line no-alert
+		const newScoresRaw = prompt(
+			'import scores',
+			savedScores
+				? JSON.stringify(savedScores)
+				: initialScores
+				? JSON.stringify(initialScores)
+				: undefined,
+		)?.trim();
+		if (newScoresRaw === '') {
+			if (initialScores) {
+				saveScores(initialScores);
+			} else {
+				resetScores();
+			}
+		} else {
+			try {
+				const parsed =
+					newScoresRaw === undefined ? undefined : parseStarshipStageScores(newScoresRaw);
+				if (parsed) {
+					saveScores(parsed);
+				}
+			} catch (err) {
+				alert('failed to parse scores: ' + err); // eslint-disable-line no-alert
+			}
+		}
 	};
 
 	const STORAGE_KEY_SPEED_BOOSTER_TOGGLED = 'cpg_speed_booster_toggled';
@@ -254,15 +296,13 @@
 		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - viewportHeight) / 2
 		: starshipY - (starshipHeight - viewportHeight) / 2;
 
-	let pausedClock = false;
 	const enterStarshipMode = async () => {
 		if (starshipMode) return;
 		console.log('enterStarshipMode');
 		finished = false;
 		starshipAngle = 0;
 		starshipMode = true;
-		pausedClock = $clock.running;
-		if (pausedClock) clock.pause();
+		clock.pause();
 		clock.reset();
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
@@ -275,12 +315,13 @@
 		starshipAngle = 0;
 		starshipMode = false;
 		pauseAudio();
-		if (pausedClock) clock.resume();
+		clock.resume();
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
 		await wait(); // prevents glitchy horizontal scrollbar that appears for a frame
 		transitioningStarshipModeCount--;
 	};
+	const toggleStarshipMode = () => (starshipMode ? exitStarshipMode() : enterStarshipMode());
 
 	const onWindowKeydown = async (
 		e: KeyboardEvent & {
@@ -289,26 +330,14 @@
 	) => {
 		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		// TODO controls for toggling the speed/strength boosters
-		if (e.key === 'Escape' && !e.ctrlKey) {
+		if (e.key === ' ' && !e.ctrlKey && enableGlobalHotkeys(e.currentTarget)) {
 			swallow(e);
-			if (e.ctrlKey) {
-				await goto('/gravity-unlock');
-			} else {
-				if (!starshipMode) {
-					await enterStarshipMode();
-				} else {
-					await exitStarshipMode();
-				}
-			}
-		} else if (e.key === ' ') {
-			if (starshipMode) {
-				// && enableGlobalHotkeys(e.target)
-				e.stopImmediatePropagation();
-				e.preventDefault();
-				void exitStarshipMode();
-				await tick();
-				await enterStarshipMode();
-			}
+			await toggleStarshipMode();
+		} else if (e.key === 'r' && !e.ctrlKey && enableGlobalHotkeys(e.currentTarget)) {
+			swallow(e);
+			void exitStarshipMode();
+			await tick();
+			await enterStarshipMode();
 		} else if (e.key === 'F2') {
 			swallow(e);
 			if (e.ctrlKey) {
@@ -371,9 +400,7 @@
 			<div class="portals">
 				{#each portals as portal (portal)}
 					{#if portal === starshipPortal}
-						<PortalPreview onClick={enterStarshipMode} classes="portal-preview--starship"
-							><div class="starship">🛸</div></PortalPreview
-						>
+						<StarshipPreview onClick={toggleStarshipMode} classes="portal-preview--starship" />
 					{:else}
 						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
 							<svelte:component this={portal.Preview} />
@@ -467,6 +494,16 @@
 		{/if}
 	{/if}
 </div>
+<AppDialog let:exit>
+	<StarshipMenu
+		{clock}
+		{exit}
+		{starshipMode}
+		{toggleStarshipMode}
+		resetScores={savedScores ? resetScores : undefined}
+		{importScores}
+	/>
+</AppDialog>
 
 <style>
 	.home {
@@ -510,9 +547,6 @@
 	}
 	.starship-mode nav {
 		user-select: none;
-	}
-	.starship {
-		font-size: 84px;
 	}
 
 	/* TODO not sure about this name */

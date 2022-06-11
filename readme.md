@@ -20,7 +20,7 @@ with Svelte, SvelteKit, and TypeScript while making games in space!
 - community at [cosmicplayground.dev](https://www.cosmicplayground.dev)
   ([source](https://github.com/cosmicplayground/community))
 - There's a little action game on the home screen
-  (still a work in progress, you'll know you've "beaten the game" when you can play sequences of music).
+  (still a work in progress, completing the challenge grants access to the studio and atlas).
   to play, activate the starship `🛸` and try pressing the escape and backtick `\`` keys
   (needs better mobile controls, works with mouse+keyboard (and soon gamepads))
 - [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth

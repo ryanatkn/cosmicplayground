@@ -11,7 +11,7 @@
 	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
 	import Panel from '$lib/app/Panel.svelte';
 	import AboutPortalPreview from '$lib/portals/about/Preview.svelte';
-	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
+	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import {getDimensions} from '$lib/app/dimensions';
 
 	/*

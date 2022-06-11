@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
+	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import {MOON_ICONS, type StarshipStageScores} from '$lib/portals/home/starshipStage';
 
 	export let unlocked: boolean;
