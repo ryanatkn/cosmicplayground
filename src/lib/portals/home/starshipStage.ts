@@ -39,6 +39,7 @@ const toIconFontSize = (radius: number): number => radius * 1.4;
 
 // TODO refactor all of these
 export interface StarshipStageScores {
+	// stay in sync with `parseStarshipStageScores`!
 	crew: boolean[]; // mirrors `MOON_ICONS`
 	crewRescuedAtOnceCount: number;
 }
