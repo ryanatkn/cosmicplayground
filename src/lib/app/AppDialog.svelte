@@ -11,9 +11,9 @@
 		clock.resume();
 	};
 
-	// TODO better way to do this? is prety hacky
+	// TODO is prety hacky, find a better way
 	let el: HTMLElement | undefined | null;
-	$: $showAppDialog, setTimeout(() => (el = document.getElementById('app-dialogs')));
+	$: setTimeout(() => (el = $showAppDialog ? document.getElementById('app-dialogs') : null));
 </script>
 
 {#if el}<Teleport to={el}><slot {exit} /></Teleport>{/if}

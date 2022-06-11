@@ -8,7 +8,7 @@
 
 	const exit = () => {
 		$showAppDialog = false;
-		clock.resume();
+		clock.resume(); // TODO use a pause stack or something to safely unpause
 	};
 </script>
 
