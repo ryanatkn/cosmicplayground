@@ -28,6 +28,7 @@
 	import {setDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys, swallow} from '$lib/util/dom';
 	import {showAppDialog} from '$lib/app/appDialog';
+	import AppDialogs from '$lib/app/AppDialogs.svelte';
 
 	const dimensions = writable({
 		width: browser ? window.innerWidth : 1,
@@ -218,6 +219,7 @@
 		</p>
 	</Panel>
 {/if}
+<AppDialogs />
 
 <!-- TODO should we have a `<Portals/>` component that the `App` mounts? -->
 <style>

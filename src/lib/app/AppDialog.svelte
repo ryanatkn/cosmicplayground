@@ -1,11 +1,20 @@
 <script lang="ts">
-	import Dialog from '@feltcoop/felt/ui/dialog/Dialog.svelte';
+	import Teleport from '@feltcoop/felt/ui/Teleport.svelte';
 
-	export let exit: () => void;
+	import {getClock} from '$lib/app/clock';
+	import {showAppDialog} from '$lib/app/appDialog';
+
+	const clock = getClock();
+
+	const exit = () => {
+		$showAppDialog = false;
+		clock.resume();
+	};
+
+	// TODO better way to do this?
+	let el: HTMLElement | undefined | null;
+
+	$: $showAppDialog, setTimeout(() => (el = document.getElementById('app-dialogs')));
 </script>
 
-<Dialog
-	on:close={() => {
-		exit();
-	}}><slot {exit} /></Dialog
->
+{#if el}<Teleport to={el}><slot {exit} /></Teleport>{/if}

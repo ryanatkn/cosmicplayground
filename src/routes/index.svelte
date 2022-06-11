@@ -27,7 +27,7 @@
 	import GravityUnlockPortalPreview from '$lib/portals/gravity-unlock/Preview.svelte';
 	import {browser} from '$app/env';
 	import StarshipMenu from '$lib/portals/home/StarshipMenu.svelte';
-	import AppDialogs from '$lib/app/AppDialogs.svelte';
+	import AppDialog from '$lib/app/AppDialog.svelte';
 	import {getClock} from '$lib/app/clock';
 	import {
 		mergeScores,
@@ -454,9 +454,9 @@
 		{/if}
 	{/if}
 </div>
-<AppDialogs let:exit>
+<AppDialog let:exit>
 	<StarshipMenu {exit} {starshipMode} {toggleStarshipMode} />
-</AppDialogs>
+</AppDialog>
 
 <style>
 	.home {

@@ -1,12 +1,18 @@
 <script lang="ts">
-	import AppDialog from '$lib/app/AppDialog.svelte';
+	import Dialog from '@feltcoop/felt/ui/dialog/Dialog.svelte';
+
 	import {showAppDialog} from '$lib/app/appDialog';
+	import {getClock} from '$lib/app/clock';
+
+	const clock = getClock();
 
 	const exit = () => {
 		$showAppDialog = false;
+		clock.resume();
 	};
 </script>
 
 {#if $showAppDialog}
-	<AppDialog {exit}><slot {exit} /></AppDialog>
+	<!-- TODO better way to do this? -->
+	<Dialog on:close={exit}><div id="app-dialogs" /></Dialog>
 {/if}

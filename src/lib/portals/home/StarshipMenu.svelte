@@ -3,6 +3,8 @@
 
 	import Panel from '$lib/app/Panel.svelte';
 	import StarshipPreview from '$lib/portals/home/Preview.svelte';
+	import AboutPreview from '$lib/portals/about/Preview.svelte';
+	import PortalPreview from '$lib/app/PortalPreview.svelte';
 
 	export let exit: () => void;
 	export let starshipMode: boolean;
@@ -32,6 +34,9 @@
 				{starshipMode}
 			/>
 		</section>
+	</div>
+</Panel><Panel
+	><div class="markup centered">
 		<section>
 			<h2>controls</h2>
 			<table>
@@ -40,11 +45,11 @@
 				><tr><td><code>`</code></td><td>toggle clock</td></tr>
 			</table>
 		</section>
-		<section>
-			<button on:click={() => exit()}>resume</button>
-		</section>
 	</div>
 </Panel>
+<PortalPreview href="/about">
+	<AboutPreview />
+</PortalPreview>
 
 <style>
 	/* TODO upstream */
@@ -56,5 +61,8 @@
 	}
 	h2 {
 		text-align: center;
+	}
+	section {
+		margin-bottom: var(--spacing_xl7);
 	}
 </style>
