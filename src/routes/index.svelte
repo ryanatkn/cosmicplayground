@@ -255,7 +255,8 @@
 			}
 		} else {
 			try {
-				const parsed = newScoresRaw != null && parseStarshipStageScores(newScoresRaw);
+				const parsed =
+					newScoresRaw === undefined ? undefined : parseStarshipStageScores(newScoresRaw);
 				if (parsed) {
 					saveScores(parsed);
 				}
