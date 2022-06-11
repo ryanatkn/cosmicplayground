@@ -22,6 +22,7 @@ export const pauseAudio = (onPause?: (audio: AudioResource) => void): void => {
 		}
 	}
 };
+
 export const playAudio = (audio: HTMLAudioElement, currentTime = 0): Promise<void> => {
 	audio.currentTime = currentTime;
 	return audio.play();
