@@ -10,7 +10,6 @@
 	import {page} from '$app/stores';
 	import {goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
-	import Dialogs from '@feltcoop/felt/ui/dialog/Dialogs.svelte';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
@@ -28,7 +27,7 @@
 	import {setAudioCtx} from '$lib/audio/audioCtx';
 	import {setDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys, swallow} from '$lib/util/dom';
-	import {dialogs} from '$lib/app/dialogs';
+	import {showAppDialog} from '$lib/app/appDialog';
 
 	const dimensions = writable({
 		width: browser ? window.innerWidth : 1,
@@ -140,6 +139,15 @@
 			// toggle dev mode
 			swallow(e);
 			settings.update((s) => ({...s, devMode: !s.devMode}));
+		} else if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.currentTarget)) {
+			swallow(e);
+			if ($showAppDialog) {
+				$showAppDialog = false;
+				clock.resume(); // TODO make this add to a stack so we can safely unpause
+			} else {
+				$showAppDialog = true;
+				clock.pause(); // TODO make this add to a stack so we can safely unpause
+			}
 		} else if (e.key === 'Escape' && e.ctrlKey) {
 			// global nav up one
 			swallow(e);
@@ -210,13 +218,6 @@
 		</p>
 	</Panel>
 {/if}
-<Dialogs
-	{dialogs}
-	on:close={() => {
-		dialogs.update(($d) => $d.slice(0, -1));
-		if ($dialogs.length === 0) clock.resume(); // TODO use a pause stack to safely unpause (also see in 2 places)
-	}}
-/>
 
 <!-- TODO should we have a `<Portals/>` component that the `App` mounts? -->
 <style>

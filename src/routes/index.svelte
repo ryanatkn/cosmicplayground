@@ -27,6 +27,7 @@
 	import GravityUnlockPortalPreview from '$lib/portals/gravity-unlock/Preview.svelte';
 	import {browser} from '$app/env';
 	import StarshipMenu from '$lib/portals/home/StarshipMenu.svelte';
+	import AppDialogs from '$lib/app/AppDialogs.svelte';
 	import {getClock} from '$lib/app/clock';
 	import {
 		mergeScores,
@@ -49,7 +50,6 @@
 	} from '$lib/portals/home/data';
 	import type {PortalData} from '$lib/portals/portal';
 	import {enableGlobalHotkeys, scrollDown, swallow} from '$lib/util/dom';
-	import {dialogs} from '$lib/app/dialogs';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -292,38 +292,14 @@
 	) => {
 		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		// TODO controls for toggling the speed/strength boosters
-		if (e.key === ' ' && !e.ctrlKey && !$dialogs.length && enableGlobalHotkeys(e.currentTarget)) {
+		if (e.key === ' ' && !e.ctrlKey && enableGlobalHotkeys(e.currentTarget)) {
 			swallow(e);
 			await toggleStarshipMode();
-		} else if (
-			e.key === 'r' &&
-			!e.ctrlKey &&
-			!$dialogs.length &&
-			enableGlobalHotkeys(e.currentTarget)
-		) {
+		} else if (e.key === 'r' && !e.ctrlKey && enableGlobalHotkeys(e.currentTarget)) {
 			swallow(e);
 			void exitStarshipMode();
 			await tick();
 			await enterStarshipMode();
-		} else if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.currentTarget)) {
-			if (!$dialogs.length) {
-				// TODO different contents if `starshipMode`
-				console.log(`!!starshipMode`, starshipMode);
-				dialogs.update(($dialogs) =>
-					$dialogs.concat({
-						Component: StarshipMenu,
-						props: {
-							exit: () => {
-								dialogs.update(($d) => $d.slice(0, -1));
-								if ($dialogs.length === 0) clock.resume(); // TODO use a pause stack to safely unpause (also see in 2 places)
-							},
-							starshipMode,
-							toggleStarshipMode,
-						},
-					}),
-				);
-				clock.pause(); // TODO make this add to a stack so we can safely unpause
-			}
 		} else if (e.key === 'F2') {
 			swallow(e);
 			if (e.ctrlKey) {
@@ -480,6 +456,9 @@
 		{/if}
 	{/if}
 </div>
+<AppDialogs let:exit>
+	<StarshipMenu {exit} {starshipMode} {toggleStarshipMode} />
+</AppDialogs>
 
 <style>
 	.home {
