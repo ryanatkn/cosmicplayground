@@ -256,15 +256,13 @@
 		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - viewportHeight) / 2
 		: starshipY - (starshipHeight - viewportHeight) / 2;
 
-	let pausedClock = false;
 	const enterStarshipMode = async () => {
 		if (starshipMode) return;
 		console.log('enterStarshipMode');
 		finished = false;
 		starshipAngle = 0;
 		starshipMode = true;
-		pausedClock = $clock.running;
-		if (pausedClock) clock.pause();
+		clock.pause();
 		clock.reset();
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
@@ -277,7 +275,7 @@
 		starshipAngle = 0;
 		starshipMode = false;
 		pauseAudio();
-		if (pausedClock) clock.resume();
+		clock.resume();
 		transitioningStarshipModeCount++;
 		await wait(TRANSITION_DURATION);
 		await wait(); // prevents glitchy horizontal scrollbar that appears for a frame

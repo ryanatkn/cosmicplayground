@@ -2,7 +2,9 @@
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import {showAppDialog} from '$lib/app/appDialog';
 
-	const exit = () => ($showAppDialog = false);
+	const exit = () => {
+		$showAppDialog = false;
+	};
 </script>
 
 {#if $showAppDialog}
