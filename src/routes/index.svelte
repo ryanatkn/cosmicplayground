@@ -37,6 +37,7 @@
 		type StarshipStageScores,
 		rescuedAllCrew,
 		rescuedAllCrewAtOnce,
+		toInitialScores,
 	} from '$lib/portals/home/starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {toSongData} from '$lib/music/songs';
@@ -145,6 +146,10 @@
 			viewportHeight,
 			data: {freezeCamera: !cameraUnlocked},
 		});
+		if (!savedScores) {
+			initialScores = toInitialScores(stage);
+			saveScores(initialScores);
+		}
 	};
 	const destroyStage = () => {
 		if (!stage) return;
@@ -181,11 +186,19 @@
 	// TODO refactor these into a single store that handles saving/loading
 	$: currentStageScores = stage?.scores;
 	let savedScores = loadScores();
+	let initialScores: StarshipStageScores | undefined;
+	$: scored = savedScores && initialScores && !dequal(savedScores, initialScores);
 	// TODO probably create a single scores object from this
 	$: scoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
 	$: scoresRescuedAllMoons = !!savedScores && rescuedAllMoons(savedScores);
 	$: scoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
 	$: scoresRescuedAllCrewAtOnce = !!savedScores && rescuedAllCrewAtOnce(savedScores);
+	const saveScores = (scores: StarshipStageScores): boolean => {
+		if (dequal(scores, savedScores)) return false;
+		setInStorage(STORAGE_KEY_SCORES, scores);
+		savedScores = scores;
+		return true;
+	};
 
 	let finished = false;
 	const finish = async (scores: StarshipStageScores | null): Promise<void> => {
@@ -193,9 +206,7 @@
 		if (!scores) return exitStarshipMode();
 		finished = true;
 		const finalScores = mergeScores(scores, savedScores);
-		if (!dequal(finalScores, savedScores)) {
-			setInStorage(STORAGE_KEY_SCORES, finalScores);
-			savedScores = finalScores;
+		if (saveScores(finalScores)) {
 			// TODO this is very messy and duplicative but I'm not sure how to do this reactively,
 			// probably need to restructure some things
 			if (!scoresRescuedAnyCrew && rescuedAnyCrew(finalScores)) {
@@ -455,7 +466,13 @@
 	{/if}
 </div>
 <AppDialog let:exit>
-	<StarshipMenu {exit} {starshipMode} {toggleStarshipMode} />
+	<StarshipMenu
+		{clock}
+		{exit}
+		{starshipMode}
+		{toggleStarshipMode}
+		resetScores={scored ? resetScores : undefined}
+	/>
 </AppDialog>
 
 <style>

@@ -5,10 +5,16 @@
 	import StarshipPreview from '$lib/portals/home/Preview.svelte';
 	import AboutPreview from '$lib/portals/about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
+	import type {ClockStore} from '$lib/app/clock';
 
+	export let clock: ClockStore; // TODO or use context?
+	// TODO refactor
 	export let exit: () => void;
 	export let starshipMode: boolean;
 	export let toggleStarshipMode: () => void;
+	export let resetScores: (() => void) | undefined;
+
+	$: console.log(`resetScores`, resetScores);
 
 	// TODO BLOCK
 	/*
@@ -22,20 +28,16 @@
 	*/
 </script>
 
-<Panel>
-	<div class="markup centered">
-		<section>
-			<Breadcrumbs>🌠</Breadcrumbs>
-			<StarshipPreview
-				onClick={() => {
-					exit();
-					toggleStarshipMode();
-				}}
-				{starshipMode}
-			/>
-		</section>
-	</div>
-</Panel><Panel
+<div class="centered">
+	<StarshipPreview
+		onClick={() => {
+			exit();
+			toggleStarshipMode();
+		}}
+		{starshipMode}
+	/>
+</div>
+<Panel
 	><div class="markup centered">
 		<section>
 			<h2>controls</h2>
@@ -43,9 +45,20 @@
 				<thead><th>key</th><th>action</th></thead><tr
 					><td><code>Space</code></td><td>toggle starship game</td></tr
 				><tr><td><code>Escape</code></td><td>toggle main menu</td></tr><tr
-					><td><code>`</code></td><td>toggle clock</td></tr
+					><td><code>Backtick `</code></td><td
+						>toggle clock (currently {#if $clock.running}running{:else}paused{/if})</td
+					></tr
 				>
 			</table>
+		</section>
+	</div>
+</Panel>{#if resetScores}<Panel
+		><div class="centered"><button on:click={resetScores}>reset scores</button></div></Panel
+	>{/if}
+<Panel
+	><div class="markup centered">
+		<section>
+			<Breadcrumbs>🌠</Breadcrumbs>
 		</section>
 	</div>
 </Panel>
@@ -59,7 +72,13 @@
 		padding: var(--spacing_sm);
 	}
 	tr:hover {
-		background-color: var(--bg_2);
+		background-color: var(--tint_light_1);
+	}
+	th {
+		text-align: left;
+		font-weight: 300;
+		font-size: var(--font_size_xl);
+		padding: var(--spacing_sm);
 	}
 	h2 {
 		text-align: center;
