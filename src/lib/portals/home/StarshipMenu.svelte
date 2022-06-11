@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Breadcrumbs from '@feltcoop/felt/ui/Breadcrumbs.svelte';
+	import {scale} from 'svelte/transition';
 
 	import Panel from '$lib/app/Panel.svelte';
 	import StarshipPreview from '$lib/portals/home/Preview.svelte';
@@ -13,8 +14,7 @@
 	export let starshipMode: boolean;
 	export let toggleStarshipMode: () => void;
 	export let resetScores: (() => void) | undefined;
-
-	$: console.log(`resetScores`, resetScores);
+	export let importScores: (() => void) | undefined;
 
 	// TODO BLOCK
 	/*
@@ -52,11 +52,26 @@
 			</table>
 		</section>
 	</div>
-</Panel>{#if resetScores}<Panel
-		><div class="centered"><button on:click={resetScores}>reset scores</button></div></Panel
-	>{/if}
-<Panel
-	><div class="markup centered">
+</Panel>
+{#if resetScores || importScores}
+	<div transition:scale|local>
+		<Panel>
+			<div class="markup">
+				<h2>scores</h2>
+				<div class="centered-hz">
+					{#if resetScores}
+						<button on:click={resetScores}>reset scores</button>
+					{/if}
+					{#if importScores}
+						<button on:click={importScores}>import scores</button>
+					{/if}
+				</div>
+			</div>
+		</Panel>
+	</div>
+{/if}
+<Panel>
+	<div class="markup centered">
 		<section>
 			<Breadcrumbs>🌠</Breadcrumbs>
 		</section>

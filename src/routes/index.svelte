@@ -35,6 +35,7 @@
 		rescuedAnyCrew,
 		Stage,
 		type StarshipStageScores,
+		parseStarshipStageScores,
 		rescuedAllCrew,
 		rescuedAllCrewAtOnce,
 		toInitialScores,
@@ -187,7 +188,6 @@
 	$: currentStageScores = stage?.scores;
 	let savedScores = loadScores();
 	let initialScores: StarshipStageScores | undefined;
-	$: scored = savedScores && initialScores && !dequal(savedScores, initialScores);
 	// TODO probably create a single scores object from this
 	$: scoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
 	$: scoresRescuedAllMoons = !!savedScores && rescuedAllMoons(savedScores);
@@ -217,6 +217,7 @@
 			}
 		}
 	};
+	// TODO refactor, `ScoresManager` component?
 	const resetScores = () => {
 		setInStorage(STORAGE_KEY_SCORES, undefined);
 		savedScores = undefined;
@@ -235,6 +236,33 @@
 
 		setInStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false);
 		strengthBooster3Enabled = false;
+	};
+	const importScores = (): void => {
+		// eslint-disable-next-line no-alert
+		const newScoresRaw = prompt(
+			'import scores',
+			savedScores
+				? JSON.stringify(savedScores)
+				: initialScores
+				? JSON.stringify(initialScores)
+				: undefined,
+		)?.trim();
+		if (newScoresRaw === '') {
+			if (initialScores) {
+				saveScores(initialScores);
+			} else {
+				resetScores();
+			}
+		} else {
+			try {
+				const parsed = newScoresRaw != null && parseStarshipStageScores(newScoresRaw);
+				if (parsed) {
+					saveScores(parsed);
+				}
+			} catch (err) {
+				alert('failed to parse scores: ' + err); // eslint-disable-line no-alert
+			}
+		}
 	};
 
 	const STORAGE_KEY_SPEED_BOOSTER_TOGGLED = 'cpg_speed_booster_toggled';
@@ -471,7 +499,8 @@
 		{exit}
 		{starshipMode}
 		{toggleStarshipMode}
-		resetScores={scored ? resetScores : undefined}
+		resetScores={savedScores ? resetScores : undefined}
+		{importScores}
 	/>
 </AppDialog>
 

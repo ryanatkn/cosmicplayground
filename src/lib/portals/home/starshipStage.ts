@@ -41,6 +41,22 @@ export interface StarshipStageScores {
 	crew: boolean[]; // mirrors `MOON_ICONS`
 	crewRescuedAtOnceCount: number;
 }
+export const parseStarshipStageScores = (str: string): StarshipStageScores | undefined => {
+	try {
+		const parsed = JSON.parse(str);
+		if (!parsed || typeof parsed !== 'object') return undefined;
+		if (
+			'crew' in parsed &&
+			Array.isArray(parsed.crew) &&
+			parsed.crew.every((c: any) => typeof c === 'boolean')
+		) {
+			return parsed;
+		}
+	} catch (err) {
+		//
+		return undefined;
+	}
+};
 export const rescuedAnyCrew = (scores: StarshipStageScores): boolean => scores.crew.some(Boolean);
 export const rescuedAllCrew = (scores: StarshipStageScores): boolean => scores.crew.every(Boolean);
 export const rescuedAllMoons = (scores: StarshipStageScores): boolean =>
