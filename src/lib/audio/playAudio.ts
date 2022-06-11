@@ -3,23 +3,22 @@ import {get} from 'svelte/store';
 import type {AudioResource, ResourceStore} from '$lib/app/resource';
 
 export const audios = new Map<string, ResourceStore<AudioResource>>();
-// const resources = new Map<string, ResourceStore>(); // TODO refactor a generic interface?
 
 export const playingAudio = (url: string): boolean => {
-	const resourceStore = audios.get(url);
-	if (!resourceStore) return false;
-	const resource = get(resourceStore); // TODO
-	return !!resource.audio && !resource.audio.paused;
+	const audio = audios.get(url);
+	if (!audio) return false;
+	const $audio = get(audio); // TODO
+	return !!$audio.audio && !$audio.audio.paused;
 };
 
 export const pauseAudio = (onPause?: (audio: AudioResource) => void): void => {
 	// TODO probably set playing audio to module-level state instead of this
 	// (seems fine because audio is a global UX)
-	for (const resourceStore of audios.values()) {
-		const resource = get(resourceStore); // TODO
-		if (resource.audio && !resource.audio.paused) {
-			resource.audio.pause();
-			onPause?.(resource);
+	for (const audio of audios.values()) {
+		const $audio = get(audio); // TODO
+		if ($audio.audio && !$audio.audio.paused) {
+			$audio.audio.pause();
+			onPause?.($audio);
 		}
 	}
 };
