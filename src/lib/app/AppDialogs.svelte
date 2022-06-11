@@ -14,5 +14,12 @@
 
 {#if $showAppDialog}
 	<!-- TODO better way to do this? -->
-	<Dialog on:close={exit}><div bind:this={$appDialogEl} /></Dialog>
+	<Dialog on:close={exit}><div class="dialogs" bind:this={$appDialogEl} /></Dialog>
 {/if}
+
+<style>
+	.dialogs {
+		display: flex;
+		flex-direction: column-reverse;
+	}
+</style>
