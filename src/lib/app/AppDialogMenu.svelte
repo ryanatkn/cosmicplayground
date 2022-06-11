@@ -6,7 +6,7 @@
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 </script>
 
-<div class="wrapper">
+<div>
 	<div class="breadcrumbs">
 		<Panel>
 			<div class="markup centered">
@@ -22,9 +22,6 @@
 </div>
 
 <style>
-	.wrapper {
-		margin-top: 12px;
-	}
 	.breadcrumbs {
 		/* TODO don't hardcode */
 		padding-left: 12px;

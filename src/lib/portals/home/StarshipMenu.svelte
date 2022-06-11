@@ -14,7 +14,7 @@
 	export let importScores: (() => void) | undefined;
 </script>
 
-<div>
+<div class="wrapper">
 	<div class="starship-preview">
 		<StarshipPreview
 			onClick={() => {
@@ -57,18 +57,12 @@
 			</Panel>
 		</div>
 	{/if}
-	<section class="starship-preview">
-		<StarshipPreview
-			onClick={() => {
-				exit();
-				toggleStarshipMode();
-			}}
-			{starshipMode}
-		/>
-	</section>
 </div>
 
 <style>
+	.wrapper {
+		padding: 0 var(--spacing_sm);
+	}
 	/* TODO upstream */
 	td {
 		padding: var(--spacing_sm);
