@@ -2,6 +2,7 @@ import {get} from 'svelte/store';
 
 import type {AudioResource, ResourceStore} from '$lib/app/resource';
 
+// TODO custom store? selection store? playlist store?
 export const audios = new Map<string, ResourceStore<AudioResource>>();
 
 export const playingAudio = (url: string): boolean => {
