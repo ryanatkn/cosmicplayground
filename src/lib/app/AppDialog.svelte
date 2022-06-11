@@ -11,9 +11,8 @@
 		clock.resume();
 	};
 
-	// TODO better way to do this?
+	// TODO better way to do this? is prety hacky
 	let el: HTMLElement | undefined | null;
-
 	$: $showAppDialog, setTimeout(() => (el = document.getElementById('app-dialogs')));
 </script>
 
