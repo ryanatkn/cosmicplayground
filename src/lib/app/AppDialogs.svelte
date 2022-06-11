@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Dialog from '@feltcoop/felt/ui/dialog/Dialog.svelte';
 
-	import {showAppDialog} from '$lib/app/appDialog';
+	import {showAppDialog, appDialogEl} from '$lib/app/appDialog';
 	import {getClock} from '$lib/app/clock';
 
 	const clock = getClock();
@@ -14,5 +14,5 @@
 
 {#if $showAppDialog}
 	<!-- TODO better way to do this? -->
-	<Dialog on:close={exit}><div id="app-dialogs" /></Dialog>
+	<Dialog on:close={exit}><div bind:this={$appDialogEl} /></Dialog>
 {/if}
