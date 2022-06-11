@@ -48,7 +48,7 @@
 					><td><code>Backtick `</code></td><td
 						>toggle clock (currently {#if $clock.running}running{:else}paused{/if})</td
 					></tr
-				>
+				><tr><td><code>ctrl+Escape</code></td><td>exit the current space</td></tr>
 			</table>
 		</section>
 	</div>
