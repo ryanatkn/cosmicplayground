@@ -52,6 +52,7 @@
 	} from '$lib/portals/home/data';
 	import type {PortalData} from '$lib/portals/portal';
 	import {enableGlobalHotkeys, scrollDown, swallow} from '$lib/util/dom';
+	import {showAppDialog} from '$lib/app/appDialog';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -322,6 +323,7 @@
 		transitioningStarshipModeCount--;
 	};
 	const toggleStarshipMode = () => (starshipMode ? exitStarshipMode() : enterStarshipMode());
+	const toggleStarshipMenu = () => ($showAppDialog = true);
 
 	const onWindowKeydown = async (
 		e: KeyboardEvent & {
@@ -400,7 +402,7 @@
 			<div class="portals">
 				{#each portals as portal (portal)}
 					{#if portal === starshipPortal}
-						<StarshipPreview onClick={toggleStarshipMode} classes="portal-preview--starship" />
+						<StarshipPreview onClick={toggleStarshipMenu} classes="portal-preview--starship" />
 					{:else}
 						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
 							<svelte:component this={portal.Preview} />

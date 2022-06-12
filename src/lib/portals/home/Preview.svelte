@@ -9,5 +9,5 @@
 </script>
 
 <PortalPreview style="font-size: 84px;" classes={finalClasses} {...$$restProps} {onClick}
-	>🛸</PortalPreview
+	>🛸<slot /></PortalPreview
 >

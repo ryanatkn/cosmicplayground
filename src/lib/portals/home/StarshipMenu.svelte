@@ -22,7 +22,10 @@
 				toggleStarshipMode();
 			}}
 			{starshipMode}
-		/>
+			><div style:font-size="var(--font_size_xl3)" style:font-weight="300">
+				{#if starshipMode}exit{:else}play{/if}
+			</div></StarshipPreview
+		>
 	</div>
 	<Panel
 		><div class="markup centered">
