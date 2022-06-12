@@ -21,7 +21,6 @@ export const scrollDown = async (top = 90000): Promise<void> => {
 	window.scrollTo({left: window.scrollX, top, behavior: 'smooth'});
 };
 
-// TODO BLOCK img.onload
 export const toImageDataUrl = (canvas: HTMLCanvasElement, img: HTMLImageElement): string => {
 	const ctx = canvas.getContext('2d');
 	if (!ctx) throw Error('failed to get canvas context');
