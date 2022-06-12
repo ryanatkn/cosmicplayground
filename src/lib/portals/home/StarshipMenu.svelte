@@ -39,9 +39,9 @@
 						><td><code>Space</code></td><td>toggle starship game</td></tr
 					><tr><td><code>Escape</code></td><td>toggle main menu</td></tr><tr
 						><td><code>Backtick `</code></td><td
-							>toggle clock (currently {#if $clock.running}running{:else}paused{/if})</td
+							>toggle clock (is {#if $clock.running}running{:else}paused{/if})</td
 						></tr
-					><tr><td><code>ctrl+Escape</code></td><td>exit the current space</td></tr>
+					><tr><td><code>ctrl+Escape</code></td><td>navigate upwards</td></tr>
 				</table>
 			</section>
 		</div>
