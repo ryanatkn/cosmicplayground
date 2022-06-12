@@ -408,6 +408,10 @@ export class Stage extends BaseStage {
 			}
 		}
 
+		// TODO BLOCK when `rock.x < -900`, win!
+		// and when rock is destroyed, start a 10 second timer, then win!
+		console.log('rock', rock.x);
+
 		if (shouldUpdateScores) {
 			this.updateScores();
 		}
