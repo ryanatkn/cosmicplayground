@@ -10,26 +10,32 @@ const dataUrlCache: Map<any, string> = new Map();
 let canvas: HTMLCanvasElement;
 const getCanvas = (): HTMLCanvasElement => canvas || (canvas = document.createElement('canvas'));
 
+// TODO this doesn't handle `img.src` changes
 export const freezeframe = (img: HTMLImageElement, freeze: Options): ActionReturn<Options> => {
-	// TODO BLOCK fix so this handles changes, at least on updates
-	const src = img.src;
+	let _freeze = freeze;
+	const originalSrc = img.src;
 
-	const toDataUrl = () => {
-		console.log(`toDataUrl src`, src);
-		return memoize(dataUrlCache, src, () => toImageDataUrl(getCanvas(), img));
+	let loaded = false;
+	const onLoad = () => {
+		loaded = true;
+		if (_freeze) img.src = toDataUrl();
 	};
+	img.addEventListener('load', onLoad);
 
-	if (freeze) {
-		img.src = toDataUrl();
-	}
+	const toDataUrl = () =>
+		memoize(dataUrlCache, originalSrc, () => toImageDataUrl(getCanvas(), img));
 
 	return {
 		update: (freeze) => {
+			_freeze = freeze;
 			if (freeze) {
-				img.src = toDataUrl();
+				if (loaded) img.src = toDataUrl();
 			} else {
-				img.src = src;
+				img.src = originalSrc;
 			}
+		},
+		destroy: () => {
+			img.removeEventListener('load', onLoad);
 		},
 	};
 };
