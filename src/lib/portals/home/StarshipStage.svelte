@@ -1,4 +1,7 @@
 <script lang="ts">
+	import {swallow} from '@feltcoop/felt/util/dom.js';
+	import type {Writable} from 'svelte/store';
+
 	import World from '$lib/flat/World.svelte';
 	import {
 		PLAYER_SPEED,
@@ -17,9 +20,7 @@
 	import {getPixi} from '$lib/app/pixi';
 	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
 	import type {CameraStore} from '$lib/flat/camera';
-	import type {Writable} from 'svelte/store';
 	import type {Controller} from '$lib/flat/Controller';
-	import {swallow} from '@feltcoop/felt/util/dom.js';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;

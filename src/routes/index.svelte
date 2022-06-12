@@ -220,6 +220,8 @@
 	};
 	// TODO refactor, `ScoresManager` component?
 	const resetScores = () => {
+		if (!confirm('delete all scores?')) return; // eslint-disable-line no-alert
+
 		setInStorage(STORAGE_KEY_SCORES, undefined);
 		savedScores = undefined;
 
@@ -491,7 +493,7 @@
 				>
 					{#if $currentStageScores && rescuedAnyCrew($currentStageScores)}{BOOSTER_SYMBOL}{:else}↩{/if}
 				</FloatingIconButton>
-				<StarshipStageScore scores={currentStageScores} />
+				<StarshipStageScore scores={currentStageScores && $currentStageScores} />
 			</div>
 		{/if}
 	{/if}
@@ -502,6 +504,7 @@
 		{exit}
 		{starshipMode}
 		{toggleStarshipMode}
+		scores={savedScores}
 		resetScores={savedScores ? resetScores : undefined}
 		{importScores}
 	/>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Breadcrumbs from '@feltcoop/felt/ui/Breadcrumbs.svelte';
+	import {page} from '$app/stores';
 
 	import Panel from '$lib/app/Panel.svelte';
 	import AboutPreview from '$lib/portals/about/Preview.svelte';
@@ -7,15 +8,17 @@
 </script>
 
 <div>
-	<div class="breadcrumbs">
-		<Panel>
-			<div class="markup centered">
-				<section>
-					<Breadcrumbs>🌠</Breadcrumbs>
-				</section>
-			</div>
-		</Panel>
-	</div>
+	{#if $page.url.pathname !== '/'}
+		<div class="breadcrumbs">
+			<Panel>
+				<div class="markup centered">
+					<section>
+						<Breadcrumbs>🌠</Breadcrumbs>
+					</section>
+				</div>
+			</Panel>
+		</div>
+	{/if}
 	<PortalPreview href="/about">
 		<AboutPreview />
 	</PortalPreview>

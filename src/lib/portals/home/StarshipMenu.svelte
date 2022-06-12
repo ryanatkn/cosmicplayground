@@ -4,6 +4,8 @@
 	import Panel from '$lib/app/Panel.svelte';
 	import StarshipPreview from '$lib/portals/home/Preview.svelte';
 	import type {ClockStore} from '$lib/app/clock';
+	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
+	import type {StarshipStageScores} from '$lib/portals/home/starshipStage';
 
 	export let clock: ClockStore; // TODO or use context?
 	// TODO refactor
@@ -12,6 +14,7 @@
 	export let toggleStarshipMode: () => void;
 	export let resetScores: (() => void) | undefined;
 	export let importScores: (() => void) | undefined;
+	export let scores: StarshipStageScores | undefined;
 </script>
 
 <div class="wrapper">
@@ -56,6 +59,14 @@
 							<button on:click={importScores}>import scores</button>
 						{/if}
 					</div>
+					{#if scores}
+						<br />
+						<StarshipStageScore {scores} defaultIcon="❔" />
+						<br />
+						{#if scores.crewRescuedAtOnceCount}
+							<p class="centered"># crew rescued at once: {scores.crewRescuedAtOnceCount}</p>
+						{/if}
+					{/if}
 				</div>
 			</Panel>
 		</div>
