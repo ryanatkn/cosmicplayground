@@ -7,9 +7,9 @@
 	$: icons = scores
 		? scores.crew.map((f, i) => (f ? MOON_ICONS[i] : defaultIcon)).filter(Boolean)
 		: undefined;
-	$: iconsStr = icons?.join(' ') ?? '';
 
 	// TODO ?
+	// $: iconsStr = icons?.join(' ') ?? '';
 	// const copyToClipboard = (): void | Promise<void> => {
 	// 	if (icons) {
 	// 		return window.navigator.clipboard.writeText(iconsStr);
