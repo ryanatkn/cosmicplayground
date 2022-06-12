@@ -11,6 +11,13 @@ let canvas: HTMLCanvasElement;
 const getCanvas = (): HTMLCanvasElement => canvas || (canvas = document.createElement('canvas'));
 
 // TODO this doesn't handle `img.src` changes
+
+/**
+ * When `freeze` is `true`, draws the image to a data URL, so gifs become a static image.
+ * @param img
+ * @param freeze
+ * @returns action
+ */
 export const freezeframe = (img: HTMLImageElement, freeze: Options): ActionReturn<Options> => {
 	let _freeze = freeze;
 	const originalSrc = img.src;
