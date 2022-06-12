@@ -10,7 +10,8 @@ const dataUrlCache: Map<any, string> = new Map();
 let canvas: HTMLCanvasElement;
 const getCanvas = (): HTMLCanvasElement => canvas || (canvas = document.createElement('canvas'));
 
-// TODO this doesn't handle `img.src` changes
+// TODO this doesn't handle `img.src` changes,
+// so for now wrap images with `{#key src}` if it needs to be dynamic
 
 /**
  * When `freeze` is `true`, draws the image to a data URL, so gifs become a static image.
