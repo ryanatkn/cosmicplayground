@@ -92,7 +92,7 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [klona](https://github.com/lukeed/klona) ∙
 [dequal](https://github.com/lukeed/dequal) ∙
 [Gro](https://github.com/feltcoop/gro) ∙
-[ESLint](https://github.com/eslint/eslint)
+[ESLint](https://github.com/eslint/eslint) ∙
 [Prettier](https://github.com/prettier/prettier)
 & [more](package.json)
 
