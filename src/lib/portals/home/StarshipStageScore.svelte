@@ -9,15 +9,16 @@
 		: undefined;
 	$: iconsStr = icons?.join(' ') ?? '';
 
-	const copyToClipboard = (): void | Promise<void> => {
-		if (icons) {
-			return window.navigator.clipboard.writeText(iconsStr);
-		}
-	};
+	// TODO ?
+	// const copyToClipboard = (): void | Promise<void> => {
+	// 	if (icons) {
+	// 		return window.navigator.clipboard.writeText(iconsStr);
+	// 	}
+	// };
 </script>
 
 {#if icons}
-	<div class="text" on:click={copyToClipboard}>
+	<div class="text">
 		{#each icons as icon}
 			{icon}
 		{/each}
