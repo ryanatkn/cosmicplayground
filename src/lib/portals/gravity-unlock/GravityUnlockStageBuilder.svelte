@@ -156,10 +156,10 @@ TODO ideas
 	const toggleExpandControls = () => (expandControls = !expandControls);
 
 	const onWindowKeydown = (e: KeyboardEvent) => {
-		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+		if (e.key === ' ' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			swallow(e);
 			toggleExpandControls();
-		} else if (e.key === ' ' && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === 'r' && enableGlobalHotkeys(e.target)) {
 			swallow(e);
 			resetStage();
 		} else if (e.key === 's' && e.ctrlKey && enableGlobalHotkeys(e.target)) {

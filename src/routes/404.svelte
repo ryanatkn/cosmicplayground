@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {page} from '$app/stores';
-	import LinkPath from '@feltcoop/felt/ui/LinkPath.svelte';
+	import Breadcrumbs from '@feltcoop/felt/ui/Breadcrumbs.svelte';
 
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
@@ -17,7 +17,7 @@
 		<h1>oh no!</h1>
 		<h3>no portal exists here</h3>
 		<blockquote>
-			<LinkPath path={$page.url.pathname} />
+			<Breadcrumbs path={$page.url.pathname} />
 		</blockquote>
 		<a href="/">
 			<ChunkyButton>go back home</ChunkyButton>

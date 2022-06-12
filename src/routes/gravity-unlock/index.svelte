@@ -1,6 +1,6 @@
 <script lang="ts">
 	import AboutPortalPreview from '$lib/portals/about/Preview.svelte';
-	import PortalPreview from '$lib/portals/home/PortalPreview.svelte';
+	import PortalPreview from '$lib/app/PortalPreview.svelte';
 </script>
 
 <div class="gravity-unlock">

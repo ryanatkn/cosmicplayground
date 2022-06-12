@@ -27,6 +27,10 @@
 	import {setAudioCtx} from '$lib/audio/audioCtx';
 	import {setDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys, swallow} from '$lib/util/dom';
+	import {showAppDialog} from '$lib/app/appDialog';
+	import AppDialogs from '$lib/app/AppDialogs.svelte';
+	import AppDialog from '$lib/app/AppDialog.svelte';
+	import AppDialogMenu from '$lib/app/AppDialogMenu.svelte';
 
 	const dimensions = writable({
 		width: browser ? window.innerWidth : 1,
@@ -138,6 +142,15 @@
 			// toggle dev mode
 			swallow(e);
 			settings.update((s) => ({...s, devMode: !s.devMode}));
+		} else if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.currentTarget)) {
+			swallow(e);
+			if ($showAppDialog) {
+				$showAppDialog = false;
+				clock.resume(); // TODO make this add to a stack so we can safely unpause
+			} else {
+				$showAppDialog = true;
+				clock.pause(); // TODO make this add to a stack so we can safely unpause
+			}
 		} else if (e.key === 'Escape' && e.ctrlKey) {
 			// global nav up one
 			swallow(e);
@@ -145,13 +158,11 @@
 		} else if ($settings.devMode) {
 			// dev mode hotkeys
 			if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
-				e.stopImmediatePropagation();
-				e.preventDefault();
+				swallow(e);
 				settings.update((s) => ({...s, idleMode: !s.idleMode}));
 				console.log('idle mode is now', $settings.idleMode);
 			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
-				e.stopImmediatePropagation();
-				e.preventDefault();
+				swallow(e);
 				settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
 				console.log('recording mode is now', $settings.recordingMode);
 			}
@@ -210,6 +221,10 @@
 		</p>
 	</Panel>
 {/if}
+<AppDialogs />
+<AppDialog>
+	<AppDialogMenu />
+</AppDialog>
 
 <!-- TODO should we have a `<Portals/>` component that the `App` mounts? -->
 <style>

@@ -22,15 +22,16 @@ export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
 
 export const PLAYER_SPEED = 0.6;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
-export const PLAYER_STRENGTH = DEFAULT_STRENGTH * 0.96;
+export const PLAYER_STRENGTH = DEFAULT_STRENGTH * 0.97;
 export const PLAYER_STRENGTH_BOOSTED = 1.09;
 export const PLAYER_STRENGTH_BOOSTED1 = 0.01;
 export const PLAYER_STRENGTH_BOOSTED2 = 0.01;
 export const PLAYER_STRENGTH_BOOSTED3 = 0.01;
 export const PLAYER_RADIUS = 100;
 
-const MOON_SPEED = 0.03;
-const ROCK_SPEED = 0.21;
+export const MOON_SPEED = 0.03;
+export const ROCK_SPEED = 0.21;
+export const ROCK_STRENGTH = DEFAULT_STRENGTH * 1.03;
 
 const MAX_DT = 100; // max 10 fps
 
@@ -38,9 +39,27 @@ const toIconFontSize = (radius: number): number => radius * 1.4;
 
 // TODO refactor all of these
 export interface StarshipStageScores {
+	// stay in sync with `parseStarshipStageScores`!
 	crew: boolean[]; // mirrors `MOON_ICONS`
 	crewRescuedAtOnceCount: number;
 }
+export const parseStarshipStageScores = (str: string): StarshipStageScores | undefined => {
+	try {
+		const parsed = JSON.parse(str);
+		if (!parsed || typeof parsed !== 'object') return undefined;
+		// manually validating `StarshipStageScores`, TODO schema (try zod?)
+		if (
+			Array.isArray(parsed.crew) &&
+			parsed.crew.every((c: any) => typeof c === 'boolean') &&
+			typeof parsed.crewRescuedAtOnceCount === 'number'
+		) {
+			return parsed;
+		}
+	} catch (err) {
+		//
+	}
+	return undefined;
+};
 export const rescuedAnyCrew = (scores: StarshipStageScores): boolean => scores.crew.some(Boolean);
 export const rescuedAllCrew = (scores: StarshipStageScores): boolean => scores.crew.every(Boolean);
 export const rescuedAllMoons = (scores: StarshipStageScores): boolean =>
@@ -143,6 +162,7 @@ export class Stage extends BaseStage {
 			collisions.createCircle(2275 + rockSize / 2, 1200 + rockSize / 2, rockSize) as EntityCircle,
 		));
 		rock.speed = ROCK_SPEED;
+		rock.strength = ROCK_STRENGTH;
 		rock.directionX = -1;
 		rock.directionY = -0.7;
 		rock.color = COLOR_ROCK;
