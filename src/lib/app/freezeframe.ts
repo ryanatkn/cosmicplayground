@@ -1,11 +1,11 @@
 import type {ActionReturn} from 'svelte/action';
 
-import {memoize} from '$lib/util/memoize';
+import {fromCache} from '$lib/util/cache';
 import {toImageDataUrl} from '$lib/util/dom';
 
 export type Options = boolean;
 
-const dataUrlCache: Map<any, string> = new Map();
+const dataUrlBySrc: Map<any, string> = new Map();
 
 let canvas: HTMLCanvasElement;
 const getCanvas = (): HTMLCanvasElement => canvas || (canvas = document.createElement('canvas'));
@@ -31,7 +31,7 @@ export const freezeframe = (img: HTMLImageElement, freeze: Options): ActionRetur
 	img.addEventListener('load', onLoad);
 
 	const toDataUrl = () =>
-		memoize(dataUrlCache, originalSrc, () => toImageDataUrl(getCanvas(), img));
+		fromCache(dataUrlBySrc, originalSrc, () => toImageDataUrl(getCanvas(), img));
 
 	return {
 		update: (freeze) => {

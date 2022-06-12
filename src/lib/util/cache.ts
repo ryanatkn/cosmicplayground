@@ -1,4 +1,4 @@
-export const memoize = <TKey, TValue>(
+export const fromCache = <TKey, TValue>(
 	cache: Map<TKey, TValue>,
 	key: TKey,
 	compute: () => TValue,
