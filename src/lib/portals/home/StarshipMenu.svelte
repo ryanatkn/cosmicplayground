@@ -36,8 +36,8 @@
 				<h2>controls</h2>
 				<table>
 					<thead><th>key</th><th>action</th></thead><tr
-						><td><code>Space</code></td><td>toggle starship game</td></tr
-					><tr><td><code>Escape</code></td><td>toggle main menu</td></tr><tr
+						><td><code>Escape</code></td><td>toggle main menu</td></tr
+					><tr><td><code>Space</code></td><td>toggle starship game</td></tr><tr
 						><td><code>Backtick `</code></td><td
 							>toggle clock (is {#if $clock.running}running{:else}paused{/if})</td
 						></tr
