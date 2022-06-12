@@ -24,10 +24,8 @@ export const scrollDown = async (top = 90000): Promise<void> => {
 export const toImageDataUrl = (canvas: HTMLCanvasElement, img: HTMLImageElement): string => {
 	const ctx = canvas.getContext('2d');
 	if (!ctx) throw Error('failed to get canvas context');
-	const height = img.naturalHeight;
-	const width = img.naturalWidth;
-	canvas.width = width;
-	canvas.height = height;
+	canvas.width = img.naturalWidth;
+	canvas.height = img.naturalHeight;
 	ctx.drawImage(img, 0, 0);
 	return canvas.toDataURL();
 };
