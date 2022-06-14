@@ -33,6 +33,14 @@ export const MOON_SPEED = 0.03;
 export const ROCK_SPEED = 0.21;
 export const ROCK_STRENGTH = DEFAULT_STRENGTH * 1.03;
 
+// end conditions
+export const ROCK_TIMER_FOR_THRESHOLD = 0; // time after passing x threshold for ending the stage
+export const ROCK_TIMER_X_MIN = -900;
+export const ROCK_TIMER_Y_MIN = -3000;
+export const ROCK_TIMER_X_MAX = 2800;
+export const ROCK_TIMER_Y_MAX = 1800;
+export const ROCK_TIMER_DEAD = 15000; // time after rock dies before ending the stage
+
 const MAX_DT = 100; // max 10 fps
 
 const toIconFontSize = (radius: number): number => radius * 1.4;
@@ -222,6 +230,8 @@ export class Stage extends BaseStage {
 		// TODO remove from the other collections? maybe after figuring out the tagging/type/bitmask system
 	}
 
+	rockTimer: number | null = null;
+
 	override update(_dt: number): void {
 		const dt = this.timeDilation * Math.min(Math.max(_dt, 0), MAX_DT);
 		super.update(dt);
@@ -410,6 +420,28 @@ export class Stage extends BaseStage {
 
 		if (shouldUpdateScores) {
 			this.updateScores();
+		}
+
+		// when rock passes the X threshold or it's destroyed,
+		// start a fixed timer to end the stage, enough to let most fragments pass
+		if (!this.finished) {
+			if (this.rockTimer === null) {
+				if (rock.dead) {
+					this.rockTimer = ROCK_TIMER_DEAD;
+				} else if (
+					rock.x < ROCK_TIMER_X_MIN ||
+					rock.y < ROCK_TIMER_Y_MIN ||
+					rock.x > ROCK_TIMER_X_MAX ||
+					rock.y > ROCK_TIMER_Y_MAX
+				) {
+					this.rockTimer = ROCK_TIMER_FOR_THRESHOLD;
+				}
+			} else {
+				this.rockTimer -= dt;
+				if (this.rockTimer <= 0) {
+					this.finished = true;
+				}
+			}
 		}
 	}
 }

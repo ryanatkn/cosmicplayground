@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {scale} from 'svelte/transition';
+	import {page} from '$app/stores';
 
 	import Panel from '$lib/app/Panel.svelte';
 	import StarshipPreview from '$lib/portals/home/Preview.svelte';
@@ -15,6 +16,8 @@
 	export let resetScores: (() => void) | undefined;
 	export let importScores: (() => void) | undefined;
 	export let scores: StarshipStageScores | undefined;
+
+	$: navLevel = $page.url.pathname === '/' ? 0 : $page.url.pathname.split('/').length - 1;
 </script>
 
 <div class="wrapper">
@@ -30,22 +33,6 @@
 			</div></StarshipPreview
 		>
 	</div>
-	<Panel
-		><div class="markup centered">
-			<section>
-				<h2>controls</h2>
-				<table>
-					<thead><th>key</th><th>action</th></thead><tr
-						><td><code>Escape</code></td><td>toggle main menu</td></tr
-					><tr><td><code>Space</code></td><td>toggle starship game</td></tr><tr
-						><td><code>Backtick `</code></td><td
-							>toggle clock (is {#if $clock.running}running{:else}paused{/if})</td
-						></tr
-					><tr><td><code>ctrl+Escape</code></td><td>navigate upwards</td></tr>
-				</table>
-			</section>
-		</div>
-	</Panel>
 	{#if resetScores || importScores}
 		<div transition:scale|local>
 			<Panel>
@@ -63,14 +50,40 @@
 						<br />
 						<StarshipStageScore {scores} defaultIcon="❔" />
 						<br />
-						{#if scores.crewRescuedAtOnceCount}
-							<p class="centered"># crew rescued at once: {scores.crewRescuedAtOnceCount}</p>
-						{/if}
+						<p class="centered">
+							{#if scores.crewRescuedAtOnceCount}
+								{scores.crewRescuedAtOnceCount} crewmember{#if scores.crewRescuedAtOnceCount !== 1}s{/if}
+								rescued at once
+							{:else}
+								no crewmembers have been rescued
+							{/if}
+						</p>
 					{/if}
 				</div>
 			</Panel>
 		</div>
 	{/if}
+	<!-- TODO extract controls so they appear in the main app menu at all times, can hook into them -->
+	<Panel
+		><div class="markup centered">
+			<section>
+				<h2>controls</h2>
+				<table>
+					<thead><th>key</th><th>action</th></thead><tr
+						><td><code>Escape</code></td><td>toggle main menu</td></tr
+					><tr><td><code>Space</code></td><td>toggle starship game</td></tr><tr
+						><td><code>Backtick `</code></td><td
+							>toggle clock (is {#if $clock.running}running{:else}paused{/if})</td
+						></tr
+					><tr
+						><td><code>ctrl+Escape</code></td><td
+							>navigate upwards ({#if navLevel === 0}you're at the top{:else}you're at level {navLevel}{/if})</td
+						></tr
+					>
+				</table>
+			</section>
+		</div>
+	</Panel>
 </div>
 
 <style>

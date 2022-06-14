@@ -59,7 +59,6 @@
 	$: $clock, syncStageState();
 
 	let finished = false;
-	const STAGE_DURATION = 30000;
 
 	$: stage.player.speed = speedBoosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
 	$: stage.player.strength =
@@ -81,8 +80,9 @@
 	$: if (controller) controller.worldHeight = worldHeight;
 
 	// TODO this is clumsy, keep refactoring to shrink it
+	// should be connected to `starshipStage.update`?
 	const syncStageState = () => {
-		if (!finished && stage.time > STAGE_DURATION) {
+		if (!finished && stage.finished) {
 			finished = true;
 			void finish($scores);
 		}

@@ -125,6 +125,8 @@
 
 	let starshipMode = false;
 	const TRANSITION_DURATION = 500;
+	// slow transition the first time -- TODO and play music?
+	$: transitionDuration = savedScores ? TRANSITION_DURATION : TRANSITION_DURATION * 5;
 	let transitioningStarshipModeCount = 0; // counter so it handles concurrent calls without much code
 	$: transitioningStarshipMode = transitioningStarshipModeCount > 0;
 	$: starshipReady = starshipMode && !transitioningStarshipMode;
@@ -308,7 +310,7 @@
 		clock.pause();
 		clock.reset();
 		transitioningStarshipModeCount++;
-		await wait(TRANSITION_DURATION);
+		await wait(transitionDuration);
 		await wait(); // prevents glitchy horizontal scrollbar that appears for a frame
 		transitioningStarshipModeCount--;
 	};
@@ -320,7 +322,7 @@
 		pauseAudio();
 		clock.resume();
 		transitioningStarshipModeCount++;
-		await wait(TRANSITION_DURATION);
+		await wait(transitionDuration);
 		await wait(); // prevents glitchy horizontal scrollbar that appears for a frame
 		transitioningStarshipModeCount--;
 	};
@@ -380,7 +382,7 @@
 		style:transform={starshipMode
 			? `translate3d(${starshipViewX}px, ${starshipViewY}px,	0) scale3d(${starshipScale}, ${starshipScale}, ${starshipScale})	rotate(${starshipRotation}rad)`
 			: 'none'}
-		style:transition={starshipReady ? 'none' : `transform ${TRANSITION_DURATION}ms ease-in-out`}
+		style:transition={starshipReady ? 'none' : `transform ${transitionDuration}ms ease-in-out`}
 	>
 		<header class="portals">
 			<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
