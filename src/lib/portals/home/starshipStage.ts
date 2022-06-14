@@ -34,8 +34,11 @@ export const ROCK_SPEED = 0.21;
 export const ROCK_STRENGTH = DEFAULT_STRENGTH * 1.03;
 
 // end conditions
-export const ROCK_TIMER_X_THRESHOLD = -900;
-export const ROCK_TIMER_FOR_X_THRESHOLD = 0; // time after passing x threshold for ending the stage
+export const ROCK_TIMER_FOR_THRESHOLD = 0; // time after passing x threshold for ending the stage
+export const ROCK_TIMER_X_MIN = -900;
+export const ROCK_TIMER_Y_MIN = -3000;
+export const ROCK_TIMER_X_MAX = 2800;
+export const ROCK_TIMER_Y_MAX = 1800;
 export const ROCK_TIMER_DEAD = 15000; // time after rock dies before ending the stage
 
 const MAX_DT = 100; // max 10 fps
@@ -425,9 +428,13 @@ export class Stage extends BaseStage {
 			if (this.rockTimer === null) {
 				if (rock.dead) {
 					this.rockTimer = ROCK_TIMER_DEAD;
-				} else if (rock.x < ROCK_TIMER_X_THRESHOLD) {
-					// TODO BLOCK check Y threshold
-					this.rockTimer = ROCK_TIMER_FOR_X_THRESHOLD;
+				} else if (
+					rock.x < ROCK_TIMER_X_MIN ||
+					rock.y < ROCK_TIMER_Y_MIN ||
+					rock.x > ROCK_TIMER_X_MAX ||
+					rock.y > ROCK_TIMER_Y_MAX
+				) {
+					this.rockTimer = ROCK_TIMER_FOR_THRESHOLD;
 				}
 			} else {
 				this.rockTimer -= dt;
