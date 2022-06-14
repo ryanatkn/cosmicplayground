@@ -79,7 +79,8 @@
 						></tr
 					><tr
 						><td><code>ctrl+Escape</code></td><td
-							>navigate upwards ({#if navLevel === 0}you're at the top{:else}you're at level {navLevel}{/if})</td
+							>navigate upwards ({#if navLevel === 0}you're at the top{:else if navLevel === 1}there's
+								one level above you{:else}there's {navLevel} levels above you{/if})</td
 						></tr
 					>
 				</table>

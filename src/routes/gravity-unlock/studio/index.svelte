@@ -5,9 +5,14 @@
 	import GravityUnlockStageBuilder from '$lib/portals/gravity-unlock/GravityUnlockStageBuilder.svelte';
 	import Tabs from '$lib/ui/Tabs.svelte';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
+	import {getClock} from '$lib/app/clock';
+	import AppDialog from '$lib/app/AppDialog.svelte';
+	import StudioMenu from './_menu.svelte';
 
 	// TODO needs a lot of refactoring -- either combine tabs with controls
 	// in the stage builder or extract elsewhere
+
+	const clock = getClock();
 
 	// TODO store an index and each separate?
 	const STORAGE_KEY_STAGES = 'gravity_unlock_stages';
@@ -77,6 +82,9 @@
 		</div>
 	</GravityUnlockStageBuilder>
 </div>
+<AppDialog>
+	<StudioMenu {clock} />
+</AppDialog>
 
 <style>
 	.gravity-unlock-studio {
