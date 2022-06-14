@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@feltcoop/eslint-config": "^0.1.7",
-    "@feltcoop/felt": "^0.32.0",
+    "@feltcoop/felt": "^0.33.0",
     "@feltcoop/gro": "^0.56.0",
     "@ryanatkn/collisions": "^3.0.1",
     "@sveltejs/adapter-static": "^1.0.0-next.34",
