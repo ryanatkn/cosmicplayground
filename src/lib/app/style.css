@@ -175,6 +175,20 @@ button:disabled {
 	opacity: 0.39;
 }
 
+/* TODO upstream */
+td {
+	padding: var(--spacing_sm);
+}
+tr:hover {
+	background-color: var(--tint_light_1);
+}
+th {
+	text-align: left;
+	font-weight: 300;
+	font-size: var(--font_size_xl);
+	padding: var(--spacing_sm);
+}
+
 .idle {
 	cursor: none;
 }
