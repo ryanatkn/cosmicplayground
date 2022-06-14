@@ -123,11 +123,15 @@
 
 	const settings = getSettings();
 
+	let exitStarshipModeCount = 0;
+
 	let starshipMode = false;
 	const TRANSITION_DURATION = 500;
 	// slow transition the first time -- TODO and play music?
-	$: transitionDuration = savedScores ? TRANSITION_DURATION : TRANSITION_DURATION * 8;
+	$: transitionDuration =
+		savedScores || exitStarshipModeCount > 1 ? TRANSITION_DURATION : TRANSITION_DURATION * 8;
 	let transitioningStarshipModeCount = 0; // counter so it handles concurrent calls without much code
+	// TODO disable input while transitioning?
 	$: transitioningStarshipMode = transitioningStarshipModeCount > 0;
 	$: starshipReady = starshipMode && !transitioningStarshipMode;
 
@@ -325,6 +329,7 @@
 		await wait(transitionDuration);
 		await wait(); // prevents glitchy horizontal scrollbar that appears for a frame
 		transitioningStarshipModeCount--;
+		exitStarshipModeCount++;
 	};
 	const toggleStarshipMode = () => (starshipMode ? exitStarshipMode() : enterStarshipMode());
 	const toggleStarshipMenu = () => ($showAppDialog = true);
