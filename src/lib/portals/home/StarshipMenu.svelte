@@ -63,9 +63,14 @@
 						<br />
 						<StarshipStageScore {scores} defaultIcon="❔" />
 						<br />
-						{#if scores.crewRescuedAtOnceCount}
-							<p class="centered"># crew rescued at once: {scores.crewRescuedAtOnceCount}</p>
-						{/if}
+						<p class="centered">
+							{#if scores.crewRescuedAtOnceCount}
+								{scores.crewRescuedAtOnceCount} crewmember{#if scores.crewRescuedAtOnceCount !== 1}s{/if}
+								rescued at once
+							{:else}
+								no crewmembers have been rescued
+							{/if}
+						</p>
 					{/if}
 				</div>
 			</Panel>
