@@ -126,7 +126,7 @@
 	let starshipMode = false;
 	const TRANSITION_DURATION = 500;
 	// slow transition the first time -- TODO and play music?
-	$: transitionDuration = savedScores ? TRANSITION_DURATION : TRANSITION_DURATION * 5;
+	$: transitionDuration = savedScores ? TRANSITION_DURATION : TRANSITION_DURATION * 8;
 	let transitioningStarshipModeCount = 0; // counter so it handles concurrent calls without much code
 	$: transitioningStarshipMode = transitioningStarshipModeCount > 0;
 	$: starshipReady = starshipMode && !transitioningStarshipMode;
