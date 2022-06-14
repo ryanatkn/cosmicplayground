@@ -426,6 +426,7 @@ export class Stage extends BaseStage {
 				if (rock.dead) {
 					this.rockTimer = ROCK_TIMER_DEAD;
 				} else if (rock.x < ROCK_TIMER_X_THRESHOLD) {
+					// TODO BLOCK check Y threshold
 					this.rockTimer = ROCK_TIMER_FOR_X_THRESHOLD;
 				}
 			} else {
