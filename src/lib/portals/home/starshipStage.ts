@@ -35,7 +35,7 @@ export const ROCK_STRENGTH = DEFAULT_STRENGTH * 1.03;
 
 // end conditions
 export const ROCK_TIMER_FOR_THRESHOLD = 0; // time after passing x threshold for ending the stage
-export const ROCK_TIMER_X_MIN = -900;
+export const ROCK_TIMER_X_MIN = -1100;
 export const ROCK_TIMER_Y_MIN = -3000;
 export const ROCK_TIMER_X_MAX = 2800;
 export const ROCK_TIMER_Y_MAX = 1800;
