@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {scale} from 'svelte/transition';
+	import {wait} from '@feltcoop/felt';
 
 	import Panel from '$lib/app/Panel.svelte';
 	import StarshipPreview from '$lib/portals/home/Preview.svelte';
@@ -7,12 +8,13 @@
 	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
 	import type {StarshipStageScores} from '$lib/portals/home/starshipStage';
 	import AppControlsTable from '$lib/app/AppControlsTable.svelte';
+	import PortalPreview from '$lib/app/PortalPreview.svelte';
 
 	export let clock: ClockStore; // TODO or use context?
 	// TODO refactor
 	export let exit: () => void;
 	export let starshipMode: boolean;
-	export let toggleStarshipMode: () => void;
+	export let toggleStarshipMode: () => Promise<void>;
 	export let resetScores: (() => void) | undefined;
 	export let importScores: (() => void) | undefined;
 	export let scores: StarshipStageScores | undefined;
@@ -21,15 +23,27 @@
 <div class="wrapper">
 	<div class="starship-preview">
 		<StarshipPreview
-			onClick={() => {
+			onClick={async () => {
 				exit();
-				toggleStarshipMode();
+				await toggleStarshipMode();
 			}}
 			{starshipMode}
-			><div style:font-size="var(--font_size_xl3)" style:font-weight="300">
+			><div class="button-text">
 				{#if starshipMode}exit{:else}play{/if}
 			</div></StarshipPreview
 		>
+		{#if starshipMode}
+			<PortalPreview
+				onClick={async () => {
+					exit();
+					void toggleStarshipMode();
+					await wait();
+					await wait();
+					void toggleStarshipMode();
+				}}
+				><div style="font-size: 84px;">↻</div>
+				<div class="button-text">restart</div></PortalPreview
+			>{/if}
 	</div>
 	{#if resetScores || importScores}
 		<div transition:scale|local>
@@ -83,5 +97,9 @@
 	/* TODO hacky */
 	.starship-preview :global(.portal-preview) {
 		margin: 0;
+	}
+	.button-text {
+		font-size: var(--font_size_xl3);
+		font-weight: 300;
 	}
 </style>

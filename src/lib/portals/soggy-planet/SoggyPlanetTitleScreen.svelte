@@ -51,9 +51,7 @@
 				work.
 			</p>
 			<p>
-				For a similar but different experience that may be a bummer, see <PortalLink
-					slug="deep-breath"
-				/> 🌚
+				For a similar but different experience see <PortalLink slug="deep-breath" /> 🌚
 			</p>
 			<hr />
 		</section>

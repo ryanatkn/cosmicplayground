@@ -314,8 +314,7 @@
 		clock.pause();
 		clock.reset();
 		transitioningStarshipModeCount++;
-		await wait(transitionDuration);
-		await wait(); // prevents glitchy horizontal scrollbar that appears for a frame
+		await wait(transitionDuration + 50); // trying to avoid glitchy horizontal scrollbar that sometimes appears
 		transitioningStarshipModeCount--;
 	};
 	const exitStarshipMode = async () => {
@@ -326,8 +325,7 @@
 		pauseAudio();
 		clock.resume();
 		transitioningStarshipModeCount++;
-		await wait(transitionDuration);
-		await wait(); // prevents glitchy horizontal scrollbar that appears for a frame
+		await wait(transitionDuration + 50); // trying to avoid glitchy horizontal scrollbar that sometimes appears
 		transitioningStarshipModeCount--;
 		exitStarshipModeCount++;
 	};
