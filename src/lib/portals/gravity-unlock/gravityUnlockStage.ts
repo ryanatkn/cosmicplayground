@@ -19,7 +19,7 @@ const COLOR_ROCK: Hsl = [0.12, 0.16, 0.5];
 const COLOR_MOLTEN: Hsl = [0, 1, 0.5];
 
 export const PLAYER_ICON = '🐢'; // TODO pick from MOON_ICONS
-export const MOON_ICONS = ['💧', '🐬', '🐙', '🦭', '🐋'];
+export const MOON_ICONS = ['💧', '🌱', '🌳', '🌿', '🌲'];
 export const ROCK_ICON = '🪨';
 
 export const PLAYER_SPEED = 0.6; // TODO this is
