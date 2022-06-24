@@ -32,10 +32,8 @@
 			us if you want to improve your webdev skills with Svelte, SvelteKit, and TypeScript while
 			making games in space!
 		</p>
+		<p>See also:</p>
 		<ul>
-			<li>
-				open source on <a href="https://github.com/cosmicplayground/cosmicplayground">GitHub</a>
-			</li>
 			<li>
 				forkable game and creative educational environment at <a
 					href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a
@@ -44,6 +42,7 @@
 			</li>
 			<li>
 				community at <a href="https://www.cosmicplayground.dev">cosmicplayground.dev</a>
+				(<a href="https://github.com/cosmicplayground/community">source</a>)
 			</li>
 			<!-- <li>
 				learn more about <a

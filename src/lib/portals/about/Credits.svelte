@@ -41,10 +41,10 @@
 	</div>
 </Panel>
 <Panel>
-	<CreditsBannerAndIcon />
+	<CreditsMusic />
 </Panel>
 <Panel>
-	<CreditsMusic />
+	<CreditsBannerAndIcon />
 </Panel>
 <Panel>
 	<CreditsSpaceImages />

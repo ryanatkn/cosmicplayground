@@ -38,7 +38,7 @@
 					exit();
 					void toggleStarshipMode();
 					await wait();
-					await wait();
+					await wait(); // TODO idk
 					void toggleStarshipMode();
 				}}
 				><div style="font-size: 84px;">↻</div>
