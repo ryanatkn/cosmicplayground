@@ -1,6 +1,6 @@
 # cosmicplayground
 
-[<img src="/src/static/favicon.png" align="right" width="192" height="192">](https://www.cosmicplayground.org)
+[<img src="/src/static/assets/characters/cosmic-kitty.webp" align="right" width="192" height="192">](https://www.cosmicplayground.org)
 
 > tools and toys for expanding minds
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
