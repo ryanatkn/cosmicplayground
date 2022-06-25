@@ -241,6 +241,11 @@ export const songDatas: Map<string, SongData> = new Map(
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Winter.mp3',
 		},
+		{
+			name: 'Mint Condition',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Mint_Condition.mp3',
+		},
 	].map((v) => [v.name, v]),
 );
 
