@@ -80,13 +80,12 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 	const promises = new Map<string, Promise<void>>();
 	const handleClockTick = async (dt: number): Promise<void> => {
 		if (disableUpdate) return;
-		let {currentTime, currentStepIndex} = $state;
 		const {
+			currentStepIndex,
 			data: {steps},
 		} = $state;
-		currentTime += dt;
-		update((tourState) => ({...tourState, currentTime}));
-		// console.log('update', currentTime, currentStepIndex);
+		const currentTime = $state.currentTime + dt;
+		update(($v) => ({...$v, currentTime}));
 		// Apply each step that's ready.
 		for (let i = currentStepIndex; i < steps.length; i++) {
 			const step = steps[i];
@@ -113,8 +112,8 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 				}
 				case 'waitForEvent': {
 					disableUpdate = true;
-					const promise = promises.get(step.name);
-					await promise; // eslint-disable-line no-await-in-loop
+					const promiseOrVoid = promises.get(step.name);
+					await promiseOrVoid; // eslint-disable-line no-await-in-loop
 					promises.delete(step.name);
 					disableUpdate = false;
 					break;
@@ -128,8 +127,10 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 				finish(true);
 			}
 			// Advance to the next step.
-			currentStepIndex = currentStepIndex === steps.length - 1 ? -1 : currentStepIndex + 1;
-			update((tourState) => ({...tourState, currentStepIndex}));
+			update(($v) => ({
+				...$v,
+				currentStepIndex: currentStepIndex === steps.length - 1 ? -1 : currentStepIndex + 1,
+			}));
 		}
 	};
 
@@ -156,7 +157,7 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 		}: TourState = $state;
 		const currentTime = Math.min(Math.max(0, time), totalDuration);
 		const currentStepIndex = findNextStepIndexAtTime(steps, currentTime);
-		update((tourState) => ({...tourState, currentTime, currentStepIndex}));
+		update(($v) => ({...$v, currentTime, currentStepIndex}));
 
 		const mostRecentPanStep = findMostRecentStepOfType<PanTourStep>(
 			steps,
