@@ -231,7 +231,7 @@
 					∙∙∙
 				</FloatingIconButton>
 			{/if}
-			{#if !tour || devMode}
+			{#if !$tour || devMode}
 				{#if showHud}
 					<div class="hud-top-controls">
 						<FloatingIconButton
@@ -258,7 +258,7 @@
 							/>
 						{/if}
 					</div>
-					{#if !tour}
+					{#if !$tour}
 						<div class="month-wrapper">
 							<MonthHud {activeLandIndex} {selectedLandIndex} {selectLandIndex} {hoverLandIndex} />
 						</div>
