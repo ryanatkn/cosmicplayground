@@ -101,7 +101,6 @@
 		width: 100%;
 		height: 100%;
 		position: relative;
-		pointer-events: none;
 	}
 	.earth {
 		width: 100%;
