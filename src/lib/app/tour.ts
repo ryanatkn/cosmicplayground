@@ -1,4 +1,4 @@
-import {writable, get, type Readable} from 'svelte/store';
+import {writable, type Readable} from 'svelte/store';
 import {UnreachableError} from '@feltcoop/felt/util/error.js';
 
 import type {ClockStore} from '$lib/app/clock.js';
@@ -7,6 +7,8 @@ import type {ClockStore} from '$lib/app/clock.js';
 
 export interface TourState {
 	data: TourData;
+	// TODO BLOCK maybe make each of these a store, and `data` not reactive (at least for now, it could be...)
+	// This would get us more granular changes if all you care about is the step changing.
 	currentTime: number;
 	currentStepIndex: number;
 }
@@ -63,8 +65,11 @@ export interface TourHooks {
 
 export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHooks): TourStore => {
 	console.log('createTourStore', data);
-	const store = writable<TourState>({data, currentTime: 0, currentStepIndex: 0});
-	const {subscribe, update} = store;
+	let $state: TourState = {data, currentTime: 0, currentStepIndex: 0};
+	const {subscribe, update} = writable<TourState>($state);
+	const unsubscribeState = subscribe(($v) => {
+		$state = $v;
+	});
 
 	// We walk through the steps one at a time,
 	// tracking the amount of time that the current step has been active.
@@ -75,11 +80,10 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 	const promises = new Map<string, Promise<void>>();
 	const handleClockTick = async (dt: number): Promise<void> => {
 		if (disableUpdate) return;
-		const $store = get(store);
-		let {currentTime, currentStepIndex} = $store;
+		let {currentTime, currentStepIndex} = $state;
 		const {
 			data: {steps},
-		} = $store;
+		} = $state;
 		currentTime += dt;
 		update((tourState) => ({...tourState, currentTime}));
 		// console.log('update', currentTime, currentStepIndex);
@@ -129,7 +133,6 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 		}
 	};
 
-	// TODO does this cause a memory leak? use derived?
 	const unsubscribeClock = clock.subscribe(($clock) => {
 		if ($clock.running && $clock.dt > 0) {
 			void handleClockTick($clock.dt);
@@ -140,6 +143,9 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 	const finish = (completed: boolean): void => {
 		if (finished) throw Error('Called finish twice');
 		finished = true;
+		// TODO BLOCK requires that `finish` be called, which is error prone, should use store stop instead?
+		// We currently use the `onDestroy` hooks to ensure it gets canceled.
+		unsubscribeState();
 		unsubscribeClock();
 		hooks.done(completed);
 	};
@@ -147,7 +153,7 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 	const seek = (time: number): void => {
 		const {
 			data: {totalDuration, steps},
-		}: TourState = get(store); // TODO type?
+		}: TourState = $state;
 		const currentTime = Math.min(Math.max(0, time), totalDuration);
 		const currentStepIndex = findNextStepIndexAtTime(steps, currentTime);
 		update((tourState) => ({...tourState, currentTime, currentStepIndex}));
@@ -187,12 +193,12 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 			seek(time);
 		},
 		seekTimeBy: (dt: number): void => {
-			seek(get(store).currentTime + dt);
+			seek($state.currentTime + dt);
 		},
 		seekIndexTo: (index: number): void => {
 			const {
 				data: {steps},
-			}: TourState = get(store); // TODO type?
+			}: TourState = $state;
 			seek(steps[clampIndex(steps, index)].startTime);
 		},
 	};

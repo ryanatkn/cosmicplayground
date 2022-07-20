@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {tweened} from 'svelte/motion';
 	import {cubicInOut} from 'svelte/easing';
-	import {onDestroy, onMount} from 'svelte';
+	import {onMount} from 'svelte';
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
 
 	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
@@ -52,9 +52,7 @@
 	$: tourStore = tourManager ? tourManager.tour : null;
 	$: tour = tourStore ? $tourStore : null;
 
-	// TODO add auto pan button - share logic with Starlit Hanmmock
-	// TODO pause music with clock
-	// TODO bottom+right controls - draw the curve in 2d space to create a custom loop of months+sealevel (with smoothing?)
+	// TODO add auto pan button - share logic with Starlit Hanmmock and soggy planet
 
 	let showHud = true;
 	const toggleHud = (value = !showHud) => {
@@ -185,9 +183,6 @@
 			showTitleScreen = false;
 			void resources.load();
 		}
-	});
-	onDestroy(() => {
-		tour?.cancel();
 	});
 </script>
 

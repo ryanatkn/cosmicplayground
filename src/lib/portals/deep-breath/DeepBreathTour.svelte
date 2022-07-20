@@ -12,7 +12,7 @@
 
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
-	import {createEventDispatcher} from 'svelte';
+	import {createEventDispatcher, onDestroy} from 'svelte';
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTourData} from '$lib/portals/deep-breath/deepBreathTourData';
@@ -28,6 +28,9 @@
 	import TweenedCamera from '$lib/app/TweenedCamera.svelte';
 
 	export let camera: Camera2;
+
+	// TODO BLOCK pause music with clock
+	// TODO BLOCK in devmode show a range input to manually seek
 
 	// for external binding, not props
 	export let tourManager: DeepBreathTourManager = undefined!;
@@ -202,6 +205,9 @@
 			lastCamera = nextCamera;
 		}
 	};
+	onDestroy(() => {
+		$tour?.cancel();
+	});
 </script>
 
 <svelte:window on:keydown|capture={onKeyDown} />

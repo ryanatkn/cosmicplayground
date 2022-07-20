@@ -39,10 +39,7 @@
 	$x = randomFloat(0, imageWidth); // eslint-disable-line prefer-const
 	$y = randomFloat($height / 2, imageHeight - $height / 2); // eslint-disable-line prefer-const
 
-	// TODO use pixi for loading resources
-	// TODO add auto pan button - share logic with Starlit Hanmmock
-	// TODO pause music with clock
-	// TODO bottom+right controls - draw the curve in 2d space to create a custom loop of months+sealevel (with smoothing?)
+	// TODO add auto pan button - share logic with Starlit Hanmmock and deep breath
 
 	let showHud = true;
 	const toggleHud = (value = !showHud) => {
