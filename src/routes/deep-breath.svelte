@@ -1,49 +1,54 @@
 <script lang="ts">
-	import {tweened, type Tweened} from 'svelte/motion';
-	import {cubicInOut, sineInOut} from 'svelte/easing';
-	import {writable} from 'svelte/store';
+	import {tweened} from 'svelte/motion';
+	import {cubicInOut} from 'svelte/easing';
 	import {onDestroy, onMount} from 'svelte';
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
 
 	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
-	import Tour from '$lib/app/Tour.svelte';
+	import DeepBreathTour from '$lib/portals/deep-breath/DeepBreathTour.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import EarthViewerDom from '$lib/app/EarthViewerDom.svelte';
 	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
-	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
-	import {createDeepBreathTour} from '$lib/portals/deep-breath/deepBreathTour';
-	import {createTourStore, type TourData, type TourStep, type TourStore} from '$lib/app/tour';
-	import DeepBreathTourIntro from '$lib/portals/deep-breath/DeepBreathTourIntro.svelte';
-	import DeepBreathTourTitle from '$lib/portals/deep-breath/DeepBreathTourTitle.svelte';
-	import DeepBreathTourCredits from '$lib/portals/deep-breath/DeepBreathTourCredits.svelte';
+	import {createResourcesStore} from '$lib/app/resources';
 	import {getSettings} from '$lib/app/settings';
-	import {resetRenderStats, getRenderStats} from '$lib/app/renderStats';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import DeepBreathDevHud from '$lib/portals/deep-breath/DeepBreathDevHud.svelte';
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys} from '$lib/util/dom';
+	import {createCamera2} from '$lib/app/camera2';
+	import {createDeepBreathTourManager} from '$lib/portals/deep-breath/deepBreathTourManager';
 
 	const clock = getClock();
 
+	const camera = createCamera2();
+	const {x, y, width, height, scale} = camera;
+
 	const dimensions = getDimensions();
-	let width = $dimensions.width;
-	let height = $dimensions.height;
-	$: width = $dimensions.width;
-	$: height = $dimensions.height;
-
-	const settings = getSettings();
-	$: devMode = $settings.devMode;
-	$: audioEnabled = $settings.audioEnabled;
-
-	const debugStartTime = 0; // ~0-300000
+	$width = $dimensions.width;
+	$height = $dimensions.height;
+	$: $width = $dimensions.width;
+	$: $height = $dimensions.height;
 
 	// TODO image metadata
 	const imageWidth = 4096;
 	const imageHeight = 2048;
+	// TODO eslint+svelte issue, these overrides shouldn't be needed
+	$x = randomFloat(0, imageWidth); // eslint-disable-line prefer-const
+	$y = randomFloat($height / 2, imageHeight - $height / 2); // eslint-disable-line prefer-const
+
+	const settings = getSettings();
+	$: devMode = $settings.devMode;
+
+	const debugStartTime = 0; // ~0-300000
+
+	const resources = createResourcesStore();
+	const tourManager = createDeepBreathTourManager(camera);
+	const {tour} = tourManager;
+	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
 
 	// TODO use pixi for loading resources
 	// TODO add auto pan button - share logic with Starlit Hanmmock
@@ -57,39 +62,7 @@
 
 	let enablePixiEarthViewer = true; // old slow DOM version is available
 
-	// pan and zoom controls
-	// use stores for x/y/scale so they can be easily swapped with tweens
-	// TODO maybe replace all of this with a camera store?
-	const x = writable(randomFloat(0, imageWidth));
-	const y = writable(randomFloat(height / 2, imageHeight - height / 2)); // TODO account for different starting scale
-	const scale = writable(1);
-	const SCALE_FACTOR = 1.1;
-	const zoomCamera = (
-		zoomDirection: number,
-		screenPivotX: number = width / 2,
-		screenPivotY: number = height / 2,
-	) => {
-		if (zoomDirection === 0) return;
-		const scaleAmount = zoomDirection > 0 ? 1 / SCALE_FACTOR : SCALE_FACTOR;
-		const oldScale = $scale;
-		const newScale = oldScale * scaleAmount;
-		$scale = newScale;
-
-		// Center relative to the pivot point.
-		// When zooming with the mouse, this is the mouse's screen position.
-		const scaleRatio = (newScale - oldScale) / oldScale;
-		const mouseDistX = screenPivotX - width / 2;
-		const mouseDistY = screenPivotY - height / 2;
-		const dx = (mouseDistX * scaleRatio) / newScale;
-		const dy = (mouseDistY * scaleRatio) / newScale;
-		moveCamera(dx, dy);
-	};
-	const moveCamera = (dx: number, dy: number) => {
-		$x += dx;
-		$y += dy;
-	};
-
-	$: inputEnabled = !tour;
+	$: inputEnabled = !$tour;
 
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
@@ -201,162 +174,8 @@
 		earth2LeftOffset = earth1LeftOffset + imageWidth * (xOffsetOverflow < 0.5 ? -1 : 1);
 	}
 
-	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
-	const resources = createResourcesStore();
 	landImages.forEach((url) => resources.addResource('image', url));
 	seaImages.forEach((url) => resources.addResource('image', url));
-
-	let xTween: Tweened<number> | null;
-	let yTween: Tweened<number> | null;
-	let scaleTween: Tweened<number> | null;
-	$: if (xTween) $x = $xTween!; // TODO type assertion is needed due to a bug in Svelte language tools
-	$: if (yTween) $y = $yTween!; // TODO type assertion is needed due to a bug in Svelte language tools
-	$: if (scaleTween) $scale = $scaleTween!; // TODO type assertion is needed due to a bug in Svelte language tools
-	const updatePanTweens = (
-		xTarget: number,
-		yTarget: number,
-		duration: number,
-		easing = sineInOut,
-	) => {
-		if (!xTween) xTween = tweened($x);
-		void xTween.set(xTarget, {duration, easing});
-		if (!yTween) yTween = tweened($y);
-		void yTween.set(yTarget, {duration, easing});
-	};
-	const updateScaleTween = (scaleTarget: number, duration: number, easing = sineInOut) => {
-		if (!scaleTween) scaleTween = tweened($scale);
-		void scaleTween.set(scaleTarget, {duration, easing});
-	};
-	const resetTweens = () => {
-		xTween = null;
-		yTween = null;
-		scaleTween = null;
-	};
-	let tour: TourStore | null = null;
-	let tourData: TourData;
-	let showTourIntro = false;
-	let showTourTitle = false;
-	let showTourCredits = false;
-	const tourResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
-	const tourSongUrl = '/assets/audio/Alexander_Nakarada__Winter.mp3';
-	const oceanWavesSoundUrl = '/assets/audio/ocean_waves.mp3';
-	// TODO maybe `addResource` should return a store per resource,
-	// and then we can remove the next line `$: tourSong = ...`
-	tourResources.addResource('audio', tourSongUrl);
-	tourResources.addResource('audio', oceanWavesSoundUrl);
-	let tourSong: AudioResource;
-	$: tourSong = $tourResources.resources.find((r) => r.url === tourSongUrl) as any; // TODO faster API, or maybe remove (see comment above)
-	let oceanWavesSound: AudioResource;
-	$: oceanWavesSound = $tourResources.resources.find((r) => r.url === oceanWavesSoundUrl) as any; // TODO faster API, or maybe remove (see comment above)
-	const tourIntroTransitionInDuration = 2000;
-	const tourIntroTransitionOutDuration = 2000;
-	const tourIntroPauseDuration = 3000;
-	const tourIntroMaxDelay = 6000;
-	const tourIntroTotalDuration =
-		tourIntroTransitionInDuration +
-		tourIntroMaxDelay +
-		tourIntroPauseDuration +
-		tourIntroTransitionOutDuration;
-	const tourTitleTransitionDuration = 2000;
-	const tourTitlePauseDuration = 3000;
-	const tourTitleMaxDelay = 250;
-	const tourTitleTotalDuration =
-		tourTitleTransitionDuration * 2 + tourTitleMaxDelay + tourTitlePauseDuration;
-	const beginTour = () => {
-		if (tour) {
-			tour.cancel();
-		}
-		resetSeaLevelInteractionState();
-		if (!tourData) {
-			tourData = createDeepBreathTour(tourIntroTotalDuration, tourTitleTotalDuration, devMode);
-		}
-		const oceanWavesPlayStep = tourData.steps.find(
-			(s) => 'name' in s && s.name === 'playOceanWavesSound',
-		); // TODO or get from event handler?
-		const tourSongPlayStep = tourData.steps.find((s) => 'name' in s && s.name === 'playSong'); // TODO or get from event handler?
-		tour = createTourStore(tourData, clock, {
-			pan: (xTarget, yTarget, duration, easing) => {
-				updatePanTweens(xTarget, yTarget, duration, easing);
-			},
-			zoom: (scaleTarget, duration, easing) => {
-				updateScaleTween(scaleTarget, duration, easing);
-			},
-			event: (name, _data) => {
-				if (name.startsWith('debug')) {
-					console.log(name, ($tour as any).currentTime);
-					return;
-				}
-				switch (name) {
-					case 'load': {
-						return tourResources.load(); // is idempotent
-					}
-					case 'playOceanWavesSound': {
-						oceanWavesSound.audio!.currentTime = 0;
-						if (audioEnabled) void oceanWavesSound.audio!.play();
-						return;
-					}
-					case 'playSong': {
-						tourSong.audio!.currentTime = 0;
-						if (audioEnabled) void tourSong.audio!.play();
-						return;
-					}
-					case 'showIntro': {
-						showTourIntro = true;
-						return;
-					}
-					case 'showTitle': {
-						showTourTitle = true;
-						return;
-					}
-					case 'showCredits': {
-						showTourCredits = true;
-						return;
-					}
-					default: {
-						throw Error(`Unknown pause name '${name}'`);
-					}
-				}
-			},
-			seek: (currentTime, _currentStepIndex) => {
-				// TODO this hacky code could be replaced by adding abstractions to the tour
-				// to manage things like audio and displaying specific content for a time window
-				updateAudioOnSeek(oceanWavesSound.audio!, oceanWavesPlayStep!, currentTime);
-				updateAudioOnSeek(tourSong.audio!, tourSongPlayStep!, currentTime);
-				showTourIntro = false;
-				showTourTitle = false;
-				showTourCredits = false;
-			},
-			done: (_completed) => {
-				tour = null;
-				showTourIntro = false;
-				showTourTitle = false;
-				showTourCredits = false;
-				resetTweens();
-				if ($scale > 50) $scale = 50; // TODO tween
-				if (tourSong.audio && !tourSong.audio.paused) tourSong.audio.pause();
-				if (oceanWavesSound.audio && !oceanWavesSound.audio.paused) oceanWavesSound.audio.pause();
-				if (devMode) console.log('render stats', getRenderStats());
-			},
-		});
-		if (devMode) {
-			resetRenderStats();
-			if (debugStartTime) setTimeout(() => tour!.seekTimeTo(debugStartTime), 50);
-		}
-	};
-	const updateAudioOnSeek = (audio: HTMLAudioElement, step: TourStep, currentTime: number) => {
-		const stepCurrentTime = currentTime - step.startTime;
-		const audioDuration = audio.duration * 1000;
-		if (stepCurrentTime >= 0 && stepCurrentTime < audioDuration) {
-			audio.currentTime = stepCurrentTime / 1000;
-			// TODO this is broken in Chrome, maybe because of headers
-			// https://stackoverflow.com/questions/37044064/html-audio-cant-set-currenttime
-			if (audio.paused) {
-				if (audioEnabled) void audio.play();
-			}
-		} else if (!audio.paused) {
-			audio.pause();
-		}
-	};
 
 	// in dev mode, bypass the title screen for convenience
 	let showTitleScreen = true;
@@ -364,7 +183,7 @@
 		showTitleScreen = false;
 	};
 	const returnToTitleScreen = () => {
-		if (tour) tour.cancel();
+		if ($tour) $tour.cancel();
 		showTitleScreen = true;
 	};
 	onMount(() => {
@@ -375,7 +194,7 @@
 		}
 	});
 	onDestroy(() => {
-		if (tour) tour.cancel();
+		if ($tour) $tour.cancel();
 	});
 </script>
 
@@ -389,26 +208,14 @@
 				{seaImages}
 				{activeLandValue}
 				{activeSeaLevel}
-				{width}
-				{height}
-				{x}
-				{y}
-				{scale}
-				{moveCamera}
-				{zoomCamera}
+				{camera}
 				{inputEnabled}
 				{imageWidth}
 				{imageHeight}
 			/>
 		{:else}
 			<EarthViewerDom
-				{width}
-				{height}
-				{x}
-				{y}
-				{scale}
-				{moveCamera}
-				{zoomCamera}
+				{camera}
 				{inputEnabled}
 				{earth1LeftOffset}
 				{earth2LeftOffset}
@@ -418,35 +225,14 @@
 				{activeSeaLevel}
 			/>
 		{/if}
-		{#if tour}
+		{#if $tour}
 			<div class="tour">
-				<Tour {tour} {x} {y} {scale}>
-					<div slot="intro">
-						<DeepBreathTourIntro
-							hide={() => (showTourIntro = false)}
-							totalDuration={tourIntroTotalDuration}
-							transitionInDuration={tourIntroTransitionInDuration}
-							transitionOutDuration={tourIntroTransitionOutDuration}
-							maxDelay={tourIntroMaxDelay}
-						/>
-					</div>
-					<div slot="title">
-						<DeepBreathTourTitle
-							hide={() => (showTourTitle = false)}
-							transitionDuration={tourTitleTransitionDuration}
-							pauseDuration={tourTitlePauseDuration}
-							maxDelay={tourTitleMaxDelay}
-						/>
-					</div>
-					<div slot="credits">
-						<DeepBreathTourCredits transitionDuration={tourTitleTransitionDuration} />
-					</div>
-				</Tour>
+				<DeepBreathTour {tourManager} {x} {y} {scale} />
 			</div>
 		{/if}
 		<Hud>
-			{#if tour}
-				<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
+			{#if $tour}
+				<FloatingIconButton label="cancel tour" on:click={$tour.cancel}>✕</FloatingIconButton>
 			{:else if showHud}
 				<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
 					⇦
@@ -460,7 +246,7 @@
 					∙∙∙
 				</FloatingIconButton>
 			{/if}
-			{#if !tour || devMode}
+			{#if !$tour || devMode}
 				{#if showHud}
 					<div class="hud-top-controls">
 						<FloatingIconButton
@@ -470,12 +256,12 @@
 						>
 							∙∙∙
 						</FloatingIconButton>
-						<FloatingTextButton on:click={beginTour}>tour</FloatingTextButton>
+						<FloatingTextButton on:click={tourManager.beginTour}>tour</FloatingTextButton>
 					</div>
 					<div class="hud-left-controls">
 						{#if devMode}
 							<DeepBreathDevHud
-								{tour}
+								tour={$tour}
 								{x}
 								{y}
 								{scale}
@@ -485,7 +271,7 @@
 							/>
 						{/if}
 					</div>
-					{#if !tour}
+					{#if !$tour}
 						<div class="month-wrapper">
 							<MonthHud {activeLandIndex} {selectedLandIndex} {selectLandIndex} {hoverLandIndex} />
 						</div>

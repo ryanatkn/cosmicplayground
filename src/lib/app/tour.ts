@@ -61,7 +61,6 @@ export interface TourHooks {
 	done: (completed: boolean) => void;
 }
 
-// TODO maybe return a store instead of this API? hmm
 export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHooks): TourStore => {
 	console.log('createTourStore', data);
 	const store = writable<TourState>({data, currentTime: 0, currentStepIndex: 0});

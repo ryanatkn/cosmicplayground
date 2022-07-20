@@ -21,7 +21,7 @@ import {createTourBuilder} from '$lib/app/tourBuilder.js';
 // I'll probably make a visual authoring tool,
 // maybe with bezier curves or camera physics.
 
-export const createDeepBreathTour = (
+export const createDeepBreathTourData = (
 	introDuration: number,
 	titleDuration: number,
 	devMode = false,

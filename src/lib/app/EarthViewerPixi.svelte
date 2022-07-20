@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type {Readable} from 'svelte/store';
 	import * as Pixi from 'pixi.js';
 
 	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum';
@@ -9,6 +8,7 @@
 	} from '$lib/app/blendedImagesCycle';
 	import {getPixiScene} from '$lib/app/pixi';
 	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
+	import type {Camera2} from '$lib/app/camera2';
 
 	// TODO looks like we could use `Pixi.Prepare` to make initial rendering smoother:
 	// https://pixijs.download/release/docs/PIXI.Prepare.html
@@ -16,17 +16,7 @@
 	// TODO should we cache stuff at the module scope? mainly thinking of the render textures
 	// or should we free all resources when this is unmounted? including all base textures?
 
-	export let width: number;
-	export let height: number;
-	export let x: Readable<number>;
-	export let y: Readable<number>;
-	export let scale: Readable<number>;
-	export let moveCamera: (dx: number, dy: number) => void;
-	export let zoomCamera: (
-		zoomDirection: number,
-		screenPivotX: number,
-		screenPivotY: number,
-	) => void;
+	export let camera: Camera2;
 	export let inputEnabled = true;
 	export let landImages: string[]; // not reactive
 	export let seaImages: string[]; // not reactive
@@ -40,6 +30,8 @@
 	export let activeSeaLevel: number;
 	export let imageWidth: number; // not reactive
 	export let imageHeight: number; // not reactive
+
+	$: ({x, y, width, height, scale} = camera);
 
 	const [pixi] = getPixiScene({
 		load: (loader) => {
@@ -98,7 +90,7 @@
 				overlayContainer = new Pixi.Container();
 				mapContainer.addChild(overlayContainer);
 
-				const nightfallSprite = new Pixi.TilingSprite(Pixi.Texture.WHITE, width, height);
+				const nightfallSprite = new Pixi.TilingSprite(Pixi.Texture.WHITE, $width, $height);
 				nightfallSprite.tint = 0x000000;
 				nightfallSprite.alpha = 0;
 				overlayContainer.addChild(nightfallSprite);
@@ -126,8 +118,8 @@
 	let seashoreContainer: Pixi.Container; // includes shore sprites
 	let overlayContainer: Pixi.Container;
 
-	$: tilePositionX = -$x * $scale + width / 2;
-	$: tilePositionY = -$y * $scale + height / 2;
+	$: tilePositionX = -$x * $scale + $width / 2;
+	$: tilePositionY = -$y * $scale + $height / 2;
 
 	$: if (overlayContainer) {
 		const visible = showLights;
@@ -139,9 +131,9 @@
 			overlayContainer.children[1].alpha = lightsOpacity;
 		}
 	}
-	$: updateSpriteDimensions(landSprites, width, height);
-	$: updateSpriteDimensions(seashoreSprites, width, height);
-	$: updateSpriteDimensions(overlaySprites, width, height);
+	$: updateSpriteDimensions(landSprites, $width, $height);
+	$: updateSpriteDimensions(seashoreSprites, $width, $height);
+	$: updateSpriteDimensions(overlaySprites, $width, $height);
 	const updateSpriteDimensions = (sprites: Pixi.TilingSprite[], width: number, height: number) => {
 		for (const sprite of sprites) {
 			sprite.width = width;
@@ -219,8 +211,15 @@
 			height: imageHeight * 2,
 		});
 		pixi.app.renderer.render(tempTextureContainer, {renderTexture});
-		return new Pixi.TilingSprite(renderTexture, width, height);
+		return new Pixi.TilingSprite(renderTexture, $width, $height);
 	};
 </script>
 
-<InteractiveSurface {width} {height} scale={$scale} {moveCamera} {zoomCamera} {inputEnabled} />
+<InteractiveSurface
+	width={$width}
+	height={$height}
+	scale={$scale}
+	moveCamera={camera.moveCamera}
+	zoomCamera={camera.zoomCamera}
+	{inputEnabled}
+/>

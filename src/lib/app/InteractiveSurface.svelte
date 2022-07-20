@@ -1,8 +1,6 @@
 <script lang="ts">
 	// TODO merge with `$lib/flat/InteractiveSurface.svelte`
-
-	// TODO separate camera stuff from this component, maybe a higher order component?
-
+	// TODO maybe pass camera2, but some components would need refactoring
 	export let width: number;
 	export let height: number;
 	export let scale: number;
