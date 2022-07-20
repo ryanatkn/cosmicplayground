@@ -7,7 +7,7 @@ export interface Camera2 {
 	height: Writable<number>;
 	scale: Writable<number>;
 	moveCamera: (dx: number, dy: number) => void;
-	zoomCamera: (zoomDirection: number, screenPivotX?: number, screenPivotY?: number) => void;
+	zoomCamera: (zoomDirection: number, pivotX?: number, pivotY?: number) => void;
 }
 
 const SCALE_FACTOR = 1.1;
@@ -24,8 +24,8 @@ export const createCamera2 = (): Camera2 => {
 		scale: writable(1),
 		zoomCamera: (
 			zoomDirection: number,
-			screenPivotX: number = get(width) / 2,
-			screenPivotY: number = get(height) / 2,
+			pivotX: number = get(width) / 2,
+			pivotY: number = get(height) / 2,
 		): void => {
 			if (zoomDirection === 0) return;
 			const scaleAmount = zoomDirection > 0 ? 1 / SCALE_FACTOR : SCALE_FACTOR;
@@ -36,8 +36,8 @@ export const createCamera2 = (): Camera2 => {
 			// Center relative to the pivot point.
 			// When zooming with the mouse, this is the mouse's screen position.
 			const scaleRatio = (newScale - oldScale) / oldScale;
-			const mouseDistX = screenPivotX - get(width) / 2;
-			const mouseDistY = screenPivotY - get(height) / 2;
+			const mouseDistX = pivotX - get(width) / 2;
+			const mouseDistY = pivotY - get(height) / 2;
 			const dx = (mouseDistX * scaleRatio) / newScale;
 			const dy = (mouseDistY * scaleRatio) / newScale;
 			camera.moveCamera(dx, dy);
