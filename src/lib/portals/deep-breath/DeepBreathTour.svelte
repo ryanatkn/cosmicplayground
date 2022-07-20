@@ -1,24 +1,64 @@
+<script context="module" lang="ts">
+	export interface DeepBreathTourManager {
+		camera: Camera2;
+		tour: Writable<TourStore | null>;
+		tourData: Writable<TourData | null>;
+		showTourIntro: Writable<boolean>;
+		showTourTitle: Writable<boolean>;
+		showTourCredits: Writable<boolean>;
+		beginTour: () => void;
+	}
+</script>
+
 <script lang="ts">
+	import {writable, type Writable} from 'svelte/store';
+	import {createEventDispatcher} from 'svelte';
+	import {tweened, type Tweened} from 'svelte/motion';
+	import {sineInOut} from 'svelte/easing';
+
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTourData} from '$lib/portals/deep-breath/deepBreathTourData';
-	import {createTourStore, type TourStep} from '$lib/app/tour';
+	import {createTourStore} from '$lib/app/tour';
 	import {getSettings} from '$lib/app/settings';
 	import {resetRenderStats, getRenderStats} from '$lib/app/renderStats';
 	import {getClock} from '$lib/app/clock';
-	import type {DeepBreathTourManager} from '$lib/portals/deep-breath/deepBreathTourManager';
 	import DeepBreathTourIntro from '$lib/portals/deep-breath/DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from '$lib/portals/deep-breath/DeepBreathTourTitle.svelte';
+	import type {TourData, TourStore, TourStep} from '$lib/app/tour';
+	import type {Camera2} from '$lib/app/camera2';
 	import DeepBreathTourCredits from '$lib/portals/deep-breath/DeepBreathTourCredits.svelte';
 
-	export let tourManager: DeepBreathTourManager;
+	export let camera: Camera2;
 
-	const {tour, tourData, showTourIntro, showTourTitle, showTourCredits} = tourManager;
+	export let tourManager: DeepBreathTourManager = undefined as any; // for external use, is not a prop
+
+	const tour: DeepBreathTourManager['tour'] = writable(null);
+	const tourData: DeepBreathTourManager['tourData'] = writable(null);
+	const showTourIntro: DeepBreathTourManager['showTourIntro'] = writable(false);
+	const showTourTitle: DeepBreathTourManager['showTourTitle'] = writable(false);
+	const showTourCredits: DeepBreathTourManager['showTourCredits'] = writable(false);
+
+	// TODO maybe create on component init?
+	$: tourManager = {
+		camera,
+		tour: writable(null),
+		tourData: writable(null),
+		showTourIntro: writable(false),
+		showTourTitle: writable(false),
+		showTourCredits: writable(false),
+		beginTour,
+	};
+
+	let {x, y} = camera;
+	$: ({x, y} = camera);
 
 	const clock = getClock();
 
 	const settings = getSettings();
 	$: devMode = $settings.devMode;
 	$: audioEnabled = $settings.audioEnabled;
+
+	const eventDispatcher = createEventDispatcher<{begin: undefined}>();
 
 	const debugStartTime = 0; // ~0-300000
 
@@ -32,7 +72,35 @@
 		}
 	};
 
-	// TODO BLOCK does all of this belong in `deepBreathTourManager`?
+	// TODO BLOCK does this belong in camera2, or a different component?
+	// pan and zoom controls
+	// use stores for x/y/scale so they can be easily swapped with tweens
+	let xTween: Tweened<number> | null;
+	let yTween: Tweened<number> | null;
+	let scaleTween: Tweened<number> | null;
+	$: if (xTween) $x = $xTween;
+	$: if (yTween) $y = $yTween;
+	$: if (scaleTween) $scale = $scaleTween;
+	const updatePanTweens = (
+		xTarget: number,
+		yTarget: number,
+		duration: number,
+		easing = sineInOut,
+	) => {
+		if (!xTween) xTween = tweened($x);
+		void xTween.set(xTarget, {duration, easing});
+		if (!yTween) yTween = tweened($y);
+		void yTween.set(yTarget, {duration, easing});
+	};
+	const updateScaleTween = (scaleTarget: number, duration: number, easing = sineInOut) => {
+		if (!scaleTween) scaleTween = tweened($scale);
+		void scaleTween.set(scaleTarget, {duration, easing});
+	};
+	const resetTweens = () => {
+		xTween = null;
+		yTween = null;
+		scaleTween = null;
+	};
 
 	const tourResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
 	const tourSongUrl = '/assets/audio/Alexander_Nakarada__Winter.mp3';
@@ -59,11 +127,11 @@
 	const tourTitleMaxDelay = 250;
 	const tourTitleTotalDuration =
 		tourTitleTransitionDuration * 2 + tourTitleMaxDelay + tourTitlePauseDuration;
-	const beginTour = () => {
+	const beginTour = (): void => {
 		if ($tour) {
 			$tour.cancel();
 		}
-		resetSeaLevelInteractionState();
+		eventDispatcher('begin');
 		if (!$tourData) {
 			$tourData = createDeepBreathTourData(tourIntroTotalDuration, tourTitleTotalDuration, devMode);
 		}
@@ -158,23 +226,34 @@
 
 <svelte:window on:keydown={onKeyDown} />
 
-{#if $showTourIntro}
-	<DeepBreathTourIntro
-		hide={() => ($showTourIntro = false)}
-		totalDuration={tourIntroTotalDuration}
-		transitionInDuration={tourIntroTransitionInDuration}
-		transitionOutDuration={tourIntroTransitionOutDuration}
-		maxDelay={tourIntroMaxDelay}
-	/>
+{#if $tour}
+	<div class="tour">
+		{#if $showTourIntro}
+			<DeepBreathTourIntro
+				hide={() => ($showTourIntro = false)}
+				totalDuration={tourIntroTotalDuration}
+				transitionInDuration={tourIntroTransitionInDuration}
+				transitionOutDuration={tourIntroTransitionOutDuration}
+				maxDelay={tourIntroMaxDelay}
+			/>
+		{/if}
+		{#if $showTourTitle}
+			<DeepBreathTourTitle
+				hide={() => ($showTourTitle = false)}
+				transitionDuration={tourTitleTransitionDuration}
+				pauseDuration={tourTitlePauseDuration}
+				maxDelay={tourTitleMaxDelay}
+			/>
+		{/if}
+		{#if $showTourCredits}
+			<DeepBreathTourCredits transitionDuration={tourTitleTransitionDuration} />
+		{/if}
+	</div>
 {/if}
-{#if $showTourTitle}
-	<DeepBreathTourTitle
-		hide={() => ($showTourTitle = false)}
-		transitionDuration={tourTitleTransitionDuration}
-		pauseDuration={tourTitlePauseDuration}
-		maxDelay={tourTitleMaxDelay}
-	/>
-{/if}
-{#if $showTourCredits}
-	<DeepBreathTourCredits transitionDuration={tourTitleTransitionDuration} />
-{/if}
+
+<style>
+	.tour {
+		position: fixed;
+		inset: 0;
+	}
+</style>

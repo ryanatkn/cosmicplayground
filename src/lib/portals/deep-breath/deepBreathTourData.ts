@@ -12,8 +12,8 @@ import {
 	quintInOut,
 } from 'svelte/easing';
 
-import type {TourData} from '$lib/app/tour.js';
-import {createTourBuilder} from '$lib/app/tourBuilder.js';
+import type {TourData} from '$lib/app/tour';
+import {createTourBuilder} from '$lib/app/tourBuilder';
 
 // This was tedious to author and the output could be better, but it's good enough.
 // There's some jankiness between some tweens that could be polished, but shrug.

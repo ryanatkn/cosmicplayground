@@ -6,6 +6,7 @@
 
 	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from '$lib/portals/deep-breath/DeepBreathTour.svelte';
+	import type {DeepBreathTourManager} from '$lib/portals/deep-breath/DeepBreathTour.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
@@ -20,7 +21,6 @@
 	import {getDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys} from '$lib/util/dom';
 	import {createCamera2} from '$lib/app/camera2';
-	import {createDeepBreathTourManager} from '$lib/portals/deep-breath/deepBreathTourManager';
 
 	const clock = getClock();
 
@@ -45,12 +45,13 @@
 
 	const debugStartTime = 0; // ~0-300000
 
-	const resources = createResourcesStore();
-	const tourManager = createDeepBreathTourManager(camera);
-	const {tour} = tourManager;
 	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
+	const resources = createResourcesStore();
+	// TODO eslint+svelte issue, this override shouldn't be needed
+	let tourManager: DeepBreathTourManager | undefined; // eslint-disable-line @typescript-eslint/no-redundant-type-constituents
+	$: tourStore = tourManager?.tour || null;
+	$: tour = tourStore ? $tourStore : null;
 
-	// TODO use pixi for loading resources
 	// TODO add auto pan button - share logic with Starlit Hanmmock
 	// TODO pause music with clock
 	// TODO bottom+right controls - draw the curve in 2d space to create a custom loop of months+sealevel (with smoothing?)
@@ -62,7 +63,7 @@
 
 	let enablePixiEarthViewer = true; // old slow DOM version is available
 
-	$: inputEnabled = !$tour;
+	$: inputEnabled = !tour;
 
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
@@ -183,7 +184,7 @@
 		showTitleScreen = false;
 	};
 	const returnToTitleScreen = () => {
-		if ($tour) $tour.cancel();
+		if (tour) tour.cancel();
 		showTitleScreen = true;
 	};
 	onMount(() => {
@@ -194,7 +195,7 @@
 		}
 	});
 	onDestroy(() => {
-		if ($tour) $tour.cancel();
+		if (tour) tour.cancel();
 	});
 </script>
 
@@ -225,14 +226,10 @@
 				{activeSeaLevel}
 			/>
 		{/if}
-		{#if $tour}
-			<div class="tour">
-				<DeepBreathTour {tourManager} {x} {y} {scale} />
-			</div>
-		{/if}
+		<DeepBreathTour {camera} bind:tourManager on:begin={resetSeaLevelInteractionState} />
 		<Hud>
-			{#if $tour}
-				<FloatingIconButton label="cancel tour" on:click={$tour.cancel}>✕</FloatingIconButton>
+			{#if tour}
+				<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
 			{:else if showHud}
 				<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
 					⇦
@@ -246,7 +243,7 @@
 					∙∙∙
 				</FloatingIconButton>
 			{/if}
-			{#if !$tour || devMode}
+			{#if !tour || devMode}
 				{#if showHud}
 					<div class="hud-top-controls">
 						<FloatingIconButton
@@ -256,12 +253,14 @@
 						>
 							∙∙∙
 						</FloatingIconButton>
-						<FloatingTextButton on:click={tourManager.beginTour}>tour</FloatingTextButton>
+						{#if tourManager}
+							<FloatingTextButton on:click={tourManager.beginTour}>tour</FloatingTextButton>
+						{/if}
 					</div>
 					<div class="hud-left-controls">
 						{#if devMode}
 							<DeepBreathDevHud
-								tour={$tour}
+								{tour}
 								{x}
 								{y}
 								{scale}
@@ -271,7 +270,7 @@
 							/>
 						{/if}
 					</div>
-					{#if !$tour}
+					{#if !tour}
 						<div class="month-wrapper">
 							<MonthHud {activeLandIndex} {selectedLandIndex} {selectLandIndex} {hoverLandIndex} />
 						</div>
@@ -315,10 +314,5 @@
 		bottom: 0;
 		left: 0;
 		width: calc(100% - var(--hud_element_size));
-	}
-
-	.tour {
-		position: fixed;
-		inset: 0;
 	}
 </style>

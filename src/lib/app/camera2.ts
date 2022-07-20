@@ -1,6 +1,4 @@
 import {writable, type Writable} from 'svelte/store';
-import {tweened, type Tweened} from 'svelte/motion';
-import {cubicInOut, sineInOut} from 'svelte/easing';
 
 export interface Camera2 {
 	x: Writable<number>;
@@ -15,41 +13,13 @@ export interface Camera2 {
 const SCALE_FACTOR = 1.1;
 
 export const createCamera2 = (): Camera2 => {
-	// pan and zoom controls
-	// use stores for x/y/scale so they can be easily swapped with tweens
-
-	let xTween: Tweened<number> | null;
-	let yTween: Tweened<number> | null;
-	let scaleTween: Tweened<number> | null;
-	$: if (xTween) x.set($xTween);
-	$: if (yTween) y.set($yTween);
-	$: if (scaleTween) scale.set($scaleTween);
-	const updatePanTweens = (
-		xTarget: number,
-		yTarget: number,
-		duration: number,
-		easing = sineInOut,
-	) => {
-		if (!xTween) xTween = tweened($x);
-		void xTween.set(xTarget, {duration, easing});
-		if (!yTween) yTween = tweened($y);
-		void yTween.set(yTarget, {duration, easing});
-	};
-	const updateScaleTween = (scaleTarget: number, duration: number, easing = sineInOut) => {
-		if (!scaleTween) scaleTween = tweened($scale);
-		void scaleTween.set(scaleTarget, {duration, easing});
-	};
-	const resetTweens = () => {
-		xTween = null;
-		yTween = null;
-		scaleTween = null;
-	};
-
 	// TODO BLOCK what if we move camera2 to a component, so we can use subscriptions and everything,
 	// and have it export an object with the stores?
 	const camera: Camera2 = {
-		x: writable(),
-		y: writable(), // TODO account for different starting scale
+		x: writable(0),
+		y: writable(0),
+		width: writable(0),
+		height: writable(0),
 		scale: writable(1),
 		zoomCamera: (
 			zoomDirection: number,
