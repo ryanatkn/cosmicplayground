@@ -13,7 +13,7 @@
 		</div>
 		<div class="item">
 			<div class="centered">
-				<div>public⚘domain</div>
+				<div>public ⚘ domain</div>
 				<div><a href="https://github.com/cosmicplayground/cosmicplayground">source code</a></div>
 			</div>
 		</div>
