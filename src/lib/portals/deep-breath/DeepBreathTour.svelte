@@ -30,7 +30,8 @@
 
 	export let camera: Camera2;
 
-	export let tourManager: DeepBreathTourManager = undefined as any; // for external use, is not a prop
+	// for external binding, not props
+	export let tourManager: DeepBreathTourManager = undefined!;
 
 	const tour: DeepBreathTourManager['tour'] = writable(null);
 	const tourData: DeepBreathTourManager['tourData'] = writable(null);
