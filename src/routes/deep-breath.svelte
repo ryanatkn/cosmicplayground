@@ -205,11 +205,11 @@
 	{#if !showTitleScreen && $resources.status === 'success'}
 		{#if enablePixiEarthViewer}
 			<EarthViewerPixi
+				{camera}
 				{landImages}
 				{seaImages}
 				{activeLandValue}
 				{activeSeaLevel}
-				{camera}
 				{inputEnabled}
 				{imageWidth}
 				{imageHeight}

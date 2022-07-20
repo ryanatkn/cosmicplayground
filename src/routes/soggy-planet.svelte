@@ -1,5 +1,4 @@
 <script lang="ts">
-	import {writable} from 'svelte/store';
 	import {onMount} from 'svelte';
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
 
@@ -17,14 +16,18 @@
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys} from '$lib/util/dom';
+	import {createCamera2} from '$lib/app/camera2';
 
 	const clock = getClock();
 
+	const camera = createCamera2();
+	const {x, y, width, height, scale} = camera;
+
 	const dimensions = getDimensions();
-	let width = $dimensions.width;
-	let height = $dimensions.height;
-	$: width = $dimensions.width;
-	$: height = $dimensions.height;
+	$width = $dimensions.width;
+	$height = $dimensions.height;
+	$: $width = $dimensions.width;
+	$: $height = $dimensions.height;
 
 	const settings = getSettings();
 	$: devMode = $settings.devMode;
@@ -32,6 +35,9 @@
 	// TODO image metadata
 	const imageWidth = 4096;
 	const imageHeight = 2048;
+	// TODO eslint+svelte issue, these overrides shouldn't be needed
+	$x = randomFloat(0, imageWidth); // eslint-disable-line prefer-const
+	$y = randomFloat($height / 2, imageHeight - $height / 2); // eslint-disable-line prefer-const
 
 	// TODO use pixi for loading resources
 	// TODO add auto pan button - share logic with Starlit Hanmmock
@@ -44,38 +50,6 @@
 	};
 
 	let enablePixiEarthViewer = true; // old slow DOM version is available
-
-	// pan and zoom controls
-	// use stores for x/y/scale so they can be easily swapped with tweens
-	// TODO maybe replace all of this with a camera store?
-	const x = writable(randomFloat(0, imageWidth));
-	const y = writable(randomFloat(height / 2, imageHeight - height / 2)); // TODO account for different starting scale
-	const scale = writable(1);
-	const SCALE_FACTOR = 1.1;
-	const zoomCamera = (
-		zoomDirection: number,
-		screenPivotX: number = width / 2,
-		screenPivotY: number = height / 2,
-	) => {
-		if (zoomDirection === 0) return;
-		const scaleAmount = zoomDirection > 0 ? 1 / SCALE_FACTOR : SCALE_FACTOR;
-		const oldScale = $scale;
-		const newScale = oldScale * scaleAmount;
-		$scale = newScale;
-
-		// Center relative to the pivot point.
-		// When zooming with the mouse, this is the mouse's screen position.
-		const scaleRatio = (newScale - oldScale) / oldScale;
-		const mouseDistX = screenPivotX - width / 2;
-		const mouseDistY = screenPivotY - height / 2;
-		const dx = (mouseDistX * scaleRatio) / newScale;
-		const dy = (mouseDistY * scaleRatio) / newScale;
-		moveCamera(dx, dy);
-	};
-	const moveCamera = (dx: number, dy: number) => {
-		$x += dx;
-		$y += dy;
-	};
 
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
@@ -231,6 +205,7 @@
 	{#if !showTitleScreen && $resources.status === 'success'}
 		{#if enablePixiEarthViewer}
 			<EarthViewerPixi
+				{camera}
 				{landImages}
 				{seaImages}
 				{shoreImages}
@@ -241,25 +216,12 @@
 				showLights={true}
 				{activeLandValue}
 				{activeSeaLevel}
-				{width}
-				{height}
-				{x}
-				{y}
-				{scale}
-				{moveCamera}
-				{zoomCamera}
 				{imageWidth}
 				{imageHeight}
 			/>
 		{:else}
 			<EarthViewerDom
-				{width}
-				{height}
-				{x}
-				{y}
-				{scale}
-				{moveCamera}
-				{zoomCamera}
+				{camera}
 				{earth1LeftOffset}
 				{earth2LeftOffset}
 				{landImages}
