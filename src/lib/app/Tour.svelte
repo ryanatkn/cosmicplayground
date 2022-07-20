@@ -9,10 +9,10 @@
 	import {resetRenderStats, getRenderStats} from '$lib/app/renderStats';
 	import type {ClockStore} from '$lib/app/clock';
 	import type {TourData, TourStore, TourStep} from '$lib/app/tour';
-	import type {Camera2} from '$lib/app/camera2';
+	import type {Camera} from '$lib/app/camera';
 	import TweenedCamera from '$lib/app/TweenedCamera.svelte';
 
-	export let camera: Camera2;
+	export let camera: Camera;
 	export let clock: ClockStore;
 	export let hooks: Partial<TourHooks>;
 	export let createTourData: () => TourData;

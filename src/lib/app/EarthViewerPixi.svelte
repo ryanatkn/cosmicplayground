@@ -8,7 +8,7 @@
 	} from '$lib/app/blendedImagesCycle';
 	import {getPixiScene} from '$lib/app/pixi';
 	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
-	import type {Camera2} from '$lib/app/camera2';
+	import type {Camera} from '$lib/app/camera';
 
 	// TODO looks like we could use `Pixi.Prepare` to make initial rendering smoother:
 	// https://pixijs.download/release/docs/PIXI.Prepare.html
@@ -16,7 +16,7 @@
 	// TODO should we cache stuff at the module scope? mainly thinking of the render textures
 	// or should we free all resources when this is unmounted? including all base textures?
 
-	export let camera: Camera2;
+	export let camera: Camera;
 	export let inputEnabled = true;
 	export let landImages: string[]; // not reactive
 	export let seaImages: string[]; // not reactive

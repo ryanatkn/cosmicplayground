@@ -10,10 +10,10 @@
 	import DeepBreathTourIntro from '$lib/portals/deep-breath/DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from '$lib/portals/deep-breath/DeepBreathTourTitle.svelte';
 	import Tour from '$lib/app/Tour.svelte';
-	import type {Camera2} from '$lib/app/camera2';
+	import type {Camera} from '$lib/app/camera';
 	import DeepBreathTourCredits from '$lib/portals/deep-breath/DeepBreathTourCredits.svelte';
 
-	export let camera: Camera2;
+	export let camera: Camera;
 
 	// for external binding, not props
 	// owned by the `Tour` component

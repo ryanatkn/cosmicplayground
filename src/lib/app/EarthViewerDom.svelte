@@ -2,7 +2,7 @@
 	import ImageViewer from '$lib/app/ImageViewer.svelte';
 	import BlendedImagesCycle from '$lib/app/BlendedImagesCycle.svelte';
 	import BlendedImagesContinuum from '$lib/app/BlendedImagesContinuum.svelte';
-	import type {Camera2} from '$lib/app/camera2';
+	import type {Camera} from '$lib/app/camera';
 
 	/*
 
@@ -21,7 +21,7 @@
 
 	*/
 
-	export let camera: Camera2;
+	export let camera: Camera;
 	export let inputEnabled = true;
 	export let earth1LeftOffset: number;
 	export let earth2LeftOffset: number;

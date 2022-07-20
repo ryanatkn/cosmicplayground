@@ -2,9 +2,9 @@
 	import {tweened, type Tweened} from 'svelte/motion';
 	import {sineInOut} from 'svelte/easing';
 
-	import type {Camera2} from '$lib/app/camera2';
+	import type {Camera} from '$lib/app/camera';
 
-	export let camera: Camera2;
+	export let camera: Camera;
 
 	// TODO might be useful to decompose this into 3 of a component, like `TweenedValue`
 

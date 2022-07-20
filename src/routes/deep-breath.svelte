@@ -20,13 +20,13 @@
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys} from '$lib/util/dom';
-	import {createCamera2} from '$lib/app/camera2';
+	import {createCamera} from '$lib/app/camera';
 	import type {Writable} from 'svelte/store';
 	import type {TourStore} from '$lib/app/tour';
 
 	const clock = getClock();
 
-	const camera = createCamera2();
+	const camera = createCamera();
 	const {x, y, width, height, scale} = camera;
 
 	const dimensions = getDimensions();
