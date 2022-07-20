@@ -220,7 +220,7 @@ export const createDeepBreathTourData = (
 
 	// -> Scandanavia
 	b.pan(2322, 337, tMove);
-	b.zoom(4.3, tMove, backInOut);
+	b.zoom(4.3, tMove, quadInOut);
 	b.wait();
 	b.zoomBy(0.98, tIdle, sineOut);
 	b.panBy(1, -4, tIdle, sineOut);
