@@ -32,29 +32,29 @@
     "url": "https://www.blitwagon.net"
   },
   "engines": {
-    "node": ">=16.6"
+    "node": ">=18.6"
   },
   "devDependencies": {
-    "@feltcoop/eslint-config": "^0.1.7",
-    "@feltcoop/felt": "^0.33.0",
-    "@feltcoop/gro": "^0.56.0",
+    "@feltcoop/eslint-config": "^0.2.0",
+    "@feltcoop/felt": "^0.35.0",
+    "@feltcoop/gro": "^0.59.0",
     "@ryanatkn/collisions": "^3.0.1",
-    "@sveltejs/adapter-static": "^1.0.0-next.34",
-    "@sveltejs/kit": "^1.0.0-next.350",
-    "@typescript-eslint/eslint-plugin": "^5.21.0",
-    "@typescript-eslint/parser": "^5.21.0",
-    "dequal": "^2.0.2",
-    "eslint": "^8.14.0",
-    "eslint-plugin-svelte3": "^3.4.1",
+    "@sveltejs/adapter-static": "^1.0.0-next.38",
+    "@sveltejs/kit": "^1.0.0-next.382",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
+    "dequal": "^2.0.3",
+    "eslint": "^8.20.0",
+    "eslint-plugin-svelte3": "^4.0.0",
     "klona": "^2.0.5",
-    "pixi.js": "^6.3.2",
-    "prettier": "^2.6.2",
+    "pixi.js": "^6.4.2",
+    "prettier": "^2.7.1",
     "prettier-plugin-svelte": "^2.7.0",
-    "svelte": "^3.48.0",
-    "svelte-check": "^2.7.2",
+    "svelte": "^3.49.0",
+    "svelte-check": "^2.8.0",
     "svelte-preprocess-esbuild": "^2.0.0",
     "tslib": "^2.4.0",
-    "typescript": "^4.6.3"
+    "typescript": "^4.7.4"
   },
   "eslintConfig": {
     "root": true,
