@@ -3,10 +3,10 @@
 	import {cubicInOut} from 'svelte/easing';
 	import {onMount} from 'svelte';
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
+	import {swallow} from '@feltcoop/felt/util/dom.js';
 
 	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from '$lib/portals/deep-breath/DeepBreathTour.svelte';
-	import type {DeepBreathTourManager} from '$lib/portals/deep-breath/DeepBreathTour.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
@@ -21,6 +21,8 @@
 	import {getDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys} from '$lib/util/dom';
 	import {createCamera2} from '$lib/app/camera2';
+	import type {Writable} from 'svelte/store';
+	import type {TourStore} from '$lib/app/tour';
 
 	const clock = getClock();
 
@@ -47,10 +49,9 @@
 
 	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
 	const resources = createResourcesStore();
-	// TODO eslint+svelte issue, this override shouldn't be needed
-	let tourManager: DeepBreathTourManager | undefined; // eslint-disable-line @typescript-eslint/no-redundant-type-constituents
-	$: tourStore = tourManager ? tourManager.tour : null;
-	$: tour = tourStore ? $tourStore : null;
+
+	let tour: Writable<TourStore | null> | undefined;
+	let beginTour: (() => void) | undefined;
 
 	// TODO add auto pan button - share logic with Starlit Hanmmock and soggy planet
 
@@ -69,16 +70,16 @@
 		// map screen
 		if (!inputEnabled) return;
 		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
-			e.stopPropagation();
+			swallow(e);
 			returnToTitleScreen();
 		} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
-			e.stopPropagation();
+			swallow(e);
 			toggleHud();
 		}
 	};
 
 	const onClickHudToggle = (e: Event) => {
-		e.stopPropagation();
+		swallow(e);
 		toggleHud();
 	};
 
@@ -174,7 +175,7 @@
 		showTitleScreen = false;
 	};
 	const returnToTitleScreen = () => {
-		tour?.cancel();
+		$tour?.cancel();
 		showTitleScreen = true;
 	};
 	onMount(() => {
@@ -213,10 +214,10 @@
 				{activeSeaLevel}
 			/>
 		{/if}
-		<DeepBreathTour {camera} bind:tourManager on:begin={resetSeaLevelInteractionState} />
+		<DeepBreathTour {camera} bind:tour bind:beginTour on:begin={resetSeaLevelInteractionState} />
 		<Hud>
-			{#if tour}
-				<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
+			{#if $tour}
+				<FloatingIconButton label="cancel tour" on:click={$tour.cancel}>✕</FloatingIconButton>
 			{:else if showHud}
 				<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
 					⇦
@@ -240,14 +241,14 @@
 						>
 							∙∙∙
 						</FloatingIconButton>
-						{#if tourManager && !tour}
-							<FloatingTextButton on:click={tourManager.beginTour}>tour</FloatingTextButton>
+						{#if !$tour && beginTour}
+							<FloatingTextButton on:click={beginTour}>tour</FloatingTextButton>
 						{/if}
 					</div>
 					<div class="hud-left-controls">
 						{#if devMode}
 							<DeepBreathDevHud
-								{tour}
+								tour={$tour || null}
 								{x}
 								{y}
 								{scale}

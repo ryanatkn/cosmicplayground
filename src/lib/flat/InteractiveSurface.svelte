@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type {Controller} from '$lib/flat/Controller';
 
+	// TODO BLOCK merge with InteractiveSurface or at least port the touch events to it
+
 	// TODO merge with `$lib/app/InteractiveSurface.svelte`
 
 	export let controller: Controller;

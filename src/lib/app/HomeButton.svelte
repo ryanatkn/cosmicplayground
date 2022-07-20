@@ -1,12 +1,13 @@
 <script lang="ts">
 	import {goto} from '$app/navigation';
+	import {swallow} from '@feltcoop/felt/util/dom.js';
 
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import {enableGlobalHotkeys} from '$lib/util/dom';
 
 	const onKeydown = async (e: KeyboardEvent) => {
 		if (e.key === 'Escape' && e.ctrlKey && enableGlobalHotkeys(e.target)) {
-			e.stopPropagation();
+			swallow(e);
 			await goto('/');
 		}
 	};

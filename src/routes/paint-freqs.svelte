@@ -2,6 +2,7 @@
 	import {spring} from 'svelte/motion';
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@feltcoop/felt/util/maths.js';
+	import {swallow} from '@feltcoop/felt/util/dom.js';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
@@ -167,8 +168,7 @@
 		'touches' in e && e.touches.length ? e.touches[0].clientY : (e as MouseEvent).clientY;
 	const handlePointerDown = (e: TouchEvent | MouseEvent) => {
 		if (!('touches' in e) && e.button !== 0) return; // avoid eating mouse button on Chrome (but not FF?)
-		e.stopPropagation(); // TODO should these not be called for mobile?
-		e.preventDefault();
+		swallow(e); // TODO should these not be called for mobile?
 		start();
 		pointerX = pointerEventX(e);
 		pointerY = pointerEventY(e);
@@ -179,15 +179,13 @@
 	};
 	const handlePointerUp = (e: TouchEvent | MouseEvent) => {
 		if (!('touches' in e) && e.button !== 0) return; // avoid eating mouse button on Chrome (but not FF?)
-		e.stopPropagation(); // TODO should these not be called for mobile?
-		e.preventDefault();
+		swallow(e); // TODO should these not be called for mobile?
 		if (!audioCtx || !osc) return;
 		stop();
 	};
 	const handlePointerMove = (e: TouchEvent | MouseEvent) => {
 		if (!audioCtx || !osc) return;
-		e.stopPropagation(); // TODO should these not be called for mobile?
-		e.preventDefault();
+		swallow(e); // TODO should these not be called for mobile?
 		if (!e.altKey) pointerX = pointerEventX(e);
 		if (!e.shiftKey) pointerY = pointerEventY(e);
 	};

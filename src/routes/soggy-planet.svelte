@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {onMount} from 'svelte';
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
+	import {swallow} from '@feltcoop/felt/util/dom.js';
 
 	import SoggyPlanetTitleScreen from '$lib/portals/soggy-planet/SoggyPlanetTitleScreen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
@@ -53,16 +54,16 @@
 		if (showTitleScreen) return;
 		// map screen
 		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
-			e.stopPropagation();
+			swallow(e);
 			returnToTitleScreen();
 		} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
-			e.stopPropagation();
+			swallow(e);
 			toggleHud();
 		}
 	};
 
 	const onClickHudToggle = (e: Event) => {
-		e.stopPropagation();
+		swallow(e);
 		toggleHud();
 	};
 

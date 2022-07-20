@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {swallow} from '@feltcoop/felt/util/dom.js';
+
 	// TODO merge with `$lib/flat/InteractiveSurface.svelte`
 	// TODO maybe pass camera2, but some components would need refactoring
 	export let width: number;
@@ -64,8 +66,7 @@
 	const onContextmenu = (e: MouseEvent) => {
 		if (!e.shiftKey) {
 			// handles mobile issue
-			e.stopPropagation();
-			e.preventDefault();
+			swallow(e);
 		}
 	};
 </script>
