@@ -6,6 +6,9 @@ const config = {
 	server: {
 		port: 3000,
 	},
+	build: {
+		chunkSizeWarningLimit: 550,
+	},
 };
 
 export default config;
