@@ -53,22 +53,14 @@
 
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
-		if (showTitleScreen) {
-			// title screen
-			// TODO either hoist `load` or use new global hotkey system in `SoggyPlanetTitleScreen`
-			// if (e.key === '1' && enableGlobalHotkeys(e.target)) {
-			// 	e.stopPropagation();
-			// 	// load();
-			// }
-		} else {
-			// map screen
-			if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
-				e.stopPropagation();
-				returnToTitleScreen();
-			} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
-				e.stopPropagation();
-				toggleHud();
-			}
+		if (showTitleScreen) return;
+		// map screen
+		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+			e.stopPropagation();
+			returnToTitleScreen();
+		} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
+			e.stopPropagation();
+			toggleHud();
 		}
 	};
 
