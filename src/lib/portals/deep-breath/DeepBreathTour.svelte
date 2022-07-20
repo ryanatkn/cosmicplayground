@@ -38,17 +38,6 @@
 	const showTourTitle: DeepBreathTourManager['showTourTitle'] = writable(false);
 	const showTourCredits: DeepBreathTourManager['showTourCredits'] = writable(false);
 
-	// TODO maybe create on component init?
-	$: tourManager = {
-		camera,
-		tour: writable(null),
-		tourData: writable(null),
-		showTourIntro: writable(false),
-		showTourTitle: writable(false),
-		showTourCredits: writable(false),
-		beginTour,
-	};
-
 	let {x, y, scale} = camera;
 	$: ({x, y, scale} = camera);
 
@@ -72,7 +61,7 @@
 		}
 	};
 
-	// TODO BLOCK does this belong in camera2? Maybe make it a component?
+	// TODO BLOCK does this belong in camera2? Maybe make it a component? Or a separate component/store?
 	// pan and zoom controls
 	// use stores for x/y/scale so they can be easily swapped with tweens
 	let xTween: Tweened<number> | null;
@@ -222,9 +211,28 @@
 			audio.pause();
 		}
 	};
+
+	tourManager = {
+		camera,
+		tour,
+		tourData,
+		showTourIntro,
+		showTourTitle,
+		showTourCredits,
+		beginTour,
+	};
+	// Make the `tourManager` reactive to `camera` changes.
+	let lastCamera = camera;
+	$: updateCamera(camera);
+	const updateCamera = (nextCamera: Camera2): void => {
+		if (lastCamera !== nextCamera) {
+			tourManager = {...tourManager, camera: nextCamera};
+			lastCamera = nextCamera;
+		}
+	};
 </script>
 
-<svelte:window on:keydown={onKeyDown} />
+<svelte:window on:keydown|capture={onKeyDown} />
 
 {#if $tour}
 	<div class="tour">

@@ -49,7 +49,7 @@
 	const resources = createResourcesStore();
 	// TODO eslint+svelte issue, this override shouldn't be needed
 	let tourManager: DeepBreathTourManager | undefined; // eslint-disable-line @typescript-eslint/no-redundant-type-constituents
-	$: tourStore = tourManager?.tour || null;
+	$: tourStore = tourManager ? tourManager.tour : null;
 	$: tour = tourStore ? $tourStore : null;
 
 	// TODO add auto pan button - share logic with Starlit Hanmmock
@@ -253,7 +253,7 @@
 						>
 							∙∙∙
 						</FloatingIconButton>
-						{#if tourManager}
+						{#if tourManager && !tour}
 							<FloatingTextButton on:click={tourManager.beginTour}>tour</FloatingTextButton>
 						{/if}
 					</div>
