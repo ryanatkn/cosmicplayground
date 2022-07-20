@@ -61,7 +61,7 @@ export const LevelDatas: Map<string, LevelData> = new Map(
 	}),
 );
 
-// TODO could add "light", 0-1, and sort by it on atlas
+// TODO could add "sugar", 0-1, and sort by it on atlas
 export const PhaseDatas: Map<string, PhaseData> = new Map(
 	[
 		{name: '0a', phase: 0, title: 'Traveler', song: 'Traveler', image: 'heic0506a'},
@@ -141,7 +141,7 @@ export const toPhaseSequence = (l: PhaseSequenceOrCreator): PhaseSequence =>
 	typeof l.data === 'function' ? {...l, data: l.data()} : (l as any); // TODO why doesn't this type narrow?
 export const phaseSequences: PhaseSequenceOrCreator[] = [
 	{
-		name: 'light_pure',
+		name: 'sugar_pure',
 		data: {
 			sequence: [
 				'0a',
@@ -162,7 +162,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 		},
 	},
 	{
-		name: 'light_balanced',
+		name: 'sugar_balanced',
 		data: {
 			sequence: [
 				'0a',
@@ -191,7 +191,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 		},
 	},
 	{
-		name: 'void_pure',
+		name: 'salt_pure',
 		data: {
 			sequence: [
 				'0b',
@@ -212,7 +212,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 		},
 	},
 	{
-		name: 'void_balanced',
+		name: 'salt_balanced',
 		data: {
 			sequence: [
 				'0b',
@@ -307,7 +307,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 		Conditions that disallow 12c:
 		
 		- not enough balance (full a+c's is ok, maybe need more c's in that case, or perhaps it's naturally balanced because some c's  )
-		- too much void
+		- too much salt
 
 		*/
 			const sequence: string[] = [];
