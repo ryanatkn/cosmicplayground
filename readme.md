@@ -5,9 +5,6 @@
 > tools and toys for expanding minds
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
 
-New here? Learn
-[about the Cosmicplayground community](https://github.com/cosmicplayground/community).
-
 [cosmicplayground.org](https://www.cosmicplayground.org)
 is a hobby project exploring some tools and toys using web technology for fun and learning.
 It's being developed in public with an open community and open source code.
