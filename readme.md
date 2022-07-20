@@ -6,8 +6,9 @@
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
 
 [cosmicplayground.org](https://www.cosmicplayground.org)
-is a hobby project exploring some tools and toys using web technology for fun and learning.
-It uses Svelte, SvelteKit, Vite, and TypeScript.
+is an open source hobby project exploring some
+tools and toys using web technology for fun and learning.
+It's open source and uses Svelte, SvelteKit, Vite, and TypeScript.
 
 - There's a little action game on the home screen
   (still a work in progress, completing the challenge grants access to the studio and atlas).
