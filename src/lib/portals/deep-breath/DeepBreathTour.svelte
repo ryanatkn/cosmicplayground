@@ -63,6 +63,7 @@
 	};
 
 	// TODO BLOCK does this belong in camera2? Maybe make it a component? Or a separate component/store?
+	// `TweenedCamera`? Compose with `Camera2` or merge?
 	// pan and zoom controls
 	// use stores for x/y/scale so they can be easily swapped with tweens
 	let xTween: Tweened<number> | null;
