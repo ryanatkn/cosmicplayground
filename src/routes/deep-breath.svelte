@@ -184,7 +184,7 @@
 		showTitleScreen = false;
 	};
 	const returnToTitleScreen = () => {
-		if (tour) tour.cancel();
+		tour?.cancel();
 		showTitleScreen = true;
 	};
 	onMount(() => {
@@ -195,7 +195,7 @@
 		}
 	});
 	onDestroy(() => {
-		if (tour) tour.cancel();
+		tour?.cancel();
 	});
 </script>
 
