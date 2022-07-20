@@ -49,8 +49,8 @@
 		beginTour,
 	};
 
-	let {x, y} = camera;
-	$: ({x, y} = camera);
+	let {x, y, scale} = camera;
+	$: ({x, y, scale} = camera);
 
 	const clock = getClock();
 
@@ -72,15 +72,15 @@
 		}
 	};
 
-	// TODO BLOCK does this belong in camera2, or a different component?
+	// TODO BLOCK does this belong in camera2? Maybe make it a component?
 	// pan and zoom controls
 	// use stores for x/y/scale so they can be easily swapped with tweens
 	let xTween: Tweened<number> | null;
 	let yTween: Tweened<number> | null;
 	let scaleTween: Tweened<number> | null;
-	$: if (xTween) $x = $xTween;
-	$: if (yTween) $y = $yTween;
-	$: if (scaleTween) $scale = $scaleTween;
+	$: if (xTween) $x = $xTween!; // TODO `!` because https://github.com/sveltejs/language-tools/issues/1341
+	$: if (yTween) $y = $yTween!; // TODO `!` because https://github.com/sveltejs/language-tools/issues/1341
+	$: if (scaleTween) $scale = $scaleTween!; // TODO `!` because https://github.com/sveltejs/language-tools/issues/1341
 	const updatePanTweens = (
 		xTarget: number,
 		yTarget: number,
@@ -205,7 +205,7 @@
 		});
 		if (devMode) {
 			resetRenderStats();
-			if (debugStartTime) setTimeout(() => tour!.seekTimeTo(debugStartTime), 50);
+			if (debugStartTime) setTimeout(() => $tour!.seekTimeTo(debugStartTime), 50);
 		}
 	};
 	const updateAudioOnSeek = (audio: HTMLAudioElement, step: TourStep, currentTime: number) => {
