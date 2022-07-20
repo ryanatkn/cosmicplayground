@@ -172,15 +172,17 @@
 			if (debugStartTime) setTimeout(() => $tour!.seekTimeTo(debugStartTime), 50);
 		}
 	};
-	const updateAudioOnSeek = (audio: HTMLAudioElement, step: TourStep, currentTime: number) => {
+	const updateAudioOnSeek = (
+		audio: HTMLAudioElement,
+		step: TourStep,
+		currentTime: number,
+	): void => {
 		const stepCurrentTime = currentTime - step.startTime;
 		const audioDuration = audio.duration * 1000;
 		if (stepCurrentTime >= 0 && stepCurrentTime < audioDuration) {
 			audio.currentTime = stepCurrentTime / 1000;
-			// TODO this is broken in Chrome, maybe because of headers
-			// https://stackoverflow.com/questions/37044064/html-audio-cant-set-currenttime
-			if (audio.paused) {
-				if (audioEnabled) void audio.play();
+			if (audio.paused && audioEnabled) {
+				void audio.play();
 			}
 		} else if (!audio.paused) {
 			audio.pause();

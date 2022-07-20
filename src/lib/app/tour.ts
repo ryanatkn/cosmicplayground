@@ -5,6 +5,8 @@ import type {ClockStore} from '$lib/app/clock.js';
 
 // TODO rotation!
 
+// TODO BLOCK maybe this should be a component?
+
 export interface TourState {
 	// TODO BLOCK maybe make each of these a store, and `data` not reactive (at least for now, it could be...)
 	// This would get us more granular changes if all you care about is the step changing.
