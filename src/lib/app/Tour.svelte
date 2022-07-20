@@ -1,29 +1,22 @@
 <script lang="ts">
 	import {tweened, type Tweened} from 'svelte/motion';
-	import {cubicInOut, sineInOut} from 'svelte/easing';
-	import {writable} from 'svelte/store';
-	import {onDestroy, onMount} from 'svelte';
-	import {randomFloat} from '@feltcoop/felt/util/random.js';
+	import {sineInOut} from 'svelte/easing';
+	import {onDestroy} from 'svelte';
+	import type {Writable} from 'svelte/store';
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTour} from '$lib/portals/deep-breath/deepBreathTour';
 	import {createTourStore, type TourData, type TourStep, type TourStore} from '$lib/app/tour';
-	import DeepBreathTourIntro from '$lib/portals/deep-breath/DeepBreathTourIntro.svelte';
-	import DeepBreathTourTitle from '$lib/portals/deep-breath/DeepBreathTourTitle.svelte';
-	import DeepBreathTourCredits from '$lib/portals/deep-breath/DeepBreathTourCredits.svelte';
 	import {getSettings} from '$lib/app/settings';
 	import {resetRenderStats, getRenderStats} from '$lib/app/renderStats';
 	import {getClock} from '$lib/app/clock';
-	import {getDimensions} from '$lib/app/dimensions';
-	import {enableGlobalHotkeys} from '$lib/util/dom';
+
+	export let tour: TourStore; // TODO BLOCK nullable?
+	export let x: Writable<number>; // TODO BLOCK camera prop?
+	export let y: Writable<number>;
+	export let scale: Writable<number>;
 
 	const clock = getClock();
-
-	const dimensions = getDimensions();
-	let width = $dimensions.width;
-	let height = $dimensions.height;
-	$: width = $dimensions.width;
-	$: height = $dimensions.height;
 
 	const settings = getSettings();
 	$: devMode = $settings.devMode;
@@ -31,52 +24,11 @@
 
 	const debugStartTime = 0; // ~0-300000
 
-	// TODO image metadata
-	const imageWidth = 4096;
-	const imageHeight = 2048;
-
-	// TODO use pixi for loading resources
-	// TODO add auto pan button - share logic with Starlit Hanmmock
-	// TODO pause music with clock
-	// TODO bottom+right controls - draw the curve in 2d space to create a custom loop of months+sealevel (with smoothing?)
-
-	let showHud = true;
-	const toggleHud = (value = !showHud) => {
-		showHud = value;
-	};
-
-	// pan and zoom controls
-	// use stores for x/y/scale so they can be easily swapped with tweens
-	// TODO maybe replace all of this with a camera store?
-	const x = writable(randomFloat(0, imageWidth));
-	const y = writable(randomFloat(height / 2, imageHeight - height / 2)); // TODO account for different starting scale
-	const scale = writable(1);
-
-	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
-		if (showTitleScreen) {
-			// title screen
-			// TODO either hoist `load` or use new global hotkey system in `DeepBreathTitleScreen`
-			// if (e.key === '1' && enableGlobalHotkeys(e.target)) {
-			// 	e.stopPropagation();
-			// 	// load();
-			// }
-		} else {
-			// map screen
-			if (tour) {
-				if (e.key === 'Escape' && !e.ctrlKey) {
-					e.stopPropagation();
-					tour.cancel();
-				}
-			} else {
-				if (!inputEnabled) return;
-				if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
-					e.stopPropagation();
-					returnToTitleScreen();
-				} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
-					e.stopPropagation();
-					toggleHud();
-				}
+		if (tour) {
+			if (e.key === 'Escape' && !e.ctrlKey) {
+				e.stopPropagation();
+				tour.cancel();
 			}
 		}
 	};
@@ -107,7 +59,6 @@
 		yTween = null;
 		scaleTween = null;
 	};
-	let tour: TourStore | null = null;
 	let tourData: TourData;
 	let showTourIntro = false;
 	let showTourTitle = false;
@@ -241,7 +192,8 @@
 <svelte:window on:keydown={onKeyDown} />
 
 {#if showTourIntro}
-	<DeepBreathTourIntro
+	<slot
+		name="intro"
 		hide={() => (showTourIntro = false)}
 		totalDuration={tourIntroTotalDuration}
 		transitionInDuration={tourIntroTransitionInDuration}
@@ -250,7 +202,8 @@
 	/>
 {/if}
 {#if showTourTitle}
-	<DeepBreathTourTitle
+	<slot
+		name="title"
 		hide={() => (showTourTitle = false)}
 		transitionDuration={tourTitleTransitionDuration}
 		pauseDuration={tourTitlePauseDuration}
@@ -258,5 +211,5 @@
 	/>
 {/if}
 {#if showTourCredits}
-	<DeepBreathTourCredits transitionDuration={tourTitleTransitionDuration} />
+	<slot name="credits" transitionDuration={tourTitleTransitionDuration} />
 {/if}

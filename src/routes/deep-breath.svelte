@@ -6,6 +6,7 @@
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
 
 	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
+	import Tour from '$lib/app/Tour.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
@@ -88,6 +89,8 @@
 		$y += dy;
 	};
 
+	$: inputEnabled = !tour;
+
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
 		if (showTitleScreen) {
@@ -99,20 +102,13 @@
 			// }
 		} else {
 			// map screen
-			if (tour) {
-				if (e.key === 'Escape' && !e.ctrlKey) {
-					e.stopPropagation();
-					tour.cancel();
-				}
-			} else {
-				if (!inputEnabled) return;
-				if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
-					e.stopPropagation();
-					returnToTitleScreen();
-				} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
-					e.stopPropagation();
-					toggleHud();
-				}
+			if (!inputEnabled) return;
+			if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+				e.stopPropagation();
+				returnToTitleScreen();
+			} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
+				e.stopPropagation();
+				toggleHud();
 			}
 		}
 	};
@@ -381,8 +377,6 @@
 	onDestroy(() => {
 		if (tour) tour.cancel();
 	});
-
-	$: inputEnabled = !tour;
 </script>
 
 <svelte:window on:keydown={onKeyDown} />
@@ -425,26 +419,30 @@
 			/>
 		{/if}
 		{#if tour}
-			{#if showTourIntro}
-				<DeepBreathTourIntro
-					hide={() => (showTourIntro = false)}
-					totalDuration={tourIntroTotalDuration}
-					transitionInDuration={tourIntroTransitionInDuration}
-					transitionOutDuration={tourIntroTransitionOutDuration}
-					maxDelay={tourIntroMaxDelay}
-				/>
-			{/if}
-			{#if showTourTitle}
-				<DeepBreathTourTitle
-					hide={() => (showTourTitle = false)}
-					transitionDuration={tourTitleTransitionDuration}
-					pauseDuration={tourTitlePauseDuration}
-					maxDelay={tourTitleMaxDelay}
-				/>
-			{/if}
-			{#if showTourCredits}
-				<DeepBreathTourCredits transitionDuration={tourTitleTransitionDuration} />
-			{/if}
+			<div class="tour">
+				<Tour {tour} {x} {y} {scale}>
+					<div slot="intro">
+						<DeepBreathTourIntro
+							hide={() => (showTourIntro = false)}
+							totalDuration={tourIntroTotalDuration}
+							transitionInDuration={tourIntroTransitionInDuration}
+							transitionOutDuration={tourIntroTransitionOutDuration}
+							maxDelay={tourIntroMaxDelay}
+						/>
+					</div>
+					<div slot="title">
+						<DeepBreathTourTitle
+							hide={() => (showTourTitle = false)}
+							transitionDuration={tourTitleTransitionDuration}
+							pauseDuration={tourTitlePauseDuration}
+							maxDelay={tourTitleMaxDelay}
+						/>
+					</div>
+					<div slot="credits">
+						<DeepBreathTourCredits transitionDuration={tourTitleTransitionDuration} />
+					</div>
+				</Tour>
+			</div>
 		{/if}
 		<Hud>
 			{#if tour}
@@ -531,5 +529,10 @@
 		bottom: 0;
 		left: 0;
 		width: calc(100% - var(--hud_element_size));
+	}
+
+	.tour {
+		position: fixed;
+		inset: 0;
 	}
 </style>
