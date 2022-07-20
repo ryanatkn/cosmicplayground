@@ -7,9 +7,7 @@
 
 [cosmicplayground.org](https://www.cosmicplayground.org)
 is a hobby project exploring some tools and toys using web technology for fun and learning.
-It's being developed in public with an open community and open source code.
-Have a look if you want to improve your webdev skills
-with Svelte, SvelteKit, and TypeScript while making games in space!
+It uses Svelte, SvelteKit, Vite, and TypeScript.
 
 - There's a little action game on the home screen
   (still a work in progress, completing the challenge grants access to the studio and atlas).
