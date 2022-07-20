@@ -204,6 +204,10 @@
 			{/if}
 			<slot />
 		</main>
+		<AppDialogs />
+		<AppDialog>
+			<AppDialogMenu />
+		</AppDialog>
 	{/if}
 {:else if supportsWebGL === null}
 	<!-- render nothing yet -->
@@ -221,10 +225,6 @@
 		</p>
 	</Panel>
 {/if}
-<AppDialogs />
-<AppDialog>
-	<AppDialogMenu />
-</AppDialog>
 
 <!-- TODO should we have a `<Portals/>` component that the `App` mounts? -->
 <style>
