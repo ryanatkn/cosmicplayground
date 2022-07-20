@@ -158,7 +158,7 @@
 				$showTourTitle = false;
 				$showTourCredits = false;
 				tweenedCamera.resetTweens();
-				if ($scale > 50) $scale = 50; // TODO BLOCK is this needed?
+				if ($scale > 50) $scale = 50;
 				if (tourSong.audio && !tourSong.audio.paused) tourSong.audio.pause();
 				if (oceanWavesSound.audio && !oceanWavesSound.audio.paused) oceanWavesSound.audio.pause();
 				if (devMode) console.log('render stats', getRenderStats());
