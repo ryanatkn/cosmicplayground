@@ -213,16 +213,18 @@
 	<!-- render nothing yet -->
 {:else}
 	<Panel>
-		<h1>oh no :(</h1>
-		<p>
-			It looks like your browser doesn't support WebGL, and sadly this website requires it. I'm
-			sorry, please try another browser or device if you can. (or enable it?)
-		</p>
-		<p>
-			source code is at <a href="https://github.com/cosmicplayground/cosmicplayground"
-				>github.com/cosmicplayground/cosmicplayground</a
-			>
-		</p>
+		<div class="markup">
+			<h1>oh no :(</h1>
+			<p>
+				It looks like your browser doesn't support WebGL, and sadly this website requires it. I'm
+				sorry, please try another browser or device if you can. (or enable it?)
+			</p>
+			<p>
+				source code is at <a href="https://github.com/cosmicplayground/cosmicplayground"
+					>github.com/cosmicplayground/cosmicplayground</a
+				>
+			</p>
+		</div>
 	</Panel>
 {/if}
 
