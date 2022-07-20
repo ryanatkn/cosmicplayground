@@ -32,7 +32,7 @@
     "url": "https://www.blitwagon.net"
   },
   "engines": {
-    "node": ">=16.6"
+    "node": ">=18.6"
   },
   "devDependencies": {
     "@feltcoop/eslint-config": "^0.2.0",
