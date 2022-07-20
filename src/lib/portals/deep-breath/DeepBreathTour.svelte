@@ -13,8 +13,6 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
 	import {createEventDispatcher} from 'svelte';
-	import {tweened, type Tweened} from 'svelte/motion';
-	import {sineInOut} from 'svelte/easing';
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTourData} from '$lib/portals/deep-breath/deepBreathTourData';
@@ -27,6 +25,7 @@
 	import type {TourData, TourStore, TourStep} from '$lib/app/tour';
 	import type {Camera2} from '$lib/app/camera2';
 	import DeepBreathTourCredits from '$lib/portals/deep-breath/DeepBreathTourCredits.svelte';
+	import TweenedCamera from '$lib/app/TweenedCamera.svelte';
 
 	export let camera: Camera2;
 
@@ -39,8 +38,10 @@
 	const showTourTitle: DeepBreathTourManager['showTourTitle'] = writable(false);
 	const showTourCredits: DeepBreathTourManager['showTourCredits'] = writable(false);
 
-	let {x, y, scale} = camera;
-	$: ({x, y, scale} = camera);
+	let tweenedCamera: TweenedCamera;
+
+	let {scale} = camera;
+	$: ({scale} = camera);
 
 	const clock = getClock();
 
@@ -60,37 +61,6 @@
 				$tour.cancel();
 			}
 		}
-	};
-
-	// TODO BLOCK does this belong in camera2? Maybe make it a component? Or a separate component/store?
-	// `TweenedCamera`? Compose with `Camera2` or merge?
-	// pan and zoom controls
-	// use stores for x/y/scale so they can be easily swapped with tweens
-	let xTween: Tweened<number> | null;
-	let yTween: Tweened<number> | null;
-	let scaleTween: Tweened<number> | null;
-	$: if (xTween) $x = $xTween!; // TODO `!` because https://github.com/sveltejs/language-tools/issues/1341
-	$: if (yTween) $y = $yTween!; // TODO `!` because https://github.com/sveltejs/language-tools/issues/1341
-	$: if (scaleTween) $scale = $scaleTween!; // TODO `!` because https://github.com/sveltejs/language-tools/issues/1341
-	const updatePanTweens = (
-		xTarget: number,
-		yTarget: number,
-		duration: number,
-		easing = sineInOut,
-	) => {
-		if (!xTween) xTween = tweened($x);
-		void xTween.set(xTarget, {duration, easing});
-		if (!yTween) yTween = tweened($y);
-		void yTween.set(yTarget, {duration, easing});
-	};
-	const updateScaleTween = (scaleTarget: number, duration: number, easing = sineInOut) => {
-		if (!scaleTween) scaleTween = tweened($scale);
-		void scaleTween.set(scaleTarget, {duration, easing});
-	};
-	const resetTweens = () => {
-		xTween = null;
-		yTween = null;
-		scaleTween = null;
 	};
 
 	const tourResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
@@ -132,10 +102,10 @@
 		const tourSongPlayStep = $tourData.steps.find((s) => 'name' in s && s.name === 'playSong'); // TODO or get from event handler?
 		$tour = createTourStore($tourData, clock, {
 			pan: (xTarget, yTarget, duration, easing) => {
-				updatePanTweens(xTarget, yTarget, duration, easing);
+				tweenedCamera.updatePanTweens(xTarget, yTarget, duration, easing);
 			},
 			zoom: (scaleTarget, duration, easing) => {
-				updateScaleTween(scaleTarget, duration, easing);
+				tweenedCamera.updateScaleTween(scaleTarget, duration, easing);
 			},
 			event: (name, _data) => {
 				if (name.startsWith('debug')) {
@@ -187,8 +157,8 @@
 				$showTourIntro = false;
 				$showTourTitle = false;
 				$showTourCredits = false;
-				resetTweens();
-				if ($scale > 50) $scale = 50; // TODO tween
+				tweenedCamera.resetTweens();
+				if ($scale > 50) $scale = 50; // TODO BLOCK is this needed?
 				if (tourSong.audio && !tourSong.audio.paused) tourSong.audio.pause();
 				if (oceanWavesSound.audio && !oceanWavesSound.audio.paused) oceanWavesSound.audio.pause();
 				if (devMode) console.log('render stats', getRenderStats());
@@ -260,6 +230,7 @@
 		{/if}
 	</div>
 {/if}
+<TweenedCamera {camera} bind:this={tweenedCamera} />
 
 <style>
 	.tour {
