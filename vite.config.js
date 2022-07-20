@@ -6,12 +6,6 @@ const config = {
 	server: {
 		port: 3000,
 	},
-	ssr: {
-		noExternal: ['@feltcoop/felt'],
-	},
-	optimizeDeps: {
-		exclude: ['@feltcoop/felt'],
-	},
 };
 
 export default config;
