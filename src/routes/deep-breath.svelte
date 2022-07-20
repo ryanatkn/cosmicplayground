@@ -62,7 +62,7 @@
 
 	let enablePixiEarthViewer = true; // old slow DOM version is available
 
-	$: inputEnabled = !tour;
+	$: inputEnabled = !$tour;
 
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
