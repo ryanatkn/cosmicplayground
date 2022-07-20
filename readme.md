@@ -8,14 +8,9 @@
 [cosmicplayground.org](https://www.cosmicplayground.org)
 is a hobby project exploring some tools and toys using web technology for fun and learning.
 It's being developed in public with an open community and open source code.
-Join us if you want to improve your webdev skills
+Have a look if you want to improve your webdev skills
 with Svelte, SvelteKit, and TypeScript while making games in space!
 
-- forkable educational game project at
-  [flat.cosmicplayground.org](https://flat.cosmicplayground.org)
-  ([source](https://github.com/cosmicplayground/flat))
-- community at [cosmicplayground.dev](https://www.cosmicplayground.dev)
-  ([source](https://github.com/cosmicplayground/community))
 - There's a little action game on the home screen
   (still a work in progress, completing the challenge grants access to the studio and atlas).
   to play, activate the starship `🛸` and try pressing the escape and backtick `\`` keys
@@ -43,7 +38,7 @@ with Svelte, SvelteKit, and TypeScript while making games in space!
   and some might not work (or not well) on mobile
 
 > learn more [about cosmicplayground](https://www.cosmicplayground.org/about)
-> and the Cosmicplayground Dev Community ([cosmicplayground.dev](https://www.cosmicplayground.dev))
+> and [its community](https://github.com/cosmicplayground/community)
 
 [![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
 
