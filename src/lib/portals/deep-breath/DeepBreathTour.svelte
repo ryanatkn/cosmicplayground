@@ -22,6 +22,7 @@
 	export let touring: Writable<boolean> | undefined = undefined as any;
 	export let tourData: Writable<TourData | null> | undefined = undefined as any;
 	export let beginTour: (() => void) | undefined = undefined as any;
+	// TODO BLOCK seems this could be imported directly from module context but it uses `audioEnabled`
 	export let updateAudioOnSeek:
 		| ((audio: HTMLAudioElement, step: TourStep, currentTime: number) => void)
 		| undefined = undefined as any;
