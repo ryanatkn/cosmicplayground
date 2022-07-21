@@ -5,10 +5,10 @@ import type {ClockStore} from '$lib/app/clock.js';
 
 // TODO rotation!
 
-// TODO maybe this should be a component?
+// TODO  maybe this should be a component?
 
 export interface TourState {
-	// TODO maybe make each of these a store, and `data` not reactive (at least for now, it could be...)
+	// TODO  maybe make each of these a store, and `data` not reactive (at least for now, it could be...)
 	// This would get us more granular changes if all you care about is the step changing.
 	currentTime: number;
 	currentStepIndex: number;
@@ -144,7 +144,7 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 	const finish = (completed: boolean): void => {
 		if (finished) throw Error('Called finish twice');
 		finished = true;
-		// TODO requires that `finish` be called, which is error prone, should use store stop instead?
+		// TODO  requires that `finish` be called, which is error prone, should use store stop instead?
 		// We currently use the `onDestroy` hooks to ensure it gets canceled.
 		unsubscribeState();
 		unsubscribeClock();

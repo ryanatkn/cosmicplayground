@@ -17,12 +17,12 @@
 	export let hooks: Partial<TourHooks>;
 	export let createTourData: () => TourData;
 
-	// TODO pause music with clock.
-	// TODO in devmode show a range input to manually seek
+	// TODO BLOCK pause music with clock.
+	// TODO BLOCK in devmode show a range input to manually seek
 
 	// for external binding, not props
 	export let tweenedCamera: TweenedCamera | undefined = undefined as any;
-	// TODO delete this store, move its logic here
+	// TODO BLOCK delete this store, move its logic here
 	export const tour: Writable<TourStore | null> = writable(null);
 	export const tourData: Writable<TourData | null> = writable(null);
 
