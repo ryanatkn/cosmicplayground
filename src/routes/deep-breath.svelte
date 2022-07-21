@@ -4,6 +4,7 @@
 	import {onMount} from 'svelte';
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
 	import {swallow} from '@feltcoop/felt/util/dom.js';
+	import type {Writable} from 'svelte/store';
 
 	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from '$lib/portals/deep-breath/DeepBreathTour.svelte';
@@ -20,27 +21,30 @@
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys} from '$lib/util/dom';
-	import {createCamera} from '$lib/app/camera';
-	import type {Writable} from 'svelte/store';
+	import Camera from '$lib/app/Camera.svelte';
 	import type {TourStore} from '$lib/app/tour';
 
 	const clock = getClock();
 
-	const camera = createCamera();
-	const {x, y, width, height, scale} = camera;
+	let camera: Camera | undefined;
+	$: x = camera?.x;
+	$: y = camera?.y;
+	$: scale = camera?.scale;
+	$: width = camera?.width;
+	$: height = camera?.height;
 
 	const dimensions = getDimensions();
-	$width = $dimensions.width;
-	$height = $dimensions.height;
-	$: $width = $dimensions.width;
-	$: $height = $dimensions.height;
+	$: if (width) $width = $dimensions.width;
+	$: if (height) $height = $dimensions.height;
 
 	// TODO image metadata
 	const imageWidth = 4096;
 	const imageHeight = 2048;
-	// TODO eslint+svelte issue, these overrides shouldn't be needed
-	$x = randomFloat(0, imageWidth); // eslint-disable-line prefer-const
-	$y = randomFloat($height / 2, imageHeight - $height / 2); // eslint-disable-line prefer-const
+
+	const initialX = randomFloat(0, imageWidth);
+	const initialY = randomFloat($dimensions.height / 2, imageHeight - $dimensions.height / 2);
+	const initialWidth = $dimensions.width;
+	const initialHeight = $dimensions.height;
 
 	const settings = getSettings();
 	$: devMode = $settings.devMode;
@@ -159,10 +163,10 @@
 	// but that's currently out of scope for this project.
 	let earth1LeftOffset: number;
 	let earth2LeftOffset: number;
-	$: {
-		const xOffsetIndex = Math.floor($x / imageWidth);
+	$: if (x) {
+		const xOffsetIndex = Math.floor($x! / imageWidth);
 		earth1LeftOffset = xOffsetIndex * imageWidth;
-		const xOffsetOverflow = $x / imageWidth - xOffsetIndex;
+		const xOffsetOverflow = $x! / imageWidth - xOffsetIndex;
 		earth2LeftOffset = earth1LeftOffset + imageWidth * (xOffsetOverflow < 0.5 ? -1 : 1);
 	}
 
@@ -189,94 +193,103 @@
 
 <svelte:window on:keydown={onKeyDown} />
 
-<div class="deep-breath">
-	{#if !showTitleScreen && $resources.status === 'success'}
-		{#if enablePixiEarthViewer}
-			<EarthViewerPixi
-				{camera}
-				{landImages}
-				{seaImages}
-				{activeLandValue}
-				{activeSeaLevel}
-				{inputEnabled}
-				{imageWidth}
-				{imageHeight}
-			/>
-		{:else}
-			<EarthViewerDom
-				{camera}
-				{inputEnabled}
-				{earth1LeftOffset}
-				{earth2LeftOffset}
-				{landImages}
-				{seaImages}
-				{activeLandValue}
-				{activeSeaLevel}
-			/>
-		{/if}
-		<DeepBreathTour {camera} bind:tour bind:beginTour on:begin={resetSeaLevelInteractionState} />
-		<Hud>
-			{#if $tour}
-				<FloatingIconButton label="cancel tour" on:click={$tour.cancel}>✕</FloatingIconButton>
-			{:else if showHud}
-				<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
-					⇦
-				</FloatingIconButton>
+<Camera bind:this={camera} {initialX} {initialY} {initialWidth} {initialHeight} />
+
+{#if camera && x && y && scale}
+	<div class="deep-breath">
+		{#if !showTitleScreen && $resources.status === 'success'}
+			{#if enablePixiEarthViewer}
+				<EarthViewerPixi
+					{camera}
+					{landImages}
+					{seaImages}
+					{activeLandValue}
+					{activeSeaLevel}
+					{inputEnabled}
+					{imageWidth}
+					{imageHeight}
+				/>
 			{:else}
-				<FloatingIconButton
-					pressed={showHud}
-					label="toggle hud controls"
-					on:click={onClickHudToggle}
-				>
-					∙∙∙
-				</FloatingIconButton>
+				<EarthViewerDom
+					{camera}
+					{inputEnabled}
+					{earth1LeftOffset}
+					{earth2LeftOffset}
+					{landImages}
+					{seaImages}
+					{activeLandValue}
+					{activeSeaLevel}
+				/>
 			{/if}
-			{#if !$tour || devMode}
-				{#if showHud}
-					<div class="hud-top-controls">
-						<FloatingIconButton
-							pressed={showHud}
-							label="toggle hud controls"
-							on:click={onClickHudToggle}
-						>
-							∙∙∙
-						</FloatingIconButton>
-						{#if !$tour && beginTour}
-							<FloatingTextButton on:click={beginTour}>tour</FloatingTextButton>
-						{/if}
-					</div>
-					<div class="hud-left-controls">
-						{#if devMode}
-							<DeepBreathDevHud
-								tour={$tour || null}
-								{x}
-								{y}
-								{scale}
-								togglePixiEarthViewer={(v) => (enablePixiEarthViewer = v)}
-								{enablePixiEarthViewer}
-								{debugStartTime}
+			<DeepBreathTour {camera} bind:tour bind:beginTour on:begin={resetSeaLevelInteractionState} />
+			<Hud>
+				{#if $tour}
+					<FloatingIconButton label="cancel tour" on:click={$tour.cancel}>✕</FloatingIconButton>
+				{:else if showHud}
+					<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
+						⇦
+					</FloatingIconButton>
+				{:else}
+					<FloatingIconButton
+						pressed={showHud}
+						label="toggle hud controls"
+						on:click={onClickHudToggle}
+					>
+						∙∙∙
+					</FloatingIconButton>
+				{/if}
+				{#if !$tour || devMode}
+					{#if showHud}
+						<div class="hud-top-controls">
+							<FloatingIconButton
+								pressed={showHud}
+								label="toggle hud controls"
+								on:click={onClickHudToggle}
+							>
+								∙∙∙
+							</FloatingIconButton>
+							{#if !$tour && beginTour}
+								<FloatingTextButton on:click={beginTour}>tour</FloatingTextButton>
+							{/if}
+						</div>
+						<div class="hud-left-controls">
+							{#if devMode}
+								<DeepBreathDevHud
+									tour={$tour || null}
+									{x}
+									{y}
+									{scale}
+									togglePixiEarthViewer={(v) => (enablePixiEarthViewer = v)}
+									{enablePixiEarthViewer}
+									{debugStartTime}
+								/>
+							{/if}
+						</div>
+						{#if !$tour}
+							<div class="month-wrapper">
+								<MonthHud
+									{activeLandIndex}
+									{selectedLandIndex}
+									{selectLandIndex}
+									{hoverLandIndex}
+								/>
+							</div>
+							<SeaLevelHud
+								seaLevel={activeSeaLevel}
+								{seaIndexMax}
+								{selectedSeaLevel}
+								{selectSeaLevel}
+								{hoverSeaLevel}
 							/>
 						{/if}
-					</div>
-					{#if !$tour}
-						<div class="month-wrapper">
-							<MonthHud {activeLandIndex} {selectedLandIndex} {selectLandIndex} {hoverLandIndex} />
-						</div>
-						<SeaLevelHud
-							seaLevel={activeSeaLevel}
-							{seaIndexMax}
-							{selectedSeaLevel}
-							{selectSeaLevel}
-							{hoverSeaLevel}
-						/>
 					{/if}
 				{/if}
-			{/if}
-		</Hud>
-	{:else}
-		<DeepBreathTitleScreen {resources} {proceed} />
-	{/if}
-</div>
+			</Hud>
+		{:else}
+			<DeepBreathTitleScreen {resources} {proceed} />
+		{/if}
+	</div>
+{/if}
 
 <style>
 	.deep-breath {

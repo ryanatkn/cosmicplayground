@@ -2,7 +2,7 @@
 	import ImageViewer from '$lib/app/ImageViewer.svelte';
 	import BlendedImagesCycle from '$lib/app/BlendedImagesCycle.svelte';
 	import BlendedImagesContinuum from '$lib/app/BlendedImagesContinuum.svelte';
-	import type {Camera} from '$lib/app/camera';
+	import type Camera from '$lib/app/Camera.svelte';
 
 	/*
 

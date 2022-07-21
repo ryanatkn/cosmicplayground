@@ -1,6 +1,10 @@
 import {writable, type Writable, get} from 'svelte/store';
 
-export interface Camera {
+// TODO this is currently unused, and `Camera.svelte` is used in its place.
+// The downside of the Svelte component is that initialization becomes much more complex,
+// but there are some benefits worth exploring. We can always revert to this class if needed.
+
+export interface Camera2 {
 	x: Writable<number>;
 	y: Writable<number>;
 	width: Writable<number>;
@@ -12,11 +16,8 @@ export interface Camera {
 
 const SCALE_FACTOR = 1.1;
 
-export const createCamera = (): Camera => {
-	// TODO BLOCK what if we move camera to a component, so we can use subscriptions and everything,
-	// and have it export an object with the stores?
-	// then we wouldn't need `get` and we could possibly make the rest of the values not stores
-	const camera: Camera = {
+export const createCamera2 = (): Camera2 => {
+	const camera: Camera2 = {
 		x: writable(0),
 		y: writable(0),
 		width: writable(0),

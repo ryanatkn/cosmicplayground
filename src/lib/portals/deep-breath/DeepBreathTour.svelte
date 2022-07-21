@@ -10,7 +10,7 @@
 	import DeepBreathTourIntro from '$lib/portals/deep-breath/DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from '$lib/portals/deep-breath/DeepBreathTourTitle.svelte';
 	import Tour from '$lib/app/Tour.svelte';
-	import type {Camera} from '$lib/app/camera';
+	import type Camera from '$lib/app/Camera.svelte';
 	import DeepBreathTourCredits from '$lib/portals/deep-breath/DeepBreathTourCredits.svelte';
 
 	export let camera: Camera;

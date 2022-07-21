@@ -9,7 +9,7 @@
 	import {resetRenderStats, getRenderStats} from '$lib/app/renderStats';
 	import type {ClockStore} from '$lib/app/clock';
 	import type {TourData, TourStore, TourStep} from '$lib/app/tour';
-	import type {Camera} from '$lib/app/camera';
+	import type Camera from '$lib/app/Camera.svelte';
 	import TweenedCamera from '$lib/app/TweenedCamera.svelte';
 
 	export let camera: Camera;

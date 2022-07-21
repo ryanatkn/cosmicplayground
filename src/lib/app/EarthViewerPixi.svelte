@@ -8,7 +8,7 @@
 	} from '$lib/app/blendedImagesCycle';
 	import {getPixiScene} from '$lib/app/pixi';
 	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
-	import type {Camera} from '$lib/app/camera';
+	import type Camera from '$lib/app/Camera.svelte';
 
 	// TODO looks like we could use `Pixi.Prepare` to make initial rendering smoother:
 	// https://pixijs.download/release/docs/PIXI.Prepare.html

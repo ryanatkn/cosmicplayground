@@ -2,7 +2,7 @@
 	import {tweened, type Tweened} from 'svelte/motion';
 	import {sineInOut} from 'svelte/easing';
 
-	import type {Camera} from '$lib/app/camera';
+	import type Camera from '$lib/app/Camera.svelte';
 
 	export let camera: Camera;
 
