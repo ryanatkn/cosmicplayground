@@ -12,7 +12,7 @@ import {
 	quintInOut,
 } from 'svelte/easing';
 
-import type {TourData} from '$lib/app/tour';
+import type {TourData} from '$lib/app/Tour.svelte';
 import {createTourBuilder} from '$lib/app/tourBuilder';
 
 // This was tedious to author and the output could be better, but it's good enough.

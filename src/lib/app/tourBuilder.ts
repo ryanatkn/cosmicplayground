@@ -7,7 +7,7 @@ import {
 	type TourStepType,
 	type PanTourStep,
 	type ZoomTourStep,
-} from '$lib/app/tour.js';
+} from '$lib/app/Tour.svelte';
 
 type Easing = (t: number) => number;
 

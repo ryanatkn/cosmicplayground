@@ -1,9 +1,12 @@
 <script lang="ts">
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import type {TourStore} from '$lib/app/tour';
+	import type Tour from '$lib/app/Tour.svelte';
 
-	export let tour: TourStore;
+	// TODO BLOCK when to pass the whole class, and when to pass individual properties?
+	export let tour: Tour;
 	export let debugStartTime: number;
+
+	$: ({currentTime, currentStepIndex} = tour);
 
 	const TIME_DELTA_SM = 1000;
 	const TIME_DELTA_MD = 10000;
@@ -27,16 +30,16 @@
 
 <svelte:window on:keydown={onKeyDown} />
 
-<FloatingTextButton>time: {Math.round($tour.currentTime)}</FloatingTextButton>
+<FloatingTextButton>time: {Math.round($currentTime)}</FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {
-		const index = Number(prompt('index?', $tour.currentStepIndex + '')); // eslint-disable-line no-alert
+		const index = Number(prompt('index?', $currentStepIndex + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(index)) {
 			tour.seekIndexTo(index);
 		}
 	}}
 >
-	index: {$tour.currentStepIndex}
+	index: {$currentStepIndex}
 </FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {

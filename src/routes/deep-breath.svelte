@@ -4,7 +4,6 @@
 	import {onMount} from 'svelte';
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
 	import {swallow} from '@feltcoop/felt/util/dom.js';
-	import type {Writable} from 'svelte/store';
 
 	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from '$lib/portals/deep-breath/DeepBreathTour.svelte';
@@ -22,7 +21,7 @@
 	import {getDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys} from '$lib/util/dom';
 	import Camera from '$lib/app/Camera.svelte';
-	import type {TourStore} from '$lib/app/tour';
+	import type Tour from '$lib/app/Tour.svelte';
 
 	const clock = getClock();
 
@@ -54,8 +53,8 @@
 	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
 	const resources = createResourcesStore();
 
-	let tour: Writable<TourStore | null> | undefined;
-	let beginTour: (() => void) | undefined;
+	let tour: Tour | undefined;
+	$: touring = tour ? tour.touring : null;
 
 	// TODO add auto pan button - share logic with Starlit Hanmmock and soggy planet
 
@@ -66,7 +65,7 @@
 
 	let enablePixiEarthViewer = true; // old slow DOM version is available
 
-	$: inputEnabled = !$tour;
+	$: inputEnabled = !$touring;
 
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
@@ -179,7 +178,7 @@
 		showTitleScreen = false;
 	};
 	const returnToTitleScreen = () => {
-		$tour?.cancel();
+		tour?.cancel();
 		showTitleScreen = true;
 	};
 	onMount(() => {
@@ -221,10 +220,10 @@
 					{activeSeaLevel}
 				/>
 			{/if}
-			<DeepBreathTour {camera} bind:tour bind:beginTour on:begin={resetSeaLevelInteractionState} />
+			<DeepBreathTour {camera} bind:tour on:begin={resetSeaLevelInteractionState} />
 			<Hud>
-				{#if $tour}
-					<FloatingIconButton label="cancel tour" on:click={$tour.cancel}>✕</FloatingIconButton>
+				{#if tour && $touring}
+					<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
 				{:else if showHud}
 					<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
 						⇦
@@ -238,7 +237,7 @@
 						∙∙∙
 					</FloatingIconButton>
 				{/if}
-				{#if !$tour || devMode}
+				{#if !$touring || devMode}
 					{#if showHud}
 						<div class="hud-top-controls">
 							<FloatingIconButton
@@ -248,14 +247,14 @@
 							>
 								∙∙∙
 							</FloatingIconButton>
-							{#if !$tour && beginTour}
-								<FloatingTextButton on:click={beginTour}>tour</FloatingTextButton>
+							{#if tour && !$touring}
+								<FloatingTextButton on:click={tour.beginTour}>tour</FloatingTextButton>
 							{/if}
 						</div>
 						<div class="hud-left-controls">
 							{#if devMode}
 								<DeepBreathDevHud
-									tour={$tour || null}
+									tour={tour || null}
 									{x}
 									{y}
 									{scale}
@@ -265,7 +264,7 @@
 								/>
 							{/if}
 						</div>
-						{#if !$tour}
+						{#if !$touring}
 							<div class="month-wrapper">
 								<MonthHud
 									{activeLandIndex}

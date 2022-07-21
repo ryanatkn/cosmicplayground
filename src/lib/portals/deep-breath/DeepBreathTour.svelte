@@ -3,7 +3,7 @@
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTourData} from '$lib/portals/deep-breath/deepBreathTourData';
-	import type {TourHooks, TourStep, TourData, TourStore} from '$lib/app/tour';
+	import type {TourHooks, TourStep, TourData} from '$lib/app/Tour.svelte';
 	import {getSettings} from '$lib/app/settings';
 	import {getRenderStats} from '$lib/app/renderStats';
 	import {getClock} from '$lib/app/clock';
@@ -17,7 +17,9 @@
 
 	// for external binding, not props
 	// owned by the `Tour` component
-	export let tour: Writable<TourStore | null> | undefined = undefined as any;
+	export let tour: Tour | undefined = undefined;
+	// TODO BLOCK these are on `tour`, do they need to be individually bound too?
+	export let touring: Writable<boolean> | undefined = undefined as any;
 	export let tourData: Writable<TourData | null> | undefined = undefined as any;
 	export let beginTour: (() => void) | undefined = undefined as any;
 	export let updateAudioOnSeek:
@@ -111,7 +113,7 @@
 	};
 </script>
 
-{#if $tour}
+{#if $touring}
 	<div class="tour">
 		{#if $showTourIntro}
 			<DeepBreathTourIntro
@@ -141,7 +143,8 @@
 	{hooks}
 	createTourData={() =>
 		createDeepBreathTourData(tourIntroTotalDuration, tourTitleTotalDuration, devMode)}
-	bind:tour
+	bind:this={tour}
+	bind:touring
 	bind:tourData
 	bind:beginTour
 	bind:updateAudioOnSeek
