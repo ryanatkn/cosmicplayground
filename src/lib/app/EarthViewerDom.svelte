@@ -1,9 +1,8 @@
 <script lang="ts">
-	import type {Readable} from 'svelte/store';
-
 	import ImageViewer from '$lib/app/ImageViewer.svelte';
 	import BlendedImagesCycle from '$lib/app/BlendedImagesCycle.svelte';
 	import BlendedImagesContinuum from '$lib/app/BlendedImagesContinuum.svelte';
+	import type Camera from '$lib/app/Camera.svelte';
 
 	/*
 
@@ -22,17 +21,7 @@
 
 	*/
 
-	export let width: number;
-	export let height: number;
-	export let x: Readable<number>;
-	export let y: Readable<number>;
-	export let scale: Readable<number>;
-	export let moveCamera: (dx: number, dy: number) => void;
-	export let zoomCamera: (
-		zoomDirection: number,
-		screenPivotX: number,
-		screenPivotY: number,
-	) => void;
+	export let camera: Camera;
 	export let inputEnabled = true;
 	export let earth1LeftOffset: number;
 	export let earth2LeftOffset: number;
@@ -47,20 +36,22 @@
 	export let activeLandValue: number;
 	export let activeSeaLevel: number;
 
-	$: imageViewerX = $x * -1 + width / 2;
-	$: imageViewerY = $y * -1 + height / 2;
+	$: ({x, y, width, height, scale} = camera);
+
+	$: imageViewerX = $x * -1 + $width / 2;
+	$: imageViewerY = $y * -1 + $height / 2;
 
 	$: oceanImages = shoreImages ? shoreImages.concat(seaImages) : seaImages;
 </script>
 
 <ImageViewer
-	{width}
-	{height}
+	width={$width}
+	height={$height}
 	x={imageViewerX}
 	y={imageViewerY}
 	scale={$scale}
-	{moveCamera}
-	{zoomCamera}
+	moveCamera={camera.moveCamera}
+	zoomCamera={camera.zoomCamera}
 	{inputEnabled}
 >
 	<div class="earths pixelated">

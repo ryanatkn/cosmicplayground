@@ -22,7 +22,7 @@
 	});
 </script>
 
-<div class="tour-title" out:blur={{duration: transitionDuration, amount: blurAmount}}>
+<div class="tour-title" out:blur|local={{duration: transitionDuration, amount: blurAmount}}>
 	<div class="text" style={textStyle}>
 		<div in:blur={{duration: transitionDuration, amount: blurAmount}}>deep</div>
 	</div>
@@ -33,9 +33,6 @@
 
 <style>
 	.tour-title {
-		position: fixed;
-		top: 0;
-		left: 0;
 		width: 100%;
 		height: 100%;
 		display: flex;

@@ -59,7 +59,7 @@
 	--border_radius_3: 7px;
 	--text_shadow_sm: 1px 1px rgba(0, 0, 0, 0.6);
 	--text_shadow_reverse_sm: -1px -1px rgba(0, 0, 0, 0.6);
-	--hud_element_size: 100px;
+	--hud_element_size: 72px;
 	--earth_wobble: 23.5deg;
 	/* TODO maybe upstream this to Felt, so underlining only happens inside `.markup` */
 	--link_text_decoration_hover: none;

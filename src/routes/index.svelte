@@ -4,6 +4,7 @@
 	import {EMPTY_ARRAY} from '@feltcoop/felt/util/array.js';
 	import PendingAnimation from '@feltcoop/felt/ui/PendingAnimation.svelte';
 	import {dequal} from 'dequal/lite';
+	import {swallow} from '@feltcoop/felt/util/dom.js';
 
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import StarshipPreview from '$lib/portals/home/Preview.svelte';
@@ -51,7 +52,7 @@
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from '$lib/portals/home/data';
 	import type {PortalData} from '$lib/portals/portal';
-	import {enableGlobalHotkeys, scrollDown, swallow} from '$lib/util/dom';
+	import {enableGlobalHotkeys, scrollDown} from '$lib/util/dom';
 	import {showAppDialog} from '$lib/app/appDialog';
 
 	const dimensions = getDimensions();

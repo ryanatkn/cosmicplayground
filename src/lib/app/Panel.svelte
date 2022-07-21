@@ -1,4 +1,4 @@
-<section class="panel max-column-width" on:click|stopPropagation>
+<section class="panel max-column-width">
 	<div class="panel-content">
 		<slot />
 	</div>

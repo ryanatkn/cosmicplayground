@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {createEventDispatcher, onMount} from 'svelte';
+	import {swallow} from '@feltcoop/felt/util/dom.js';
 
 	import {initialStageData, type StageData} from '$lib/portals/gravity-unlock/stage';
 	import GravityUnlockStage from '$lib/portals/gravity-unlock/GravityUnlockStage.svelte';
@@ -7,7 +8,7 @@
 	import {getDimensions} from '$lib/app/dimensions';
 	import {getClock} from '$lib/app/clock';
 	import {getPixi} from '$lib/app/pixi';
-	import {enableGlobalHotkeys, swallow} from '$lib/util/dom';
+	import {enableGlobalHotkeys} from '$lib/util/dom';
 
 	/*
 
@@ -36,7 +37,7 @@ TODO ideas
 
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440}; // TODO
 
-	const dispatch = createEventDispatcher<{save: StageData}>();
+	const dispatchEvent = createEventDispatcher<{save: StageData}>();
 
 	let savedData: StageData = data;
 
@@ -49,7 +50,7 @@ TODO ideas
 	const saveData = () => {
 		if (!stage) return;
 		savedData = stage.toData();
-		dispatch('save', savedData);
+		dispatchEvent('save', savedData);
 	};
 	const importData = () => {
 		let raw = prompt('imported data', JSON.stringify(data)); // eslint-disable-line no-alert

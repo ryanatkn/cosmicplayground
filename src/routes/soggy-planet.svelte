@@ -1,7 +1,7 @@
 <script lang="ts">
-	import {writable} from 'svelte/store';
 	import {onMount} from 'svelte';
 	import {randomFloat} from '@feltcoop/felt/util/random.js';
+	import {swallow} from '@feltcoop/felt/util/dom.js';
 
 	import SoggyPlanetTitleScreen from '$lib/portals/soggy-planet/SoggyPlanetTitleScreen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
@@ -17,26 +17,34 @@
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys} from '$lib/util/dom';
+	import Camera from '$lib/app/Camera.svelte';
 
 	const clock = getClock();
 
-	const dimensions = getDimensions();
-	let width = $dimensions.width;
-	let height = $dimensions.height;
-	$: width = $dimensions.width;
-	$: height = $dimensions.height;
+	let camera: Camera | undefined;
+	$: x = camera?.x;
+	$: y = camera?.y;
+	$: scale = camera?.scale;
+	$: width = camera?.width;
+	$: height = camera?.height;
 
-	const settings = getSettings();
-	$: devMode = $settings.devMode;
+	const dimensions = getDimensions();
+	$: if (width) $width = $dimensions.width;
+	$: if (height) $height = $dimensions.height;
 
 	// TODO image metadata
 	const imageWidth = 4096;
 	const imageHeight = 2048;
 
-	// TODO use pixi for loading resources
-	// TODO add auto pan button - share logic with Starlit Hanmmock
-	// TODO pause music with clock
-	// TODO bottom+right controls - draw the curve in 2d space to create a custom loop of months+sealevel (with smoothing?)
+	const initialX = randomFloat(0, imageWidth);
+	const initialY = randomFloat($dimensions.height / 2, imageHeight - $dimensions.height / 2);
+	const initialWidth = $dimensions.width;
+	const initialHeight = $dimensions.height;
+
+	const settings = getSettings();
+	$: devMode = $settings.devMode;
+
+	// TODO add auto pan button - share logic with Starlit Hanmmock and deep breath
 
 	let showHud = true;
 	const toggleHud = (value = !showHud) => {
@@ -45,61 +53,21 @@
 
 	let enablePixiEarthViewer = true; // old slow DOM version is available
 
-	// pan and zoom controls
-	// use stores for x/y/scale so they can be easily swapped with tweens
-	// TODO maybe replace all of this with a camera store?
-	const x = writable(randomFloat(0, imageWidth));
-	const y = writable(randomFloat(height / 2, imageHeight - height / 2)); // TODO account for different starting scale
-	const scale = writable(1);
-	const SCALE_FACTOR = 1.1;
-	const zoomCamera = (
-		zoomDirection: number,
-		screenPivotX: number = width / 2,
-		screenPivotY: number = height / 2,
-	) => {
-		if (zoomDirection === 0) return;
-		const scaleAmount = zoomDirection > 0 ? 1 / SCALE_FACTOR : SCALE_FACTOR;
-		const oldScale = $scale;
-		const newScale = oldScale * scaleAmount;
-		$scale = newScale;
-
-		// Center relative to the pivot point.
-		// When zooming with the mouse, this is the mouse's screen position.
-		const scaleRatio = (newScale - oldScale) / oldScale;
-		const mouseDistX = screenPivotX - width / 2;
-		const mouseDistY = screenPivotY - height / 2;
-		const dx = (mouseDistX * scaleRatio) / newScale;
-		const dy = (mouseDistY * scaleRatio) / newScale;
-		moveCamera(dx, dy);
-	};
-	const moveCamera = (dx: number, dy: number) => {
-		$x += dx;
-		$y += dy;
-	};
-
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
-		if (showTitleScreen) {
-			// title screen
-			// TODO either hoist `load` or use new global hotkey system in `SoggyPlanetTitleScreen`
-			// if (e.key === '1' && enableGlobalHotkeys(e.target)) {
-			// 	e.stopPropagation();
-			// 	// load();
-			// }
-		} else {
-			// map screen
-			if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
-				e.stopPropagation();
-				returnToTitleScreen();
-			} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
-				e.stopPropagation();
-				toggleHud();
-			}
+		if (showTitleScreen) return;
+		// map screen
+		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+			swallow(e);
+			returnToTitleScreen();
+		} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
+			swallow(e);
+			toggleHud();
 		}
 	};
 
 	const onClickHudToggle = (e: Event) => {
-		e.stopPropagation();
+		swallow(e);
 		toggleHud();
 	};
 
@@ -195,9 +163,9 @@
 	let earth1LeftOffset: number;
 	let earth2LeftOffset: number;
 	$: {
-		const xOffsetIndex = Math.floor($x / imageWidth);
+		const xOffsetIndex = Math.floor($x! / imageWidth);
 		earth1LeftOffset = xOffsetIndex * imageWidth;
-		const xOffsetOverflow = $x / imageWidth - xOffsetIndex;
+		const xOffsetOverflow = $x! / imageWidth - xOffsetIndex;
 		earth2LeftOffset = earth1LeftOffset + imageWidth * (xOffsetOverflow < 0.5 ? -1 : 1);
 	}
 
@@ -227,59 +195,86 @@
 
 <svelte:window on:keydown={onKeyDown} />
 
-<div class="soggy-planet">
-	{#if !showTitleScreen && $resources.status === 'success'}
-		{#if enablePixiEarthViewer}
-			<EarthViewerPixi
-				{landImages}
-				{seaImages}
-				{shoreImages}
-				{seashoreFloorIndex}
-				lightsImage={LIGHTS_IMAGE}
-				lightsOpacity={activeDaylight}
-				{nightfallOpacity}
-				showLights={true}
-				{activeLandValue}
-				{activeSeaLevel}
-				{width}
-				{height}
-				{x}
-				{y}
-				{scale}
-				{moveCamera}
-				{zoomCamera}
-				{imageWidth}
-				{imageHeight}
-			/>
-		{:else}
-			<EarthViewerDom
-				{width}
-				{height}
-				{x}
-				{y}
-				{scale}
-				{moveCamera}
-				{zoomCamera}
-				{earth1LeftOffset}
-				{earth2LeftOffset}
-				{landImages}
-				{seaImages}
-				{shoreImages}
-				{seashoreFloorIndex}
-				lightsImage={LIGHTS_IMAGE}
-				lightsOpacity={activeDaylight}
-				{nightfallOpacity}
-				showLights={true}
-				{activeLandValue}
-				{activeSeaLevel}
-			/>
-		{/if}
-		<Hud>
-			{#if showHud}
-				<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
-					⇦
-				</FloatingIconButton>
-				<div class="hud-top-controls">
+<Camera bind:this={camera} {initialX} {initialY} {initialWidth} {initialHeight} />
+
+{#if camera && x && y && scale}
+	<div class="soggy-planet">
+		{#if !showTitleScreen && $resources.status === 'success'}
+			{#if enablePixiEarthViewer}
+				<EarthViewerPixi
+					{camera}
+					{landImages}
+					{seaImages}
+					{shoreImages}
+					{seashoreFloorIndex}
+					lightsImage={LIGHTS_IMAGE}
+					lightsOpacity={activeDaylight}
+					{nightfallOpacity}
+					showLights={true}
+					{activeLandValue}
+					{activeSeaLevel}
+					{imageWidth}
+					{imageHeight}
+				/>
+			{:else}
+				<EarthViewerDom
+					{camera}
+					{earth1LeftOffset}
+					{earth2LeftOffset}
+					{landImages}
+					{seaImages}
+					{shoreImages}
+					{seashoreFloorIndex}
+					lightsImage={LIGHTS_IMAGE}
+					lightsOpacity={activeDaylight}
+					{nightfallOpacity}
+					showLights={true}
+					{activeLandValue}
+					{activeSeaLevel}
+				/>
+			{/if}
+			<Hud>
+				{#if showHud}
+					<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
+						⇦
+					</FloatingIconButton>
+					<div class="hud-top-controls">
+						<FloatingIconButton
+							pressed={showHud}
+							label="toggle hud controls"
+							on:click={onClickHudToggle}
+						>
+							∙∙∙
+						</FloatingIconButton>
+					</div>
+					<div class="hud-left-controls">
+						<DaylightHud
+							daylight={activeDaylight}
+							{selectedDaylight}
+							{selectDaylight}
+							{hoverDaylight}
+						/>
+						{#if devMode}
+							<SoggyPlanetDevHud
+								{x}
+								{y}
+								{scale}
+								togglePixiEarthViewer={(v) => (enablePixiEarthViewer = v)}
+								{enablePixiEarthViewer}
+							/>
+						{/if}
+					</div>
+					<div class="month-wrapper">
+						<MonthHud {activeLandIndex} {selectedLandIndex} {selectLandIndex} {hoverLandIndex} />
+					</div>
+					<SeaLevelHud
+						seaLevel={activeSeaLevel}
+						{seaIndexMax}
+						{selectedSeaLevel}
+						{selectSeaLevel}
+						{hoverSeaLevel}
+					/>
+				{:else}
 					<FloatingIconButton
 						pressed={showHud}
 						label="toggle hud controls"
@@ -287,54 +282,19 @@
 					>
 						∙∙∙
 					</FloatingIconButton>
-				</div>
-				<div class="hud-left-controls">
-					<DaylightHud
-						daylight={activeDaylight}
-						{selectedDaylight}
-						{selectDaylight}
-						{hoverDaylight}
-					/>
-					{#if devMode}
-						<SoggyPlanetDevHud
-							{x}
-							{y}
-							{scale}
-							togglePixiEarthViewer={(v) => (enablePixiEarthViewer = v)}
-							{enablePixiEarthViewer}
-						/>
-					{/if}
-				</div>
-				<div class="month-wrapper">
-					<MonthHud {activeLandIndex} {selectedLandIndex} {selectLandIndex} {hoverLandIndex} />
-				</div>
-				<SeaLevelHud
-					seaLevel={activeSeaLevel}
-					{seaIndexMax}
-					{selectedSeaLevel}
-					{selectSeaLevel}
-					{hoverSeaLevel}
-				/>
-			{:else}
-				<FloatingIconButton
-					pressed={showHud}
-					label="toggle hud controls"
-					on:click={onClickHudToggle}
-				>
-					∙∙∙
-				</FloatingIconButton>
-			{/if}
-		</Hud>
-	{:else}
-		<SoggyPlanetTitleScreen {resources} {proceed} />
-	{/if}
-	<!-- {#if devMode}
+				{/if}
+			</Hud>
+		{:else}
+			<SoggyPlanetTitleScreen {resources} {proceed} />
+		{/if}
+		<!-- {#if devMode}
 		<div
 			style="position: fixed; left: calc(50% - 3px); top: calc(50% - 3px); width: 7px; height: 7px;
 			background-color: rgba(255, 50, 50, 1);"
 		/>
 	{/if} -->
-</div>
+	</div>
+{/if}
 
 <style>
 	.soggy-planet {

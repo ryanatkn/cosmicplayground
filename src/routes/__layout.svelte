@@ -10,6 +10,7 @@
 	import {page} from '$app/stores';
 	import {goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
+	import {swallow} from '@feltcoop/felt/util/dom.js';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
@@ -26,7 +27,7 @@
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 	import {setAudioCtx} from '$lib/audio/audioCtx';
 	import {setDimensions} from '$lib/app/dimensions';
-	import {enableGlobalHotkeys, swallow} from '$lib/util/dom';
+	import {enableGlobalHotkeys} from '$lib/util/dom';
 	import {showAppDialog} from '$lib/app/appDialog';
 	import AppDialogs from '$lib/app/AppDialogs.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';

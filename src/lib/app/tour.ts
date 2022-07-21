@@ -1,17 +1,21 @@
-import {writable, get, type Readable} from 'svelte/store';
+import {writable, type Readable} from 'svelte/store';
 import {UnreachableError} from '@feltcoop/felt/util/error.js';
 
 import type {ClockStore} from '$lib/app/clock.js';
 
 // TODO rotation!
 
+// TODO maybe this should be a component?
+
 export interface TourState {
-	data: TourData;
+	// TODO maybe make each of these a store, and `data` not reactive (at least for now, it could be...)
+	// This would get us more granular changes if all you care about is the step changing.
 	currentTime: number;
 	currentStepIndex: number;
 }
 
 export interface TourStore extends Readable<TourState> {
+	data: TourData;
 	cancel: () => void;
 	seekTimeTo: (time: number) => void;
 	seekTimeBy: (dt: number) => void;
@@ -61,11 +65,14 @@ export interface TourHooks {
 	done: (completed: boolean) => void;
 }
 
-// TODO maybe return a store instead of this API? hmm
 export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHooks): TourStore => {
 	console.log('createTourStore', data);
-	const store = writable<TourState>({data, currentTime: 0, currentStepIndex: 0});
-	const {subscribe, update} = store;
+
+	let $state: TourState = {currentTime: 0, currentStepIndex: 0};
+	const {subscribe, update} = writable<TourState>($state);
+	const unsubscribeState = subscribe(($v) => {
+		$state = $v;
+	});
 
 	// We walk through the steps one at a time,
 	// tracking the amount of time that the current step has been active.
@@ -76,17 +83,12 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 	const promises = new Map<string, Promise<void>>();
 	const handleClockTick = async (dt: number): Promise<void> => {
 		if (disableUpdate) return;
-		const $store = get(store);
-		let {currentTime, currentStepIndex} = $store;
-		const {
-			data: {steps},
-		} = $store;
-		currentTime += dt;
-		update((tourState) => ({...tourState, currentTime}));
-		// console.log('update', currentTime, currentStepIndex);
+		const {currentStepIndex} = $state;
+		const currentTime = $state.currentTime + dt;
+		update(($v) => ({...$v, currentTime}));
 		// Apply each step that's ready.
-		for (let i = currentStepIndex; i < steps.length; i++) {
-			const step = steps[i];
+		for (let i = currentStepIndex; i < data.steps.length; i++) {
+			const step = data.steps[i];
 			if (step.startTime > currentTime) {
 				// The current step isn't ready yet, so we stop here for this tick.
 				break;
@@ -110,8 +112,8 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 				}
 				case 'waitForEvent': {
 					disableUpdate = true;
-					const promise = promises.get(step.name);
-					await promise; // eslint-disable-line no-await-in-loop
+					const promiseOrVoid = promises.get(step.name);
+					await promiseOrVoid; // eslint-disable-line no-await-in-loop
 					promises.delete(step.name);
 					disableUpdate = false;
 					break;
@@ -121,16 +123,17 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 				}
 			}
 			// Did we just apply the final step?
-			if (i === steps.length - 1) {
+			if (i === data.steps.length - 1) {
 				finish(true);
 			}
 			// Advance to the next step.
-			currentStepIndex = currentStepIndex === steps.length - 1 ? -1 : currentStepIndex + 1;
-			update((tourState) => ({...tourState, currentStepIndex}));
+			update(($v) => ({
+				...$v,
+				currentStepIndex: currentStepIndex === data.steps.length - 1 ? -1 : currentStepIndex + 1,
+			}));
 		}
 	};
 
-	// TODO does this cause a memory leak? use derived?
 	const unsubscribeClock = clock.subscribe(($clock) => {
 		if ($clock.running && $clock.dt > 0) {
 			void handleClockTick($clock.dt);
@@ -141,20 +144,20 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 	const finish = (completed: boolean): void => {
 		if (finished) throw Error('Called finish twice');
 		finished = true;
+		// TODO requires that `finish` be called, which is error prone, should use store stop instead?
+		// We currently use the `onDestroy` hooks to ensure it gets canceled.
+		unsubscribeState();
 		unsubscribeClock();
 		hooks.done(completed);
 	};
 
 	const seek = (time: number): void => {
-		const {
-			data: {totalDuration, steps},
-		}: TourState = get(store); // TODO type?
-		const currentTime = Math.min(Math.max(0, time), totalDuration);
-		const currentStepIndex = findNextStepIndexAtTime(steps, currentTime);
-		update((tourState) => ({...tourState, currentTime, currentStepIndex}));
+		const currentTime = Math.min(Math.max(0, time), data.totalDuration);
+		const currentStepIndex = findNextStepIndexAtTime(data.steps, currentTime);
+		update(($v) => ({...$v, currentTime, currentStepIndex}));
 
 		const mostRecentPanStep = findMostRecentStepOfType<PanTourStep>(
-			steps,
+			data.steps,
 			'pan',
 			currentStepIndex - 1,
 		);
@@ -162,7 +165,7 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 			hooks.pan(mostRecentPanStep.x, mostRecentPanStep.y, 0, mostRecentPanStep.easing);
 		}
 		const mostRecentZoomStep = findMostRecentStepOfType<ZoomTourStep>(
-			steps,
+			data.steps,
 			'zoom',
 			currentStepIndex - 1,
 		);
@@ -172,7 +175,7 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 
 		// Apply the current step.
 		void handleClockTick(0);
-		if (currentTime !== totalDuration) {
+		if (currentTime !== data.totalDuration) {
 			// This is a bit messy, but fixes a bug where seek is called after the tour ends.
 			// Instead, should we just call the hook right before the tick?
 			hooks.seek(currentTime, currentStepIndex);
@@ -181,6 +184,7 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 
 	return {
 		subscribe,
+		data,
 		cancel: (): void => {
 			finish(false);
 		},
@@ -188,13 +192,10 @@ export const createTourStore = (data: TourData, clock: ClockStore, hooks: TourHo
 			seek(time);
 		},
 		seekTimeBy: (dt: number): void => {
-			seek(get(store).currentTime + dt);
+			seek($state.currentTime + dt);
 		},
 		seekIndexTo: (index: number): void => {
-			const {
-				data: {steps},
-			}: TourState = get(store); // TODO type?
-			seek(steps[clampIndex(steps, index)].startTime);
+			seek(data.steps[clampIndex(data.steps, index)].startTime);
 		},
 	};
 };

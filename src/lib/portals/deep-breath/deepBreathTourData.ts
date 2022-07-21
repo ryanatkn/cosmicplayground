@@ -12,8 +12,8 @@ import {
 	quintInOut,
 } from 'svelte/easing';
 
-import type {TourData} from '$lib/app/tour.js';
-import {createTourBuilder} from '$lib/app/tourBuilder.js';
+import type {TourData} from '$lib/app/tour';
+import {createTourBuilder} from '$lib/app/tourBuilder';
 
 // This was tedious to author and the output could be better, but it's good enough.
 // There's some jankiness between some tweens that could be polished, but shrug.
@@ -21,7 +21,7 @@ import {createTourBuilder} from '$lib/app/tourBuilder.js';
 // I'll probably make a visual authoring tool,
 // maybe with bezier curves or camera physics.
 
-export const createDeepBreathTour = (
+export const createDeepBreathTourData = (
 	introDuration: number,
 	titleDuration: number,
 	devMode = false,
@@ -220,7 +220,7 @@ export const createDeepBreathTour = (
 
 	// -> Scandanavia
 	b.pan(2322, 337, tMove);
-	b.zoom(4.3, tMove, backInOut);
+	b.zoom(4.3, tMove, quadInOut);
 	b.wait();
 	b.zoomBy(0.98, tIdle, sineOut);
 	b.panBy(1, -4, tIdle, sineOut);

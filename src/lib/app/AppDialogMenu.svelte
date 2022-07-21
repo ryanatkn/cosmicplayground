@@ -27,8 +27,7 @@
 <style>
 	.breadcrumbs {
 		/* TODO don't hardcode */
-		padding-left: 12px;
-		padding-right: 12px;
+		padding: 12px;
 	}
 	/* TODO hacky */
 	.breadcrumbs :global(.panel) {
