@@ -1,7 +1,8 @@
 import {writable, type Writable, get} from 'svelte/store';
 
-// TODO this is currently unused, and `Camera.svelte` is used in its place.
+// TODO This is currently unused, and `Camera.svelte` is used in its place.
 // The downside of the Svelte component is that initialization becomes much more complex,
+// because the camera and its values aren't ready when the parent component is initializing,
 // but there are some benefits worth exploring. We can always revert to this class if needed.
 
 export interface Camera2 {
