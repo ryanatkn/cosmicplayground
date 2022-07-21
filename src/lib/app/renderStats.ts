@@ -30,7 +30,7 @@ const expectedFps = 60; // TODO support other framerates?
 const expectedMsPerFrame = 1000 / expectedFps;
 
 const computeDroppedFrames = (dt: number): number => {
-	if (dt > expectedMsPerFrame * 2 - 5) {
+	if (dt > expectedMsPerFrame * 1.7) {
 		// TODO improve?
 		return Math.round((10 * (dt - expectedMsPerFrame)) / expectedMsPerFrame) / 10;
 	}
