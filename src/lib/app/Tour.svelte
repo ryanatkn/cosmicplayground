@@ -92,7 +92,7 @@
 		seek($currentTime + dt);
 	};
 	export const seekIndexTo = (index: number): void => {
-		if (!$tourData) throw Error(); // TODO BLOCK remove this?
+		if (!$tourData) throw Error('expected tourData'); // TODO BLOCK remove this?
 		seek($tourData.steps[clampIndex($tourData.steps, index)].startTime);
 	};
 
@@ -118,7 +118,7 @@
 	const promises = new Map<string, Promise<void>>();
 	const handleClockTick = async (dt: number): Promise<void> => {
 		if (disableUpdate) return;
-		if (!$tourData) throw Error(); // TODO BLOCK remove this?
+		if (!$tourData) throw Error('expected tourData'); // TODO BLOCK remove this?
 		$currentTime += dt;
 		// Apply each step that's ready.
 		for (let i = $currentStepIndex; i < $tourData.steps.length; i++) {
@@ -167,7 +167,7 @@
 	};
 
 	const seek = (time: number): void => {
-		if (!$tourData) throw Error(); // TODO BLOCK remove this?
+		if (!$tourData) throw Error('expected tourData'); // TODO BLOCK remove this?
 		$currentTime = Math.min(Math.max(0, time), $tourData.totalDuration);
 		$currentStepIndex = findNextStepIndexAtTime($tourData.steps, $currentTime);
 
