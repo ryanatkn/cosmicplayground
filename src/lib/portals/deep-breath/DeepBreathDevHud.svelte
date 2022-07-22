@@ -3,9 +3,9 @@
 
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import TourControls from '$lib/app/TourControls.svelte';
-	import type {TourStore} from '$lib/app/tour';
+	import type Tour from '$lib/app/Tour.svelte';
 
-	export let tour: TourStore | null;
+	export let tour: Tour | null;
 	export let x: Writable<number>;
 	export let y: Writable<number>;
 	export let scale: Writable<number>;

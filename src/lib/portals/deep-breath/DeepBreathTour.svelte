@@ -3,9 +3,8 @@
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTourData} from '$lib/portals/deep-breath/deepBreathTourData';
-	import type {TourHooks, TourStep, TourData, TourStore} from '$lib/app/tour';
+	import {type TourHooks, type TourData, updateAudioOnSeek} from '$lib/app/tour';
 	import {getSettings} from '$lib/app/settings';
-	import {getRenderStats} from '$lib/app/renderStats';
 	import {getClock} from '$lib/app/clock';
 	import DeepBreathTourIntro from '$lib/portals/deep-breath/DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from '$lib/portals/deep-breath/DeepBreathTourTitle.svelte';
@@ -17,12 +16,10 @@
 
 	// for external binding, not props
 	// owned by the `Tour` component
-	export let tour: Writable<TourStore | null> | undefined = undefined as any;
+	export let tour: Tour | undefined = undefined;
+	export let touring: Writable<boolean> | undefined = undefined as any;
 	export let tourData: Writable<TourData | null> | undefined = undefined as any;
 	export let beginTour: (() => void) | undefined = undefined as any;
-	export let updateAudioOnSeek:
-		| ((audio: HTMLAudioElement, step: TourStep, currentTime: number) => void)
-		| undefined = undefined as any;
 	// owned by this component
 	export const showTourIntro: Writable<boolean> = writable(false);
 	export const showTourTitle: Writable<boolean> = writable(false);
@@ -63,6 +60,7 @@
 	const tourTitleTotalDuration =
 		tourTitleTransitionDuration * 2 + tourTitleMaxDelay + tourTitlePauseDuration;
 
+	$: tourSongPlayStep = $tourData?.steps.find((s) => 'name' in s && s.name === 'playSong'); // TODO or get from event handler?
 	$: oceanWavesPlayStep = $tourData?.steps.find(
 		(s) => 'name' in s && s.name === 'playOceanWavesSound',
 	); // TODO or get from event handler?
@@ -77,6 +75,11 @@
 					oceanWavesSound.audio!.currentTime = 0;
 					if (audioEnabled) void oceanWavesSound.audio!.play();
 					return;
+				}
+				case 'playSong': {
+					tourSong.audio!.currentTime = 0;
+					if (audioEnabled) void tourSong.audio!.play();
+					break;
 				}
 				case 'showIntro': {
 					$showTourIntro = true;
@@ -94,7 +97,14 @@
 			return;
 		},
 		seek: (currentTime, _currentStepIndex) => {
-			updateAudioOnSeek!(oceanWavesSound.audio!, oceanWavesPlayStep!, currentTime);
+			// TODO this hacky code could be replaced by adding abstractions to the tour
+			// to manage things like audio and displaying specific content for a time window
+			if (!tourSong.audio) throw Error('seek expects expected tourSong.audio');
+			if (!oceanWavesSound.audio) throw Error('seek expects expected oceanWavesSound.audio');
+			if (!tourSongPlayStep) throw Error('seek expects tourSongPlayStep');
+			if (!oceanWavesPlayStep) throw Error('seek expects oceanWavesPlayStep');
+			updateAudioOnSeek(tourSong.audio, tourSongPlayStep, currentTime, audioEnabled);
+			updateAudioOnSeek(oceanWavesSound.audio, oceanWavesPlayStep, currentTime, audioEnabled);
 			$showTourIntro = false;
 			$showTourTitle = false;
 			$showTourCredits = false;
@@ -106,12 +116,11 @@
 			if ($scale > 50) $scale = 50;
 			if (tourSong.audio && !tourSong.audio.paused) tourSong.audio.pause();
 			if (oceanWavesSound.audio && !oceanWavesSound.audio.paused) oceanWavesSound.audio.pause();
-			if (devMode) console.log('render stats', getRenderStats());
 		},
 	};
 </script>
 
-{#if $tour}
+{#if $touring}
 	<div class="tour">
 		{#if $showTourIntro}
 			<DeepBreathTourIntro
@@ -141,10 +150,10 @@
 	{hooks}
 	createTourData={() =>
 		createDeepBreathTourData(tourIntroTotalDuration, tourTitleTotalDuration, devMode)}
-	bind:tour
+	bind:this={tour}
+	bind:touring
 	bind:tourData
 	bind:beginTour
-	bind:updateAudioOnSeek
 />
 
 <style>
