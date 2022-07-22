@@ -23,6 +23,9 @@
 	export let hooks: Partial<TourHooks>;
 	export let createTourData: () => TourData;
 
+	// TODO BLOCK pause music with clock.
+	// TODO BLOCK in devmode show a range input to manually seek
+
 	// for external binding, not props
 	export let tweenedCamera: TweenedCamera | undefined = undefined as any;
 	export const touring = writable(false);
