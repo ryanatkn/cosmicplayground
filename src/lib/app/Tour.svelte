@@ -105,7 +105,7 @@
 		baseHooks.done(completed);
 	};
 
-	$: if ($clock.running && $clock.dt > 0) {
+	$: if ($touring && $clock.running && $clock.dt > 0) {
 		void handleClockTick($clock.dt);
 	}
 
@@ -289,6 +289,9 @@
 		if (!$tourData) {
 			$tourData = createTourData();
 		}
+		$currentTime = 0;
+		$currentStepIndex = 0;
+		finished = false;
 		$touring = true;
 		if (devMode) {
 			resetRenderStats();
