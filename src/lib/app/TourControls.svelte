@@ -2,7 +2,6 @@
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
 
-	// TODO BLOCK when to pass the whole class, and when to pass individual properties?
 	export let tour: Tour;
 	export let debugStartTime: number;
 

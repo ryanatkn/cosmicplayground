@@ -4,7 +4,6 @@
 	import {swallow} from '@feltcoop/felt/util/dom.js';
 	import {UnreachableError} from '@feltcoop/felt/util/error.js';
 
-	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {getSettings} from '$lib/app/settings';
 	import {resetRenderStats, getRenderStats} from '$lib/app/renderStats';
 	import type {ClockStore} from '$lib/app/clock';
@@ -163,48 +162,29 @@
 		return -1;
 	};
 
-	$: tourSongPlayStep = $tourData?.steps.find((s) => 'name' in s && s.name === 'playSong'); // TODO or get from event handler?
-
 	const baseHooks: TourHooks = {
 		pan: (xTarget, yTarget, duration, easing) => {
 			tweenedCamera!.updatePanTweens(xTarget, yTarget, duration, easing);
-			hooks.pan?.(xTarget, yTarget, duration, easing);
+			return hooks.pan?.(xTarget, yTarget, duration, easing);
 		},
 		zoom: (scaleTarget, duration, easing) => {
 			tweenedCamera!.updateScaleTween(scaleTarget, duration, easing);
-			hooks.zoom?.(scaleTarget, duration, easing);
+			return hooks.zoom?.(scaleTarget, duration, easing);
 		},
 		event: (name, data) => {
 			if (name.startsWith('debug')) {
 				console.log(name, $currentTime);
-				return hooks.event?.(name, data);
-			}
-			switch (name) {
-				case 'load': {
-					return tourResources.load().then(() => hooks.event?.(name, data)); // is idempotent
-				}
-				case 'playSong': {
-					tourSong.audio!.currentTime = 0;
-					if (audioEnabled) void tourSong.audio!.play();
-					break;
-				}
 			}
 			return hooks.event?.(name, data);
 		},
 		seek: (currentTime, currentStepIndex) => {
-			if (!tourSong.audio) throw Error('seek expects expected tourSong.audio');
-			if (!tourSongPlayStep) throw Error('seek expects tourSongPlayStep');
-			// TODO this hacky code could be replaced by adding abstractions to the tour
-			// to manage things like audio and displaying specific content for a time window
-			updateAudioOnSeek(tourSong.audio, tourSongPlayStep, currentTime);
-			hooks.seek?.(currentTime, currentStepIndex);
+			return hooks.seek?.(currentTime, currentStepIndex);
 		},
 		done: (completed) => {
 			$touring = false;
 			tweenedCamera!.resetTweens();
-			if (tourSong.audio && !tourSong.audio.paused) tourSong.audio.pause();
 			if (devMode) console.log('render stats', getRenderStats());
-			hooks.done?.(completed);
+			return hooks.done?.(completed);
 		},
 	};
 
@@ -224,15 +204,6 @@
 			}
 		}
 	};
-
-	const tourResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
-	// TODO BLOCK extract - prop? part of tour data instead? or do this in the `DeepBreathTour`?
-	const tourSongUrl = '/assets/audio/Alexander_Nakarada__Winter.mp3';
-	// TODO maybe `addResource` should return a store per resource,
-	// and then we can remove the next line `$: tourSong = ...`
-	tourResources.addResource('audio', tourSongUrl);
-	let tourSong: AudioResource;
-	$: tourSong = $tourResources.resources.find((r) => r.url === tourSongUrl) as any; // TODO faster API, or maybe remove (see comment above)
 
 	export const beginTour = (): void => {
 		if ($touring) cancel();
