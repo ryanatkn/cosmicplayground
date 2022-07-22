@@ -3,7 +3,7 @@
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTourData} from '$lib/portals/deep-breath/deepBreathTourData';
-	import type {TourHooks, TourStep, TourData} from '$lib/app/Tour.svelte';
+	import type {TourHooks, TourStep, TourData} from '$lib/app/tour';
 	import {getSettings} from '$lib/app/settings';
 	import {getRenderStats} from '$lib/app/renderStats';
 	import {getClock} from '$lib/app/clock';

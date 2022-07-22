@@ -1,60 +1,3 @@
-<script context="module" lang="ts">
-	export interface TourData {
-		totalDuration: number;
-		steps: TourStep[];
-	}
-
-	export type TourStep = PanTourStep | ZoomTourStep | EventTourStep | WaitForEventTourStep;
-	export type TourStepType = TourStep['type'];
-	export interface TourStepBase {
-		duration: number;
-		startTime: number;
-		index: number;
-	}
-	export interface PanTourStep extends TourStepBase {
-		type: 'pan';
-		easing: (t: number) => number;
-		x: number;
-		y: number;
-	}
-	export interface ZoomTourStep extends TourStepBase {
-		type: 'zoom';
-		easing: (t: number) => number;
-		scale: number;
-	}
-	export interface EventTourStep extends TourStepBase {
-		type: 'event';
-		duration: 0;
-		name: string;
-		data: unknown;
-	}
-	export interface WaitForEventTourStep extends TourStepBase {
-		type: 'waitForEvent';
-		duration: 0;
-		name: string;
-	}
-
-	export interface TourHooks {
-		pan: (x: number, y: number, duration: number, easing: (t: number) => number) => void;
-		zoom: (scale: number, duration: number, easing: (t: number) => number) => void;
-		event: (name: string, data: unknown) => void | Promise<void>;
-		seek: (currentTime: number, currentStepIndex: number) => void; // TODO should this be `onSeek` instead?
-		done: (completed: boolean) => void;
-	}
-
-	export const findMostRecentStepOfType = <T extends TourStep>(
-		steps: TourStep[],
-		type: T['type'],
-		startIndex: number = steps.length - 1,
-	): T | undefined => {
-		for (let i = startIndex; i >= 0; i--) {
-			const step = steps[i];
-			if (step.type === type) return step as T;
-		}
-		return undefined;
-	};
-</script>
-
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
 	import {createEventDispatcher, onDestroy} from 'svelte';
@@ -67,6 +10,14 @@
 	import type {ClockStore} from '$lib/app/clock';
 	import type Camera from '$lib/app/Camera.svelte';
 	import TweenedCamera from '$lib/app/TweenedCamera.svelte';
+	import {
+		findMostRecentStepOfType,
+		type PanTourStep,
+		type TourData,
+		type TourHooks,
+		type TourStep,
+		type ZoomTourStep,
+	} from '$lib/app/tour';
 
 	export let camera: Camera;
 	export let clock: ClockStore;
