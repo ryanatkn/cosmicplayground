@@ -3,7 +3,7 @@
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTourData} from '$lib/portals/deep-breath/deepBreathTourData';
-	import type {TourHooks, TourStep, TourData} from '$lib/app/tour';
+	import {type TourHooks, type TourData, updateAudioOnSeek} from '$lib/app/tour';
 	import {getSettings} from '$lib/app/settings';
 	import {getClock} from '$lib/app/clock';
 	import DeepBreathTourIntro from '$lib/portals/deep-breath/DeepBreathTourIntro.svelte';
@@ -17,14 +17,9 @@
 	// for external binding, not props
 	// owned by the `Tour` component
 	export let tour: Tour | undefined = undefined;
-	// TODO BLOCK these are on `tour`, do they need to be individually bound too?
 	export let touring: Writable<boolean> | undefined = undefined as any;
 	export let tourData: Writable<TourData | null> | undefined = undefined as any;
 	export let beginTour: (() => void) | undefined = undefined as any;
-	// TODO BLOCK seems this could be imported directly from module context but it uses `audioEnabled`
-	export let updateAudioOnSeek:
-		| ((audio: HTMLAudioElement, step: TourStep, currentTime: number) => void)
-		| undefined = undefined as any;
 	// owned by this component
 	export const showTourIntro: Writable<boolean> = writable(false);
 	export const showTourTitle: Writable<boolean> = writable(false);
@@ -108,8 +103,8 @@
 			if (!oceanWavesSound.audio) throw Error('seek expects expected oceanWavesSound.audio');
 			if (!tourSongPlayStep) throw Error('seek expects tourSongPlayStep');
 			if (!oceanWavesPlayStep) throw Error('seek expects oceanWavesPlayStep');
-			updateAudioOnSeek!(tourSong.audio, tourSongPlayStep, currentTime);
-			updateAudioOnSeek!(oceanWavesSound.audio, oceanWavesPlayStep, currentTime);
+			updateAudioOnSeek(tourSong.audio, tourSongPlayStep, currentTime, audioEnabled);
+			updateAudioOnSeek(oceanWavesSound.audio, oceanWavesPlayStep, currentTime, audioEnabled);
 			$showTourIntro = false;
 			$showTourTitle = false;
 			$showTourCredits = false;
@@ -159,7 +154,6 @@
 	bind:touring
 	bind:tourData
 	bind:beginTour
-	bind:updateAudioOnSeek
 />
 
 <style>

@@ -23,9 +23,6 @@
 	export let hooks: Partial<TourHooks>;
 	export let createTourData: () => TourData;
 
-	// TODO BLOCK pause music with clock.
-	// TODO BLOCK in devmode show a range input to manually seek
-
 	// for external binding, not props
 	export let tweenedCamera: TweenedCamera | undefined = undefined as any;
 	export const touring = writable(false);
@@ -42,7 +39,7 @@
 		seek($currentTime + dt);
 	};
 	export const seekIndexTo = (index: number): void => {
-		if (!$tourData) throw Error('expected tourData'); // TODO BLOCK remove this?
+		if (!$tourData) throw Error('expected tourData');
 		seek($tourData.steps[clampIndex($tourData.steps, index)].startTime);
 	};
 
@@ -50,8 +47,6 @@
 	const finish = (completed: boolean): void => {
 		if (finished) throw Error('Called finish twice');
 		finished = true;
-		// TODO BLOCK requires that `finish` be called, which is error prone, should use store stop instead?
-		// We currently use the `onDestroy` hooks to ensure it gets canceled.
 		baseHooks.done(completed);
 	};
 
@@ -68,7 +63,7 @@
 	const promises = new Map<string, Promise<void>>();
 	const handleClockTick = async (dt: number): Promise<void> => {
 		if (disableUpdate) return;
-		if (!$tourData) throw Error('expected tourData'); // TODO BLOCK remove this?
+		if (!$tourData) throw Error('expected tourData');
 		$currentTime += dt;
 		// Apply each step that's ready.
 		for (let i = $currentStepIndex; i < $tourData.steps.length; i++) {
@@ -117,7 +112,7 @@
 	};
 
 	const seek = (time: number): void => {
-		if (!$tourData) throw Error('expected tourData'); // TODO BLOCK remove this?
+		if (!$tourData) throw Error('expected tourData');
 		$currentTime = Math.min(Math.max(0, time), $tourData.totalDuration);
 		$currentStepIndex = findNextStepIndexAtTime($tourData.steps, $currentTime);
 
@@ -190,7 +185,6 @@
 
 	const settings = getSettings();
 	$: devMode = $settings.devMode;
-	$: audioEnabled = $settings.audioEnabled;
 
 	const dispatchEvent = createEventDispatcher<{begin: undefined}>();
 
@@ -218,23 +212,6 @@
 		if (devMode) {
 			resetRenderStats();
 			if (debugStartTime) setTimeout(() => seekTimeTo(debugStartTime), 50);
-		}
-	};
-
-	export const updateAudioOnSeek = (
-		audio: HTMLAudioElement,
-		step: TourStep,
-		currentTime: number,
-	): void => {
-		const stepCurrentTime = currentTime - step.startTime;
-		const audioDuration = audio.duration * 1000;
-		if (stepCurrentTime >= 0 && stepCurrentTime < audioDuration) {
-			audio.currentTime = stepCurrentTime / 1000;
-			if (audio.paused && audioEnabled) {
-				void audio.play();
-			}
-		} else if (!audio.paused) {
-			audio.pause();
 		}
 	};
 

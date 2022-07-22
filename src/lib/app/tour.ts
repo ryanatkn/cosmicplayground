@@ -56,3 +56,21 @@ export const findMostRecentStepOfType = <T extends TourStep>(
 	}
 	return undefined;
 };
+
+export const updateAudioOnSeek = (
+	audio: HTMLAudioElement,
+	step: TourStep,
+	currentTime: number,
+	audioEnabled: boolean,
+): void => {
+	const stepCurrentTime = currentTime - step.startTime;
+	const audioDuration = audio.duration * 1000;
+	if (stepCurrentTime >= 0 && stepCurrentTime < audioDuration) {
+		audio.currentTime = stepCurrentTime / 1000;
+		if (audio.paused && audioEnabled) {
+			void audio.play();
+		}
+	} else if (!audio.paused) {
+		audio.pause();
+	}
+};
