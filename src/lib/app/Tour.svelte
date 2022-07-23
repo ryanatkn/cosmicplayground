@@ -184,7 +184,6 @@
 		},
 		done: (completed) => {
 			$touring = false;
-			console.log(`$touring`, $touring);
 			tweenedCamera!.resetTweens();
 			if (devMode) console.log('render stats', getRenderStats());
 			return hooks.done?.(completed);
@@ -225,7 +224,6 @@
 	};
 
 	onDestroy(() => {
-		console.log(`onDestroy $touring`, $touring);
 		if ($touring) cancel();
 	});
 </script>
