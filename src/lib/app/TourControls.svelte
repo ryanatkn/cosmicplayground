@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {round} from '@feltcoop/felt/util/maths.js';
+
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
 
@@ -29,7 +31,7 @@
 
 <svelte:window on:keydown={onKeyDown} />
 
-<FloatingTextButton>time: {Math.round($currentTime)}</FloatingTextButton>
+<FloatingTextButton>time: {round($currentTime / 1000, 1).toFixed(1)}</FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {
 		const index = Number(prompt('index?', $currentStepIndex + '')); // eslint-disable-line no-alert

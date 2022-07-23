@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type {Writable} from 'svelte/store';
+	import {round} from '@feltcoop/felt/util/maths.js';
 
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import TourControls from '$lib/app/TourControls.svelte';
@@ -28,7 +29,7 @@
 		$scale = Number(prompt('🔎', $scale + '')) || $scale; // eslint-disable-line no-alert
 	}}
 >
-	scale: {Math.round($scale * 10) / 10}
+	scale: {round($scale, 1)}
 </FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {

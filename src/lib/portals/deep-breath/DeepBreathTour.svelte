@@ -72,7 +72,6 @@
 	let lastPaused = paused;
 	$: if ($tourData && paused !== undefined && paused !== lastPaused) {
 		lastPaused = paused;
-		console.log('UPDATE PAUESD', paused);
 		updatePaused(paused);
 	}
 	const updatePaused = (paused: boolean): void => {
