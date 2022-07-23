@@ -277,13 +277,16 @@ export const createDeepBreathTourData = (
 	b.pan(3511, 984, tMove);
 	b.zoom(2.45, tMove);
 	b.wait();
-	b.zoomBy(0.96, tIdle + tMove, sineOut);
-	b.panBy(2, 1, tIdle + tMove, sineOut);
+	b.zoomBy(0.96, tIdle, sineOut);
+	b.panBy(2, 1, tIdle, sineOut);
+	b.wait();
+	b.zoomBy(1.16, tMove, quadInOut);
+	b.panBy(2, 6, tMove, sineOut);
 	b.wait();
 
 	// -> Australia
 	b.pan(3589, 1332, tMove);
-	b.zoom(2.8, tMove, backInOut);
+	b.zoom(2.8, tMove, quadInOut);
 	b.wait();
 	b.zoomBy(0.98, tIdle, sineOut);
 	b.panBy(1, 3, tIdle, sineOut);
