@@ -3,11 +3,15 @@
 
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
+	import {getClock} from '$lib/app/clock';
 
 	export let tour: Tour;
 	export let debugStartTime: number;
 
 	$: ({currentTime, currentStepIndex} = tour);
+
+	const clock = getClock();
+	$: ({running} = $clock);
 
 	const TIME_DELTA_SM = 1000;
 	const TIME_DELTA_MD = 10000;
@@ -31,6 +35,9 @@
 
 <svelte:window on:keydown={onKeyDown} />
 
+<FloatingTextButton on:click={() => clock.toggle()}
+	>{#if running}pause{:else}play{/if}</FloatingTextButton
+>
 <FloatingTextButton>time: {round($currentTime / 1000, 1).toFixed(1)}</FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {
