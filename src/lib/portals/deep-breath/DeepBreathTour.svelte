@@ -3,7 +3,7 @@
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTourData} from '$lib/portals/deep-breath/deepBreathTourData';
-	import {type TourHooks, type TourData, updateAudioOnSeek} from '$lib/app/tour';
+	import {type TourHooks, type TourData, updateAudioOnSeek, findTourStep} from '$lib/app/tour';
 	import {getSettings} from '$lib/app/settings';
 	import {getClock} from '$lib/app/clock';
 	import DeepBreathTourIntro from '$lib/portals/deep-breath/DeepBreathTourIntro.svelte';
@@ -18,6 +18,8 @@
 	// owned by the `Tour` component
 	export let tour: Tour | undefined = undefined;
 	export let touring: Writable<boolean> | undefined = undefined as any;
+	export let currentTime: Writable<number> | undefined = undefined as any;
+	export let currentStepIndex: Writable<number> | undefined = undefined as any;
 	export let tourData: Writable<TourData | null> | undefined = undefined as any;
 	export let beginTour: (() => void) | undefined = undefined as any;
 	// owned by this component
@@ -35,14 +37,14 @@
 	$: audioEnabled = $settings.audioEnabled;
 
 	const tourResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
-	const tourSongUrl = '/assets/audio/Alexander_Nakarada__Winter.mp3';
+	const mainSongUrl = '/assets/audio/Alexander_Nakarada__Winter.mp3';
 	const oceanWavesSoundUrl = '/assets/audio/ocean_waves.mp3';
 	// TODO maybe `addResource` should return a store per resource,
-	// and then we can remove the next line `$: tourSong = ...`
-	tourResources.addResource('audio', tourSongUrl);
+	// and then we can remove the next line `$: mainSong = ...`
+	tourResources.addResource('audio', mainSongUrl);
 	tourResources.addResource('audio', oceanWavesSoundUrl);
-	let tourSong: AudioResource;
-	$: tourSong = $tourResources.resources.find((r) => r.url === tourSongUrl) as any; // TODO faster API, or maybe remove (see comment above)
+	let mainSong: AudioResource;
+	$: mainSong = $tourResources.resources.find((r) => r.url === mainSongUrl) as any; // TODO faster API, or maybe remove (see comment above)
 	let oceanWavesSound: AudioResource;
 	$: oceanWavesSound = $tourResources.resources.find((r) => r.url === oceanWavesSoundUrl) as any; // TODO faster API, or maybe remove (see comment above)
 	const tourIntroTransitionInDuration = 2000;
@@ -60,10 +62,22 @@
 	const tourTitleTotalDuration =
 		tourTitleTransitionDuration * 2 + tourTitleMaxDelay + tourTitlePauseDuration;
 
-	$: tourSongPlayStep = $tourData?.steps.find((s) => 'name' in s && s.name === 'playSong'); // TODO or get from event handler?
-	$: oceanWavesPlayStep = $tourData?.steps.find(
-		(s) => 'name' in s && s.name === 'playOceanWavesSound',
-	); // TODO or get from event handler?
+	$: mainSongStep = $tourData && findTourStep($tourData, 'playMainSong');
+	$: oceanWavesStep = $tourData && findTourStep($tourData, 'playOceanWavesSound');
+
+	// TODO BLOCK messy -- belongs in `Tour.svelte`
+	let paused = !$clock.running;
+	$: if (paused !== !$clock.running) (paused = !$clock.running), updatePaused(paused);
+	const updatePaused = (paused: boolean) => {
+		// TODO BLOCK handle nulls/undefined?
+		if (paused) {
+			mainSong.audio?.pause();
+			oceanWavesSound.audio?.pause();
+		} else {
+			updateAudioOnSeek(mainSong.audio!, mainSongStep!, $currentTime!, audioEnabled);
+			updateAudioOnSeek(oceanWavesSound.audio!, oceanWavesStep!, $currentTime!, audioEnabled);
+		}
+	};
 
 	const hooks: Partial<TourHooks> = {
 		event: (name, _data) => {
@@ -76,9 +90,9 @@
 					if (audioEnabled) void oceanWavesSound.audio!.play();
 					return;
 				}
-				case 'playSong': {
-					tourSong.audio!.currentTime = 0;
-					if (audioEnabled) void tourSong.audio!.play();
+				case 'playMainSong': {
+					mainSong.audio!.currentTime = 0;
+					if (audioEnabled) void mainSong.audio!.play();
 					break;
 				}
 				case 'showIntro': {
@@ -99,12 +113,12 @@
 		seek: (currentTime, _currentStepIndex) => {
 			// TODO this hacky code could be replaced by adding abstractions to the tour
 			// to manage things like audio and displaying specific content for a time window
-			if (!tourSong.audio) throw Error('seek expects expected tourSong.audio');
+			if (!mainSong.audio) throw Error('seek expects expected mainSong.audio');
 			if (!oceanWavesSound.audio) throw Error('seek expects expected oceanWavesSound.audio');
-			if (!tourSongPlayStep) throw Error('seek expects tourSongPlayStep');
-			if (!oceanWavesPlayStep) throw Error('seek expects oceanWavesPlayStep');
-			updateAudioOnSeek(tourSong.audio, tourSongPlayStep, currentTime, audioEnabled);
-			updateAudioOnSeek(oceanWavesSound.audio, oceanWavesPlayStep, currentTime, audioEnabled);
+			if (!mainSongStep) throw Error('seek expects mainSongStep');
+			if (!oceanWavesStep) throw Error('seek expects oceanWavesStep');
+			updateAudioOnSeek(mainSong.audio, mainSongStep, currentTime, audioEnabled);
+			updateAudioOnSeek(oceanWavesSound.audio, oceanWavesStep, currentTime, audioEnabled);
 			$showTourIntro = false;
 			$showTourTitle = false;
 			$showTourCredits = false;
@@ -114,7 +128,7 @@
 			$showTourTitle = false;
 			$showTourCredits = false;
 			if ($scale > 50) $scale = 50;
-			if (tourSong.audio && !tourSong.audio.paused) tourSong.audio.pause();
+			if (mainSong.audio && !mainSong.audio.paused) mainSong.audio.pause();
 			if (oceanWavesSound.audio && !oceanWavesSound.audio.paused) oceanWavesSound.audio.pause();
 		},
 	};
@@ -153,6 +167,8 @@
 	bind:this={tour}
 	bind:touring
 	bind:tourData
+	bind:currentTime
+	bind:currentStepIndex
 	bind:beginTour
 />
 

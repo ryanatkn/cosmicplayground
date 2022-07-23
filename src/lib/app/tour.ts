@@ -45,6 +45,12 @@ export interface TourHooks {
 	done: (completed: boolean) => void;
 }
 
+export const findTourStep = (tourData: TourData, name: string): TourStep => {
+	const step = tourData.steps.find((s) => 'name' in s && s.name === name);
+	if (!step) throw Error(`Failed to find tour step with name ${name}`);
+	return step;
+};
+
 export const findMostRecentStepOfType = <T extends TourStep>(
 	steps: TourStep[],
 	type: T['type'],

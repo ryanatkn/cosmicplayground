@@ -83,7 +83,7 @@ export const createDeepBreathTourData = (
 	b.pan(xStart, yStart, 3900, backInOut);
 	b.zoom(6, 8400, backInOut);
 	b.wait(2000);
-	b.event('playSong'); // TODO this is a synchronous event- should it have a different API?
+	b.event('playMainSong'); // TODO this is a synchronous event- should it have a different API?
 	b.wait(1900);
 
 	// -> slowly pan to the east African coast while zooming out
