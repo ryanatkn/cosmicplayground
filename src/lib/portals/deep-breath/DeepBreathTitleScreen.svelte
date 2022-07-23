@@ -46,7 +46,7 @@
 				this map shows about 65 meters. This is an extreme hypothetical: <a
 					href="https://en.wikipedia.org/wiki/Sea_level_rise"
 					>Wikipedia can help put it into perspective</a
-				>.
+				>. The data has flaws; see below for more details.
 			</p>
 			<p>
 				There's <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4"
@@ -66,20 +66,16 @@
 			</p>
 			<p>See also <PortalLink slug="soggy-planet" />.</p>
 		</section>
+		<hr />
 		{#if $resources.status === 'success'}
 			<ChunkyButton on:click={proceed}>back to the map!</ChunkyButton>
 		{:else if $resources.status !== 'initial'}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
-			<p>
-				The download is about 75MB of images. If that's cool with you, click this button! <button
-					class="inline"
-					on:click={load}
-					><span style:font-size="var(--font_size_xl4)" style:line-height="0">↓</span></button
-				>
-			</p>
+			<p>The download is about 75MB of images. If that's cool with you, continue on:</p>
 			<ChunkyButton on:click={load}>continue with 75MB download!</ChunkyButton>
 		{/if}
+		<hr />
 		<section class="markup">
 			<p>Please be aware that <strong>the data has flaws:</strong></p>
 			<ul>

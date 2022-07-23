@@ -41,31 +41,31 @@
 		<section class="markup">
 			<p>
 				Soggy Planet is an interactive map of Earth where sea levels rise and fall and the lights of
-				civilization shine through the night. The code and image data are
+				civilization shine through the night. Learn more about
+				<a href="https://en.wikipedia.org/wiki/Past_sea_level">past sea levels on Wikipedia</a>.
+			</p>
+			<p>
+				This page is not mobile friendly! It may also be slow depending on your hardware and
+				browser. See <a href="https://github.com/cosmicplayground/cosmicplayground/issues/56"
+					>this performance issue on GitHub</a
+				>.
+			</p>
+			<p>
+				The code and image data are
 				<a href="https://github.com/cosmicplayground/cosmicplayground">open source on GitHub</a>.
 				Credits are below.
 			</p>
 			<p>
-				This page is not mobile friendly! It may also be slow depending on your hardware and
-				browser.
-			</p>
-			<p>
 				For a similar but different experience see <PortalLink slug="deep-breath" /> 🌚
 			</p>
-			<hr />
 		</section>
+		<hr />
 		{#if $resources.status === 'success'}
 			<ChunkyButton on:click={proceed}>back to the map!</ChunkyButton>
 		{:else if $resources.status !== 'initial'}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
-			<p>
-				The download is about 81MB of images. If that's cool with you, click this button! <button
-					class="inline"
-					on:click={load}
-					><span style:font-size="var(--font_size_xl4)" style:line-height="0">↓</span></button
-				>
-			</p>
+			<p>The download is about 81MB of images. If that's cool with you, continue on:</p>
 			<ChunkyButton on:click={load}>continue with 81MB download!</ChunkyButton>
 		{/if}
 	</Panel>
