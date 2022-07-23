@@ -11,23 +11,24 @@
 	let tween: Tweened<TValue> | null;
 	$: if (tween && enabled) $value = $tween!; // TODO `!` because https://github.com/sveltejs/language-tools/issues/1341
 
-	// TODO seems a bit messy
 	let lastTarget: TValue;
 	let lastDuration: number;
 
 	let lastEnabled = enabled;
 	$: if (enabled !== lastEnabled) {
 		lastEnabled = enabled;
-		if (tween) {
-			if (enabled) {
-				// set the previous targets
-				void tween.set(lastTarget, {duration: lastDuration});
-			} else {
-				// freeze the tweens in place
-				void tween.set($tween!, {duration: 0});
-			}
-		}
+		updateEnabled(enabled);
 	}
+	const updateEnabled = (enabled: boolean): void => {
+		if (!tween) return;
+		if (enabled) {
+			// set the previous targets
+			void tween.set(lastTarget, {duration: lastDuration});
+		} else {
+			// freeze the tweens in place
+			void tween.set($tween!, {duration: 0});
+		}
+	};
 
 	export const update = (target: TValue, duration: number, easing = sineInOut): Promise<void> => {
 		if (!tween) tween = tweened($value);
