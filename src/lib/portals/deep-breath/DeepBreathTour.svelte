@@ -18,9 +18,10 @@
 	// owned by the `Tour` component
 	export let tour: Tour | undefined = undefined;
 	export let touring: Writable<boolean> | undefined = undefined as any;
+	export let tourData: Writable<TourData | null> | undefined = undefined as any;
 	export let currentTime: Writable<number> | undefined = undefined as any;
 	export let currentStepIndex: Writable<number> | undefined = undefined as any;
-	export let tourData: Writable<TourData | null> | undefined = undefined as any;
+	export let paused: boolean | undefined = undefined as any;
 	export let beginTour: (() => void) | undefined = undefined as any;
 	// owned by this component
 	export const showTourIntro: Writable<boolean> = writable(false);
@@ -65,18 +66,24 @@
 	$: mainSongStep = $tourData && findTourStep($tourData, 'playMainSong');
 	$: oceanWavesStep = $tourData && findTourStep($tourData, 'playOceanWavesSound');
 
-	// TODO BLOCK messy -- belongs in `Tour.svelte`
-	let paused = !$clock.running;
-	$: if (paused !== !$clock.running) (paused = !$clock.running), updatePaused(paused);
-	const updatePaused = (paused: boolean) => {
-		// TODO BLOCK handle nulls/undefined?
-		if (paused) {
-			mainSong.audio?.pause();
-			oceanWavesSound.audio?.pause();
-		} else {
-			updateAudioOnSeek(mainSong.audio!, mainSongStep!, $currentTime!, audioEnabled);
-			updateAudioOnSeek(oceanWavesSound.audio!, oceanWavesStep!, $currentTime!, audioEnabled);
-		}
+	// TODO move to `Tour.svelte` after audio is moved there
+	// TODO BLOCK need to run only on changes, right?
+	// TODO BLOCK handle nulls/undefined?
+	let lastPaused = paused;
+	$: if ($tourData && paused !== undefined && paused !== lastPaused) {
+		lastPaused = paused;
+		console.log('UPDATE PAUESD', paused);
+		updatePaused(paused);
+	}
+	const updatePaused = (paused: boolean): void => {
+		updateAudioOnSeek(mainSong.audio!, mainSongStep!, $currentTime!, audioEnabled, paused!);
+		updateAudioOnSeek(
+			oceanWavesSound.audio!,
+			oceanWavesStep!,
+			$currentTime!,
+			audioEnabled,
+			paused!,
+		);
 	};
 
 	const hooks: Partial<TourHooks> = {
@@ -117,8 +124,8 @@
 			if (!oceanWavesSound.audio) throw Error('seek expects expected oceanWavesSound.audio');
 			if (!mainSongStep) throw Error('seek expects mainSongStep');
 			if (!oceanWavesStep) throw Error('seek expects oceanWavesStep');
-			updateAudioOnSeek(mainSong.audio, mainSongStep, currentTime, audioEnabled);
-			updateAudioOnSeek(oceanWavesSound.audio, oceanWavesStep, currentTime, audioEnabled);
+			updateAudioOnSeek(mainSong.audio, mainSongStep, currentTime, audioEnabled, paused!);
+			updateAudioOnSeek(oceanWavesSound.audio, oceanWavesStep, currentTime, audioEnabled, paused!);
 			$showTourIntro = false;
 			$showTourTitle = false;
 			$showTourCredits = false;
@@ -169,6 +176,7 @@
 	bind:tourData
 	bind:currentTime
 	bind:currentStepIndex
+	bind:paused
 	bind:beginTour
 />
 

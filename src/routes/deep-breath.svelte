@@ -178,7 +178,7 @@
 		showTitleScreen = false;
 	};
 	const returnToTitleScreen = () => {
-		tour?.cancel();
+		if ($touring) tour!.cancel();
 		showTitleScreen = true;
 	};
 	onMount(() => {
