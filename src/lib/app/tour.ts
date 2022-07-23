@@ -45,6 +45,12 @@ export interface TourHooks {
 	done: (completed: boolean) => void;
 }
 
+export const findTourStep = (tourData: TourData, name: string): TourStep => {
+	const step = tourData.steps.find((s) => 'name' in s && s.name === name);
+	if (!step) throw Error(`Failed to find tour step with name ${name}`);
+	return step;
+};
+
 export const findMostRecentStepOfType = <T extends TourStep>(
 	steps: TourStep[],
 	type: T['type'],
@@ -62,12 +68,15 @@ export const updateAudioOnSeek = (
 	step: TourStep,
 	currentTime: number,
 	audioEnabled: boolean,
+	paused: boolean,
 ): void => {
 	const stepCurrentTime = currentTime - step.startTime;
 	const audioDuration = audio.duration * 1000;
 	if (stepCurrentTime >= 0 && stepCurrentTime < audioDuration) {
 		audio.currentTime = stepCurrentTime / 1000;
-		if (audio.paused && audioEnabled) {
+		if (paused) {
+			if (!audio.paused) audio.pause();
+		} else if (audio.paused && audioEnabled) {
 			void audio.play();
 		}
 	} else if (!audio.paused) {

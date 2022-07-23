@@ -24,6 +24,7 @@
 	export let createTourData: () => TourData;
 
 	// for external binding, not props
+	export let paused = !$clock.running;
 	export let tweenedCamera: TweenedCamera | undefined = undefined as any;
 	export const touring = writable(false);
 	export const currentTime = writable(0);
@@ -50,7 +51,11 @@
 		baseHooks.done(completed);
 	};
 
-	$: if ($touring && $clock.running && $clock.dt > 0) {
+	$: ({running} = $clock);
+	$: if (paused === running) {
+		paused = !running;
+	}
+	$: if (running && $touring && $clock.dt > 0) {
 		void handleClockTick($clock.dt);
 	}
 
@@ -159,11 +164,11 @@
 
 	const baseHooks: TourHooks = {
 		pan: (xTarget, yTarget, duration, easing) => {
-			tweenedCamera!.updatePanTweens(xTarget, yTarget, duration, easing);
+			tweenedCamera!.pan(xTarget, yTarget, duration, easing);
 			return hooks.pan?.(xTarget, yTarget, duration, easing);
 		},
 		zoom: (scaleTarget, duration, easing) => {
-			tweenedCamera!.updateScaleTween(scaleTarget, duration, easing);
+			tweenedCamera!.zoom(scaleTarget, duration, easing);
 			return hooks.zoom?.(scaleTarget, duration, easing);
 		},
 		event: (name, data) => {
@@ -201,6 +206,7 @@
 
 	export const beginTour = (): void => {
 		if ($touring) cancel();
+		if (!$clock.running) clock.resume();
 		dispatchEvent('begin');
 		if (!$tourData) {
 			$tourData = createTourData();
@@ -222,4 +228,4 @@
 
 <svelte:window on:keydown|capture={onKeyDown} />
 
-<TweenedCamera {camera} bind:this={tweenedCamera} />
+<TweenedCamera {camera} enabled={!paused} bind:this={tweenedCamera} />
