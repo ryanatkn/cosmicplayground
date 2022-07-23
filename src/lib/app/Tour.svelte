@@ -23,8 +23,6 @@
 	export let hooks: Partial<TourHooks>;
 	export let createTourData: () => TourData;
 
-	// TODO BLOCK in devmode show a range input to manually seek
-
 	// for external binding, not props
 	export let paused = !$clock.running;
 	export let tweenedCamera: TweenedCamera | undefined = undefined as any;

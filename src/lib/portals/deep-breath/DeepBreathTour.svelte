@@ -67,8 +67,6 @@
 	$: oceanWavesStep = $tourData && findTourStep($tourData, 'playOceanWavesSound');
 
 	// TODO move to `Tour.svelte` after audio is moved there
-	// TODO BLOCK need to run only on changes, right?
-	// TODO BLOCK handle nulls/undefined?
 	let lastPaused = paused;
 	$: if ($tourData && paused !== undefined && paused !== lastPaused) {
 		lastPaused = paused;
