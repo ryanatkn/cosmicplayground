@@ -6,7 +6,6 @@
 	import {type TourHooks, type TourData, updateAudioOnSeek, findTourStep} from '$lib/app/tour';
 	import {getSettings} from '$lib/app/settings';
 	import {getClock} from '$lib/app/clock';
-	import SoggyPlanetTourIntro from '$lib/portals/soggy-planet/SoggyPlanetTourIntro.svelte';
 	import SoggyPlanetTourTitle from '$lib/portals/soggy-planet/SoggyPlanetTourTitle.svelte';
 	import Tour from '$lib/app/Tour.svelte';
 	import type Camera from '$lib/app/Camera.svelte';
@@ -24,7 +23,6 @@
 	export let paused: boolean | undefined = undefined as any;
 	export let beginTour: (() => void) | undefined = undefined as any;
 	// owned by this component
-	export const showTourIntro: Writable<boolean> = writable(false);
 	export const showTourTitle: Writable<boolean> = writable(false);
 	export const showTourCredits: Writable<boolean> = writable(false);
 
@@ -82,10 +80,6 @@
 					if (audioEnabled) void mainSong.audio!.play();
 					break;
 				}
-				case 'showIntro': {
-					$showTourIntro = true;
-					return;
-				}
 				case 'showTitle': {
 					$showTourTitle = true;
 					return;
@@ -103,12 +97,10 @@
 			if (!mainSong.audio) throw Error('seek expects expected mainSong.audio');
 			if (!mainSongStep) throw Error('seek expects mainSongStep');
 			updateAudioOnSeek(mainSong.audio, mainSongStep, currentTime, audioEnabled, paused!);
-			$showTourIntro = false;
 			$showTourTitle = false;
 			$showTourCredits = false;
 		},
 		done: (_completed) => {
-			$showTourIntro = false;
 			$showTourTitle = false;
 			$showTourCredits = false;
 			if ($scale > 50) $scale = 50;
@@ -119,15 +111,6 @@
 
 {#if $touring}
 	<div class="tour">
-		{#if $showTourIntro}
-			<SoggyPlanetTourIntro
-				hide={() => ($showTourIntro = false)}
-				totalDuration={tourIntroTotalDuration}
-				transitionInDuration={tourIntroTransitionInDuration}
-				transitionOutDuration={tourIntroTransitionOutDuration}
-				maxDelay={tourIntroMaxDelay}
-			/>
-		{/if}
 		{#if $showTourTitle}
 			<SoggyPlanetTourTitle
 				hide={() => ($showTourTitle = false)}
