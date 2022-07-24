@@ -152,8 +152,8 @@
 	};
 
 	const resetSeaLevelInteractionState = () => {
-		selectedSeaLevel = null;
-		hoveredSeaLevel = null;
+		selectSeaLevel(null);
+		hoverSeaLevel(null);
 	};
 
 	// Make the two Earths tile seamlessly when possible.
