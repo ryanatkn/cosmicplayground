@@ -207,14 +207,12 @@
 	export const beginTour = (): void => {
 		if ($touring) cancel();
 		if (!$clock.running) clock.resume();
-		dispatchEvent('begin');
-		if (!$tourData) {
-			$tourData = createTourData();
-		}
+		$tourData = createTourData();
 		$currentTime = 0;
 		$currentStepIndex = 0;
 		finished = false;
 		$touring = true;
+		dispatchEvent('begin');
 		if (devMode) {
 			resetRenderStats();
 			if (debugStartTime) setTimeout(() => seekTimeTo(debugStartTime), 50);

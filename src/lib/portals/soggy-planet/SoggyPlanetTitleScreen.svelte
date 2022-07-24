@@ -64,7 +64,7 @@
 				Credits are below.
 			</p>
 			<p>
-				For a similar but different experience see <PortalLink slug="deep-breath" /> 🌚
+				For a different experience about sea level rise see <PortalLink slug="deep-breath" /> 🌚
 			</p>
 		</section>
 		<hr />

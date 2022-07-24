@@ -13,11 +13,14 @@
 	import {createResourcesStore} from '$lib/app/resources';
 	import {getSettings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
+	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import SoggyPlanetDevHud from '$lib/portals/soggy-planet/SoggyPlanetDevHud.svelte';
+	import SoggyPlanetTour from '$lib/portals/soggy-planet/SoggyPlanetTour.svelte';
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys} from '$lib/util/dom';
 	import Camera from '$lib/app/Camera.svelte';
+	import type Tour from '$lib/app/Tour.svelte';
 
 	const clock = getClock();
 
@@ -43,6 +46,9 @@
 
 	const settings = getSettings();
 	$: devMode = $settings.devMode;
+
+	let tour: Tour | undefined;
+	$: touring = tour ? tour.touring : null;
 
 	// TODO add auto pan button - share logic with Starlit Hanmmock and deep breath
 
@@ -134,6 +140,15 @@
 		hoveredSeaLevel = value;
 	};
 
+	const onBeginTour = () => {
+		selectLandIndex(null);
+		hoverLandIndex(null);
+		selectSeaLevel(14);
+		hoverSeaLevel(null);
+		selectDaylight(1);
+		hoverDaylight(null);
+	};
+
 	let selectedLandIndex: number | null = null;
 	let hoveredLandIndex: number | null = null;
 	$: activeLandIndex = hoveredLandIndex ?? selectedLandIndex ?? cycledLandIndex;
@@ -186,6 +201,7 @@
 		showTitleScreen = false;
 	};
 	const returnToTitleScreen = () => {
+		if ($touring) tour!.cancel();
 		showTitleScreen = true;
 	};
 	onMount(() => {
@@ -237,11 +253,15 @@
 					{activeSeaLevel}
 				/>
 			{/if}
+			<SoggyPlanetTour {camera} bind:tour on:begin={onBeginTour} />
 			<Hud>
-				{#if showHud}
+				{#if tour && $touring}
+					<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
+				{:else if showHud}
 					<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
 						⇦
 					</FloatingIconButton>
+				{:else}
 					<div class="hud-top-controls">
 						<FloatingIconButton
 							pressed={showHud}
@@ -251,41 +271,56 @@
 							∙∙∙
 						</FloatingIconButton>
 					</div>
-					<div class="hud-left-controls">
-						<DaylightHud
-							daylight={activeDaylight}
-							{selectedDaylight}
-							{selectDaylight}
-							{hoverDaylight}
-						/>
-						{#if devMode}
-							<SoggyPlanetDevHud
-								{x}
-								{y}
-								{scale}
-								togglePixiEarthViewer={(v) => (enablePixiEarthViewer = v)}
-								{enablePixiEarthViewer}
+				{/if}
+				{#if !$touring || devMode}
+					{#if showHud}
+						<div class="hud-top-controls">
+							<FloatingIconButton
+								pressed={showHud}
+								label="toggle hud controls"
+								on:click={onClickHudToggle}
+							>
+								∙∙∙
+							</FloatingIconButton>
+							{#if tour && !$touring}
+								<FloatingTextButton on:click={tour.beginTour}>tour</FloatingTextButton>
+							{/if}
+						</div>
+						<div class="hud-left-controls">
+							<DaylightHud
+								daylight={activeDaylight}
+								{selectedDaylight}
+								{selectDaylight}
+								{hoverDaylight}
+							/>
+							{#if devMode}
+								<SoggyPlanetDevHud
+									{x}
+									{y}
+									{scale}
+									togglePixiEarthViewer={(v) => (enablePixiEarthViewer = v)}
+									{enablePixiEarthViewer}
+								/>
+							{/if}
+						</div>
+						{#if !$touring}
+							<div class="month-wrapper">
+								<MonthHud
+									{activeLandIndex}
+									{selectedLandIndex}
+									{selectLandIndex}
+									{hoverLandIndex}
+								/>
+							</div>
+							<SeaLevelHud
+								seaLevel={activeSeaLevel}
+								{seaIndexMax}
+								{selectedSeaLevel}
+								{selectSeaLevel}
+								{hoverSeaLevel}
 							/>
 						{/if}
-					</div>
-					<div class="month-wrapper">
-						<MonthHud {activeLandIndex} {selectedLandIndex} {selectLandIndex} {hoverLandIndex} />
-					</div>
-					<SeaLevelHud
-						seaLevel={activeSeaLevel}
-						{seaIndexMax}
-						{selectedSeaLevel}
-						{selectSeaLevel}
-						{hoverSeaLevel}
-					/>
-				{:else}
-					<FloatingIconButton
-						pressed={showHud}
-						label="toggle hud controls"
-						on:click={onClickHudToggle}
-					>
-						∙∙∙
-					</FloatingIconButton>
+					{/if}
 				{/if}
 			</Hud>
 		{:else}
