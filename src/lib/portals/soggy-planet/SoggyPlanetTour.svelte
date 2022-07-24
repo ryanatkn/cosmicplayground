@@ -38,7 +38,7 @@
 	$: audioEnabled = $settings.audioEnabled;
 
 	const tourResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
-	const mainSongUrl = '/assets/audio/Alexander_Nakarada__Winter.mp3';
+	const mainSongUrl = '/assets/audio/Alexander_Nakarada__Piña_Colada.mp3';
 	const oceanWavesSoundUrl = '/assets/audio/ocean_waves.mp3';
 	// TODO maybe `addResource` should return a store per resource,
 	// and then we can remove the next line `$: mainSong = ...`
