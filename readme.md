@@ -15,6 +15,11 @@ It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
   grants access to some early previews of stuff.
 - [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
   where sea levels rise and fall and the lights of civilization shine through the night.
+  It displays sea levels roughly between the
+  [lowest point during the last glacial maximum](https://wikipedia.org/wiki/Past_sea_level)
+  before the
+  [early Holocene sea level rise](https://wikipedia.org/wiki/Early_Holocene_sea_level_rise)
+  and the [estimated possible maximum](https://wikipedia.org/wiki/Sea_level_rise).
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies.

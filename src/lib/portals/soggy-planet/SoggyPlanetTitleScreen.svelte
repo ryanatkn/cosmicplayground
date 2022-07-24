@@ -41,7 +41,7 @@
 		<section class="markup">
 			<p>
 				Soggy Planet is an interactive map of Earth where sea levels rise and fall and the lights of
-				civilization shine through the night. It roughly displays sea levels between the <a
+				civilization shine through the night. It displays sea levels roughly between the <a
 					href="https://wikipedia.org/wiki/Past_sea_level"
 					>lowest point during the last glacial maximum</a
 				>
