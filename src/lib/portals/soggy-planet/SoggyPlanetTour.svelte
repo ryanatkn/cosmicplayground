@@ -42,15 +42,6 @@
 	tourResources.addResource('audio', mainSongUrl);
 	let mainSong: AudioResource;
 	$: mainSong = $tourResources.resources.find((r) => r.url === mainSongUrl) as any; // TODO faster API, or maybe remove (see comment above)
-	const tourIntroTransitionInDuration = 2000;
-	const tourIntroTransitionOutDuration = 2000;
-	const tourIntroPauseDuration = 3000;
-	const tourIntroMaxDelay = 6000;
-	const tourIntroTotalDuration =
-		tourIntroTransitionInDuration +
-		tourIntroMaxDelay +
-		tourIntroPauseDuration +
-		tourIntroTransitionOutDuration;
 	const tourTitleTransitionDuration = 2000;
 	const tourTitlePauseDuration = 3000;
 	const tourTitleMaxDelay = 250;
@@ -61,7 +52,7 @@
 
 	// TODO move to `Tour.svelte` after audio is moved there
 	let lastPaused = paused;
-	$: if ($tourData && paused !== undefined && paused !== lastPaused) {
+	$: if ($touring && paused !== undefined && paused !== lastPaused) {
 		lastPaused = paused;
 		updatePaused(paused);
 	}
@@ -128,8 +119,8 @@
 	{camera}
 	{clock}
 	{hooks}
-	createTourData={() =>
-		createSoggyPlanetTourData(tourIntroTotalDuration, tourTitleTotalDuration, devMode)}
+	createTourData={() => createSoggyPlanetTourData(tourTitleTotalDuration, devMode)}
+	on:begin
 	bind:this={tour}
 	bind:touring
 	bind:tourData

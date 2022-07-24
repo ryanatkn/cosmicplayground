@@ -21,11 +21,7 @@ import {createTourBuilder} from '$lib/app/tourBuilder';
 // I'll probably make a visual authoring tool,
 // maybe with bezier curves or camera physics.
 
-export const createSoggyPlanetTourData = (
-	introDuration: number,
-	titleDuration: number,
-	devMode = false,
-): TourData => {
+export const createSoggyPlanetTourData = (titleDuration: number, devMode = false): TourData => {
 	const b = createTourBuilder();
 
 	const tBase = 1000;
@@ -65,9 +61,9 @@ export const createSoggyPlanetTourData = (
 		b.zoom(zoomStart, 1000);
 		b.wait();
 	}
-	b.event('showIntro'); // lasts `introDuration`
-	b.wait(introDuration);
+	b.event('showTitle');
 	b.event('playMainSong'); // TODO this is a synchronous event- should it have a different API?
+	b.wait(titleDuration);
 	b.wait(1900);
 
 	// -> slowly pan to the east African coast while zooming out
@@ -473,7 +469,6 @@ export const createSoggyPlanetTourData = (
 	b.event('showTitle');
 	b.wait(titleDuration);
 	b.event('showCredits');
-	b.event('playOceanWavesSound');
 	b.wait(1000000000); // let the user manually end it, or wait a million seconds
 	b.zoomBy(1, 0); // TODO this is a hack, needed because `wait` steps don't prolong the end
 

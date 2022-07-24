@@ -7,7 +7,7 @@
 	<section class="column">
 		<h1>gravity unlock</h1>
 		<ul class="markup">
-			<li><a href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a></li>
+			<!-- <li><a href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a></li> -->
 			<li><a href="/gravity-unlock/studio">studio</a></li>
 			<li><a href="/gravity-unlock/atlas">atlas</a></li>
 		</ul>

@@ -151,7 +151,10 @@
 		hoveredSeaLevel = value;
 	};
 
-	const resetSeaLevelInteractionState = () => {
+	const onBeginTour = () => {
+		console.log('BEGIN TOUR');
+		selectLandIndex(null);
+		hoverLandIndex(null);
 		selectSeaLevel(null);
 		hoverSeaLevel(null);
 	};
@@ -220,7 +223,7 @@
 					{activeSeaLevel}
 				/>
 			{/if}
-			<DeepBreathTour {camera} bind:tour on:begin={resetSeaLevelInteractionState} />
+			<DeepBreathTour {camera} bind:tour on:begin={onBeginTour} />
 			<Hud>
 				{#if tour && $touring}
 					<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>

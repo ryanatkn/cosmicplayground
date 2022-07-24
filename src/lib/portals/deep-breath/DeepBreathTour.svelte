@@ -68,7 +68,7 @@
 
 	// TODO move to `Tour.svelte` after audio is moved there
 	let lastPaused = paused;
-	$: if ($tourData && paused !== undefined && paused !== lastPaused) {
+	$: if ($touring && paused !== undefined && paused !== lastPaused) {
 		lastPaused = paused;
 		updatePaused(paused);
 	}
@@ -168,6 +168,7 @@
 	{hooks}
 	createTourData={() =>
 		createDeepBreathTourData(tourIntroTotalDuration, tourTitleTotalDuration, devMode)}
+	on:begin
 	bind:this={tour}
 	bind:touring
 	bind:tourData

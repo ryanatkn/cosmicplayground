@@ -140,10 +140,12 @@
 		hoveredSeaLevel = value;
 	};
 
-	const resetSeaLevelInteractionState = () => {
-		selectSeaLevel(null);
+	const onBeginTour = () => {
+		selectLandIndex(null);
+		hoverLandIndex(null);
+		selectSeaLevel(14);
 		hoverSeaLevel(null);
-		selectDaylight(null);
+		selectDaylight(1);
 		hoverDaylight(null);
 	};
 
@@ -251,7 +253,7 @@
 					{activeSeaLevel}
 				/>
 			{/if}
-			<SoggyPlanetTour {camera} bind:tour on:begin={resetSeaLevelInteractionState} />
+			<SoggyPlanetTour {camera} bind:tour on:begin={onBeginTour} />
 			<Hud>
 				{#if tour && $touring}
 					<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
