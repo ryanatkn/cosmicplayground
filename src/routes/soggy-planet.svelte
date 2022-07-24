@@ -99,7 +99,11 @@
 	// Earth's sea
 	const seaImages = Array.from({length: 3}, (_, i) => `/assets/earth/sea_${i + 1}.png`);
 	// Earth's shores beneath the current sea level
-	const shoreImages = Array.from({length: 10}, (_, i) => `/assets/earth/shore_${10 - i}.png`);
+	const SHORE_COUNT = 13;
+	const shoreImages = Array.from(
+		{length: SHORE_COUNT},
+		(_, i) => `/assets/earth/shore_${SHORE_COUNT - i}.png`,
+	);
 	const seashoreFloorIndex = shoreImages.length;
 	const seaIndexMax = seaImages.length + shoreImages.length - 1;
 	const SEA_LEVEL_CYCLE_TIMER = 1000; // larger is slower
