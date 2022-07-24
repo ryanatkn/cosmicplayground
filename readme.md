@@ -31,7 +31,7 @@ It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
     compares all easings on a single screen
   - [Easing Function Visualizations and Auralizations](https://www.cosmicplayground.org/easings-2)
     focuses on one function at a time with bigger visuals and a tweakable audio representation
-    ([auralization](https://en.wikipedia.org/wiki/Auralization))
+    ([auralization](https://wikipedia.org/wiki/Auralization))
 - several odd and partially finished things, some of which require audio to make sense,
   and some might not work (or not well) on mobile
 

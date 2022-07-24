@@ -19,7 +19,7 @@ export const rgbToHex = (r: number, g: number, b: number): number => (r << 16) +
 
 /**
  * Converts an RGB color value to HSL. Conversion formula
- * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+ * adapted from http://wikipedia.org/wiki/HSL_color_space.
  * Values r/g/b are in the range [0,255] and
  * returns h/s/l in the range [0,1].
  */
@@ -54,7 +54,7 @@ export const rgbToHsl = (r: number, g: number, b: number): Hsl => {
 
 /**
  * Converts an HSL color value to RGB. Conversion formula
- * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+ * adapted from http://wikipedia.org/wiki/HSL_color_space.
  * Values h/s/l are in the range [0,1] and
  * returns r/g/b in the range [0,255].
  */
