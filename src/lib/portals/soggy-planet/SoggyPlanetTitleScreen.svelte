@@ -53,7 +53,7 @@
 				<a href="https://wikipedia.org/wiki/Sea_level_rise">estimated possible maximum</a>.
 			</p>
 			<p>
-				This page is not mobile friendly! It may also be slow depending on your hardware and
+				This page is not mobile friendly! Darn. It may also be slow depending on your hardware and
 				browser. See <a href="https://github.com/cosmicplayground/cosmicplayground/issues/56"
 					>this performance issue on GitHub</a
 				>.
