@@ -211,6 +211,8 @@
 			void resources.load();
 		}
 	});
+
+	const DISABLED_UNTIL_READY = true;
 </script>
 
 <svelte:window on:keydown={onKeyDown} />
@@ -282,7 +284,7 @@
 							>
 								∙∙∙
 							</FloatingIconButton>
-							{#if tour && !$touring}
+							{#if !DISABLED_UNTIL_READY && tour && !$touring}
 								<FloatingTextButton on:click={tour.beginTour}>tour</FloatingTextButton>
 							{/if}
 						</div>
