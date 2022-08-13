@@ -28,9 +28,8 @@
 		<h2>About</h2>
 		<p>
 			Cosmicplayground is a hobby project exploring some tools and toys using web technology for fun
-			and learning. It's being developed in public with an open community and open source code. Join
-			us if you want to improve your webdev skills with Svelte, SvelteKit, and TypeScript while
-			making games in space!
+			and learning. It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and <em>space</em>.
+			Read on for the full credits.
 		</p>
 		<!-- <p>See also:</p>
 		<ul>
