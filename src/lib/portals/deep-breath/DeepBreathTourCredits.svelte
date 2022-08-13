@@ -17,10 +17,10 @@
 	<section in:blur={{duration: transitionDuration, amount: blurAmount}}>
 		<h2>created by</h2>
 		Ryan Atkinson<br />
-		<a href="https://twitter.com/blitwagon">
-			@blitwagon <img
+		<a href="https://twitter.com/ryanatkn">
+			@ryanatkn <img
 				src="/assets/characters/twit.png"
-				alt="@blitwagon on Twitter"
+				alt="@ryanatkn on Twitter"
 				style="opacity: 0.8;"
 				width="64"
 				height="64"
@@ -35,7 +35,7 @@
 				style="margin: 0 16px 0 4px; opacity: 0.8;"
 			/>
 		</a>
-		<a href="https://www.ryanatkn.com">blitwagon.net</a>
+		<a href="https://www.ryanatkn.com">ryanatkn.com</a>
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 1, amount: blurAmount}}>
 		<h2>interactive webpage</h2>

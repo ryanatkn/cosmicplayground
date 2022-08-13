@@ -104,6 +104,6 @@ graphics, audio, and other non-code assets,
 see [cosmicplayground.org/about](https://www.cosmicplayground.org/about).
 
 made with the help of infinite turtles ∙
-[blitwagon.net](https://www.ryanatkn.com)
+[ryanatkn.com](https://www.ryanatkn.com)
 
 [![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
