@@ -27,9 +27,9 @@
     "svelte"
   ],
   "author": {
-    "name": "Blit Wagon",
-    "email": "blitwagon@gmail.com",
-    "url": "https://www.blitwagon.net"
+    "name": "Ryan Atkinson",
+    "email": "mail@ryanatkn.com",
+    "url": "https://www.ryanatkn.com"
   },
   "engines": {
     "node": ">=18.6"
