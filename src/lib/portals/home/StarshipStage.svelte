@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {swallow} from '@feltcoop/felt/util/dom.js';
+	import {swallow} from '@feltcoop/util/dom.js';
 	import type {Writable} from 'svelte/store';
 
 	import World from '$lib/flat/World.svelte';

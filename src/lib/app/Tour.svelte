@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
 	import {createEventDispatcher, onDestroy} from 'svelte';
-	import {swallow} from '@feltcoop/felt/util/dom.js';
-	import {UnreachableError} from '@feltcoop/felt/util/error.js';
+	import {swallow} from '@feltcoop/util/dom.js';
+	import {UnreachableError} from '@feltcoop/util/error.js';
 
 	import {getSettings} from '$lib/app/settings';
 	import {resetRenderStats, getRenderStats} from '$lib/app/renderStats';

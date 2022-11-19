@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '@feltcoop/felt/ui/style.css';
+	import '@feltcoop/felt/style.css';
 	import '$lib/app/style.css';
 	import '$lib/app/style-utilities.css';
 
@@ -10,7 +10,7 @@
 	import {page} from '$app/stores';
 	import {goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
-	import {swallow} from '@feltcoop/felt/util/dom.js';
+	import {swallow} from '@feltcoop/util/dom.js';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg';
 	import {PixiApp, setPixi} from '$lib/app/pixi';

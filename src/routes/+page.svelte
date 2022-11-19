@@ -1,10 +1,10 @@
 <script lang="ts">
 	import {tick} from 'svelte';
 	import {wait} from '@feltcoop/felt';
-	import {EMPTY_ARRAY} from '@feltcoop/felt/util/array.js';
-	import PendingAnimation from '@feltcoop/felt/ui/PendingAnimation.svelte';
+	import {EMPTY_ARRAY} from '@feltcoop/util/array.js';
+	import PendingAnimation from '@feltcoop/felt/PendingAnimation.svelte';
 	import {dequal} from 'dequal/lite';
-	import {swallow} from '@feltcoop/felt/util/dom.js';
+	import {swallow} from '@feltcoop/util/dom.js';
 
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import StarshipPreview from '$lib/portals/home/Preview.svelte';

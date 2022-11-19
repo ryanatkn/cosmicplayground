@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type {AsyncStatus} from '@feltcoop/felt';
-	import PendingAnimation from '@feltcoop/felt/ui/PendingAnimation.svelte';
+	import PendingAnimation from '@feltcoop/felt/PendingAnimation.svelte';
 
 	export let status: AsyncStatus = 'pending'; // 'initial' is unhandled
 

@@ -1,4 +1,4 @@
-import {randomFloat} from '@feltcoop/felt/util/random.js';
+import {randomFloat} from '@feltcoop/util/random.js';
 import {klona} from 'klona/json';
 import {get, writable, type Writable} from 'svelte/store';
 import {dequal} from 'dequal/lite';

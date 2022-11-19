@@ -1,5 +1,5 @@
 import type {Flavored} from '@feltcoop/felt';
-import {toRandomSeeded, type Alea} from '@feltcoop/felt/util/randomSeeded.js';
+import {toRandomSeeded, type Alea} from '@feltcoop/util/randomSeeded.js';
 import * as Pixi from 'pixi.js';
 import {Collisions} from '@ryanatkn/collisions';
 

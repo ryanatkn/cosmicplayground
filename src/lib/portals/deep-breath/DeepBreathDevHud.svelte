@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type {Writable} from 'svelte/store';
-	import {round} from '@feltcoop/felt/util/maths.js';
+	import {round} from '@feltcoop/util/maths.js';
 
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import TourControls from '$lib/app/TourControls.svelte';

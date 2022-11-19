@@ -1,7 +1,7 @@
 import {test} from 'uvu';
 import * as t from 'uvu/assert';
 import {Collisions} from '@ryanatkn/collisions';
-import {noop} from '@feltcoop/felt/util/function.js';
+import {noop} from '@feltcoop/util/function.js';
 
 import {Simulation} from '$lib/flat/Simulation.js';
 

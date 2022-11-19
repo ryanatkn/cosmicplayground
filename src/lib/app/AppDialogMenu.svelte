@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Breadcrumbs from '@feltcoop/felt/ui/Breadcrumbs.svelte';
+	import Breadcrumbs from '@feltcoop/felt/Breadcrumbs.svelte';
 	import {page} from '$app/stores';
 
 	import Panel from '$lib/app/Panel.svelte';

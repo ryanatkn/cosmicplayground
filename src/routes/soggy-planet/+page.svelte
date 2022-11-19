@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {onMount} from 'svelte';
-	import {randomFloat} from '@feltcoop/felt/util/random.js';
-	import {swallow} from '@feltcoop/felt/util/dom.js';
+	import {randomFloat} from '@feltcoop/util/random.js';
+	import {swallow} from '@feltcoop/util/dom.js';
 
 	import SoggyPlanetTitleScreen from '$lib/portals/soggy-planet/SoggyPlanetTitleScreen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
