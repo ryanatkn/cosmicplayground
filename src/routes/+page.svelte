@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {tick} from 'svelte';
-	import {wait} from '@feltcoop/felt';
+	import {wait} from '@feltcoop/util/async.js';
 	import {EMPTY_ARRAY} from '@feltcoop/util/array.js';
 	import PendingAnimation from '@feltcoop/felt/PendingAnimation.svelte';
 	import {dequal} from 'dequal/lite';

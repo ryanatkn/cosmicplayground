@@ -1,5 +1,5 @@
 import {writable, type Readable} from 'svelte/store';
-import type {AsyncStatus} from '@feltcoop/felt';
+import type {AsyncStatus} from '@feltcoop/util/async.js';
 import {UnreachableError} from '@feltcoop/util/error.js';
 
 /*

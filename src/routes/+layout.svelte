@@ -4,7 +4,7 @@
 	import '$lib/app/style-utilities.css';
 
 	import {onMount} from 'svelte';
-	import type {AsyncStatus} from '@feltcoop/felt';
+	import type {AsyncStatus} from '@feltcoop/util/async.js';
 	import {browser} from '$app/env';
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
