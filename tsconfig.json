@@ -15,10 +15,10 @@
 		"noImplicitReturns": true,
 		"noImplicitOverride": true,
 		"noFallthroughCasesInSwitch": true,
+		"allowSyntheticDefaultImports": true,
 		"resolveJsonModule": true,
 		"sourceMap": true,
 		"importHelpers": true,
-		"skipLibCheck": true,
 		"checkJs": true,
 		"preserveValueImports": true
 	}

@@ -4,12 +4,9 @@ import adapter from '@sveltejs/adapter-static';
 /** @type {import('@sveltejs/kit').Config} */
 export default {
 	preprocess: typescript(),
-	compilerOptions: {
-		immutable: true,
-	},
+	compilerOptions: {immutable: true},
 	kit: {
 		adapter: adapter(),
 		files: {assets: 'src/static'},
-		prerender: {default: true},
 	},
 };
