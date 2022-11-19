@@ -20,6 +20,7 @@
 <div
 	class="under-construction"
 	style="width: {$dimensions.width}px; height: {$dimensions.height}px;"
+	aria-hidden
 >
 	<div style={`transform: scale3d(${scale}, ${scale}, 1);`}>
 		<div style={`width: ${maxWidth}px; height: ${maxHeight}px;`}>
@@ -258,6 +259,7 @@
 						class="absolute cursor-none"
 						style="left: 56px; top: 68px;"
 						on:click={() => window.open('https://www.spiderspace.org')}
+						aria-hidden
 					/>
 				</div>
 			</div>

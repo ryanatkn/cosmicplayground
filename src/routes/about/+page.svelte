@@ -72,6 +72,7 @@
 		<CreditsProjectSignature />
 		<div style="position: relative; cursor: none; height: 0">
 			<img
+				aria-hidden
 				src="/assets/characters/spider.png"
 				alt="spider"
 				style="position: absolute; bottom: -33px; right: -29px;"
