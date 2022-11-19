@@ -69,6 +69,8 @@
 	--interactive_color_lighter: #000;
 	--interactive_color_hover: #000;
 	--interactive_color_disabled: #00;
+	--button_color_hover: var(--tint_light_1);
+	--button_color_active: var(--tint_light_2);
 }
 
 html {
