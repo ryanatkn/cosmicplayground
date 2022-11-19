@@ -31,29 +31,6 @@
 			and learning. It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and <em>space</em>.
 			Read on for the full credits.
 		</p>
-		<!-- <p>See also:</p>
-		<ul>
-			<li>
-				forkable game and creative educational environment at <a
-					href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a
-				>
-				(<a href="https://github.com/cosmicplayground/flat">source</a>)
-			</li>
-			<li>
-				community at <a href="https://www.cosmicplayground.dev">cosmicplayground.dev</a>
-				(<a href="https://github.com/cosmicplayground/community">source</a>)
-			</li> -->
-		<!-- <li>
-				learn more about <a
-					href="https://github.com/cosmicplayground/community/blob/main/contributing.md"
-					>contributing</a
-				>
-				and our
-				<a href="https://github.com/cosmicplayground/community/blob/main/code_of_conduct.md"
-					>code of conduct</a
-				>
-			</li> -->
-		<!-- </ul> -->
 	</Panel>
 	<Panel>
 		<CreditsProjectSignature />

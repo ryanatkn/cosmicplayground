@@ -41,7 +41,6 @@ It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
   and some might not work (or not well) on mobile
 
 > learn more [about cosmicplayground](https://www.cosmicplayground.org/about)
-> and [its community](https://github.com/cosmicplayground/community)
 
 [![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
 
