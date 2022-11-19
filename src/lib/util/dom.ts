@@ -1,4 +1,4 @@
-import {isEditable} from '@feltcoop/felt/util/dom.js';
+import {isEditable} from '@feltcoop/util/dom.js';
 import {tick} from 'svelte';
 
 export const enableGlobalHotkeys = (target: unknown): boolean =>

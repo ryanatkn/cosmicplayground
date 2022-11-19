@@ -1,4 +1,4 @@
-import {mapRecord} from '@feltcoop/felt/util/object.js';
+import {mapRecord} from '@feltcoop/util/object.js';
 
 import {hslToStr, type Hsl, type Hue} from '$lib/util/colors.js'; // TODO maybe this belongs somewhere elase - a `colorsAndMusic` module?
 import {midis, isMidi, type Midi} from '$lib/music/midi.js';

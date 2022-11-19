@@ -21,6 +21,7 @@
 	bind:this={waterLevelEl}
 	class:selected={selectedSeaLevel !== null}
 	on:click={(e) => selectSeaLevel(selectedSeaLevel === null ? getSeaLevel(e.clientY) : null)}
+	aria-hidden
 	on:mouseenter={(e) => hoverSeaLevel(getSeaLevel(e.clientY))}
 	on:mousemove={(e) => hoverSeaLevel(getSeaLevel(e.clientY))}
 	on:mouseleave={() => hoverSeaLevel(null)}

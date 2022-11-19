@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {createEventDispatcher, onMount} from 'svelte';
-	import {swallow} from '@feltcoop/felt/util/dom.js';
+	import {swallow} from '@feltcoop/util/dom.js';
 
 	import {initialStageData, type StageData} from '$lib/portals/gravity-unlock/stage';
 	import GravityUnlockStage from '$lib/portals/gravity-unlock/GravityUnlockStage.svelte';

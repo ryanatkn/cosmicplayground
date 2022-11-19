@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {round} from '@feltcoop/felt/util/maths.js';
+	import {round} from '@feltcoop/util/maths.js';
 
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import type Tour from '$lib/app/Tour.svelte';

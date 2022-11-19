@@ -1,14 +1,12 @@
 <script lang="ts">
-	import {tweened} from 'svelte/motion';
-	import {cubicInOut} from 'svelte/easing';
 	import {onMount} from 'svelte';
-	import {randomFloat} from '@feltcoop/felt/util/random.js';
-	import {swallow} from '@feltcoop/felt/util/dom.js';
+	import {randomFloat} from '@feltcoop/util/random.js';
+	import {swallow} from '@feltcoop/util/dom.js';
 
-	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
-	import DeepBreathTour from '$lib/portals/deep-breath/DeepBreathTour.svelte';
+	import SoggyPlanetTitleScreen from '$lib/portals/soggy-planet/SoggyPlanetTitleScreen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
+	import DaylightHud from '$lib/app/DaylightHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import EarthViewerDom from '$lib/app/EarthViewerDom.svelte';
 	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
@@ -16,7 +14,8 @@
 	import {getSettings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import DeepBreathDevHud from '$lib/portals/deep-breath/DeepBreathDevHud.svelte';
+	import SoggyPlanetDevHud from '$lib/portals/soggy-planet/SoggyPlanetDevHud.svelte';
+	import SoggyPlanetTour from '$lib/portals/soggy-planet/SoggyPlanetTour.svelte';
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys} from '$lib/util/dom';
@@ -48,15 +47,10 @@
 	const settings = getSettings();
 	$: devMode = $settings.devMode;
 
-	const debugStartTime = 0; // ~0-300000
-
-	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
-	const resources = createResourcesStore();
-
 	let tour: Tour | undefined;
 	$: touring = tour ? tour.touring : null;
 
-	// TODO add auto pan button - share logic with Starlit Hanmmock and soggy planet
+	// TODO add auto pan button - share logic with Starlit Hanmmock and deep breath
 
 	let showHud = true;
 	const toggleHud = (value = !showHud) => {
@@ -65,13 +59,10 @@
 
 	let enablePixiEarthViewer = true; // old slow DOM version is available
 
-	$: inputEnabled = !$touring;
-
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
 		if (showTitleScreen) return;
 		// map screen
-		if (!inputEnabled) return;
 		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			swallow(e);
 			returnToTitleScreen();
@@ -90,51 +81,80 @@
 	const landImages = Array.from({length: 12}, (_, i) => `/assets/earth/land_${i + 1}.png`);
 	let cycledLandValue = 0;
 	$: cycledLandIndex = Math.floor(cycledLandValue);
-	const landDelay = 230;
-	let landTimer = 0;
+
+	// Earth's lights
+	const LIGHTS_IMAGE = `/assets/earth/lights.png`;
+	const LIGHTS_OPACITY_MIN = 0;
+	const LIGHTS_OPACITY_MAX = 0.91;
+	const LIGHTS_OPACITY_CYCLE_TIMER = 3000; // larger is slower
+	let lightsOpacity = LIGHTS_OPACITY_MIN;
+	let lightsTimer = LIGHTS_OPACITY_CYCLE_TIMER * 1.7;
+	$: if (selectedDaylight === null) lightsTimer += $clock.dt;
+	$: lightsOpacity = toLightsOpacity(lightsTimer);
+	const toLightsOpacity = (time: number): number =>
+		LIGHTS_OPACITY_MIN +
+		((LIGHTS_OPACITY_MAX - LIGHTS_OPACITY_MIN) *
+			(Math.sin(time / LIGHTS_OPACITY_CYCLE_TIMER) + 1)) /
+			2;
+	// TODO would be cool to have nightfall overlay the shape of the real thing, not global
+	$: nightfallOpacity = (activeDaylight - LIGHTS_OPACITY_MIN) * 0.48;
+
+	// TODO this is weird because the shore images were bolted on after the fact.
+	// Refactoring the sea images to have a single base and later the second/third above would be ideal
 
 	// Earth's sea
 	const seaImages = Array.from({length: 3}, (_, i) => `/assets/earth/sea_${i + 1}.png`);
-	const seaImageCount = seaImages.length;
-	const seaIndexMax = seaImageCount - 1;
-	const seaTimerMax = 1000; // this and the tour movement/pauses are in whole seconds
-	let seaTimer = seaTimerMax;
-	const seaLevel = tweened(0, {easing: cubicInOut, duration: seaTimerMax});
-	let currentSeaIndex = 0;
-	const seaIndexValues = [0, 1].map((v) => Math.round(v * seaIndexMax));
-	const nextSeaIndex = () => {
-		if (currentSeaIndex >= seaIndexValues.length - 1) {
-			currentSeaIndex = 0;
-		} else {
-			currentSeaIndex++;
-		}
-		const newSeaIndex = seaIndexValues[currentSeaIndex];
-		$seaLevel = newSeaIndex;
-	};
+	// Earth's shores beneath the current sea level
+	const SHORE_COUNT = 13;
+	const shoreImages = Array.from(
+		{length: SHORE_COUNT},
+		(_, i) => `/assets/earth/shore_${SHORE_COUNT - i}.png`,
+	);
+	const seashoreFloorIndex = shoreImages.length;
+	const seaIndexMax = seaImages.length + shoreImages.length - 1;
+	const SEA_LEVEL_CYCLE_TIMER = 1000; // larger is slower
+	let seaLevelTimer = SEA_LEVEL_CYCLE_TIMER * 2.5;
+	$: if (selectedSeaLevel === null && hoveredSeaLevel === null) {
+		seaLevelTimer += $clock.dt;
+	}
+	const toSeaLevel = (time: number): number =>
+		(seaIndexMax * (Math.sin(time / SEA_LEVEL_CYCLE_TIMER) + 1)) / 2;
+	let seaLevel = toSeaLevel(seaLevelTimer);
+	$: seaLevel = toSeaLevel(seaLevelTimer);
 
 	// update every clock tick
+	const LAND_DELAY = 230;
+	let landTimer = 0;
 	$: if (selectedLandIndex === null && hoveredLandIndex === null) {
 		landTimer += $clock.dt;
-		cycledLandValue = (landTimer / landDelay) % landImages.length;
-	}
-	$: if (selectedSeaLevel === null && hoveredSeaLevel === null) {
-		seaTimer -= $clock.dt;
-		if (seaTimer <= 0) {
-			seaTimer = seaTimerMax;
-			nextSeaIndex();
-		}
+		cycledLandValue = (landTimer / LAND_DELAY) % landImages.length;
 	}
 
 	let selectedSeaLevel: number | null = null;
 	let hoveredSeaLevel: number | null = null;
-	$: activeSeaLevel = hoveredSeaLevel ?? selectedSeaLevel ?? $seaLevel;
+	$: activeSeaLevel = hoveredSeaLevel ?? selectedSeaLevel ?? seaLevel;
+	const selectSeaLevel = (value: number | null) => {
+		selectedSeaLevel = value;
+	};
+	const hoverSeaLevel = (value: number | null) => {
+		hoveredSeaLevel = value;
+	};
+
+	const onBeginTour = () => {
+		selectLandIndex(null);
+		hoverLandIndex(null);
+		selectSeaLevel(14);
+		hoverSeaLevel(null);
+		selectDaylight(1);
+		hoverDaylight(null);
+	};
+
 	let selectedLandIndex: number | null = null;
 	let hoveredLandIndex: number | null = null;
 	$: activeLandIndex = hoveredLandIndex ?? selectedLandIndex ?? cycledLandIndex;
 	$: activeLandValue = activeLandIndex === cycledLandIndex ? cycledLandValue : activeLandIndex;
-
 	const setCycledLandValue = (value: number) => {
-		landTimer = landDelay * value;
+		landTimer = LAND_DELAY * value;
 	};
 	const selectLandIndex = (index: number | null) => {
 		selectedLandIndex = index;
@@ -144,19 +164,15 @@
 		hoveredLandIndex = index;
 		if (index !== null) setCycledLandValue(index);
 	};
-	const selectSeaLevel = (value: number | null) => {
-		selectedSeaLevel = value;
-	};
-	const hoverSeaLevel = (value: number | null) => {
-		hoveredSeaLevel = value;
-	};
 
-	const onBeginTour = () => {
-		console.log('BEGIN TOUR');
-		selectLandIndex(null);
-		hoverLandIndex(null);
-		selectSeaLevel(null);
-		hoverSeaLevel(null);
+	let selectedDaylight: number | null = null;
+	let hoveredDaylight: number | null = null;
+	$: activeDaylight = hoveredDaylight ?? selectedDaylight ?? lightsOpacity;
+	const selectDaylight = (value: number | null) => {
+		selectedDaylight = value;
+	};
+	const hoverDaylight = (value: number | null) => {
+		hoveredDaylight = value;
 	};
 
 	// Make the two Earths tile seamlessly when possible.
@@ -165,15 +181,19 @@
 	// but that's currently out of scope for this project.
 	let earth1LeftOffset: number;
 	let earth2LeftOffset: number;
-	$: if (x) {
+	$: {
 		const xOffsetIndex = Math.floor($x! / imageWidth);
 		earth1LeftOffset = xOffsetIndex * imageWidth;
 		const xOffsetOverflow = $x! / imageWidth - xOffsetIndex;
 		earth2LeftOffset = earth1LeftOffset + imageWidth * (xOffsetOverflow < 0.5 ? -1 : 1);
 	}
 
+	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
+	const resources = createResourcesStore();
 	landImages.forEach((url) => resources.addResource('image', url));
 	seaImages.forEach((url) => resources.addResource('image', url));
+	shoreImages.forEach((url) => resources.addResource('image', url));
+	resources.addResource('image', LIGHTS_IMAGE);
 
 	// in dev mode, bypass the title screen for convenience
 	let showTitleScreen = true;
@@ -191,6 +211,8 @@
 			void resources.load();
 		}
 	});
+
+	const DISABLED_UNTIL_READY = true;
 </script>
 
 <svelte:window on:keydown={onKeyDown} />
@@ -198,32 +220,42 @@
 <Camera bind:this={camera} {initialX} {initialY} {initialWidth} {initialHeight} />
 
 {#if camera && x && y && scale}
-	<div class="deep-breath">
+	<div class="soggy-planet">
 		{#if !showTitleScreen && $resources.status === 'success'}
 			{#if enablePixiEarthViewer}
 				<EarthViewerPixi
 					{camera}
 					{landImages}
 					{seaImages}
+					{shoreImages}
+					{seashoreFloorIndex}
+					lightsImage={LIGHTS_IMAGE}
+					lightsOpacity={activeDaylight}
+					{nightfallOpacity}
+					showLights={true}
 					{activeLandValue}
 					{activeSeaLevel}
-					{inputEnabled}
 					{imageWidth}
 					{imageHeight}
 				/>
 			{:else}
 				<EarthViewerDom
 					{camera}
-					{inputEnabled}
 					{earth1LeftOffset}
 					{earth2LeftOffset}
 					{landImages}
 					{seaImages}
+					{shoreImages}
+					{seashoreFloorIndex}
+					lightsImage={LIGHTS_IMAGE}
+					lightsOpacity={activeDaylight}
+					{nightfallOpacity}
+					showLights={true}
 					{activeLandValue}
 					{activeSeaLevel}
 				/>
 			{/if}
-			<DeepBreathTour {camera} bind:tour on:begin={onBeginTour} />
+			<SoggyPlanetTour {camera} bind:tour on:begin={onBeginTour} />
 			<Hud>
 				{#if tour && $touring}
 					<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
@@ -232,13 +264,15 @@
 						⇦
 					</FloatingIconButton>
 				{:else}
-					<FloatingIconButton
-						pressed={showHud}
-						label="toggle hud controls"
-						on:click={onClickHudToggle}
-					>
-						∙∙∙
-					</FloatingIconButton>
+					<div class="hud-top-controls">
+						<FloatingIconButton
+							pressed={showHud}
+							label="toggle hud controls"
+							on:click={onClickHudToggle}
+						>
+							∙∙∙
+						</FloatingIconButton>
+					</div>
 				{/if}
 				{#if !$touring || devMode}
 					{#if showHud}
@@ -250,20 +284,24 @@
 							>
 								∙∙∙
 							</FloatingIconButton>
-							{#if tour && !$touring}
+							{#if !DISABLED_UNTIL_READY && tour && !$touring}
 								<FloatingTextButton on:click={tour.beginTour}>tour</FloatingTextButton>
 							{/if}
 						</div>
 						<div class="hud-left-controls">
+							<DaylightHud
+								daylight={activeDaylight}
+								{selectedDaylight}
+								{selectDaylight}
+								{hoverDaylight}
+							/>
 							{#if devMode}
-								<DeepBreathDevHud
-									tour={tour || null}
+								<SoggyPlanetDevHud
 									{x}
 									{y}
 									{scale}
 									togglePixiEarthViewer={(v) => (enablePixiEarthViewer = v)}
 									{enablePixiEarthViewer}
-									{debugStartTime}
 								/>
 							{/if}
 						</div>
@@ -288,13 +326,19 @@
 				{/if}
 			</Hud>
 		{:else}
-			<DeepBreathTitleScreen {resources} {proceed} />
+			<SoggyPlanetTitleScreen {resources} {proceed} />
 		{/if}
+		<!-- {#if devMode}
+		<div
+			style="position: fixed; left: calc(50% - 3px); top: calc(50% - 3px); width: 7px; height: 7px;
+			background-color: rgba(255, 50, 50, 1);"
+		/>
+	{/if} -->
 	</div>
 {/if}
 
 <style>
-	.deep-breath {
+	.soggy-planet {
 		position: relative;
 	}
 
@@ -305,17 +349,17 @@
 		display: flex;
 	}
 	.hud-left-controls {
-		position: absolute;
+		position: fixed;
 		left: 0;
 		top: var(--hud_element_size);
+		height: calc(100% - 2 * var(--hud_element_size));
 		font-size: 72px;
 	}
-
 	.month-wrapper {
 		/* TODO make this not fixed */
 		position: fixed;
 		bottom: 0;
 		left: 0;
-		width: calc(100% - var(--hud_element_size));
+		width: 100%;
 	}
 </style>

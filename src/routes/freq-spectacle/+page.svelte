@@ -5,7 +5,8 @@
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {getSettings} from '$lib/app/settings';
-	import {unlockSatisfyingSecret} from '$lib/util/secret';
+	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '$lib/portals/home/data';
+	import {setInStorage} from '$lib/util/storage';
 
 	const dimensions = getDimensions();
 	const settings = getSettings();
@@ -17,8 +18,8 @@
 
 	const clock = getClock();
 
-	const hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60, 144];
-	const WINNING_HZ_ITEMS = new Set([0, 143, 144, 287]);
+	const hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60];
+	const WINNING_HZ_ITEMS = new Set([0, 119, 59, 60]);
 
 	const toggle = () => {
 		clock.toggle();
@@ -26,7 +27,7 @@
 			const hzItemSelectedIndices = getHzItemSelectedIndices();
 			const hzSelectedIndex = hzItemSelectedIndices.at(-1)!;
 			if (WINNING_HZ_ITEMS.has(hzSelectedIndex)) {
-				unlockSatisfyingSecret();
+				setInStorage(STORAGE_KEY_STRENGTH_BOOSTER3, true);
 				if (!$settings.secretEnabled) {
 					settings.update(($settings) => ({...$settings, secretEnabled: true}));
 				}
@@ -49,11 +50,11 @@
 </script>
 
 <!-- TODO refactor this lol. also, do wackier thingg with it. -->
-<div class="view" on:click={toggle}>
+<div class="view" on:click={toggle} aria-hidden>
 	<div class="item" class:pulsing={$settings.secretEnabled}>
 		<FreqSpectacle
 			{width}
-			height={height * 0.3}
+			height={height * 0.7}
 			elapsedTime={$clock.time}
 			lowestHzItemCount={2}
 			{hzItems}
@@ -80,7 +81,7 @@
 		</div>
 		<FreqSpectacle
 			width={width * 0.5}
-			height={height * 0.35}
+			height={height * 0.3}
 			style="transform: rotate(180deg);"
 			elapsedTime={$clock.time}
 			lowestHzItemCount={2}
@@ -104,70 +105,6 @@
 			/>
 		</div>
 	</div>
-	<div class="item" class:pulsing={$settings.secretEnabled}>
-		<FreqSpectacle
-			width={width * 0.25}
-			height={height * 0.1}
-			style="transform: rotate(180deg);"
-			elapsedTime={$clock.time}
-			lowestHzItemCount={2}
-			{hzItems}
-		/>
-		<FreqSpectacle
-			width={width * 0.25}
-			height={height * 0.1}
-			elapsedTime={$clock.time}
-			lowestHzItemCount={2}
-			{hzItems}
-		/>
-		<FreqSpectacle
-			width={width * 0.25}
-			height={height * 0.1}
-			style="transform: rotate(180deg);"
-			elapsedTime={$clock.time}
-			lowestHzItemCount={2}
-			{hzItems}
-		/>
-		<FreqSpectacle
-			width={width * 0.25}
-			height={height * 0.1}
-			elapsedTime={$clock.time}
-			lowestHzItemCount={2}
-			{hzItems}
-		/>
-	</div>
-	<div class="item" class:pulsing={$settings.secretEnabled}>
-		<FreqSpectacle
-			width={width * 0.25}
-			height={height * 0.25}
-			style="transform: rotate(180deg);"
-			elapsedTime={$clock.time}
-			lowestHzItemCount={4}
-			{hzItems}
-		/>
-		<FreqSpectacle
-			width={width * 0.25}
-			height={height * 0.25}
-			elapsedTime={$clock.time}
-			lowestHzItemCount={4}
-			{hzItems}
-		/>
-		<FreqSpectacle
-			width={width * 0.25}
-			height={height * 0.25}
-			style="transform: rotate(180deg);"
-			elapsedTime={$clock.time}
-			lowestHzItemCount={4}
-			{hzItems}
-		/>
-		<FreqSpectacle
-			width={width * 0.25}
-			height={height * 0.25}
-			elapsedTime={$clock.time}
-			lowestHzItemCount={4}
-			{hzItems}
-		/>
-	</div>
 </div>
 
 <style>
@@ -183,6 +120,9 @@
 	.item {
 		display: flex;
 	}
+	.item:first-child {
+		--pulsing_duration: 0.5s;
+	}
 	.bottom {
 		display: flex;
 		justify-content: center;
@@ -192,9 +132,5 @@
 		flex: 0;
 		display: flex;
 		flex-direction: column;
-	}
-	.item:first-child,
-	.item:last-child {
-		--pulsing_duration: 0.5s;
 	}
 </style>

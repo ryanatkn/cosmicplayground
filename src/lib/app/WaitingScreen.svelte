@@ -1,6 +1,6 @@
 <script lang="ts">
 	import WaitingAnimation from '$lib/app/WaitingAnimation.svelte';
-	import type {AsyncStatus} from '@feltcoop/felt';
+	import type {AsyncStatus} from '@feltcoop/util/async.js';
 
 	export let status: AsyncStatus;
 </script>

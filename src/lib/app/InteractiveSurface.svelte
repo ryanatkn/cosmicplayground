@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {swallow} from '@feltcoop/felt/util/dom.js';
+	import {swallow} from '@feltcoop/util/dom.js';
 
 	// TODO merge with `$lib/flat/InteractiveSurface.svelte`
 	// TODO maybe pass camera, but some components would need refactoring

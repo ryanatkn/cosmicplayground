@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {randomItem, randomFloat} from '@feltcoop/felt/util/random.js';
+	import {randomItem, randomFloat} from '@feltcoop/util/random.js';
 	import {sineInOut} from 'svelte/easing';
 
 	import StarlitHammock from '$lib/portals/starlit-hammock/StarlitHammock.svelte';

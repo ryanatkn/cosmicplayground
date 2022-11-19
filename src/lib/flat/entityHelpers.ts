@@ -1,4 +1,4 @@
-import {randomFloat} from '@feltcoop/felt/util/random.js';
+import {randomFloat} from '@feltcoop/util/random.js';
 import type {CollisionResult, Collisions} from '@ryanatkn/collisions';
 
 import {Entity} from '$lib/flat/Entity';

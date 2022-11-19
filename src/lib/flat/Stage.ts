@@ -1,5 +1,5 @@
-import type {Flavored} from '@feltcoop/felt';
-import {toRandomSeeded, type Alea} from '@feltcoop/felt/util/randomSeeded.js';
+import type {Flavored} from '@feltcoop/util';
+import {toRandomAlea, type Alea} from '@feltcoop/util/random-alea.js';
 import * as Pixi from 'pixi.js';
 import {Collisions} from '@ryanatkn/collisions';
 
@@ -84,7 +84,7 @@ export abstract class Stage {
 			sim = new Simulation(collisions),
 			container = new Pixi.Container(),
 			controller = new Controller(),
-			random = toRandomSeeded(),
+			random = toRandomAlea(),
 		} = options;
 
 		if (data) {

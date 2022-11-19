@@ -72,10 +72,11 @@
 		<CreditsProjectSignature />
 		<div style="position: relative; cursor: none; height: 0">
 			<img
+				aria-hidden
 				src="/assets/characters/spider.png"
 				alt="spider"
 				style="position: absolute; bottom: -33px; right: -29px;"
-				on:click={() => window.open('https://www.spiderspace.org')}
+				on:click={() => window.open('https://spiderspace.org')}
 			/>
 		</div>
 	</Panel>
