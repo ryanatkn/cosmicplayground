@@ -53,12 +53,12 @@ and there's no 3rd party junk anywhere.
 > [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) and other VMs;
 > see [this issue](https://github.com/cosmicplayground/cosmicplayground/issues/29) for more
 
-To play with the code, you'll need Node 16.6+;
+To play with the code, you'll need Node 18.6+;
 
 ```bash
 npm i
 npm start # or gro dev
-# open your browser to localhost:3000
+# open your browser to localhost:5173 or whatever it says
 npm run build # for production, or gro build
 ```
 
