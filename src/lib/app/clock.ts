@@ -1,6 +1,6 @@
 import {writable, get, type Writable} from 'svelte/store';
 import {getContext, setContext} from 'svelte';
-import {browser} from '$app/env';
+import {browser} from '$app/environment';
 
 // TODO merge with `clock`
 

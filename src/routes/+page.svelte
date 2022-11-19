@@ -5,6 +5,7 @@
 	import PendingAnimation from '@feltcoop/felt/PendingAnimation.svelte';
 	import {dequal} from 'dequal/lite';
 	import {swallow} from '@feltcoop/util/dom.js';
+	import {browser} from '$app/environment';
 
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import StarshipPreview from '$lib/portals/home/Preview.svelte';
@@ -26,7 +27,6 @@
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
 	import GravityUnlockPortalPreview from '$lib/portals/gravity-unlock/Preview.svelte';
-	import {browser} from '$app/env';
 	import StarshipMenu from '$lib/portals/home/StarshipMenu.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import {getClock} from '$lib/app/clock';

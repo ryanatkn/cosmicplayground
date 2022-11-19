@@ -5,7 +5,7 @@
 
 	import {onMount} from 'svelte';
 	import type {AsyncStatus} from '@feltcoop/util/async.js';
-	import {browser} from '$app/env';
+	import {browser} from '$app/environment';
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
 	import {goto} from '$app/navigation';
