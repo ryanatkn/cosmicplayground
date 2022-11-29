@@ -255,7 +255,7 @@
 					/>
 					<img
 						src="/assets/characters/spider.png"
-						alt="spider"
+						alt="spiderspace dot org"
 						class="absolute cursor-none"
 						style="left: 56px; top: 68px;"
 						on:click={() => window.open('https://spiderspace.org')}
