@@ -46,7 +46,7 @@
 				this map shows about 65 meters. This is an extreme hypothetical: <a
 					href="https://wikipedia.org/wiki/Sea_level_rise"
 					>Wikipedia can help put it into perspective</a
-				>. The data has flaws; see below for more details.
+				>. The project's facts are flawed; see below for more details.
 			</p>
 			<p>
 				There's <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4"
@@ -77,7 +77,7 @@
 		{/if}
 		<hr />
 		<section class="markup">
-			<p>Please be aware that <strong>the data has flaws:</strong></p>
+			<p>Please be aware that <strong>the project's facts are flawed:</strong></p>
 			<ul>
 				<li>
 					The elevation data is low resolution and the highest sea level is an approximation
