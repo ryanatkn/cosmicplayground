@@ -6,17 +6,7 @@
 
 <header>
 	<h1>
-		<div class="header-content">
-			cosmicplayground
-			<a href="https://www.cosmicplayground.dev" class="cosm">
-				<img
-					src="/assets/characters/cosm.png"
-					alt="icon for cosm, a little purple friend"
-					class="pixelated image-button"
-					width="16"
-				/>
-			</a>
-		</div>
+		<div class="header-content">cosmicplayground</div>
 	</h1>
 	<h2>tools and toys for expanding minds</h2>
 </header>
