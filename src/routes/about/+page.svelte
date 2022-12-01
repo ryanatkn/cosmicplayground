@@ -10,7 +10,7 @@
 	</h1>
 	<h2>tools and toys for expanding minds</h2>
 </header>
-<figure style:margin="var(--spacing_xl7) auto 0">
+<figure style:margin="var(--spacing_xl3) auto">
 	<img src="/favicon.png" width="192" height="192" alt="cosmicplayground icon" />
 </figure>
 <div class="markup">
