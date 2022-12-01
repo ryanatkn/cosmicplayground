@@ -62,12 +62,6 @@
 	.header-content {
 		position: relative;
 	}
-	.cosm {
-		position: absolute;
-		right: -20px;
-		height: 16px;
-		width: 16px;
-	}
 	.markup {
 		margin-bottom: var(--spacing_xl9);
 	}
