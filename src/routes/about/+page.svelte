@@ -32,7 +32,7 @@
 			This website tracks nothing beyond <a href="https://pages.github.com/">GitHub Pages</a>
 			serving static files. It has no server to store your data, and it makes no third party network
 			requests. See
-			<a href="https://github.com/cosmicplayground/cosmicplayground">the source code</a> for more.
+			<a href="https://github.com/ryanatkn/cosmicplayground">the source code</a> for more.
 		</p>
 	</Panel>
 	<Panel>

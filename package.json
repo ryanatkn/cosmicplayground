@@ -14,10 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cosmicplayground/cosmicplayground.git"
+    "url": "git+https://github.com/ryanatkn/cosmicplayground.git"
   },
   "bugs": {
-    "url": "https://github.com/cosmicplayground/cosmicplayground/issues"
+    "url": "https://github.com/ryanatkn/cosmicplayground/issues"
   },
   "keywords": [
     "space",

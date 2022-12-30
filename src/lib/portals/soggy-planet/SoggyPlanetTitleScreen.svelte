@@ -54,13 +54,13 @@
 			</p>
 			<p>
 				This page is not mobile friendly! Darn. It may also be slow depending on your hardware and
-				browser. See <a href="https://github.com/cosmicplayground/cosmicplayground/issues/56"
+				browser. See <a href="https://github.com/ryanatkn/cosmicplayground/issues/56"
 					>this performance issue on GitHub</a
 				>.
 			</p>
 			<p>
 				The code and image data are
-				<a href="https://github.com/cosmicplayground/cosmicplayground">open source on GitHub</a>.
+				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>.
 				Credits are below.
 			</p>
 			<p>

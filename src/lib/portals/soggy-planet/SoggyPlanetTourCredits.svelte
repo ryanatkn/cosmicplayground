@@ -26,10 +26,10 @@
 				height="64"
 			/>
 		</a>
-		<a href="https://github.com/cosmicplayground/cosmicplayground">
+		<a href="https://github.com/ryanatkn/cosmicplayground">
 			<img
 				src="/assets/characters/octocat.png"
-				alt="@cosmicplayground/cosmicplayground on GitHub"
+				alt="@ryanatkn/cosmicplayground on GitHub"
 				width="40"
 				height="40"
 				style="margin: 0 16px 0 4px; opacity: 0.8;"
@@ -43,8 +43,8 @@
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 2, amount: blurAmount}}>
 		<h2>open source code & assets</h2>
-		<a href="https://github.com/cosmicplayground/cosmicplayground"
-			>github.com/cosmicplayground/cosmicplayground</a
+		<a href="https://github.com/ryanatkn/cosmicplayground"
+			>github.com/ryanatkn/cosmicplayground</a
 		>
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 3, amount: blurAmount}}>

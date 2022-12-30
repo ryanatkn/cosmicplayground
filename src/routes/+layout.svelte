@@ -221,8 +221,8 @@
 				sorry, please try another browser or device if you can. (or enable it?)
 			</p>
 			<p>
-				source code is at <a href="https://github.com/cosmicplayground/cosmicplayground"
-					>github.com/cosmicplayground/cosmicplayground</a
+				source code is at <a href="https://github.com/ryanatkn/cosmicplayground"
+					>github.com/ryanatkn/cosmicplayground</a
 				>
 			</p>
 		</div>

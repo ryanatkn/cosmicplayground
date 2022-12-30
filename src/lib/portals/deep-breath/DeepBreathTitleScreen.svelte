@@ -56,7 +56,7 @@
 				are higher quality here than in the video, but the video is recommended for mobile devices, older
 				hardware, and screens smaller than 1080p. (it doesn't currently scale the resolution) The code
 				and image data are
-				<a href="https://github.com/cosmicplayground/cosmicplayground">open source on GitHub</a>.
+				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>.
 				Credits are below.
 			</p>
 			<p>

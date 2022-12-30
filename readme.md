@@ -51,7 +51,7 @@ and there's no 3rd party junk anywhere.
 
 > **important**: Windows is not yet supported directly, but Windows users can use
 > [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) and other VMs;
-> see [this issue](https://github.com/cosmicplayground/cosmicplayground/issues/29) for more
+> see [this issue](https://github.com/ryanatkn/cosmicplayground/issues/29) for more
 
 To play with the code, you'll need Node 18.6+;
 

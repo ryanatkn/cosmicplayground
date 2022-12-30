@@ -24,16 +24,16 @@
 			</li>
 			<li>
 				cosmicplayground's code is <a
-					href="https://github.com/cosmicplayground/cosmicplayground/blob/main/license"
+					href="https://github.com/ryanatkn/cosmicplayground/blob/main/license"
 					>licensed public domain
 				</a>(The Unlicense)
 			</li>
 			<li>
 				source data is in <a
-					href="https://github.com/cosmicplayground/cosmicplayground/blob/main/license">the repo</a
+					href="https://github.com/ryanatkn/cosmicplayground/blob/main/license">the repo</a
 				>
 				at
-				<a href="https://github.com/cosmicplayground/cosmicplayground/tree/main/src/static/assets">
+				<a href="https://github.com/ryanatkn/cosmicplayground/tree/main/src/static/assets">
 					<code>src/static/assets</code>
 				</a>
 			</li>
