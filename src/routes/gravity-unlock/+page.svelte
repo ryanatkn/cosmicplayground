@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AboutPortalPreview from '$lib/portals/about/Preview.svelte';
+	import AboutPortalPreview from '../about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 </script>
 

@@ -8,26 +8,26 @@
 	import {browser} from '$app/environment';
 
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
-	import StarshipPreview from '$lib/portals/home/Preview.svelte';
-	import aboutPortal from '$lib/portals/about/data';
-	import soggyPlanetPortal from '$lib/portals/soggy-planet/data';
-	import starlitHammockPortal from '$lib/portals/starlit-hammock/data';
-	import paintFreqsPortal from '$lib/portals/paint-freqs/data';
-	import easings2Portal from '$lib/portals/easings-2/data';
-	import easings1Portal from '$lib/portals/easings-1/data';
-	import hearingTestPortal from '$lib/portals/hearing-test/data';
-	import underConstructionPortal from '$lib/portals/under-construction/data';
-	import freqSpeedsPortal from '$lib/portals/freq-speeds/data';
-	import strengthBooster2Portal from '$lib/portals/secret2/data';
-	import strengthBooster3Portal from '$lib/portals/secret3/data';
-	import clocksPortal from '$lib/portals/clocks/data';
-	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
+	import StarshipPreview from './Preview.svelte';
+	import aboutPortal from './about/data';
+	import soggyPlanetPortal from './soggy-planet/data';
+	import starlitHammockPortal from './starlit-hammock/data';
+	import paintFreqsPortal from './paint-freqs/data';
+	import easings2Portal from './easings-2/data';
+	import easings1Portal from './easings-1/data';
+	import hearingTestPortal from './hearing-test/data';
+	import underConstructionPortal from './under-construction/data';
+	import freqSpeedsPortal from './freq-speeds/data';
+	import strengthBooster2Portal from './secret2/data';
+	import strengthBooster3Portal from './secret3/data';
+	import clocksPortal from './clocks/data';
+	import freqSpectaclePortal from './freq-spectacle/data';
 	import {getSettings} from '$lib/app/settings';
-	import StarshipStage from '$lib/portals/home/StarshipStage.svelte';
+	import StarshipStage from './StarshipStage.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
-	import GravityUnlockPortalPreview from '$lib/portals/gravity-unlock/Preview.svelte';
-	import StarshipMenu from '$lib/portals/home/StarshipMenu.svelte';
+	import StarshipStageScore from './StarshipStageScore.svelte';
+	import GravityUnlockPortalPreview from './gravity-unlock/Preview.svelte';
+	import StarshipMenu from './StarshipMenu.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import {getClock} from '$lib/app/clock';
 	import {
@@ -40,7 +40,7 @@
 		rescuedAllCrew,
 		rescuedAllCrewAtOnce,
 		toInitialScores,
-	} from '$lib/portals/home/starshipStage';
+	} from './starshipStage';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {toSongData} from '$lib/music/songs';
 	import {pauseAudio} from '$lib/audio/playAudio';
@@ -50,8 +50,8 @@
 		STORAGE_KEY_STRENGTH_BOOSTER1,
 		STORAGE_KEY_STRENGTH_BOOSTER2,
 		STORAGE_KEY_STRENGTH_BOOSTER3,
-	} from '$lib/portals/home/data';
-	import type {PortalData} from '$lib/portals/portal';
+	} from './data';
+	import type {PortalData} from '$lib/app/portal';
 	import {enableGlobalHotkeys, scrollDown} from '$lib/util/dom';
 	import {showAppDialog} from '$lib/app/appDialog';
 

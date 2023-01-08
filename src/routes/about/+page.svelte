@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Panel from '$lib/app/Panel.svelte';
-	import Credits from '$lib/portals/about/Credits.svelte';
-	import CreditsProjectSignature from '$lib/portals/about/CreditsProjectSignature.svelte';
+	import Credits from './Credits.svelte';
+	import CreditsProjectSignature from './CreditsProjectSignature.svelte';
 </script>
 
 <header>
