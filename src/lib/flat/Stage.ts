@@ -11,7 +11,7 @@ import {
 	toCameraStore,
 	SPRING_OPTS_HARD,
 } from '$lib/flat/camera';
-import type {StageData} from '$lib/portals/gravity-unlock/stage';
+import type {StageData} from '../../routes/gravity-unlock/stage'; // TODO generic, don't import
 
 export interface StageMeta {
 	name: string;

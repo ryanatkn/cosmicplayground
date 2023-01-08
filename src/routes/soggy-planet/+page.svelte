@@ -3,7 +3,7 @@
 	import {randomFloat} from '@feltcoop/util/random.js';
 	import {swallow} from '@feltcoop/util/dom.js';
 
-	import SoggyPlanetTitleScreen from '$lib/portals/soggy-planet/SoggyPlanetTitleScreen.svelte';
+	import SoggyPlanetTitleScreen from './SoggyPlanetTitleScreen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import DaylightHud from '$lib/app/DaylightHud.svelte';
@@ -14,8 +14,8 @@
 	import {getSettings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import SoggyPlanetDevHud from '$lib/portals/soggy-planet/SoggyPlanetDevHud.svelte';
-	import SoggyPlanetTour from '$lib/portals/soggy-planet/SoggyPlanetTour.svelte';
+	import SoggyPlanetDevHud from './SoggyPlanetDevHud.svelte';
+	import SoggyPlanetTour from './SoggyPlanetTour.svelte';
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys} from '$lib/util/dom';

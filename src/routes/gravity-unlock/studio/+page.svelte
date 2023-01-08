@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {klona} from 'klona/json';
 
-	import {initialStageData, type StageData} from '$lib/portals/gravity-unlock/stage';
-	import GravityUnlockStageBuilder from '$lib/portals/gravity-unlock/GravityUnlockStageBuilder.svelte';
+	import {initialStageData, type StageData} from '../stage';
+	import GravityUnlockStageBuilder from '../GravityUnlockStageBuilder.svelte';
 	import Tabs from '$lib/ui/Tabs.svelte';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 	import {getClock} from '$lib/app/clock';

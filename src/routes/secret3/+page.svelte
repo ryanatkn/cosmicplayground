@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
 
-	import FreqSpectacle from '$lib/portals/freq-spectacle/FreqSpectacle.svelte';
+	import FreqSpectacle from '../freq-spectacle/FreqSpectacle.svelte';
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {getSettings} from '$lib/app/settings';

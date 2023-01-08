@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
 
-	import FreqSpeeds from '$lib/portals/freq-speeds/FreqSpeeds.svelte';
+	import FreqSpeeds from '../freq-speeds/FreqSpeeds.svelte';
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {getSettings} from '$lib/app/settings';

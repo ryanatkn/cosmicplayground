@@ -5,8 +5,8 @@
 	import {randomFloat} from '@feltcoop/util/random.js';
 	import {swallow} from '@feltcoop/util/dom.js';
 
-	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
-	import DeepBreathTour from '$lib/portals/deep-breath/DeepBreathTour.svelte';
+	import DeepBreathTitleScreen from './DeepBreathTitleScreen.svelte';
+	import DeepBreathTour from './DeepBreathTour.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
@@ -16,7 +16,7 @@
 	import {getSettings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import DeepBreathDevHud from '$lib/portals/deep-breath/DeepBreathDevHud.svelte';
+	import DeepBreathDevHud from './DeepBreathDevHud.svelte';
 	import {getClock} from '$lib/app/clock';
 	import {getDimensions} from '$lib/app/dimensions';
 	import {enableGlobalHotkeys} from '$lib/util/dom';
