@@ -159,10 +159,8 @@
 		hoverSeaLevel(null);
 	};
 
-	// Make the two Earths tile seamlessly when possible.
+	// For the DOM renderer, make the two Earths tile seamlessly when possible.
 	// We render only 2 instances as a balance between performance and UX.
-	// Ideally we'd use WebGL to make rendering multiples much cheaper,
-	// but that's currently out of scope for this project.
 	let earth1LeftOffset: number;
 	let earth2LeftOffset: number;
 	$: if (x) {

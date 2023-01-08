@@ -168,19 +168,6 @@
 		hoveredDaylight = value;
 	};
 
-	// Make the two Earths tile seamlessly when possible.
-	// We render only 2 instances as a balance between performance and UX.
-	// Ideally we'd use WebGL to make rendering multiples much cheaper,
-	// but that's currently out of scope for this project.
-	let earth1LeftOffset: number;
-	let earth2LeftOffset: number;
-	$: {
-		const xOffsetIndex = Math.floor($x! / imageWidth);
-		earth1LeftOffset = xOffsetIndex * imageWidth;
-		const xOffsetOverflow = $x! / imageWidth - xOffsetIndex;
-		earth2LeftOffset = earth1LeftOffset + imageWidth * (xOffsetOverflow < 0.5 ? -1 : 1);
-	}
-
 	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
 	const resources = createResourcesStore();
 	landImages.forEach((url) => resources.addResource('image', url));
