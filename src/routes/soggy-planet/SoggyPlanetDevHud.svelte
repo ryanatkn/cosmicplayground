@@ -6,19 +6,10 @@
 	export let x: Writable<number>;
 	export let y: Writable<number>;
 	export let scale: Writable<number>;
-	export let togglePixiEarthViewer: (visible: boolean) => void;
-	export let enablePixiEarthViewer: boolean;
 
 	// TODO smaller buttons! size prop?
 </script>
 
-<FloatingTextButton
-	on:click={() => {
-		togglePixiEarthViewer(!enablePixiEarthViewer);
-	}}
->
-	{enablePixiEarthViewer ? 'webgl' : 'dom'}
-</FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {
 		$scale = Number(prompt('🔎', $scale + '')) || $scale; // eslint-disable-line no-alert
