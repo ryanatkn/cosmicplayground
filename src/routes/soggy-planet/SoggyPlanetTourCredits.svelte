@@ -43,9 +43,7 @@
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 2, amount: blurAmount}}>
 		<h2>open source code & assets</h2>
-		<a href="https://github.com/ryanatkn/cosmicplayground"
-			>github.com/ryanatkn/cosmicplayground</a
-		>
+		<a href="https://github.com/ryanatkn/cosmicplayground">github.com/ryanatkn/cosmicplayground</a>
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 3, amount: blurAmount}}>
 		<h2>music</h2>
