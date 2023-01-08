@@ -65,7 +65,7 @@
 				landContainer.addChild(sprite);
 				landSprites.push(sprite);
 			}
-			updateSpriteTransforms(landSprites, tilePositionX, tilePositionY, $scale);
+			updateSpritesTransforms(landSprites, tilePositionX, tilePositionY, $scale);
 			updateLandOpacities(activeLandValue);
 
 			seashoreContainer = new Pixi.Container();
@@ -81,7 +81,7 @@
 				const filter = new Pixi.Filter(undefined, shaderFrag, toAlphaValues(shoreImageCount!));
 				shoreSprite.filters = [filter];
 			}
-			updateSpriteTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
+			updateSpritesTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
 			updateSeaOpacities(activeSeaLevel);
 
 			if (lightsImage) {
@@ -99,7 +99,7 @@
 				overlayContainer.addChild(lightsSprite);
 				overlaySprites.push(lightsSprite);
 
-				updateSpriteTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
+				updateSpritesTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
 			}
 		},
 		destroy: (_scene, _loader) => {
@@ -130,30 +130,41 @@
 			overlayContainer.children[1].alpha = lightsOpacity;
 		}
 	}
-	$: updateSpriteDimensions(landSprites, $width, $height);
-	$: updateSpriteDimensions(seaSprites, $width, $height);
-	$: shoreSprite && updateSpriteDimensions([shoreSprite], $width, $height); // TODO BLOCK remove wrapper array
-	$: updateSpriteDimensions(overlaySprites, $width, $height);
-	const updateSpriteDimensions = (sprites: Pixi.TilingSprite[], width: number, height: number) => {
+	$: updateSpritesDimensions(landSprites, $width, $height);
+	$: updateSpritesDimensions(seaSprites, $width, $height);
+	$: shoreSprite && updateSpriteDimensions(shoreSprite, $width, $height);
+	$: updateSpritesDimensions(overlaySprites, $width, $height);
+	const updateSpritesDimensions = (sprites: Pixi.TilingSprite[], width: number, height: number) => {
 		for (const sprite of sprites) {
-			sprite.width = width;
-			sprite.height = height;
+			updateSpriteDimensions(sprite, width, height);
 		}
 	};
-	$: updateSpriteTransforms(landSprites, tilePositionX, tilePositionY, $scale);
-	$: updateSpriteTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
-	$: shoreSprite && updateSpriteTransforms([shoreSprite], tilePositionX, tilePositionY, $scale); // TODO BLOCK remove wrapper array
-	$: updateSpriteTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
-	const updateSpriteTransforms = (
+	const updateSpriteDimensions = (sprite: Pixi.TilingSprite, width: number, height: number) => {
+		sprite.width = width;
+		sprite.height = height;
+	};
+	$: updateSpritesTransforms(landSprites, tilePositionX, tilePositionY, $scale);
+	$: updateSpritesTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
+	$: shoreSprite && updateSpriteTransforms(shoreSprite, tilePositionX, tilePositionY, $scale);
+	$: updateSpritesTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
+	const updateSpritesTransforms = (
 		sprites: Pixi.TilingSprite[],
 		tilePositionX: number,
 		tilePositionY: number,
 		$scale: number,
 	) => {
 		for (const sprite of sprites) {
-			sprite.tileScale.set($scale);
-			sprite.tilePosition.set(tilePositionX, tilePositionY);
+			updateSpriteTransforms(sprite, tilePositionX, tilePositionY, $scale);
 		}
+	};
+	const updateSpriteTransforms = (
+		sprite: Pixi.TilingSprite,
+		tilePositionX: number,
+		tilePositionY: number,
+		$scale: number,
+	) => {
+		sprite.tileScale.set($scale);
+		sprite.tilePosition.set(tilePositionX, tilePositionY);
 	};
 
 	const toAlphaValues = (count: number, values?: number[]) => {
@@ -163,7 +174,6 @@
 		}
 		return alphaValues;
 	};
-	// TODO BLOCK color *= X shouldnt affect alpha (premultiplied alpha makes it so we can't set a directly?)
 	const shaderFrag = `
 		// TODO array of values, this is hacky for lack of knowledge
 		uniform float alpha1;
