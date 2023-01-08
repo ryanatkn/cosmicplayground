@@ -32,8 +32,8 @@
 	export let imageWidth: number; // not reactive
 	export let imageHeight: number; // not reactive
 
-	if (!shoreImage && shoreImageCount === undefined) {
-		throw Error('shoreImage must be paired with a shoreImageCount');
+	if (shoreImage && shoreImageCount === undefined) {
+		throw Error('shoreImageCount is required to be paired with shoreImage');
 	}
 
 	$: ({x, y, width, height, scale} = camera);
@@ -78,21 +78,8 @@
 			if (shoreImage) {
 				shoreSprite = createMapSprite(resources[shoreImage]!.texture!);
 				seashoreContainer.addChild(shoreSprite);
-				const shaderFrag = `
-					uniform float alpha;
-
-					varying vec2 vTextureCoord;
-					uniform sampler2D uSampler;
-
-					void main() {
-						vec4 color = texture2D(uSampler, vTextureCoord);
-						color *= 0.7;
-						gl_FragColor = color;
-					}
-				`;
-				const filter = new Pixi.Filter(undefined, shaderFrag, {alpha: 0.3});
+				const filter = new Pixi.Filter(undefined, shaderFrag, toAlphaValues(shoreImageCount!));
 				shoreSprite.filters = [filter];
-				// filter.uniforms.alpha = 0.6; TODO BLOCK
 			}
 			updateSpriteTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
 			updateSeaOpacities(activeSeaLevel);
@@ -169,6 +156,69 @@
 		}
 	};
 
+	const toAlphaValues = (count: number, values?: number[]) => {
+		const alphaValues: Record<string, number> = {};
+		for (let i = 0; i < count; i++) {
+			alphaValues['alpha' + i] = values ? values[count - 1 - i] : 0; // `values` are reversed
+		}
+		return alphaValues;
+	};
+	// TODO BLOCK color *= X shouldnt affect alpha (premultiplied alpha makes it so we can't set a directly?)
+	const shaderFrag = `
+		// TODO array of values, this is hacky for lack of knowledge
+		uniform float alpha1;
+		uniform float alpha2;
+		uniform float alpha3;
+		uniform float alpha4;
+		uniform float alpha5;
+		uniform float alpha6;
+		uniform float alpha7;
+		uniform float alpha8;
+		uniform float alpha9;
+		uniform float alpha10;
+		uniform float alpha11;
+		uniform float alpha12;
+		uniform float alpha13;
+
+		varying vec2 vTextureCoord;
+		uniform sampler2D uSampler;
+
+		void main() {
+			vec4 color = texture2D(uSampler, vTextureCoord);
+			int r = int(floor(color.r / color.a * 255.0 + 0.5));
+			if (r == 218) {
+				color *= alpha1;
+			} else if (r == 202) {
+				color *= alpha2;
+			} else if (r == 187) {
+				color *= alpha3;
+			} else if (r == 171) {
+				color *= alpha4;
+			} else if (r == 151) {
+				color *= alpha5;
+			} else if (r == 133) {
+				color *= alpha6;
+			} else if (r == 118) {
+				color *= alpha7;
+			} else if (r == 104) {
+				color *= alpha8;
+			} else if (r == 89) {
+				color *= alpha9;
+			} else if (r == 76) {
+				color *= alpha10;
+			} else if (r == 72) {
+				color *= alpha11;
+			} else if (r == 68) {
+				color *= alpha12;
+			} else if (r == 65) {
+				color *= alpha13;
+			} else {
+				color *= 0.0;
+			}
+			gl_FragColor = color;
+		}
+	`;
+
 	const seashoreImageCount = seaImages.length + (shoreImage ? shoreImageCount! : 0);
 	const seashoreOpacities = new Array(seashoreImageCount);
 	$: if (seaSprites.length) updateSeaOpacities(activeSeaLevel);
@@ -179,9 +229,15 @@
 			seashoreOpacities, // mutate the existing opacities
 			seashoreFloorIndex,
 		);
-		// TODO BLOCK set shader values for `seashoreOpacities[0 to (shoreImageCount-1)]`
 		for (let i = 0; i < seaSprites.length; i++) {
 			seaSprites[i].alpha = seashoreOpacities[i + (shoreImageCount || 0)];
+		}
+		if (shoreSprite) {
+			const alphaValues = toAlphaValues(shoreImageCount!, seashoreOpacities);
+			const {uniforms} = shoreSprite.filters![0];
+			for (const key in alphaValues) {
+				uniforms[key] = alphaValues[key];
+			}
 		}
 	};
 	const landOpacities = new Array(landImages.length);
