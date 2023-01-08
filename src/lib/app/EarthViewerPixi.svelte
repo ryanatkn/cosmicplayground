@@ -79,15 +79,17 @@
 				shoreSprite = createMapSprite(resources[shoreImage]!.texture!);
 				seashoreContainer.addChild(shoreSprite);
 				const shaderFrag = `
-          uniform float alpha;
+					uniform float alpha;
 
-          varying vec2 vTextureCoord;
-          uniform sampler2D uSampler;
+					varying vec2 vTextureCoord;
+					uniform sampler2D uSampler;
 
-          void main() {
-            gl_FragColor = texture2D(uSampler, vTextureCoord);
-          }
-        `;
+					void main() {
+						vec4 color = texture2D(uSampler, vTextureCoord);
+						color *= 0.7;
+						gl_FragColor = color;
+					}
+				`;
 				const filter = new Pixi.Filter(undefined, shaderFrag, {alpha: 0.3});
 				shoreSprite.filters = [filter];
 				// filter.uniforms.alpha = 0.6; TODO BLOCK
