@@ -20,8 +20,8 @@
 	export let inputEnabled = true;
 	export let landImages: string[]; // not reactive
 	export let seaImages: string[]; // not reactive
-	export let shoreImages: string[] | undefined = undefined; // TODO BLOCK remove
 	export let shoreImage: string | undefined = undefined; // not reactive
+	export let shoreImageCount: number | undefined = undefined; //not reactive
 	export let seashoreFloorIndex: number | undefined = undefined;
 	export let lightsImage: string | undefined = undefined; // not reactive
 	export let lightsOpacity = 0;
@@ -32,6 +32,10 @@
 	export let imageWidth: number; // not reactive
 	export let imageHeight: number; // not reactive
 
+	if (!shoreImage && shoreImageCount === undefined) {
+		throw Error('shoreImage must be paired with a shoreImageCount');
+	}
+
 	$: ({x, y, width, height, scale} = camera);
 
 	const [pixi] = getPixiScene({
@@ -41,11 +45,6 @@
 			}
 			for (const seaImage of seaImages) {
 				if (!loader.resources[seaImage]) loader.add(seaImage);
-			}
-			if (shoreImages) {
-				for (const shoreImage of shoreImages) {
-					if (!loader.resources[shoreImage]) loader.add(shoreImage);
-				}
 			}
 			if (shoreImage) {
 				if (!loader.resources[shoreImage]) loader.add(shoreImage);
@@ -75,17 +74,6 @@
 				const sprite = createMapSprite(resources[seaImage]!.texture!);
 				seashoreContainer.addChild(sprite);
 				seashoreSprites.push(sprite);
-			}
-			if (shoreImages) {
-				const shoreSprites = [];
-				for (const shoreImage of shoreImages) {
-					const sprite = createMapSprite(resources[shoreImage]!.texture!);
-					seashoreContainer.addChild(sprite);
-					shoreSprites.push(sprite);
-				}
-				for (const sprite of shoreSprites.reverse()) {
-					seashoreSprites.unshift(sprite);
-				}
 			}
 			if (shoreImage) {
 				seashoreSprite = createMapSprite(resources[shoreImage]!.texture!);
@@ -167,8 +155,7 @@
 		}
 	};
 
-	const seashoreImageCount =
-		seaImages.length + (shoreImages ? shoreImages.length : shoreImage ? 13 : 0); // TODO BLOCK hardcoded 13 to fix when `shoreImages` isnt included
+	const seashoreImageCount = seaImages.length + (shoreImage ? shoreImageCount! : 0);
 	const seashoreOpacities = new Array(seashoreImageCount);
 	$: if (seashoreSprites.length) updateSeaOpacities(activeSeaLevel);
 	const updateSeaOpacities = (activeSeaLevel: number) => {
@@ -178,9 +165,9 @@
 			seashoreOpacities, // mutate the existing opacities
 			seashoreFloorIndex,
 		);
-		// TODO BLOCK set the seashoreSprite instead
-		for (let i = 0; i < seashoreImageCount; i++) {
-			seashoreSprites[i].alpha = seashoreOpacities[i];
+		// TODO BLOCK set shader values for `seashoreOpacities[0 to (shoreImageCount-1)]`
+		for (let i = 0; i < seaImages.length; i++) {
+			seashoreSprites[i].alpha = seashoreOpacities[i + (shoreImageCount || 0)];
 		}
 	};
 	const landOpacities = new Array(landImages.length);

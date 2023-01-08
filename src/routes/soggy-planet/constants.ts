@@ -1,5 +1,6 @@
 export const THUMBNAIL_WIDTH_DEFAULT = 600;
 
+export const SHORE_COUNT = 13;
 export const SHORE_COLOR_1 = 'rgb(218, 187, 149)';
 export const SHORE_COLOR_2 = 'rgb(202, 171, 129)';
 export const SHORE_COLOR_3 = 'rgb(187, 153, 110)';
