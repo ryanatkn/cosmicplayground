@@ -20,8 +20,7 @@
 	export let inputEnabled = true;
 	export let landImages: string[]; // not reactive
 	export let seaImages: string[]; // not reactive
-	export let shoreImages: string[] | undefined = undefined; // TODO BLOCK remove
-	export let shoreImage: string | undefined = undefined; // not reactive
+	export let shoreImages: string[] | undefined = undefined; // not reactive
 	export let seashoreFloorIndex: number | undefined = undefined;
 	export let lightsImage: string | undefined = undefined; // not reactive
 	export let lightsOpacity = 0;
@@ -46,9 +45,6 @@
 				for (const shoreImage of shoreImages) {
 					if (!loader.resources[shoreImage]) loader.add(shoreImage);
 				}
-			}
-			if (shoreImage) {
-				if (!loader.resources[shoreImage]) loader.add(shoreImage);
 			}
 			if (lightsImage) {
 				if (!loader.resources[lightsImage]) loader.add(lightsImage);
@@ -87,10 +83,6 @@
 					seashoreSprites.unshift(sprite);
 				}
 			}
-			if (shoreImage) {
-				seashoreSprite = createMapSprite(resources[shoreImage]!.texture!);
-				seashoreContainer.addChild(seashoreSprite);
-			}
 			updateSpriteTransforms(seashoreSprites, tilePositionX, tilePositionY, $scale);
 			updateSeaOpacities(activeSeaLevel);
 
@@ -120,7 +112,6 @@
 
 	const landSprites: Pixi.TilingSprite[] = []; // not reactive
 	const seashoreSprites: Pixi.TilingSprite[] = []; // not reactive
-	let seashoreSprite: Pixi.TilingSprite | undefined = undefined; // not reactive
 	const overlaySprites: Pixi.TilingSprite[] = []; // not reactive
 	let mapContainer: Pixi.Container;
 	let landContainer: Pixi.Container;
@@ -142,7 +133,6 @@
 	}
 	$: updateSpriteDimensions(landSprites, $width, $height);
 	$: updateSpriteDimensions(seashoreSprites, $width, $height);
-	$: seashoreSprite && updateSpriteDimensions([seashoreSprite], $width, $height); // TODO BLOCK remove wrapper array
 	$: updateSpriteDimensions(overlaySprites, $width, $height);
 	const updateSpriteDimensions = (sprites: Pixi.TilingSprite[], width: number, height: number) => {
 		for (const sprite of sprites) {
@@ -152,8 +142,6 @@
 	};
 	$: updateSpriteTransforms(landSprites, tilePositionX, tilePositionY, $scale);
 	$: updateSpriteTransforms(seashoreSprites, tilePositionX, tilePositionY, $scale);
-	$: seashoreSprite &&
-		updateSpriteTransforms([seashoreSprite], tilePositionX, tilePositionY, $scale); // TODO BLOCK remove wrapper array
 	$: updateSpriteTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
 	const updateSpriteTransforms = (
 		sprites: Pixi.TilingSprite[],
@@ -167,8 +155,7 @@
 		}
 	};
 
-	const seashoreImageCount =
-		seaImages.length + (shoreImages ? shoreImages.length : shoreImage ? 13 : 0); // TODO BLOCK hardcoded 13 to fix when `shoreImages` isnt included
+	const seashoreImageCount = seaImages.length + (shoreImages ? shoreImages.length : 0);
 	const seashoreOpacities = new Array(seashoreImageCount);
 	$: if (seashoreSprites.length) updateSeaOpacities(activeSeaLevel);
 	const updateSeaOpacities = (activeSeaLevel: number) => {
@@ -178,7 +165,6 @@
 			seashoreOpacities, // mutate the existing opacities
 			seashoreFloorIndex,
 		);
-		// TODO BLOCK set the seashoreSprite instead
 		for (let i = 0; i < seashoreImageCount; i++) {
 			seashoreSprites[i].alpha = seashoreOpacities[i];
 		}

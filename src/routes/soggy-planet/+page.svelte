@@ -110,6 +110,7 @@
 		{length: SHORE_COUNT},
 		(_, i) => `/assets/earth/shore_${SHORE_COUNT - i}.png`,
 	);
+	const shoreImage = '/assets/earth/shore.png';
 	const seashoreFloorIndex = shoreImages.length;
 	const seaIndexMax = seaImages.length + shoreImages.length - 1;
 	const SEA_LEVEL_CYCLE_TIMER = 1000; // larger is slower
@@ -193,6 +194,7 @@
 	landImages.forEach((url) => resources.addResource('image', url));
 	seaImages.forEach((url) => resources.addResource('image', url));
 	shoreImages.forEach((url) => resources.addResource('image', url));
+	resources.addResource('image', shoreImage);
 	resources.addResource('image', LIGHTS_IMAGE);
 
 	// in dev mode, bypass the title screen for convenience
@@ -228,6 +230,7 @@
 					{landImages}
 					{seaImages}
 					{shoreImages}
+					{shoreImage}
 					{seashoreFloorIndex}
 					lightsImage={LIGHTS_IMAGE}
 					lightsOpacity={activeDaylight}
