@@ -33,7 +33,7 @@
 			moveCamera(dx / scale, dy / scale);
 		}
 
-		// TODO correctly handle when the DOM element itself is scaled
+		// TODO correctly handle when the DOM element itself is scaled -- maybe the existing `scale` should be `zoom` and this is `scale`?
 		pointerX = clientX - rect.left; //  / domElementScale;
 		pointerY = clientY - rect.top; // / domElementScale;
 	};
