@@ -1,6 +1,8 @@
 <script lang="ts">
 	import {swallow} from '@feltcoop/util/dom.js';
 
+	// TODO pinch to zoom - https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events/Pinch_zoom_gestures
+
 	// TODO merge with `$lib/flat/InteractiveSurface.svelte`
 	// TODO maybe pass camera, but some components would need refactoring
 	export let width: number;
