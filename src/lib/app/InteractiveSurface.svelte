@@ -21,6 +21,7 @@
 	export let pointerY: number | null = null;
 
 	let el: HTMLDivElement;
+	let touch = false;
 
 	const updatePointerPosition = (clientX: number, clientY: number): void => {
 		const rect = el.getBoundingClientRect();
@@ -32,10 +33,9 @@
 			moveCamera(dx / scale, dy / scale);
 		}
 
-		// TODO BLOCK correctly handle scale
-		pointerX = clientX - rect.left; //  / scale;
-		pointerY = clientY - rect.top; // / scale;
-		console.log(`pointerX, pointerY`, pointerX, pointerY);
+		// TODO correctly handle when the DOM element itself is scaled
+		pointerX = clientX - rect.left; //  / domElementScale;
+		pointerY = clientY - rect.top; // / domElementScale;
 	};
 	const startDragging = () => {
 		pointerDown = true;
@@ -45,25 +45,21 @@
 	};
 
 	const onMouseMove = (e: MouseEvent) => {
-		console.log(`mouseMove`);
 		if (!inputEnabled) return;
 		swallow(e);
 		updatePointerPosition(e.clientX, e.clientY);
 	};
 	const onMouseDown = (e: MouseEvent) => {
-		console.log('mousedown');
 		if (!inputEnabled) return;
 		swallow(e);
 		startDragging();
 	};
 	const onMouseUp = (e: MouseEvent) => {
-		console.log('mouseup');
 		if (!inputEnabled) return;
 		swallow(e);
 		stopDragging();
 	};
 	const onMouseLeave = () => {
-		console.log('mouseleave');
 		if (!inputEnabled) return;
 		stopDragging();
 		pointerX = null;
@@ -74,10 +70,40 @@
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
 		zoomCamera(scaleDelta, pointerX, pointerY);
 	};
+
+	// TODO mount only for mobile
+	// TODO handle all touches not just the first
+	const onTouchstart = (e: TouchEvent) => {
+		if (!inputEnabled) return;
+		swallow(e);
+		touch = true;
+		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+		pointerDown = true;
+		focus();
+	};
+	const onTouchend = (e: TouchEvent) => {
+		if (!inputEnabled) return;
+		swallow(e);
+		touch = true;
+		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+		pointerDown = false;
+	};
+	const onTouchcancel = (e: TouchEvent) => {
+		if (!inputEnabled) return;
+		swallow(e);
+		touch = true;
+		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+		pointerDown = false;
+	};
+	const onTouchmove = (e: TouchEvent) => {
+		if (!inputEnabled) return;
+		swallow(e);
+		touch = true;
+		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+	};
+
 	const onContextmenu = (e: MouseEvent) => {
-		if (!e.shiftKey) {
-			// TODO BLOCK use touch events with a `touch` flag
-			// handles mobile issue
+		if (touch && !e.shiftKey) {
 			swallow(e);
 		}
 	};
@@ -94,6 +120,10 @@
 	on:mouseup={onMouseUp}
 	on:mouseleave={onMouseLeave}
 	on:wheel|passive={onWheel}
+	on:touchstart={onTouchstart}
+	on:touchend={onTouchend}
+	on:touchcancel={onTouchcancel}
+	on:touchmove={onTouchmove}
 	on:contextmenu={onContextmenu}
 >
 	<slot />
