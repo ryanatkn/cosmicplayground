@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type {Controller} from '$lib/flat/Controller';
 
-	// TODO merge with `$lib/app/InteractiveSurface.svelte`
+	// TODO merge with `$lib/app/Surface.svelte`
 
 	export let controller: Controller;
 

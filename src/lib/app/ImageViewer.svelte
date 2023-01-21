@@ -1,5 +1,5 @@
 <script lang="ts">
-	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
+	import Surface from '$lib/app/Surface.svelte';
 
 	export let width: number;
 	export let height: number;
@@ -15,7 +15,7 @@
 	export let inputEnabled = true;
 </script>
 
-<InteractiveSurface {width} {height} {scale} {zoomCamera} {moveCamera} {inputEnabled}>
+<Surface {width} {height} {scale} {zoomCamera} {moveCamera} {inputEnabled}>
 	<div class="image-viewer">
 		<div
 			class="transform-wrapper"
@@ -25,7 +25,7 @@
 			<slot />
 		</div>
 	</div>
-</InteractiveSurface>
+</Surface>
 
 <style>
 	.image-viewer {
