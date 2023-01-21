@@ -14,57 +14,69 @@
 	export let moveCamera: (dx: number, dy: number) => void;
 	export let inputEnabled = true;
 
-	let dragging = false;
-	let movedWhileDragging = false;
-	let lastMouseX: number | null = null;
-	let lastMouseY: number | null = null;
+	// TODO dispatch events (instead or in addition to binding?)
+	// exported for binding
+	export let pointerDown = false;
+	export let pointerX: number | null = null;
+	export let pointerY: number | null = null;
 
+	let el: HTMLDivElement;
+
+	const updatePointerPosition = (clientX: number, clientY: number): void => {
+		const rect = el.getBoundingClientRect();
+
+		// update dragging
+		if (pointerDown) {
+			const dx = pointerX === null ? 0 : pointerX - clientX;
+			const dy = pointerY === null ? 0 : pointerY - clientY;
+			moveCamera(dx / scale, dy / scale);
+		}
+
+		// TODO BLOCK correctly handle scale
+		pointerX = clientX - rect.left; //  / scale;
+		pointerY = clientY - rect.top; // / scale;
+		console.log(`pointerX, pointerY`, pointerX, pointerY);
+	};
 	const startDragging = () => {
-		dragging = true;
-		movedWhileDragging = false;
+		pointerDown = true;
 	};
 	const stopDragging = () => {
-		if (!dragging) return false;
-		dragging = false;
-		return movedWhileDragging;
-	};
-	const updateDragging = (clientX: number, clientY: number) => {
-		const dx = lastMouseX === null ? 0 : lastMouseX - clientX;
-		const dy = lastMouseY === null ? 0 : lastMouseY - clientY;
-		moveCamera(dx / scale, dy / scale);
-		movedWhileDragging = true;
+		pointerDown = false;
 	};
 
 	const onMouseMove = (e: MouseEvent) => {
+		console.log(`mouseMove`);
 		if (!inputEnabled) return;
-		if (dragging) {
-			updateDragging(e.clientX, e.clientY);
-		}
-		lastMouseX = e.clientX;
-		lastMouseY = e.clientY;
+		swallow(e);
+		updatePointerPosition(e.clientX, e.clientY);
 	};
-	const onMouseDown = () => {
+	const onMouseDown = (e: MouseEvent) => {
+		console.log('mousedown');
 		if (!inputEnabled) return;
+		swallow(e);
 		startDragging();
 	};
-	const onMouseUp = () => {
+	const onMouseUp = (e: MouseEvent) => {
+		console.log('mouseup');
 		if (!inputEnabled) return;
+		swallow(e);
 		stopDragging();
 	};
-	// const onMouseEnter = () => {
-	// 	if (!inputEnabled) return;
-	// };
 	const onMouseLeave = () => {
+		console.log('mouseleave');
 		if (!inputEnabled) return;
 		stopDragging();
+		pointerX = null;
+		pointerY = null;
 	};
 	const onWheel = (e: WheelEvent) => {
-		if (!inputEnabled || lastMouseX === null || lastMouseY === null) return;
+		if (!inputEnabled || pointerX === null || pointerY === null) return;
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
-		zoomCamera(scaleDelta, lastMouseX, lastMouseY);
+		zoomCamera(scaleDelta, pointerX, pointerY);
 	};
 	const onContextmenu = (e: MouseEvent) => {
 		if (!e.shiftKey) {
+			// TODO BLOCK use touch events with a `touch` flag
 			// handles mobile issue
 			swallow(e);
 		}
@@ -74,11 +86,12 @@
 <!-- on:mouseenter={onMouseEnter} -->
 
 <div
+	bind:this={el}
 	class="interactive-surface"
 	style="width: {width}px; height: {height}px;"
-	on:mousemove|stopPropagation={onMouseMove}
-	on:mousedown|stopPropagation={onMouseDown}
-	on:mouseup|stopPropagation={onMouseUp}
+	on:mousemove={onMouseMove}
+	on:mousedown={onMouseDown}
+	on:mouseup={onMouseUp}
 	on:mouseleave={onMouseLeave}
 	on:wheel|passive={onWheel}
 	on:contextmenu={onContextmenu}
