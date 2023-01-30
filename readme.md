@@ -26,11 +26,11 @@ It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
   Space out or zoom and pan around to explore on your own—try to spot your atoms' cousins!
   It displays images from Hubble, [spacetelescope.org](https://www.spacetelescope.org/about/).
   Try it on an idle screen but be mindful of the power usage. :]
-  - mobile caveats D:
-    - pinch-to-zoom doesn't work yet (I'm being stubborn and don't want to use a library)
-    - some mobile browsers may crash if the GPU can't handle the load :|
   - Safari users: Starlit Hammock uses the modern image format webp instead of jpg,
     which means it only works on iOS 14 & macOS Big Sur or later
+- mobile caveats D:
+  - pinch-to-zoom doesn't work yet (I'm being stubborn and don't want to use a library)
+  - some mobile browsers may crash if the GPU can't handle the load :|
 - Two tools for understanding
   [the easing functions in Svelte](https://svelte.dev/docs#run-time-svelte-easing)
   (see also [the official example](https://svelte.dev/examples/easing)):
