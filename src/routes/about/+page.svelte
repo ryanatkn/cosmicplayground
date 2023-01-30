@@ -17,9 +17,12 @@
 	<Panel>
 		<h2>About</h2>
 		<p>
-			Cosmicplayground is a hobby project exploring some tools and toys using web technology for fun
-			and learning. It's made by <a href="https://www.ryanatkn.com">Ryan Atkinson</a> with Svelte,
-			SvelteKit, Vite, TypeScript, PixiJS, and <em>space</em>. Read on for the full credits.
+			Cosmicplayground is an open source (<a href="https://github.com/ryanatkn/cosmicplayground"
+				>@cosmicplayground@github.com</a
+			>) noncommercial hobby project exploring some tools and toys using web technology for fun and
+			learning. It's made by <a href="https://www.ryanatkn.com">Ryan Atkinson</a>
+			with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and <em>space</em>. Read on for the full
+			credits.
 		</p>
 	</Panel>
 	<Panel>
