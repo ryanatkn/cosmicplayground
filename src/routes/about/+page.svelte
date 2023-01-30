@@ -39,6 +39,14 @@
 		</p>
 	</Panel>
 	<Panel>
+		<h2>Package</h2>
+		<p>
+			This website depends on heaps of open source. Can't name it all too big. See
+			<a href="https://github.com/ryanatkn/cosmicplayground/blob/main/package.json">package.json</a
+			>.
+		</p>
+	</Panel>
+	<Panel>
 		<CreditsProjectSignature />
 		<div style="position: relative; cursor: none; height: 0">
 			<img
