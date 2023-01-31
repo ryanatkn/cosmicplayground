@@ -1,5 +1,4 @@
 import {randomFloat} from '@feltcoop/util/random.js';
-import {klona} from 'klona/json';
 import {get, writable, type Writable} from 'svelte/store';
 import {dequal} from 'dequal/lite';
 
@@ -78,7 +77,7 @@ export const mergeScores = (
 	existingScores: StarshipStageScores,
 	newScores: StarshipStageScores | undefined,
 ): StarshipStageScores => {
-	const finalScores = klona(existingScores);
+	const finalScores = structuredClone(existingScores);
 	if (!newScores) return finalScores;
 	for (let i = 0; i < newScores.crew.length; i++) {
 		if (newScores.crew[i]) finalScores.crew[i] = true;

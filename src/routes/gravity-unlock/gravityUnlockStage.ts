@@ -1,5 +1,4 @@
 import {randomFloat} from '@feltcoop/util/random.js';
-import {klona} from 'klona/json';
 import {get, writable, type Writable} from 'svelte/store';
 import {dequal} from 'dequal/lite';
 
@@ -46,7 +45,7 @@ export const mergeScores = (
 	existingScores: GravityUnlockStageScores,
 	newScores: GravityUnlockStageScores | undefined,
 ): GravityUnlockStageScores => {
-	const finalScores = klona(existingScores);
+	const finalScores = structuredClone(existingScores);
 	if (!newScores) return finalScores;
 	finalScores.bonus = Math.max(newScores.bonus, finalScores.bonus);
 	return finalScores;

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import {klona} from 'klona/json';
-
 	import {initialStageData, type StageData} from '../stage';
 	import GravityUnlockStageBuilder from '../GravityUnlockStageBuilder.svelte';
 	import Tabs from '$lib/ui/Tabs.svelte';
@@ -32,7 +30,10 @@
 	$: selectedDataStorageKey = `${STORAGE_KEY_STAGES}_${selectedDataIndex}`;
 	$: selectedData =
 		datas[selectedDataIndex] ||
-		(datas[selectedDataIndex] = loadFromStorage(selectedDataStorageKey, klona(initialStageData)));
+		(datas[selectedDataIndex] = loadFromStorage(
+			selectedDataStorageKey,
+			structuredClone(initialStageData),
+		));
 
 	// TODO extract a custom store to handle this list of items
 	const selectIndex = (index: number): void => {
@@ -57,7 +58,7 @@
 
 	const addData = () => {
 		if (datas.length >= MAX_DATA_COUNT) return;
-		datas = datas.concat(klona(selectedData));
+		datas = datas.concat(structuredClone(selectedData));
 		selectIndex(datas.length - 1);
 	};
 </script>
