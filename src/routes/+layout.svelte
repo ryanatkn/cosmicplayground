@@ -173,7 +173,6 @@
 
 <svelte:head>
 	<title>cosmicplayground</title>
-	<link rel="icon" href="/favicon.png" />
 </svelte:head>
 
 <svelte:window
