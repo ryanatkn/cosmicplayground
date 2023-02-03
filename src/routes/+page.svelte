@@ -130,7 +130,7 @@
 	const TRANSITION_DURATION = 500;
 	// slow transition the first time -- TODO and play music?
 	$: transitionDuration =
-		savedScores || exitStarshipModeCount > 1 ? TRANSITION_DURATION : TRANSITION_DURATION * 8;
+		savedScores || exitStarshipModeCount > 1 ? TRANSITION_DURATION : TRANSITION_DURATION * 1;
 	let transitioningStarshipModeCount = 0; // counter so it handles concurrent calls without much code
 	// TODO disable input while transitioning?
 	$: transitioningStarshipMode = transitioningStarshipModeCount > 0;
