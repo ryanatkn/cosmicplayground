@@ -1,8 +1,6 @@
 import {randomFloat} from '@feltjs/util/random.js';
 import {get, writable, type Writable} from 'svelte/store';
 import {dequal} from 'dequal/lite';
-
-import type {Hsl} from '$lib/util/colors';
 import {
 	Stage as BaseStage,
 	type StageSetupOptions,
@@ -13,6 +11,8 @@ import {
 	DEFAULT_STRENGTH,
 	Entity,
 } from '@feltcoop/dealt';
+
+import type {Hsl} from '$lib/util/colors';
 
 // TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
 // and our `Hsl` is good for fast manipulation
