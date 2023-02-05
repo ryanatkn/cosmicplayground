@@ -185,22 +185,6 @@ export class Stage extends BaseStage {
 		this.scores = writable(toScores(this));
 	}
 
-	addEntity(entity: Entity): void {
-		this.sim.addEntity(entity);
-
-		this.container.addChild(entity.container);
-
-		// TODO handle redrawing when graphics change, see `entity.draw`
-		entity.draw();
-	}
-
-	removeEntity(entity: Entity): void {
-		this.container.removeChild(entity.container);
-		this.sim.removeEntity(entity);
-		entity.destroy();
-		// TODO remove from the other collections? maybe after figuring out the tagging/type/bitmask system
-	}
-
 	override update(_dt: number): void {
 		const dt = this.timeDilation * Math.min(Math.max(_dt, 0), MAX_DT);
 		super.update(dt);
