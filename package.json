@@ -35,6 +35,7 @@
     "node": ">=18.6"
   },
   "devDependencies": {
+    "@feltcoop/dealt": "^0.1.0",
     "@feltcoop/eslint-config": "^0.2.1",
     "@feltcoop/felt": "^0.46.0",
     "@feltcoop/gro": "^0.69.0",

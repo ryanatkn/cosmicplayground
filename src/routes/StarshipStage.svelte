@@ -2,7 +2,13 @@
 	import {swallow} from '@feltcoop/util/dom.js';
 	import type {Writable} from 'svelte/store';
 
-	import World from '$lib/flat/World.svelte';
+	import {
+		World,
+		Surface,
+		DomCanvasRenderer,
+		type CameraStore,
+		type Controller,
+	} from '@feltcoop/dealt';
 	import {
 		PLAYER_SPEED,
 		PLAYER_SPEED_BOOSTED,
@@ -16,11 +22,7 @@
 	} from './starshipStage';
 	import {getClock} from '$lib/app/clock';
 	import {getIdle} from '$lib/app/trackIdleState';
-	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
 	import {getPixi} from '$lib/app/pixi';
-	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
-	import type {CameraStore} from '$lib/flat/camera';
-	import type {Controller} from '$lib/flat/Controller';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;
@@ -144,7 +146,7 @@
 		{clock}
 	/>
 </div>
-<InteractiveSurface {controller} />
+<Surface {controller} />
 
 <style>
 	.view {

@@ -2,12 +2,17 @@ import {randomFloat} from '@feltcoop/util/random.js';
 import {get, writable, type Writable} from 'svelte/store';
 import {dequal} from 'dequal/lite';
 
-import {Stage as BaseStage, type StageSetupOptions} from '$lib/flat/Stage';
-import type {EntityCircle} from '$lib/flat/entityBody';
-import {frag, collide} from '$lib/flat/entityHelpers';
-import {updateDirection} from '$lib/flat/Controller';
 import type {Hsl} from '$lib/util/colors';
-import {DEFAULT_STRENGTH, Entity} from '$lib/flat/Entity';
+import {
+	Stage as BaseStage,
+	type StageSetupOptions,
+	type EntityCircle,
+	frag,
+	collide,
+	updateDirection,
+	DEFAULT_STRENGTH,
+	Entity,
+} from '@feltcoop/dealt';
 
 // TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
 // and our `Hsl` is good for fast manipulation
