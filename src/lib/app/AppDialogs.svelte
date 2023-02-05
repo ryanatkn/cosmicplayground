@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dialog from '@feltcoop/felt/Dialog.svelte';
+	import Dialog from '@feltjs/felt-ui/Dialog.svelte';
 
 	import {showAppDialog, appDialogEl} from '$lib/app/appDialog';
 	import {getClock} from '$lib/app/clock';

@@ -23,7 +23,7 @@
   */
 
 	import {onDestroy} from 'svelte';
-	import {lerp} from '@feltcoop/util/maths.js';
+	import {lerp} from '@feltjs/util/maths.js';
 
 	import {svelteEasings} from '$lib/app/easings';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';

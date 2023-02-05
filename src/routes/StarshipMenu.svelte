@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {scale} from 'svelte/transition';
-	import {wait} from '@feltcoop/util/async.js';
+	import {wait} from '@feltjs/util/async.js';
 
 	import Panel from '$lib/app/Panel.svelte';
 	import StarshipPreview from './Preview.svelte';

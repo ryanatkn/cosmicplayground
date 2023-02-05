@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {swallow} from '@feltcoop/util/dom.js';
+	import {swallow} from '@feltjs/util/dom.js';
 
 	// TODO pinch to zoom - https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events/Pinch_zoom_gestures
 

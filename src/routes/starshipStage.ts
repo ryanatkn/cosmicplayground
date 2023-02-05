@@ -1,6 +1,5 @@
-import {randomFloat} from '@feltcoop/util/random.js';
+import {randomFloat} from '@feltjs/util/random.js';
 import {get, writable, type Writable} from 'svelte/store';
-import {dequal} from 'dequal/lite';
 
 import type {Hsl} from '$lib/util/colors';
 import {

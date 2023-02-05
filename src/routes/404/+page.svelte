@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {page} from '$app/stores';
-	import Breadcrumbs from '@feltcoop/felt/Breadcrumbs.svelte';
+	import Breadcrumbs from '@feltjs/felt-ui/Breadcrumbs.svelte';
 
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';

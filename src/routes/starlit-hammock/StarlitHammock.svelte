@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {AsyncStatus} from '@feltcoop/util/async.js';
+	import type {AsyncStatus} from '@feltjs/util/async.js';
 	import * as Pixi from 'pixi.js';
 
 	import {getPixiScene} from '$lib/app/pixi';

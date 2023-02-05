@@ -2,8 +2,8 @@
 	import {tweened} from 'svelte/motion';
 	import {cubicInOut} from 'svelte/easing';
 	import {onMount} from 'svelte';
-	import {randomFloat} from '@feltcoop/util/random.js';
-	import {swallow} from '@feltcoop/util/dom.js';
+	import {randomFloat} from '@feltjs/util/random.js';
+	import {swallow} from '@feltjs/util/dom.js';
 
 	import DeepBreathTitleScreen from './DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from './DeepBreathTour.svelte';

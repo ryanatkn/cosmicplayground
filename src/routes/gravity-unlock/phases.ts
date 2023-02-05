@@ -1,4 +1,4 @@
-import {randomItem} from '@feltcoop/util/random.js';
+import {randomItem} from '@feltjs/util/random.js';
 
 import {toImageMeta, type ImageMeta} from '$lib/app/images';
 import {type SongData, toSongData} from '$lib/music/songs';

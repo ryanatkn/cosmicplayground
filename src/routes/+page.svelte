@@ -1,10 +1,10 @@
 <script lang="ts">
 	import {tick} from 'svelte';
-	import {wait} from '@feltcoop/util/async.js';
-	import {EMPTY_ARRAY} from '@feltcoop/util/array.js';
-	import PendingAnimation from '@feltcoop/felt/PendingAnimation.svelte';
+	import {wait} from '@feltjs/util/async.js';
+	import {EMPTY_ARRAY} from '@feltjs/util/array.js';
+	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
 	import {dequal} from 'dequal/lite';
-	import {swallow} from '@feltcoop/util/dom.js';
+	import {swallow} from '@feltjs/util/dom.js';
 	import {browser} from '$app/environment';
 
 	import PortalPreview from '$lib/app/PortalPreview.svelte';

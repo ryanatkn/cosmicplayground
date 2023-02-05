@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {lerp} from '@feltcoop/util/maths.js';
+	import {lerp} from '@feltjs/util/maths.js';
 
 	let canvas: HTMLCanvasElement | null = null;
 	$: canvas && drawCanvas(canvas);
