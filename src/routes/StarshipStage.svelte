@@ -4,7 +4,7 @@
 
 	import {
 		World,
-		Surface,
+		SurfaceWithControlller,
 		DomCanvasRenderer,
 		type CameraStore,
 		type Controller,
@@ -141,12 +141,10 @@
 		{viewportHeight}
 		{stage}
 		{pixi}
-		{controller}
 		{domCanvasRenderer}
-		{clock}
 	/>
 </div>
-<Surface {controller} />
+<SurfaceWithControlller {controller} />
 
 <style>
 	.view {
