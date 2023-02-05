@@ -19,7 +19,7 @@ It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
   [lowest point during the last glacial maximum](https://wikipedia.org/wiki/Past_sea_level)
   before the
   [early Holocene sea level rise](https://wikipedia.org/wiki/Early_Holocene_sea_level_rise)
-  and the [estimated possible maximum](https://wikipedia.org/wiki/Sea_level_rise).
+  and one [estimated possible maximum](https://wikipedia.org/wiki/Sea_level_rise).
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies.
