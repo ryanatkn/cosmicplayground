@@ -4,7 +4,7 @@ import {sveltekit} from '@sveltejs/kit/vite';
 const config = {
 	plugins: [sveltekit()],
 	optimizeDeps: {
-		exclude: ['@feltjs/felt'],
+		exclude: ['@feltjs/felt-ui', '@feltcoop/dealt'],
 	},
 	build: {
 		chunkSizeWarningLimit: 550,

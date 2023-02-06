@@ -5,12 +5,12 @@ import {
 	DEFAULT_STRENGTH,
 	Entity,
 	Stage as BaseStage,
-	type StageSetupOptions,
 	type EntityCircle,
 	frag,
 	collide,
 	updateDirection,
 	type Hsl,
+	type StageOptions,
 } from '@feltcoop/dealt';
 
 // TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
@@ -88,7 +88,7 @@ export class Stage extends BaseStage {
 		if (!dequal(newScores, get(this.scores))) this.scores.set(newScores);
 	}
 
-	constructor(options: StageSetupOptions) {
+	constructor(options: StageOptions) {
 		super(options);
 		const {data} = options;
 

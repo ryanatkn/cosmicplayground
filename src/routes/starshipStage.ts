@@ -3,7 +3,6 @@ import {get, writable, type Writable} from 'svelte/store';
 import {dequal} from 'dequal/lite';
 import {
 	Stage as BaseStage,
-	type StageSetupOptions,
 	type EntityCircle,
 	frag,
 	collide,
@@ -11,6 +10,7 @@ import {
 	DEFAULT_STRENGTH,
 	Entity,
 	type Hsl,
+	type StageOptions,
 } from '@feltcoop/dealt';
 
 // TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
@@ -126,7 +126,7 @@ export class Stage extends BaseStage {
 		if (!dequal(newScores, get(this.scores))) this.scores.set(newScores);
 	}
 
-	constructor(options: StageSetupOptions) {
+	constructor(options: StageOptions) {
 		super(options);
 
 		const playerX = 850;
