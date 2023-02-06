@@ -133,6 +133,7 @@ TODO ideas
 	const createStage = () => {
 		if (stage) destroyStage();
 		stage = new Stage({
+			exit: (outcome) => console.log('exited stage', outcome),
 			viewHeight,
 			viewWidth,
 			viewportHeight,

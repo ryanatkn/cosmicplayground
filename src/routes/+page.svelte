@@ -146,6 +146,7 @@
 	}
 	const createStage = () => {
 		stage = new Stage({
+			exit: (outcome) => console.log('exited stage', outcome), // TODO refactor with `finish` below
 			worldWidth,
 			worldHeight,
 			viewWidth,
@@ -207,6 +208,7 @@
 		return true;
 	};
 
+	// TODO refactor with `exit` above
 	let finished = false;
 	const finish = async (scores: StarshipStageScores | null): Promise<void> => {
 		if (finished) return;
