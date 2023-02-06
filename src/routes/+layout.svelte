@@ -11,11 +11,16 @@
 	import {goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
 	import {swallow} from '@feltjs/util/dom.js';
-	import {setClock, enableGlobalHotkeys, setDimensions} from '@feltcoop/dealt';
+	import {
+		setIdle,
+		trackIdleState,
+		setClock,
+		enableGlobalHotkeys,
+		setDimensions,
+	} from '@feltcoop/dealt';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
-	import {setIdle, trackIdleState} from '$lib/app/trackIdleState';
 	import PixiView from '$lib/app/PixiView.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
