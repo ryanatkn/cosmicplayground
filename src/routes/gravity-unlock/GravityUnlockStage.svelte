@@ -5,11 +5,12 @@
 		DomCanvasRenderer,
 		type CameraStore,
 		type Controller,
+		getClock,
+		getIdle,
 	} from '@feltcoop/dealt';
-	import {getClock} from '$lib/app/clock';
-	import {getIdle} from '$lib/app/trackIdleState';
-	import {getPixi} from '$lib/app/pixi';
 	import type {Writable} from 'svelte/store';
+
+	import {getPixi} from '$lib/app/pixi';
 	import type {GravityUnlockStageScores, Stage} from './gravityUnlockStage';
 
 	export let viewportWidth: number;

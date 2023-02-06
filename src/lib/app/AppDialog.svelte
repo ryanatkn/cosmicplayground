@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Teleport from '@feltjs/felt-ui/Teleport.svelte';
+	import {getClock} from '@feltcoop/dealt';
 
-	import {getClock} from '$lib/app/clock';
 	import {showAppDialog, appDialogEl} from '$lib/app/appDialog';
 
 	const clock = getClock();

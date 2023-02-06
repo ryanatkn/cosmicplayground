@@ -1,9 +1,9 @@
 <script lang="ts">
 	import {goto} from '$app/navigation';
 	import {swallow} from '@feltjs/util/dom.js';
+	import {enableGlobalHotkeys} from '@feltcoop/dealt';
 
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import {enableGlobalHotkeys} from '$lib/util/dom';
 
 	const onKeydown = async (e: KeyboardEvent) => {
 		if (e.key === 'Escape' && e.ctrlKey && enableGlobalHotkeys(e.target)) {

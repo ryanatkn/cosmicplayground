@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Dialog from '@feltjs/felt-ui/Dialog.svelte';
+	import {getClock} from '@feltcoop/dealt';
 
 	import {showAppDialog, appDialogEl} from '$lib/app/appDialog';
-	import {getClock} from '$lib/app/clock';
 
 	const clock = getClock();
 

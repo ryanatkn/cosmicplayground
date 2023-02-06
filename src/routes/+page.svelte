@@ -6,6 +6,7 @@
 	import {dequal} from 'dequal/lite';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {browser} from '$app/environment';
+	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import StarshipPreview from './Preview.svelte';
@@ -29,7 +30,6 @@
 	import GravityUnlockPortalPreview from './gravity-unlock/Preview.svelte';
 	import StarshipMenu from './StarshipMenu.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';
-	import {getClock} from '$lib/app/clock';
 	import {
 		mergeScores,
 		rescuedAllMoons,
@@ -41,7 +41,6 @@
 		rescuedAllCrewAtOnce,
 		toInitialScores,
 	} from './starshipStage';
-	import {getDimensions} from '$lib/app/dimensions';
 	import {toSongData} from '$lib/music/songs';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
@@ -52,7 +51,7 @@
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from './data';
 	import type {PortalData} from '$lib/app/portal';
-	import {enableGlobalHotkeys, scrollDown} from '$lib/util/dom';
+	import {scrollDown} from '$lib/util/dom';
 	import {showAppDialog} from '$lib/app/appDialog';
 
 	const dimensions = getDimensions();

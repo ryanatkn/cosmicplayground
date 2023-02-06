@@ -11,6 +11,7 @@
 	import {goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
 	import {swallow} from '@feltjs/util/dom.js';
+	import {setClock, enableGlobalHotkeys, setDimensions} from '@feltcoop/dealt';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
@@ -19,15 +20,12 @@
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
 	import Panel from '$lib/app/Panel.svelte';
-	import {setClock} from '$lib/app/clock';
 	import {setSettings} from '$lib/app/settings';
 	import {setPortals, createPortalsStore} from '$lib/app/portals';
 	import {updateRenderStats} from '$lib/app/renderStats';
 	import {portalsData} from '../lib/app/portalsData';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 	import {setAudioCtx} from '$lib/audio/audioCtx';
-	import {setDimensions} from '$lib/app/dimensions';
-	import {enableGlobalHotkeys} from '$lib/util/dom';
 	import {showAppDialog} from '$lib/app/appDialog';
 	import AppDialogs from '$lib/app/AppDialogs.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';

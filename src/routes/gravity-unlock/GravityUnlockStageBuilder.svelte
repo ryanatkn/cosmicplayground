@@ -1,14 +1,12 @@
 <script lang="ts">
 	import {createEventDispatcher, onMount} from 'svelte';
 	import {swallow} from '@feltjs/util/dom.js';
+	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
 	import {initialStageData, type StageData} from './stage';
 	import GravityUnlockStage from './GravityUnlockStage.svelte';
 	import {Stage} from './gravityUnlockStage';
-	import {getDimensions} from '$lib/app/dimensions';
-	import {getClock} from '$lib/app/clock';
 	import {getPixi} from '$lib/app/pixi';
-	import {enableGlobalHotkeys} from '$lib/util/dom';
 
 	/*
 

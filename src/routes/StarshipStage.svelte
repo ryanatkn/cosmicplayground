@@ -1,14 +1,16 @@
 <script lang="ts">
 	import {swallow} from '@feltjs/util/dom.js';
 	import type {Writable} from 'svelte/store';
-
 	import {
 		World,
 		SurfaceWithControlller,
 		DomCanvasRenderer,
 		type CameraStore,
 		type Controller,
+		getClock,
+		getIdle,
 	} from '@feltcoop/dealt';
+
 	import {
 		PLAYER_SPEED,
 		PLAYER_SPEED_BOOSTED,
@@ -20,8 +22,6 @@
 		Stage,
 		type StarshipStageScores,
 	} from './starshipStage';
-	import {getClock} from '$lib/app/clock';
-	import {getIdle} from '$lib/app/trackIdleState';
 	import {getPixi} from '$lib/app/pixi';
 
 	export let viewportWidth: number;

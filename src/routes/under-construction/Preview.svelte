@@ -1,5 +1,6 @@
 <script lang="ts">
-	import {getClock} from '$lib/app/clock';
+	import {getClock} from '@feltcoop/dealt';
+
 	import {freezeframe} from '$lib/app/freezeframe';
 
 	const clock = getClock();

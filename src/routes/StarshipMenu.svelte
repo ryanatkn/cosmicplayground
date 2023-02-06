@@ -1,10 +1,10 @@
 <script lang="ts">
 	import {scale} from 'svelte/transition';
 	import {wait} from '@feltjs/util/async.js';
+	import type {ClockStore} from '@feltcoop/dealt';
 
 	import Panel from '$lib/app/Panel.svelte';
 	import StarshipPreview from './Preview.svelte';
-	import type {ClockStore} from '$lib/app/clock';
 	import StarshipStageScore from './StarshipStageScore.svelte';
 	import type {StarshipStageScores} from './starshipStage';
 	import AppControlsTable from '$lib/app/AppControlsTable.svelte';

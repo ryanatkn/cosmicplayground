@@ -24,6 +24,7 @@
 
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@feltjs/util/maths.js';
+	import {getClock} from '@feltcoop/dealt';
 
 	import {svelteEasings} from '$lib/app/easings';
 	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
@@ -32,7 +33,6 @@
 	import {midiToFreq, type Midi} from '$lib/music/midi';
 	import {DEFAULT_TUNING} from '$lib/music/constants';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import {getClock} from '$lib/app/clock';
 
 	const clock = getClock();
 

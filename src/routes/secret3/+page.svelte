@@ -1,9 +1,8 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
+	import {getClock, getDimensions} from '@feltcoop/dealt';
 
 	import FreqSpectacle from '../freq-spectacle/FreqSpectacle.svelte';
-	import {getClock} from '$lib/app/clock';
-	import {getDimensions} from '$lib/app/dimensions';
 	import {getSettings} from '$lib/app/settings';
 	import {unlockSatisfyingSecret} from '$lib/util/secret';
 

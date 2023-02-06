@@ -1,9 +1,9 @@
 <script lang="ts">
 	import {round} from '@feltjs/util/maths.js';
+	import {getClock} from '@feltcoop/dealt';
 
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
-	import {getClock} from '$lib/app/clock';
 
 	export let tour: Tour;
 	export let debugStartTime: number;

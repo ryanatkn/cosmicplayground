@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {page} from '$app/stores';
+	import type {ClockStore} from '@feltcoop/dealt';
 
 	import Panel from '$lib/app/Panel.svelte';
-	import type {ClockStore} from '$lib/app/clock';
 
 	export let clock: ClockStore; // TODO or use context?
 

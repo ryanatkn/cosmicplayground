@@ -1,11 +1,11 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
+	import {getClock} from '@feltcoop/dealt';
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createSoggyPlanetTourData} from './soggyPlanetTourData';
 	import {type TourHooks, type TourData, updateAudioOnSeek, findTourStep} from '$lib/app/tour';
 	import {getSettings} from '$lib/app/settings';
-	import {getClock} from '$lib/app/clock';
 	import SoggyPlanetTourTitle from './SoggyPlanetTourTitle.svelte';
 	import Tour from '$lib/app/Tour.svelte';
 	import type Camera from '$lib/app/Camera.svelte';

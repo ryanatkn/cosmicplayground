@@ -4,6 +4,7 @@
 	import {onMount} from 'svelte';
 	import {randomFloat} from '@feltjs/util/random.js';
 	import {swallow} from '@feltjs/util/dom.js';
+	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
 	import DeepBreathTitleScreen from './DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from './DeepBreathTour.svelte';
@@ -17,9 +18,6 @@
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import DeepBreathDevHud from './DeepBreathDevHud.svelte';
-	import {getClock} from '$lib/app/clock';
-	import {getDimensions} from '$lib/app/dimensions';
-	import {enableGlobalHotkeys} from '$lib/util/dom';
 	import Camera from '$lib/app/Camera.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
 
