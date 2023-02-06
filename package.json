@@ -48,7 +48,7 @@
     "dequal": "^2.0.3",
     "eslint": "^8.33.0",
     "eslint-plugin-svelte3": "^4.0.0",
-    "pixi.js": "^6.5.8",
+    "pixi.js": "^7.1.2",
     "prettier": "^2.8.3",
     "prettier-plugin-svelte": "^2.9.0",
     "svelte": "^3.55.1",
