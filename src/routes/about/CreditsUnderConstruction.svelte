@@ -1,6 +1,7 @@
 <script lang="ts">
+	import {getClock} from '@feltcoop/dealt';
+
 	import PortalLink from '$lib/app/PortalLink.svelte';
-	import {getClock} from '$lib/app/clock';
 	import {freezeframe} from '$lib/app/freezeframe';
 
 	const clock = getClock();

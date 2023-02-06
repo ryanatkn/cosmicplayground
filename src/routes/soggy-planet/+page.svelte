@@ -1,7 +1,8 @@
 <script lang="ts">
 	import {onMount} from 'svelte';
-	import {randomFloat} from '@feltcoop/util/random.js';
-	import {swallow} from '@feltcoop/util/dom.js';
+	import {randomFloat} from '@feltjs/util/random.js';
+	import {swallow} from '@feltjs/util/dom.js';
+	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
 	import SoggyPlanetTitleScreen from './SoggyPlanetTitleScreen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
@@ -15,9 +16,6 @@
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import SoggyPlanetDevHud from './SoggyPlanetDevHud.svelte';
 	import SoggyPlanetTour from './SoggyPlanetTour.svelte';
-	import {getClock} from '$lib/app/clock';
-	import {getDimensions} from '$lib/app/dimensions';
-	import {enableGlobalHotkeys} from '$lib/util/dom';
 	import Camera from '$lib/app/Camera.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
 	import {SHORE_COUNT} from './constants';

@@ -1,33 +1,36 @@
 <script lang="ts">
-	import '@feltcoop/felt/style.css';
+	import '@feltjs/felt-ui/style.css';
 	import '$lib/app/style.css';
 	import '$lib/app/style-utilities.css';
 
 	import {onMount} from 'svelte';
-	import type {AsyncStatus} from '@feltcoop/util/async.js';
+	import type {AsyncStatus} from '@feltjs/util/async.js';
 	import {browser} from '$app/environment';
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
 	import {goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
-	import {swallow} from '@feltcoop/util/dom.js';
+	import {swallow} from '@feltjs/util/dom.js';
+	import {
+		setIdle,
+		trackIdleState,
+		setClock,
+		enableGlobalHotkeys,
+		setDimensions,
+	} from '@feltcoop/dealt';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
-	import {setIdle, trackIdleState} from '$lib/app/trackIdleState';
 	import PixiView from '$lib/app/PixiView.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
 	import Panel from '$lib/app/Panel.svelte';
-	import {setClock} from '$lib/app/clock';
 	import {setSettings} from '$lib/app/settings';
 	import {setPortals, createPortalsStore} from '$lib/app/portals';
 	import {updateRenderStats} from '$lib/app/renderStats';
 	import {portalsData} from '../lib/app/portalsData';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 	import {setAudioCtx} from '$lib/audio/audioCtx';
-	import {setDimensions} from '$lib/app/dimensions';
-	import {enableGlobalHotkeys} from '$lib/util/dom';
 	import {showAppDialog} from '$lib/app/appDialog';
 	import AppDialogs from '$lib/app/AppDialogs.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';
@@ -135,15 +138,16 @@
 	// TODO integrate this with the controls in `index.svelte` and `World.svelte`
 	const onKeyDown = async (e: KeyboardEvent) => {
 		// TODO main menu!
-		if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+		const {key, target} = e;
+		if (key === '`' && !e.ctrlKey && enableGlobalHotkeys(target)) {
 			// global pause
 			swallow(e);
 			clock.toggle();
-		} else if (e.key === '`' && e.ctrlKey) {
+		} else if (key === '`' && e.ctrlKey) {
 			// toggle dev mode
 			swallow(e);
 			settings.update((s) => ({...s, devMode: !s.devMode}));
-		} else if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.currentTarget)) {
+		} else if (key === 'Escape' && !e.shiftKey && enableGlobalHotkeys(e.currentTarget)) {
 			swallow(e);
 			if ($showAppDialog) {
 				$showAppDialog = false;
@@ -152,17 +156,17 @@
 				$showAppDialog = true;
 				clock.pause(); // TODO make this add to a stack so we can safely unpause
 			}
-		} else if (e.key === 'Escape' && e.ctrlKey) {
+		} else if (key === 'Escape' && e.shiftKey) {
 			// global nav up one
 			swallow(e);
 			await goto($page.url.pathname.split('/').slice(0, -1).join('/') || '/');
 		} else if ($settings.devMode) {
 			// dev mode hotkeys
-			if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+			if (key === '-' && !e.ctrlKey && enableGlobalHotkeys(target)) {
 				swallow(e);
 				settings.update((s) => ({...s, idleMode: !s.idleMode}));
 				console.log('idle mode is now', $settings.idleMode);
-			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+			} else if (key === '=' && !e.ctrlKey && enableGlobalHotkeys(target)) {
 				swallow(e);
 				settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
 				console.log('recording mode is now', $settings.recordingMode);

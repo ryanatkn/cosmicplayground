@@ -1,12 +1,12 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
 	import {createEventDispatcher, onDestroy} from 'svelte';
-	import {swallow} from '@feltcoop/util/dom.js';
-	import {UnreachableError} from '@feltcoop/util/error.js';
+	import {swallow} from '@feltjs/util/dom.js';
+	import {UnreachableError} from '@feltjs/util/error.js';
+	import type {ClockStore} from '@feltcoop/dealt';
 
 	import {getSettings} from '$lib/app/settings';
 	import {resetRenderStats, getRenderStats} from '$lib/app/renderStats';
-	import type {ClockStore} from '$lib/app/clock';
 	import type Camera from '$lib/app/Camera.svelte';
 	import TweenedCamera from '$lib/app/TweenedCamera.svelte';
 	import {

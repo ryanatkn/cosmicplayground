@@ -1,13 +1,16 @@
 <script lang="ts">
-	import World from '$lib/flat/World.svelte';
-	import {getClock} from '$lib/app/clock';
-	import {getIdle} from '$lib/app/trackIdleState';
-	import InteractiveSurface from '$lib/flat/InteractiveSurface.svelte';
-	import {getPixi} from '$lib/app/pixi';
-	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
-	import type {CameraStore} from '$lib/flat/camera';
+	import {
+		World,
+		SurfaceWithControlller,
+		DomCanvasRenderer,
+		type CameraStore,
+		type Controller,
+		getClock,
+		getIdle,
+	} from '@feltcoop/dealt';
 	import type {Writable} from 'svelte/store';
-	import type {Controller} from '$lib/flat/Controller';
+
+	import {getPixi} from '$lib/app/pixi';
 	import type {GravityUnlockStageScores, Stage} from './gravityUnlockStage';
 
 	export let viewportWidth: number;
@@ -89,12 +92,10 @@
 		{viewportHeight}
 		{stage}
 		{pixi}
-		{controller}
 		{domCanvasRenderer}
-		{clock}
 	/>
 </div>
-<InteractiveSurface {controller} />
+<SurfaceWithControlller {controller} />
 
 <style>
 	.view {

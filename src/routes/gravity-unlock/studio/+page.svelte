@@ -1,9 +1,10 @@
 <script lang="ts">
+	import {getClock} from '@feltcoop/dealt';
+
 	import {initialStageData, type StageData} from '../stage';
 	import GravityUnlockStageBuilder from '../GravityUnlockStageBuilder.svelte';
 	import Tabs from '$lib/ui/Tabs.svelte';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
-	import {getClock} from '$lib/app/clock';
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import StudioMenu from './_menu.svelte';
 

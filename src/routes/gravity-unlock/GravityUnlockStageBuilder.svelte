@@ -1,14 +1,12 @@
 <script lang="ts">
 	import {createEventDispatcher, onMount} from 'svelte';
-	import {swallow} from '@feltcoop/util/dom.js';
+	import {swallow} from '@feltjs/util/dom.js';
+	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
 	import {initialStageData, type StageData} from './stage';
 	import GravityUnlockStage from './GravityUnlockStage.svelte';
 	import {Stage} from './gravityUnlockStage';
-	import {getDimensions} from '$lib/app/dimensions';
-	import {getClock} from '$lib/app/clock';
 	import {getPixi} from '$lib/app/pixi';
-	import {enableGlobalHotkeys} from '$lib/util/dom';
 
 	/*
 
@@ -135,6 +133,7 @@ TODO ideas
 	const createStage = () => {
 		if (stage) destroyStage();
 		stage = new Stage({
+			exit: (outcome) => console.log('exited stage', outcome),
 			viewHeight,
 			viewWidth,
 			viewportHeight,

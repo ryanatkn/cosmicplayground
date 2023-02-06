@@ -1,6 +1,7 @@
 <script lang="ts">
+	import {getClock} from '@feltcoop/dealt';
+
 	import FreqSpeeds from '../freq-speeds/FreqSpeeds.svelte';
-	import {getClock} from '$lib/app/clock';
 
 	const clock = getClock();
 </script>

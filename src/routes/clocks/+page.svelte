@@ -1,9 +1,8 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
+	import {getClock, getDimensions} from '@feltcoop/dealt';
 
 	import FreqSpeeds from '../freq-speeds/FreqSpeeds.svelte';
-	import {getClock} from '$lib/app/clock';
-	import {getDimensions} from '$lib/app/dimensions';
 	import {setInStorage} from '$lib/util/storage';
 	import {STORAGE_KEY_STRENGTH_BOOSTER1} from '../data';
 	import {getSettings} from '$lib/app/settings';

@@ -1,13 +1,17 @@
-import {randomFloat} from '@feltcoop/util/random.js';
+import {randomFloat} from '@feltjs/util/random.js';
 import {get, writable, type Writable} from 'svelte/store';
 import {dequal} from 'dequal/lite';
-
-import {Stage as BaseStage, type StageSetupOptions} from '$lib/flat/Stage';
-import type {EntityCircle} from '$lib/flat/entityBody';
-import {frag, collide} from '$lib/flat/entityHelpers';
-import {updateDirection} from '$lib/flat/Controller';
-import type {Hsl} from '$lib/util/colors';
-import {DEFAULT_STRENGTH, Entity} from '$lib/flat/Entity';
+import {
+	DEFAULT_STRENGTH,
+	Entity,
+	Stage as BaseStage,
+	type EntityCircle,
+	frag,
+	collide,
+	updateDirection,
+	type Hsl,
+	type StageOptions,
+} from '@feltcoop/dealt';
 
 // TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
 // and our `Hsl` is good for fast manipulation
@@ -84,7 +88,7 @@ export class Stage extends BaseStage {
 		if (!dequal(newScores, get(this.scores))) this.scores.set(newScores);
 	}
 
-	constructor(options: StageSetupOptions) {
+	constructor(options: StageOptions) {
 		super(options);
 		const {data} = options;
 
@@ -178,22 +182,6 @@ export class Stage extends BaseStage {
 		this.moonsArray.push(...moons);
 
 		this.scores = writable(toScores(this));
-	}
-
-	addEntity(entity: Entity): void {
-		this.sim.addEntity(entity);
-
-		this.container.addChild(entity.container);
-
-		// TODO handle redrawing when graphics change, see `entity.draw`
-		entity.draw();
-	}
-
-	removeEntity(entity: Entity): void {
-		this.container.removeChild(entity.container);
-		this.sim.removeEntity(entity);
-		entity.destroy();
-		// TODO remove from the other collections? maybe after figuring out the tagging/type/bitmask system
 	}
 
 	override update(_dt: number): void {

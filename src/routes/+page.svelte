@@ -1,11 +1,12 @@
 <script lang="ts">
 	import {tick} from 'svelte';
-	import {wait} from '@feltcoop/util/async.js';
-	import {EMPTY_ARRAY} from '@feltcoop/util/array.js';
-	import PendingAnimation from '@feltcoop/felt/PendingAnimation.svelte';
+	import {wait} from '@feltjs/util/async.js';
+	import {EMPTY_ARRAY} from '@feltjs/util/array.js';
+	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
 	import {dequal} from 'dequal/lite';
-	import {swallow} from '@feltcoop/util/dom.js';
+	import {swallow} from '@feltjs/util/dom.js';
 	import {browser} from '$app/environment';
+	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import StarshipPreview from './Preview.svelte';
@@ -29,7 +30,6 @@
 	import GravityUnlockPortalPreview from './gravity-unlock/Preview.svelte';
 	import StarshipMenu from './StarshipMenu.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';
-	import {getClock} from '$lib/app/clock';
 	import {
 		mergeScores,
 		rescuedAllMoons,
@@ -41,7 +41,6 @@
 		rescuedAllCrewAtOnce,
 		toInitialScores,
 	} from './starshipStage';
-	import {getDimensions} from '$lib/app/dimensions';
 	import {toSongData} from '$lib/music/songs';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
@@ -52,7 +51,7 @@
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from './data';
 	import type {PortalData} from '$lib/app/portal';
-	import {enableGlobalHotkeys, scrollDown} from '$lib/util/dom';
+	import {scrollDown} from '$lib/util/dom';
 	import {showAppDialog} from '$lib/app/appDialog';
 
 	const dimensions = getDimensions();
@@ -147,6 +146,7 @@
 	}
 	const createStage = () => {
 		stage = new Stage({
+			exit: (outcome) => console.log('exited stage', outcome), // TODO refactor with `finish` below
 			worldWidth,
 			worldHeight,
 			viewWidth,
@@ -208,6 +208,7 @@
 		return true;
 	};
 
+	// TODO refactor with `exit` above
 	let finished = false;
 	const finish = async (scores: StarshipStageScores | null): Promise<void> => {
 		if (finished) return;
