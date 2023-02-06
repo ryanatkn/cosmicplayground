@@ -50,14 +50,6 @@
 			<Panel>
 				<div class="markup">
 					<h2>scores</h2>
-					<div class="centered-hz">
-						{#if resetScores}
-							<button on:click={resetScores}>reset scores</button>
-						{/if}
-						{#if importScores}
-							<button on:click={importScores}>import scores</button>
-						{/if}
-					</div>
 					{#if scores}
 						<br />
 						<StarshipStageScore {scores} defaultIcon="❔" />
@@ -73,6 +65,14 @@
 							{/if}
 						</p>
 					{/if}
+					<div class="centered-hz">
+						{#if resetScores}
+							<button on:click={resetScores}>reset scores</button>
+						{/if}
+						{#if importScores}
+							<button on:click={importScores}>import scores</button>
+						{/if}
+					</div>
 				</div>
 			</Panel>
 		</div>
