@@ -1,35 +1,35 @@
 <script lang="ts">
 	import {tick} from 'svelte';
-	import {wait} from '@feltcoop/util/async.js';
-	import {EMPTY_ARRAY} from '@feltcoop/util/array.js';
-	import PendingAnimation from '@feltcoop/felt/PendingAnimation.svelte';
+	import {wait} from '@feltjs/util/async.js';
+	import {EMPTY_ARRAY} from '@feltjs/util/array.js';
+	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
 	import {dequal} from 'dequal/lite';
-	import {swallow} from '@feltcoop/util/dom.js';
+	import {swallow} from '@feltjs/util/dom.js';
 	import {browser} from '$app/environment';
+	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
-	import StarshipPreview from '$lib/portals/home/Preview.svelte';
-	import aboutPortal from '$lib/portals/about/data';
-	import soggyPlanetPortal from '$lib/portals/soggy-planet/data';
-	import starlitHammockPortal from '$lib/portals/starlit-hammock/data';
-	import paintFreqsPortal from '$lib/portals/paint-freqs/data';
-	import easings2Portal from '$lib/portals/easings-2/data';
-	import easings1Portal from '$lib/portals/easings-1/data';
-	import hearingTestPortal from '$lib/portals/hearing-test/data';
-	import underConstructionPortal from '$lib/portals/under-construction/data';
-	import freqSpeedsPortal from '$lib/portals/freq-speeds/data';
-	import strengthBooster2Portal from '$lib/portals/secret2/data';
-	import strengthBooster3Portal from '$lib/portals/secret3/data';
-	import clocksPortal from '$lib/portals/clocks/data';
-	import freqSpectaclePortal from '$lib/portals/freq-spectacle/data';
+	import StarshipPreview from './Preview.svelte';
+	import aboutPortal from './about/data';
+	import soggyPlanetPortal from './soggy-planet/data';
+	import starlitHammockPortal from './starlit-hammock/data';
+	import paintFreqsPortal from './paint-freqs/data';
+	import easings2Portal from './easings-2/data';
+	import easings1Portal from './easings-1/data';
+	import hearingTestPortal from './hearing-test/data';
+	import underConstructionPortal from './under-construction/data';
+	import freqSpeedsPortal from './freq-speeds/data';
+	import strengthBooster2Portal from './secret2/data';
+	import strengthBooster3Portal from './secret3/data';
+	import clocksPortal from './clocks/data';
+	import freqSpectaclePortal from './freq-spectacle/data';
 	import {getSettings} from '$lib/app/settings';
-	import StarshipStage from '$lib/portals/home/StarshipStage.svelte';
+	import StarshipStage from './StarshipStage.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import StarshipStageScore from '$lib/portals/home/StarshipStageScore.svelte';
-	import GravityUnlockPortalPreview from '$lib/portals/gravity-unlock/Preview.svelte';
-	import StarshipMenu from '$lib/portals/home/StarshipMenu.svelte';
+	import StarshipStageScore from './StarshipStageScore.svelte';
+	import GravityUnlockPortalPreview from './gravity-unlock/Preview.svelte';
+	import StarshipMenu from './StarshipMenu.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';
-	import {getClock} from '$lib/app/clock';
 	import {
 		mergeScores,
 		rescuedAllMoons,
@@ -40,8 +40,7 @@
 		rescuedAllCrew,
 		rescuedAllCrewAtOnce,
 		toInitialScores,
-	} from '$lib/portals/home/starshipStage';
-	import {getDimensions} from '$lib/app/dimensions';
+	} from './starshipStage';
 	import {toSongData} from '$lib/music/songs';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
@@ -50,9 +49,9 @@
 		STORAGE_KEY_STRENGTH_BOOSTER1,
 		STORAGE_KEY_STRENGTH_BOOSTER2,
 		STORAGE_KEY_STRENGTH_BOOSTER3,
-	} from '$lib/portals/home/data';
-	import type {PortalData} from '$lib/portals/portal';
-	import {enableGlobalHotkeys, scrollDown} from '$lib/util/dom';
+	} from './data';
+	import type {PortalData} from '$lib/app/portal';
+	import {scrollDown} from '$lib/util/dom';
 	import {showAppDialog} from '$lib/app/appDialog';
 
 	const dimensions = getDimensions();
@@ -130,7 +129,7 @@
 	const TRANSITION_DURATION = 500;
 	// slow transition the first time -- TODO and play music?
 	$: transitionDuration =
-		savedScores || exitStarshipModeCount > 1 ? TRANSITION_DURATION : TRANSITION_DURATION * 8;
+		savedScores || exitStarshipModeCount > 1 ? TRANSITION_DURATION : TRANSITION_DURATION * 1;
 	let transitioningStarshipModeCount = 0; // counter so it handles concurrent calls without much code
 	// TODO disable input while transitioning?
 	$: transitioningStarshipMode = transitioningStarshipModeCount > 0;
@@ -147,6 +146,7 @@
 	}
 	const createStage = () => {
 		stage = new Stage({
+			exit: (outcome) => console.log('exited stage', outcome), // TODO refactor with `finish` below
 			worldWidth,
 			worldHeight,
 			viewWidth,
@@ -208,6 +208,7 @@
 		return true;
 	};
 
+	// TODO refactor with `exit` above
 	let finished = false;
 	const finish = async (scores: StarshipStageScores | null): Promise<void> => {
 		if (finished) return;

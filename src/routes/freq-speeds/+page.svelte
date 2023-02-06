@@ -1,11 +1,10 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
+	import {getClock, getDimensions} from '@feltcoop/dealt';
 
-	import FreqSpeeds from '$lib/portals/freq-speeds/FreqSpeeds.svelte';
-	import {getClock} from '$lib/app/clock';
-	import {getDimensions} from '$lib/app/dimensions';
+	import FreqSpeeds from './FreqSpeeds.svelte';
 	import {setInStorage} from '$lib/util/storage';
-	import {STORAGE_KEY_STRENGTH_BOOSTER2} from '$lib/portals/home/data';
+	import {STORAGE_KEY_STRENGTH_BOOSTER2} from '../data';
 	import {getSettings} from '$lib/app/settings';
 
 	// TODO give user control over speed in dialog

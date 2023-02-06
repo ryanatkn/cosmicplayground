@@ -1,8 +1,4 @@
-import {isEditable} from '@feltcoop/util/dom.js';
 import {tick} from 'svelte';
-
-export const enableGlobalHotkeys = (target: unknown): boolean =>
-	!!target && !isEditable(target as any); // TODO upgrade Felt
 
 // TODO upstream to felt, maybe use setTimeout
 /**

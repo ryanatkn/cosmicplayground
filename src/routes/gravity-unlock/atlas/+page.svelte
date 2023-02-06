@@ -1,14 +1,12 @@
 <script lang="ts">
-	import Atlas from '$lib/portals/gravity-unlock/Atlas.svelte';
+	import Atlas from '../Atlas.svelte';
 </script>
 
 <div class="gravity-unlock-atlas">
 	<Atlas />
 </div>
 <footer>
-	<a href="https://github.com/cosmicplayground/cosmicplayground/issues/50"
-		>TODO make a music player</a
-	>
+	<a href="https://github.com/ryanatkn/cosmicplayground/issues/50">TODO make a music player</a>
 </footer>
 
 <style>

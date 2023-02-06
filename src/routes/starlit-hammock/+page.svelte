@@ -1,18 +1,17 @@
 <script lang="ts">
-	import {randomItem, randomFloat} from '@feltcoop/util/random.js';
+	import {randomItem, randomFloat} from '@feltjs/util/random.js';
 	import {sineInOut} from 'svelte/easing';
+	import {getClock, getDimensions} from '@feltcoop/dealt';
 
-	import StarlitHammock from '$lib/portals/starlit-hammock/StarlitHammock.svelte';
+	import StarlitHammock from './StarlitHammock.svelte';
 	import ImagePicker from '$lib/app/ImagePicker.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import {spaceImages, type ImageMeta} from '$lib/app/images';
-	import {getClock} from '$lib/app/clock';
 	import ImageCreditsCaption from '$lib/app/ImageCreditsCaption.svelte';
-	import InteractiveSurface from '$lib/app/InteractiveSurface.svelte';
+	import Surface from '$lib/app/Surface.svelte';
 	import Panel from '$lib/app/Panel.svelte';
-	import AboutPortalPreview from '$lib/portals/about/Preview.svelte';
+	import AboutPortalPreview from './Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
-	import {getDimensions} from '$lib/app/dimensions';
 
 	/*
 	
@@ -232,7 +231,7 @@
 	</div>
 {:else}
 	<div class="interaction-surface-wrapper" style="width: {width}px; height: {height}px;">
-		<InteractiveSurface {width} {height} {scale} {zoomCamera} {moveCamera} />
+		<Surface {width} {height} {scale} {zoomCamera} {moveCamera} />
 	</div>
 {/if}
 <div class="hud idle-fade">

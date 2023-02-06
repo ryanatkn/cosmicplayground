@@ -1,6 +1,7 @@
 <script lang="ts">
+	import type {ClockStore} from '@feltcoop/dealt';
+
 	import AppControlsTable from '$lib/app/AppControlsTable.svelte';
-	import type {ClockStore} from '$lib/app/clock';
 
 	export let clock: ClockStore; // TODO or use context?
 </script>

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Breadcrumbs from '@feltcoop/felt/Breadcrumbs.svelte';
+	import Breadcrumbs from '@feltjs/felt-ui/Breadcrumbs.svelte';
 	import {page} from '$app/stores';
 
 	import Panel from '$lib/app/Panel.svelte';
-	import AboutPreview from '$lib/portals/about/Preview.svelte';
+	import AboutPreview from '../../routes/about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 </script>
 

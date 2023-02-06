@@ -19,16 +19,18 @@ It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
   [lowest point during the last glacial maximum](https://wikipedia.org/wiki/Past_sea_level)
   before the
   [early Holocene sea level rise](https://wikipedia.org/wiki/Early_Holocene_sea_level_rise)
-  and the [estimated possible maximum](https://wikipedia.org/wiki/Sea_level_rise).
+  and one [estimated possible maximum](https://wikipedia.org/wiki/Sea_level_rise).
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies.
   Space out or zoom and pan around to explore on your own—try to spot your atoms' cousins!
   It displays images from Hubble, [spacetelescope.org](https://www.spacetelescope.org/about/).
   Try it on an idle screen but be mindful of the power usage. :]
-  - it's not mobile friendly yet :|
   - Safari users: Starlit Hammock uses the modern image format webp instead of jpg,
     which means it only works on iOS 14 & macOS Big Sur or later
+- mobile caveats D:
+  - pinch-to-zoom doesn't work yet (I'm being stubborn and don't want to use a library)
+  - some mobile browsers may crash if the GPU can't handle the load :|
 - Two tools for understanding
   [the easing functions in Svelte](https://svelte.dev/docs#run-time-svelte-easing)
   (see also [the official example](https://svelte.dev/examples/easing)):
@@ -51,7 +53,7 @@ and there's no 3rd party junk anywhere.
 
 > **important**: Windows is not yet supported directly, but Windows users can use
 > [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) and other VMs;
-> see [this issue](https://github.com/cosmicplayground/cosmicplayground/issues/29) for more
+> see [this issue](https://github.com/ryanatkn/cosmicplayground/issues/29) for more
 
 To play with the code, you'll need Node 18.6+;
 
@@ -62,7 +64,7 @@ npm start # or gro dev
 npm run build # for production, or gro build
 ```
 
-> learn more about [Gro](https://github.com/feltcoop/gro)
+> learn more about [Gro](https://github.com/feltjs/gro)
 
 For full setup instructions from scratch,
 see the [cosmicplayground/setup](https://github.com/cosmicplayground/setup) repo.
@@ -83,9 +85,7 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [@Sinova/Collisions](https://github.com/Sinova/Collisions/) ∙
 [TypeScript](https://github.com/microsoft/TypeScript) ∙
 [uvu](https://github.com/lukeed/uvu) ∙
-[klona](https://github.com/lukeed/klona) ∙
-[dequal](https://github.com/lukeed/dequal) ∙
-[Gro](https://github.com/feltcoop/gro) ∙
+[Gro](https://github.com/feltjs/gro) ∙
 [ESLint](https://github.com/eslint/eslint) ∙
 [Prettier](https://github.com/prettier/prettier)
 & [more](package.json)

@@ -14,10 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cosmicplayground/cosmicplayground.git"
+    "url": "git+https://github.com/ryanatkn/cosmicplayground.git"
   },
   "bugs": {
-    "url": "https://github.com/cosmicplayground/cosmicplayground/issues"
+    "url": "https://github.com/ryanatkn/cosmicplayground/issues"
   },
   "keywords": [
     "space",
@@ -35,32 +35,32 @@
     "node": ">=18.6"
   },
   "devDependencies": {
-    "@feltcoop/eslint-config": "^0.2.1",
-    "@feltcoop/felt": "^0.43.0",
-    "@feltcoop/gro": "^0.67.3",
-    "@feltcoop/util": "^0.4.0",
+    "@feltcoop/dealt": "^0.2.2",
+    "@feltjs/eslint-config": "^0.2.1",
+    "@feltjs/felt-ui": "^0.47.1",
+    "@feltjs/gro": "^0.70.4",
+    "@feltjs/util": "^0.5.3",
     "@ryanatkn/collisions": "^3.0.1",
-    "@sveltejs/adapter-static": "^1.0.0-next.48",
-    "@sveltejs/kit": "^1.0.0-next.551",
-    "@typescript-eslint/eslint-plugin": "^5.43.0",
-    "@typescript-eslint/parser": "^5.43.0",
+    "@sveltejs/adapter-static": "^1.0.6",
+    "@sveltejs/kit": "^1.3.10",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
     "dequal": "^2.0.3",
-    "eslint": "^8.28.0",
+    "eslint": "^8.33.0",
     "eslint-plugin-svelte3": "^4.0.0",
-    "klona": "^2.0.5",
-    "pixi.js": "^7.0.4",
-    "prettier": "^2.7.1",
-    "prettier-plugin-svelte": "^2.8.1",
-    "svelte": "^3.53.1",
-    "svelte-check": "^2.9.2",
+    "pixi.js": "^6.5.8",
+    "prettier": "^2.8.3",
+    "prettier-plugin-svelte": "^2.9.0",
+    "svelte": "^3.55.1",
+    "svelte-check": "^3.0.3",
     "svelte-preprocess-esbuild": "^3.0.1",
-    "tslib": "^2.4.1",
-    "typescript": "^4.9.3",
+    "tslib": "^2.5.0",
+    "typescript": "^4.9.5",
     "uvu": "^0.5.6"
   },
   "eslintConfig": {
     "root": true,
-    "extends": "@feltcoop"
+    "extends": "@feltjs"
   },
   "prettier": {
     "useTabs": true,

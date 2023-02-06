@@ -1,26 +1,24 @@
 <script lang="ts">
 	import {onMount} from 'svelte';
-	import {randomFloat} from '@feltcoop/util/random.js';
-	import {swallow} from '@feltcoop/util/dom.js';
+	import {randomFloat} from '@feltjs/util/random.js';
+	import {swallow} from '@feltjs/util/dom.js';
+	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
-	import SoggyPlanetTitleScreen from '$lib/portals/soggy-planet/SoggyPlanetTitleScreen.svelte';
+	import SoggyPlanetTitleScreen from './SoggyPlanetTitleScreen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import DaylightHud from '$lib/app/DaylightHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
-	import EarthViewerDom from '$lib/app/EarthViewerDom.svelte';
 	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
 	import {createResourcesStore} from '$lib/app/resources';
 	import {getSettings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import SoggyPlanetDevHud from '$lib/portals/soggy-planet/SoggyPlanetDevHud.svelte';
-	import SoggyPlanetTour from '$lib/portals/soggy-planet/SoggyPlanetTour.svelte';
-	import {getClock} from '$lib/app/clock';
-	import {getDimensions} from '$lib/app/dimensions';
-	import {enableGlobalHotkeys} from '$lib/util/dom';
+	import SoggyPlanetDevHud from './SoggyPlanetDevHud.svelte';
+	import SoggyPlanetTour from './SoggyPlanetTour.svelte';
 	import Camera from '$lib/app/Camera.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
+	import {SHORE_COUNT} from './constants';
 
 	const clock = getClock();
 
@@ -56,8 +54,6 @@
 	const toggleHud = (value = !showHud) => {
 		showHud = value;
 	};
-
-	let enablePixiEarthViewer = true; // old slow DOM version is available
 
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
@@ -104,14 +100,9 @@
 
 	// Earth's sea
 	const seaImages = Array.from({length: 3}, (_, i) => `/assets/earth/sea_${i + 1}.png`);
-	// Earth's shores beneath the current sea level
-	const SHORE_COUNT = 13;
-	const shoreImages = Array.from(
-		{length: SHORE_COUNT},
-		(_, i) => `/assets/earth/shore_${SHORE_COUNT - i}.png`,
-	);
-	const seashoreFloorIndex = shoreImages.length;
-	const seaIndexMax = seaImages.length + shoreImages.length - 1;
+	const shoreImage = '/assets/earth/shore.png';
+	const seashoreFloorIndex = SHORE_COUNT;
+	const seaIndexMax = seaImages.length + SHORE_COUNT - 1;
 	const SEA_LEVEL_CYCLE_TIMER = 1000; // larger is slower
 	let seaLevelTimer = SEA_LEVEL_CYCLE_TIMER * 2.5;
 	$: if (selectedSeaLevel === null && hoveredSeaLevel === null) {
@@ -175,24 +166,11 @@
 		hoveredDaylight = value;
 	};
 
-	// Make the two Earths tile seamlessly when possible.
-	// We render only 2 instances as a balance between performance and UX.
-	// Ideally we'd use WebGL to make rendering multiples much cheaper,
-	// but that's currently out of scope for this project.
-	let earth1LeftOffset: number;
-	let earth2LeftOffset: number;
-	$: {
-		const xOffsetIndex = Math.floor($x! / imageWidth);
-		earth1LeftOffset = xOffsetIndex * imageWidth;
-		const xOffsetOverflow = $x! / imageWidth - xOffsetIndex;
-		earth2LeftOffset = earth1LeftOffset + imageWidth * (xOffsetOverflow < 0.5 ? -1 : 1);
-	}
-
 	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
 	const resources = createResourcesStore();
 	landImages.forEach((url) => resources.addResource('image', url));
 	seaImages.forEach((url) => resources.addResource('image', url));
-	shoreImages.forEach((url) => resources.addResource('image', url));
+	resources.addResource('image', shoreImage);
 	resources.addResource('image', LIGHTS_IMAGE);
 
 	// in dev mode, bypass the title screen for convenience
@@ -222,39 +200,22 @@
 {#if camera && x && y && scale}
 	<div class="soggy-planet">
 		{#if !showTitleScreen && $resources.status === 'success'}
-			{#if enablePixiEarthViewer}
-				<EarthViewerPixi
-					{camera}
-					{landImages}
-					{seaImages}
-					{shoreImages}
-					{seashoreFloorIndex}
-					lightsImage={LIGHTS_IMAGE}
-					lightsOpacity={activeDaylight}
-					{nightfallOpacity}
-					showLights={true}
-					{activeLandValue}
-					{activeSeaLevel}
-					{imageWidth}
-					{imageHeight}
-				/>
-			{:else}
-				<EarthViewerDom
-					{camera}
-					{earth1LeftOffset}
-					{earth2LeftOffset}
-					{landImages}
-					{seaImages}
-					{shoreImages}
-					{seashoreFloorIndex}
-					lightsImage={LIGHTS_IMAGE}
-					lightsOpacity={activeDaylight}
-					{nightfallOpacity}
-					showLights={true}
-					{activeLandValue}
-					{activeSeaLevel}
-				/>
-			{/if}
+			<EarthViewerPixi
+				{camera}
+				{landImages}
+				{seaImages}
+				{shoreImage}
+				shoreImageCount={SHORE_COUNT}
+				{seashoreFloorIndex}
+				lightsImage={LIGHTS_IMAGE}
+				lightsOpacity={activeDaylight}
+				{nightfallOpacity}
+				showLights={true}
+				{activeLandValue}
+				{activeSeaLevel}
+				{imageWidth}
+				{imageHeight}
+			/>
 			<SoggyPlanetTour {camera} bind:tour on:begin={onBeginTour} />
 			<Hud>
 				{#if tour && $touring}
@@ -296,13 +257,7 @@
 								{hoverDaylight}
 							/>
 							{#if devMode}
-								<SoggyPlanetDevHud
-									{x}
-									{y}
-									{scale}
-									togglePixiEarthViewer={(v) => (enablePixiEarthViewer = v)}
-									{enablePixiEarthViewer}
-								/>
+								<SoggyPlanetDevHud {x} {y} {scale} />
 							{/if}
 						</div>
 						{#if !$touring}

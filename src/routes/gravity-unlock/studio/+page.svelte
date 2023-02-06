@@ -1,11 +1,10 @@
 <script lang="ts">
-	import {klona} from 'klona/json';
+	import {getClock} from '@feltcoop/dealt';
 
-	import {initialStageData, type StageData} from '$lib/portals/gravity-unlock/stage';
-	import GravityUnlockStageBuilder from '$lib/portals/gravity-unlock/GravityUnlockStageBuilder.svelte';
+	import {initialStageData, type StageData} from '../stage';
+	import GravityUnlockStageBuilder from '../GravityUnlockStageBuilder.svelte';
 	import Tabs from '$lib/ui/Tabs.svelte';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
-	import {getClock} from '$lib/app/clock';
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import StudioMenu from './_menu.svelte';
 
@@ -32,7 +31,10 @@
 	$: selectedDataStorageKey = `${STORAGE_KEY_STAGES}_${selectedDataIndex}`;
 	$: selectedData =
 		datas[selectedDataIndex] ||
-		(datas[selectedDataIndex] = loadFromStorage(selectedDataStorageKey, klona(initialStageData)));
+		(datas[selectedDataIndex] = loadFromStorage(
+			selectedDataStorageKey,
+			structuredClone(initialStageData),
+		));
 
 	// TODO extract a custom store to handle this list of items
 	const selectIndex = (index: number): void => {
@@ -57,7 +59,7 @@
 
 	const addData = () => {
 		if (datas.length >= MAX_DATA_COUNT) return;
-		datas = datas.concat(klona(selectedData));
+		datas = datas.concat(structuredClone(selectedData));
 		selectIndex(datas.length - 1);
 	};
 </script>

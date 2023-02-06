@@ -1,11 +1,10 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
+	import {getClock, getDimensions} from '@feltcoop/dealt';
 
-	import FreqSpectacle from '$lib/portals/freq-spectacle/FreqSpectacle.svelte';
-	import {getClock} from '$lib/app/clock';
-	import {getDimensions} from '$lib/app/dimensions';
+	import FreqSpectacle from './FreqSpectacle.svelte';
 	import {getSettings} from '$lib/app/settings';
-	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '$lib/portals/home/data';
+	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '../data';
 	import {setInStorage} from '$lib/util/storage';
 
 	const dimensions = getDimensions();

@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let pressed: boolean | undefined = undefined;
-	export let type = 'button'; // avoid submit behavior in forms
+	export let type: 'button' | 'submit' | 'reset' | null | undefined = 'button'; // avoid submit behavior in forms
 </script>
 
 <button class:pressed aria-pressed={pressed} on:click {...$$restProps} {type}>

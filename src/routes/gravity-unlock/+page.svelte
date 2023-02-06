@@ -1,11 +1,19 @@
 <script lang="ts">
-	import AboutPortalPreview from '$lib/portals/about/Preview.svelte';
+	import AboutPortalPreview from '../about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 </script>
 
 <div class="gravity-unlock">
 	<section class="column">
-		<h1>gravity unlock</h1>
+		<h1>
+			gravity<img
+				src="/assets/characters/spider.png"
+				alt="spiderspace dot org"
+				class="cursor-none"
+				on:click={() => window.open('https://spiderspace.org')}
+				aria-hidden
+			/>unlock
+		</h1>
 		<ul class="markup">
 			<!-- <li><a href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a></li> -->
 			<li><a href="/gravity-unlock/studio">studio</a></li>

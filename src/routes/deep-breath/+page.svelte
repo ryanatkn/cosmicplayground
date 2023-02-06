@@ -2,11 +2,12 @@
 	import {tweened} from 'svelte/motion';
 	import {cubicInOut} from 'svelte/easing';
 	import {onMount} from 'svelte';
-	import {randomFloat} from '@feltcoop/util/random.js';
-	import {swallow} from '@feltcoop/util/dom.js';
+	import {randomFloat} from '@feltjs/util/random.js';
+	import {swallow} from '@feltjs/util/dom.js';
+	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
-	import DeepBreathTitleScreen from '$lib/portals/deep-breath/DeepBreathTitleScreen.svelte';
-	import DeepBreathTour from '$lib/portals/deep-breath/DeepBreathTour.svelte';
+	import DeepBreathTitleScreen from './DeepBreathTitleScreen.svelte';
+	import DeepBreathTour from './DeepBreathTour.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
@@ -16,10 +17,7 @@
 	import {getSettings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import DeepBreathDevHud from '$lib/portals/deep-breath/DeepBreathDevHud.svelte';
-	import {getClock} from '$lib/app/clock';
-	import {getDimensions} from '$lib/app/dimensions';
-	import {enableGlobalHotkeys} from '$lib/util/dom';
+	import DeepBreathDevHud from './DeepBreathDevHud.svelte';
 	import Camera from '$lib/app/Camera.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
 
@@ -159,10 +157,8 @@
 		hoverSeaLevel(null);
 	};
 
-	// Make the two Earths tile seamlessly when possible.
+	// For the DOM renderer, make the two Earths tile seamlessly when possible.
 	// We render only 2 instances as a balance between performance and UX.
-	// Ideally we'd use WebGL to make rendering multiples much cheaper,
-	// but that's currently out of scope for this project.
 	let earth1LeftOffset: number;
 	let earth2LeftOffset: number;
 	$: if (x) {
