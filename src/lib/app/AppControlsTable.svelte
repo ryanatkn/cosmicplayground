@@ -21,7 +21,7 @@
 						>toggle clock (is {#if $clock.running}running{:else}paused{/if})</td
 					></tr
 				><tr
-					><td><code>ctrl+Escape</code></td><td
+					><td><code>shift+Escape</code></td><td
 						>navigate upwards ({#if navLevel === 0}you're at the top{:else if navLevel === 1}there's
 							one level above you{:else}there's {navLevel} levels above you{/if})</td
 					></tr

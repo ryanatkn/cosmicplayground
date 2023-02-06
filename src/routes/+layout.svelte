@@ -138,15 +138,16 @@
 	// TODO integrate this with the controls in `index.svelte` and `World.svelte`
 	const onKeyDown = async (e: KeyboardEvent) => {
 		// TODO main menu!
-		if (e.key === '`' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+		const {key, target} = e;
+		if (key === '`' && !e.ctrlKey && enableGlobalHotkeys(target)) {
 			// global pause
 			swallow(e);
 			clock.toggle();
-		} else if (e.key === '`' && e.ctrlKey) {
+		} else if (key === '`' && e.ctrlKey) {
 			// toggle dev mode
 			swallow(e);
 			settings.update((s) => ({...s, devMode: !s.devMode}));
-		} else if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.currentTarget)) {
+		} else if (key === 'Escape' && !e.shiftKey && enableGlobalHotkeys(e.currentTarget)) {
 			swallow(e);
 			if ($showAppDialog) {
 				$showAppDialog = false;
@@ -155,17 +156,17 @@
 				$showAppDialog = true;
 				clock.pause(); // TODO make this add to a stack so we can safely unpause
 			}
-		} else if (e.key === 'Escape' && e.ctrlKey) {
+		} else if (key === 'Escape' && e.shiftKey) {
 			// global nav up one
 			swallow(e);
 			await goto($page.url.pathname.split('/').slice(0, -1).join('/') || '/');
 		} else if ($settings.devMode) {
 			// dev mode hotkeys
-			if (e.key === '-' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+			if (key === '-' && !e.ctrlKey && enableGlobalHotkeys(target)) {
 				swallow(e);
 				settings.update((s) => ({...s, idleMode: !s.idleMode}));
 				console.log('idle mode is now', $settings.idleMode);
-			} else if (e.key === '=' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+			} else if (key === '=' && !e.ctrlKey && enableGlobalHotkeys(target)) {
 				swallow(e);
 				settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
 				console.log('recording mode is now', $settings.recordingMode);
