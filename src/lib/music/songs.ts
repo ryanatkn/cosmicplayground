@@ -4,7 +4,7 @@ export interface SongData {
 	url: string;
 }
 
-export const songDatas: Map<string, SongData> = new Map(
+export const songsByName: Map<string, SongData> = new Map(
 	[
 		{
 			name: 'Spacey Intro',
@@ -250,24 +250,26 @@ export const songDatas: Map<string, SongData> = new Map(
 );
 
 export const toSongData = (name: string): SongData => {
-	const data = songDatas.get(name);
+	const data = songsByName.get(name);
 	if (!data) throw Error('Unknown song: ' + name);
 	return data;
 };
 
-const songDatasByAuthor: Map<string, SongData[]> = new Map();
-for (const s of songDatas.values()) {
-	let songs = songDatasByAuthor.get(s.author);
+const songsByNameByAuthor: Map<string, SongData[]> = new Map();
+for (const s of songsByName.values()) {
+	let songs = songsByNameByAuthor.get(s.author);
 	if (!songs) {
-		songDatasByAuthor.set(s.author, (songs = []));
+		songsByNameByAuthor.set(s.author, (songs = []));
 	}
 	songs.push(s);
 }
 
 export const toSongDatasByAuthor = (name: string): SongData[] => {
-	const datas = songDatasByAuthor.get(name);
+	const datas = songsByNameByAuthor.get(name);
 	if (!datas) throw Error('Unknown author: ' + name);
 	return datas;
 };
 
-export const songAuthors = Array.from(new Set(Array.from(songDatas.values()).map((v) => v.author)));
+export const songAuthors = Array.from(
+	new Set(Array.from(songsByName.values()).map((v) => v.author)),
+);
