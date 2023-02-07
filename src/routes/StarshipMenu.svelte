@@ -59,7 +59,7 @@
 								<a href="/gravity-unlock">full crew ready</a>
 							{:else if scores.crewRescuedAtOnceCount}
 								{scores.crewRescuedAtOnceCount} crewmember{#if scores.crewRescuedAtOnceCount !== 1}s{/if}
-								rescued at once
+								rescued in your best run
 							{:else}
 								no crewmembers have been rescued
 							{/if}
