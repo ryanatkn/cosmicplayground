@@ -60,7 +60,11 @@
   },
   "eslintConfig": {
     "root": true,
-    "extends": "@feltjs"
+    "extends": "@feltjs",
+    "ignorePatterns": [
+      "svelte.config.js",
+      "vite.config.js"
+    ]
   },
   "prettier": {
     "useTabs": true,
