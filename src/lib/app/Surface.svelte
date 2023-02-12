@@ -134,5 +134,6 @@
 <style>
 	.interactive-surface {
 		user-select: none;
+		touch-action: none;
 	}
 </style>
