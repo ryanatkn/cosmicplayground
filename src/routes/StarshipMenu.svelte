@@ -56,7 +56,7 @@
 						<br />
 						<p class="centered">
 							{#if scores.crewRescuedAtOnceCount >= 5}
-								<a href="/gravity-unlock">full crew ready</a>
+								<a href="/unlock">full crew ready</a>
 							{:else if scores.crewRescuedAtOnceCount}
 								{scores.crewRescuedAtOnceCount} crewmember{#if scores.crewRescuedAtOnceCount !== 1}s{/if}
 								rescued in your best run

@@ -27,7 +27,7 @@
 	import StarshipStage from './StarshipStage.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import StarshipStageScore from './StarshipStageScore.svelte';
-	import GravityUnlockPortalPreview from './gravity-unlock/Preview.svelte';
+	import UnlockPortalPreview from './unlock/Preview.svelte';
 	import StarshipMenu from './StarshipMenu.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import {
@@ -395,7 +395,7 @@
 			</PortalPreview>
 		</header>
 		{#if savedScores}
-			<GravityUnlockPortalPreview
+			<UnlockPortalPreview
 				unlocked={scoresRescuedAllCrewAtOnce}
 				scores={savedScores}
 				onClick={scoresRescuedAllCrewAtOnce
