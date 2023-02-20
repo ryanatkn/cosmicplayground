@@ -8,7 +8,7 @@ import {
 	type EntityCircle,
 	frag,
 	collide,
-	updateDirection,
+	updateEntityDirection,
 	type Hsl,
 	type StageOptions,
 } from '@feltcoop/dealt';
@@ -96,7 +96,7 @@ export class Stage extends BaseStage {
 		const playerY = 502;
 
 		if (!this.freezeCamera) {
-			void this.camera.setPosition(playerX, playerY, {hard: true});
+			void this.camera.setPosition(playerX, playerY);
 		}
 
 		const {sim, collisions, controller, moons} = this;
@@ -202,7 +202,7 @@ export class Stage extends BaseStage {
 		} = this;
 
 		// TODO add a player controller component to handle this
-		updateDirection(controller, player, $camera);
+		updateEntityDirection(controller, player, $camera, this.$viewport, this.$layout);
 
 		// TODO the `as any` is needed because flow control doesn't account for the callbacks setting this
 		let rockFragmentsToAdd: Array<Entity<EntityCircle>> | null = null as any;
