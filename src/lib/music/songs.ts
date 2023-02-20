@@ -47,6 +47,11 @@ export const songsByName: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Adventure.mp3',
 		},
 		{
+			name: 'Adventure (Metal Version)',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Adventure_Metal.mp3',
+		},
+		{
 			name: 'Piña Colada',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Piña_Colada.mp3',
