@@ -85,7 +85,7 @@ export const PhaseDatas: Map<string, PhaseData> = new Map(
 		{name: '1c', phase: 1, title: 'Chronos', song: 'Chronos', image: 'opo0501a'},
 		{name: '2a', phase: 0, title: 'Chemical X', song: 'Chemical X', image: 'opo0415a'},
 		{name: '2b', phase: 0, title: 'Celebration', song: 'Celebration', image: 'opo0415a'},
-		{name: '2c', phase: 1, title: 'Bouchedag', song: 'Bouchedag', image: 'opo0415a'},
+		{name: '2c', phase: 1, title: 'Frost', song: 'Frost', image: 'opo0415a'},
 		{name: '3a', phase: 0, title: 'Blacksmith', song: 'Blacksmith', image: 'heic1913c'},
 		{name: '3b', phase: 0, title: 'The Crown', song: 'The Crown', image: 'heic1913c'},
 		{name: '3c', phase: 1, title: 'Spacebuckler', song: 'Spacebuckler', image: 'heic1913c'},

@@ -77,9 +77,9 @@ export const songsByName: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Celebration.mp3',
 		},
 		{
-			name: 'Bouchedag',
+			name: 'Frost',
 			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Bouchedag.mp3',
+			url: '/assets/audio/Alexander_Nakarada__Frost.mp3',
 		},
 		{
 			name: 'Blacksmith',
