@@ -3,14 +3,14 @@
 	import {getClock} from '@feltcoop/dealt';
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
-	import {createDeepBreathTourData} from './deepBreathTourData';
+	import {createDeepBreathTourData} from '$routes/deep-breath/deepBreathTourData';
 	import {type TourHooks, type TourData, updateAudioOnSeek, findTourStep} from '$lib/app/tour';
 	import {getSettings} from '$lib/app/settings';
-	import DeepBreathTourIntro from './DeepBreathTourIntro.svelte';
-	import DeepBreathTourTitle from './DeepBreathTourTitle.svelte';
+	import DeepBreathTourIntro from '$routes/deep-breath/DeepBreathTourIntro.svelte';
+	import DeepBreathTourTitle from '$routes/deep-breath/DeepBreathTourTitle.svelte';
 	import Tour from '$lib/app/Tour.svelte';
 	import type Camera from '$lib/app/Camera.svelte';
-	import DeepBreathTourCredits from './DeepBreathTourCredits.svelte';
+	import DeepBreathTourCredits from '$routes/deep-breath/DeepBreathTourCredits.svelte';
 
 	export let camera: Camera;
 

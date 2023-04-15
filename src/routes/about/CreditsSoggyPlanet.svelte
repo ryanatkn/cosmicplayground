@@ -1,9 +1,9 @@
 <script lang="ts">
 	import {getDimensions} from '@feltcoop/dealt';
 
-	import SoggyPlanetCredits from '../soggy-planet/SoggyPlanetCredits.svelte';
-	import SoggyPlanetThumbnail from '../soggy-planet/SoggyPlanetThumbnail.svelte';
-	import {THUMBNAIL_WIDTH_DEFAULT} from '../soggy-planet/constants';
+	import SoggyPlanetCredits from '$routes/soggy-planet/SoggyPlanetCredits.svelte';
+	import SoggyPlanetThumbnail from '$routes/soggy-planet/SoggyPlanetThumbnail.svelte';
+	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/soggy-planet/constants';
 	import PortalLink from '$lib/app/PortalLink.svelte';
 
 	const dimensions = getDimensions();

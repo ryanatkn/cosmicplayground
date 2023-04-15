@@ -7,10 +7,10 @@
 		type PhaseSequence,
 		PhaseDatas,
 		toPhaseSequence,
-	} from './phases';
-	import Level from './Level.svelte';
-	import Phase from './Phase.svelte';
-	import LevelButtons from './LevelButtons.svelte';
+	} from '$routes/unlock/phases';
+	import Level from '$routes/unlock/Level.svelte';
+	import Phase from '$routes/unlock/Phase.svelte';
+	import LevelButtons from '$routes/unlock/LevelButtons.svelte';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
 

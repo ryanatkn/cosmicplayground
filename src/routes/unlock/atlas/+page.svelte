@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Atlas from '../Atlas.svelte';
+	import Atlas from '$routes/unlock/Atlas.svelte';
 </script>
 
 <div class="unlock-atlas">

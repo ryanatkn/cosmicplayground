@@ -3,14 +3,14 @@
 	import {sineInOut} from 'svelte/easing';
 	import {getClock, getDimensions} from '@feltcoop/dealt';
 
-	import StarlitHammock from './StarlitHammock.svelte';
+	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/app/ImagePicker.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import {spaceImages, type ImageMeta} from '$lib/app/images';
 	import ImageCreditsCaption from '$lib/app/ImageCreditsCaption.svelte';
 	import Surface from '$lib/app/Surface.svelte';
 	import Panel from '$lib/app/Panel.svelte';
-	import AboutPortalPreview from './Preview.svelte';
+	import AboutPortalPreview from '$routes/starlit-hammock/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 
 	/*

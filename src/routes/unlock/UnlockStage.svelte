@@ -11,7 +11,7 @@
 	import type {Writable} from 'svelte/store';
 
 	import {getPixi} from '$lib/app/pixi';
-	import type {UnlockStageScores, Stage} from './unlockStage';
+	import type {UnlockStageScores, Stage} from '$routes/unlock/unlockStage';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;

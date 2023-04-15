@@ -1,5 +1,5 @@
 import type {PortalData} from '$lib/app/portal';
-import Preview from './Preview.svelte';
+import Preview from '$routes/easings-1/Preview.svelte';
 
 const data: PortalData = {
 	name: 'easing function visualizations',

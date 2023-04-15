@@ -1,5 +1,5 @@
 import type {PortalData} from '$lib/app/portal';
-import Preview from './Preview.svelte';
+import Preview from '$routes/under-construction/Preview.svelte';
 
 const data: PortalData = {
 	name: 'under construction',

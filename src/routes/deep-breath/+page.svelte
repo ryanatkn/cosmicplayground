@@ -6,8 +6,8 @@
 	import {swallow} from '@feltjs/util/dom.js';
 	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
-	import DeepBreathTitleScreen from './DeepBreathTitleScreen.svelte';
-	import DeepBreathTour from './DeepBreathTour.svelte';
+	import DeepBreathTitleScreen from '$routes/deep-breath/DeepBreathTitleScreen.svelte';
+	import DeepBreathTour from '$routes/deep-breath/DeepBreathTour.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
@@ -17,7 +17,7 @@
 	import {getSettings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import DeepBreathDevHud from './DeepBreathDevHud.svelte';
+	import DeepBreathDevHud from '$routes/deep-breath/DeepBreathDevHud.svelte';
 	import Camera from '$lib/app/Camera.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
 

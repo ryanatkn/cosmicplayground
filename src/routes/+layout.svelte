@@ -28,7 +28,7 @@
 	import {setSettings} from '$lib/app/settings';
 	import {setPortals, createPortalsStore} from '$lib/app/portals';
 	import {updateRenderStats} from '$lib/app/renderStats';
-	import {portalsData} from '../lib/app/portalsData';
+	import {portalsData} from '$lib/app/portalsData';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 	import {setAudioCtx} from '$lib/audio/audioCtx';
 	import {showAppDialog} from '$lib/app/appDialog';

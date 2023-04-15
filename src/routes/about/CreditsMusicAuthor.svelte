@@ -44,6 +44,14 @@
 		justify-content: space-between;
 		padding: 5px 0;
 	}
+	@media (max-width: 580px) {
+		.audio-file {
+			flex-direction: column;
+		}
+		.audio-file audio {
+			margin-left: 0;
+		}
+	}
 	audio {
 		margin-left: 20px;
 	}

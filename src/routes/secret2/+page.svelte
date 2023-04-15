@@ -2,7 +2,7 @@
 	import {onDestroy} from 'svelte';
 	import {getClock, getDimensions} from '@feltcoop/dealt';
 
-	import FreqSpeeds from '../freq-speeds/FreqSpeeds.svelte';
+	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
 	import {getSettings} from '$lib/app/settings';
 	import {unlockSatisfyingSecret} from '$lib/util/secret';
 

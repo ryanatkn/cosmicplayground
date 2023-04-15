@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DeepBreathCredits from '../deep-breath/DeepBreathCredits.svelte';
+	import DeepBreathCredits from '$routes/deep-breath/DeepBreathCredits.svelte';
 
 	export let showTourCredits = false;
 </script>

@@ -2,9 +2,9 @@
 	import {onDestroy} from 'svelte';
 	import {getClock, getDimensions} from '@feltcoop/dealt';
 
-	import FreqSpeeds from './FreqSpeeds.svelte';
+	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
 	import {setInStorage} from '$lib/util/storage';
-	import {STORAGE_KEY_STRENGTH_BOOSTER2} from '../data';
+	import {STORAGE_KEY_STRENGTH_BOOSTER2} from '$routes/data';
 	import {getSettings} from '$lib/app/settings';
 
 	// TODO give user control over speed in dialog

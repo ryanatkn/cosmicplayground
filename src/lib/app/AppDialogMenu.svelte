@@ -3,7 +3,7 @@
 	import {page} from '$app/stores';
 
 	import Panel from '$lib/app/Panel.svelte';
-	import AboutPreview from '../../routes/about/Preview.svelte';
+	import AboutPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 </script>
 

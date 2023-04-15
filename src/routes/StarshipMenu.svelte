@@ -4,9 +4,9 @@
 	import type {ClockStore} from '@feltcoop/dealt';
 
 	import Panel from '$lib/app/Panel.svelte';
-	import StarshipPreview from './Preview.svelte';
-	import StarshipStageScore from './StarshipStageScore.svelte';
-	import type {StarshipStageScores} from './starshipStage';
+	import StarshipPreview from '$routes/Preview.svelte';
+	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
+	import type {StarshipStageScores} from '$routes/starshipStage';
 	import AppControlsTable from '$lib/app/AppControlsTable.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 

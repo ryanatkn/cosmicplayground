@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {toPhaseDatasByLevelName, type LevelData} from './phases';
+	import {toPhaseDatasByLevelName, type LevelData} from '$routes/unlock/phases';
 
 	export let level: LevelData;
 

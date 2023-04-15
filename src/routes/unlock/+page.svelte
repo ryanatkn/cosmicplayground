@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AboutPortalPreview from '../about/Preview.svelte';
+	import AboutPortalPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 </script>
 

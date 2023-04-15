@@ -2,9 +2,9 @@
 	import {onDestroy} from 'svelte';
 	import {getClock, getDimensions} from '@feltcoop/dealt';
 
-	import FreqSpectacle from './FreqSpectacle.svelte';
+	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 	import {getSettings} from '$lib/app/settings';
-	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '../data';
+	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '$routes/data';
 	import {setInStorage} from '$lib/util/storage';
 
 	const dimensions = getDimensions();

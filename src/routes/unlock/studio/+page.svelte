@@ -1,12 +1,12 @@
 <script lang="ts">
 	import {getClock} from '@feltcoop/dealt';
 
-	import {initialStageData, type StageData} from '../stage';
-	import UnlockStageBuilder from '../UnlockStageBuilder.svelte';
+	import {initialStageData, type StageData} from '$routes/unlock/stage';
+	import UnlockStageBuilder from '$routes/unlock/UnlockStageBuilder.svelte';
 	import Tabs from '$lib/ui/Tabs.svelte';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 	import AppDialog from '$lib/app/AppDialog.svelte';
-	import StudioMenu from './_menu.svelte';
+	import StudioMenu from '$routes/unlock/studio/StudioMenu.svelte';
 
 	// TODO needs a lot of refactoring -- either combine tabs with controls
 	// in the stage builder or extract elsewhere

@@ -2,7 +2,7 @@
 	import {onDestroy} from 'svelte';
 	import {getClock, getDimensions} from '@feltcoop/dealt';
 
-	import FreqSpectacle from '../freq-spectacle/FreqSpectacle.svelte';
+	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 	import {getSettings} from '$lib/app/settings';
 	import {unlockSatisfyingSecret} from '$lib/util/secret';
 

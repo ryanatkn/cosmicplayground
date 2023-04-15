@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {MOON_ICONS, type StarshipStageScores} from './starshipStage';
+	import {MOON_ICONS, type StarshipStageScores} from '$routes/starshipStage';
 
 	export let scores: StarshipStageScores | undefined;
 	export let defaultIcon: string | null = null;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CreditsMusicAuthor from './CreditsMusicAuthor.svelte';
+	import CreditsMusicAuthor from '$routes/about/CreditsMusicAuthor.svelte';
 </script>
 
 <div class="markup">

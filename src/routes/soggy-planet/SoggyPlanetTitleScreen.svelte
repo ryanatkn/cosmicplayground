@@ -1,13 +1,13 @@
 <script lang="ts">
-	import SoggyPlanetThumbnail from './SoggyPlanetThumbnail.svelte';
+	import SoggyPlanetThumbnail from '$routes/soggy-planet/SoggyPlanetThumbnail.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
 	import ResourcesLoadingProgress from '$lib/app/ResourcesLoadingProgress.svelte';
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
-	import SoggyPlanetCredits from './SoggyPlanetCredits.svelte';
-	import CreditsProjectSignature from '../about/CreditsProjectSignature.svelte';
-	import AboutPortalPreview from './Preview.svelte';
+	import SoggyPlanetCredits from '$routes/soggy-planet/SoggyPlanetCredits.svelte';
+	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
+	import AboutPortalPreview from '$routes/soggy-planet/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import type {ResourcesStore} from '$lib/app/resources';
 	import PortalLink from '$lib/app/PortalLink.svelte';

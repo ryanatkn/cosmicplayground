@@ -2,7 +2,7 @@
 	import {getClock} from '@feltcoop/dealt';
 
 	import EarthThumbnail from '$lib/app/EarthThumbnail.svelte';
-	import {THUMBNAIL_WIDTH_DEFAULT} from './constants';
+	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/deep-breath/constants';
 
 	export let earthWidth = THUMBNAIL_WIDTH_DEFAULT;
 	export let label = 'proceed';

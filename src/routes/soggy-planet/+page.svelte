@@ -4,7 +4,7 @@
 	import {swallow} from '@feltjs/util/dom.js';
 	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
-	import SoggyPlanetTitleScreen from './SoggyPlanetTitleScreen.svelte';
+	import SoggyPlanetTitleScreen from '$routes/soggy-planet//SoggyPlanetTitleScreen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import DaylightHud from '$lib/app/DaylightHud.svelte';
@@ -13,12 +13,9 @@
 	import {createResourcesStore} from '$lib/app/resources';
 	import {getSettings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import SoggyPlanetDevHud from './SoggyPlanetDevHud.svelte';
-	import SoggyPlanetTour from './SoggyPlanetTour.svelte';
+	import SoggyPlanetDevHud from '$routes/soggy-planet/SoggyPlanetDevHud.svelte';
 	import Camera from '$lib/app/Camera.svelte';
-	import type Tour from '$lib/app/Tour.svelte';
-	import {SHORE_COUNT} from './constants';
+	import {SHORE_COUNT} from '$routes/soggy-planet//constants';
 
 	const clock = getClock();
 
@@ -44,9 +41,6 @@
 
 	const settings = getSettings();
 	$: devMode = $settings.devMode;
-
-	let tour: Tour | undefined;
-	$: touring = tour ? tour.touring : null;
 
 	// TODO add auto pan button - share logic with Starlit Hanmmock and deep breath
 
@@ -131,15 +125,6 @@
 		hoveredSeaLevel = value;
 	};
 
-	const onBeginTour = () => {
-		selectLandIndex(null);
-		hoverLandIndex(null);
-		selectSeaLevel(14);
-		hoverSeaLevel(null);
-		selectDaylight(1);
-		hoverDaylight(null);
-	};
-
 	let selectedLandIndex: number | null = null;
 	let hoveredLandIndex: number | null = null;
 	$: activeLandIndex = hoveredLandIndex ?? selectedLandIndex ?? cycledLandIndex;
@@ -179,7 +164,6 @@
 		showTitleScreen = false;
 	};
 	const returnToTitleScreen = () => {
-		if ($touring) tour!.cancel();
 		showTitleScreen = true;
 	};
 	onMount(() => {
@@ -189,8 +173,6 @@
 			void resources.load();
 		}
 	});
-
-	const DISABLED_UNTIL_READY = true;
 </script>
 
 <svelte:window on:keydown={onKeyDown} />
@@ -216,11 +198,8 @@
 				{imageWidth}
 				{imageHeight}
 			/>
-			<SoggyPlanetTour {camera} bind:tour on:begin={onBeginTour} />
 			<Hud>
-				{#if tour && $touring}
-					<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
-				{:else if showHud}
+				{#if showHud}
 					<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
 						⇦
 					</FloatingIconButton>
@@ -235,49 +214,37 @@
 						</FloatingIconButton>
 					</div>
 				{/if}
-				{#if !$touring || devMode}
-					{#if showHud}
-						<div class="hud-top-controls">
-							<FloatingIconButton
-								pressed={showHud}
-								label="toggle hud controls"
-								on:click={onClickHudToggle}
-							>
-								∙∙∙
-							</FloatingIconButton>
-							{#if !DISABLED_UNTIL_READY && tour && !$touring}
-								<FloatingTextButton on:click={tour.beginTour}>tour</FloatingTextButton>
-							{/if}
-						</div>
-						<div class="hud-left-controls">
-							<DaylightHud
-								daylight={activeDaylight}
-								{selectedDaylight}
-								{selectDaylight}
-								{hoverDaylight}
-							/>
-							{#if devMode}
-								<SoggyPlanetDevHud {x} {y} {scale} />
-							{/if}
-						</div>
-						{#if !$touring}
-							<div class="month-wrapper">
-								<MonthHud
-									{activeLandIndex}
-									{selectedLandIndex}
-									{selectLandIndex}
-									{hoverLandIndex}
-								/>
-							</div>
-							<SeaLevelHud
-								seaLevel={activeSeaLevel}
-								{seaIndexMax}
-								{selectedSeaLevel}
-								{selectSeaLevel}
-								{hoverSeaLevel}
-							/>
+				{#if showHud}
+					<div class="hud-top-controls">
+						<FloatingIconButton
+							pressed={showHud}
+							label="toggle hud controls"
+							on:click={onClickHudToggle}
+						>
+							∙∙∙
+						</FloatingIconButton>
+					</div>
+					<div class="hud-left-controls">
+						<DaylightHud
+							daylight={activeDaylight}
+							{selectedDaylight}
+							{selectDaylight}
+							{hoverDaylight}
+						/>
+						{#if devMode}
+							<SoggyPlanetDevHud {x} {y} {scale} />
 						{/if}
-					{/if}
+					</div>
+					<div class="month-wrapper">
+						<MonthHud {activeLandIndex} {selectedLandIndex} {selectLandIndex} {hoverLandIndex} />
+					</div>
+					<SeaLevelHud
+						seaLevel={activeSeaLevel}
+						{seaIndexMax}
+						{selectedSeaLevel}
+						{selectSeaLevel}
+						{hoverSeaLevel}
+					/>
 				{/if}
 			</Hud>
 		{:else}
