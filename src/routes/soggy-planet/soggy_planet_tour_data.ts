@@ -17,7 +17,7 @@ export type Point_Of_Interest = z.infer<typeof Point_Of_Interest>;
 
 export const points_of_interest: Point_Of_Interest[] = [
 	// 2.2 67 -1358
-	{name: 'Zealandia', url: 'https://en.wikipedia.org/wiki/Zealandia', x: -100, y: 100},
+	{name: 'Zealandia', url: 'https://en.wikipedia.org/wiki/Zealandia', x: -400, y: -70},
 	// 2.6 664 -920
 	{name: 'Sundaland', url: 'https://wikipedia.org/wiki/Sundaland', x: -300, y: 200},
 	// 3.9 1222 -940
@@ -31,7 +31,7 @@ export const points_of_interest: Point_Of_Interest[] = [
 	// 3.2 1445 -1223
 	{name: 'Lemuria', url: 'https://wikipedia.org/wiki/Lemuria', myth: true, x: -200, y: -250},
 	// 3.5 1221 -1634
-	{name: 'Kerguelen Plateau', url: 'https://wikipedia.org/wiki/Kerguelen_Plateau', x: 0, y: -90},
+	{name: 'Kerguelen Plateau', url: 'https://wikipedia.org/wiki/Kerguelen_Plateau', x: 0, y: -70},
 	// 6.2 1061 -444
 	{name: 'Altai flood', url: 'https://wikipedia.org/wiki/Altai_flood', x: 0, y: 100},
 	// 10 1648 -527
@@ -48,11 +48,11 @@ export const points_of_interest: Point_Of_Interest[] = [
 	// 16.1 2105 -490
 	{name: 'Ys', url: 'https://wikipedia.org/wiki/Ys', myth: true, x: -20, y: -20},
 	// 5.7 2136 -323
-	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', myth: true, x: 330, y: 430},
+	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', myth: true, x: 310, y: 430},
 	// 11 3404 -482
 	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: 0, y: 100},
 	// 3.2 4036 -302
-	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia', x: 200, y: -240},
+	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia', x: 200, y: -230},
 	// 3.5 4591 -577
 	{
 		name: 'Land bridges of Japan',
