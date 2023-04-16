@@ -34,12 +34,6 @@ export const points_of_interest: Point_Of_Interest[] = [
 
 // TODO BLOCK if time before the deadline, include river valleys (probably just labelled when onscreen  and zoomed in enough, no stopping for them)
 
-// This was tedious to author and the output could be better, but it's good enough.
-// There's some jankiness between some tweens that could be polished, but shrug.
-// If I do something similar in the future,
-// I'll probably make a visual authoring tool,
-// maybe with bezier curves or camera physics.
-
 export const create_soggy_planet_tour_data = (
 	intro_duration: number,
 	title_duration: number,
@@ -52,8 +46,8 @@ export const create_soggy_planet_tour_data = (
 	const t_move = t_base * 3;
 	const t_end_sequence = 15250;
 
-	const x_start = 7764;
-	const y_start = 895;
+	const x_start = 8619;
+	const y_start = -895;
 	const zoom_start = 5000;
 
 	// TODO BLOCK start where?
