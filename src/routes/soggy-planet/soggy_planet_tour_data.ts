@@ -49,6 +49,18 @@ export const points_of_interest: Point_Of_Interest[] = [
 	{name: 'Mu', url: 'https://wikipedia.org/wiki/Mu_(mythical_lost_continent)', myth: true},
 ];
 
+const lookup_point_of_interest = (name: string): Point_Of_Interest => {
+	// TODO make a map?
+	const found = points_of_interest.find((p) => p.name === name);
+	if (!found) throw Error(`unknown point of interest "${name}"`);
+	return found;
+};
+
+const render_content = (name: string): string => {
+	const data = lookup_point_of_interest(name);
+	return data.myth ? data.name + '?' : data.name;
+};
+
 // TODO BLOCK if time before the deadline, include river valleys (probably just labelled when onscreen  and zoomed in enough, no stopping for them)
 
 export const create_soggy_planet_tour_data = (
@@ -103,11 +115,12 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_intro_idle);
 	b.event('clear_text');
 	b.event('show_text', `around 19 or 20 millennia ago`);
-	b.zoom(10, 2000);
+	b.zoom(10, 3000);
 	b.wait(t_intro_text);
+	b.wait(t_intro_text / 2);
 	b.event('show_text', `at the end of the Last Glacial Maximum`);
-	b.zoom(3, 2000);
-	b.wait(t_intro_text);
+	b.zoom(3, 5000);
+	b.wait(t_intro_text / 2);
 	// TODO BLOCK HOW MANY METERS
 	b.event('show_text', `global sea levels were about 125 meters lower`);
 	b.wait(t_intro_text);
@@ -136,11 +149,11 @@ export const create_soggy_planet_tour_data = (
 	// 2.2 67 -1358
 	b.pan(67, -1358, t_move);
 	b.zoom(2.2, t_move);
-	b.wait(4350); // delay for music
-	b.event('show_text', 'Zealandia');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 2, t_idle, sineOut);
+	b.wait(1350); // delay for music
+	b.event('show_text', render_content('Zealandia'));
 	b.wait();
 
 	// Sundaland
@@ -148,11 +161,11 @@ export const create_soggy_planet_tour_data = (
 	// 2.6 664 -920
 	b.pan(664, -920, t_move);
 	b.zoom(2.6, t_move);
-	b.wait(2000); // delay for music
-	b.event('show_text', 'Sundaland');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(1, 2, t_idle, sineOut);
+	b.wait(1000); // delay for music
+	b.event('show_text', render_content('Sundaland'));
 	b.wait();
 
 	// Kumari Kandam
@@ -160,11 +173,10 @@ export const create_soggy_planet_tour_data = (
 	// 3.9 1222 -940
 	b.pan(1222, -940, t_move);
 	b.zoom(3.9, t_move);
-	b.wait(2000); // delay for music
-	b.event('show_text', 'Kumari Kandam');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 0, t_idle, sineOut);
+	b.event('show_text', render_content('Kumari Kandam'));
 	b.wait();
 
 	// Lemuria
@@ -172,11 +184,10 @@ export const create_soggy_planet_tour_data = (
 	// 3.2 1445 -1223
 	b.pan(1445, -1223, t_move);
 	b.zoom(3.2, t_move);
-	b.wait(2000); // delay for music
-	b.event('show_text', 'Lemuria');
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(1, -2, t_idle, sineOut);
+	b.event('show_text', render_content('Lemuria'));
 	b.wait();
 
 	// Kerguelen Plateau
@@ -184,11 +195,10 @@ export const create_soggy_planet_tour_data = (
 	// 3.5 1221 -1634
 	b.pan(1221, -1634, t_move);
 	b.zoom(3.5, t_move);
-	b.wait(2000); // delay for music
-	b.event('show_text', 'Kerguelen Plateau');
 	b.wait();
 	b.zoomBy(1.01, t_idle, sineOut);
 	b.panBy(-1, -2, t_idle, sineOut);
+	b.event('show_text', render_content('Kerguelen Plateau'));
 	b.wait();
 
 	// Altai flood
@@ -196,11 +206,10 @@ export const create_soggy_planet_tour_data = (
 	// 6.2 1061 -444
 	b.pan(1061, -444, t_move);
 	b.zoom(6.2, t_move);
-	b.wait(2000); // delay for music
-	b.event('show_text', 'Altai flood');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(-1, -3, t_idle, sineOut);
+	b.event('show_text', render_content('Altai flood'));
 	b.wait();
 
 	// Black Sea deluge hypothesis
@@ -208,11 +217,10 @@ export const create_soggy_planet_tour_data = (
 	// 10 1648 -527
 	b.pan(1648, -527, t_move);
 	b.zoom(10, t_move);
-	b.wait(2000); // delay for music
-	b.event('show_text', 'Black Sea deluge hypothesis');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, -1, t_idle, sineOut);
+	b.event('show_text', render_content('Black Sea deluge hypothesis'));
 	b.wait();
 
 	// Doggerland
@@ -221,11 +229,11 @@ export const create_soggy_planet_tour_data = (
 	// TODO BLOCK show the level go from lowest to highest, then down the tick to show the island, then show the text
 	b.pan(2022, -403, t_move);
 	b.zoom(13.3, t_move);
-	b.wait(2000); // delay for music
-	b.event('show_text', 'Doggerland');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 2, t_idle, sineOut);
+	b.wait(3000); // delay for music
+	b.event('show_text', render_content('Doggerland'));
 	b.wait();
 
 	// Ys
@@ -233,11 +241,10 @@ export const create_soggy_planet_tour_data = (
 	// 16.1 2105 -490
 	b.pan(2105, -490, t_move);
 	b.zoom(16.1, t_move);
-	b.wait(2000); // delay for music
-	b.event('show_text', 'Ys');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(1, -2, t_idle, sineOut);
+	b.event('show_text', render_content('Ys'));
 	b.wait();
 
 	// Thule
@@ -245,23 +252,10 @@ export const create_soggy_planet_tour_data = (
 	// 5.7 2136 -323
 	b.pan(2136, -323, t_move);
 	b.zoom(5.7, t_move);
-	b.wait(2000); // delay for music
-	b.event('show_text', 'Thule');
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(0, 2, t_idle, sineOut);
-	b.wait();
-
-	// Missoula floods
-	b.event('clear_text');
-	// 11 3404 -482
-	b.pan(3404, -482, t_move);
-	b.zoom(11, t_move);
-	b.wait(2000); // delay for music
-	b.event('show_text', 'Missoula floods');
-	b.wait();
-	b.zoomBy(1.02, t_idle, sineOut);
-	b.panBy(1, -2, t_idle, sineOut);
+	b.event('show_text', render_content('Thule'));
 	b.wait();
 
 	// Beringia
@@ -269,11 +263,22 @@ export const create_soggy_planet_tour_data = (
 	// 3.2 4036 -302
 	b.pan(4036, -302, t_move);
 	b.zoom(3.2, t_move);
-	b.wait(2000); // delay for music
-	b.event('show_text', 'Beringia');
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(3, 2, t_idle, sineOut);
+	b.wait(1000); // delay for music
+	b.event('show_text', render_content('Beringia'));
+	b.wait();
+
+	// Missoula floods
+	b.event('clear_text');
+	// 11 3404 -482
+	b.pan(3404, -482, t_move);
+	b.zoom(11, t_move);
+	b.wait();
+	b.zoomBy(1.02, t_idle, sineOut);
+	b.panBy(1, -2, t_idle, sineOut);
+	b.event('show_text', render_content('Missoula floods'));
 	b.wait();
 
 	// Land bridges of Japan
@@ -281,11 +286,10 @@ export const create_soggy_planet_tour_data = (
 	// 3.5 4591 -577
 	b.pan(4591, -577, t_move);
 	b.zoom(3.5, t_move);
-	b.wait(2000); // delay for music
-	b.event('show_text', 'Land bridges of Japan');
 	b.wait();
 	b.zoomBy(1.01, t_idle, sineOut);
 	b.panBy(2, -2, t_idle, sineOut);
+	b.event('show_text', render_content('Land bridges of Japan'));
 	b.wait();
 
 	// Mu
@@ -293,11 +297,11 @@ export const create_soggy_planet_tour_data = (
 	// 2 4162 -978
 	b.pan(4162, -978, t_move);
 	b.zoom(2, t_move);
-	b.wait(2000); // delay for music
-	b.event('show_text', 'Mu');
 	b.wait();
 	b.zoomBy(0.99, t_idle, sineOut);
 	b.panBy(-2, -2, t_idle, sineOut);
+	b.wait(3000); // delay for music
+	b.event('show_text', render_content('Mu'));
 	b.wait();
 	b.event('clear_text');
 

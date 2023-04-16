@@ -8,7 +8,7 @@
 	import {browser} from '$app/environment';
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
-	import {goto} from '$app/navigation';
+	import {beforeNavigate, goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {
@@ -35,6 +35,10 @@
 	import AppDialogs from '$lib/app/AppDialogs.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import AppDialogMenu from '$lib/app/AppDialogMenu.svelte';
+
+	beforeNavigate(() => {
+		$showAppDialog = false;
+	});
 
 	const dimensions = writable({
 		width: browser ? window.innerWidth : 1,
@@ -143,7 +147,7 @@
 			// global pause
 			swallow(e);
 			clock.toggle();
-		} else if (key === '`' && e.ctrlKey) {
+		} else if (key === '`' && e.ctrlKey && enableGlobalHotkeys(target)) {
 			// toggle dev mode
 			swallow(e);
 			settings.update((s) => ({...s, dev_mode: !s.dev_mode}));
@@ -156,21 +160,18 @@
 				$showAppDialog = true;
 				clock.pause(); // TODO make this add to a stack so we can safely unpause
 			}
-		} else if (key === 'Escape' && e.shiftKey) {
+		} else if (key === 'Escape' && e.shiftKey && enableGlobalHotkeys(target)) {
 			// global nav up one
 			swallow(e);
 			await goto($page.url.pathname.split('/').slice(0, -1).join('/') || '/');
-		} else if ($settings.dev_mode) {
-			// dev mode hotkeys
-			if (key === '-' && !e.ctrlKey && enableGlobalHotkeys(target)) {
-				swallow(e);
-				settings.update((s) => ({...s, idleMode: !s.idleMode}));
-				console.log('idle mode is now', $settings.idleMode);
-			} else if (key === '=' && !e.ctrlKey && enableGlobalHotkeys(target)) {
-				swallow(e);
-				settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
-				console.log('recording mode is now', $settings.recordingMode);
-			}
+		} else if (key === '-' && !e.ctrlKey && enableGlobalHotkeys(target)) {
+			swallow(e);
+			settings.update((s) => ({...s, idleMode: !s.idleMode}));
+			console.log('idle mode is now', $settings.idleMode);
+		} else if (key === '=' && !e.ctrlKey && enableGlobalHotkeys(target)) {
+			swallow(e);
+			settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
+			console.log('recording mode is now', $settings.recordingMode);
 		}
 	};
 </script>
