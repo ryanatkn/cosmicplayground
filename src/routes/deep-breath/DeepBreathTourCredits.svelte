@@ -17,24 +17,6 @@
 	<section in:blur={{duration: transitionDuration, amount: blurAmount}}>
 		<h2>created by</h2>
 		Ryan Atkinson<br />
-		<a href="https://twitter.com/ryanatkn">
-			@ryanatkn <img
-				src="/assets/characters/twit.png"
-				alt="@ryanatkn on Twitter"
-				style="opacity: 0.8;"
-				width="64"
-				height="64"
-			/>
-		</a>
-		<a href="https://github.com/ryanatkn/cosmicplayground">
-			<img
-				src="/assets/characters/octocat.png"
-				alt="@ryanatkn/cosmicplayground on GitHub"
-				width="40"
-				height="40"
-				style="margin: 0 16px 0 4px; opacity: 0.8;"
-			/>
-		</a>
 		<a href="https://www.ryanatkn.com">ryanatkn.com</a>
 	</section>
 	<section in:blur={{duration: transitionDuration, delay: delay * 1, amount: blurAmount}}>
