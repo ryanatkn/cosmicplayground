@@ -47,7 +47,7 @@ export const createTourBuilder = (): TourBuilder => {
 		if (lastOfSameType && lastOfSameType.startTime + lastOfSameType.duration > step.startTime) {
 			console.error('Conflicting step', step);
 			throw Error(
-				`Cannot add conflicting step with type ${step.type} with currentTime ${currentTime} at trnasform ${steps.length}`,
+				`Cannot add conflicting step with type ${step.type} with currentTime ${currentTime} at transform ${steps.length}`,
 			);
 		}
 		steps.push(step);

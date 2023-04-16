@@ -50,16 +50,23 @@
 		user-select: none;
 	}
 	.text {
-		animation-name: gently-grow;
+		--slide_target_x: -130px;
+		--slide_target_y: -20px;
+		animation-name: gently-grow-and-slide;
 		animation-timing-function: linear;
 		transform-origin: center;
 	}
-	@keyframes gently-grow {
+	.text:first-child {
+		--slide_target_x: 130px;
+		--slide_target_y: 20px;
+	}
+	@keyframes gently-grow-and-slide {
 		0% {
-			transform: scale3d(1, 1, 1);
+			transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
 		}
 		100% {
-			transform: scale3d(1.27, 1.27, 1.27);
+			transform: scale3d(1.27, 1.27, 1.27)
+				translate3d(var(--slide_target_x), var(--slide_target_y), 0);
 		}
 	}
 </style>

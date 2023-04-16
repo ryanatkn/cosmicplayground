@@ -93,12 +93,14 @@
 				}
 				case 'play_main_song': {
 					main_song.audio!.currentTime = 0;
-					if (audio_enabled) void main_song.audio!.play();
+					// TODO BLOCK add mute button on devmode controls
+					// if (audio_enabled) void main_song.audio!.play();
 					break;
 				}
 				case 'play_water_trickle': {
 					water_trickle_sound.audio!.currentTime = 0;
-					if (audio_enabled) void water_trickle_sound.audio!.play();
+					// TODO BLOCK add mute button on devmode controls
+					// if (audio_enabled) void water_trickle_sound.audio!.play();
 					return;
 				}
 				case 'show_intro': {

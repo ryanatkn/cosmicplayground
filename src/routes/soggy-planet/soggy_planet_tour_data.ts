@@ -43,7 +43,7 @@ export const points_of_interest: Point_Of_Interest[] = [
 	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods'},
 	// 3.2 12228 -302
 	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia'},
-	// 3.5 12783
+	// 3.5 12783 -577
 	{name: 'Land bridges of Japan', url: 'https://wikipedia.org/wiki/Land_bridges_of_Japan'},
 	// 2 12354 -978
 	{name: 'Mu', url: 'https://wikipedia.org/wiki/Mu_(mythical_lost_continent)', myth: true},
@@ -63,8 +63,8 @@ export const create_soggy_planet_tour_data = (
 	const t_move = t_base * 3;
 	const t_end_sequence = 15250;
 
-	const x_start = 8619;
-	const y_start = -895;
+	const x_start = 12264;
+	const y_start = -1405;
 	const zoom_start = 5000;
 
 	const wait_for_load_event = b.event('load'); // TODO what happens if the tour is canceled while loading?
@@ -105,12 +105,11 @@ export const create_soggy_planet_tour_data = (
 	b.zoom(6, 8400, backInOut);
 	b.wait(2000);
 	b.event('play_main_song'); // TODO this is a synchronous event- should it have a different API?
-	b.wait(1900);
+	b.wait();
 
-	// -> slowly pan to the east African coast while zooming out
-	b.pan(2560, 1090, 13000);
-	b.wait(4500);
-	b.zoom(2, 9000);
+	// -> zoom out
+	b.pan(8259, -1358, 3000);
+	b.zoom(2, 3000);
 	b.wait();
 	b.zoomBy(0.97, 3000, sineOut);
 	b.wait(3000);
@@ -121,17 +120,104 @@ export const create_soggy_planet_tour_data = (
 	// to sync the ending of the music with the final camera movements.
 	// (so they shouldn't be used before this point!)
 
-	// TODO BLOCK start at the first point of interest
-	b.pan(2520, 1047, t_move, backInOut);
-	b.zoom(4.3, t_move);
+	// TODO BLOCK fidget
+
+	// Zealandia
+	// 2.2 8259 -1358
+	b.pan(8259, -1358, t_move);
+	b.zoom(2.2, t_move);
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 2, t_idle, sineOut);
 	b.wait();
 
+	// Sundaland
+	// 2.6 8856 -920
+	b.pan(8856, -920, t_move);
+	b.zoom(2.6, t_move);
+	b.wait();
+	b.zoomBy(1.02, t_idle, sineOut);
+	b.panBy(1, 2, t_idle, sineOut);
+	b.wait();
+
+	// Kumari Kandam
+	// 3.9 9414 -940
+	b.pan(9414, -940, t_move);
+	b.zoom(3.9, t_move);
+	b.wait();
+	b.zoomBy(1.02, t_idle, sineOut);
+	b.panBy(2, 0, t_idle, sineOut);
+	b.wait();
+
+	// Lemuria
+	// 3.2 9637 -1223
+	b.pan(9637, -1223, t_move);
+	b.zoom(3.2, t_move);
+	b.wait();
+
+	// Kerguelen Plateau
+	// 3.5 9413 -1634
+	b.pan(9413, -1634, t_move);
+	b.zoom(3.5, t_move);
+	b.wait();
+
+	// Altai flood
+	// 6.2 9253 -444
+	b.pan(9253, -444, t_move);
+	b.zoom(6.2, t_move);
+	b.wait();
+
+	// Black Sea deluge hypothesis
+	// 10 9840 -527
+	b.pan(9840, -527, t_move);
+	b.zoom(10, t_move);
+	b.wait();
+
+	// Doggerland
+	// 13.3 10214 -403
+	b.pan(10214, -403, t_move);
+	b.zoom(13.3, t_move);
+	b.wait();
+
+	// Ys
+	// 16.1 10297 -490
+	b.pan(10297, -490, t_move);
+	b.zoom(16.1, t_move);
+	b.wait();
+
+	// Thule
+	// 5.7 10328 -323
+	b.pan(10328, -323, t_move);
+	b.zoom(5.7, t_move);
+	b.wait();
+
+	// Missoula floods
+	// 11 11596 -482
+	b.pan(11596, -482, t_move);
+	b.zoom(11, t_move);
+	b.wait();
+
+	// Beringia
+	// 3.2 12228 -302
+	b.pan(12228, -302, t_move);
+	b.zoom(3.2, t_move);
+	b.wait();
+
+	// Land bridges of Japan
+	// 3.5 12783 -577
+	b.pan(12783, -577, t_move);
+	b.zoom(3.5, t_move);
+	b.wait();
+
+	// Mu
+	// 2 12354 -978
+	b.pan(12354, -978, t_move);
+	b.zoom(2, t_move);
+	b.wait();
+
 	// -> disappear zooming into the Mariana Trench
 	// TODO validate that there's enough time to finish the end sequence
-	b.pan(7764, 895, t_end_sequence, quadInOut);
+	b.pan(12198, -1204, t_end_sequence, quadInOut);
 	b.zoom(0.66, t_move);
 	b.wait(t_move);
 	b.zoom(0.56, t_move);
