@@ -183,13 +183,13 @@
 		done: (completed) => {
 			$touring = false;
 			tweenedCamera!.resetTweens();
-			if (devMode) console.log('render stats', getRenderStats());
+			if (dev_mode) console.log('render stats', getRenderStats());
 			return hooks.done?.(completed);
 		},
 	};
 
 	const settings = getSettings();
-	$: devMode = $settings.devMode;
+	$: dev_mode = $settings.dev_mode;
 
 	const dispatchEvent = createEventDispatcher<{begin: undefined}>();
 
@@ -213,7 +213,7 @@
 		finished = false;
 		$touring = true;
 		dispatchEvent('begin');
-		if (devMode) {
+		if (dev_mode) {
 			resetRenderStats();
 			if (debug_start_time) setTimeout(() => seekTimeTo(debug_start_time), 50);
 		}

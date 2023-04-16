@@ -44,7 +44,7 @@
 	const initialHeight = $dimensions.height;
 
 	const settings = getSettings();
-	$: devMode = $settings.devMode;
+	$: dev_mode = $settings.dev_mode;
 
 	const debug_start_time = 0; // ~0-300000
 
@@ -182,7 +182,7 @@
 	};
 	onMount(() => {
 		// in dev mode, bypass the title screen for convenience
-		if (devMode) {
+		if (dev_mode) {
 			show_title_screen = false;
 			void resources.load();
 		}
@@ -236,7 +236,7 @@
 						∙∙∙
 					</FloatingIconButton>
 				{/if}
-				{#if showHud && (!$touring || devMode)}
+				{#if showHud && (!$touring || dev_mode)}
 					<div class="hud-top-controls">
 						<FloatingIconButton
 							pressed={showHud}
@@ -250,7 +250,7 @@
 						{/if}
 					</div>
 					<div class="hud-left-controls">
-						{#if devMode}
+						{#if dev_mode}
 							<DeepBreathDevHud
 								tour={tour || null}
 								{x}

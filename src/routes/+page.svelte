@@ -167,7 +167,7 @@
 	};
 	$: camera = stage?.camera;
 	$: player = stage?.player;
-	$: enableDomCanvasRenderer = $settings.devMode;
+	$: enableDomCanvasRenderer = $settings.dev_mode;
 
 	$: starshipRotation = starshipAngle + Math.PI / 2;
 

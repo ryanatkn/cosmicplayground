@@ -47,7 +47,7 @@
 	const initial_height = $dimensions.height;
 
 	const settings = getSettings();
-	$: dev_mode = $settings.devMode;
+	$: dev_mode = $settings.dev_mode;
 
 	// TODO add auto pan button - share logic with Starlit Hanmmock and deep breath
 
@@ -298,7 +298,7 @@
 		{:else}
 			<Soggy_Planet_Title_Screen {resources} {proceed} {start_tour} />
 		{/if}
-		<!-- {#if devMode}
+		<!-- {#if dev_mode}
 		<div
 			style="position: fixed; left: calc(50% - 3px); top: calc(50% - 3px); width: 7px; height: 7px;
 			background-color: rgba(255, 50, 50, 1);"

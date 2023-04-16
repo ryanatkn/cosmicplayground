@@ -34,7 +34,7 @@
 	const clock = getClock();
 
 	const settings = getSettings();
-	$: devMode = $settings.devMode;
+	$: dev_mode = $settings.dev_mode;
 	$: audioEnabled = $settings.audioEnabled;
 
 	const tourResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
@@ -167,7 +167,7 @@
 	{clock}
 	{hooks}
 	createTourData={() =>
-		createDeepBreathTourData(tourIntroTotalDuration, tourTitleTotalDuration, devMode)}
+		createDeepBreathTourData(tourIntroTotalDuration, tourTitleTotalDuration, dev_mode)}
 	on:begin
 	bind:this={tour}
 	bind:touring

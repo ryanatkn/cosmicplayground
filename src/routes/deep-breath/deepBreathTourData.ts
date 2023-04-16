@@ -24,7 +24,7 @@ import {createTourBuilder} from '$lib/app/tourBuilder';
 export const createDeepBreathTourData = (
 	introDuration: number,
 	titleDuration: number,
-	devMode = false,
+	dev_mode = false,
 ): TourData => {
 	const b = createTourBuilder();
 
@@ -38,21 +38,21 @@ export const createDeepBreathTourData = (
 	const zoomStart = 5000;
 
 	// (note: these absolute timings are off, but relatively they're the same)
-	// The song starts at 12593 (in devMode, +4000 otherwise)
+	// The song starts at 12593 (in dev_mode, +4000 otherwise)
 	// and the song final note plays at 4:45 (285000),
-	// so the tour should zoom in at roughly 297600. (+4000 for devMode, 301600)
+	// so the tour should zoom in at roughly 297600. (+4000 for dev_mode, 301600)
 	// The 'debug_final_zoom_in' event fires there to check.
 	// The overflow amount can be applied to `tEndSequence`
 	// to align everything at the end.
 
 	// -> start in Indian Ocean
 	const waitForLoadEvent = b.event('load'); // TODO what happens if the tour is canceled while loading?
-	if (devMode) {
-		// devMode startup events
+	if (dev_mode) {
+		// dev_mode startup events
 		b.pan(xStart, yStart, 0);
 		b.zoom(zoomStart, 0);
 	} else {
-		// non-devMode startup events
+		// non-dev_mode startup events
 		b.pan(xStart, yStart, 2000);
 		b.zoom(5, 2000);
 		b.wait();
@@ -60,8 +60,8 @@ export const createDeepBreathTourData = (
 		b.wait();
 	}
 	waitForLoadEvent();
-	if (!devMode) {
-		// more non-devMode startup events, needed to sync music to timestamps (hacky yes)
+	if (!dev_mode) {
+		// more non-dev_mode startup events, needed to sync music to timestamps (hacky yes)
 		b.zoom(zoomStart, 1000);
 		b.wait();
 	}

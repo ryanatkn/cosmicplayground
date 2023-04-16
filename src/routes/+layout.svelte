@@ -96,7 +96,7 @@
 
 	const settings = setSettings({
 		audioEnabled: true, // TODO make this work everywhere? hmm. global mute/volume?
-		devMode: false,
+		dev_mode: false,
 		recordingMode: false,
 		idleMode: false,
 		timeToGoIdle: 6000,
@@ -128,7 +128,7 @@
 
 	const idle = writable(false);
 	setIdle(idle);
-	$: timeToGoIdle = $settings.devMode
+	$: timeToGoIdle = $settings.dev_mode
 		? 99999999999
 		: $settings.recordingMode
 		? 500
@@ -146,7 +146,7 @@
 		} else if (key === '`' && e.ctrlKey) {
 			// toggle dev mode
 			swallow(e);
-			settings.update((s) => ({...s, devMode: !s.devMode}));
+			settings.update((s) => ({...s, dev_mode: !s.dev_mode}));
 		} else if (key === 'Escape' && !e.shiftKey && enableGlobalHotkeys(e.currentTarget)) {
 			swallow(e);
 			if ($showAppDialog) {
@@ -160,7 +160,7 @@
 			// global nav up one
 			swallow(e);
 			await goto($page.url.pathname.split('/').slice(0, -1).join('/') || '/');
-		} else if ($settings.devMode) {
+		} else if ($settings.dev_mode) {
 			// dev mode hotkeys
 			if (key === '-' && !e.ctrlKey && enableGlobalHotkeys(target)) {
 				swallow(e);

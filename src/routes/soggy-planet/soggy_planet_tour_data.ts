@@ -11,24 +11,41 @@ export const Point_Of_Interest = z.object({
 });
 export type Point_Of_Interest = z.infer<typeof Point_Of_Interest>;
 
+// TODO BLOCK at Altai, maybe alternate between months 7/8 (custom event?)
+
 export const points_of_interest: Point_Of_Interest[] = [
+	// 2.2 8259 -1358
 	{name: 'Zealandia', url: 'https://en.wikipedia.org/wiki/Zealandia'},
+	// 2.6 8856 -920
 	{name: 'Sundaland', url: 'https://wikipedia.org/wiki/Sundaland'},
+	// 3.9 9414 -940
 	{name: 'Kumari Kandam', url: 'https://wikipedia.org/wiki/Kumari_Kandam', myth: true},
+	// 3.2 9637 -1223
 	{name: 'Lemuria', url: 'https://wikipedia.org/wiki/Lemuria', myth: true},
+	// 3.5 9413 -1634
 	{name: 'Kerguelen Plateau', url: 'https://wikipedia.org/wiki/Kerguelen_Plateau'},
+	// 6.2 9253 -444
 	{name: 'Altai flood', url: 'https://wikipedia.org/wiki/Altai_flood'},
+	// 10 9840 -527
+	// TODO BLOCK show the water go in/out here
 	{
 		name: 'Black Sea deluge hypothesis',
 		url: 'https://wikipedia.org/wiki/Black_Sea_deluge_hypothesis',
 		myth: true,
 	},
+	// 13.3 10214 -403
 	{name: 'Doggerland', url: 'https://wikipedia.org/wiki/Doggerland'},
+	// 16.1 10297 -490
 	{name: 'Ys', url: 'https://wikipedia.org/wiki/Ys', myth: true},
+	// 5.7 10328 -323
 	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', myth: true},
+	// 11 11596 -482
 	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods'},
+	// 3.2 12228 -302
 	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia'},
+	// 3.5 12783
 	{name: 'Land bridges of Japan', url: 'https://wikipedia.org/wiki/Land_bridges_of_Japan'},
+	// 2 12354 -978
 	{name: 'Mu', url: 'https://wikipedia.org/wiki/Mu_(mythical_lost_continent)', myth: true},
 ];
 
@@ -52,11 +69,11 @@ export const create_soggy_planet_tour_data = (
 
 	const wait_for_load_event = b.event('load'); // TODO what happens if the tour is canceled while loading?
 	if (dev_mode) {
-		// devMode startup events
+		// dev_mode startup events
 		b.pan(x_start, y_start, 0);
 		b.zoom(zoom_start, 0);
 	} else {
-		// non-devMode startup events
+		// non-dev_mode startup events
 		b.pan(x_start, y_start, 2000);
 		b.zoom(5, 2000);
 		b.wait();
@@ -65,7 +82,7 @@ export const create_soggy_planet_tour_data = (
 	}
 	wait_for_load_event();
 	if (!dev_mode) {
-		// more non-devMode startup events, needed to sync music to timestamps (hacky yes)
+		// more non-dev_mode startup events, needed to sync music to timestamps (hacky yes)
 		b.zoom(zoom_start, 1000);
 		b.wait();
 	}
