@@ -7,28 +7,29 @@ import {z} from 'zod';
 export const Point_Of_Interest = z.object({
 	name: z.string(),
 	url: z.string(),
-	maybe: z.boolean().optional(),
+	myth: z.boolean().optional(),
 });
 export type Point_Of_Interest = z.infer<typeof Point_Of_Interest>;
 
 export const points_of_interest: Point_Of_Interest[] = [
+	{name: 'Zealandia', url: 'https://en.wikipedia.org/wiki/Zealandia'},
 	{name: 'Sundaland', url: 'https://wikipedia.org/wiki/Sundaland'},
-	{name: 'Kumari Kandam', url: 'https://wikipedia.org/wiki/Kumari_Kandam', maybe: true},
-	{name: 'Lemuria', url: 'https://wikipedia.org/wiki/Lemuria', maybe: true},
+	{name: 'Kumari Kandam', url: 'https://wikipedia.org/wiki/Kumari_Kandam', myth: true},
+	{name: 'Lemuria', url: 'https://wikipedia.org/wiki/Lemuria', myth: true},
 	{name: 'Kerguelen Plateau', url: 'https://wikipedia.org/wiki/Kerguelen_Plateau'},
 	{name: 'Altai flood', url: 'https://wikipedia.org/wiki/Altai_flood'},
 	{
 		name: 'Black Sea deluge hypothesis',
 		url: 'https://wikipedia.org/wiki/Black_Sea_deluge_hypothesis',
-		maybe: true,
+		myth: true,
 	},
 	{name: 'Doggerland', url: 'https://wikipedia.org/wiki/Doggerland'},
-	{name: 'Ys', url: 'https://wikipedia.org/wiki/Ys', maybe: true},
-	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', maybe: true},
+	{name: 'Ys', url: 'https://wikipedia.org/wiki/Ys', myth: true},
+	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', myth: true},
 	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods'},
 	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia'},
 	{name: 'Land bridges of Japan', url: 'https://wikipedia.org/wiki/Land_bridges_of_Japan'},
-	{name: 'Mu', url: 'https://wikipedia.org/wiki/Mu_(mythical_lost_continent)', maybe: true},
+	{name: 'Mu', url: 'https://wikipedia.org/wiki/Mu_(mythical_lost_continent)', myth: true},
 ];
 
 // TODO BLOCK if time before the deadline, include river valleys (probably just labelled when onscreen  and zoomed in enough, no stopping for them)
@@ -51,8 +52,8 @@ export const create_soggy_planet_tour_data = (
 	const t_move = t_base * 3;
 	const t_end_sequence = 15250;
 
-	const x_start = 3201;
-	const y_start = 1405;
+	const x_start = 7764;
+	const y_start = 895;
 	const zoom_start = 5000;
 
 	// TODO BLOCK start where?

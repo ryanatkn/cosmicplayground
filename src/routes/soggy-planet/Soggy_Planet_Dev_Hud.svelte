@@ -2,12 +2,16 @@
 	import type {Writable} from 'svelte/store';
 
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
+	import type Tour from '$lib/app/Tour.svelte';
+	import TourControls from '$lib/app/TourControls.svelte';
 
+	export let tour: Tour | null;
 	export let x: Writable<number>;
 	export let y: Writable<number>;
 	export let scale: Writable<number>;
+	export let debug_start_time: number;
 
-	// TODO smaller buttons! size prop?
+	$: touring = tour?.touring;
 </script>
 
 <FloatingTextButton
@@ -37,3 +41,6 @@
 >
 	y: {Math.round($y)}
 </FloatingTextButton>
+{#if tour && $touring}
+	<TourControls {tour} {debug_start_time} />
+{/if}

@@ -46,7 +46,7 @@
 	const settings = getSettings();
 	$: devMode = $settings.devMode;
 
-	const debugStartTime = 0; // ~0-300000
+	const debug_start_time = 0; // ~0-300000
 
 	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
 	const resources = createResourcesStore();
@@ -236,50 +236,48 @@
 						∙∙∙
 					</FloatingIconButton>
 				{/if}
-				{#if !$touring || devMode}
-					{#if showHud}
-						<div class="hud-top-controls">
-							<FloatingIconButton
-								pressed={showHud}
-								label="toggle hud controls"
-								on:click={onClickHudToggle}
-							>
-								∙∙∙
-							</FloatingIconButton>
-							{#if tour && !$touring}
-								<FloatingTextButton on:click={tour.beginTour}>tour</FloatingTextButton>
-							{/if}
-						</div>
-						<div class="hud-left-controls">
-							{#if devMode}
-								<DeepBreathDevHud
-									tour={tour || null}
-									{x}
-									{y}
-									{scale}
-									togglePixiEarthViewer={(v) => (enablePixiEarthViewer = v)}
-									{enablePixiEarthViewer}
-									{debugStartTime}
-								/>
-							{/if}
-						</div>
-						{#if !$touring}
-							<div class="month-wrapper">
-								<MonthHud
-									active_land_index={activeLandIndex}
-									selected_land_index={selectedLandIndex}
-									select_land_index={selectLandIndex}
-									hover_land_index={hoverLandIndex}
-								/>
-							</div>
-							<SeaLevelHud
-								sea_level={activeSeaLevel}
-								sea_index_max={seaIndexMax}
-								selected_sea_level={selectedSeaLevel}
-								select_sea_level={selectSeaLevel}
-								hover_sea_level={hoverSeaLevel}
+				{#if showHud && (!$touring || devMode)}
+					<div class="hud-top-controls">
+						<FloatingIconButton
+							pressed={showHud}
+							label="toggle hud controls"
+							on:click={onClickHudToggle}
+						>
+							∙∙∙
+						</FloatingIconButton>
+						{#if tour && !$touring}
+							<FloatingTextButton on:click={tour.beginTour}>tour</FloatingTextButton>
+						{/if}
+					</div>
+					<div class="hud-left-controls">
+						{#if devMode}
+							<DeepBreathDevHud
+								tour={tour || null}
+								{x}
+								{y}
+								{scale}
+								togglePixiEarthViewer={(v) => (enablePixiEarthViewer = v)}
+								{enablePixiEarthViewer}
+								{debug_start_time}
 							/>
 						{/if}
+					</div>
+					{#if !$touring}
+						<div class="month-wrapper">
+							<MonthHud
+								active_land_index={activeLandIndex}
+								selected_land_index={selectedLandIndex}
+								select_land_index={selectLandIndex}
+								hover_land_index={hoverLandIndex}
+							/>
+						</div>
+						<SeaLevelHud
+							sea_level={activeSeaLevel}
+							sea_index_max={seaIndexMax}
+							selected_sea_level={selectedSeaLevel}
+							select_sea_level={selectSeaLevel}
+							hover_sea_level={hoverSeaLevel}
+						/>
 					{/if}
 				{/if}
 			</Hud>

@@ -3,6 +3,7 @@
 	import {randomFloat} from '@feltjs/util/random.js';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
+	import {dev} from '$app/environment';
 
 	import Soggy_Planet_Title_Screen from '$routes/soggy-planet/Soggy_Planet_Title_Screen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
@@ -19,6 +20,9 @@
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import Soggy_Planet_Tour from '$routes/soggy-planet/Soggy_Planet_Tour.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
+
+	const DEBUG_START_TIME = 0; // set to start the tour at any time for dev purposes
+	const debug_start_time = dev ? DEBUG_START_TIME : 0;
 
 	const clock = getClock();
 
@@ -194,9 +198,6 @@
 		if (!tour) return; // TODO hmm?
 
 		tour.beginTour();
-
-		console.log('start tour..!');
-		// TODO BLOCK start the tour
 	};
 
 	const on_begin_tour = () => {
@@ -236,7 +237,9 @@
 			<Soggy_Planet_Tour {camera} bind:tour on:begin={on_begin_tour} />
 			<Hud>
 				<!-- TODO these conditions are awkward copypasta from deep-breath -->
-				{#if show_hud}
+				{#if tour && $touring}
+					<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
+				{:else if show_hud}
 					<FloatingIconButton label="go back to title screen" on:click={go_to_title_screen}>
 						⇦
 					</FloatingIconButton>
@@ -251,7 +254,7 @@
 						</FloatingIconButton>
 					</div>
 				{/if}
-				{#if show_hud && !$touring}
+				{#if show_hud && (!$touring || dev_mode)}
 					<div class="hud-top-controls">
 						<FloatingIconButton
 							pressed={show_hud}
@@ -272,7 +275,7 @@
 							{hover_daylight}
 						/>
 						{#if dev_mode}
-							<Soggy_Planet_Dev_Hud {x} {y} {scale} />
+							<Soggy_Planet_Dev_Hud tour={tour || null} {x} {y} {scale} {debug_start_time} />
 						{/if}
 					</div>
 					<div class="month-wrapper">

@@ -98,7 +98,7 @@
 			</p>
 			<p>The tour walks through the following points of interest:</p>
 			<table>
-				<thead><th>name</th><th>maybe?</th><th>url</th></thead>
+				<thead><th>name</th><th>myth?</th><th>url</th></thead>
 				{#each points_of_interest as point_of_interest (point_of_interest)}
 					<tr>
 						<td>
@@ -106,7 +106,7 @@
 							{point_of_interest.name}
 						</td>
 						<td class="centered-text"
-							>{#if point_of_interest.maybe}?{/if}</td
+							>{#if point_of_interest.myth}?{/if}</td
 						>
 						<td><a href={point_of_interest.url}>{point_of_interest.url.substring(8)}</a></td>
 					</tr>

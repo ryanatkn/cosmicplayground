@@ -12,11 +12,9 @@
 	export let scale: Writable<number>;
 	export let togglePixiEarthViewer: (visible: boolean) => void;
 	export let enablePixiEarthViewer: boolean;
-	export let debugStartTime: number;
+	export let debug_start_time: number;
 
 	$: touring = tour?.touring;
-
-	// TODO smaller buttons! size prop?
 </script>
 
 <FloatingTextButton
@@ -54,5 +52,5 @@
 	y: {Math.round($y)}
 </FloatingTextButton>
 {#if tour && $touring}
-	<TourControls {tour} {debugStartTime} />
+	<TourControls {tour} {debug_start_time} />
 {/if}

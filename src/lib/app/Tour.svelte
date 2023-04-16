@@ -193,7 +193,7 @@
 
 	const dispatchEvent = createEventDispatcher<{begin: undefined}>();
 
-	const debugStartTime = 0; // ~0-300000
+	const debug_start_time = 0; // ~0-300000
 
 	const onKeyDown = (e: KeyboardEvent) => {
 		if ($touring) {
@@ -215,7 +215,7 @@
 		dispatchEvent('begin');
 		if (devMode) {
 			resetRenderStats();
-			if (debugStartTime) setTimeout(() => seekTimeTo(debugStartTime), 50);
+			if (debug_start_time) setTimeout(() => seekTimeTo(debug_start_time), 50);
 		}
 	};
 
