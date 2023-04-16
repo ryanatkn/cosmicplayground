@@ -67,7 +67,7 @@
 
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
-		if (showTitleScreen) return;
+		if (show_title_screen) return;
 		// map screen
 		if (!inputEnabled) return;
 		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
@@ -172,18 +172,18 @@
 	seaImages.forEach((url) => resources.addResource('image', url));
 
 	// in dev mode, bypass the title screen for convenience
-	let showTitleScreen = true;
+	let show_title_screen = true;
 	const proceed = () => {
-		showTitleScreen = false;
+		show_title_screen = false;
 	};
 	const returnToTitleScreen = () => {
 		if ($touring) tour!.cancel();
-		showTitleScreen = true;
+		show_title_screen = true;
 	};
 	onMount(() => {
 		// in dev mode, bypass the title screen for convenience
 		if (devMode) {
-			showTitleScreen = false;
+			show_title_screen = false;
 			void resources.load();
 		}
 	});
@@ -195,7 +195,7 @@
 
 {#if camera && x && y && scale}
 	<div class="deep-breath">
-		{#if !showTitleScreen && $resources.status === 'success'}
+		{#if !show_title_screen && $resources.status === 'success'}
 			{#if enablePixiEarthViewer}
 				<EarthViewerPixi
 					{camera}

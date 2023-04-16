@@ -39,11 +39,15 @@
 
 	const tour_resources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
 	const main_song_url = '/assets/audio/Alexander_Nakarada__Piña_Colada.mp3';
+	const water_trickle_url = '/assets/audio/water_trickle.mp3';
 	// TODO maybe `addResource` should return a store per resource,
 	// and then we can remove the next line `$: mainSong = ...`
 	tour_resources.addResource('audio', main_song_url);
+	tour_resources.addResource('audio', water_trickle_url);
 	let main_song: AudioResource;
 	$: main_song = $tour_resources.resources.find((r) => r.url === main_song_url) as any; // TODO faster API, or maybe remove (see comment above)
+	let water_trickle: AudioResource;
+	$: water_trickle = $tour_resources.resources.find((r) => r.url === water_trickle_url) as any; // TODO faster API, or maybe remove (see comment above)
 	const tour_intro_transition_in_duration = 2000;
 	const tour_intro_transition_out_duration = 2000;
 	const tour_intro_pause_duration = 3000;
@@ -59,7 +63,8 @@
 	const tour_title_total_duration =
 		tour_title_transition_duration * 2 + tour_title_max_delay + tour_title_pause_duration;
 
-	$: main_song_step = $tour_data && findTourStep($tour_data, 'playMainSong');
+	$: main_song_step = $tour_data && findTourStep($tour_data, 'play_main_song');
+	$: water_trickle_step = $tour_data && findTourStep($tour_data, 'play_water_trickle');
 
 	// TODO move to `Tour.svelte` after audio is moved there
 	let last_paused = paused;
@@ -69,6 +74,13 @@
 	}
 	const update_paused = (paused: boolean): void => {
 		updateAudioOnSeek(main_song.audio!, main_song_step!, $current_time!, audio_enabled, paused!);
+		updateAudioOnSeek(
+			water_trickle.audio!,
+			water_trickle_step!,
+			$current_time!,
+			audio_enabled,
+			paused!,
+		);
 	};
 
 	const hooks: Partial<TourHooks> = {
@@ -77,20 +89,25 @@
 				case 'load': {
 					return tour_resources.load(); // is idempotent
 				}
-				case 'playMainSong': {
+				case 'play_main_song': {
 					main_song.audio!.currentTime = 0;
 					if (audio_enabled) void main_song.audio!.play();
 					break;
 				}
-				case 'showIntro': {
+				case 'play_water_trickle': {
+					water_trickle.audio!.currentTime = 0;
+					if (audio_enabled) void water_trickle.audio!.play();
+					return;
+				}
+				case 'show_intro': {
 					$show_tour_intro = true;
 					return;
 				}
-				case 'showTitle': {
+				case 'show_title': {
 					$show_tour_title = true;
 					return;
 				}
-				case 'showCredits': {
+				case 'show_credits': {
 					$show_tour_credits = true;
 					return;
 				}

@@ -50,7 +50,7 @@
 	</div>
 	<div class="text final-text" style={text_style}>
 		<div in:blur={{duration: transition_in_duration, amount: blur_amount, delay: max_delay}}>
-			many places were curiously drier, and myth found a welcome home in the minds of many
+			many places were curiously drier, and myth flooded our imaginations
 		</div>
 	</div>
 </div>

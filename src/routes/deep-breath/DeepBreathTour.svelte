@@ -63,7 +63,7 @@
 	const tourTitleTotalDuration =
 		tourTitleTransitionDuration * 2 + tourTitleMaxDelay + tourTitlePauseDuration;
 
-	$: mainSongStep = $tourData && findTourStep($tourData, 'playMainSong');
+	$: mainSongStep = $tourData && findTourStep($tourData, 'play_main_song');
 	$: oceanWavesStep = $tourData && findTourStep($tourData, 'playOceanWavesSound');
 
 	// TODO move to `Tour.svelte` after audio is moved there
@@ -94,20 +94,20 @@
 					if (audioEnabled) void oceanWavesSound.audio!.play();
 					return;
 				}
-				case 'playMainSong': {
+				case 'play_main_song': {
 					mainSong.audio!.currentTime = 0;
 					if (audioEnabled) void mainSong.audio!.play();
 					break;
 				}
-				case 'showIntro': {
+				case 'show_intro': {
 					$showTourIntro = true;
 					return;
 				}
-				case 'showTitle': {
+				case 'show_title': {
 					$showTourTitle = true;
 					return;
 				}
-				case 'showCredits': {
+				case 'show_credits': {
 					$showTourCredits = true;
 					return;
 				}

@@ -18,4 +18,4 @@
 	from
 	<a href="https://www.serpentsoundstudios.com">Alexander Nakarada</a>
 </p>
-<Soggy_Planet_Credits show_tour_credits={true} />
+<Soggy_Planet_Credits />

@@ -50,7 +50,6 @@ export const create_soggy_planet_tour_data = (
 	const y_start = -895;
 	const zoom_start = 5000;
 
-	// TODO BLOCK start where?
 	const wait_for_load_event = b.event('load'); // TODO what happens if the tour is canceled while loading?
 	if (dev_mode) {
 		// devMode startup events
@@ -70,14 +69,15 @@ export const create_soggy_planet_tour_data = (
 		b.zoom(zoom_start, 1000);
 		b.wait();
 	}
-	b.event('showIntro'); // lasts `introDuration`
+	b.event('show_intro'); // lasts `introDuration`
+	b.event('play_water_trickle');
 	b.wait(intro_duration);
 	b.zoom(50, 2450); // first wave
 	b.pan(x_start + 1, y_start - 1, 2450);
 	b.wait();
 	b.zoom(12, 6650); // slow zoom out
 	b.pan(x_start + 3, y_start - 7, 6650);
-	b.event('showTitle'); // lasts `titleDuration`
+	b.event('show_title'); // lasts `titleDuration`
 	b.wait();
 	b.zoom(13, 1000); // gently pulse back
 	b.pan(x_start + 4, y_start - 6, 1000);
@@ -87,7 +87,7 @@ export const create_soggy_planet_tour_data = (
 	b.pan(x_start, y_start, 3900, backInOut);
 	b.zoom(6, 8400, backInOut);
 	b.wait(2000);
-	b.event('playMainSong'); // TODO this is a synchronous event- should it have a different API?
+	b.event('play_main_song'); // TODO this is a synchronous event- should it have a different API?
 	b.wait(1900);
 
 	// -> slowly pan to the east African coast while zooming out
@@ -127,13 +127,13 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_move);
 	b.zoomBy(0.85, 500);
 	b.wait(500);
-	b.event('debugFinalZoomIn');
+	b.event('debug_final_zoom_in');
 	b.zoom(400, 1000);
 	b.wait();
 	b.wait(1000);
-	b.event('showTitle');
+	b.event('show_title');
 	b.wait(title_duration);
-	b.event('showCredits');
+	b.event('show_credits');
 	b.wait(1000000000); // let the user manually end it, or wait a million seconds
 	b.zoomBy(1, 0); // TODO this is a hack, needed because `wait` steps don't prolong the end
 
