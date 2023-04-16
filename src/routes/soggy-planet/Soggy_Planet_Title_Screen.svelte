@@ -1,13 +1,13 @@
 <script lang="ts">
-	import SoggyPlanetThumbnail from '$routes/soggy-planet/SoggyPlanetThumbnail.svelte';
+	import Soggy_Planet_Thumbnail from '$routes/soggy-planet/Soggy_Planet_Thumbnail.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
 	import ResourcesLoadingProgress from '$lib/app/ResourcesLoadingProgress.svelte';
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
-	import SoggyPlanetCredits from '$routes/soggy-planet/SoggyPlanetCredits.svelte';
+	import Soggy_Planet_Credits from '$routes/soggy-planet/Soggy_Planet_Credits.svelte';
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
-	import AboutPortalPreview from '$routes/soggy-planet/Preview.svelte';
+	import Soggy_Planet_Portal_Preview from '$routes/soggy-planet/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import type {ResourcesStore} from '$lib/app/resources';
 	import PortalLink from '$lib/app/PortalLink.svelte';
@@ -38,7 +38,7 @@
 	<HomeButton />
 </Hud>
 <div class="soggy-planet-title-screen">
-	<SoggyPlanetThumbnail onClick={enable_loading_by_clicking_thumbnail ? load : null} />
+	<Soggy_Planet_Thumbnail onClick={enable_loading_by_clicking_thumbnail ? load : null} />
 	<Panel>
 		<section class="markup">
 			<p>
@@ -47,7 +47,7 @@
 					href="https://wikipedia.org/wiki/Past_sea_level">past sea levels</a
 				>
 				roughly between the lowest point during the
-				<a href="https://en.wikipedia.org/wiki/Last_Glacial_Maximum">last glacial maximum</a> before
+				<a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">last glacial maximum</a> before
 				the
 				<a href="https://wikipedia.org/wiki/Early_Holocene_sea_level_rise"
 					>early Holocene sea level rise</a
@@ -117,7 +117,7 @@
 	<Panel>
 		<section class="markup">
 			<h2>Credits</h2>
-			<SoggyPlanetCredits />
+			<Soggy_Planet_Credits />
 		</section>
 	</Panel>
 	<Panel>
@@ -128,7 +128,7 @@
 	<!-- TODO pull this href from portal data? -->
 	<section>
 		<PortalPreview href="/about">
-			<AboutPortalPreview />
+			<Soggy_Planet_Portal_Preview />
 		</PortalPreview>
 	</section>
 </div>

@@ -1,9 +1,11 @@
-// TODO BLOCK use zod
-export interface Point_Of_Interest {
-	name: string;
-	url: string;
-	maybe?: boolean;
-}
+import {z} from 'zod';
+
+export const Point_Of_Interest = z.object({
+	name: z.string(),
+	url: z.string(),
+	maybe: z.boolean().optional(),
+});
+export type Point_Of_Interest = z.infer<typeof Point_Of_Interest>;
 
 export const points_of_interest: Point_Of_Interest[] = [
 	{name: 'Sundaland', url: 'https://wikipedia.org/wiki/Sundaland'},

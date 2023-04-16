@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {onMount} from 'svelte';
+	import {onMount, tick} from 'svelte';
 	import {randomFloat} from '@feltjs/util/random.js';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
-	import SoggyPlanetTitleScreen from '$routes/soggy-planet//SoggyPlanetTitleScreen.svelte';
+	import Soggy_Planet_Title_Screen from '$routes/soggy-planet/Soggy_Planet_Title_Screen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import DaylightHud from '$lib/app/DaylightHud.svelte';
@@ -13,10 +13,12 @@
 	import {createResourcesStore} from '$lib/app/resources';
 	import {getSettings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import SoggyPlanetDevHud from '$routes/soggy-planet/SoggyPlanetDevHud.svelte';
+	import Soggy_Planet_Dev_Hud from '$routes/soggy-planet/Soggy_Planet_Dev_Hud.svelte';
 	import Camera from '$lib/app/Camera.svelte';
 	import {SHORE_COUNT} from '$routes/soggy-planet//constants';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
+	import Soggy_Planet_Tour from '$routes/soggy-planet/Soggy_Planet_Tour.svelte';
+	import type Tour from '$lib/app/Tour.svelte';
 
 	const clock = getClock();
 
@@ -179,13 +181,26 @@
 		}
 	});
 
+	let tour: Tour | undefined;
+	$: touring = tour ? tour.touring : null;
+	$: console.log(`$touring`, $touring);
+
 	const start_tour = async (): Promise<void> => {
 		if (show_title_screen) {
 			go_to_map();
 			await resources.load();
 		}
+		if (!tour) await tick();
+		if (!tour) return; // TODO hmm?
+
+		tour.beginTour();
+
 		console.log('start tour..!');
 		// TODO BLOCK start the tour
+	};
+
+	const on_begin_tour = () => {
+		console.log(`on_begin_tour args`);
 	};
 </script>
 
@@ -218,6 +233,7 @@
 				imageWidth={image_width}
 				imageHeight={image_height}
 			/>
+			<Soggy_Planet_Tour {camera} bind:tour on:begin={on_begin_tour} />
 			<Hud>
 				<!-- TODO these conditions are awkward copypasta from deep-breath -->
 				{#if show_hud}
@@ -235,7 +251,7 @@
 						</FloatingIconButton>
 					</div>
 				{/if}
-				{#if show_hud}
+				{#if show_hud && !$touring}
 					<div class="hud-top-controls">
 						<FloatingIconButton
 							pressed={show_hud}
@@ -256,7 +272,7 @@
 							{hover_daylight}
 						/>
 						{#if dev_mode}
-							<SoggyPlanetDevHud {x} {y} {scale} />
+							<Soggy_Planet_Dev_Hud {x} {y} {scale} />
 						{/if}
 					</div>
 					<div class="month-wrapper">
@@ -277,7 +293,7 @@
 				{/if}
 			</Hud>
 		{:else}
-			<SoggyPlanetTitleScreen {resources} {proceed} {start_tour} />
+			<Soggy_Planet_Title_Screen {resources} {proceed} {start_tour} />
 		{/if}
 		<!-- {#if devMode}
 		<div

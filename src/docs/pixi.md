@@ -13,8 +13,8 @@ you can test the difference on the map by pressing `ctrl+backtick` and clicking 
 > Firefox runs the DOM version pretty okay on my machine,
 > but Chrome chugs and seems shy about using more GPU.
 > Pixi makes it smooth on both and provides wonderful goodies like the
-> [TilingSprite](http://pixijs.download/release/docs/PIXI.TilingSprite.html)
-> and [RenderTexture](http://pixijs.download/release/docs/PIXI.RenderTexture.html)
+> [TilingSprite](https://pixijs.download/release/docs/PIXI.TilingSprite.html)
+> and [RenderTexture](https://pixijs.download/release/docs/PIXI.RenderTexture.html)
 > which are used in
 > [the Pixi implementation of the Earth map](/src/lib/app/EarthViewerPixi.svelte).
 

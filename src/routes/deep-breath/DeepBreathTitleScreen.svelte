@@ -7,7 +7,7 @@
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import DeepBreathCredits from '$routes/deep-breath/DeepBreathCredits.svelte';
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
-	import AboutPortalPreview from '$routes/deep-breath/Preview.svelte';
+	import DeepBreathPortalPreview from '$routes/deep-breath/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import type {ResourcesStore} from '$lib/app/resources';
 	import PortalLink from '$lib/app/PortalLink.svelte';
@@ -113,7 +113,7 @@
 	<!-- TODO pull this href from portal data? -->
 	<section>
 		<PortalPreview href="/about">
-			<AboutPortalPreview />
+			<DeepBreathPortalPreview />
 		</PortalPreview>
 	</section>
 </div>

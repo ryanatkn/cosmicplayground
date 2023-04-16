@@ -2,19 +2,20 @@
 	import {blur} from 'svelte/transition';
 
 	import {getSettings} from '$lib/app/settings';
+	import {base} from '$app/paths';
 
 	const settings = getSettings();
-	$: displayForVideo = $settings.recordingMode;
+	$: display_for_video = $settings.recordingMode;
 
-	export let transitionDuration: number;
+	export let transition_duration: number;
 
 	// transition vars
 	const delay = 250;
-	const blurAmount = 20;
+	const blur_amount = 20;
 </script>
 
-<div class="tour-credits markup" class:displayForVideo>
-	<section in:blur={{duration: transitionDuration, amount: blurAmount}}>
+<div class="tour-credits markup" class:display_for_video>
+	<section in:blur={{duration: transition_duration, amount: blur_amount}}>
 		<h2>created by</h2>
 		Ryan Atkinson<br />
 		<a href="https://twitter.com/ryanatkn">
@@ -37,20 +38,21 @@
 		</a>
 		<a href="https://www.ryanatkn.com">ryanatkn.com</a>
 	</section>
-	<section in:blur={{duration: transitionDuration, delay: delay * 1, amount: blurAmount}}>
+	<section in:blur={{duration: transition_duration, delay: delay * 1, amount: blur_amount}}>
 		<h2>interactive webpage</h2>
-		<a href="https://www.cosmicplayground.org/deep-breath">cosmicplayground.org/deep-breath</a>
+		<a href="https://www.cosmicplayground.org/soggy-planet">cosmicplayground.org/soggy-planet</a>
 	</section>
-	<section in:blur={{duration: transitionDuration, delay: delay * 2, amount: blurAmount}}>
+	<section in:blur={{duration: transition_duration, delay: delay * 2, amount: blur_amount}}>
 		<h2>open source code & assets</h2>
 		<a href="https://github.com/ryanatkn/cosmicplayground">github.com/ryanatkn/cosmicplayground</a>
 	</section>
-	<section in:blur={{duration: transitionDuration, delay: delay * 3, amount: blurAmount}}>
+	<section in:blur={{duration: transition_duration, delay: delay * 3, amount: blur_amount}}>
 		<h2>music</h2>
-		"Winter" by Alexander Nakarada<br />
+		<a href="{base}/assets/audio/Alexander_Nakarada__Piña_Colada.mp3">"Piña Colada"</a> by Alexander
+		Nakarada<br />
 		<a href="https://www.serpentsoundstudios.com">serpentsoundstudios.com</a>
 	</section>
-	<section in:blur={{duration: transitionDuration, delay: delay * 4, amount: blurAmount}}>
+	<section in:blur={{duration: transition_duration, delay: delay * 4, amount: blur_amount}}>
 		<h2>imagery & data</h2>
 		<a href="https://visibleearth.nasa.gov/collection/1484/blue-marble">
 			Blue Marble Next Generation
@@ -66,7 +68,14 @@
 		<a href="https://earthobservatory.nasa.gov">NASA Earth Observatory</a>
 		<br /> using data from the
 		<a href="https://www.gebco.net/">General Bathymetric Chart of the Oceans</a>
-		<br /> produced by the <a href="https://www.bodc.ac.uk/">British Oceanographic Data Centre</a> (2005)
+		<br /> produced by the <a href="https://www.bodc.ac.uk/">British Oceanographic Data Centre</a>
+		(2005)
+		<br /> <br />
+		<a href="https://earthobservatory.nasa.gov/features/NightLights">Earth at Night</a>
+		(<a href="https://earthobservatory.nasa.gov/features/NightLights/page3.php">flat maps</a>) by
+		<a href="https://earthobservatory.nasa.gov/about/michael-carlowicz">Michael Carlowicz</a>,
+		<a href="https://earthobservatory.nasa.gov">NASA Earth Observatory</a>
+		(2017)
 	</section>
 </div>
 
@@ -84,7 +93,7 @@
 		text-align: center;
 		text-shadow: 1px 2px rgba(0, 0, 0, 0.8);
 	}
-	.tour-credits.displayForVideo a {
+	.tour-credits.display_for_video a {
 		color: var(--text_color);
 	}
 	section {
@@ -100,7 +109,7 @@
 		opacity: 0.5;
 		margin-bottom: 14px;
 	}
-	.tour-credits.displayForVideo h2 {
+	.tour-credits.display_for_video h2 {
 		color: var(--ocean_text_color);
 		opacity: 1;
 	}

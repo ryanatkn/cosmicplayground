@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let showTourCredits = true;
+	export let show_tour_credits = true;
 </script>
 
 <p>
@@ -21,7 +21,7 @@
 
 <slot />
 
-{#if showTourCredits}
+{#if show_tour_credits}
 	<p>
 		<a href="/assets/audio/Alexander_Nakarada__Winter.mp3">"Winter"</a> by Alexander Nakarada,
 		<a href="https://www.serpentsoundstudios.com">serpentsoundstudios.com</a>,
