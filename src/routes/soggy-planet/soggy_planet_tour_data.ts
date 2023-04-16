@@ -99,36 +99,22 @@ export const create_soggy_planet_tour_data = (
 	b.event('show_text', `along coastlines and waterways`);
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle);
-	b.event('clear_text'); // TODO BLOCK impl
+	b.event('clear_text');
 	b.event('show_text', `around 19 or 20 millennia ago`);
 	b.wait(t_intro_text);
 	b.event('show_text', `at the end of the Last Glacial Maximum`);
 	b.wait(t_intro_text);
+	// TODO BLOCK HOW MANY METERS
 	b.event('show_text', `global sea levels looked roughly like this`);
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle);
-	b.event('clear_text'); // TODO BLOCK impl
+	b.event('clear_text');
 	b.event('show_text', `many habitats were curiously drier`);
 	b.wait(t_intro_text);
 	b.event('show_text', `and myth flooded our imaginations`);
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle);
-	b.event('clear_text'); // TODO BLOCK impl
-	b.zoom(50, 2450); // first wave
-	b.pan(x_start + 1, y_start - 1, 2450);
-	b.wait();
-	b.zoom(12, 6650); // slow zoom out
-	b.pan(x_start + 3, y_start - 7, 6650);
-	b.event('show_title'); // lasts `titleDuration`
-	b.wait();
-	b.zoom(13, 1000); // gently pulse back
-	b.pan(x_start + 4, y_start - 6, 1000);
-	b.wait();
-	b.zoom(4, 500); // second wave
-	b.wait(500);
-	b.pan(x_start, y_start, 3900, backInOut);
-	b.zoom(6, 8400, backInOut);
-	b.wait(2000);
+	b.event('clear_text');
 	b.event('play_main_song'); // TODO this is a synchronous event- should it have a different API?
 	b.wait();
 

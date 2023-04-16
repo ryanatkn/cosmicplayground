@@ -116,6 +116,8 @@
 				}
 				case 'show_credits': {
 					$show_tour_credits = true;
+					water_trickle_sound.audio!.currentTime = 0;
+					if (audio_enabled) void water_trickle_sound.audio!.play();
 					return;
 				}
 				default: {
