@@ -4,7 +4,7 @@
 	// TODO has some copypasta, needs refactoring
 
 	export let tour_text: string[];
-	export let transition_in_duration = 210;
+	export let transition_in_duration = 410;
 	export let transition_out_duration = 870;
 
 	// TODO better visual effect? typewriter?
@@ -18,7 +18,7 @@
 	transition:blur|local={{duration: transition_out_duration, amount: blur_amount}}
 >
 	{#each tour_text as text (text)}
-		<div class="text" in:slide|local>
+		<div class="text" in:slide|local={{duration: transition_in_duration}}>
 			<div in:blur|local={{duration: transition_in_duration, amount: blur_amount}}>
 				{@html text}
 			</div>

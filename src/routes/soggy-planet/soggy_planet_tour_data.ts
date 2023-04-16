@@ -113,13 +113,12 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle);
 	b.event('clear_text');
-	b.event('show_text', `around 19 or 20 millennia ago`);
+	b.event('show_text', `around 19 or 20 thousand years ago`);
 	b.zoom(10, 2000);
 	b.wait(t_intro_text);
 	b.event('show_text', `at the end of the Last Glacial Maximum`);
-	b.zoom(7, 2000);
+	b.zoom(3, 4000);
 	b.wait(t_intro_text);
-	b.zoom(3, 2000);
 	b.event('show_text', `global sea levels were about 125 meters lower`);
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle);
