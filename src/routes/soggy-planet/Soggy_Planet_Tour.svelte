@@ -6,7 +6,7 @@
 	import {create_soggy_planet_tour_data} from '$routes/soggy-planet/soggy_planet_tour_data';
 	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/app/tour';
 	import {getSettings} from '$lib/app/settings';
-	import Event_Text from '$routes/soggy-planet/Event_Text.svelte';
+	import Tour_Text from '$lib/app/Tour_Text.svelte';
 	import Soggy_Planet_Tour_Title from '$routes/soggy-planet/Soggy_Planet_Tour_Title.svelte';
 	import Tour from '$lib/app/Tour.svelte';
 	import type Camera from '$lib/app/Camera.svelte';
@@ -84,7 +84,7 @@
 		}
 	};
 
-	let event_text: string[] | null = null; // TODO BLOCK maybe make a store? move/refactor?
+	let tour_text: string[] | null = null; // TODO BLOCK maybe make a store? move/refactor?
 
 	const hooks: Partial<TourHooks> = {
 		event: (name, data) => {
@@ -103,11 +103,11 @@
 					return;
 				}
 				case 'show_text': {
-					event_text = (event_text || []).concat(data as string);
+					tour_text = (tour_text || []).concat(data as string);
 					return;
 				}
 				case 'clear_text': {
-					event_text = null;
+					tour_text = null;
 					return;
 				}
 				case 'show_title': {
@@ -141,12 +141,12 @@
 				audio_enabled,
 				paused!,
 			);
-			event_text = null;
+			tour_text = null;
 			$show_tour_title = false;
 			$show_tour_credits = false;
 		},
 		done: (_completed) => {
-			event_text = null;
+			tour_text = null;
 			$show_tour_title = false;
 			$show_tour_credits = false;
 			if ($scale > 50) $scale = 50;
@@ -159,8 +159,8 @@
 
 {#if $touring}
 	<div class="tour">
-		{#if event_text}
-			<Event_Text {event_text} />
+		{#if tour_text}
+			<Tour_Text {tour_text} />
 		{/if}
 		{#if $show_tour_title}
 			<Soggy_Planet_Tour_Title

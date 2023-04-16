@@ -47,7 +47,7 @@
 					href="https://wikipedia.org/wiki/Past_sea_level">past sea levels</a
 				>
 				roughly between the lowest point during the
-				<a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">last glacial maximum</a> before
+				<a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">Last Glacial Maximum</a> before
 				the
 				<a href="https://wikipedia.org/wiki/Early_Holocene_sea_level_rise"
 					>early Holocene sea level rise</a
@@ -55,12 +55,20 @@
 				about 12,000 to 7,000 years ago and one
 				<a href="https://wikipedia.org/wiki/Sea_level_rise">estimated possible maximum</a>.
 			</p>
-			<p>
-				To take a tour of our soggy planet, click the <button on:click={start_tour}
-					>start tour</button
-				>
-				button on <button on:click={load}>the map</button> or learn more below.
-			</p>
+			<p>For a song-length tour of our soggy planet:</p>
+			<ul>
+				<li>
+					<p style:margin-bottom={0}>
+						click the <button on:click={start_tour}>start tour</button>
+						button on <button on:click={load}>the map</button>
+					</p>
+				</li>
+				<li>
+					see
+					<a href="https://youtube.com/@ryanatkn">the video on YouTube</a> (TODO final video link)
+				</li>
+				<li>or learn more below</li>
+			</ul>
 			<p>
 				This page is not mobile friendly! Sorry, eventually, hopefully. It may also be slow
 				depending on your hardware and browser. See <a
@@ -91,10 +99,11 @@
 		<section class="markup">
 			<h2>Tour</h2>
 			<p>
-				To take a tour of our Soggy Planet, click the <button on:click={start_tour}
-					>start tour</button
-				>
-				button on <button on:click={load}>the map</button>.
+				Soggy Planet includes a song-length tour of some points of interest related to sea levels a
+				the <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">Last Glacial Maximum</a>.
+				Click the <button on:click={start_tour}>start tour</button>
+				button on <button on:click={load}>the map</button> or see
+				<a href="https://youtube.com/@ryanatkn">the video on YouTube</a> (TODO final video link).
 			</p>
 			<p>The tour walks through the following points of interest:</p>
 			<table>

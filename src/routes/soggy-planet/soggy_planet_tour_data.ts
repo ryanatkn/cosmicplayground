@@ -29,7 +29,7 @@ export const points_of_interest: Point_Of_Interest[] = [
 	// 10 1648 -527
 	// TODO BLOCK show the water go in/out here
 	{
-		name: 'Black Sea deluge hypothesis',
+		name: 'Black Sea deluge',
 		url: 'https://wikipedia.org/wiki/Black_Sea_deluge_hypothesis',
 		myth: true,
 	},
@@ -58,7 +58,8 @@ const lookup_point_of_interest = (name: string): Point_Of_Interest => {
 
 const render_content = (name: string): string => {
 	const data = lookup_point_of_interest(name);
-	return data.myth ? data.name + '?' : data.name;
+	const link = `<a href="${data.url}">${name}</a>`;
+	return data.myth ? link + '?' : link;
 };
 
 // TODO BLOCK if time before the deadline, include river valleys (probably just labelled when onscreen  and zoomed in enough, no stopping for them)
@@ -115,12 +116,12 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_intro_idle);
 	b.event('clear_text');
 	b.event('show_text', `around 19 or 20 millennia ago`);
-	b.zoom(10, 3000);
+	b.zoom(10, 2000);
 	b.wait(t_intro_text);
-	b.wait(t_intro_text / 2);
 	b.event('show_text', `at the end of the Last Glacial Maximum`);
-	b.zoom(3, 5000);
-	b.wait(t_intro_text / 2);
+	b.zoom(7, 2000);
+	b.wait(t_intro_text);
+	b.zoom(3, 2000);
 	// TODO BLOCK HOW MANY METERS
 	b.event('show_text', `global sea levels were about 125 meters lower`);
 	b.wait(t_intro_text);
@@ -130,9 +131,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('show_text', `many habitats were curiously drier`);
 	b.pan(174, -1092, 4000);
 	b.zoom(0.7, 4000);
-	b.wait(t_intro_text);
+	b.wait(t_intro_text + t_intro_text / 2);
 	b.event('show_text', `and myth flooded our imaginations`);
-	b.wait(t_intro_text);
+	b.wait(t_intro_text / 2);
 	b.wait(t_intro_idle);
 	b.event('clear_text');
 	b.wait();
@@ -212,7 +213,7 @@ export const create_soggy_planet_tour_data = (
 	b.event('show_text', render_content('Altai flood'));
 	b.wait();
 
-	// Black Sea deluge hypothesis
+	// Black Sea deluge
 	b.event('clear_text');
 	// 10 1648 -527
 	b.pan(1648, -527, t_move);
@@ -220,7 +221,7 @@ export const create_soggy_planet_tour_data = (
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, -1, t_idle, sineOut);
-	b.event('show_text', render_content('Black Sea deluge hypothesis'));
+	b.event('show_text', render_content('Black Sea deluge'));
 	b.wait();
 
 	// Doggerland

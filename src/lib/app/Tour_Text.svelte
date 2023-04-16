@@ -3,7 +3,7 @@
 
 	// TODO has some copypasta, needs refactoring
 
-	export let event_text: string[];
+	export let tour_text: string[];
 	export let transition_in_duration = 170;
 	export let transition_out_duration = 170;
 
@@ -14,20 +14,20 @@
 </script>
 
 <div
-	class="event-text markup"
+	class="tour-text markup"
 	transition:blur|local={{duration: transition_out_duration, amount: blur_amount}}
 >
-	{#each event_text as text (text)}
+	{#each tour_text as text (text)}
 		<div class="text" in:slide|local>
 			<div in:blur|local={{duration: transition_in_duration, amount: blur_amount}}>
-				{text}
+				{@html text}
 			</div>
 		</div>
 	{/each}
 </div>
 
 <style>
-	.event-text {
+	.tour-text {
 		width: 100%;
 		height: 100%;
 		display: flex;
@@ -50,6 +50,10 @@
 	}
 	.text:nth-child(2) {
 		animation-name: gently-shrink;
+	}
+	.text,
+	.text :global(a) {
+		color: rgba(255, 255, 255, 0.8);
 	}
 	@keyframes gently-grow {
 		0% {
