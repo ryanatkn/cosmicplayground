@@ -6,7 +6,7 @@
 	import {create_soggy_planet_tour_data} from '$routes/soggy-planet/soggy_planet_tour_data';
 	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/app/tour';
 	import {getSettings} from '$lib/app/settings';
-	import Soggy_Planet_Tour_Intro from '$routes/soggy-planet/Soggy_Planet_Tour_Intro.svelte';
+	import Event_Text from '$routes/soggy-planet/Event_Text.svelte';
 	import Soggy_Planet_Tour_Title from '$routes/soggy-planet/Soggy_Planet_Tour_Title.svelte';
 	import Tour from '$lib/app/Tour.svelte';
 	import type Camera from '$lib/app/Camera.svelte';
@@ -49,15 +49,6 @@
 	$: water_trickle_sound = $tour_resources.resources.find(
 		(r) => r.url === water_trickle_url,
 	) as any; // TODO faster API, or maybe remove (see comment above)
-	const tour_intro_transition_in_duration = 2000;
-	const tour_intro_transition_out_duration = 2000;
-	const tour_intro_pause_duration = 3000;
-	const tour_intro_max_delay = 6000;
-	const tour_intro_total_duration =
-		tour_intro_transition_in_duration +
-		tour_intro_max_delay +
-		tour_intro_pause_duration +
-		tour_intro_transition_out_duration;
 	const tour_title_transition_duration = 2000;
 	const tour_title_pause_duration = 3000;
 	const tour_title_max_delay = 250;
@@ -93,8 +84,10 @@
 		}
 	};
 
+	let event_text: string[] | null = null; // TODO BLOCK maybe make a store? move/refactor?
+
 	const hooks: Partial<TourHooks> = {
-		event: (name, _data) => {
+		event: (name, data) => {
 			switch (name) {
 				case 'load': {
 					return tour_resources.load(); // is idempotent
@@ -109,8 +102,12 @@
 					if (audio_enabled) void water_trickle_sound.audio!.play();
 					return;
 				}
-				case 'show_intro': {
-					$show_tour_intro = true;
+				case 'show_text': {
+					event_text = (event_text || []).concat(data as string);
+					return;
+				}
+				case 'clear_text': {
+					event_text = null;
 					return;
 				}
 				case 'show_title': {
@@ -120,6 +117,9 @@
 				case 'show_credits': {
 					$show_tour_credits = true;
 					return;
+				}
+				default: {
+					console.warn('unhandled event', name);
 				}
 			}
 			return;
@@ -139,12 +139,12 @@
 				audio_enabled,
 				paused!,
 			);
-			$show_tour_intro = false;
+			event_text = null;
 			$show_tour_title = false;
 			$show_tour_credits = false;
 		},
 		done: (_completed) => {
-			$show_tour_intro = false;
+			event_text = null;
 			$show_tour_title = false;
 			$show_tour_credits = false;
 			if ($scale > 50) $scale = 50;
@@ -157,14 +157,8 @@
 
 {#if $touring}
 	<div class="tour">
-		{#if $show_tour_intro}
-			<Soggy_Planet_Tour_Intro
-				hide={() => ($show_tour_intro = false)}
-				total_duration={tour_intro_total_duration}
-				transition_in_duration={tour_intro_transition_in_duration}
-				transition_out_duration={tour_intro_transition_out_duration}
-				max_delay={tour_intro_max_delay}
-			/>
+		{#if event_text}
+			<Event_Text {event_text} />
 		{/if}
 		{#if $show_tour_title}
 			<Soggy_Planet_Tour_Title
@@ -183,8 +177,7 @@
 	{camera}
 	{clock}
 	{hooks}
-	createTourData={() =>
-		create_soggy_planet_tour_data(tour_intro_total_duration, tour_title_total_duration, dev_mode)}
+	createTourData={() => create_soggy_planet_tour_data(tour_title_total_duration, dev_mode)}
 	on:begin
 	bind:this={tour}
 	bind:touring

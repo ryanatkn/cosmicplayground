@@ -52,7 +52,6 @@ export const points_of_interest: Point_Of_Interest[] = [
 // TODO BLOCK if time before the deadline, include river valleys (probably just labelled when onscreen  and zoomed in enough, no stopping for them)
 
 export const create_soggy_planet_tour_data = (
-	intro_duration: number,
 	title_duration: number,
 	dev_mode = false,
 ): TourData => {
@@ -62,6 +61,8 @@ export const create_soggy_planet_tour_data = (
 	const t_idle = t_base * 6;
 	const t_move = t_base * 3;
 	const t_end_sequence = 15250;
+	const t_intro_text = 2000;
+	const t_intro_idle = 4000;
 
 	const x_start = -24;
 	const y_start = -1405;
@@ -88,9 +89,31 @@ export const create_soggy_planet_tour_data = (
 		b.zoom(zoom_start, 1000);
 		b.wait();
 	}
-	b.event('show_intro'); // lasts `introDuration`
+	// we're now loaded and ready to go
+
 	b.event('play_water_trickle');
-	b.wait(intro_duration);
+	b.event('show_text', `for tens of thousands of years`);
+	b.wait(t_intro_text);
+	b.event('show_text', `humanity has thrived`);
+	b.wait(t_intro_text);
+	b.event('show_text', `along coastlines and waterways`);
+	b.wait(t_intro_text);
+	b.wait(t_intro_idle);
+	b.event('clear_text'); // TODO BLOCK impl
+	b.event('show_text', `around 19 or 20 millennia ago`);
+	b.wait(t_intro_text);
+	b.event('show_text', `at the end of the Last Glacial Maximum`);
+	b.wait(t_intro_text);
+	b.event('show_text', `global sea levels looked roughly like this`);
+	b.wait(t_intro_text);
+	b.wait(t_intro_idle);
+	b.event('clear_text'); // TODO BLOCK impl
+	b.event('show_text', `many habitats were curiously drier`);
+	b.wait(t_intro_text);
+	b.event('show_text', `and myth flooded our imaginations`);
+	b.wait(t_intro_text);
+	b.wait(t_intro_idle);
+	b.event('clear_text'); // TODO BLOCK impl
 	b.zoom(50, 2450); // first wave
 	b.pan(x_start + 1, y_start - 1, 2450);
 	b.wait();
@@ -115,7 +138,7 @@ export const create_soggy_planet_tour_data = (
 	// to sync the ending of the music with the final camera movements.
 	// (so they shouldn't be used before this point!)
 
-	// TODO BLOCK fidget
+	// TODO BLOCK I think we want to put all of the text in here, not `Soggy_Planet_Tour_Intro`
 
 	// Zealandia
 	// 2.2 67 -1358
