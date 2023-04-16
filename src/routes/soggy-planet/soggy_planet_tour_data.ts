@@ -62,8 +62,6 @@ const render_content = (name: string): string => {
 	return data.myth ? link + '?' : link;
 };
 
-// TODO BLOCK if time before the deadline, include river valleys (probably just labelled when onscreen  and zoomed in enough, no stopping for them)
-
 export const create_soggy_planet_tour_data = (
 	title_duration: number,
 	dev_mode = false,
@@ -122,7 +120,6 @@ export const create_soggy_planet_tour_data = (
 	b.zoom(7, 2000);
 	b.wait(t_intro_text);
 	b.zoom(3, 2000);
-	// TODO BLOCK HOW MANY METERS
 	b.event('show_text', `global sea levels were about 125 meters lower`);
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle);
@@ -143,8 +140,6 @@ export const create_soggy_planet_tour_data = (
 	// The time variables like `tMove` and `tIdle` are tweaked
 	// to sync the ending of the music with the final camera movements.
 	// (so they shouldn't be used before this point!)
-
-	// TODO BLOCK I think we want to put all of the text in here, not `Soggy_Planet_Tour_Intro`
 
 	// Zealandia
 	// 2.2 67 -1358
@@ -240,6 +235,7 @@ export const create_soggy_planet_tour_data = (
 	// Ys
 	b.event('clear_text');
 	// 16.1 2105 -490
+	// TODO BLOCK show the level pulse around the islands
 	b.pan(2105, -490, t_move);
 	b.zoom(16.1, t_move);
 	b.wait();
