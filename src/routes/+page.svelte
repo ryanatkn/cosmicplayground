@@ -41,7 +41,7 @@
 		rescuedAllCrewAtOnce,
 		toInitialScores,
 	} from '$routes/starshipStage';
-	import {toSongData} from '$lib/music/songs';
+	import {lookup_song_data} from '$lib/music/songs';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
@@ -360,16 +360,16 @@
 			}
 		} else if (e.key === '1' && e.ctrlKey) {
 			swallow(e);
-			await playSong(toSongData('Spacey Intro'));
+			await playSong(lookup_song_data('Spacey Intro'));
 		} else if (e.key === '2' && e.ctrlKey) {
 			swallow(e);
-			await playSong(toSongData('Spacey Outro'));
+			await playSong(lookup_song_data('Spacey Outro'));
 		} else if (e.key === '3' && e.ctrlKey) {
 			swallow(e);
-			await playSong(toSongData('Futuristic 4'));
+			await playSong(lookup_song_data('Futuristic 4'));
 		} else if (e.key === '4' && e.ctrlKey) {
 			swallow(e);
-			await playSong(toSongData('Futuristic 1'));
+			await playSong(lookup_song_data('Futuristic 1'));
 		}
 	};
 </script>
