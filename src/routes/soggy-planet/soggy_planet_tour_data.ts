@@ -8,6 +8,8 @@ export const Point_Of_Interest = z.object({
 	name: z.string(),
 	url: z.string(),
 	myth: z.boolean().optional(),
+	x: z.number(),
+	y: z.number(),
 });
 export type Point_Of_Interest = z.infer<typeof Point_Of_Interest>;
 
@@ -15,38 +17,57 @@ export type Point_Of_Interest = z.infer<typeof Point_Of_Interest>;
 
 export const points_of_interest: Point_Of_Interest[] = [
 	// 2.2 67 -1358
-	{name: 'Zealandia', url: 'https://en.wikipedia.org/wiki/Zealandia'},
+	{name: 'Zealandia', url: 'https://en.wikipedia.org/wiki/Zealandia', x: -100, y: 100},
 	// 2.6 664 -920
-	{name: 'Sundaland', url: 'https://wikipedia.org/wiki/Sundaland'},
+	{name: 'Sundaland', url: 'https://wikipedia.org/wiki/Sundaland', x: -300, y: 200},
 	// 3.9 1222 -940
-	{name: 'Kumari Kandam', url: 'https://wikipedia.org/wiki/Kumari_Kandam', myth: true},
+	{
+		name: 'Kumari Kandam',
+		url: 'https://wikipedia.org/wiki/Kumari_Kandam',
+		myth: true,
+		x: 300,
+		y: 100,
+	},
 	// 3.2 1445 -1223
-	{name: 'Lemuria', url: 'https://wikipedia.org/wiki/Lemuria', myth: true},
+	{name: 'Lemuria', url: 'https://wikipedia.org/wiki/Lemuria', myth: true, x: -200, y: -250},
 	// 3.5 1221 -1634
-	{name: 'Kerguelen Plateau', url: 'https://wikipedia.org/wiki/Kerguelen_Plateau'},
+	{name: 'Kerguelen Plateau', url: 'https://wikipedia.org/wiki/Kerguelen_Plateau', x: 0, y: -90},
 	// 6.2 1061 -444
-	{name: 'Altai flood', url: 'https://wikipedia.org/wiki/Altai_flood'},
+	{name: 'Altai flood', url: 'https://wikipedia.org/wiki/Altai_flood', x: 0, y: 100},
 	// 10 1648 -527
 	// TODO BLOCK show the water go in/out here
 	{
 		name: 'Black Sea deluge',
 		url: 'https://wikipedia.org/wiki/Black_Sea_deluge_hypothesis',
 		myth: true,
+		x: 0,
+		y: 0,
 	},
 	// 13.3 2022 -403
-	{name: 'Doggerland', url: 'https://wikipedia.org/wiki/Doggerland'},
+	{name: 'Doggerland', url: 'https://wikipedia.org/wiki/Doggerland', x: 0, y: 200},
 	// 16.1 2105 -490
-	{name: 'Ys', url: 'https://wikipedia.org/wiki/Ys', myth: true},
+	{name: 'Ys', url: 'https://wikipedia.org/wiki/Ys', myth: true, x: -20, y: -20},
 	// 5.7 2136 -323
-	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', myth: true},
+	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', myth: true, x: 330, y: 430},
 	// 11 3404 -482
-	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods'},
+	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: 0, y: 100},
 	// 3.2 4036 -302
-	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia'},
+	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia', x: 200, y: -240},
 	// 3.5 4591 -577
-	{name: 'Land bridges of Japan', url: 'https://wikipedia.org/wiki/Land_bridges_of_Japan'},
+	{
+		name: 'Land bridges of Japan',
+		url: 'https://wikipedia.org/wiki/Land_bridges_of_Japan',
+		x: -400,
+		y: -300,
+	},
 	// 2 4162 -978
-	{name: 'Mu', url: 'https://wikipedia.org/wiki/Mu_(mythical_lost_continent)', myth: true},
+	{
+		name: 'Mu',
+		url: 'https://wikipedia.org/wiki/Mu_(mythical_lost_continent)',
+		myth: true,
+		x: -320,
+		y: 30,
+	},
 ];
 
 const lookup_point_of_interest = (name: string): Point_Of_Interest => {
@@ -59,7 +80,9 @@ const lookup_point_of_interest = (name: string): Point_Of_Interest => {
 const render_content = (name: string): string => {
 	const data = lookup_point_of_interest(name);
 	const link = `<a href="${data.url}">${name}</a>`;
-	return data.myth ? link + '?' : link;
+	return `<span style="position: relative; left: ${data.x}px; top: ${data.y}px;">${
+		data.myth ? link + '?' : link
+	}</span>`;
 };
 
 export const create_soggy_planet_tour_data = (
@@ -107,7 +130,7 @@ export const create_soggy_planet_tour_data = (
 	b.zoom(200, 2000);
 	b.wait(t_intro_text);
 	b.event('show_text', `humanity has thrived`);
-	b.zoom(50, 3000);
+	b.zoom(50, 3000); // TODO BLOCK just combine
 	b.wait(t_intro_text);
 	b.event('show_text', `along coastlines and waterways`);
 	b.wait(t_intro_text);
