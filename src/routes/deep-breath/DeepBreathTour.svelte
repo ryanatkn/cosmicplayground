@@ -4,7 +4,7 @@
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTourData} from '$routes/deep-breath/deepBreathTourData';
-	import {type TourHooks, type TourData, updateAudioOnSeek, findTourStep} from '$lib/app/tour';
+	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/app/tour';
 	import {getSettings} from '$lib/app/settings';
 	import DeepBreathTourIntro from '$routes/deep-breath/DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from '$routes/deep-breath/DeepBreathTourTitle.svelte';
@@ -72,8 +72,8 @@
 		updatePaused(paused);
 	}
 	const updatePaused = (paused: boolean): void => {
-		updateAudioOnSeek(mainSong.audio!, mainSongStep!, $currentTime!, audio_enabled, paused!);
-		updateAudioOnSeek(
+		update_audio_on_seek(mainSong.audio!, mainSongStep!, $currentTime!, audio_enabled, paused!);
+		update_audio_on_seek(
 			oceanWavesSound.audio!,
 			oceanWavesStep!,
 			$currentTime!,
@@ -120,8 +120,14 @@
 			if (!oceanWavesSound.audio) throw Error('seek expects expected oceanWavesSound.audio');
 			if (!mainSongStep) throw Error('seek expects mainSongStep');
 			if (!oceanWavesStep) throw Error('seek expects oceanWavesStep');
-			updateAudioOnSeek(mainSong.audio, mainSongStep, currentTime, audio_enabled, paused!);
-			updateAudioOnSeek(oceanWavesSound.audio, oceanWavesStep, currentTime, audio_enabled, paused!);
+			update_audio_on_seek(mainSong.audio, mainSongStep, currentTime, audio_enabled, paused!);
+			update_audio_on_seek(
+				oceanWavesSound.audio,
+				oceanWavesStep,
+				currentTime,
+				audio_enabled,
+				paused!,
+			);
 			$showTourIntro = false;
 			$showTourTitle = false;
 			$showTourCredits = false;

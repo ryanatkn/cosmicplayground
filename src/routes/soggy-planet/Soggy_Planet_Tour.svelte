@@ -4,7 +4,7 @@
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {create_soggy_planet_tour_data} from '$routes/soggy-planet/soggy_planet_tour_data';
-	import {type TourHooks, type TourData, updateAudioOnSeek, findTourStep} from '$lib/app/tour';
+	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/app/tour';
 	import {getSettings} from '$lib/app/settings';
 	import Soggy_Planet_Tour_Intro from '$routes/soggy-planet/Soggy_Planet_Tour_Intro.svelte';
 	import Soggy_Planet_Tour_Title from '$routes/soggy-planet/Soggy_Planet_Tour_Title.svelte';
@@ -74,14 +74,23 @@
 		update_paused(paused);
 	}
 	const update_paused = (paused: boolean): void => {
-		updateAudioOnSeek(main_song.audio!, main_song_step!, $current_time!, audio_enabled, paused!);
-		updateAudioOnSeek(
-			water_trickle_sound.audio!,
-			water_trickle_step!,
-			$current_time!,
-			audio_enabled,
-			paused!,
-		);
+		if (main_song.audio && main_song_step && $current_time != null && paused != null) {
+			update_audio_on_seek(main_song.audio, main_song_step, $current_time, audio_enabled, paused);
+		}
+		if (
+			water_trickle_sound.audio &&
+			water_trickle_step &&
+			$current_time != null &&
+			paused != null
+		) {
+			update_audio_on_seek(
+				water_trickle_sound.audio,
+				water_trickle_step,
+				$current_time,
+				audio_enabled,
+				paused,
+			);
+		}
 	};
 
 	const hooks: Partial<TourHooks> = {
@@ -122,8 +131,8 @@
 			if (!water_trickle_sound.audio) throw Error('seek expects expected water_trickle.audio');
 			if (!main_song_step) throw Error('seek expects main_song_step');
 			if (!water_trickle_step) throw Error('seek expects water_trickleStep');
-			updateAudioOnSeek(main_song.audio, main_song_step, currentTime, audio_enabled, paused!);
-			updateAudioOnSeek(
+			update_audio_on_seek(main_song.audio, main_song_step, currentTime, audio_enabled, paused!);
+			update_audio_on_seek(
 				water_trickle_sound.audio,
 				water_trickle_step,
 				currentTime,
@@ -139,15 +148,11 @@
 			$show_tour_title = false;
 			$show_tour_credits = false;
 			if ($scale > 50) $scale = 50;
-			stop_all_audio();
+			update_paused(true);
 		},
 	};
 
-	const stop_all_audio = () => {
-		if (main_song.audio && !main_song.audio.paused) main_song.audio.pause();
-		if (water_trickle_sound.audio && !water_trickle_sound.audio.paused)
-			water_trickle_sound.audio.pause();
-	};
+	$: update_paused(!audio_enabled); // TODO awkward naming
 </script>
 
 {#if $touring}

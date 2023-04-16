@@ -63,7 +63,7 @@ export const findMostRecentStepOfType = <T extends TourStep>(
 	return undefined;
 };
 
-export const updateAudioOnSeek = (
+export const update_audio_on_seek = (
 	audio: HTMLAudioElement,
 	step: TourStep,
 	currentTime: number,

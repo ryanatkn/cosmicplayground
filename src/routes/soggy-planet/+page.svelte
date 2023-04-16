@@ -159,8 +159,6 @@
 		hovered_daylight = value;
 	};
 
-	// TODO BLOCK update audio on `audio_enabled` toggle
-
 	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
 	const resources = createResourcesStore();
 	land_images.forEach((url) => resources.addResource('image', url));
