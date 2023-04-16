@@ -24,10 +24,12 @@
 
 <div class="tour-title" out:blur|local={{duration: transitionDuration, amount: blurAmount}}>
 	<div class="text" style={textStyle}>
-		<div in:blur={{duration: transitionDuration, amount: blurAmount}}>deep</div>
+		<div in:blur|local={{duration: transitionDuration, amount: blurAmount}}>deep</div>
 	</div>
 	<div class="text" style={textStyle}>
-		<div in:blur={{duration: transitionDuration, amount: blurAmount, delay: maxDelay}}>breath</div>
+		<div in:blur|local={{duration: transitionDuration, amount: blurAmount, delay: maxDelay}}>
+			breath
+		</div>
 	</div>
 </div>
 

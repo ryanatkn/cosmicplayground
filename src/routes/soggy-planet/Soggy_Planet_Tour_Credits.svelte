@@ -15,26 +15,32 @@
 </script>
 
 <div class="tour-credits markup" class:display_for_video>
-	<section in:blur={{duration: transition_duration, amount: blur_amount}}>
+	<section in:blur|local={{duration: transition_duration, amount: blur_amount}}>
 		<h2>created by</h2>
 		Ryan Atkinson<br />
 		<a href="https://www.ryanatkn.com">ryanatkn.com</a>
 	</section>
-	<section in:blur={{duration: transition_duration, delay: delay * 1, amount: blur_amount}}>
+	<section in:blur|local={{duration: transition_duration, delay: delay * 1, amount: blur_amount}}>
 		<h2>interactive webpage</h2>
 		<a href="https://www.cosmicplayground.org/soggy-planet">cosmicplayground.org/soggy-planet</a>
 	</section>
-	<section in:blur={{duration: transition_duration, delay: delay * 2, amount: blur_amount}}>
+	<section in:blur|local={{duration: transition_duration, delay: delay * 2, amount: blur_amount}}>
 		<h2>open source code & assets</h2>
 		<a href="https://github.com/ryanatkn/cosmicplayground">github.com/ryanatkn/cosmicplayground</a>
 	</section>
-	<section in:blur={{duration: transition_duration, delay: delay * 3, amount: blur_amount}}>
+	<section in:blur|local={{duration: transition_duration, delay: delay * 3, amount: blur_amount}}>
 		<h2>music</h2>
 		<a href="{base}/assets/audio/Alexander_Nakarada__Piña_Colada.mp3">"Piña Colada"</a> by Alexander
 		Nakarada<br />
 		<a href="https://www.serpentsoundstudios.com">serpentsoundstudios.com</a>
+		<br /><br />
+		<a href="/assets/audio/water_trickle.mp3">water trickle recording</a> <br /> by
+		<a href="https://freesound.org/people/FractalStudios/sounds/363120/"
+			>FractalStudios on freesound.org</a
+		>,
+		<a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a>
 	</section>
-	<section in:blur={{duration: transition_duration, delay: delay * 4, amount: blur_amount}}>
+	<section in:blur|local={{duration: transition_duration, delay: delay * 4, amount: blur_amount}}>
 		<h2>imagery & data</h2>
 		<a href="https://visibleearth.nasa.gov/collection/1484/blue-marble">
 			Blue Marble Next Generation
@@ -55,7 +61,7 @@
 		<br /> <br />
 		<a href="https://earthobservatory.nasa.gov/features/NightLights">Earth at Night</a>
 		(<a href="https://earthobservatory.nasa.gov/features/NightLights/page3.php">flat maps</a>) by
-		<a href="https://earthobservatory.nasa.gov/about/michael-carlowicz">Michael Carlowicz</a>,
+		<a href="https://earthobservatory.nasa.gov/about/michael-carlowicz">Michael Carlowicz</a><br />
 		<a href="https://earthobservatory.nasa.gov">NASA Earth Observatory</a>
 		(2017)
 	</section>

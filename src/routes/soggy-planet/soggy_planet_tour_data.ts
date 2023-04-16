@@ -1,4 +1,4 @@
-import {backInOut, sineOut, quadInOut} from 'svelte/easing';
+import {sineOut, quadInOut} from 'svelte/easing';
 
 import type {TourData} from '$lib/app/tour';
 import {createTourBuilder} from '$lib/app/tourBuilder';
@@ -93,29 +93,35 @@ export const create_soggy_planet_tour_data = (
 
 	b.event('play_water_trickle');
 	b.event('show_text', `for tens of thousands of years`);
+	b.zoom(200, 2000);
 	b.wait(t_intro_text);
 	b.event('show_text', `humanity has thrived`);
+	b.zoom(50, 3000);
 	b.wait(t_intro_text);
 	b.event('show_text', `along coastlines and waterways`);
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle);
 	b.event('clear_text');
 	b.event('show_text', `around 19 or 20 millennia ago`);
+	b.zoom(10, 2000);
 	b.wait(t_intro_text);
 	b.event('show_text', `at the end of the Last Glacial Maximum`);
+	b.zoom(3, 2000);
 	b.wait(t_intro_text);
 	// TODO BLOCK HOW MANY METERS
-	b.event('show_text', `global sea levels looked roughly like this`);
+	b.event('show_text', `global sea levels were about 125 meters lower`);
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle);
 	b.event('clear_text');
+	b.event('play_main_song');
 	b.event('show_text', `many habitats were curiously drier`);
+	b.pan(174, -1092, 4000);
+	b.zoom(0.7, 4000);
 	b.wait(t_intro_text);
 	b.event('show_text', `and myth flooded our imaginations`);
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle);
 	b.event('clear_text');
-	b.event('play_main_song'); // TODO this is a synchronous event- should it have a different API?
 	b.wait();
 
 	// At this point, we no longer try to sync the music
@@ -130,128 +136,170 @@ export const create_soggy_planet_tour_data = (
 	// 2.2 67 -1358
 	b.pan(67, -1358, t_move);
 	b.zoom(2.2, t_move);
+	b.wait(4350); // delay for music
+	b.event('show_text', 'Zealandia');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 2, t_idle, sineOut);
 	b.wait();
 
 	// Sundaland
+	b.event('clear_text');
 	// 2.6 664 -920
 	b.pan(664, -920, t_move);
 	b.zoom(2.6, t_move);
+	b.wait(2000); // delay for music
+	b.event('show_text', 'Sundaland');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(1, 2, t_idle, sineOut);
 	b.wait();
 
 	// Kumari Kandam
+	b.event('clear_text');
 	// 3.9 1222 -940
 	b.pan(1222, -940, t_move);
 	b.zoom(3.9, t_move);
+	b.wait(2000); // delay for music
+	b.event('show_text', 'Kumari Kandam');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 0, t_idle, sineOut);
 	b.wait();
 
 	// Lemuria
+	b.event('clear_text');
 	// 3.2 1445 -1223
 	b.pan(1445, -1223, t_move);
 	b.zoom(3.2, t_move);
+	b.wait(2000); // delay for music
+	b.event('show_text', 'Lemuria');
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(1, -2, t_idle, sineOut);
 	b.wait();
 
 	// Kerguelen Plateau
+	b.event('clear_text');
 	// 3.5 1221 -1634
 	b.pan(1221, -1634, t_move);
 	b.zoom(3.5, t_move);
+	b.wait(2000); // delay for music
+	b.event('show_text', 'Kerguelen Plateau');
 	b.wait();
 	b.zoomBy(1.01, t_idle, sineOut);
 	b.panBy(-1, -2, t_idle, sineOut);
 	b.wait();
 
 	// Altai flood
+	b.event('clear_text');
 	// 6.2 1061 -444
 	b.pan(1061, -444, t_move);
 	b.zoom(6.2, t_move);
+	b.wait(2000); // delay for music
+	b.event('show_text', 'Altai flood');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(-1, -3, t_idle, sineOut);
 	b.wait();
 
 	// Black Sea deluge hypothesis
+	b.event('clear_text');
 	// 10 1648 -527
 	b.pan(1648, -527, t_move);
 	b.zoom(10, t_move);
+	b.wait(2000); // delay for music
+	b.event('show_text', 'Black Sea deluge hypothesis');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, -1, t_idle, sineOut);
 	b.wait();
 
-	// TODO BLOCK show the level go from lowest to highest, then down the tick to show the island, then show the text
 	// Doggerland
+	b.event('clear_text');
 	// 13.3 2022 -403
+	// TODO BLOCK show the level go from lowest to highest, then down the tick to show the island, then show the text
 	b.pan(2022, -403, t_move);
 	b.zoom(13.3, t_move);
+	b.wait(2000); // delay for music
+	b.event('show_text', 'Doggerland');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 2, t_idle, sineOut);
 	b.wait();
 
 	// Ys
+	b.event('clear_text');
 	// 16.1 2105 -490
 	b.pan(2105, -490, t_move);
 	b.zoom(16.1, t_move);
+	b.wait(2000); // delay for music
+	b.event('show_text', 'Ys');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(1, -2, t_idle, sineOut);
 	b.wait();
 
 	// Thule
+	b.event('clear_text');
 	// 5.7 2136 -323
 	b.pan(2136, -323, t_move);
 	b.zoom(5.7, t_move);
+	b.wait(2000); // delay for music
+	b.event('show_text', 'Thule');
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(0, 2, t_idle, sineOut);
 	b.wait();
 
 	// Missoula floods
+	b.event('clear_text');
 	// 11 3404 -482
 	b.pan(3404, -482, t_move);
 	b.zoom(11, t_move);
+	b.wait(2000); // delay for music
+	b.event('show_text', 'Missoula floods');
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(1, -2, t_idle, sineOut);
 	b.wait();
 
 	// Beringia
+	b.event('clear_text');
 	// 3.2 4036 -302
 	b.pan(4036, -302, t_move);
 	b.zoom(3.2, t_move);
+	b.wait(2000); // delay for music
+	b.event('show_text', 'Beringia');
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(3, 2, t_idle, sineOut);
 	b.wait();
 
 	// Land bridges of Japan
+	b.event('clear_text');
 	// 3.5 4591 -577
 	b.pan(4591, -577, t_move);
 	b.zoom(3.5, t_move);
+	b.wait(2000); // delay for music
+	b.event('show_text', 'Land bridges of Japan');
 	b.wait();
 	b.zoomBy(1.01, t_idle, sineOut);
 	b.panBy(2, -2, t_idle, sineOut);
 	b.wait();
 
 	// Mu
+	b.event('clear_text');
 	// 2 4162 -978
 	b.pan(4162, -978, t_move);
 	b.zoom(2, t_move);
+	b.wait(2000); // delay for music
+	b.event('show_text', 'Mu');
 	b.wait();
 	b.zoomBy(0.99, t_idle, sineOut);
 	b.panBy(-2, -2, t_idle, sineOut);
 	b.wait();
+	b.event('clear_text');
 
 	// -> disappear zooming into the Mariana Trench
 	// TODO validate that there's enough time to finish the end sequence

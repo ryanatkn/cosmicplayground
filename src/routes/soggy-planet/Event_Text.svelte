@@ -15,11 +15,11 @@
 
 <div
 	class="event-text markup"
-	out:blur|local={{duration: transition_out_duration, amount: blur_amount}}
+	transition:blur|local={{duration: transition_out_duration, amount: blur_amount}}
 >
 	{#each event_text as text (text)}
-		<div class="text" in:slide>
-			<div in:blur={{duration: transition_in_duration, amount: blur_amount}}>
+		<div class="text" in:slide|local>
+			<div in:blur|local={{duration: transition_in_duration, amount: blur_amount}}>
 				{text}
 			</div>
 		</div>

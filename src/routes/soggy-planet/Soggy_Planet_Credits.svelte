@@ -12,7 +12,7 @@
 	(2017)
 </p>
 <p>
-	<a href="/assets/audio/water_trickle.mp3">Water trickle sound recording</a> by
+	<a href="/assets/audio/water_trickle.mp3">water trickle recording</a> by
 	<a href="https://freesound.org/people/FractalStudios/sounds/363120/"
 		>FractalStudios on freesound.org</a
 	>,

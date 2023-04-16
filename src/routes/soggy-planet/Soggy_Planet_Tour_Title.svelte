@@ -24,10 +24,10 @@
 
 <div class="tour-title" out:blur|local={{duration: transition_duration, amount: blur_amount}}>
 	<div class="text" style={text_style}>
-		<div in:blur={{duration: transition_duration, amount: blur_amount}}>soggy</div>
+		<div in:blur|local={{duration: transition_duration, amount: blur_amount}}>soggy</div>
 	</div>
 	<div class="text" style={text_style}>
-		<div in:blur={{duration: transition_duration, amount: blur_amount, delay: max_delay}}>
+		<div in:blur|local={{duration: transition_duration, amount: blur_amount, delay: max_delay}}>
 			planet
 		</div>
 	</div>
