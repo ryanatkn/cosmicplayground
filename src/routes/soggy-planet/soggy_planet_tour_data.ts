@@ -111,8 +111,9 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_intro_text);
 	b.event('show_text', `along coastlines and waterways`);
 	b.wait(t_intro_text);
-	b.wait(t_intro_idle);
+	b.wait(t_intro_idle - 1000);
 	b.event('clear_text');
+	b.wait(1000);
 	b.event('show_text', `around 19 or 20 thousand years ago`);
 	b.zoom(10, 2000);
 	b.wait(t_intro_text);
@@ -121,8 +122,9 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_intro_text);
 	b.event('show_text', `global sea levels were about 125 meters lower`);
 	b.wait(t_intro_text);
-	b.wait(t_intro_idle);
+	b.wait(t_intro_idle - 1000);
 	b.event('clear_text');
+	b.wait(1000);
 	b.event('play_main_song');
 	b.event('show_text', `many habitats were curiously drier`);
 	b.pan(174, -1092, 4000);
@@ -147,7 +149,7 @@ export const create_soggy_planet_tour_data = (
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 2, t_idle, sineOut);
-	b.wait(1350); // delay for music
+	b.wait(1000); // delay for music
 	b.event('show_text', render_content('Zealandia'));
 	b.wait();
 
@@ -227,7 +229,7 @@ export const create_soggy_planet_tour_data = (
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 2, t_idle, sineOut);
-	b.wait(2400); // delay for music
+	b.wait(2600); // delay for music
 	b.event('show_text', render_content('Doggerland'));
 	b.wait();
 
