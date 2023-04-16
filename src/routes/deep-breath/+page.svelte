@@ -266,18 +266,18 @@
 						{#if !$touring}
 							<div class="month-wrapper">
 								<MonthHud
-									{activeLandIndex}
-									{selectedLandIndex}
-									{selectLandIndex}
-									{hoverLandIndex}
+									active_land_index={activeLandIndex}
+									selected_land_index={selectedLandIndex}
+									select_land_index={selectLandIndex}
+									hover_land_index={hoverLandIndex}
 								/>
 							</div>
 							<SeaLevelHud
-								seaLevel={activeSeaLevel}
-								{seaIndexMax}
-								{selectedSeaLevel}
-								{selectSeaLevel}
-								{hoverSeaLevel}
+								sea_level={activeSeaLevel}
+								sea_index_max={seaIndexMax}
+								selected_sea_level={selectedSeaLevel}
+								select_sea_level={selectSeaLevel}
+								hover_sea_level={hoverSeaLevel}
 							/>
 						{/if}
 					{/if}
