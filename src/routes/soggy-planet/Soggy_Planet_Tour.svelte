@@ -139,10 +139,14 @@
 			$show_tour_title = false;
 			$show_tour_credits = false;
 			if ($scale > 50) $scale = 50;
-			if (main_song.audio && !main_song.audio.paused) main_song.audio.pause();
-			if (water_trickle_sound.audio && !water_trickle_sound.audio.paused)
-				water_trickle_sound.audio.pause();
+			stop_all_audio();
 		},
+	};
+
+	const stop_all_audio = () => {
+		if (main_song.audio && !main_song.audio.paused) main_song.audio.pause();
+		if (water_trickle_sound.audio && !water_trickle_sound.audio.paused)
+			water_trickle_sound.audio.pause();
 	};
 </script>
 

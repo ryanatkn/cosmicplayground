@@ -4,6 +4,7 @@
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
 	import TourControls from '$lib/app/TourControls.svelte';
+	import {getSettings} from '$lib/app/settings';
 
 	export let tour: Tour | null;
 	export let x: Writable<number>;
@@ -12,9 +13,17 @@
 	export let debug_start_time: number;
 
 	$: touring = tour?.touring;
+
+	const settings = getSettings();
+	$: ({audio_enabled} = $settings);
+
+	const toggle_audio_enabled = (value = !audio_enabled): void =>
+		settings.update((v) => ({...v, audio_enabled: value}));
 </script>
 
-<FloatingTextButton
+<FloatingTextButton on:click={() => toggle_audio_enabled()}>
+	{#if audio_enabled}unmuted{:else}muted{/if}
+</FloatingTextButton><FloatingTextButton
 	on:click={() => {
 		$scale = Number(prompt('🔎', $scale + '')) || $scale; // eslint-disable-line no-alert
 	}}

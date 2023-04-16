@@ -67,6 +67,8 @@ export const create_soggy_planet_tour_data = (
 	const y_start = -1405;
 	const zoom_start = 5000;
 
+	// TODO BLOCK start at night, then go to daylight when music starts
+
 	const wait_for_load_event = b.event('load'); // TODO what happens if the tour is canceled while loading?
 	if (dev_mode) {
 		// dev_mode startup events
@@ -178,6 +180,7 @@ export const create_soggy_planet_tour_data = (
 	b.panBy(2, -1, t_idle, sineOut);
 	b.wait();
 
+	// TODO BLOCK show the level go from lowest to highest, then down the tick to show the island, then show the text
 	// Doggerland
 	// 13.3 2022 -403
 	b.pan(2022, -403, t_move);

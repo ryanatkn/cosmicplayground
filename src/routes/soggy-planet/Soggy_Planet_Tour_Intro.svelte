@@ -19,6 +19,7 @@
 
 	// transition vars
 	const text2_delay = Math.min(max_delay, 2000);
+	const text3_delay = Math.min(max_delay, 4000);
 	const blur_amount = 99;
 
 	$: text_style = `animation-duration: ${total_duration}ms;`;
@@ -35,22 +36,40 @@
 <div class="tour-title" out:blur|local={{duration: transition_out_duration, amount: blur_amount}}>
 	<div class="text" style={text_style}>
 		<div in:blur={{duration: transition_in_duration, amount: blur_amount}}>
-			for tens of thousands of years, humanity has thrived along <span class="earth-text"
-				>coastlines</span
-			>
-			and <span class="earth-text">river valleys</span>
+			for tens of thousands of years
 		</div>
 	</div>
 	<div class="text" style={text_style}>
 		<div in:blur={{duration: transition_in_duration, amount: blur_amount, delay: text2_delay}}>
-			around 19-20,000 years ago, at the end of the <a
-				href="https://wikipedia.org/wiki/Last_Glacial_Maximum">Last Glacial Maximum</a
-			>, global sea levels looked rougly like this
+			humanity has thrived along <span class="earth-text">coastlines</span> and
+			<span class="earth-text">river valleys</span>
+		</div>
+	</div>
+	<div class="text" style={text_style}>
+		<div in:blur={{duration: transition_in_duration, amount: blur_amount, delay: text3_delay}}>
+			around 19 or 20 millennia ago
+		</div>
+	</div>
+	<div class="text" style={text_style}>
+		<div in:blur={{duration: transition_in_duration, amount: blur_amount, delay: text3_delay}}>
+			at the end of the <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum"
+				>Last Glacial Maximum</a
+			>
+		</div>
+	</div>
+	<div class="text" style={text_style}>
+		<div in:blur={{duration: transition_in_duration, amount: blur_amount, delay: text3_delay}}>
+			global sea levels looked rougly like this
 		</div>
 	</div>
 	<div class="text final-text" style={text_style}>
 		<div in:blur={{duration: transition_in_duration, amount: blur_amount, delay: max_delay}}>
-			many habitats were curiously drier, and myth flooded our imaginations
+			many habitats were curiously drier
+		</div>
+	</div>
+	<div class="text final-text" style={text_style}>
+		<div in:blur={{duration: transition_in_duration, amount: blur_amount, delay: max_delay}}>
+			and myth flooded our imaginations
 		</div>
 	</div>
 </div>
