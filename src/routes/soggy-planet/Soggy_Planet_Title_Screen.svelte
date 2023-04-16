@@ -11,7 +11,7 @@
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import type {ResourcesStore} from '$lib/app/resources';
 	import PortalLink from '$lib/app/PortalLink.svelte';
-	import {points_of_interest} from '$routes/soggy-planet/tour';
+	import {points_of_interest} from '$routes/soggy-planet/soggy_planet_tour_data';
 
 	export let resources: ResourcesStore;
 	export let proceed: () => void;
