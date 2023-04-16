@@ -98,7 +98,7 @@
 			</p>
 			<p>The tour walks through the following points of interest:</p>
 			<table>
-				<thead><th>name</th><th>mythical?</th><th>url</th></thead>
+				<thead><th>name</th><th>maybe?</th><th>url</th></thead>
 				{#each points_of_interest as point_of_interest (point_of_interest)}
 					<tr>
 						<td>
