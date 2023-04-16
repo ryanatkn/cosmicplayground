@@ -35,7 +35,8 @@
 
 	const settings = getSettings();
 	$: dev_mode = $settings.dev_mode;
-	$: audio_enabled = $settings.audioEnabled;
+	// TODO BLOCK add dev_mode controls for this
+	$: audio_enabled = false; // $settings.audioEnabled;
 
 	const tour_resources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
 	const main_song_url = '/assets/audio/Alexander_Nakarada__Piña_Colada.mp3';
@@ -93,14 +94,12 @@
 				}
 				case 'play_main_song': {
 					main_song.audio!.currentTime = 0;
-					// TODO BLOCK add mute button on devmode controls
-					// if (audio_enabled) void main_song.audio!.play();
+					if (audio_enabled) void main_song.audio!.play();
 					break;
 				}
 				case 'play_water_trickle': {
 					water_trickle_sound.audio!.currentTime = 0;
-					// TODO BLOCK add mute button on devmode controls
-					// if (audio_enabled) void water_trickle_sound.audio!.play();
+					if (audio_enabled) void water_trickle_sound.audio!.play();
 					return;
 				}
 				case 'show_intro': {
