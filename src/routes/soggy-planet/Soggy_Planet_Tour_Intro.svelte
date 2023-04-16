@@ -47,7 +47,7 @@
 	<div class="text" style={text_style}>
 		<div in:blur={{duration: transition_in_duration, amount: blur_amount, delay: text2_delay}}>
 			along <span class="earth-text">coastlines</span> and
-			<span class="earth-text">river valleys</span>
+			<span class="earth-text">waterways</span>
 		</div>
 	</div>
 	<div class="text" style={text_style}>
