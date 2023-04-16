@@ -233,7 +233,7 @@ export const create_soggy_planet_tour_data = (
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 2, t_idle, sineOut);
-	b.wait(3000); // delay for music
+	b.wait(2400); // delay for music
 	b.event('show_text', render_content('Doggerland'));
 	b.wait();
 
@@ -267,7 +267,7 @@ export const create_soggy_planet_tour_data = (
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(3, 2, t_idle, sineOut);
-	b.wait(1000); // delay for music
+	b.wait(2000); // delay for music
 	b.event('show_text', render_content('Beringia'));
 	b.wait();
 
@@ -309,13 +309,13 @@ export const create_soggy_planet_tour_data = (
 	// -> disappear zooming into the Mariana Trench
 	// TODO validate that there's enough time to finish the end sequence
 	b.pan(12198, -1204, t_end_sequence, quadInOut);
-	b.zoom(0.66, t_move);
-	b.wait(t_move);
-	b.zoom(0.56, t_move);
+	b.zoom(0.8, t_move);
 	b.wait(t_move);
 	b.zoom(0.7, t_move);
 	b.wait(t_move);
-	b.zoom(0.6, t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
+	b.zoom(0.84, t_move);
+	b.wait(t_move);
+	b.zoom(0.74, t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
 	b.wait(t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
 	b.zoom(5, t_move, quadInOut);
 	b.wait(t_move);

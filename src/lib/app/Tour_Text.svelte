@@ -4,8 +4,8 @@
 	// TODO has some copypasta, needs refactoring
 
 	export let tour_text: string[];
-	export let transition_in_duration = 170;
-	export let transition_out_duration = 170;
+	export let transition_in_duration = 210;
+	export let transition_out_duration = 870;
 
 	// TODO better visual effect? typewriter?
 
@@ -53,7 +53,8 @@
 	}
 	.text,
 	.text :global(a) {
-		color: rgba(255, 255, 255, 0.8);
+		color: rgba(255, 255, 255, 0.88);
+		text-shadow: var(--text_shadow_sm);
 	}
 	@keyframes gently-grow {
 		0% {
