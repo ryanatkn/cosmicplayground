@@ -106,7 +106,7 @@
 							{point_of_interest.name}
 						</td>
 						<td class="centered-text"
-							>{#if point_of_interest.mythical}?{/if}</td
+							>{#if point_of_interest.maybe}?{/if}</td
 						>
 						<td><a href={point_of_interest.url}>{point_of_interest.url.substring(8)}</a></td>
 					</tr>
