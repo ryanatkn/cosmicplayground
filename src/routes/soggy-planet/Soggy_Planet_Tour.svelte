@@ -34,9 +34,7 @@
 	const clock = getClock();
 
 	const settings = getSettings();
-	$: dev_mode = $settings.dev_mode;
-	// TODO BLOCK add dev_mode controls for this
-	$: audio_enabled = false; // $settings.audioEnabled;
+	$: ({audio_enabled, dev_mode} = $settings);
 
 	const tour_resources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
 	const main_song_url = '/assets/audio/Alexander_Nakarada__Piña_Colada.mp3';

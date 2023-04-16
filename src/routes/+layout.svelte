@@ -95,7 +95,7 @@
 	};
 
 	const settings = setSettings({
-		audioEnabled: true, // TODO make this work everywhere? hmm. global mute/volume?
+		audio_enabled: true, // TODO make this work everywhere? hmm. global mute/volume?
 		dev_mode: false,
 		recordingMode: false,
 		idleMode: false,

@@ -67,7 +67,7 @@ export const updateAudioOnSeek = (
 	audio: HTMLAudioElement,
 	step: TourStep,
 	currentTime: number,
-	audioEnabled: boolean,
+	audio_enabled: boolean,
 	paused: boolean,
 ): void => {
 	const stepCurrentTime = currentTime - step.startTime;
@@ -76,7 +76,7 @@ export const updateAudioOnSeek = (
 		audio.currentTime = stepCurrentTime / 1000;
 		if (paused) {
 			if (!audio.paused) audio.pause();
-		} else if (audio.paused && audioEnabled) {
+		} else if (audio.paused && audio_enabled) {
 			void audio.play();
 		}
 	} else if (!audio.paused) {

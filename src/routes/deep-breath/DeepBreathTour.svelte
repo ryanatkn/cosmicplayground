@@ -34,8 +34,7 @@
 	const clock = getClock();
 
 	const settings = getSettings();
-	$: dev_mode = $settings.dev_mode;
-	$: audioEnabled = $settings.audioEnabled;
+	$: ({audio_enabled, dev_mode} = $settings);
 
 	const tourResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
 	const mainSongUrl = '/assets/audio/Alexander_Nakarada__Winter.mp3';
@@ -73,12 +72,12 @@
 		updatePaused(paused);
 	}
 	const updatePaused = (paused: boolean): void => {
-		updateAudioOnSeek(mainSong.audio!, mainSongStep!, $currentTime!, audioEnabled, paused!);
+		updateAudioOnSeek(mainSong.audio!, mainSongStep!, $currentTime!, audio_enabled, paused!);
 		updateAudioOnSeek(
 			oceanWavesSound.audio!,
 			oceanWavesStep!,
 			$currentTime!,
-			audioEnabled,
+			audio_enabled,
 			paused!,
 		);
 	};
@@ -91,12 +90,12 @@
 				}
 				case 'playOceanWavesSound': {
 					oceanWavesSound.audio!.currentTime = 0;
-					if (audioEnabled) void oceanWavesSound.audio!.play();
+					if (audio_enabled) void oceanWavesSound.audio!.play();
 					return;
 				}
 				case 'play_main_song': {
 					mainSong.audio!.currentTime = 0;
-					if (audioEnabled) void mainSong.audio!.play();
+					if (audio_enabled) void mainSong.audio!.play();
 					break;
 				}
 				case 'show_intro': {
@@ -121,8 +120,8 @@
 			if (!oceanWavesSound.audio) throw Error('seek expects expected oceanWavesSound.audio');
 			if (!mainSongStep) throw Error('seek expects mainSongStep');
 			if (!oceanWavesStep) throw Error('seek expects oceanWavesStep');
-			updateAudioOnSeek(mainSong.audio, mainSongStep, currentTime, audioEnabled, paused!);
-			updateAudioOnSeek(oceanWavesSound.audio, oceanWavesStep, currentTime, audioEnabled, paused!);
+			updateAudioOnSeek(mainSong.audio, mainSongStep, currentTime, audio_enabled, paused!);
+			updateAudioOnSeek(oceanWavesSound.audio, oceanWavesStep, currentTime, audio_enabled, paused!);
 			$showTourIntro = false;
 			$showTourTitle = false;
 			$showTourCredits = false;

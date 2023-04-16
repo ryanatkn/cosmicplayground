@@ -2,7 +2,7 @@ import {writable, type Writable} from 'svelte/store';
 import {setContext, getContext} from 'svelte';
 
 export interface SettingsState {
-	audioEnabled: boolean;
+	audio_enabled: boolean;
 	dev_mode: boolean; // TODO use felt `devmode` probably
 	recordingMode: boolean;
 	idleMode: boolean;
@@ -18,7 +18,7 @@ export interface SettingsStore {
 // TODO refactor to `getApp` and make each an individual store
 export const createSettingsStore = (initialState: Partial<SettingsState>): SettingsStore => {
 	const store = writable({
-		audioEnabled: true,
+		audio_enabled: true,
 		dev_mode: false,
 		recordingMode: false,
 		idleMode: false,
