@@ -219,9 +219,10 @@
 	}
 
 	const update_land_images: (min: number, max: number) => void = (min, max) => {
+		console.log(`update_land_images`, min, max);
 		land_images = to_land_images(min, max);
-		select_land_index(max);
-		hover_land_index(max);
+		select_land_index(min === max ? max : null);
+		hover_land_index(null);
 	};
 	const update_daylight: (min: number, max: number) => void = (min, max) => {
 		lights_opacity_min = min;

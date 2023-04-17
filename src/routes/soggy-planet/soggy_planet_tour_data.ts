@@ -238,7 +238,11 @@ export const create_soggy_planet_tour_data = (
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(1, -2, t_idle, sineOut);
 	b.event('show_text', render_content('Lemuria'));
-	b.wait(b.get_time_diff() - smooth_sea_level_to(11, 0));
+	b.wait(1000 - smooth_sea_level_to(11, 0));
+	b.wait(1000);
+	b.wait(1500 - smooth_sea_level_to(1, 12));
+	b.wait(1500 - smooth_sea_level_to(11, 0)); // - 2000
+	b.wait();
 
 	// Kerguelen Plateau
 	b.event('clear_text');
@@ -284,24 +288,25 @@ export const create_soggy_planet_tour_data = (
 	// Doggerland
 	b.event('clear_text');
 	b.pan(2022, -403, t_move);
-	b.zoom(3.6, t_move * (5 / 6));
-	b.wait(t_move * (5 / 6));
-	b.zoom(13.3, t_move * (1 / 6));
+	b.zoom(5.6, t_move * (1 / 2));
+	b.wait(t_move * (1 / 2));
+	b.zoom(4.3, t_move * (1 / 2));
 	b.wait();
-	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 2, t_idle, sineOut);
-	b.wait(2600); // delay for music
+	b.wait(2000); // delay for music
+	b.zoom(13.3, t_move * (1 / 2));
+	b.wait(600); // delay for music
 	b.event('show_text', render_content('Doggerland'));
 	b.wait(b.get_time_diff() - smooth_sea_level_to(1, 11));
 
 	// Ys
 	b.event('clear_text');
 	b.pan(2105, -490, t_move);
-	b.zoom(21.6, t_move / 2);
+	b.zoom(9.6, t_move / 2);
 	b.wait(t_move / 2 - smooth_sea_level_to(10, 0));
 	b.zoom(16.1, t_move / 2);
 	b.wait();
-	b.zoomBy(1.02, t_idle, sineOut);
+	b.zoomBy(0.91, t_idle, sineOut);
 	b.panBy(1, -2, t_idle, sineOut);
 	b.event('show_text', render_content('Ys'));
 	b.wait(b.get_time_diff() - smooth_sea_level_to(1, 9, 80));
@@ -319,10 +324,10 @@ export const create_soggy_planet_tour_data = (
 	// Beringia
 	b.event('clear_text');
 	b.pan(4036, -302, t_move);
-	b.zoom(1.8, t_move * (1 / 3));
-	b.wait(t_move * (1 / 3) - smooth_sea_level_to(1, 12));
-	b.zoom(3.2, t_move * (2 / 3));
-	b.wait(b.get_time_diff());
+	b.zoom(1.8, t_move * (1 / 2));
+	b.wait(t_move * (1 / 2) - smooth_sea_level_to(1, 12));
+	b.zoom(3.2, t_move * (1 / 2));
+	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(3, 2, t_idle, sineOut);
 	b.wait(2000 - smooth_sea_level_to(11, 0)); // delay for music
@@ -344,8 +349,8 @@ export const create_soggy_planet_tour_data = (
 	// Land bridges of Japan
 	b.event('clear_text');
 	b.pan(4591, -577, t_move);
-	b.zoom(1.6, t_move * (1 / 3));
-	b.wait(t_move * (1 / 3) - -smooth_sea_level_to(1, 12));
+	b.zoom(1.9, t_move * (1 / 3));
+	b.wait(t_move * (1 / 3) - smooth_sea_level_to(1, 12));
 	b.zoom(3.5, t_move * (2 / 3));
 	b.wait();
 	b.zoomBy(1.01, t_idle, sineOut);
@@ -366,8 +371,9 @@ export const create_soggy_planet_tour_data = (
 	b.wait(1000 - smooth_sea_level_to(1, 12));
 	b.wait(1000 - smooth_sea_level_to(11, 0));
 	b.event('show_text', render_content('Mu'));
-	// b.wait(1000 - smooth_sea_level_to(1, 12));
-	// b.wait(1000 - smooth_sea_level_to(11, 0));
+	b.wait(1500);
+	b.wait(1000 - smooth_sea_level_to(1, 12));
+	b.wait(1000 - smooth_sea_level_to(11, 0));
 	b.wait();
 	b.event('clear_text');
 
