@@ -52,7 +52,7 @@ export const points_of_interest: Point_Of_Interest[] = [
 	// 11 3404 -482
 	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: -20, y: 130},
 	// 3.2 4036 -302
-	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia', x: 200, y: -230},
+	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia', x: 200, y: -220},
 	// 3.5 4591 -577
 	{
 		name: 'Land bridges of Japan',
@@ -233,9 +233,11 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 6.2 1061 -444
 	b.pan(1061, -444, t_move);
-	b.zoom(2.6, t_move / 2);
-	b.wait(t_move / 2);
-	b.zoom(6.2, t_move / 2);
+	b.zoom(2.2, t_move * (1 / 3));
+	b.wait(t_move * (1 / 3));
+	b.zoom(1.8, t_move * (1 / 3));
+	b.wait(t_move * (1 / 3));
+	b.zoom(6.2, t_move * (1 / 3));
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(-1, -3, t_idle, sineOut);
@@ -246,9 +248,11 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 10 1648 -527
 	b.pan(1648, -527, t_move);
-	b.zoom(4.6, t_move / 2);
-	b.wait(t_move / 2);
-	b.zoom(10, t_move / 2);
+	b.zoom(3.8, t_move * (1 / 3));
+	b.wait(t_move * (1 / 3));
+	b.zoom(3.3, t_move * (1 / 3));
+	b.wait(t_move * (1 / 3));
+	b.zoom(10, t_move * (1 / 3));
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, -1, t_idle, sineOut);
@@ -299,9 +303,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 3.2 4036 -302
 	b.pan(4036, -302, t_move);
-	b.zoom(2.6, t_move / 2);
-	b.wait(t_move / 2);
-	b.zoom(3.2, t_move / 2);
+	b.zoom(1.8, t_move * (1 / 3));
+	b.wait(t_move * (1 / 3));
+	b.zoom(3.2, t_move * (2 / 3));
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(3, 2, t_idle, sineOut);
@@ -326,9 +330,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 3.5 4591 -577
 	b.pan(4591, -577, t_move);
-	b.zoom(2.8, t_move / 2);
-	b.wait(t_move / 2);
-	b.zoom(3.5, t_move / 2);
+	b.zoom(1.6, t_move * (1 / 3));
+	b.wait(t_move * (1 / 3));
+	b.zoom(3.5, t_move * (2 / 3));
 	b.wait();
 	b.zoomBy(1.01, t_idle, sineOut);
 	b.panBy(2, -2, t_idle, sineOut);
