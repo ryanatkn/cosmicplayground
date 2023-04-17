@@ -313,8 +313,8 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_move / 2 - smooth_sea_level_to(10, 0));
 	b.zoom(16.1, t_move / 2);
 	b.wait();
-	b.zoomBy(0.91, t_idle, sineOut);
-	b.panBy(1, -2, t_idle, sineOut);
+	b.zoomBy(0.65, t_idle, sineOut);
+	b.panBy(1, 1, t_idle, sineOut);
 	b.event('show_text', render_content('Ys'));
 	b.wait(b.get_time_diff() - smooth_sea_level_to(1, 9, 80));
 
@@ -324,7 +324,7 @@ export const create_soggy_planet_tour_data = (
 	b.zoom(5.7, t_move);
 	b.wait(t_move - smooth_sea_level_to(8, 0));
 	b.zoomBy(0.78, t_idle);
-	b.panBy(60, 20, t_idle);
+	b.panBy(40, 15, t_idle);
 	b.event('show_text', render_content('Thule'));
 	b.wait();
 
