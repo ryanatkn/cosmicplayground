@@ -263,7 +263,10 @@
 						>
 							∙∙∙
 						</FloatingIconButton>
-						<FloatingTextButton label="start the tour of our soggy planet" on:click={start_tour}>
+						<FloatingTextButton
+							label="start the tour of our soggy planet with history and myth"
+							on:click={start_tour}
+						>
 							tour
 						</FloatingTextButton>
 					</div>

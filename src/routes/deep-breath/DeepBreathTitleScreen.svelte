@@ -73,7 +73,7 @@
 		{:else if $resources.status !== 'initial'}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
-			<p>The download is about 75MB of images. If that's cool with you, continue on:</p>
+			<p>The download is about 75MB of images. If that's ok with you, continue on:</p>
 			<ChunkyButton on:click={load}>continue with 75MB download!</ChunkyButton>
 		{/if}
 		<hr />

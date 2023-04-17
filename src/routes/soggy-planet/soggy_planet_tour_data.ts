@@ -81,7 +81,7 @@ const render_content = (name: string): string => {
 	const data = lookup_point_of_interest(name);
 	const link = `<a href="${data.url}">${name}</a>`;
 	return `<span style="position: relative; left: ${data.x}px; top: ${data.y}px;">${
-		data.myth ? link + '?' : link
+		data.myth ? link + '<span title="this may be a myth">?</span>' : link
 	}</span>`;
 };
 
@@ -124,7 +124,8 @@ export const create_soggy_planet_tour_data = (
 		b.wait();
 	}
 	// we're now loaded and ready to go
-
+	b.event('update_daylight', {min: 1, max: 1});
+	b.event('update_sea_level', {min: 12, max: 12});
 	b.event('play_water_trickle');
 	b.event('show_text', `for tens of thousands of years`);
 	b.zoom(200, 2000);

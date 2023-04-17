@@ -46,20 +46,27 @@
 				civilization shine through the night. It displays <a
 					href="https://wikipedia.org/wiki/Past_sea_level">past sea levels</a
 				>
-				roughly between the lowest point during the
-				<a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">Last Glacial Maximum</a> before
-				the
-				<a href="https://wikipedia.org/wiki/Early_Holocene_sea_level_rise"
-					>early Holocene sea level rise</a
-				>
-				about 12,000 to 7,000 years ago and one
-				<a href="https://wikipedia.org/wiki/Sea_level_rise">estimated possible maximum</a>.
+				roughly between:
 			</p>
-			<p>For a song-length tour of our soggy planet:</p>
+			<ul>
+				<li>
+					the lowest point during
+					<a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a>
+					before
+					<a href="https://wikipedia.org/wiki/Early_Holocene_sea_level_rise"
+						>the early Holocene sea level rise</a
+					>
+				</li>
+				<li>
+					and one
+					<a href="https://wikipedia.org/wiki/Sea_level_rise">estimated possible maximum</a>
+				</li>
+			</ul>
+			<p>For a song-length tour of our soggy planet with history and myth:</p>
 			<ul>
 				<li>
 					<p style:margin-bottom={0}>
-						click the <button on:click={start_tour}>start tour</button>
+						click the <button on:click={start_tour}>tour</button>
 						button on <button on:click={load}>the map</button>
 					</p>
 				</li>
@@ -91,7 +98,7 @@
 		{:else if $resources.status !== 'initial'}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
-			<p>The download is about 81MB of images. If that's cool with you, continue on:</p>
+			<p>The download is about 81MB of images. If that's ok with you, continue on:</p>
 			<ChunkyButton on:click={load}>continue with 81MB download!</ChunkyButton>
 		{/if}
 	</Panel>
@@ -114,7 +121,7 @@
 							<!-- TODO make these buttons to zoom to the locations on the map -->
 							{point_of_interest.name}
 						</td>
-						<td class="centered-text"
+						<td class="centered-text" title="this may be a myth"
 							>{#if point_of_interest.myth}?{/if}</td
 						>
 						<td><a href={point_of_interest.url}>{point_of_interest.url.substring(8)}</a></td>

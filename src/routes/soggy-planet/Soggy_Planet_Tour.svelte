@@ -103,7 +103,7 @@
 					return;
 				}
 				case 'show_text': {
-					tour_text = (tour_text || []).concat(data as string);
+					tour_text = (tour_text || []).concat(data as string); // TODO type
 					return;
 				}
 				case 'clear_text': {
@@ -118,6 +118,14 @@
 					$show_tour_credits = true;
 					water_trickle_sound.audio!.currentTime = 0;
 					if (audio_enabled) void water_trickle_sound.audio!.play();
+					return;
+				}
+				case 'update_daylight': {
+					const {min, max} = data as any; // TODO type
+					return;
+				}
+				case 'update_sea_level': {
+					const {min, max} = data as any; // TODO type
 					return;
 				}
 				default: {
