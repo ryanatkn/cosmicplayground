@@ -47,7 +47,7 @@ export const points_of_interest: Point_Of_Interest[] = [
 	// 5.7 2136 -323
 	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', myth: true, x: 290, y: 430},
 	// 11 3404 -482
-	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: -20, y: 130},
+	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: -40, y: 130},
 	// 3.2 4036 -302
 	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia', x: 200, y: -220},
 	// 3.5 4591 -577
@@ -146,7 +146,7 @@ export const create_soggy_planet_tour_data = (
 	b.event('show_text', `for tens of thousands of years`);
 	b.zoom(200, 2000);
 	b.wait(t_intro_text);
-	b.event('show_text', `humanity has thrived`);
+	b.event('show_text', `we have thrived`);
 	b.zoom(50, 3000);
 	b.wait(t_intro_text);
 	b.event('show_text', `along coastlines and waterways`);
@@ -154,15 +154,21 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_intro_idle - 1000);
 	b.event('clear_text');
 	b.wait(1000);
-	b.event('show_text', `around 19 or 20 thousand years ago`);
+	b.event(
+		'show_text',
+		`<span style="position: relative; left: 0; top: 170px;">around 19 or 20 thousand years ago</span>`,
+	);
 	b.zoom(3, 6000);
 	b.wait(t_intro_text);
 	b.event(
 		'show_text',
-		`at the end of <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a>`,
+		`<span style="position: relative; left: 0; top: 195px;">at the end of <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a></span>`,
 	);
 	b.wait(t_intro_text);
-	b.event('show_text', `global sea levels were about 125 meters lower`);
+	b.event(
+		'show_text',
+		`<span style="position: relative; left: 0; top: 170px;">global sea levels were about 125 meters lower</span>`,
+	);
 	b.wait(t_intro_text - smooth_sea_level_to(12, 0));
 	b.wait(t_intro_idle - 1000);
 	b.event('clear_text');
@@ -171,14 +177,14 @@ export const create_soggy_planet_tour_data = (
 	b.event('play_main_song');
 	b.event(
 		'show_text',
-		`<span style="position: relative; left: -300px; top: 110px;">many habitats were curiously drier</span>`,
+		`<span style="position: relative; left: -300px; top: 110px;">glaciers locked up mountains of moisture</span>`,
 	);
 	b.pan(174, -1092, 4000);
 	b.zoom(0.7, 4000);
 	b.wait(t_intro_text + t_intro_text / 2);
 	b.event(
 		'show_text',
-		`<span  style="position: relative; left: -300px; top: 110px;">and myth flooded our imaginations</span>`,
+		`<span style="position: relative; left: -300px; top: 110px;">and myth flooded our imaginations</span>`,
 	);
 	b.wait(t_intro_text / 2);
 	b.wait(t_intro_idle);
@@ -222,6 +228,7 @@ export const create_soggy_planet_tour_data = (
 	b.zoom(1.8, t_move / 2);
 	b.wait(t_move / 2 - smooth_sea_level_to(1, 12));
 	b.zoom(3.9, t_move / 2);
+	// TODO BLOCK accelerate by a bit
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 0, t_idle, sineOut);
@@ -316,8 +323,8 @@ export const create_soggy_planet_tour_data = (
 	b.pan(2136, -323, t_move);
 	b.zoom(5.7, t_move);
 	b.wait(t_move - smooth_sea_level_to(8, 0));
-	b.zoomBy(0.98, t_idle, sineOut);
-	b.panBy(0, 2, t_idle, sineOut);
+	b.zoomBy(0.82, t_idle);
+	b.panBy(100, 20, t_idle);
 	b.event('show_text', render_content('Thule'));
 	b.wait();
 
@@ -341,17 +348,17 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_move / 2);
 	b.zoom(11, t_move / 2);
 	b.wait();
-	b.zoomBy(1.02, t_idle, sineOut);
-	b.panBy(1, -2, t_idle, sineOut);
+	b.zoomBy(0.77, t_idle);
+	b.panBy(10, -2, t_idle);
 	b.event('show_text', render_content('Missoula floods'));
 	b.wait();
 
 	// Land bridges of Japan
 	b.event('clear_text');
 	b.pan(4591, -577, t_move);
-	b.zoom(1.9, t_move * (1 / 3));
-	b.wait(t_move * (1 / 3) - smooth_sea_level_to(1, 12));
-	b.zoom(3.5, t_move * (2 / 3));
+	b.zoom(1.9, t_move * (1 / 2));
+	b.wait(t_move * (1 / 2) - smooth_sea_level_to(1, 12));
+	b.zoom(3.5, t_move * (1 / 2));
 	b.wait();
 	b.zoomBy(1.01, t_idle, sineOut);
 	b.panBy(2, -2, t_idle, sineOut);
