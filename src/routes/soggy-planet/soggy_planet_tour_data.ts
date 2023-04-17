@@ -102,8 +102,6 @@ export const create_soggy_planet_tour_data = (
 	const y_start = -1405;
 	const zoom_start = 5000;
 
-	// TODO BLOCK start at night, then go to daylight when music starts
-
 	const wait_for_load_event = b.event('load'); // TODO what happens if the tour is canceled while loading?
 	if (dev_mode) {
 		// dev_mode startup events
@@ -149,7 +147,6 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_intro_text);
 	b.event('show_text', `global sea levels were about 125 meters lower`);
 	b.event('update_sea_level', {min: 0, max: 0});
-	b.event('update_daylight', {min: 1, max: 1});
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle - 1000);
 	b.event('clear_text');
@@ -189,7 +186,6 @@ export const create_soggy_planet_tour_data = (
 	b.event('show_text', render_content('Zealandia'));
 	b.wait(800);
 	b.event('update_land_images', {min: 0, max: 11});
-	b.event('update_daylight', {min: 0, max: 0});
 	b.wait();
 
 	// Sundaland
@@ -302,7 +298,7 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_move / 2);
 	b.event('update_sea_level', {min: 0, max: 0});
 	b.zoom(16.1, t_move / 2);
-	// TODO refactor, is hacky but just trying to ship
+	// TODO BLOCK refactor into a helper
 	b.event('update_sea_level', {min: 1, max: 1});
 	b.wait(100);
 	b.event('update_sea_level', {min: 2, max: 2});

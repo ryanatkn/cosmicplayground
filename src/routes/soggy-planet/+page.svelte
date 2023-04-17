@@ -76,7 +76,7 @@
 
 	// Earth's land
 	const to_land_images = (min: number, max: number): string[] =>
-		Array.from({length: 1 + max - min}, (_, i) => `/assets/earth/land_${i + 1}.png`);
+		Array.from({length: 1 + max - min}, (_, i) => `/assets/earth/land_${i + 1 + min}.png`);
 	let land_images = to_land_images(0, 11);
 	let cycled_land_value = 0;
 	$: cycled_land_index = Math.floor(cycled_land_value);
@@ -212,22 +212,18 @@
 	// lights_opacity_max = DEFAULT_LIGHTS_OPACITY_MAX;
 
 	const update_land_images: (min: number, max: number) => void = (min, max) => {
-		// TODO BLOCK
 		land_images = to_land_images(min, max);
 	};
 	const update_daylight: (min: number, max: number) => void = (min, max) => {
-		// TODO BLOCK
-		console.log('TODO', `[update_daylight] min, max`, min, max);
 		lights_opacity_min = min;
 		lights_opacity_max = max;
 		select_daylight(max);
-		hover_daylight(null);
+		hover_daylight(max);
 	};
-	const update_sea_level: (min: number, max: number) => void = (min, max) => {
-		// TODO BLOCK
-		console.log('TODO', `[update_sea_level] min, max`, min, max);
+	const update_sea_level: (min: number, max: number) => void = (_min, max) => {
+		// TODO would be nice to animate these better, but for now I'm just hacking some basic smoothing into the tour script with helpers
 		select_sea_level(max);
-		hover_sea_level(null);
+		hover_sea_level(max);
 	};
 </script>
 
