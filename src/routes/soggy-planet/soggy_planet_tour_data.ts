@@ -33,7 +33,7 @@ export const points_of_interest: Point_Of_Interest[] = [
 	// 3.5 1221 -1634
 	{name: 'Kerguelen Plateau', url: 'https://wikipedia.org/wiki/Kerguelen_Plateau', x: 0, y: -70},
 	// 6.2 1061 -444
-	{name: 'Altai flood', url: 'https://wikipedia.org/wiki/Altai_flood', x: 0, y: 100},
+	{name: 'Altai flood', url: 'https://wikipedia.org/wiki/Altai_flood', x: 0, y: 120},
 	// 10 1648 -527
 	// TODO BLOCK show the water go in/out here
 	{
@@ -126,7 +126,7 @@ export const create_soggy_planet_tour_data = (
 	// we're now loaded and ready to go
 	b.event('update_land_images', {min: 0, max: 11});
 	b.event('update_daylight', {min: 0, max: 0});
-	b.event('update_sea_level', {min: 12, max: 12});
+	b.event('update_sea_level', {min: 12, max: 12}); // 12 is present day sea level
 	b.event('play_water_trickle');
 	b.event('show_text', `for tens of thousands of years`);
 	b.zoom(200, 2000);
@@ -147,8 +147,8 @@ export const create_soggy_planet_tour_data = (
 		`at the end of <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a>`,
 	);
 	b.wait(t_intro_text);
-	b.event('update_sea_level', {min: 0, max: 0});
 	b.event('show_text', `global sea levels were about 125 meters lower`);
+	b.event('update_sea_level', {min: 0, max: 0});
 	b.event('update_daylight', {min: 1, max: 1});
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle - 1000);
@@ -170,8 +170,6 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_intro_text / 2);
 	b.wait(t_intro_idle);
 	b.event('clear_text');
-	b.event('update_land_images', {min: 0, max: 11});
-	b.event('update_daylight', {min: 0, max: 0});
 	b.wait();
 
 	// At this point, we no longer try to sync the music
@@ -189,6 +187,9 @@ export const create_soggy_planet_tour_data = (
 	b.panBy(2, 2, t_idle, sineOut);
 	b.wait(1000); // delay for music
 	b.event('show_text', render_content('Zealandia'));
+	b.wait(800);
+	b.event('update_land_images', {min: 0, max: 11});
+	b.event('update_daylight', {min: 0, max: 0});
 	b.wait();
 
 	// Sundaland
@@ -282,11 +283,13 @@ export const create_soggy_planet_tour_data = (
 	b.pan(2022, -403, t_move);
 	b.zoom(7.6, t_move / 2);
 	b.wait(t_move / 2);
+	b.event('update_sea_level', {min: 0, max: 0});
 	b.zoom(13.3, t_move / 2);
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 2, t_idle, sineOut);
 	b.wait(2600); // delay for music
+	b.event('update_sea_level', {min: 11, max: 11}); // 11 is one below present day sea level
 	b.event('show_text', render_content('Doggerland'));
 	b.wait();
 
@@ -297,7 +300,26 @@ export const create_soggy_planet_tour_data = (
 	b.pan(2105, -490, t_move);
 	b.zoom(21.6, t_move / 2);
 	b.wait(t_move / 2);
+	b.event('update_sea_level', {min: 0, max: 0});
 	b.zoom(16.1, t_move / 2);
+	// TODO refactor, is hacky but just trying to ship
+	b.event('update_sea_level', {min: 1, max: 1});
+	b.wait(100);
+	b.event('update_sea_level', {min: 2, max: 2});
+	b.wait(100);
+	b.event('update_sea_level', {min: 3, max: 3});
+	b.wait(100);
+	b.event('update_sea_level', {min: 4, max: 4});
+	b.wait(100);
+	b.event('update_sea_level', {min: 5, max: 5});
+	b.wait(100);
+	b.event('update_sea_level', {min: 6, max: 6});
+	b.wait(100);
+	b.event('update_sea_level', {min: 4, max: 7});
+	b.wait(100);
+	b.event('update_sea_level', {min: 8, max: 8});
+	b.wait(100);
+	b.event('update_sea_level', {min: 9, max: 9});
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(1, -2, t_idle, sineOut);
@@ -309,6 +331,7 @@ export const create_soggy_planet_tour_data = (
 	// 5.7 2136 -323
 	b.pan(2136, -323, t_move);
 	b.zoom(5.7, t_move);
+	b.event('update_sea_level', {min: 0, max: 0});
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(0, 2, t_idle, sineOut);
@@ -321,11 +344,13 @@ export const create_soggy_planet_tour_data = (
 	b.pan(4036, -302, t_move);
 	b.zoom(1.8, t_move * (1 / 3));
 	b.wait(t_move * (1 / 3));
+	b.event('update_sea_level', {min: 12, max: 12}); // 12 is present day sea level
 	b.zoom(3.2, t_move * (2 / 3));
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(3, 2, t_idle, sineOut);
 	b.wait(2000); // delay for music
+	b.event('update_sea_level', {min: 0, max: 0});
 	b.event('show_text', render_content('Beringia'));
 	b.wait();
 
@@ -348,8 +373,10 @@ export const create_soggy_planet_tour_data = (
 	b.pan(4591, -577, t_move);
 	b.zoom(1.6, t_move * (1 / 3));
 	b.wait(t_move * (1 / 3));
+	b.event('update_sea_level', {min: 12, max: 12}); // 12 is present day sea level
 	b.zoom(3.5, t_move * (2 / 3));
 	b.wait();
+	b.event('update_sea_level', {min: 0, max: 0});
 	b.zoomBy(1.01, t_idle, sineOut);
 	b.panBy(2, -2, t_idle, sineOut);
 	b.event('show_text', render_content('Land bridges of Japan'));
@@ -361,8 +388,10 @@ export const create_soggy_planet_tour_data = (
 	b.pan(4162, -978, t_move);
 	b.zoom(1.7, t_move / 2);
 	b.wait(t_move / 2);
+	b.event('update_sea_level', {min: 12, max: 12}); // 12 is present day sea level
 	b.zoom(2, t_move / 2);
 	b.wait();
+	b.event('update_sea_level', {min: 0, max: 0});
 	b.zoomBy(0.99, t_idle, sineOut);
 	b.panBy(-2, -2, t_idle, sineOut);
 	b.wait(3000); // delay for music
