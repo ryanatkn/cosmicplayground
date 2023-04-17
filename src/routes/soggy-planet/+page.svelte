@@ -207,9 +207,16 @@
 	const on_begin_tour = () => {
 		console.log(`on_begin_tour args`);
 	};
-	// TODO BLOCK on end tour, revert the daylight change
-	// lights_opacity_min = DEFAULT_LIGHTS_OPACITY_MIN;
-	// lights_opacity_max = DEFAULT_LIGHTS_OPACITY_MAX;
+
+	// TODO hacky
+	let was_touring = false;
+	$: {
+		if (was_touring && !$touring) {
+			lights_opacity_min = DEFAULT_LIGHTS_OPACITY_MIN;
+			lights_opacity_max = DEFAULT_LIGHTS_OPACITY_MAX;
+		}
+		was_touring = !!$touring;
+	}
 
 	const update_land_images: (min: number, max: number) => void = (min, max) => {
 		land_images = to_land_images(min, max);
