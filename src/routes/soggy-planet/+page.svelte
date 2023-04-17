@@ -12,7 +12,7 @@
 	import Hud from '$lib/app/Hud.svelte';
 	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
 	import {createResourcesStore} from '$lib/app/resources';
-	import {getSettings} from '$lib/app/settings';
+	import {get_settings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import Soggy_Planet_Dev_Hud from '$routes/soggy-planet/Soggy_Planet_Dev_Hud.svelte';
 	import Camera from '$lib/app/Camera.svelte';
@@ -46,7 +46,7 @@
 	const initial_width = $dimensions.width;
 	const initial_height = $dimensions.height;
 
-	const settings = getSettings();
+	const settings = get_settings();
 	$: dev_mode = $settings.dev_mode;
 
 	// TODO add auto pan button - share logic with Starlit Hanmmock and deep breath
@@ -75,26 +75,30 @@
 	};
 
 	// Earth's land
-	const land_images = Array.from({length: 12}, (_, i) => `/assets/earth/land_${i + 1}.png`);
+	const to_land_images = (min: number, max: number): string[] =>
+		Array.from({length: 1 + max - min}, (_, i) => `/assets/earth/land_${i + 1}.png`);
+	let land_images = to_land_images(0, 11);
 	let cycled_land_value = 0;
 	$: cycled_land_index = Math.floor(cycled_land_value);
 
 	// Earth's lights
+	const DEFAULT_LIGHTS_OPACITY_MIN = 0;
+	const DEFAULT_LIGHTS_OPACITY_MAX = 0.91;
 	const LIGHTS_IMAGE = `/assets/earth/lights.png`;
-	const LIGHTS_OPACITY_MIN = 0;
-	const LIGHTS_OPACITY_MAX = 0.91;
+	let lights_opacity_min = DEFAULT_LIGHTS_OPACITY_MIN;
+	let lights_opacity_max = DEFAULT_LIGHTS_OPACITY_MAX;
+	let lights_opacity = lights_opacity_min;
 	const LIGHTS_OPACITY_CYCLE_TIMER = 3000; // larger is slower
-	let lights_opacity = LIGHTS_OPACITY_MIN;
 	let lights_timer = LIGHTS_OPACITY_CYCLE_TIMER * 1.7;
 	$: if (selected_daylight === null) lights_timer += $clock.dt;
 	$: lights_opacity = to_lights_opacity(lights_timer);
 	const to_lights_opacity = (time: number): number =>
-		LIGHTS_OPACITY_MIN +
-		((LIGHTS_OPACITY_MAX - LIGHTS_OPACITY_MIN) *
+		lights_opacity_min +
+		((lights_opacity_max - lights_opacity_min) *
 			(Math.sin(time / LIGHTS_OPACITY_CYCLE_TIMER) + 1)) /
 			2;
 	// TODO would be cool to have nightfall overlay the shape of the real thing, not global
-	$: nightfall_opacity = (active_daylight - LIGHTS_OPACITY_MIN) * 0.48;
+	$: nightfall_opacity = (active_daylight - lights_opacity_min) * 0.48;
 
 	// TODO this is weird because the shore images were bolted on after the fact.
 	// Refactoring the sea images to have a single base and later the second/third above would be ideal
@@ -197,19 +201,26 @@
 		if (!tour) await tick();
 		if (!tour) return; // TODO hmm?
 
-		tour.beginTour();
+		tour.begin_tour();
 	};
 
 	const on_begin_tour = () => {
 		console.log(`on_begin_tour args`);
 	};
-	const update_land_index: (min: number, max: number) => void = (min, max) => {
+	// TODO BLOCK on end tour, revert the daylight change
+	// lights_opacity_min = DEFAULT_LIGHTS_OPACITY_MIN;
+	// lights_opacity_max = DEFAULT_LIGHTS_OPACITY_MAX;
+
+	const update_land_images: (min: number, max: number) => void = (min, max) => {
 		// TODO BLOCK
-		console.log('TODO', `[update_land_index] min, max`, min, max);
+		land_images = to_land_images(min, max);
 	};
 	const update_daylight: (min: number, max: number) => void = (min, max) => {
 		// TODO BLOCK
 		console.log('TODO', `[update_daylight] min, max`, min, max);
+		lights_opacity_min = min;
+		lights_opacity_max = max;
+		select_daylight(max);
 	};
 	const update_sea_level: (min: number, max: number) => void = (min, max) => {
 		// TODO BLOCK
@@ -250,7 +261,7 @@
 				{camera}
 				bind:tour
 				on:begin={on_begin_tour}
-				{update_land_index}
+				{update_land_images}
 				{update_daylight}
 				{update_sea_level}
 			/>

@@ -3,14 +3,14 @@
 	import {getClock, getDimensions} from '@feltcoop/dealt';
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
-	import {getSettings} from '$lib/app/settings';
+	import {get_settings} from '$lib/app/settings';
 	import {unlockSatisfyingSecret} from '$lib/util/secret';
 
 	// TODO give user control over speed in dialog
 
 	const dimensions = getDimensions();
 	const clock = getClock();
-	const settings = getSettings();
+	const settings = get_settings();
 
 	const hzItems = [1, 24, 30, 48, 60, 144];
 	const WINNING_HZ_ITEMS = new Set([0, 143, 144, 287]);

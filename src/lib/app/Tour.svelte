@@ -5,8 +5,8 @@
 	import {UnreachableError} from '@feltjs/util/error.js';
 	import type {ClockStore} from '@feltcoop/dealt';
 
-	import {getSettings} from '$lib/app/settings';
-	import {resetRenderStats, getRenderStats} from '$lib/app/renderStats';
+	import {get_settings} from '$lib/app/settings';
+	import {reset_render_stats, getRenderStats} from '$lib/app/renderStats';
 	import type Camera from '$lib/app/Camera.svelte';
 	import TweenedCamera from '$lib/app/TweenedCamera.svelte';
 	import {
@@ -21,7 +21,7 @@
 	export let camera: Camera;
 	export let clock: ClockStore;
 	export let hooks: Partial<TourHooks>;
-	export let createTourData: () => TourData;
+	export let create_tour_data: () => TourData;
 
 	// for external binding, not props
 	export let paused = !$clock.running;
@@ -188,14 +188,14 @@
 		},
 	};
 
-	const settings = getSettings();
+	const settings = get_settings();
 	$: dev_mode = $settings.dev_mode;
 
 	const dispatchEvent = createEventDispatcher<{begin: undefined}>();
 
 	const debug_start_time = 0; // ~0-300000
 
-	const onKeyDown = (e: KeyboardEvent) => {
+	const keydown = (e: KeyboardEvent) => {
 		if ($touring) {
 			if (e.key === 'Escape' && !e.ctrlKey) {
 				swallow(e);
@@ -204,17 +204,17 @@
 		}
 	};
 
-	export const beginTour = (): void => {
+	export const begin_tour = (): void => {
 		if ($touring) cancel();
 		if (!$clock.running) clock.resume();
-		$tourData = createTourData();
+		$tourData = create_tour_data();
 		$currentTime = 0;
 		$currentStepIndex = 0;
 		finished = false;
 		$touring = true;
 		dispatchEvent('begin');
 		if (dev_mode) {
-			resetRenderStats();
+			reset_render_stats();
 			if (debug_start_time) setTimeout(() => seekTimeTo(debug_start_time), 50);
 		}
 	};
@@ -224,6 +224,6 @@
 	});
 </script>
 
-<svelte:window on:keydown|capture={onKeyDown} />
+<svelte:window on:keydown|capture={keydown} />
 
 <TweenedCamera {camera} enabled={!paused} bind:this={tweenedCamera} />

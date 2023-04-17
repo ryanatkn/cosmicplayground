@@ -25,7 +25,7 @@
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
 	import Panel from '$lib/app/Panel.svelte';
-	import {setSettings} from '$lib/app/settings';
+	import {set_settings} from '$lib/app/settings';
 	import {setPortals, createPortalsStore} from '$lib/app/portals';
 	import {updateRenderStats} from '$lib/app/renderStats';
 	import {portalsData} from '$lib/app/portalsData';
@@ -98,7 +98,7 @@
 		return goto('/' + hash.substring(1), {replaceState: true});
 	};
 
-	const settings = setSettings({
+	const settings = set_settings({
 		audio_enabled: true, // TODO BLOCK
 		dev_mode: false,
 		recordingMode: false,

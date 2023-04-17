@@ -5,7 +5,7 @@
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTourData} from '$routes/deep-breath/deepBreathTourData';
 	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/app/tour';
-	import {getSettings} from '$lib/app/settings';
+	import {get_settings} from '$lib/app/settings';
 	import DeepBreathTourIntro from '$routes/deep-breath/DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from '$routes/deep-breath/DeepBreathTourTitle.svelte';
 	import Tour from '$lib/app/Tour.svelte';
@@ -22,7 +22,7 @@
 	export let currentTime: Writable<number> | undefined = undefined as any;
 	export let currentStepIndex: Writable<number> | undefined = undefined as any;
 	export let paused: boolean | undefined = undefined as any;
-	export let beginTour: (() => void) | undefined = undefined as any;
+	export let begin_tour: (() => void) | undefined = undefined as any;
 	// owned by this component
 	export const showTourIntro: Writable<boolean> = writable(false);
 	export const showTourTitle: Writable<boolean> = writable(false);
@@ -33,7 +33,7 @@
 
 	const clock = getClock();
 
-	const settings = getSettings();
+	const settings = get_settings();
 	$: ({audio_enabled, dev_mode} = $settings);
 
 	const tourResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
@@ -171,7 +171,7 @@
 	{camera}
 	{clock}
 	{hooks}
-	createTourData={() =>
+	create_tour_data={() =>
 		createDeepBreathTourData(tourIntroTotalDuration, tourTitleTotalDuration, dev_mode)}
 	on:begin
 	bind:this={tour}
@@ -180,7 +180,7 @@
 	bind:currentTime
 	bind:currentStepIndex
 	bind:paused
-	bind:beginTour
+	bind:begin_tour
 />
 
 <style>

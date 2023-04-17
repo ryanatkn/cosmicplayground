@@ -14,7 +14,7 @@
 	import EarthViewerDom from '$lib/app/EarthViewerDom.svelte';
 	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
 	import {createResourcesStore} from '$lib/app/resources';
-	import {getSettings} from '$lib/app/settings';
+	import {get_settings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import DeepBreathDevHud from '$routes/deep-breath/DeepBreathDevHud.svelte';
@@ -43,7 +43,7 @@
 	const initialWidth = $dimensions.width;
 	const initialHeight = $dimensions.height;
 
-	const settings = getSettings();
+	const settings = get_settings();
 	$: dev_mode = $settings.dev_mode;
 
 	const debug_start_time = 0; // ~0-300000
@@ -246,7 +246,7 @@
 							∙∙∙
 						</FloatingIconButton>
 						{#if tour && !$touring}
-							<FloatingTextButton on:click={tour.beginTour}>tour</FloatingTextButton>
+							<FloatingTextButton on:click={tour.begin_tour}>tour</FloatingTextButton>
 						{/if}
 					</div>
 					<div class="hud-left-controls">

@@ -22,7 +22,7 @@ export const updateRenderStats = (dt: number): void => {
 	}
 };
 
-export const resetRenderStats = (): RenderStats => (renderStats = defaultRenderStats());
+export const reset_render_stats = (): RenderStats => (renderStats = defaultRenderStats());
 
 export const getRenderStats = (): RenderStats => renderStats;
 

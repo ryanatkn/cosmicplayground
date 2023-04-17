@@ -5,7 +5,7 @@
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {create_soggy_planet_tour_data} from '$routes/soggy-planet/soggy_planet_tour_data';
 	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/app/tour';
-	import {getSettings} from '$lib/app/settings';
+	import {get_settings} from '$lib/app/settings';
 	import Tour_Text from '$lib/app/Tour_Text.svelte';
 	import Soggy_Planet_Tour_Title from '$routes/soggy-planet/Soggy_Planet_Tour_Title.svelte';
 	import Tour from '$lib/app/Tour.svelte';
@@ -23,7 +23,7 @@
 	export let current_step_index: Writable<number> | undefined = undefined as any;
 	export let paused: boolean | undefined = undefined as any;
 	export let begin_tour: (() => void) | undefined = undefined as any;
-	export let update_land_index: (min: number, max: number) => void;
+	export let update_land_images: (min: number, max: number) => void;
 	export let update_daylight: (min: number, max: number) => void;
 	export let update_sea_level: (min: number, max: number) => void;
 	// owned by this component
@@ -36,7 +36,7 @@
 
 	const clock = getClock();
 
-	const settings = getSettings();
+	const settings = get_settings();
 	$: ({audio_enabled, dev_mode} = $settings);
 
 	const tour_resources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
@@ -123,9 +123,9 @@
 					if (audio_enabled) void water_trickle_sound.audio!.play();
 					return;
 				}
-				case 'update_land_index': {
+				case 'update_land_images': {
 					const {min, max} = data as any; // TODO type
-					update_land_index(min, max);
+					update_land_images(min, max);
 					return;
 				}
 				case 'update_daylight': {
@@ -197,7 +197,7 @@
 	{camera}
 	{clock}
 	{hooks}
-	createTourData={() => create_soggy_planet_tour_data(tour_title_total_duration, dev_mode)}
+	create_tour_data={() => create_soggy_planet_tour_data(tour_title_total_duration, dev_mode)}
 	on:begin
 	bind:this={tour}
 	bind:touring
@@ -205,7 +205,7 @@
 	bind:currentTime={current_time}
 	bind:currentStepIndex={current_step_index}
 	bind:paused
-	bind:beginTour={begin_tour}
+	bind:begin_tour
 />
 
 <style>

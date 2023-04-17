@@ -4,7 +4,7 @@
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
 	import TourControls from '$lib/app/TourControls.svelte';
-	import {getSettings} from '$lib/app/settings';
+	import {get_settings} from '$lib/app/settings';
 
 	export let tour: Tour | null;
 	export let x: Writable<number>;
@@ -14,7 +14,7 @@
 
 	$: touring = tour?.touring;
 
-	const settings = getSettings();
+	const settings = get_settings();
 	$: ({audio_enabled} = $settings);
 
 	const toggle_audio_enabled = (value = !audio_enabled): void =>

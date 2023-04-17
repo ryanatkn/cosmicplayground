@@ -23,7 +23,7 @@
 	import strengthBooster3Portal from '$routes/secret3/data';
 	import clocksPortal from '$routes/clocks/data';
 	import freqSpectaclePortal from '$routes/freq-spectacle/data';
-	import {getSettings} from '$lib/app/settings';
+	import {get_settings} from '$lib/app/settings';
 	import StarshipStage from '$routes/StarshipStage.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
@@ -121,7 +121,7 @@
 		],
 	];
 
-	const settings = getSettings();
+	const settings = get_settings();
 
 	let exitStarshipModeCount = 0;
 
