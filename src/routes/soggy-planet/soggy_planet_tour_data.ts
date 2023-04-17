@@ -25,11 +25,11 @@ export const points_of_interest: Point_Of_Interest[] = [
 		name: 'Kumari Kandam',
 		url: 'https://wikipedia.org/wiki/Kumari_Kandam',
 		myth: true,
-		x: 300,
-		y: 100,
+		x: 330,
+		y: 70,
 	},
 	// 3.2 1445 -1223
-	{name: 'Lemuria', url: 'https://wikipedia.org/wiki/Lemuria', myth: true, x: -200, y: -250},
+	{name: 'Lemuria', url: 'https://wikipedia.org/wiki/Lemuria', myth: true, x: -200, y: -230},
 	// 3.5 1221 -1634
 	{name: 'Kerguelen Plateau', url: 'https://wikipedia.org/wiki/Kerguelen_Plateau', x: 0, y: -70},
 	// 6.2 1061 -444
@@ -48,9 +48,9 @@ export const points_of_interest: Point_Of_Interest[] = [
 	// 16.1 2105 -490
 	{name: 'Ys', url: 'https://wikipedia.org/wiki/Ys', myth: true, x: -20, y: -20},
 	// 5.7 2136 -323
-	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', myth: true, x: 310, y: 430},
+	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', myth: true, x: 290, y: 430},
 	// 11 3404 -482
-	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: 0, y: 100},
+	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: -20, y: 130},
 	// 3.2 4036 -302
 	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia', x: 200, y: -230},
 	// 3.5 4591 -577
@@ -130,7 +130,7 @@ export const create_soggy_planet_tour_data = (
 	b.zoom(200, 2000);
 	b.wait(t_intro_text);
 	b.event('show_text', `humanity has thrived`);
-	b.zoom(50, 3000); // TODO BLOCK just combine
+	b.zoom(50, 3000);
 	b.wait(t_intro_text);
 	b.event('show_text', `along coastlines and waterways`);
 	b.wait(t_intro_text);
@@ -138,10 +138,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	b.wait(1000);
 	b.event('show_text', `around 19 or 20 thousand years ago`);
-	b.zoom(10, 2000);
+	b.zoom(3, 6000);
 	b.wait(t_intro_text);
 	b.event('show_text', `at the end of the Last Glacial Maximum`);
-	b.zoom(3, 4000);
 	b.wait(t_intro_text);
 	b.event('show_text', `global sea levels were about 125 meters lower`);
 	b.wait(t_intro_text);
