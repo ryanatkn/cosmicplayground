@@ -77,9 +77,8 @@
 				<li>or learn more below</li>
 			</ul>
 			<p>
-				This page is not mobile friendly! Sorry, eventually...hopefully. It may also be slow
-				depending on your hardware and browser. See <a
-					href="https://github.com/ryanatkn/cosmicplayground/issues/56"
+				This page is not mobile friendly! Sorry... It may also be slow depending on your hardware
+				and browser. See <a href="https://github.com/ryanatkn/cosmicplayground/issues/56"
 					>this performance issue on GitHub</a
 				>.
 			</p>

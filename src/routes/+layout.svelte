@@ -99,7 +99,7 @@
 	};
 
 	const settings = set_settings({
-		audio_enabled: true, // TODO BLOCK
+		audio_enabled: true,
 		dev_mode: false,
 		recordingMode: false,
 		idleMode: false,
