@@ -155,14 +155,14 @@ export const create_soggy_planet_tour_data = (
 	b.event('play_main_song');
 	b.event(
 		'show_text',
-		`<span style="position: relative; left: -300px; top: 100px;">many habitats were curiously drier</span>`,
+		`<span style="position: relative; left: -300px; top: 110px;">many habitats were curiously drier</span>`,
 	);
 	b.pan(174, -1092, 4000);
 	b.zoom(0.7, 4000);
 	b.wait(t_intro_text + t_intro_text / 2);
 	b.event(
 		'show_text',
-		`<span  style="position: relative; left: -300px; top: 100px;">and myth flooded our imaginations</span>`,
+		`<span  style="position: relative; left: -300px; top: 110px;">and myth flooded our imaginations</span>`,
 	);
 	b.wait(t_intro_text / 2);
 	b.wait(t_intro_idle);

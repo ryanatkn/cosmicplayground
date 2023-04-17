@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {getClock} from '@feltcoop/dealt';
+	import {swallow} from '@feltjs/util/dom.js';
 	import {blur, slide} from 'svelte/transition';
 
 	// TODO has some copypasta, needs refactoring
@@ -13,6 +15,22 @@
 
 	// transition vars
 	const blur_amount = 99;
+
+	const clock = getClock();
+	const click = (e: MouseEvent): void => {
+		if (e.target instanceof HTMLAnchorElement) {
+			swallow(e);
+			clock.pause();
+			window.open(e.target.href, '_blank');
+		}
+	};
+	const keydown = (e: KeyboardEvent): void => {
+		if (e.target instanceof HTMLAnchorElement && (e.key === ' ' || e.key === 'Enter')) {
+			swallow(e);
+			clock.pause();
+			window.open(e.target.href, '_blank');
+		}
+	};
 </script>
 
 <div
@@ -21,7 +39,11 @@
 >
 	{#each tour_text as text (text)}
 		<div class="text" in:slide|local={{duration: transition_in_duration}}>
-			<div in:blur|local={{duration: transition_in_duration, amount: blur_amount}}>
+			<div
+				in:blur|local={{duration: transition_in_duration, amount: blur_amount}}
+				on:click|capture={click}
+				on:keydown|capture={keydown}
+			>
 				{@html text}
 			</div>
 		</div>
