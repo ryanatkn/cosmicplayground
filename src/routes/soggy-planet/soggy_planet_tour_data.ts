@@ -179,7 +179,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 2.6 664 -920
 	b.pan(664, -920, t_move);
-	b.zoom(2.6, t_move);
+	b.zoom(1.8, t_move / 2);
+	b.wait(t_move / 2);
+	b.zoom(2.6, t_move / 2);
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(1, 2, t_idle, sineOut);
@@ -191,7 +193,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 3.9 1222 -940
 	b.pan(1222, -940, t_move);
-	b.zoom(3.9, t_move);
+	b.zoom(1.8, t_move / 2);
+	b.wait(t_move / 2);
+	b.zoom(3.9, t_move / 2);
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 0, t_idle, sineOut);
@@ -202,7 +206,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 3.2 1445 -1223
 	b.pan(1445, -1223, t_move);
-	b.zoom(3.2, t_move);
+	b.zoom(2.9, t_move / 2);
+	b.wait(t_move / 2);
+	b.zoom(3.2, t_move / 2);
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(1, -2, t_idle, sineOut);
@@ -213,7 +219,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 3.5 1221 -1634
 	b.pan(1221, -1634, t_move);
-	b.zoom(3.5, t_move);
+	b.zoom(3.1, t_move / 2);
+	b.wait(t_move / 2);
+	b.zoom(3.5, t_move / 2);
 	b.wait();
 	b.zoomBy(1.01, t_idle, sineOut);
 	b.panBy(-1, -2, t_idle, sineOut);
@@ -224,7 +232,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 6.2 1061 -444
 	b.pan(1061, -444, t_move);
-	b.zoom(6.2, t_move);
+	b.zoom(2.6, t_move / 2);
+	b.wait(t_move / 2);
+	b.zoom(6.2, t_move / 2);
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(-1, -3, t_idle, sineOut);
@@ -235,7 +245,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 10 1648 -527
 	b.pan(1648, -527, t_move);
-	b.zoom(10, t_move);
+	b.zoom(4.6, t_move / 2);
+	b.wait(t_move / 2);
+	b.zoom(10, t_move / 2);
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, -1, t_idle, sineOut);
@@ -247,7 +259,9 @@ export const create_soggy_planet_tour_data = (
 	// 13.3 2022 -403
 	// TODO BLOCK show the level go from lowest to highest, then down the tick to show the island, then show the text
 	b.pan(2022, -403, t_move);
-	b.zoom(13.3, t_move);
+	b.zoom(7.6, t_move / 2);
+	b.wait(t_move / 2);
+	b.zoom(13.3, t_move / 2);
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 2, t_idle, sineOut);
@@ -260,7 +274,9 @@ export const create_soggy_planet_tour_data = (
 	// 16.1 2105 -490
 	// TODO BLOCK show the level pulse around the islands
 	b.pan(2105, -490, t_move);
-	b.zoom(16.1, t_move);
+	b.zoom(21.6, t_move / 2);
+	b.wait(t_move / 2);
+	b.zoom(16.1, t_move / 2);
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(1, -2, t_idle, sineOut);
@@ -282,7 +298,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 3.2 4036 -302
 	b.pan(4036, -302, t_move);
-	b.zoom(3.2, t_move);
+	b.zoom(2.6, t_move / 2);
+	b.wait(t_move / 2);
+	b.zoom(3.2, t_move / 2);
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(3, 2, t_idle, sineOut);
@@ -294,7 +312,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 11 3404 -482
 	b.pan(3404, -482, t_move);
-	b.zoom(11, t_move);
+	b.zoom(2.6, t_move / 2);
+	b.wait(t_move / 2);
+	b.zoom(11, t_move / 2);
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(1, -2, t_idle, sineOut);
@@ -305,7 +325,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 3.5 4591 -577
 	b.pan(4591, -577, t_move);
-	b.zoom(3.5, t_move);
+	b.zoom(2.8, t_move / 2);
+	b.wait(t_move / 2);
+	b.zoom(3.5, t_move / 2);
 	b.wait();
 	b.zoomBy(1.01, t_idle, sineOut);
 	b.panBy(2, -2, t_idle, sineOut);
@@ -316,7 +338,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 2 4162 -978
 	b.pan(4162, -978, t_move);
-	b.zoom(2, t_move);
+	b.zoom(1.7, t_move / 2);
+	b.wait(t_move / 2);
+	b.zoom(2, t_move / 2);
 	b.wait();
 	b.zoomBy(0.99, t_idle, sineOut);
 	b.panBy(-2, -2, t_idle, sineOut);
