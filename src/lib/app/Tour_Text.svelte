@@ -11,8 +11,6 @@
 
 	// TODO better visual effect? typewriter?
 
-	// TODO BLOCK pause on link click
-
 	// transition vars
 	const blur_amount = 99;
 

@@ -13,8 +13,6 @@ export const Point_Of_Interest = z.object({
 });
 export type Point_Of_Interest = z.infer<typeof Point_Of_Interest>;
 
-// TODO BLOCK at Altai, maybe alternate between months 7/8 (custom event?)
-
 export const points_of_interest: Point_Of_Interest[] = [
 	// 2.2 67 -1358
 	{name: 'Zealandia', url: 'https://wikipedia.org/wiki/Zealandia', x: -400, y: -70},
@@ -25,17 +23,16 @@ export const points_of_interest: Point_Of_Interest[] = [
 		name: 'Kumari Kandam',
 		url: 'https://wikipedia.org/wiki/Kumari_Kandam',
 		myth: true,
-		x: 330,
-		y: 70,
+		x: 0,
+		y: -404,
 	},
 	// 3.2 1445 -1223
 	{name: 'Lemuria', url: 'https://wikipedia.org/wiki/Lemuria', myth: true, x: -200, y: -230},
 	// 3.5 1221 -1634
 	{name: 'Kerguelen Plateau', url: 'https://wikipedia.org/wiki/Kerguelen_Plateau', x: 0, y: -70},
 	// 6.2 1061 -444
-	{name: 'Altai flood', url: 'https://wikipedia.org/wiki/Altai_flood', x: 20, y: 120},
+	{name: 'Altai flood', url: 'https://wikipedia.org/wiki/Altai_flood', x: 20, y: 140},
 	// 10 1648 -527
-	// TODO BLOCK show the water go in/out here
 	{
 		name: 'Black Sea deluge',
 		url: 'https://wikipedia.org/wiki/Black_Sea_deluge_hypothesis',
@@ -102,6 +99,26 @@ export const create_soggy_planet_tour_data = (
 	const y_start = -1405;
 	const zoom_start = 5000;
 
+	// TODO refactor, maybe to be stateful to simplify the API
+	const smooth_sea_level_to = (from: number, to: number, duration = 70): number => {
+		let total = 0;
+		if (from === to) return 0;
+		if (from > to) {
+			for (let i = from; i >= to; i--) {
+				b.event('update_sea_level', {min: i, max: i});
+				b.wait(duration);
+				total += duration;
+			}
+		} else {
+			for (let i = from; i <= to; i++) {
+				b.event('update_sea_level', {min: i, max: i});
+				b.wait(duration);
+				total += duration;
+			}
+		}
+		return total;
+	};
+
 	const wait_for_load_event = b.event('load'); // TODO what happens if the tour is canceled while loading?
 	if (dev_mode) {
 		// dev_mode startup events
@@ -146,8 +163,7 @@ export const create_soggy_planet_tour_data = (
 	);
 	b.wait(t_intro_text);
 	b.event('show_text', `global sea levels were about 125 meters lower`);
-	b.event('update_sea_level', {min: 0, max: 0});
-	b.wait(t_intro_text);
+	b.wait(t_intro_text - smooth_sea_level_to(12, 0));
 	b.wait(t_intro_idle - 1000);
 	b.event('clear_text');
 	b.wait(1000);
@@ -176,74 +192,68 @@ export const create_soggy_planet_tour_data = (
 	// (so they shouldn't be used before this point!)
 
 	// Zealandia
-	// 2.2 67 -1358
 	b.pan(67, -1358, t_move);
 	b.zoom(2.2, t_move);
-	b.wait();
+	b.wait(t_move - smooth_sea_level_to(1, 12));
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 2, t_idle, sineOut);
 	b.wait(1000); // delay for music
 	b.event('show_text', render_content('Zealandia'));
 	b.wait(800);
 	b.event('update_land_images', {min: 0, max: 11});
-	b.wait();
+	b.wait(b.get_time_diff() - smooth_sea_level_to(11, 0));
 
 	// Sundaland
 	b.event('clear_text');
-	// 2.6 664 -920
 	b.pan(664, -920, t_move);
 	b.zoom(1.8, t_move / 2);
-	b.wait(t_move / 2);
+	b.wait(t_move / 2 - smooth_sea_level_to(1, 12));
 	b.zoom(2.6, t_move / 2);
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(1, 2, t_idle, sineOut);
 	b.wait(1000); // delay for music
 	b.event('show_text', render_content('Sundaland'));
-	b.wait();
+	b.wait(b.get_time_diff() - smooth_sea_level_to(11, 0));
 
 	// Kumari Kandam
 	b.event('clear_text');
-	// 3.9 1222 -940
 	b.pan(1222, -940, t_move);
 	b.zoom(1.8, t_move / 2);
-	b.wait(t_move / 2);
+	b.wait(t_move / 2 - smooth_sea_level_to(1, 12));
 	b.zoom(3.9, t_move / 2);
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 0, t_idle, sineOut);
 	b.event('show_text', render_content('Kumari Kandam'));
-	b.wait();
+	b.wait(b.get_time_diff() - smooth_sea_level_to(11, 0));
 
 	// Lemuria
 	b.event('clear_text');
-	// 3.2 1445 -1223
 	b.pan(1445, -1223, t_move);
 	b.zoom(2.9, t_move / 2);
-	b.wait(t_move / 2);
+	b.wait(t_move / 2 - smooth_sea_level_to(1, 12));
 	b.zoom(3.2, t_move / 2);
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(1, -2, t_idle, sineOut);
 	b.event('show_text', render_content('Lemuria'));
-	b.wait();
+	b.wait(b.get_time_diff() - smooth_sea_level_to(11, 0));
 
 	// Kerguelen Plateau
 	b.event('clear_text');
-	// 3.5 1221 -1634
 	b.pan(1221, -1634, t_move);
 	b.zoom(3.1, t_move / 2);
-	b.wait(t_move / 2);
+	b.wait(t_move / 2 - smooth_sea_level_to(1, 12));
 	b.zoom(3.5, t_move / 2);
 	b.wait();
 	b.zoomBy(1.01, t_idle, sineOut);
 	b.panBy(-1, -2, t_idle, sineOut);
 	b.event('show_text', render_content('Kerguelen Plateau'));
-	b.wait();
+	b.wait(b.get_time_diff() - smooth_sea_level_to(11, 0));
 
 	// Altai flood
 	b.event('clear_text');
-	// 6.2 1061 -444
 	b.pan(1061, -444, t_move);
 	b.zoom(3.1, t_move * (1 / 3));
 	b.wait(t_move * (1 / 3));
@@ -259,10 +269,9 @@ export const create_soggy_planet_tour_data = (
 
 	// Black Sea deluge
 	b.event('clear_text');
-	// 10 1648 -527
 	b.pan(1648, -527, t_move);
 	b.zoom(4.6, t_move * (1 / 3));
-	b.wait(t_move * (1 / 3));
+	b.wait(t_move * (1 / 3) - smooth_sea_level_to(1, 12));
 	b.zoom(3.4, t_move * (1 / 3));
 	b.wait(t_move * (1 / 3));
 	b.zoom(10, t_move * (1 / 3));
@@ -270,65 +279,38 @@ export const create_soggy_planet_tour_data = (
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, -1, t_idle, sineOut);
 	b.event('show_text', render_content('Black Sea deluge'));
-	b.wait();
+	b.wait(b.get_time_diff() - smooth_sea_level_to(11, 0));
 
 	// Doggerland
 	b.event('clear_text');
-	// 13.3 2022 -403
-	// TODO BLOCK show the level go from lowest to highest, then down the tick to show the island, then show the text
 	b.pan(2022, -403, t_move);
-	b.zoom(7.6, t_move / 2);
-	b.wait(t_move / 2);
-	b.event('update_sea_level', {min: 0, max: 0});
-	b.zoom(13.3, t_move / 2);
+	b.zoom(3.6, t_move * (5 / 6));
+	b.wait(t_move * (5 / 6));
+	b.zoom(13.3, t_move * (1 / 6));
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(2, 2, t_idle, sineOut);
 	b.wait(2600); // delay for music
-	b.event('update_sea_level', {min: 11, max: 11}); // 11 is one below present day sea level
 	b.event('show_text', render_content('Doggerland'));
-	b.wait();
+	b.wait(b.get_time_diff() - smooth_sea_level_to(1, 11));
 
 	// Ys
 	b.event('clear_text');
-	// 16.1 2105 -490
-	// TODO BLOCK show the level pulse around the islands
 	b.pan(2105, -490, t_move);
 	b.zoom(21.6, t_move / 2);
-	b.wait(t_move / 2);
-	b.event('update_sea_level', {min: 0, max: 0});
+	b.wait(t_move / 2 - smooth_sea_level_to(10, 0));
 	b.zoom(16.1, t_move / 2);
-	// TODO BLOCK refactor into a helper
-	b.event('update_sea_level', {min: 1, max: 1});
-	b.wait(100);
-	b.event('update_sea_level', {min: 2, max: 2});
-	b.wait(100);
-	b.event('update_sea_level', {min: 3, max: 3});
-	b.wait(100);
-	b.event('update_sea_level', {min: 4, max: 4});
-	b.wait(100);
-	b.event('update_sea_level', {min: 5, max: 5});
-	b.wait(100);
-	b.event('update_sea_level', {min: 6, max: 6});
-	b.wait(100);
-	b.event('update_sea_level', {min: 4, max: 7});
-	b.wait(100);
-	b.event('update_sea_level', {min: 8, max: 8});
-	b.wait(100);
-	b.event('update_sea_level', {min: 9, max: 9});
 	b.wait();
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(1, -2, t_idle, sineOut);
 	b.event('show_text', render_content('Ys'));
-	b.wait();
+	b.wait(b.get_time_diff() - smooth_sea_level_to(1, 9, 80));
 
 	// Thule
 	b.event('clear_text');
-	// 5.7 2136 -323
 	b.pan(2136, -323, t_move);
 	b.zoom(5.7, t_move);
-	b.event('update_sea_level', {min: 0, max: 0});
-	b.wait();
+	b.wait(t_move - smooth_sea_level_to(8, 0));
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(0, 2, t_idle, sineOut);
 	b.event('show_text', render_content('Thule'));
@@ -336,23 +318,19 @@ export const create_soggy_planet_tour_data = (
 
 	// Beringia
 	b.event('clear_text');
-	// 3.2 4036 -302
 	b.pan(4036, -302, t_move);
 	b.zoom(1.8, t_move * (1 / 3));
-	b.wait(t_move * (1 / 3));
-	b.event('update_sea_level', {min: 12, max: 12}); // 12 is present day sea level
+	b.wait(t_move * (1 / 3) - smooth_sea_level_to(1, 12));
 	b.zoom(3.2, t_move * (2 / 3));
-	b.wait();
+	b.wait(b.get_time_diff());
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(3, 2, t_idle, sineOut);
-	b.wait(2000); // delay for music
-	b.event('update_sea_level', {min: 0, max: 0});
+	b.wait(2000 - smooth_sea_level_to(11, 0)); // delay for music
 	b.event('show_text', render_content('Beringia'));
 	b.wait();
 
 	// Missoula floods
 	b.event('clear_text');
-	// 11 3404 -482
 	b.pan(3404, -482, t_move);
 	b.zoom(2.6, t_move / 2);
 	b.wait(t_move / 2);
@@ -365,33 +343,31 @@ export const create_soggy_planet_tour_data = (
 
 	// Land bridges of Japan
 	b.event('clear_text');
-	// 3.5 4591 -577
 	b.pan(4591, -577, t_move);
 	b.zoom(1.6, t_move * (1 / 3));
-	b.wait(t_move * (1 / 3));
-	b.event('update_sea_level', {min: 12, max: 12}); // 12 is present day sea level
+	b.wait(t_move * (1 / 3) - -smooth_sea_level_to(1, 12));
 	b.zoom(3.5, t_move * (2 / 3));
 	b.wait();
-	b.event('update_sea_level', {min: 0, max: 0});
 	b.zoomBy(1.01, t_idle, sineOut);
 	b.panBy(2, -2, t_idle, sineOut);
 	b.event('show_text', render_content('Land bridges of Japan'));
-	b.wait();
+	b.wait(b.get_time_diff() - smooth_sea_level_to(11, 0));
 
 	// Mu
 	b.event('clear_text');
-	// 2 4162 -978
 	b.pan(4162, -978, t_move);
 	b.zoom(1.7, t_move / 2);
-	b.wait(t_move / 2);
-	b.event('update_sea_level', {min: 12, max: 12}); // 12 is present day sea level
+	b.wait(t_move / 2 - smooth_sea_level_to(1, 12));
 	b.zoom(2, t_move / 2);
 	b.wait();
-	b.event('update_sea_level', {min: 0, max: 0});
 	b.zoomBy(0.99, t_idle, sineOut);
 	b.panBy(-2, -2, t_idle, sineOut);
-	b.wait(3000); // delay for music
+	b.wait(1000 - smooth_sea_level_to(11, 0)); // delay for music
+	b.wait(1000 - smooth_sea_level_to(1, 12));
+	b.wait(1000 - smooth_sea_level_to(11, 0));
 	b.event('show_text', render_content('Mu'));
+	// b.wait(1000 - smooth_sea_level_to(1, 12));
+	// b.wait(1000 - smooth_sea_level_to(11, 0));
 	b.wait();
 	b.event('clear_text');
 

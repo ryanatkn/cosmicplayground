@@ -87,7 +87,7 @@
 		}
 	};
 
-	let tour_text: string[] | null = null; // TODO BLOCK maybe make a store? move/refactor?
+	let tour_text: string[] | null = null; // TODO maybe make a store? move/refactor?
 
 	const hooks: Partial<TourHooks> = {
 		event: (name, data) => {
