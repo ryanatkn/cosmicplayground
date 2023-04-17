@@ -72,7 +72,7 @@
 				</li>
 				<li>
 					see
-					<a href="https://youtube.com/@ryanatkn">the video on YouTube</a> (TODO final video link)
+					<a href="https://www.youtube.com/watch?v=lg1b3zXryaA">the video on YouTube</a>
 				</li>
 				<li>or learn more below</li>
 			</ul>
@@ -109,7 +109,7 @@
 				the <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">Last Glacial Maximum</a>.
 				Click the <button on:click={start_tour}>start tour</button>
 				button on <button on:click={load}>the map</button> or see
-				<a href="https://youtube.com/@ryanatkn">the video on YouTube</a> (TODO final video link).
+				<a href="https://www.youtube.com/watch?v=lg1b3zXryaA">the video on YouTube</a>.
 			</p>
 			<p>The tour walks through the following points of interest:</p>
 			<table>

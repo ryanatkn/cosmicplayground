@@ -24,7 +24,7 @@ It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
     a song-length experience [made in 2 days](https://github.com/ryanatkn/cosmicplayground/pull/72)
     for [the Svelte hackathon](https://hack.sveltesociety.dev/)
     that can be viewed [on the web](https://www.cosmicplayground.org/soggy-planet)
-    and [on YouTube](https://youtube.com/@ryanatkn) (TODO youtube link)
+    and [on YouTube](https://www.youtube.com/watch?v=lg1b3zXryaA)
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies.
