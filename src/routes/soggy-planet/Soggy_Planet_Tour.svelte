@@ -23,6 +23,9 @@
 	export let current_step_index: Writable<number> | undefined = undefined as any;
 	export let paused: boolean | undefined = undefined as any;
 	export let begin_tour: (() => void) | undefined = undefined as any;
+	export let update_land_index: (min: number, max: number) => void;
+	export let update_daylight: (min: number, max: number) => void;
+	export let update_sea_level: (min: number, max: number) => void;
 	// owned by this component
 	export const show_tour_intro: Writable<boolean> = writable(false);
 	export const show_tour_title: Writable<boolean> = writable(false);
@@ -120,12 +123,19 @@
 					if (audio_enabled) void water_trickle_sound.audio!.play();
 					return;
 				}
+				case 'update_land_index': {
+					const {min, max} = data as any; // TODO type
+					update_land_index(min, max);
+					return;
+				}
 				case 'update_daylight': {
 					const {min, max} = data as any; // TODO type
+					update_daylight(min, max);
 					return;
 				}
 				case 'update_sea_level': {
 					const {min, max} = data as any; // TODO type
+					update_sea_level(min, max);
 					return;
 				}
 				default: {

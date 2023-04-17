@@ -124,6 +124,7 @@ export const create_soggy_planet_tour_data = (
 		b.wait();
 	}
 	// we're now loaded and ready to go
+	b.event('update_land_index', {min: 7, max: 8}); // TODO BLOCK start with 1-12, but change before the flood one
 	b.event('update_daylight', {min: 1, max: 1});
 	b.event('update_sea_level', {min: 12, max: 12});
 	b.event('play_water_trickle');

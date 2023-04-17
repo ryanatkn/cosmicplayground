@@ -203,6 +203,18 @@
 	const on_begin_tour = () => {
 		console.log(`on_begin_tour args`);
 	};
+	const update_land_index: (min: number, max: number) => void = (min, max) => {
+		// TODO BLOCK
+		console.log('TODO', `[update_land_index] min, max`, min, max);
+	};
+	const update_daylight: (min: number, max: number) => void = (min, max) => {
+		// TODO BLOCK
+		console.log('TODO', `[update_daylight] min, max`, min, max);
+	};
+	const update_sea_level: (min: number, max: number) => void = (min, max) => {
+		// TODO BLOCK
+		console.log('TODO', `[update_sea_level] min, max`, min, max);
+	};
 </script>
 
 <svelte:window on:keydown={keydown} />
@@ -234,7 +246,14 @@
 				imageWidth={image_width}
 				imageHeight={image_height}
 			/>
-			<Soggy_Planet_Tour {camera} bind:tour on:begin={on_begin_tour} />
+			<Soggy_Planet_Tour
+				{camera}
+				bind:tour
+				on:begin={on_begin_tour}
+				{update_land_index}
+				{update_daylight}
+				{update_sea_level}
+			/>
 			<Hud>
 				<!-- TODO these conditions are awkward copypasta from deep-breath -->
 				{#if tour && $touring}
