@@ -33,7 +33,7 @@ export const points_of_interest: Point_Of_Interest[] = [
 	// 3.5 1221 -1634
 	{name: 'Kerguelen Plateau', url: 'https://wikipedia.org/wiki/Kerguelen_Plateau', x: 0, y: -70},
 	// 6.2 1061 -444
-	{name: 'Altai flood', url: 'https://wikipedia.org/wiki/Altai_flood', x: 0, y: 120},
+	{name: 'Altai flood', url: 'https://wikipedia.org/wiki/Altai_flood', x: 20, y: 120},
 	// 10 1648 -527
 	// TODO BLOCK show the water go in/out here
 	{
