@@ -177,7 +177,7 @@ export const create_soggy_planet_tour_data = (
 	b.event('play_main_song');
 	b.event(
 		'show_text',
-		`<span style="position: relative; left: -300px; top: 110px;">glaciers locked up mountains of moisture</span>`,
+		`<span style="position: relative; left: -300px; top: 110px;">glaciers ate mountains of moisture</span>`,
 	);
 	b.pan(174, -1092, 4000);
 	b.zoom(0.7, 4000);
@@ -205,9 +205,9 @@ export const create_soggy_planet_tour_data = (
 	b.panBy(2, 2, t_idle, sineOut);
 	b.wait(1000); // delay for music
 	b.event('show_text', render_content('Zealandia'));
-	b.wait(800);
+	b.wait(800 - smooth_sea_level_to(11, 0));
 	b.event('update_land_images', {min: 0, max: 11});
-	b.wait(b.get_time_diff() - smooth_sea_level_to(11, 0));
+	b.wait();
 
 	// Sundaland
 	b.event('clear_text');
@@ -228,12 +228,12 @@ export const create_soggy_planet_tour_data = (
 	b.zoom(1.8, t_move / 2);
 	b.wait(t_move / 2 - smooth_sea_level_to(1, 12));
 	b.zoom(3.9, t_move / 2);
-	// TODO BLOCK accelerate by a bit
-	b.wait();
-	b.zoomBy(1.02, t_idle, sineOut);
-	b.panBy(2, 0, t_idle, sineOut);
+	b.wait(1000);
 	b.event('show_text', render_content('Kumari Kandam'));
 	b.wait(b.get_time_diff() - smooth_sea_level_to(11, 0));
+	b.zoomBy(1.02, t_idle, sineOut);
+	b.panBy(2, 0, t_idle, sineOut);
+	b.wait();
 
 	// Lemuria
 	b.event('clear_text');
@@ -323,8 +323,8 @@ export const create_soggy_planet_tour_data = (
 	b.pan(2136, -323, t_move);
 	b.zoom(5.7, t_move);
 	b.wait(t_move - smooth_sea_level_to(8, 0));
-	b.zoomBy(0.82, t_idle);
-	b.panBy(100, 20, t_idle);
+	b.zoomBy(0.78, t_idle);
+	b.panBy(60, 20, t_idle);
 	b.event('show_text', render_content('Thule'));
 	b.wait();
 
@@ -400,7 +400,7 @@ export const create_soggy_planet_tour_data = (
 	b.zoomBy(0.85, 500);
 	b.wait(500);
 	b.event('debug_final_zoom_in');
-	b.zoom(400, 1000);
+	b.zoom(4000, 1000);
 	b.wait();
 	b.wait(1000);
 	b.event('show_title');
