@@ -46,10 +46,10 @@ export const points_of_interest: Point_Of_Interest[] = [
 	{name: 'Ys', url: 'https://wikipedia.org/wiki/Ys', myth: true, x: -20, y: -20},
 	// 5.7 2136 -323
 	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', myth: true, x: 290, y: 430},
-	// 11 3404 -482
-	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: -110, y: 130},
 	// 3.2 4036 -302
 	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia', x: 200, y: -220},
+	// 11 3404 -482
+	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: -110, y: 130},
 	// 3.5 4591 -577
 	{
 		name: 'Land bridges of Japan',
