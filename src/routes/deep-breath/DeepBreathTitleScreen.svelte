@@ -7,7 +7,7 @@
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import DeepBreathCredits from '$routes/deep-breath/DeepBreathCredits.svelte';
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
-	import AboutPortalPreview from '$routes/deep-breath/Preview.svelte';
+	import DeepBreathPortalPreview from '$routes/deep-breath/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import type {ResourcesStore} from '$lib/app/resources';
 	import PortalLink from '$lib/app/PortalLink.svelte';
@@ -60,10 +60,9 @@
 				are below.
 			</p>
 			<p>
-				This page is not mobile friendly! Sorry, I'll get it there eventually. It may also be slow
-				depending on your hardware and browser. See <a
-					href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">the video</a
-				> if it doesn't work.
+				This page is not mobile friendly! Sorry... It may also be slow depending on your hardware
+				and browser. See <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">the video</a> if it doesn't
+				work.
 			</p>
 			<p>See also <PortalLink slug="soggy-planet" />.</p>
 		</section>
@@ -73,7 +72,7 @@
 		{:else if $resources.status !== 'initial'}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
-			<p>The download is about 75MB of images. If that's cool with you, continue on:</p>
+			<p>The download is about 75MB of images. If that's ok with you, continue on:</p>
 			<ChunkyButton on:click={load}>continue with 75MB download!</ChunkyButton>
 		{/if}
 		<hr />
@@ -113,7 +112,7 @@
 	<!-- TODO pull this href from portal data? -->
 	<section>
 		<PortalPreview href="/about">
-			<AboutPortalPreview />
+			<DeepBreathPortalPreview />
 		</PortalPreview>
 	</section>
 </div>

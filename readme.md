@@ -20,6 +20,11 @@ It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
   before the
   [early Holocene sea level rise](https://wikipedia.org/wiki/Early_Holocene_sea_level_rise)
   and one [estimated possible maximum](https://wikipedia.org/wiki/Sea_level_rise).
+  - take a tour of our soggy planet with history and myth,
+    a song-length experience [made in 2 days](https://github.com/ryanatkn/cosmicplayground/pull/72)
+    for [the Svelte hackathon](https://hack.sveltesociety.dev/)
+    that can be viewed [on the web](https://www.cosmicplayground.org/soggy-planet)
+    and [on YouTube](https://youtube.com/@ryanatkn) (TODO youtube link)
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies.

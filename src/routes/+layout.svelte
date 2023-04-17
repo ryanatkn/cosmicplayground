@@ -8,7 +8,7 @@
 	import {browser} from '$app/environment';
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
-	import {goto} from '$app/navigation';
+	import {beforeNavigate, goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {
@@ -25,7 +25,7 @@
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
 	import Panel from '$lib/app/Panel.svelte';
-	import {setSettings} from '$lib/app/settings';
+	import {set_settings} from '$lib/app/settings';
 	import {setPortals, createPortalsStore} from '$lib/app/portals';
 	import {updateRenderStats} from '$lib/app/renderStats';
 	import {portalsData} from '$lib/app/portalsData';
@@ -35,6 +35,10 @@
 	import AppDialogs from '$lib/app/AppDialogs.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import AppDialogMenu from '$lib/app/AppDialogMenu.svelte';
+
+	beforeNavigate(() => {
+		$showAppDialog = false;
+	});
 
 	const dimensions = writable({
 		width: browser ? window.innerWidth : 1,
@@ -94,9 +98,9 @@
 		return goto('/' + hash.substring(1), {replaceState: true});
 	};
 
-	const settings = setSettings({
-		audioEnabled: true, // TODO make this work everywhere? hmm. global mute/volume?
-		devMode: false,
+	const settings = set_settings({
+		audio_enabled: true,
+		dev_mode: false,
 		recordingMode: false,
 		idleMode: false,
 		timeToGoIdle: 6000,
@@ -128,7 +132,7 @@
 
 	const idle = writable(false);
 	setIdle(idle);
-	$: timeToGoIdle = $settings.devMode
+	$: timeToGoIdle = $settings.dev_mode
 		? 99999999999
 		: $settings.recordingMode
 		? 500
@@ -143,10 +147,10 @@
 			// global pause
 			swallow(e);
 			clock.toggle();
-		} else if (key === '`' && e.ctrlKey) {
+		} else if (key === '`' && e.ctrlKey && enableGlobalHotkeys(target)) {
 			// toggle dev mode
 			swallow(e);
-			settings.update((s) => ({...s, devMode: !s.devMode}));
+			settings.update((s) => ({...s, dev_mode: !s.dev_mode}));
 		} else if (key === 'Escape' && !e.shiftKey && enableGlobalHotkeys(e.currentTarget)) {
 			swallow(e);
 			if ($showAppDialog) {
@@ -156,21 +160,18 @@
 				$showAppDialog = true;
 				clock.pause(); // TODO make this add to a stack so we can safely unpause
 			}
-		} else if (key === 'Escape' && e.shiftKey) {
+		} else if (key === 'Escape' && e.shiftKey && enableGlobalHotkeys(target)) {
 			// global nav up one
 			swallow(e);
 			await goto($page.url.pathname.split('/').slice(0, -1).join('/') || '/');
-		} else if ($settings.devMode) {
-			// dev mode hotkeys
-			if (key === '-' && !e.ctrlKey && enableGlobalHotkeys(target)) {
-				swallow(e);
-				settings.update((s) => ({...s, idleMode: !s.idleMode}));
-				console.log('idle mode is now', $settings.idleMode);
-			} else if (key === '=' && !e.ctrlKey && enableGlobalHotkeys(target)) {
-				swallow(e);
-				settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
-				console.log('recording mode is now', $settings.recordingMode);
-			}
+		} else if (key === '-' && !e.ctrlKey && enableGlobalHotkeys(target)) {
+			swallow(e);
+			settings.update((s) => ({...s, idleMode: !s.idleMode}));
+			console.log('idle mode is now', $settings.idleMode);
+		} else if (key === '=' && !e.ctrlKey && enableGlobalHotkeys(target)) {
+			swallow(e);
+			settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
+			console.log('recording mode is now', $settings.recordingMode);
 		}
 	};
 </script>

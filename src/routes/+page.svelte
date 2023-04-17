@@ -23,7 +23,7 @@
 	import strengthBooster3Portal from '$routes/secret3/data';
 	import clocksPortal from '$routes/clocks/data';
 	import freqSpectaclePortal from '$routes/freq-spectacle/data';
-	import {getSettings} from '$lib/app/settings';
+	import {get_settings} from '$lib/app/settings';
 	import StarshipStage from '$routes/StarshipStage.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
@@ -41,7 +41,7 @@
 		rescuedAllCrewAtOnce,
 		toInitialScores,
 	} from '$routes/starshipStage';
-	import {toSongData} from '$lib/music/songs';
+	import {lookup_song_data} from '$lib/music/songs';
 	import {pauseAudio} from '$lib/audio/playAudio';
 	import {playSong} from '$lib/music/playSong';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
@@ -121,7 +121,7 @@
 		],
 	];
 
-	const settings = getSettings();
+	const settings = get_settings();
 
 	let exitStarshipModeCount = 0;
 
@@ -167,7 +167,7 @@
 	};
 	$: camera = stage?.camera;
 	$: player = stage?.player;
-	$: enableDomCanvasRenderer = $settings.devMode;
+	$: enableDomCanvasRenderer = $settings.dev_mode;
 
 	$: starshipRotation = starshipAngle + Math.PI / 2;
 
@@ -360,16 +360,16 @@
 			}
 		} else if (e.key === '1' && e.ctrlKey) {
 			swallow(e);
-			await playSong(toSongData('Spacey Intro'));
+			await playSong(lookup_song_data('Spacey Intro'));
 		} else if (e.key === '2' && e.ctrlKey) {
 			swallow(e);
-			await playSong(toSongData('Spacey Outro'));
+			await playSong(lookup_song_data('Spacey Outro'));
 		} else if (e.key === '3' && e.ctrlKey) {
 			swallow(e);
-			await playSong(toSongData('Futuristic 4'));
+			await playSong(lookup_song_data('Futuristic 4'));
 		} else if (e.key === '4' && e.ctrlKey) {
 			swallow(e);
-			await playSong(toSongData('Futuristic 1'));
+			await playSong(lookup_song_data('Futuristic 1'));
 		}
 	};
 </script>

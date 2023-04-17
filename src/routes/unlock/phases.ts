@@ -1,7 +1,7 @@
 import {randomItem} from '@feltjs/util/random.js';
 
 import {toImageMeta, type ImageMeta} from '$lib/app/images';
-import {type SongData, toSongData} from '$lib/music/songs';
+import {type SongData, lookup_song_data} from '$lib/music/songs';
 
 // TODO rename Stage to what? world, story? hmm
 
@@ -119,7 +119,7 @@ export const PhaseDatas: Map<string, PhaseData> = new Map(
 		{name: '12c', phase: 0, title: 'Dream', song: 'Dream', image: 'heic1107a'},
 		{name: '12b', phase: 0, title: 'Terra Mystica', song: 'Terra Mystica', image: 'heic1107a'},
 	].map((v) => {
-		(v as unknown as PhaseData).song = toSongData(v.song);
+		(v as unknown as PhaseData).song = lookup_song_data(v.song);
 		(v as unknown as PhaseData).stage = toPhaseDataByLevelName(v.name);
 		return [v.name, v as unknown as PhaseData];
 	}),

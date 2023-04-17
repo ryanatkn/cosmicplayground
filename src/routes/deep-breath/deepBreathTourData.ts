@@ -24,7 +24,7 @@ import {createTourBuilder} from '$lib/app/tourBuilder';
 export const createDeepBreathTourData = (
 	introDuration: number,
 	titleDuration: number,
-	devMode = false,
+	dev_mode = false,
 ): TourData => {
 	const b = createTourBuilder();
 
@@ -38,21 +38,21 @@ export const createDeepBreathTourData = (
 	const zoomStart = 5000;
 
 	// (note: these absolute timings are off, but relatively they're the same)
-	// The song starts at 12593 (in devMode, +4000 otherwise)
+	// The song starts at 12593 (in dev_mode, +4000 otherwise)
 	// and the song final note plays at 4:45 (285000),
-	// so the tour should zoom in at roughly 297600. (+4000 for devMode, 301600)
-	// The 'debugFinalZoomIn' event fires there to check.
+	// so the tour should zoom in at roughly 297600. (+4000 for dev_mode, 301600)
+	// The 'debug_final_zoom_in' event fires there to check.
 	// The overflow amount can be applied to `tEndSequence`
 	// to align everything at the end.
 
 	// -> start in Indian Ocean
 	const waitForLoadEvent = b.event('load'); // TODO what happens if the tour is canceled while loading?
-	if (devMode) {
-		// devMode startup events
+	if (dev_mode) {
+		// dev_mode startup events
 		b.pan(xStart, yStart, 0);
 		b.zoom(zoomStart, 0);
 	} else {
-		// non-devMode startup events
+		// non-dev_mode startup events
 		b.pan(xStart, yStart, 2000);
 		b.zoom(5, 2000);
 		b.wait();
@@ -60,12 +60,12 @@ export const createDeepBreathTourData = (
 		b.wait();
 	}
 	waitForLoadEvent();
-	if (!devMode) {
-		// more non-devMode startup events, needed to sync music to timestamps (hacky yes)
+	if (!dev_mode) {
+		// more non-dev_mode startup events, needed to sync music to timestamps (hacky yes)
 		b.zoom(zoomStart, 1000);
 		b.wait();
 	}
-	b.event('showIntro'); // lasts `introDuration`
+	b.event('show_intro'); // lasts `introDuration`
 	b.wait(introDuration);
 	b.event('playOceanWavesSound');
 	b.zoom(50, 2450); // first wave
@@ -73,7 +73,7 @@ export const createDeepBreathTourData = (
 	b.wait();
 	b.zoom(12, 6650); // slow zoom out
 	b.pan(xStart + 3, yStart - 7, 6650);
-	b.event('showTitle'); // lasts `titleDuration`
+	b.event('show_title'); // lasts `titleDuration`
 	b.wait();
 	b.zoom(13, 1000); // gently pulse back
 	b.pan(xStart + 4, yStart - 6, 1000);
@@ -83,7 +83,7 @@ export const createDeepBreathTourData = (
 	b.pan(xStart, yStart, 3900, backInOut);
 	b.zoom(6, 8400, backInOut);
 	b.wait(2000);
-	b.event('playMainSong'); // TODO this is a synchronous event- should it have a different API?
+	b.event('play_main_song'); // TODO this is a synchronous event- should it have a different API?
 	b.wait(1900);
 
 	// -> slowly pan to the east African coast while zooming out
@@ -482,13 +482,13 @@ export const createDeepBreathTourData = (
 	b.wait(tMove);
 	b.zoomBy(0.85, 500);
 	b.wait(500);
-	b.event('debugFinalZoomIn');
+	b.event('debug_final_zoom_in');
 	b.zoom(400, 1000);
 	b.wait();
 	b.wait(1000);
-	b.event('showTitle');
+	b.event('show_title');
 	b.wait(titleDuration);
-	b.event('showCredits');
+	b.event('show_credits');
 	b.event('playOceanWavesSound');
 	b.wait(1000000000); // let the user manually end it, or wait a million seconds
 	b.zoomBy(1, 0); // TODO this is a hack, needed because `wait` steps don't prolong the end

@@ -22,6 +22,7 @@
 		transform: var(--clickable_transform);
 		border: none;
 		padding: 0 var(--spacing-7);
+		color: hsl(0, 0%, 80%);
 	}
 	/* TODO a11y hostile, keyboards too :| --- see `button:focus` in main.css */
 	button:hover {

@@ -1,32 +1,32 @@
 <script lang="ts">
-	export let seaLevel: number;
-	export let seaIndexMax: number;
-	export let selectedSeaLevel: number | null;
-	export let selectSeaLevel: (value: number | null) => void;
-	export let hoverSeaLevel: (value: number | null) => void;
+	export let sea_level: number;
+	export let sea_index_max: number;
+	export let selected_sea_level: number | null;
+	export let select_sea_level: (value: number | null) => void;
+	export let hover_sea_level: (value: number | null) => void;
 
 	// TODO style when selected
 
-	let waterLevelEl: HTMLElement;
+	let water_level_el: HTMLElement;
 
-	const getSeaLevel = (y: number): number => {
-		const rect = waterLevelEl.getBoundingClientRect();
-		const value = (1 - (y - rect.top) / (rect.bottom - rect.top)) * seaIndexMax;
+	const get_sea_level = (y: number): number => {
+		const rect = water_level_el.getBoundingClientRect();
+		const value = (1 - (y - rect.top) / (rect.bottom - rect.top)) * sea_index_max;
 		return value;
 	};
 </script>
 
 <div
 	class="water-level"
-	bind:this={waterLevelEl}
-	class:selected={selectedSeaLevel !== null}
-	on:click={(e) => selectSeaLevel(selectedSeaLevel === null ? getSeaLevel(e.clientY) : null)}
+	bind:this={water_level_el}
+	class:selected={selected_sea_level !== null}
+	on:click={(e) => select_sea_level(selected_sea_level === null ? get_sea_level(e.clientY) : null)}
 	aria-hidden
-	on:mouseenter={(e) => hoverSeaLevel(getSeaLevel(e.clientY))}
-	on:mousemove={(e) => hoverSeaLevel(getSeaLevel(e.clientY))}
-	on:mouseleave={() => hoverSeaLevel(null)}
+	on:mouseenter={(e) => hover_sea_level(get_sea_level(e.clientY))}
+	on:mousemove={(e) => hover_sea_level(get_sea_level(e.clientY))}
+	on:mouseleave={() => hover_sea_level(null)}
 >
-	<div class="water-level-fill" style="height: {(100 * seaLevel) / seaIndexMax}%;" />
+	<div class="water-level-fill" style="height: {(100 * sea_level) / sea_index_max}%;" />
 </div>
 
 <style>

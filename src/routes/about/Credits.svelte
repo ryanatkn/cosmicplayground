@@ -37,6 +37,7 @@
 					<code>src/static/assets</code>
 				</a>
 			</li>
+			<li>more credits below</li>
 		</ul>
 	</div>
 </Panel>

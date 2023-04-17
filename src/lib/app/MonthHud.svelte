@@ -1,23 +1,23 @@
 <script lang="ts">
-	export let activeLandIndex: number | null; // active is the hover state or "current" when automatically cycling
-	export let selectedLandIndex: number | null; // selected is the "current" non-cycling state (confusing yes)
-	export let selectLandIndex: (value: number | null) => void;
-	export let hoverLandIndex: (value: number | null) => void;
+	export let active_land_index: number | null; // active is the hover state or "current" when automatically cycling
+	export let selected_land_index: number | null; // selected is the "current" non-cycling state (confusing yes)
+	export let select_land_index: (value: number | null) => void;
+	export let hover_land_index: (value: number | null) => void;
 
-	const toggleIndex = (index: number) => {
-		selectLandIndex(selectedLandIndex === index ? null : index);
+	const toggle_index = (index: number) => {
+		select_land_index(selected_land_index === index ? null : index);
 	};
 </script>
 
 <div class="month-hud">
 	{#each {length: 12} as _, i}
 		<button
-			class:active={i === activeLandIndex}
-			class:selected={i === selectedLandIndex}
+			class:active={i === active_land_index}
+			class:selected={i === selected_land_index}
 			aria-label="select month {i + 1}"
-			on:click={() => toggleIndex(i)}
-			on:mouseenter={() => hoverLandIndex(i)}
-			on:mouseleave={() => hoverLandIndex(null)}
+			on:click={() => toggle_index(i)}
+			on:mouseenter={() => hover_land_index(i)}
+			on:mouseleave={() => hover_land_index(null)}
 		>
 			∙
 		</button>

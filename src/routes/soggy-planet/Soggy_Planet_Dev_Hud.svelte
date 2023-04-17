@@ -2,15 +2,28 @@
 	import type {Writable} from 'svelte/store';
 
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
+	import type Tour from '$lib/app/Tour.svelte';
+	import TourControls from '$lib/app/TourControls.svelte';
+	import {get_settings} from '$lib/app/settings';
 
+	export let tour: Tour | null;
 	export let x: Writable<number>;
 	export let y: Writable<number>;
 	export let scale: Writable<number>;
+	export let debug_start_time: number;
 
-	// TODO smaller buttons! size prop?
+	$: touring = tour?.touring;
+
+	const settings = get_settings();
+	$: ({audio_enabled} = $settings);
+
+	const toggle_audio_enabled = (value = !audio_enabled): void =>
+		settings.update((v) => ({...v, audio_enabled: value}));
 </script>
 
-<FloatingTextButton
+<FloatingTextButton on:click={() => toggle_audio_enabled()}>
+	{#if audio_enabled}unmuted{:else}muted{/if}
+</FloatingTextButton><FloatingTextButton
 	on:click={() => {
 		$scale = Number(prompt('🔎', $scale + '')) || $scale; // eslint-disable-line no-alert
 	}}
@@ -37,3 +50,6 @@
 >
 	y: {Math.round($y)}
 </FloatingTextButton>
+{#if tour && $touring}
+	<TourControls {tour} {debug_start_time} />
+{/if}

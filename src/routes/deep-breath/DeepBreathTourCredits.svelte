@@ -1,9 +1,9 @@
 <script lang="ts">
 	import {blur} from 'svelte/transition';
 
-	import {getSettings} from '$lib/app/settings';
+	import {get_settings} from '$lib/app/settings';
 
-	const settings = getSettings();
+	const settings = get_settings();
 	$: displayForVideo = $settings.recordingMode;
 
 	export let transitionDuration: number;
@@ -14,25 +14,25 @@
 </script>
 
 <div class="tour-credits markup" class:displayForVideo>
-	<section in:blur={{duration: transitionDuration, amount: blurAmount}}>
+	<section in:blur|local={{duration: transitionDuration, amount: blurAmount}}>
 		<h2>created by</h2>
 		Ryan Atkinson<br />
 		<a href="https://www.ryanatkn.com">ryanatkn.com</a>
 	</section>
-	<section in:blur={{duration: transitionDuration, delay: delay * 1, amount: blurAmount}}>
+	<section in:blur|local={{duration: transitionDuration, delay: delay * 1, amount: blurAmount}}>
 		<h2>interactive webpage</h2>
 		<a href="https://www.cosmicplayground.org/deep-breath">cosmicplayground.org/deep-breath</a>
 	</section>
-	<section in:blur={{duration: transitionDuration, delay: delay * 2, amount: blurAmount}}>
+	<section in:blur|local={{duration: transitionDuration, delay: delay * 2, amount: blurAmount}}>
 		<h2>open source code & assets</h2>
 		<a href="https://github.com/ryanatkn/cosmicplayground">github.com/ryanatkn/cosmicplayground</a>
 	</section>
-	<section in:blur={{duration: transitionDuration, delay: delay * 3, amount: blurAmount}}>
+	<section in:blur|local={{duration: transitionDuration, delay: delay * 3, amount: blurAmount}}>
 		<h2>music</h2>
 		"Winter" by Alexander Nakarada<br />
 		<a href="https://www.serpentsoundstudios.com">serpentsoundstudios.com</a>
 	</section>
-	<section in:blur={{duration: transitionDuration, delay: delay * 4, amount: blurAmount}}>
+	<section in:blur|local={{duration: transitionDuration, delay: delay * 4, amount: blurAmount}}>
 		<h2>imagery & data</h2>
 		<a href="https://visibleearth.nasa.gov/collection/1484/blue-marble">
 			Blue Marble Next Generation
@@ -56,6 +56,7 @@
 	.tour-credits {
 		width: 100%;
 		height: 100%;
+		overflow: auto;
 		display: flex;
 		align-items: center;
 		justify-content: center;

@@ -261,3 +261,13 @@ summary:active {
 .pulsing {
 	animation: pulsing var(--pulsing_duration, 0.2s) linear infinite alternate;
 }
+
+/* TODO upstream */
+/* TODO make this not affect paragraph text line spacing */
+.markup p button {
+	display: inline-block;
+	margin-bottom: 0 !important;
+	padding-top: var(--spacing_xs);
+	padding-bottom: var(--spacing_xs);
+	min-height: auto;
+}

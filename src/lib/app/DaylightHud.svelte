@@ -1,15 +1,15 @@
 <script lang="ts">
 	export let daylight: number; // 0 to 1, where 1 is max light
-	export let selectedDaylight: number | null;
-	export let selectDaylight: (value: number | null) => void;
-	export let hoverDaylight: (value: number | null) => void;
+	export let selected_daylight: number | null;
+	export let select_daylight: (value: number | null) => void;
+	export let hover_daylight: (value: number | null) => void;
 
 	// TODO style when selected
 
-	let daylightEl: HTMLElement;
+	let daylight_el: HTMLElement;
 
-	const getDaylight = (y: number): number => {
-		const rect = daylightEl.getBoundingClientRect();
+	const get_daylight = (y: number): number => {
+		const rect = daylight_el.getBoundingClientRect();
 		const value = 1 - (y - rect.top) / (rect.bottom - rect.top);
 		return value;
 	};
@@ -17,13 +17,13 @@
 
 <div
 	class="daylight"
-	bind:this={daylightEl}
-	class:selected={selectedDaylight !== null}
-	on:click={(e) => selectDaylight(selectedDaylight === null ? getDaylight(e.clientY) : null)}
+	bind:this={daylight_el}
+	class:selected={selected_daylight !== null}
+	on:click={(e) => select_daylight(selected_daylight === null ? get_daylight(e.clientY) : null)}
 	aria-hidden
-	on:mouseenter={(e) => hoverDaylight(getDaylight(e.clientY))}
-	on:mousemove={(e) => hoverDaylight(getDaylight(e.clientY))}
-	on:mouseleave={() => hoverDaylight(null)}
+	on:mouseenter={(e) => hover_daylight(get_daylight(e.clientY))}
+	on:mousemove={(e) => hover_daylight(get_daylight(e.clientY))}
+	on:mouseleave={() => hover_daylight(null)}
 >
 	<div class="daylight-fill" style="height: {100 * daylight}%;" />
 </div>
