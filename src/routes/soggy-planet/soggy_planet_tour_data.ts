@@ -125,7 +125,7 @@ export const create_soggy_planet_tour_data = (
 	}
 	// we're now loaded and ready to go
 	b.event('update_land_images', {min: 6, max: 7}); // TODO BLOCK start with 1-12, but change before the flood one
-	b.event('update_daylight', {min: 1, max: 1});
+	b.event('update_daylight', {min: 0, max: 0});
 	b.event('update_sea_level', {min: 12, max: 12});
 	b.event('play_water_trickle');
 	b.event('show_text', `for tens of thousands of years`);
@@ -150,11 +150,17 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	b.wait(1000);
 	b.event('play_main_song');
-	b.event('show_text', `many habitats were curiously drier`);
+	b.event(
+		'show_text',
+		`<span style="position: relative; left: -300px; top: 100px;">many habitats were curiously drier</span>`,
+	);
 	b.pan(174, -1092, 4000);
 	b.zoom(0.7, 4000);
 	b.wait(t_intro_text + t_intro_text / 2);
-	b.event('show_text', `and myth flooded our imaginations`);
+	b.event(
+		'show_text',
+		`<span  style="position: relative; left: -300px; top: 100px;">and myth flooded our imaginations</span>`,
+	);
 	b.wait(t_intro_text / 2);
 	b.wait(t_intro_idle);
 	b.event('clear_text');
@@ -234,9 +240,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 6.2 1061 -444
 	b.pan(1061, -444, t_move);
-	b.zoom(2.2, t_move * (1 / 3));
+	b.zoom(3.1, t_move * (1 / 3));
 	b.wait(t_move * (1 / 3));
-	b.zoom(1.8, t_move * (1 / 3));
+	b.zoom(2.2, t_move * (1 / 3));
 	b.wait(t_move * (1 / 3));
 	b.zoom(6.2, t_move * (1 / 3));
 	b.wait();
@@ -249,9 +255,9 @@ export const create_soggy_planet_tour_data = (
 	b.event('clear_text');
 	// 10 1648 -527
 	b.pan(1648, -527, t_move);
-	b.zoom(3.8, t_move * (1 / 3));
+	b.zoom(4.6, t_move * (1 / 3));
 	b.wait(t_move * (1 / 3));
-	b.zoom(3.3, t_move * (1 / 3));
+	b.zoom(3.4, t_move * (1 / 3));
 	b.wait(t_move * (1 / 3));
 	b.zoom(10, t_move * (1 / 3));
 	b.wait();
