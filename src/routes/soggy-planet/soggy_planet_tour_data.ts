@@ -17,7 +17,7 @@ export type Point_Of_Interest = z.infer<typeof Point_Of_Interest>;
 
 export const points_of_interest: Point_Of_Interest[] = [
 	// 2.2 67 -1358
-	{name: 'Zealandia', url: 'https://en.wikipedia.org/wiki/Zealandia', x: -400, y: -70},
+	{name: 'Zealandia', url: 'https://wikipedia.org/wiki/Zealandia', x: -400, y: -70},
 	// 2.6 664 -920
 	{name: 'Sundaland', url: 'https://wikipedia.org/wiki/Sundaland', x: -300, y: 200},
 	// 3.9 1222 -940
@@ -142,7 +142,10 @@ export const create_soggy_planet_tour_data = (
 	b.event('show_text', `around 19 or 20 thousand years ago`);
 	b.zoom(3, 6000);
 	b.wait(t_intro_text);
-	b.event('show_text', `at the end of the Last Glacial Maximum`);
+	b.event(
+		'show_text',
+		`at the end of <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a>`,
+	);
 	b.wait(t_intro_text);
 	b.event('show_text', `global sea levels were about 125 meters lower`);
 	b.wait(t_intro_text);
