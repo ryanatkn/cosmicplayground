@@ -115,8 +115,8 @@
 	}
 	const to_sea_level = (time: number): number =>
 		(sea_index_max * (Math.sin(time / SEA_LEVEL_CYCLE_TIMER) + 1)) / 2;
-	let seaLevel = to_sea_level(sea_level_timer);
-	$: seaLevel = to_sea_level(sea_level_timer);
+	let sea_level = to_sea_level(sea_level_timer);
+	$: sea_level = to_sea_level(sea_level_timer);
 
 	// update every clock tick
 	const LAND_DELAY = 230;
@@ -128,7 +128,7 @@
 
 	let selected_sea_level: number | null = null;
 	let hovered_sea_level: number | null = null;
-	$: active_sea_level = hovered_sea_level ?? selected_sea_level ?? seaLevel;
+	$: active_sea_level = hovered_sea_level ?? selected_sea_level ?? sea_level;
 	const select_sea_level = (value: number | null) => {
 		selected_sea_level = value;
 	};
@@ -221,10 +221,13 @@
 		lights_opacity_min = min;
 		lights_opacity_max = max;
 		select_daylight(max);
+		hover_daylight(null);
 	};
 	const update_sea_level: (min: number, max: number) => void = (min, max) => {
 		// TODO BLOCK
 		console.log('TODO', `[update_sea_level] min, max`, min, max);
+		select_sea_level(max);
+		hover_sea_level(null);
 	};
 </script>
 

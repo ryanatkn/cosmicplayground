@@ -124,7 +124,7 @@ export const create_soggy_planet_tour_data = (
 		b.wait();
 	}
 	// we're now loaded and ready to go
-	b.event('update_land_images', {min: 6, max: 7}); // TODO BLOCK start with 1-12, but change before the flood one
+	b.event('update_land_images', {min: 0, max: 11});
 	b.event('update_daylight', {min: 0, max: 0});
 	b.event('update_sea_level', {min: 12, max: 12});
 	b.event('play_water_trickle');
@@ -147,11 +147,14 @@ export const create_soggy_planet_tour_data = (
 		`at the end of <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a>`,
 	);
 	b.wait(t_intro_text);
+	b.event('update_sea_level', {min: 0, max: 0});
 	b.event('show_text', `global sea levels were about 125 meters lower`);
+	b.event('update_daylight', {min: 1, max: 1});
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle - 1000);
 	b.event('clear_text');
 	b.wait(1000);
+	b.event('update_land_images', {min: 6, max: 6});
 	b.event('play_main_song');
 	b.event(
 		'show_text',
@@ -167,6 +170,8 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_intro_text / 2);
 	b.wait(t_intro_idle);
 	b.event('clear_text');
+	b.event('update_land_images', {min: 0, max: 11});
+	b.event('update_daylight', {min: 0, max: 0});
 	b.wait();
 
 	// At this point, we no longer try to sync the music
@@ -245,6 +250,7 @@ export const create_soggy_planet_tour_data = (
 	b.pan(1061, -444, t_move);
 	b.zoom(3.1, t_move * (1 / 3));
 	b.wait(t_move * (1 / 3));
+	b.event('update_land_images', {min: 6, max: 6});
 	b.zoom(2.2, t_move * (1 / 3));
 	b.wait(t_move * (1 / 3));
 	b.zoom(6.2, t_move * (1 / 3));
