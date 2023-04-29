@@ -1,9 +1,11 @@
 <script lang="ts">
 	import Playlist from '$lib/music/Playlist.svelte';
 	import {songs_by_name} from '$lib/music/songs';
-	import type {PlaylistItemData} from './playlist';
+	import type {PlaylistItemData, Playlist as PlaylistStoreTODO} from './playlist';
 
 	// TODO skins (inspired by winamp)
+
+	export let playlist: PlaylistStoreTODO; // TODO BLOCK
 
 	export let playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values()).map(
 		(song) => ({
