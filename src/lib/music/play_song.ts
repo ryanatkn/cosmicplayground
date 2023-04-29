@@ -13,9 +13,14 @@ export interface SongPlayState {
 	ended: Promise<unknown>;
 }
 
+const DEFAULT_VOLUME = 0.5; // TODO where?
+
 // TODO extract an audio player store
 // TODO this API is not fun, resources should probably be stores
-export const play_song = async (song: Song): Promise<SongPlayState | undefined> => {
+export const play_song = async (
+	song: Song,
+	volume: number = DEFAULT_VOLUME,
+): Promise<SongPlayState | undefined> => {
 	const {url} = song;
 	// TODO is this the desired behavior? if playing already, just pause and abort?
 	let abort = false;
@@ -37,7 +42,7 @@ export const play_song = async (song: Song): Promise<SongPlayState | undefined> 
 	if (!$audio || $audio.status !== 'success' || !$audio.audio) {
 		throw Error('Failed to load song'); // TODO handle failures better (Dialog error?)
 	}
-	$audio.audio.volume = 0.5; // TODO where?
+	$audio.audio.volume = volume; // TODO where?
 	return {
 		audio: $audio.audio,
 		play: play_audio($audio.audio), // TODO do something with this before resolving?
