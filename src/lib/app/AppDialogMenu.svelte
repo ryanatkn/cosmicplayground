@@ -5,6 +5,7 @@
 	import Panel from '$lib/app/Panel.svelte';
 	import AboutPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
+	import Player from '$lib/music/Player.svelte';
 </script>
 
 <div>
@@ -12,13 +13,14 @@
 		<div class="breadcrumbs">
 			<Panel>
 				<div class="markup centered">
-					<section>
-						<Breadcrumbs>🌠</Breadcrumbs>
-					</section>
+					<Breadcrumbs>🌠</Breadcrumbs>
 				</div>
 			</Panel>
 		</div>
 	{/if}
+	<section>
+		<Player />
+	</section>
 	<PortalPreview href="/about">
 		<AboutPreview />
 	</PortalPreview>
@@ -32,5 +34,9 @@
 	/* TODO hacky */
 	.breadcrumbs :global(.panel) {
 		margin-top: 0;
+	}
+	section {
+		padding: var(--spacing_md);
+		margin-bottom: var(--spacing_xl5);
 	}
 </style>

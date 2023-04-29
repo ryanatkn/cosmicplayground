@@ -82,7 +82,8 @@ export const PhaseDatas: Map<string, PhaseData> = new Map(
 		},
 		{name: '1a', phase: 0, title: 'Piña Colada', song: 'Piña Colada', image: 'opo0501a'},
 		{name: '1b', phase: 0, title: 'La Citadelle', song: 'La Citadelle', image: 'opo0501a'},
-		{name: '1c', phase: 1, title: 'Chronos', song: 'Chronos', image: 'opo0501a'},
+		{name: '1c', phase: 1, title: 'Mint Condition', song: 'Mint Condition', image: 'opo0501a'},
+		{name: '1d', phase: 1, title: 'Chronos', song: 'Chronos', image: 'opo0501a'},
 		{name: '2a', phase: 0, title: 'Chemical X', song: 'Chemical X', image: 'opo0415a'},
 		{name: '2b', phase: 0, title: 'Celebration', song: 'Celebration', image: 'opo0415a'},
 		{name: '2c', phase: 1, title: 'Frost', song: 'Frost', image: 'opo0415a'},
@@ -225,7 +226,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'0b',
 				'0d',
 				'1b',
-				'1c',
+				'1d',
 				'2b',
 				'2c',
 				'3b',
@@ -278,7 +279,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				randomItem(['0a', '0b']),
 				randomItem(['0c', '0d']),
 				randomItem(['1a', '1b']),
-				'1c',
+				randomItem(['1c', '1d']),
 				randomItem(['2a', '2b']),
 				'2c',
 				randomItem(['3a', '3b']),
@@ -343,7 +344,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 			addPhase(randomItem(['0a', '0b']));
 			addPhase(randomItem(['0c', '0d']));
 			addPhase(randomItem(['1a', '1b']));
-			addPhase(randomItem(['1c', null]));
+			addPhase(randomItem(['1c', '1d']));
 			addPhase(randomItem(['2a', '2b']));
 			addPhase(randomItem(['2c', null]));
 			addPhase(randomItem(['3a', '3b']));

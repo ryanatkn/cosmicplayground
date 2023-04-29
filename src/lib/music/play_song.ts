@@ -5,7 +5,7 @@ import {toResourceStore} from '$lib/app/resource';
 import {pause_audio, play_audio, audios} from '$lib/audio/play_audio';
 import type {Song} from '$lib/music/songs';
 
-let audioKey: symbol | undefined;
+let audio_key: symbol | undefined;
 
 export interface SongPlayState {
 	audio: HTMLAudioElement;
@@ -18,8 +18,8 @@ export interface SongPlayState {
 export const play_song = async (
 	song: Song,
 	// TODO change these to use promises using the same pattern as `ended` (or rethink `ended` being a promise?)
-	onLoading?: (song: ResourceStore<AudioResource>) => any,
-	onLoaded?: (song: ResourceStore<AudioResource>) => any,
+	on_loading?: (song: ResourceStore<AudioResource>) => any,
+	on_loaded?: (song: ResourceStore<AudioResource>) => any,
 ): Promise<SongPlayState | undefined> => {
 	const {url} = song;
 	// TODO is this the desired behavior? if playing already, just pause and abort?
@@ -36,11 +36,11 @@ export const play_song = async (
 		audios.set(url, audio); // TODO improve API, maybe return a typed store from `addResource`
 	}
 	// TODO extract the starship mode logic into callbacks/hooks or some other API
-	await Promise.all([loading, onLoading?.(audio)]);
-	const key = (audioKey = Symbol());
-	void onLoaded?.(audio);
+	await Promise.all([loading, on_loading?.(audio)]);
+	const key = (audio_key = Symbol());
+	void on_loaded?.(audio);
 	const $audio = get(audio);
-	if (audioKey !== key) return;
+	if (audio_key !== key) return;
 	if (!$audio || $audio.status !== 'success' || !$audio.audio) {
 		throw Error('Failed to load song'); // TODO handle failures better (Dialog error?)
 	}
