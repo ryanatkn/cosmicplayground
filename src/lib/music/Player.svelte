@@ -23,7 +23,7 @@
 		<Playlist {playlist_items} {selected_playlist_item} {collapsed} />
 		<footer>
 			<span><strong>{playlist_items.length}</strong> songs</span>
-			<button on:click={() => (collapsed = !collapsed)}
+			<button class="icon-button" on:click={() => (collapsed = !collapsed)}
 				>{#if collapsed}+{:else}−{/if}</button
 			>
 		</footer>
