@@ -2,7 +2,7 @@ import {get} from 'svelte/store';
 
 import type {AudioResource, ResourceStore} from '$lib/app/resource';
 import {toResourceStore} from '$lib/app/resource';
-import {pause_audio, play_audio, audios} from '$lib/audio/play_audio';
+import {pause_audio, play_audio, audio_by_url} from '$lib/audio/play_audio';
 import type {Song} from '$lib/music/songs';
 
 let audio_key: symbol | undefined;
@@ -23,12 +23,12 @@ export const play_song = async (song: Song): Promise<SongPlayState | undefined> 
 		if (resource.url === song.url) abort = true;
 	});
 	if (abort) return;
-	let audio = audios.get(song.url);
+	let audio = audio_by_url.get(song.url);
 	let loading;
 	if (!audio) {
 		audio = toResourceStore('audio', song.url) as ResourceStore<AudioResource>; // TODO type
 		loading = audio.load();
-		audios.set(url, audio); // TODO improve API, maybe return a typed store from `addResource`
+		audio_by_url.set(url, audio); // TODO improve API, maybe return a typed store from `addResource`
 	}
 	await loading;
 	const key = (audio_key = Symbol());
