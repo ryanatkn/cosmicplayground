@@ -6,6 +6,9 @@
 	import AboutPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import Player from '$lib/music/Player.svelte';
+	import {create_playlist} from '$lib/music/playlist';
+
+	const playlist = create_playlist();
 </script>
 
 <div>
@@ -19,7 +22,7 @@
 		</div>
 	{/if}
 	<section>
-		<Player />
+		<Player {playlist} />
 	</section>
 	<PortalPreview href="/about">
 		<AboutPreview />

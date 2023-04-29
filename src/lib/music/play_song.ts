@@ -15,12 +15,7 @@ export interface SongPlayState {
 
 // TODO extract an audio player store
 // TODO this API is not fun, resources should probably be stores
-export const play_song = async (
-	song: Song,
-	// TODO change these to use promises using the same pattern as `ended` (or rethink `ended` being a promise?)
-	on_loading?: (song: ResourceStore<AudioResource>) => any,
-	on_loaded?: (song: ResourceStore<AudioResource>) => any,
-): Promise<SongPlayState | undefined> => {
+export const play_song = async (song: Song): Promise<SongPlayState | undefined> => {
 	const {url} = song;
 	// TODO is this the desired behavior? if playing already, just pause and abort?
 	let abort = false;
@@ -35,10 +30,8 @@ export const play_song = async (
 		loading = audio.load();
 		audios.set(url, audio); // TODO improve API, maybe return a typed store from `addResource`
 	}
-	// TODO extract the starship mode logic into callbacks/hooks or some other API
-	await Promise.all([loading, on_loading?.(audio)]);
+	await loading;
 	const key = (audio_key = Symbol());
-	void on_loaded?.(audio);
 	const $audio = get(audio);
 	if (audio_key !== key) return;
 	if (!$audio || $audio.status !== 'success' || !$audio.audio) {
@@ -48,6 +41,6 @@ export const play_song = async (
 	return {
 		audio: $audio.audio,
 		play: play_audio($audio.audio),
-		ended: new Promise((r) => $audio.audio?.addEventListener('ended', r, {once: true})),
+		ended: new Promise((r) => $audio.audio!.addEventListener('ended', r, {once: true})),
 	};
 };

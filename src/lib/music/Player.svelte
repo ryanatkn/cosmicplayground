@@ -12,17 +12,35 @@
 	);
 </script>
 
-<div>
-	<header><strong>{playlist_items.length}</strong> songs</header>
-	<div class="items">
-		<Playlist {playlist_items} />
+<div class="player">
+	<div class="content">
+		<header><strong>{playlist_items.length}</strong> songs</header>
+		<div class="items">
+			<Playlist {playlist_items} />
+		</div>
 	</div>
 </div>
 
 <style>
-	.items {
-		max-height: var(--player_max_height, 600px);
+	.player {
+		display: flex;
+		max-height: var(--player_max_height, 360px);
 		overflow: auto;
-		border: 3px var(--border_color_darker) double;
+		border: var(--player_border, var(--panel_border));
+		border-radius: var(--player_border_radius, var(--border_radius_4));
+		padding: var(--spacing-5);
+	}
+	.content {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		background-color: var(--bg_light);
+		border-radius: var(--player_border_radius, var(--border_radius_4));
+	}
+	.items {
+		flex: 1;
+		overflow: auto;
+		border: 2px var(--border_color_darker) solid;
+		border-radius: 2px;
 	}
 </style>
