@@ -1,10 +1,12 @@
 import {writable, type Readable} from 'svelte/store';
+import {z} from 'zod';
 
-import type {Song} from '$lib/music/songs';
+import {Song} from '$lib/music/songs';
 
-export type PlaylistItemData = {
-	song: Song; // TODO BLOCK zod
-};
+export const PlaylistItemData = z.object({
+	song: Song,
+});
+export type PlaylistItemData = z.infer<typeof PlaylistItemData>;
 
 export interface PlaylistState {
 	playlist_items: PlaylistItemData[]; // TODO granularity? so make it a component?
