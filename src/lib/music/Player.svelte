@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Playlist from '$lib/music/Playlist.svelte';
 	import {songs_by_name} from '$lib/music/songs';
-	import type {PlaylistItemData, Playlist as PlaylistStoreTODO} from './playlist';
+	import type {PlaylistItemData, PlaylistStore as PlaylistStoreTODO} from './playlist';
 
 	// TODO skins (inspired by winamp)
 

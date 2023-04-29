@@ -1,8 +1,11 @@
-export interface Song {
-	name: string;
-	author: string;
-	url: string;
-}
+import {z} from 'zod';
+
+export const Song = z.object({
+	name: z.string(),
+	author: z.string(),
+	url: z.string(),
+});
+export type Song = z.infer<typeof Song>;
 
 export const songs_by_name: Map<string, Song> = new Map(
 	[
