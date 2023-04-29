@@ -5,10 +5,11 @@
 
 	// TODO skins (inspired by winamp)
 
-	// TODO BLOCK source these
-	const playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values()).map((song) => ({
-		song,
-	}));
+	export let playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values()).map(
+		(song) => ({
+			song,
+		}),
+	);
 </script>
 
 <div>
