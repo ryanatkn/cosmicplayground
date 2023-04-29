@@ -10,14 +10,23 @@
 			song,
 		}),
 	);
+	export let selected_playlist_item: PlaylistItemData = playlist_items[0];
+
+	export let collapsed = false;
 </script>
 
 <div class="player">
 	<div class="content">
-		<header><strong>{playlist_items.length}</strong> songs</header>
+		<header />
 		<div class="items">
-			<Playlist {playlist_items} />
+			<Playlist {playlist_items} {selected_playlist_item} {collapsed} />
 		</div>
+		<footer>
+			<span><strong>{playlist_items.length}</strong> songs</span>
+			<button on:click={() => (collapsed = !collapsed)}
+				>{#if collapsed}expand{:else}collapse{/if}</button
+			>
+		</footer>
 	</div>
 </div>
 
@@ -42,5 +51,10 @@
 		overflow: auto;
 		border: 2px var(--border_color_darker) solid;
 		border-radius: 2px;
+	}
+	footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 	}
 </style>

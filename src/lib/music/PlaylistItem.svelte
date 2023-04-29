@@ -7,11 +7,11 @@
 </script>
 
 <!-- TODO render link -->
-<div>
+<li>
 	<button on:click={() => play_song(playlist_item.song)}
 		><small>{index}</small> {playlist_item.song.name}</button
 	>
-</div>
+</li>
 
 <style>
 	button {
