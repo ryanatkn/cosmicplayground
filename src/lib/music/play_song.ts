@@ -39,15 +39,15 @@ export const play_song = async (
 	await Promise.all([loading, onLoading?.(audio)]);
 	const key = (audioKey = Symbol());
 	void onLoaded?.(audio);
-	const $s = get(audio);
+	const $audio = get(audio);
 	if (audioKey !== key) return;
-	if (!$s || $s.status !== 'success' || !$s.audio) {
+	if (!$audio || $audio.status !== 'success' || !$audio.audio) {
 		throw Error('Failed to load song'); // TODO handle failures better (Dialog error?)
 	}
-	$s.audio.volume = 0.5; // TODO where?
+	$audio.audio.volume = 0.5; // TODO where?
 	return {
-		audio: $s.audio,
-		play: play_audio($s.audio),
-		ended: new Promise((r) => $s.audio?.addEventListener('ended', r, {once: true})),
+		audio: $audio.audio,
+		play: play_audio($audio.audio),
+		ended: new Promise((r) => $audio.audio?.addEventListener('ended', r, {once: true})),
 	};
 };
