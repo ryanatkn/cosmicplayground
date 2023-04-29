@@ -41,9 +41,9 @@
 		rescuedAllCrewAtOnce,
 		toInitialScores,
 	} from '$routes/starshipStage';
-	import {lookup_song_data} from '$lib/music/songs';
-	import {pauseAudio} from '$lib/audio/playAudio';
-	import {playSong} from '$lib/music/playSong';
+	import {lookup_song} from '$lib/music/songs';
+	import {pause_audio} from '$lib/audio/play_audio';
+	import {play_song} from '$lib/music/play_song';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 	import {
 		STORAGE_KEY_STRENGTH_BOOSTER1,
@@ -324,7 +324,7 @@
 		console.log('exitStarshipMode');
 		starshipAngle = 0;
 		starshipMode = false;
-		pauseAudio();
+		pause_audio();
 		clock.resume();
 		transitioningStarshipModeCount++;
 		await wait(transitionDuration + 50); // trying to avoid glitchy horizontal scrollbar that sometimes appears
@@ -360,16 +360,16 @@
 			}
 		} else if (e.key === '1' && e.ctrlKey) {
 			swallow(e);
-			await playSong(lookup_song_data('Spacey Intro'));
+			await play_song(lookup_song('Spacey Intro'));
 		} else if (e.key === '2' && e.ctrlKey) {
 			swallow(e);
-			await playSong(lookup_song_data('Spacey Outro'));
+			await play_song(lookup_song('Spacey Outro'));
 		} else if (e.key === '3' && e.ctrlKey) {
 			swallow(e);
-			await playSong(lookup_song_data('Futuristic 4'));
+			await play_song(lookup_song('Futuristic 4'));
 		} else if (e.key === '4' && e.ctrlKey) {
 			swallow(e);
-			await playSong(lookup_song_data('Futuristic 1'));
+			await play_song(lookup_song('Futuristic 1'));
 		}
 	};
 </script>

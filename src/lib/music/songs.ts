@@ -1,10 +1,10 @@
-export interface SongData {
+export interface Song {
 	name: string;
 	author: string;
 	url: string;
 }
 
-export const songs_by_name: Map<string, SongData> = new Map(
+export const songs_by_name: Map<string, Song> = new Map(
 	[
 		{
 			name: 'Spacey Intro',
@@ -254,13 +254,13 @@ export const songs_by_name: Map<string, SongData> = new Map(
 	].map((v) => [v.name, v]),
 );
 
-export const lookup_song_data = (name: string): SongData => {
-	const data = songs_by_name.get(name);
-	if (!data) throw Error('Unknown song: ' + name);
-	return data;
+export const lookup_song = (name: string): Song => {
+	const song = songs_by_name.get(name);
+	if (!song) throw Error('Unknown song: ' + name);
+	return song;
 };
 
-const songs_by_name_by_author: Map<string, SongData[]> = new Map();
+const songs_by_name_by_author: Map<string, Song[]> = new Map();
 for (const s of songs_by_name.values()) {
 	let songs = songs_by_name_by_author.get(s.author);
 	if (!songs) {
@@ -269,10 +269,10 @@ for (const s of songs_by_name.values()) {
 	songs.push(s);
 }
 
-export const lookup_song_datas_by_author = (name: string): SongData[] => {
-	const datas = songs_by_name_by_author.get(name);
-	if (!datas) throw Error('Unknown author: ' + name);
-	return datas;
+export const lookup_songs_by_author = (name: string): Song[] => {
+	const songs = songs_by_name_by_author.get(name);
+	if (!songs) throw Error('Unknown author: ' + name);
+	return songs;
 };
 
 export const song_authors = Array.from(

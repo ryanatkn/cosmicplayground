@@ -5,14 +5,14 @@ import type {AudioResource, ResourceStore} from '$lib/app/resource';
 // TODO custom store? selection store? playlist store?
 export const audios = new Map<string, ResourceStore<AudioResource>>();
 
-export const playingAudio = (url: string): boolean => {
+export const playing_audio = (url: string): boolean => {
 	const audio = audios.get(url);
 	if (!audio) return false;
 	const $audio = get(audio); // TODO
 	return !!$audio.audio && !$audio.audio.paused;
 };
 
-export const pauseAudio = (onPause?: (audio: AudioResource) => void): void => {
+export const pause_audio = (onPause?: (audio: AudioResource) => void): void => {
 	// TODO probably set playing audio to module-level state instead of this
 	// (seems fine because audio is a global UX)
 	for (const audio of audios.values()) {
@@ -24,7 +24,7 @@ export const pauseAudio = (onPause?: (audio: AudioResource) => void): void => {
 	}
 };
 
-export const playAudio = (audio: HTMLAudioElement, currentTime = 0): Promise<void> => {
+export const play_audio = (audio: HTMLAudioElement, currentTime = 0): Promise<void> => {
 	audio.currentTime = currentTime;
 	return audio.play();
 };
