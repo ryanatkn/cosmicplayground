@@ -18,13 +18,11 @@
 <div class="player">
 	<div class="content">
 		<header />
-		<div class="items">
-			<Playlist {playlist_items} {selected_playlist_item} {collapsed} />
-		</div>
+		<Playlist {playlist_items} {selected_playlist_item} {collapsed} />
 		<footer>
 			<span><strong>{playlist_items.length}</strong> songs</span>
 			<button on:click={() => (collapsed = !collapsed)}
-				>{#if collapsed}expand{:else}collapse{/if}</button
+				>{#if collapsed}+{:else}−{/if}</button
 			>
 		</footer>
 	</div>
@@ -45,12 +43,6 @@
 		flex-direction: column;
 		background-color: var(--bg_light);
 		border-radius: var(--player_border_radius, var(--border_radius_4));
-	}
-	.items {
-		flex: 1;
-		overflow: auto;
-		border: 2px var(--border_color_darker) solid;
-		border-radius: 2px;
 	}
 	footer {
 		display: flex;
