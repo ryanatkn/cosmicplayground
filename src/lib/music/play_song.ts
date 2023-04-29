@@ -40,7 +40,7 @@ export const play_song = async (song: Song): Promise<SongPlayState | undefined> 
 	$audio.audio.volume = 0.5; // TODO where?
 	return {
 		audio: $audio.audio,
-		play: play_audio($audio.audio),
+		play: play_audio($audio.audio), // TODO do something with this before resolving?
 		ended: new Promise((r) => $audio.audio!.addEventListener('ended', r, {once: true})),
 	};
 };
