@@ -131,14 +131,19 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Be_Chillin.mp3',
 		},
 		{
+			name: 'Painting Room',
+			author: 'Kevin MacLeod',
+			url: '/assets/audio/Kevin_MacLeod__Painting_Room.mp3',
+		},
+		{
 			name: 'Parhelion',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Parhelion.mp3',
 		},
 		{
-			name: 'Painting Room',
-			author: 'Kevin MacLeod',
-			url: '/assets/audio/Kevin_MacLeod__Painting_Room.mp3',
+			name: 'Inteficial Artelligence',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Inteficial_Artelligence.mp3',
 		},
 		{
 			name: 'Rush',
