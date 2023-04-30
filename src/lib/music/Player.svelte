@@ -96,6 +96,6 @@
 		border: 1px solid var(--border_color_darker);
 	}
 	button:active {
-		border: 1px solid var(--active_color);
+		border: 1px solid var(--active_border_color);
 	}
 </style>

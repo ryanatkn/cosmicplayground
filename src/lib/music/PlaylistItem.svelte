@@ -41,6 +41,9 @@
 		width: 100%;
 		justify-content: flex-start;
 	}
+	button.selected {
+		--border_color: var(--active_border_color);
+	}
 	small {
 		margin-right: var(--spacing_md);
 	}
