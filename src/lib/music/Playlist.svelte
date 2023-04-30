@@ -8,6 +8,7 @@
 	export let collapsed: boolean;
 </script>
 
+<!-- TODO try to hoist this, problem is getting the animation smooth -->
 {#if !collapsed}
 	<div class="playlist" transition:slide|local>
 		<div class="items-wrapper">
