@@ -8,6 +8,8 @@
 
 	// TODO skins (inspired by winamp)
 
+	// TODO BLOCK pause/play buttons, show currentTime progress, scrub currentTime
+
 	export let playlist: PlaylistStoreTODO; // TODO BLOCK
 
 	export let playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values()).map(
