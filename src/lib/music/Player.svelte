@@ -35,21 +35,23 @@
 	const restart = () => {
 		// TODO BLOCK
 	};
+	const next = () => {
+		// TODO BLOCK
+	};
 </script>
 
 <div class="player">
 	<div class="content">
 		<header class="centered-hz">
+			<!-- https://en.wikipedia.org/wiki/Media_control_symbols -->
 			<button class="icon-button" on:click={() => (playing ? pause() : resume())}>
 				{#if playing}⏸{:else}⏵{/if}
 			</button>
-			<div style:flex="1" style:padding-left="var(--spacing_md)">
-				{#if $playing_song}
-					<span>{$playing_song.song.name} - {$playing_song.song.author}</span>
-				{/if}
-			</div>
-			<button class="icon-button" on:click={() => restart()}>⏮</button>
-			<button class="icon-button" on:click={() => (collapsed = !collapsed)}
+			<button class="icon-button plain-button" on:click={() => restart()}>⏮</button>
+			<!-- TODO ? <button class="icon-button plain-button" on:click={() => stop()}>⏹</button> -->
+			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
+			<div style:flex="1" style:padding-left="var(--spacing_md)" />
+			<button class="icon-button plain-button" on:click={() => (collapsed = !collapsed)}
 				>{#if collapsed}+{:else}−{/if}</button
 			>
 		</header>
