@@ -29,18 +29,17 @@ export const play_song = async (
 	});
 	if (abort) return;
 	let audio = audio_by_url.get(song.url);
-	let loading;
 	if (!audio) {
 		audio = toResourceStore('audio', song.url) as ResourceStore<AudioResource>; // TODO type
-		loading = audio.load();
 		audio_by_url.set(url, audio); // TODO improve API, maybe return a typed store from `addResource`
 	}
-	await loading;
 	const key = (audio_key = Symbol());
-	const $audio = get(audio);
+	await audio.load();
 	if (audio_key !== key) return;
+	const $audio = get(audio);
 	if (!$audio || $audio.status !== 'success' || !$audio.audio) {
-		throw Error('Failed to load song'); // TODO handle failures better (Dialog error?)
+		console.error('Failed to load song'); // TODO handle failures better (Dialog error?)
+		return;
 	}
 	$audio.audio.volume = volume; // TODO where?
 	return {
