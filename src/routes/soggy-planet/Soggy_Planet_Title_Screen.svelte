@@ -120,7 +120,7 @@
 							<!-- TODO make these buttons to zoom to the locations on the map -->
 							{point_of_interest.name}
 						</td>
-						<td class="centered-text" title="this may be a myth"
+						<td class="centered-text" title="{point_of_interest.name} may be a myth"
 							>{#if point_of_interest.myth}?{/if}</td
 						>
 						<td><a href={point_of_interest.url}>{point_of_interest.url.substring(8)}</a></td>
