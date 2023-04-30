@@ -41,8 +41,12 @@
 		width: 100%;
 		justify-content: flex-start;
 	}
+	button:hover {
+		--border_color: var(--border_color_dark);
+	}
+	button:focus,
 	button.selected {
-		--border_color: var(--active_border_color);
+		--border_color: var(--active_color);
 	}
 	small {
 		margin-right: var(--spacing_md);
