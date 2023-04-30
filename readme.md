@@ -10,9 +10,6 @@ is an open source hobby project exploring some
 tools and toys using web technology for fun and learning.
 It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
 
-- There's a little action game on the home screen: to play, click the starship `🛸`.
-  It works but it's a work in progress (the gameplay isn't signalled very well),
-  and rescuing all of the crew at once grants access to some early previews of stuff.
 - [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
   where sea levels rise and fall and the lights of civilization shine through the night.
   It displays sea levels roughly between the
