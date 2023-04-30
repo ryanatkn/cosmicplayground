@@ -30,7 +30,7 @@
 	li {
 		background-color: var(--bg);
 	}
-	.selected {
+	li.selected {
 		position: sticky;
 		top: 0;
 		bottom: 0;
@@ -43,10 +43,12 @@
 	}
 	button:hover {
 		--border_color: var(--border_color_dark);
+		z-index: 1;
 	}
 	button:focus,
 	button.selected {
 		--border_color: var(--active_color);
+		z-index: 2;
 	}
 	small {
 		margin-right: var(--spacing_md);
