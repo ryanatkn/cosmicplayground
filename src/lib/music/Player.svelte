@@ -44,7 +44,7 @@
 	<div class="content">
 		<header class="centered-hz">
 			<!-- https://en.wikipedia.org/wiki/Media_control_symbols -->
-			<button class="icon-button" on:click={() => (playing ? pause() : resume())}>
+			<button class="icon-button plain-button" on:click={() => (playing ? pause() : resume())}>
 				{#if playing}⏸{:else}⏵{/if}
 			</button>
 			<button class="icon-button plain-button" on:click={() => restart()}>⏮</button>
