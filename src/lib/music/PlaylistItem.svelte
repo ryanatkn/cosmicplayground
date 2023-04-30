@@ -4,13 +4,21 @@
 
 	export let playlist_item: PlaylistItemData;
 	export let index: number;
+
+	const play = async () => {
+		console.log(`playing playlist item`, playlist_item);
+		const playState = await play_song(playlist_item.song); // TODO global player controls
+		if (!playState) return;
+		await playState.play;
+		console.log('playing', playlist_item.song.name);
+		await playState.ended;
+		console.log('finished playing', playlist_item.song.name);
+	};
 </script>
 
 <!-- TODO render link -->
 <li>
-	<button on:click={() => play_song(playlist_item.song)}
-		><small>{index}</small> {playlist_item.song.name}</button
-	>
+	<button on:click={play}><small>{index}</small> {playlist_item.song.name}</button>
 </li>
 
 <style>
