@@ -77,7 +77,7 @@ export const PhaseDatas: Map<string, PhaseData> = new Map(
 			name: '0d',
 			phase: 1,
 			title: 'Adventures of Flying Jack',
-			song: 'Main Theme (Adventures of Flying Jack)',
+			song: 'Adventures of Flying Jack',
 			image: 'heic0506a',
 		},
 		{name: '1a', phase: 0, title: 'Piña Colada', song: 'Piña Colada', image: 'opo0501a'},

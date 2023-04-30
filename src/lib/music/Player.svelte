@@ -6,7 +6,9 @@
 	import {playing_song} from '$lib/music/play_song';
 	import type {PlaylistItemData, PlaylistStore as PlaylistStoreTODO} from '$lib/music/playlist';
 
-	$: console.log(`$playing_song`, $playing_song);
+	$: console.log(`$playing_song`, $playing_song, $playing_song?.audio_el);
+
+	// TODO playbackRate option? https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/playbackRate
 
 	// TODO skins (inspired by winamp)
 

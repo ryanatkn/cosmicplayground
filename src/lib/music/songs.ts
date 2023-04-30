@@ -4,7 +4,7 @@ export const Song = z.object({
 	name: z.string(),
 	author: z.string(),
 	url: z.string(),
-	// TODO BLOCK length
+	// TODO BLOCK duration, but as metadata? write a gen file to output data?
 });
 export type Song = z.infer<typeof Song>;
 
@@ -41,7 +41,7 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Traveler.mp3',
 		},
 		{
-			name: 'Main Theme (Adventures of Flying Jack)',
+			name: 'Adventures of Flying Jack',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Main_Theme_Adventures_of_Flying_Jack.mp3',
 		},
