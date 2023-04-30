@@ -15,12 +15,15 @@
 		console.log('finished playing', playlist_item.song.name);
 	};
 
-	$: selected = $playing_song?.song === playlist_item.song;
+	$: current_song = $playing_song?.song;
+	$: selected = current_song === playlist_item.song;
 </script>
 
 <!-- TODO render link -->
 <li class:selected role="none">
-	<button class:selected on:click={play}><small>{index}</small> {playlist_item.song.name}</button>
+	<button class:selected class="deselectable" on:click={play}
+		><small>{index + 1}</small> {playlist_item.song.name}</button
+	>
 </li>
 
 <style>
