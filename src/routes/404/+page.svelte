@@ -36,7 +36,7 @@
 		<h2>maybe you want one of these?</h2>
 		<ul>
 			{#each $portals.data.portals as portal (portal.slug)}
-				<li>
+				<li role="none">
 					<PortalLink slug={portal.slug} />
 				</li>
 			{/each}

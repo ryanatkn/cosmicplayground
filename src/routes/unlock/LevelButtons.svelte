@@ -8,7 +8,7 @@
 
 <ul>
 	{#each phaseSequences as phaseSequence (phaseSequence)}
-		<li>
+		<li role="none">
 			<button
 				type="button"
 				class:selected={phaseSequence === selectedPhaseSequenceOrCreator}
