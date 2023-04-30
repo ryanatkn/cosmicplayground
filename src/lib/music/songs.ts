@@ -4,6 +4,7 @@ export const Song = z.object({
 	name: z.string(),
 	author: z.string(),
 	url: z.string(),
+	// TODO BLOCK length
 });
 export type Song = z.infer<typeof Song>;
 

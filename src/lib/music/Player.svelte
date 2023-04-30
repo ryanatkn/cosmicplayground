@@ -6,6 +6,8 @@
 	import {playing_song} from '$lib/music/play_song';
 	import type {PlaylistItemData, PlaylistStore as PlaylistStoreTODO} from '$lib/music/playlist';
 
+	$: console.log(`$playing_song`, $playing_song);
+
 	// TODO skins (inspired by winamp)
 
 	// TODO BLOCK pause/play buttons, show currentTime progress, scrub currentTime
@@ -22,16 +24,31 @@
 		($playing_song && playlist_items.find((p) => $playing_song!.song === p.song)) || null;
 
 	export let collapsed = false;
+
+	$: playing = !!$playing_song;
+	const pause = () => {
+		// TODO BLOCK
+	};
+	const resume = () => {
+		// TODO BLOCK
+	};
+	const restart = () => {
+		// TODO BLOCK
+	};
 </script>
 
 <div class="player">
 	<div class="content">
 		<header class="centered-hz">
-			<div style:flex="1">
+			<button class="icon-button" on:click={() => (playing ? pause() : resume())}>
+				{#if playing}⏸{:else}⏵{/if}
+			</button>
+			<div style:flex="1" style:padding-left="var(--spacing_md)">
 				{#if $playing_song}
 					<span>{$playing_song.song.name} - {$playing_song.song.author}</span>
 				{/if}
 			</div>
+			<button class="icon-button" on:click={() => restart()}>⏮</button>
 			<button class="icon-button" on:click={() => (collapsed = !collapsed)}
 				>{#if collapsed}+{:else}−{/if}</button
 			>
@@ -66,5 +83,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+	}
+	footer {
+		padding-top: var(--spacing_xs);
 	}
 </style>

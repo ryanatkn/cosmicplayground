@@ -5,11 +5,10 @@ import {toResourceStore} from '$lib/app/resource';
 import {pause_audio, play_audio, audio_by_url} from '$lib/audio/play_audio';
 import type {Song} from '$lib/music/songs';
 
-let audio_key: symbol | undefined;
-
 const DEFAULT_VOLUME = 0.5; // TODO where?
 
 export interface SongPlayState {
+	id: number;
 	song: Song;
 	volume: number;
 	audio: ResourceStore<AudioResource> | null;
@@ -21,6 +20,8 @@ export interface SongPlayState {
 
 export const playing_song = writable<SongPlayState | null>(null);
 
+let id = 0;
+
 // TODO extract an audio player store
 // TODO this API is not fun, resources should probably be stores
 export const play_song = async (
@@ -28,7 +29,8 @@ export const play_song = async (
 	volume: number = DEFAULT_VOLUME,
 ): Promise<SongPlayState | undefined> => {
 	// state gets mustated as the `play_song` function progresses
-	const state: SongPlayState = {
+	let state: SongPlayState = {
+		id: id++,
 		song,
 		volume,
 		audio: null,
@@ -43,6 +45,9 @@ export const play_song = async (
 		playing_song.update((v) => (v === state ? null : v));
 		return undefined;
 	};
+	const update_state = (partial?: Partial<SongPlayState>) => {
+		playing_song.update((v) => (v?.id === state.id ? (state = {...state, ...partial}) : v));
+	};
 	const {url} = song;
 	// TODO is this the desired behavior? if playing already, just pause and abort?
 	let abort = false;
@@ -55,27 +60,31 @@ export const play_song = async (
 		audio = toResourceStore('audio', song.url) as ResourceStore<AudioResource>; // TODO type
 		audio_by_url.set(url, audio); // TODO improve API, maybe return a typed store from `addResource`
 	}
-	state.audio = audio;
-	const key = (audio_key = Symbol());
+	update_state({audio});
+	console.log('loading', state);
 	await audio.load();
-	if (audio_key !== key) return cleanup(); // canceled
-	const $audio = (state.$audio = get(audio));
+	const $audio = get(audio);
 	if (!$audio || $audio.status !== 'success' || !$audio.audio) {
 		console.error('Failed to load song'); // TODO handle failures better (Dialog error?)
+		update_state({$audio});
 		return cleanup();
 	}
 	$audio.audio.volume = volume; // TODO where?
-	state.audio_el = $audio.audio;
-	state.play = play_audio($audio.audio); // TODO do something with this before resolving?
-	state.ended = new Promise<void>((r) =>
-		$audio.audio!.addEventListener(
-			'ended',
-			() => {
-				r();
-				cleanup();
-			},
-			{once: true},
+	update_state({
+		$audio,
+		audio_el: $audio.audio,
+		play: play_audio($audio.audio), // TODO do something with this before resolving?
+		ended: new Promise<void>((resolve) =>
+			$audio.audio!.addEventListener(
+				'ended',
+				() => {
+					resolve();
+					cleanup();
+				},
+				{once: true},
+			),
 		),
-	);
+	});
+	console.log('loaded', state);
 	return state;
 };
