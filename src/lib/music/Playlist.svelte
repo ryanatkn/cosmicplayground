@@ -25,7 +25,7 @@
 	.playlist {
 		display: flex;
 		flex-direction: column;
-		border: 2px var(--border_color_darker) solid;
+		border: 1px var(--border_color_darker) solid;
 		border-radius: 2px;
 		overflow: hidden;
 	}
