@@ -98,16 +98,16 @@ export const PhaseDatas: Map<string, PhaseData> = new Map(
 		{name: '6a', phase: 0, title: 'Be Chillin', song: 'Be Chillin', image: 'heic2002a'},
 		{name: '6b', phase: 0, title: 'Painting Room', song: 'Painting Room', image: 'heic2002a'},
 		{name: '6c', phase: 1, title: 'Parhelion', song: 'Parhelion', image: 'heic2002a'},
+		{name: '7a', phase: 0, title: 'Grid', song: 'Grid', image: 'heic1712a'},
+		{name: '7b', phase: 0, title: 'Journey of Hope', song: 'Journey of Hope', image: 'heic1712a'},
+		{name: '7c', phase: 1, title: 'Rush', song: 'Rush', image: 'heic1712a'},
 		{
-			name: '6d',
+			name: '7d',
 			phase: 1,
 			title: 'Inteficial Artelligence',
 			song: 'Inteficial Artelligence',
 			image: 'heic2002a',
 		},
-		{name: '7a', phase: 0, title: 'Grid', song: 'Grid', image: 'heic1712a'},
-		{name: '7b', phase: 0, title: 'Journey of Hope', song: 'Journey of Hope', image: 'heic1712a'},
-		{name: '7c', phase: 1, title: 'Rush', song: 'Rush', image: 'heic1712a'},
 		{name: '8a', phase: 0, title: 'Jotunheim', song: 'Jotunheim', image: 'heic1712a'},
 		{name: '8b', phase: 0, title: 'Bleu', song: 'Bleu', image: 'heic1712a'},
 		{name: '8d', phase: 1, title: 'Flynyrd Mynyrd', song: 'Flynyrd Mynyrd', image: 'heic1712a'},
@@ -242,9 +242,9 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'4c',
 				'5b',
 				'6b',
-				'6d',
+				'6c',
 				'7b',
-				'7c',
+				'7d',
 				'8b',
 				'8c',
 				'9b',
@@ -296,9 +296,9 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 					['4b', '4c', '5b'],
 				]),
 				randomItem(['6a', '6b']),
-				randomItem(['6c', '6d']),
+				'6c',
 				randomItem(['7a', '7b']),
-				'7c',
+				randomItem(['7c', '7d']),
 				randomItem(['8a', '8b']),
 				randomItem(['8c', '8d']),
 				randomItem([
@@ -364,9 +364,9 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				]),
 			);
 			addPhase(randomItem(['6a', '6b']));
-			addPhase(randomItem(['6c', '6d']));
+			addPhase(randomItem(['6c', null]));
 			addPhase(randomItem(['7a', '7b']));
-			addPhase(randomItem(['7c', null]));
+			addPhase(randomItem(['7c', '7d']));
 			addPhase(randomItem(['8a', '8b']));
 			addPhase(randomItem(['8c', '8d', null]));
 			addPhase(randomItem(['9a', '9b']));
