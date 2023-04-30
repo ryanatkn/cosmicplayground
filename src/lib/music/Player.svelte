@@ -89,4 +89,11 @@
 	footer {
 		padding-top: var(--spacing_xs);
 	}
+	/* TODO should this be applied to global `.plain-button`? */
+	button:hover {
+		border: 1px solid var(--border_color_darker);
+	}
+	button:active {
+		border: 1px solid var(--active_color);
+	}
 </style>

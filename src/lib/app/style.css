@@ -271,10 +271,3 @@ summary:active {
 	padding-bottom: var(--spacing_xs);
 	min-height: auto;
 }
-
-/* TODO hacky */
-.plain-button:hover {
-	--border_color: var(--border_color_light);
-	--border_width: var(--border_width_1);
-	/* border-width: var(--border_width); */
-}
