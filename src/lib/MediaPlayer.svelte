@@ -57,13 +57,12 @@
 		// TODO BLOCK
 	};
 
-	// TODO BLOCK figure this out
+	// TODO refactor? this updates the component's `current_time`, syncing to the audio element
 	const clock = getClock();
-	clock.resume();
+	clock.resume(); // TODO BLOCK hacky
 	let current_time: number | undefined;
-	$: time = $clock.time;
-	$: time, audio_el && (current_time = audio_el.currentTime);
-	$: console.log(`current_time`, current_time);
+	$: ({time} = $clock);
+	$: time, (current_time = audio_el?.currentTime);
 </script>
 
 <div class="player">
