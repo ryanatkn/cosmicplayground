@@ -73,7 +73,7 @@
 		const next_song_index =
 			current_song_index === all_songs.length - 1 ? 0 : current_song_index + 1;
 		const next_song = all_songs[next_song_index];
-		await play_song(next_song);
+		await play_song(next_song, undefined, audio_el?.paused);
 	};
 
 	// TODO refactor? this updates the component's `current_time`, syncing to the audio element
