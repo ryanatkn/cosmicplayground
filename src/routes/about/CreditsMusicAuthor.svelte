@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Details from '$lib/app/Details.svelte';
-	import {lookup_songs_by_author, lookup_song} from '$lib/music/songs';
+	import {lookup_songs_by_author} from '$lib/music/songs';
 
 	const names = ['Piña Colada', 'Winter', 'Spacey Intro', 'Spacey Outro'];
 
@@ -20,10 +20,6 @@
 
 <h3>music by {author}</h3>
 <slot name="links" />
-<p>
-	Alexander composed <a href={lookup_song('Spacey Intro').url}>Spacey Intro</a> and
-	<a href={lookup_song('Spacey Intro').url}>Spacey Outro</a> with inspiration from cosmicplayground 💚💙
-</p>
 {#each songs1a as song}
 	<div class="audio-file">
 		<a href={song.url}>"{song.name}"</a>
