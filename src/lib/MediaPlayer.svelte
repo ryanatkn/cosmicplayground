@@ -123,6 +123,9 @@
 		align-items: center;
 		justify-content: space-between;
 	}
+	header {
+		padding-bottom: var(--spacing_xs);
+	}
 	footer {
 		padding-top: var(--spacing_xs);
 	}
