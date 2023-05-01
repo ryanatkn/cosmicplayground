@@ -24,6 +24,7 @@
 
 	// TODO BLOCK should we set the data in the store instead?
 	export let playlist_items: PlaylistItemData[];
+	export let collapsed = false;
 
 	let playlist_items_data: Writable<PlaylistItemData[]> | undefined;
 	$: playlist_items_data = playlist?.playlist_items;
@@ -37,8 +38,6 @@
 	$: duration = $playing_song?.duration;
 	$: audio_el = $playing_song?.audio_el;
 	$: console.log(`audio_el`, audio_el?.currentTime);
-
-	export let collapsed = false;
 
 	// consider polling `audio_el.paused` like with `audio_el.currentTime` so we could have a `paused` local
 	const pause = () => {
