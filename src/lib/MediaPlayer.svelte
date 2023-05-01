@@ -52,10 +52,12 @@
 		}
 	};
 	const restart = () => {
-		// TODO BLOCK
+		if (audio_el) {
+			audio_el.currentTime = 0;
+		}
 	};
 	const next = () => {
-		// TODO BLOCK
+		//
 	};
 
 	// TODO refactor? this updates the component's `current_time`, syncing to the audio element
