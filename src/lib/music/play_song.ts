@@ -24,6 +24,8 @@ export const playing_song = writable<SongPlayState | null>(null);
 
 let id = 0;
 
+// TODO do we want a `SongPlay` component/store with methods like `pause`?
+
 // TODO extract an audio player store
 // TODO this API is not fun, resources should probably be stores
 export const play_song = async (

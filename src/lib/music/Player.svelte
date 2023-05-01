@@ -5,6 +5,7 @@
 	import {songs_by_name} from '$lib/music/songs';
 	import {playing_song} from '$lib/music/play_song';
 	import type {PlaylistItemData, PlaylistStore as PlaylistStoreTODO} from '$lib/music/playlist';
+	import {pause_audio} from '$lib/audio/play_audio';
 
 	$: console.log(`$playing_song`, $playing_song, $playing_song?.audio_el);
 
@@ -29,7 +30,8 @@
 
 	$: playing = !!$playing_song;
 	const pause = () => {
-		// TODO BLOCK
+		// TODO BLOCK doesn't update `playing_song`
+		pause_audio();
 	};
 	const resume = () => {
 		// TODO BLOCK
