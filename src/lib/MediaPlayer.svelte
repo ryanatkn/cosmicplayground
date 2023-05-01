@@ -2,6 +2,7 @@
 	import type {Writable} from 'svelte/store';
 	import {fade, slide} from 'svelte/transition';
 	import {getClock} from '@feltcoop/dealt';
+	import {swallow} from '@feltjs/util/dom.js';
 
 	import Playlist from '$lib/Playlist.svelte';
 	import {playing_song} from '$lib/music/play_song';
@@ -63,6 +64,13 @@
 	let current_time: number | undefined;
 	$: ({time} = $clock);
 	$: time, (current_time = audio_el?.currentTime);
+
+	const input_current_time = (e: Event & {currentTarget: EventTarget & HTMLInputElement}) => {
+		swallow(e);
+		const t = Number(e.currentTarget.value);
+		if (Number.isNaN(t)) return;
+		if (audio_el) audio_el.currentTime = t;
+	};
 </script>
 
 <div class="player">
@@ -78,6 +86,7 @@
 			{#if duration != null}
 				<input
 					transition:fade|local={{duration: 133}}
+					on:input={input_current_time}
 					class="plain-input"
 					type="range"
 					min={0}
