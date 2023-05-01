@@ -59,7 +59,7 @@
 				>, <a href="https://www.youtube.com/watch?v=oWLrgj0oo68">2</a>)
 			</li>
 			<li>
-				<a href="https://punchdeck.bandcamp.com">Bandcamp</a>
+				<a href="https://punchdeck.bandcamp.com/">Bandcamp</a>
 			</li>
 			<li>
 				<a href="https://soundcloud.com/punch-deck">Soundcloud</a>
