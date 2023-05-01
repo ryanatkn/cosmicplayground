@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {
-		toLevelDataByName,
+		to_level_data_by_name,
 		type PhaseData,
 		type PhaseSequenceOrCreator,
 		sequenceContains,
@@ -30,17 +30,17 @@
 	};
 
 	// TODO refactor, maybe a `LevelManager` or something
-	const playPhaseSequence = async (
-		phaseSequenceOrCreator: PhaseSequenceOrCreator,
+	const play_phase_sequence = async (
+		phase_sequence_or_creator: PhaseSequenceOrCreator,
 		jumpToPhase: PhaseData | null = null,
 	): Promise<void> => {
-		if (jumpToPhase && phaseSequenceOrCreator === selectedPhaseSequenceOrCreator) {
+		if (jumpToPhase && phase_sequence_or_creator === selectedPhaseSequenceOrCreator) {
 			pause_audio();
 		} else {
 			cancel();
-			selectedPhaseSequenceOrCreator = phaseSequenceOrCreator;
-			selectedPhaseSequence = toPhaseSequence(phaseSequenceOrCreator);
-			console.log(`playing phaseSequence`, phaseSequenceOrCreator, selectedPhaseSequence);
+			selectedPhaseSequenceOrCreator = phase_sequence_or_creator;
+			selectedPhaseSequence = toPhaseSequence(phase_sequence_or_creator);
+			console.log(`playing phase_sequence`, phase_sequence_or_creator, selectedPhaseSequence);
 		}
 
 		const {sequence} = selectedPhaseSequence!.data;
@@ -62,7 +62,7 @@
 			const phase = phase_data_by_name.get(phaseName)!;
 			selectedPhase = phase;
 			await playPhaseSong(phase); // eslint-disable-line no-await-in-loop
-			if (selectedPhaseSequenceOrCreator !== phaseSequenceOrCreator || selectedPhase !== phase) {
+			if (selectedPhaseSequenceOrCreator !== phase_sequence_or_creator || selectedPhase !== phase) {
 				return; // canceled or changed
 			}
 		}
@@ -82,16 +82,16 @@
 		if (!selectedPhaseSequenceOrCreator) {
 			return playPhaseSong(phase);
 		}
-		return playPhaseSequence(selectedPhaseSequenceOrCreator, phase);
+		return play_phase_sequence(selectedPhaseSequenceOrCreator, phase);
 	};
 </script>
 
-<LevelButtons {selectedPhaseSequenceOrCreator} {playPhaseSequence} {cancel} />
+<LevelButtons {selectedPhaseSequenceOrCreator} {play_phase_sequence} {cancel} />
 <!-- TODO probably render the active stage+level here -->
 <div class="atlas">
 	<section>
 		<!-- TODO maybe have the `Level` mount the `Phase` as well -->
-		<Level level={toLevelDataByName('0')} let:phase>
+		<Level level={to_level_data_by_name('0')} let:phase>
 			<Phase
 				{phase}
 				{selectPhase}
@@ -101,7 +101,7 @@
 		</Level>
 	</section>
 	<section>
-		<Level level={toLevelDataByName('1')} let:phase>
+		<Level level={to_level_data_by_name('1')} let:phase>
 			<Phase
 				{phase}
 				{selectPhase}
@@ -111,7 +111,7 @@
 		</Level>
 	</section>
 	<section>
-		<Level level={toLevelDataByName('2')} let:phase>
+		<Level level={to_level_data_by_name('2')} let:phase>
 			<Phase
 				{phase}
 				{selectPhase}
@@ -121,7 +121,7 @@
 		</Level>
 	</section>
 	<section>
-		<Level level={toLevelDataByName('3')} let:phase>
+		<Level level={to_level_data_by_name('3')} let:phase>
 			<Phase
 				{phase}
 				{selectPhase}
@@ -131,7 +131,7 @@
 		</Level>
 	</section>
 	<section>
-		<Level level={toLevelDataByName('4')} let:phase>
+		<Level level={to_level_data_by_name('4')} let:phase>
 			<Phase
 				{phase}
 				{selectPhase}
@@ -141,7 +141,7 @@
 		</Level>
 	</section>
 	<section>
-		<Level level={toLevelDataByName('5')} let:phase>
+		<Level level={to_level_data_by_name('5')} let:phase>
 			<Phase
 				{phase}
 				{selectPhase}
@@ -151,7 +151,7 @@
 		</Level>
 	</section>
 	<section>
-		<Level level={toLevelDataByName('6')} let:phase>
+		<Level level={to_level_data_by_name('6')} let:phase>
 			<Phase
 				{phase}
 				{selectPhase}
@@ -161,7 +161,7 @@
 		</Level>
 	</section>
 	<section>
-		<Level level={toLevelDataByName('7')} let:phase>
+		<Level level={to_level_data_by_name('7')} let:phase>
 			<Phase
 				{phase}
 				{selectPhase}
@@ -171,7 +171,7 @@
 		</Level>
 	</section>
 	<section>
-		<Level level={toLevelDataByName('8')} let:phase>
+		<Level level={to_level_data_by_name('8')} let:phase>
 			<Phase
 				{phase}
 				{selectPhase}
@@ -181,7 +181,7 @@
 		</Level>
 	</section>
 	<section>
-		<Level level={toLevelDataByName('9')} let:phase>
+		<Level level={to_level_data_by_name('9')} let:phase>
 			<Phase
 				{phase}
 				{selectPhase}
@@ -191,7 +191,7 @@
 		</Level>
 	</section>
 	<section>
-		<Level level={toLevelDataByName('10')} let:phase>
+		<Level level={to_level_data_by_name('10')} let:phase>
 			<Phase
 				{phase}
 				{selectPhase}
@@ -201,7 +201,7 @@
 		</Level>
 	</section>
 	<section>
-		<Level level={toLevelDataByName('11')} let:phase>
+		<Level level={to_level_data_by_name('11')} let:phase>
 			<Phase
 				{phase}
 				{selectPhase}

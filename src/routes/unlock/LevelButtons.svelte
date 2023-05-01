@@ -1,18 +1,20 @@
 <script lang="ts">
-	import {phaseSequences, type PhaseSequenceOrCreator} from '$routes/unlock/phases';
+	import {phase_sequences, type PhaseSequenceOrCreator} from '$routes/unlock/phases';
 
 	export let selectedPhaseSequenceOrCreator: PhaseSequenceOrCreator | null = null;
-	export let playPhaseSequence: (phaseSequenceOrCreator: PhaseSequenceOrCreator) => Promise<void>;
+	export let play_phase_sequence: (
+		phase_sequence_or_creator: PhaseSequenceOrCreator,
+	) => Promise<void>;
 	export let cancel: () => void;
 </script>
 
 <ul>
-	{#each phaseSequences as phaseSequence (phaseSequence)}
+	{#each phase_sequences as phase_sequence (phase_sequence)}
 		<li role="none">
 			<button
 				type="button"
-				class:selected={phaseSequence === selectedPhaseSequenceOrCreator}
-				on:click={() => playPhaseSequence(phaseSequence)}>{phaseSequence.name}</button
+				class:selected={phase_sequence === selectedPhaseSequenceOrCreator}
+				on:click={() => play_phase_sequence(phase_sequence)}>{phase_sequence.name}</button
 			>
 		</li>
 	{/each}

@@ -365,11 +365,11 @@ Image credit: ${NASA}, the ACS Science Team (H. Ford, G. Illingworth, M. Clampin
 	},
 ];
 
-const imageMetaByName = new Map<string, ImageMeta>();
-for (const s of spaceImages) imageMetaByName.set(s.name, s);
+const image_meta_by_name = new Map<string, ImageMeta>();
+for (const s of spaceImages) image_meta_by_name.set(s.name, s);
 
 export const toImageMeta = (name: string): ImageMeta => {
-	const m = imageMetaByName.get(name);
+	const m = image_meta_by_name.get(name);
 	if (!m) throw Error(`Unknown image name ${name}`);
 	return m;
 };

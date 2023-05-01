@@ -16,46 +16,45 @@ export interface PhaseData {
 export interface LevelData {
 	name: string;
 	image: string;
-	imageMeta: ImageMeta;
+	image_meta: ImageMeta;
 }
 
-export const toPhaseData = (name: string): PhaseData => {
+export const to_phase_data = (name: string): PhaseData => {
 	const data = phase_data_by_name.get(name);
 	if (!data) throw Error('Unknown level: ' + name);
 	return data;
 };
 
-export const toPhaseDatasByLevelName = (name: string): PhaseData[] => {
+export const to_phase_datas_by_level_name = (name: string): PhaseData[] => {
 	const data = phase_datas_by_level_name.get(name);
 	if (!data) throw Error('Unknown stage: ' + name);
 	return data;
 };
 
-export const toLevelDataByName = (name: string): LevelData => {
-	const data = LevelDatas.get(name);
+export const to_level_data_by_name = (name: string): LevelData => {
+	const data = level_data_by_name.get(name);
 	if (!data) throw Error('Unknown stage: ' + name);
 	return data;
 };
 
-export const toPhaseDataByLevelName = (levelName: string): LevelData =>
-	toLevelDataByName(levelName.slice(0, -1));
+export const to_phase_data_by_level_name = (levelName: string): LevelData =>
+	to_level_data_by_name(levelName.slice(0, -1));
 
-export const LevelDatas: Map<string, LevelData> = new Map(
+export const level_data_by_name: Map<string, LevelData> = new Map(
 	[
 		{name: '0', image: 'heic0506a'},
 		{name: '1', image: 'opo0501a'},
 		{name: '2', image: 'opo0415a'},
 		{name: '3', image: 'heic1913c'},
-		{name: '4', image: 'heic1302a'},
-		{name: '5', image: 'heic0910i'},
-		{name: '6', image: 'heic2002a'},
+		{name: '4', image: 'heic0910i'},
+		{name: '5', image: 'heic2002a'},
+		{name: '6', image: 'heic1712a'},
 		{name: '7', image: 'heic1712a'},
-		{name: '8', image: 'heic1712a'},
-		{name: '9', image: 'potw2029a'},
-		{name: '10', image: 'heic0817a'},
-		{name: '11', image: 'heic1107a'},
+		{name: '8', image: 'heic1302a'},
+		{name: '9', image: 'heic0817a'},
+		{name: '10', image: 'heic1107a'},
 	].map((v) => {
-		(v as unknown as LevelData).imageMeta = toImageMeta(v.image);
+		(v as unknown as LevelData).image_meta = toImageMeta(v.image);
 		return [v.name, v as unknown as LevelData];
 	}),
 );
@@ -111,10 +110,10 @@ export const phase_data_by_name: Map<string, PhaseData> = new Map(
 		{name: '8b', phase: 0, title: 'Bleu', song: 'Bleu', image: 'heic1712a'},
 		{name: '8d', phase: 1, title: 'Flynyrd Mynyrd', song: 'Flynyrd Mynyrd', image: 'heic1712a'},
 		{name: '8c', phase: 1, title: 'Desert Fox', song: 'Desert Fox', image: 'heic1712a'},
-		{name: '9a', phase: 0, title: 'Fireworks', song: 'Fireworks', image: 'potw2029a'},
-		{name: '9b', phase: 0, title: 'The Desert', song: 'The Desert', image: 'potw2029a'},
-		{name: '9d', phase: 1, title: 'Alive', song: 'Alive (Instrumental)', image: 'potw2029a'},
-		{name: '9c', phase: 1, title: 'Assassin', song: 'Assassin', image: 'potw2029a'},
+		{name: '9a', phase: 0, title: 'Fireworks', song: 'Fireworks', image: 'heic1302a'},
+		{name: '9b', phase: 0, title: 'The Desert', song: 'The Desert', image: 'heic1302a'},
+		{name: '9d', phase: 1, title: 'Alive', song: 'Alive (Instrumental)', image: 'heic1302a'},
+		{name: '9c', phase: 1, title: 'Assassin', song: 'Assassin', image: 'heic1302a'},
 		{name: '10a', phase: 0, title: 'The Expanse', song: 'The Expanse', image: 'heic0817a'},
 		{name: '10b', phase: 0, title: 'Facing Storm', song: 'Facing Storm', image: 'heic0817a'},
 		{name: '10d', phase: 1, title: "He's a Parrot", song: "He's a Parrot", image: 'heic0817a'},
@@ -127,14 +126,14 @@ export const phase_data_by_name: Map<string, PhaseData> = new Map(
 		{name: '11f', phase: 1, title: 'Terra Mystica', song: 'Terra Mystica', image: 'heic1107a'},
 	].map((v) => {
 		(v as unknown as PhaseData).song = lookup_song(v.song);
-		(v as unknown as PhaseData).stage = toPhaseDataByLevelName(v.name);
+		(v as unknown as PhaseData).stage = to_phase_data_by_level_name(v.name);
 		return [v.name, v as unknown as PhaseData];
 	}),
 );
 
 const phase_datas_by_level_name = new Map<string, PhaseData[]>();
 for (const phase_data of phase_data_by_name.values()) {
-	const stage = toPhaseDataByLevelName(phase_data.name);
+	const stage = to_phase_data_by_level_name(phase_data.name);
 	let phase_datas = phase_datas_by_level_name.get(stage.name);
 	if (!phase_datas) phase_datas_by_level_name.set(stage.name, (phase_datas = []));
 	phase_datas.push(phase_data);
@@ -153,7 +152,7 @@ export interface PhaseSequenceData {
 }
 export const toPhaseSequence = (l: PhaseSequenceOrCreator): PhaseSequence =>
 	typeof l.data === 'function' ? {...l, data: l.data()} : (l as any); // TODO why doesn't this type narrow?
-export const phaseSequences: PhaseSequenceOrCreator[] = [
+export const phase_sequences: PhaseSequenceOrCreator[] = [
 	{
 		name: 'sugar_pure',
 		data: {
@@ -385,12 +384,12 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 		},
 	},
 ];
-export const phaseSequencesByName: Map<string, PhaseSequenceOrCreator> = new Map(
-	phaseSequences.map((l) => [l.name, l]),
+export const phase_sequences_by_name: Map<string, PhaseSequenceOrCreator> = new Map(
+	phase_sequences.map((l) => [l.name, l]),
 );
 
-export const sequenceContains = (phaseSequence: PhaseSequence, phase: PhaseData): boolean =>
-	phaseSequence.data.sequence.includes(phase.name);
+export const sequenceContains = (phase_sequence: PhaseSequence, phase: PhaseData): boolean =>
+	phase_sequence.data.sequence.includes(phase.name);
 
 // TODO maybe do this differently, specific level outcomes integrated with the store?
 const MIN_C_COUNT_FOR_3C = 1;
