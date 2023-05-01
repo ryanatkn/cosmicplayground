@@ -84,21 +84,21 @@
 			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
 			<!-- TODO ? <button class="icon-button plain-button" on:click={() => stop()}>⏹</button> -->
 			<!-- TODO this shouldn't be needed -->
-			{#if duration != null}
-				<input
-					transition:fade|local={{duration: 133}}
-					on:input={input_current_time}
-					class="plain-input"
-					style:flex="1"
-					type="range"
-					min={0}
-					max={duration}
-					step={0.01}
-					value={current_time}
-				/>
-			{:else}
-				<div style:flex="1" />
-			{/if}
+			<div style:flex="1">
+				{#if duration != null}
+					<input
+						transition:fade|local={{duration: 133}}
+						on:input={input_current_time}
+						class="plain-input"
+						style:flex="1"
+						type="range"
+						min={0}
+						max={duration}
+						step={0.01}
+						value={current_time}
+					/>
+				{/if}
+			</div>
 			<button class="icon-button plain-button" on:click={() => (collapsed = !collapsed)}
 				>{#if collapsed}+{:else}−{/if}</button
 			>
