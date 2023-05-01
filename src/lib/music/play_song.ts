@@ -59,12 +59,12 @@ export const play_song = async (
 	// TODO is this the desired behavior? if playing already, just pause and abort?
 	let abort = false;
 	pause_audio((resource) => {
-		if (resource.url === song.url) abort = true;
+		if (resource.url === url) abort = true;
 	});
 	if (abort) return cleanup();
-	let audio = audio_by_url.get(song.url);
+	let audio = audio_by_url.get(url);
 	if (!audio) {
-		audio = toResourceStore('audio', song.url) as ResourceStore<AudioResource>; // TODO type
+		audio = toResourceStore('audio', url) as ResourceStore<AudioResource>; // TODO type
 		audio_by_url.set(url, audio); // TODO improve API, maybe return a typed store from `addResource`
 	}
 	update_state({audio});
