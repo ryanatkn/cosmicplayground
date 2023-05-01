@@ -37,7 +37,6 @@
 
 	$: duration = $playing_song?.duration;
 	$: audio_el = $playing_song?.audio_el;
-	$: console.log(`audio_el`, audio_el?.currentTime);
 
 	// consider polling `audio_el.paused` like with `audio_el.currentTime` so we could have a `paused` local
 	const pause = () => {
@@ -51,15 +50,16 @@
 			await play_audio(audio_el, current_time);
 		}
 	};
+	const DOUBLE_CLICK_TIME = 0.29; // in seconds - TODO move?
 	const restart_or_previous = async () => {
 		if (audio_el) {
-			if (audio_el.currentTime === 0) {
+			if (audio_el.currentTime < DOUBLE_CLICK_TIME) {
 				if (!$playing_song) return;
 				const current_song_index = all_songs.indexOf($playing_song.song);
-				const next_song_index =
+				const previous_song_index =
 					current_song_index === 0 ? all_songs.length - 1 : current_song_index - 1;
-				const next_song = all_songs[next_song_index];
-				const playing = await play_song(next_song, undefined, true);
+				const previous_song = all_songs[previous_song_index];
+				const playing = await play_song(previous_song, undefined, audio_el?.paused);
 				if (playing?.audio_el) playing.audio_el.currentTime = 0;
 			} else {
 				audio_el.currentTime = 0;
