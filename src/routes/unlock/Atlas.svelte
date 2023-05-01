@@ -5,7 +5,7 @@
 		type PhaseSequenceOrCreator,
 		sequenceContains,
 		type PhaseSequence,
-		PhaseDatas,
+		phase_data_by_name,
 		toPhaseSequence,
 	} from '$routes/unlock/phases';
 	import Level from '$routes/unlock/Level.svelte';
@@ -59,7 +59,7 @@
 
 		// Play each song in sequence.
 		for (const phaseName of remainingSequence) {
-			const phase = PhaseDatas.get(phaseName)!;
+			const phase = phase_data_by_name.get(phaseName)!;
 			selectedPhase = phase;
 			await playPhaseSong(phase); // eslint-disable-line no-await-in-loop
 			if (selectedPhaseSequenceOrCreator !== phaseSequenceOrCreator || selectedPhase !== phase) {
@@ -202,16 +202,6 @@
 	</section>
 	<section>
 		<Level level={toLevelDataByName('11')} let:phase>
-			<Phase
-				{phase}
-				{selectPhase}
-				selected={phase === selectedPhase}
-				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
-			/>
-		</Level>
-	</section>
-	<section>
-		<Level level={toLevelDataByName('12')} let:phase>
 			<Phase
 				{phase}
 				{selectPhase}

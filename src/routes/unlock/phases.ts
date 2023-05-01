@@ -20,13 +20,13 @@ export interface LevelData {
 }
 
 export const toPhaseData = (name: string): PhaseData => {
-	const data = PhaseDatas.get(name);
+	const data = phase_data_by_name.get(name);
 	if (!data) throw Error('Unknown level: ' + name);
 	return data;
 };
 
 export const toPhaseDatasByLevelName = (name: string): PhaseData[] => {
-	const data = PhaseDatasByLevelName.get(name);
+	const data = phase_datas_by_level_name.get(name);
 	if (!data) throw Error('Unknown stage: ' + name);
 	return data;
 };
@@ -53,8 +53,7 @@ export const LevelDatas: Map<string, LevelData> = new Map(
 		{name: '8', image: 'heic1712a'},
 		{name: '9', image: 'potw2029a'},
 		{name: '10', image: 'heic0817a'},
-		{name: '11', image: 'heic0206a'},
-		{name: '12', image: 'heic1107a'},
+		{name: '11', image: 'heic1107a'},
 	].map((v) => {
 		(v as unknown as LevelData).imageMeta = toImageMeta(v.image);
 		return [v.name, v as unknown as LevelData];
@@ -62,7 +61,7 @@ export const LevelDatas: Map<string, LevelData> = new Map(
 );
 
 // TODO could add "sugar", 0-1, and sort by it on atlas
-export const PhaseDatas: Map<string, PhaseData> = new Map(
+export const phase_data_by_name: Map<string, PhaseData> = new Map(
 	[
 		{name: '0a', phase: 0, title: 'Adventure', song: 'Adventure', image: 'heic0506a'},
 		{
@@ -120,12 +119,12 @@ export const PhaseDatas: Map<string, PhaseData> = new Map(
 		{name: '10b', phase: 0, title: 'Facing Storm', song: 'Facing Storm', image: 'heic0817a'},
 		{name: '10d', phase: 1, title: "He's a Parrot", song: "He's a Parrot", image: 'heic0817a'},
 		{name: '10c', phase: 1, title: 'Lonely Mountain', song: 'Lonely Mountain', image: 'heic0817a'},
-		{name: '11a', phase: 0, title: 'Shining Stars', song: 'Shining Stars', image: 'heic0206a'},
-		{name: '11c', phase: 0, title: 'Life', song: 'Life', image: 'heic0206a'},
-		{name: '11b', phase: 0, title: 'Nomadic Sunset', song: 'Nomadic Sunset', image: 'heic0206a'},
-		{name: '12a', phase: 0, title: 'Chemical Z', song: 'Chemical Z', image: 'heic1107a'},
-		{name: '12c', phase: 0, title: 'Dream', song: 'Dream', image: 'heic1107a'},
-		{name: '12b', phase: 0, title: 'Terra Mystica', song: 'Terra Mystica', image: 'heic1107a'},
+		{name: '11a', phase: 0, title: 'Shining Stars', song: 'Shining Stars', image: 'heic1107a'},
+		{name: '11c', phase: 0, title: 'Life', song: 'Life', image: 'heic1107a'},
+		{name: '11b', phase: 0, title: 'Nomadic Sunset', song: 'Nomadic Sunset', image: 'heic1107a'},
+		{name: '11d', phase: 1, title: 'Chemical Z', song: 'Chemical Z', image: 'heic1107a'},
+		{name: '11e', phase: 1, title: 'Dream', song: 'Dream', image: 'heic1107a'},
+		{name: '11f', phase: 1, title: 'Terra Mystica', song: 'Terra Mystica', image: 'heic1107a'},
 	].map((v) => {
 		(v as unknown as PhaseData).song = lookup_song(v.song);
 		(v as unknown as PhaseData).stage = toPhaseDataByLevelName(v.name);
@@ -133,12 +132,12 @@ export const PhaseDatas: Map<string, PhaseData> = new Map(
 	}),
 );
 
-const PhaseDatasByLevelName = new Map<string, PhaseData[]>();
-for (const PhaseData of PhaseDatas.values()) {
-	const stage = toPhaseDataByLevelName(PhaseData.name);
-	let PhaseDatas = PhaseDatasByLevelName.get(stage.name);
-	if (!PhaseDatas) PhaseDatasByLevelName.set(stage.name, (PhaseDatas = []));
-	PhaseDatas.push(PhaseData);
+const phase_datas_by_level_name = new Map<string, PhaseData[]>();
+for (const phase_data of phase_data_by_name.values()) {
+	const stage = toPhaseDataByLevelName(phase_data.name);
+	let phase_datas = phase_datas_by_level_name.get(stage.name);
+	if (!phase_datas) phase_datas_by_level_name.set(stage.name, (phase_datas = []));
+	phase_datas.push(phase_data);
 }
 
 export type PhaseSequenceOrCreator = {
@@ -172,7 +171,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'10a',
 				'10c',
 				'11a',
-				'12a',
+				'11d',
 			],
 		},
 	},
@@ -201,7 +200,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'10a',
 				'10d',
 				'11c',
-				'12c',
+				'11e',
 			],
 		},
 	},
@@ -222,7 +221,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'10b',
 				'10c',
 				'11b',
-				'12b',
+				'11f',
 			],
 		},
 	},
@@ -252,7 +251,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'10b',
 				'10c',
 				'11b',
-				'12b',
+				'11f',
 			],
 		},
 	},
@@ -273,8 +272,8 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				randomItem(['8a', '8b']),
 				randomItem(['9a', '9b']),
 				randomItem([
-					['10a', '10c', '11a', '12a'],
-					['10b', '10c', '11b', '12b'],
+					['10a', '10c', '11a', '11d'],
+					['10b', '10c', '11b', '11f'],
 				]),
 			].flat(),
 		}),
@@ -307,9 +306,9 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				]),
 				randomItem([
 					// TODO should be weighted or enabled by how many balance points accumulated before this
-					['10a', '10c', '11a', '12a'],
-					['10a', '10d', '11c', '12c'],
-					['10b', '10c', '11b', '12b'],
+					['10a', '10c', '11a', '11d'],
+					['10a', '10d', '11c', '11e'],
+					['10b', '10c', '11b', '11f'],
 				]),
 			].flat(),
 		}),
@@ -319,7 +318,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 		data: (): PhaseSequenceData => {
 			/*
 
-		Conditions that disallow 12c:
+		Conditions that disallow 11e:
 		
 		- not enough balance (full a+c's is ok, maybe need more c's in that case, or perhaps it's naturally balanced because some c's  )
 		- too much salt
@@ -374,11 +373,11 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 			addPhase(
 				randomItem(
 					[
-						['10a', '10c', '11a', '12a'],
+						['10a', '10c', '11a', '11d'],
 						cCount >= MIN_C_COUNT_FOR_BALANCED_ENDING && bCount <= MAX_B_COUNT_FOR_BALANCED_ENDING
-							? ['10a', '10d', '11c', '12c']
+							? ['10a', '10d', '11c', '11e']
 							: null,
-						['10b', '10c', '11b', '12b'],
+						['10b', '10c', '11b', '11f'],
 					].filter(Boolean),
 				),
 			);
