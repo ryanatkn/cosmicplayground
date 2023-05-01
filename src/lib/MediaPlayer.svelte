@@ -39,6 +39,7 @@
 
 	export let collapsed = false;
 
+	// consider polling `audio_el.paused` like with `audio_el.currentTime` so we could have a `paused` local
 	const pause = () => {
 		// TODO BLOCK doesn't update `playing_song`
 		$playing_song?.audio_el?.pause();
