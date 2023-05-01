@@ -14,10 +14,12 @@ export interface SongPlayState {
 	audio: ResourceStore<AudioResource> | null;
 	$audio: AudioResource | null;
 	audio_el: HTMLAudioElement | null;
+	duration: number | null;
 	play: Promise<void> | null;
 	ended: Promise<unknown> | null;
 }
 
+// global store! ... normally I'd use context for this
 export const playing_song = writable<SongPlayState | null>(null);
 
 let id = 0;
@@ -36,6 +38,7 @@ export const play_song = async (
 		audio: null,
 		$audio: null,
 		audio_el: null,
+		duration: null,
 		play: null,
 		ended: null,
 	};
@@ -46,6 +49,7 @@ export const play_song = async (
 		return undefined;
 	};
 	const update_state = (partial?: Partial<SongPlayState>) => {
+		// update the global store, but only if our id is still there
 		playing_song.update((v) => (v?.id === state.id ? (state = {...state, ...partial}) : v));
 	};
 	const {url} = song;
@@ -69,13 +73,15 @@ export const play_song = async (
 		update_state({$audio});
 		return cleanup();
 	}
-	$audio.audio.volume = volume; // TODO where?
+	const audio_el = $audio.audio;
+	audio_el.volume = volume; // TODO where?
 	update_state({
 		$audio,
-		audio_el: $audio.audio,
-		play: play_audio($audio.audio), // TODO do something with this before resolving?
+		audio_el,
+		duration: audio_el.duration,
+		play: play_audio(audio_el), // TODO do something with this before resolving?
 		ended: new Promise<void>((resolve) =>
-			$audio.audio!.addEventListener(
+			audio_el!.addEventListener(
 				'ended',
 				() => {
 					resolve();

@@ -20,24 +20,18 @@
 </script>
 
 <!-- TODO render link -->
-<li class:selected role="none">
-	<button class:selected class="deselectable" on:click={play}
-		><small>{index + 1}</small> {playlist_item.song.name}</button
-	>
-</li>
+<button class:selected class="deselectable" on:click={play}
+	><small>{index + 1}</small> {playlist_item.song.name}</button
+>
 
 <style>
-	li {
-		background-color: var(--bg);
-	}
-	li.selected {
-		position: sticky;
-		top: 0;
-		bottom: 0;
-	}
 	button {
 		--border_radius: 0;
 		--border_color: var(--border_color_darker);
+		/* TODO set vars instead */
+		background-color: var(--bg);
+		/* for the z-index */
+		position: relative;
 		width: 100%;
 		justify-content: flex-start;
 	}
@@ -49,6 +43,11 @@
 	button.selected {
 		--border_color: var(--active_color);
 		z-index: 2;
+	}
+	button.selected {
+		position: sticky;
+		top: 0;
+		bottom: 0;
 	}
 	small {
 		margin-right: var(--spacing_md);

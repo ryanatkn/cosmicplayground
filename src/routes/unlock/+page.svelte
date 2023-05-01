@@ -4,7 +4,7 @@
 </script>
 
 <div class="unlock">
-	<section class="column">
+	<section class="column centered">
 		<h1>
 			unlock<img
 				src="/assets/characters/spider.png"
@@ -14,6 +14,11 @@
 				aria-hidden
 			/>
 		</h1>
+		<aside>
+			you made it, welcome. did you reach this place by rescuing the crew? if so, wow. I should
+			program something to continue that gameplay seamlessly (and improve the initial experience,
+			because, you know)
+		</aside>
 		<ul class="markup">
 			<!-- <li><a href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a></li> -->
 			<li><a href="/unlock/studio">studio</a></li>
@@ -37,6 +42,8 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+	}
+	ul {
 		font-size: var(--font_size_xl3);
 	}
 	@media (max-width: 530px) {

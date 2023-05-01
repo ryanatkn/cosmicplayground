@@ -18,15 +18,7 @@
 {#if collapsed}
 	{#if selected_playlist_item}
 		<div class="playlist" transition:slide|local>
-			<div class="items-wrapper">
-				<ul>
-					<PlaylistItem
-						playlist_item={selected_playlist_item}
-						index={selected_playlist_item_index}
-					/>
-					<!-- TODO else? -->
-				</ul>
-			</div>
+			<PlaylistItem playlist_item={selected_playlist_item} index={selected_playlist_item_index} />
 		</div>
 	{/if}
 {:else}
