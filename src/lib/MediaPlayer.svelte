@@ -1,9 +1,8 @@
 <script lang="ts">
-	import {writable, type Writable} from 'svelte/store';
+	import type {Writable} from 'svelte/store';
 	import {slide} from 'svelte/transition';
 
 	import Playlist from '$lib/Playlist.svelte';
-	import {songs_by_name} from '$lib/music/songs';
 	import {playing_song} from '$lib/music/play_song';
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
 	import {pause_audio, play_audio} from '$lib/audio/play_audio';
@@ -23,14 +22,13 @@
 	$: console.log(`playlist`, playlist);
 
 	// TODO BLOCK should we set the data in the store instead?
-	export let playlist_items: Writable<PlaylistItemData[]> = writable(
-		Array.from(songs_by_name.values()).map((song) => ({
-			song,
-		})),
-	);
+	export let playlist_items: PlaylistItemData[];
+
+	let data: Writable<PlaylistItemData[]>;
+	$: data?.set(playlist_items);
+
 	let selected_playlist_item: PlaylistItemData | null = null;
-	$: selected_playlist_item =
-		(current_song && $playlist_items.find((p) => current_song === p.song)) || null;
+	$: selected_playlist_item = (current_song && $data.find((p) => current_song === p.song)) || null;
 
 	export let collapsed = false;
 
@@ -68,10 +66,10 @@
 				>{#if collapsed}+{:else}−{/if}</button
 			>
 		</header>
-		<Playlist bind:this={playlist} bind:playlist_items {collapsed} />
+		<Playlist bind:this={playlist} bind:playlist_items={data} {collapsed} />
 		{#if !collapsed}
 			<footer transition:slide|local>
-				<span><strong>{$playlist_items.length}</strong> songs</span>
+				<span><strong>{$data.length}</strong> songs</span>
 			</footer>
 		{/if}
 	</div>

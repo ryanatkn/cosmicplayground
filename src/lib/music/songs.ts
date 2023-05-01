@@ -4,7 +4,7 @@ export const Song = z.object({
 	name: z.string(),
 	author: z.string(),
 	url: z.string(),
-	// TODO BLOCK duration, but as metadata? write a gen file to output data?
+	// TODO BLOCK duration, but as metadata? write a gen file to output data? would allow us to display that info before loading
 });
 export type Song = z.infer<typeof Song>;
 
