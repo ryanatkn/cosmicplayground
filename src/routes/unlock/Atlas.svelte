@@ -200,16 +200,6 @@
 			/>
 		</Level>
 	</section>
-	<section>
-		<Level level={to_level_data_by_name('11')} let:phase>
-			<Phase
-				{phase}
-				{selectPhase}
-				selected={phase === selectedPhase}
-				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
-			/>
-		</Level>
-	</section>
 </div>
 
 <style>
