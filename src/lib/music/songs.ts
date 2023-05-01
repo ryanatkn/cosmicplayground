@@ -263,6 +263,8 @@ export const songs_by_name: Map<string, Song> = new Map(
 	].map((v) => [v.name, v]),
 );
 
+export const all_songs: Song[] = Array.from(songs_by_name.values());
+
 export const lookup_song = (name: string): Song => {
 	const song = songs_by_name.get(name);
 	if (!song) throw Error('Unknown song: ' + name);

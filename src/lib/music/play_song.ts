@@ -31,6 +31,7 @@ let id = 0;
 export const play_song = async (
 	song: Song,
 	volume: number = DEFAULT_VOLUME,
+	start_paused = false,
 ): Promise<SongPlayState | undefined> => {
 	// state gets mustated as the `play_song` function progresses
 	let state: SongPlayState = {
@@ -81,7 +82,7 @@ export const play_song = async (
 		$audio,
 		audio_el,
 		duration: audio_el.duration,
-		play: play_audio(audio_el), // TODO do something with this before resolving?
+		play: start_paused ? null : play_audio(audio_el), // TODO do something with this before resolving?
 		ended: new Promise<void>((resolve) =>
 			audio_el!.addEventListener(
 				'ended',

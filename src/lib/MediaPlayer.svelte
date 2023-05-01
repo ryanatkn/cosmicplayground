@@ -5,9 +5,10 @@
 	import {swallow} from '@feltjs/util/dom.js';
 
 	import Playlist from '$lib/Playlist.svelte';
-	import {playing_song} from '$lib/music/play_song';
+	import {play_song, playing_song} from '$lib/music/play_song';
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
 	import {play_audio} from '$lib/audio/play_audio';
+	import {all_songs} from '$lib/music/songs';
 
 	$: console.log(`$playing_song`, $playing_song, $playing_song?.audio_el);
 	// TODO playbackRate option? https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/playbackRate
@@ -44,20 +45,35 @@
 		// TODO BLOCK doesn't update `playing_song`
 		$playing_song?.audio_el?.pause();
 	};
-	const resume = () => {
+	const resume = async () => {
 		// TODO BLOCK
 		console.log(`$playing_song`, $playing_song);
 		if (audio_el) {
-			void play_audio(audio_el, current_time);
+			await play_audio(audio_el, current_time);
 		}
 	};
-	const restart = () => {
+	const restart_or_previous = async () => {
 		if (audio_el) {
-			audio_el.currentTime = 0;
+			if (audio_el.currentTime === 0) {
+				if (!$playing_song) return;
+				const current_song_index = all_songs.indexOf($playing_song.song);
+				const next_song_index =
+					current_song_index === 0 ? all_songs.length - 1 : current_song_index - 1;
+				const next_song = all_songs[next_song_index];
+				const playing = await play_song(next_song, undefined, true);
+				if (playing?.audio_el) playing.audio_el.currentTime = 0;
+			} else {
+				audio_el.currentTime = 0;
+			}
 		}
 	};
-	const next = () => {
-		//
+	const next = async () => {
+		if (!$playing_song) return;
+		const current_song_index = all_songs.indexOf($playing_song.song);
+		const next_song_index =
+			current_song_index === all_songs.length - 1 ? 0 : current_song_index + 1;
+		const next_song = all_songs[next_song_index];
+		await play_song(next_song);
 	};
 
 	// TODO refactor? this updates the component's `current_time`, syncing to the audio element
@@ -86,7 +102,7 @@
 			>
 				{#if !audio_el || audio_el.paused}⏵{:else}⏸{/if}
 			</button>
-			<button class="icon-button plain-button" on:click={() => restart()}>⏮</button>
+			<button class="icon-button plain-button" on:click={() => restart_or_previous()}>⏮</button>
 			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
 			<!-- TODO ? <button class="icon-button plain-button" on:click={() => stop()}>⏹</button> -->
 			<!-- TODO this shouldn't be needed -->
