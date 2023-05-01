@@ -17,18 +17,20 @@
 	$: playing = !!$playing_song;
 	$: current_song = $playing_song?.song;
 
-	// TODO BLOCK
-	export let playlist: Playlist = undefined as any; // TODO BLOCK terrible
+	let playlist: Playlist;
 	$: console.log(`playlist`, playlist);
 
 	// TODO BLOCK should we set the data in the store instead?
 	export let playlist_items: PlaylistItemData[];
 
-	let data: Writable<PlaylistItemData[]>;
-	$: data?.set(playlist_items);
+	let playlist_items_data: Writable<PlaylistItemData[]> | undefined;
+	$: playlist_items_data = playlist?.playlist_items;
+	$: if (playlist_items_data) $playlist_items_data = playlist_items;
+	$: console.log(`$data`, $playlist_items_data);
 
 	let selected_playlist_item: PlaylistItemData | null = null;
-	$: selected_playlist_item = (current_song && $data.find((p) => current_song === p.song)) || null;
+	$: selected_playlist_item =
+		(current_song && $playlist_items_data?.find((p) => current_song === p.song)) || null;
 
 	export let collapsed = false;
 
@@ -66,10 +68,10 @@
 				>{#if collapsed}+{:else}−{/if}</button
 			>
 		</header>
-		<Playlist bind:this={playlist} bind:playlist_items={data} {collapsed} />
-		{#if !collapsed}
+		<Playlist bind:this={playlist} {collapsed} />
+		{#if !collapsed && $playlist_items_data}
 			<footer transition:slide|local>
-				<span><strong>{$data.length}</strong> songs</span>
+				<span><strong>{$playlist_items_data.length}</strong> songs</span>
 			</footer>
 		{/if}
 	</div>

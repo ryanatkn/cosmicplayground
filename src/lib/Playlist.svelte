@@ -7,7 +7,6 @@
 	export type PlaylistItemData = z.infer<typeof PlaylistItemData>;
 </script>
 
-<!-- TODO do we want accessors? I think so because we chose to make `playlist_items` `let` instead of `const`  -->
 <script lang="ts">
 	import {slide} from 'svelte/transition';
 	import {writable, type Writable} from 'svelte/store';
@@ -18,7 +17,7 @@
 
 	export let collapsed: boolean;
 
-	export let playlist_items: Writable<PlaylistItemData[]> = writable([]);
+	export const playlist_items: Writable<PlaylistItemData[]> = writable([]);
 
 	$: current_song = $playing_song?.song;
 	$: selected_playlist_item_index = $playlist_items.findIndex((p) => p.song === current_song);
