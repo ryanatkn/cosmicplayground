@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {PlaylistItemData} from '$lib/music/playlist';
+	import type {PlaylistItemData} from '$lib/Playlist.svelte';
 	import {play_song, playing_song} from '$lib/music/play_song';
 
 	export let playlist_item: PlaylistItemData;

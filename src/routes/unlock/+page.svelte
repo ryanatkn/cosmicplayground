@@ -15,9 +15,11 @@
 			/>
 		</h1>
 		<aside>
-			you made it, welcome. did you reach this place by rescuing the crew? if so, wow. I should
-			program something to continue that gameplay seamlessly (and improve the initial experience,
-			because, you know)
+			you made it, welcome. did you reach this place by rescuing the crew all at once in the actual
+			game? if so, wow, that sounds like it deserves a reward. anyway, I should program something to
+			continue that gameplay seamlessly (and improve the initial experience, it's at the stage where
+			a little can go a long way) in the meantime, you can click the links below to see some
+			previews:
 		</aside>
 		<ul class="markup">
 			<!-- <li><a href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a></li> -->

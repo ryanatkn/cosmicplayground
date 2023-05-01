@@ -1,40 +1,49 @@
 <script lang="ts">
+	import {writable, type Writable} from 'svelte/store';
 	import {slide} from 'svelte/transition';
 
-	import Playlist from '$lib/music/Playlist.svelte';
+	import Playlist from '$lib/Playlist.svelte';
 	import {songs_by_name} from '$lib/music/songs';
 	import {playing_song} from '$lib/music/play_song';
-	import type {PlaylistItemData, PlaylistStore as PlaylistStoreTODO} from '$lib/music/playlist';
-	import {pause_audio} from '$lib/audio/play_audio';
+	import type {PlaylistItemData} from '$lib/Playlist.svelte';
+	import {pause_audio, play_audio} from '$lib/audio/play_audio';
 
 	$: console.log(`$playing_song`, $playing_song, $playing_song?.audio_el);
-
 	// TODO playbackRate option? https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/playbackRate
 
 	// TODO skins (inspired by winamp)
 
 	// TODO BLOCK pause/play buttons, show currentTime progress, scrub currentTime
 
-	export let playlist: PlaylistStoreTODO; // TODO BLOCK
+	$: playing = !!$playing_song;
+	$: current_song = $playing_song?.song;
 
-	export let playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values()).map(
-		(song) => ({
+	// TODO BLOCK
+	export let playlist: Playlist = undefined as any; // TODO BLOCK terrible
+	$: console.log(`playlist`, playlist);
+
+	// TODO BLOCK should we set the data in the store instead?
+	export let playlist_items: Writable<PlaylistItemData[]> = writable(
+		Array.from(songs_by_name.values()).map((song) => ({
 			song,
-		}),
+		})),
 	);
 	let selected_playlist_item: PlaylistItemData | null = null;
 	$: selected_playlist_item =
-		($playing_song && playlist_items.find((p) => $playing_song!.song === p.song)) || null;
+		(current_song && $playlist_items.find((p) => current_song === p.song)) || null;
 
 	export let collapsed = false;
 
-	$: playing = !!$playing_song;
 	const pause = () => {
 		// TODO BLOCK doesn't update `playing_song`
 		pause_audio();
+		// HTMLMediaElement
 	};
 	const resume = () => {
 		// TODO BLOCK
+		const audio_el = $playing_song?.audio_el;
+		console.log(`$playing_song`, $playing_song);
+		if (audio_el) void play_audio(audio_el);
 	};
 	const restart = () => {
 		// TODO BLOCK
@@ -59,10 +68,10 @@
 				>{#if collapsed}+{:else}−{/if}</button
 			>
 		</header>
-		<Playlist {playlist_items} {collapsed} />
+		<Playlist bind:this={playlist} bind:playlist_items {collapsed} />
 		{#if !collapsed}
 			<footer transition:slide|local>
-				<span><strong>{playlist_items.length}</strong> songs</span>
+				<span><strong>{$playlist_items.length}</strong> songs</span>
 			</footer>
 		{/if}
 	</div>

@@ -5,10 +5,7 @@
 	import Panel from '$lib/app/Panel.svelte';
 	import AboutPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
-	import Player from '$lib/music/Player.svelte';
-	import {create_playlist} from '$lib/music/playlist';
-
-	const playlist = create_playlist();
+	import Player from '$lib/MediaPlayer.svelte';
 </script>
 
 <div>
@@ -22,7 +19,7 @@
 		</div>
 	{/if}
 	<section>
-		<Player {playlist} />
+		<Player />
 	</section>
 	<PortalPreview href="/about">
 		<AboutPreview />
