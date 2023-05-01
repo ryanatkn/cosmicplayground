@@ -16,10 +16,10 @@
 
 	// TODO refactor this so it doesn't use `bind`
 	let selectedPhase: PhaseData | null = null;
-	let selectedPhaseSequenceOrCreator: PhaseSequenceOrCreator | null = null;
-	let selectedPhaseSequence: PhaseSequence | null = null;
+	let selected_phase_sequence_or_creator: PhaseSequenceOrCreator | null = null;
+	let selected_phase_sequence: PhaseSequence | null = null;
 
-	const playPhaseSong = async (phase: PhaseData): Promise<void> => {
+	const play_phase_song = async (phase: PhaseData): Promise<void> => {
 		console.log(`playPhaseSong`, phase);
 		const playState = await play_song(phase.song); // TODO global player controls
 		if (!playState) return;
@@ -32,61 +32,64 @@
 	// TODO refactor, maybe a `LevelManager` or something
 	const play_phase_sequence = async (
 		phase_sequence_or_creator: PhaseSequenceOrCreator,
-		jumpToPhase: PhaseData | null = null,
+		jump_to_phase: PhaseData | null = null,
 	): Promise<void> => {
-		if (jumpToPhase && phase_sequence_or_creator === selectedPhaseSequenceOrCreator) {
+		if (jump_to_phase && phase_sequence_or_creator === selected_phase_sequence_or_creator) {
 			pause_audio();
 		} else {
 			cancel();
-			selectedPhaseSequenceOrCreator = phase_sequence_or_creator;
-			selectedPhaseSequence = toPhaseSequence(phase_sequence_or_creator);
-			console.log(`playing phase_sequence`, phase_sequence_or_creator, selectedPhaseSequence);
+			selected_phase_sequence_or_creator = phase_sequence_or_creator;
+			selected_phase_sequence = toPhaseSequence(phase_sequence_or_creator);
+			console.log(`playing phase_sequence`, phase_sequence_or_creator, selected_phase_sequence);
 		}
 
-		const {sequence} = selectedPhaseSequence!.data;
+		const {sequence} = selected_phase_sequence!.data;
 
 		// If trying to play a level that isn't part of the sequence,
 		// cancel the sequence and just play the song.
-		let remainingSequence = sequence;
-		if (jumpToPhase) {
-			const jumpToIndex = sequence.indexOf(jumpToPhase.name);
+		let remaining_sequence = sequence;
+		if (jump_to_phase) {
+			const jumpToIndex = sequence.indexOf(jump_to_phase.name);
 			if (jumpToIndex === -1) {
 				cancel();
-				return playPhaseSong(jumpToPhase);
+				return play_phase_song(jump_to_phase);
 			}
-			remainingSequence = sequence.slice(jumpToIndex);
+			remaining_sequence = sequence.slice(jumpToIndex);
 		}
 
 		// Play each song in sequence.
-		for (const phaseName of remainingSequence) {
-			const phase = phase_data_by_name.get(phaseName)!;
+		for (const phase_name of remaining_sequence) {
+			const phase = phase_data_by_name.get(phase_name)!;
 			selectedPhase = phase;
-			await playPhaseSong(phase); // eslint-disable-line no-await-in-loop
-			if (selectedPhaseSequenceOrCreator !== phase_sequence_or_creator || selectedPhase !== phase) {
+			await play_phase_song(phase); // eslint-disable-line no-await-in-loop
+			if (
+				selected_phase_sequence_or_creator !== phase_sequence_or_creator ||
+				selectedPhase !== phase
+			) {
 				return; // canceled or changed
 			}
 		}
 		selectedPhase = null;
-		selectedPhaseSequenceOrCreator = null;
+		selected_phase_sequence_or_creator = null;
 	};
 
 	const cancel = (): void => {
 		pause_audio();
-		selectedPhaseSequenceOrCreator = null;
-		selectedPhaseSequence = null;
+		selected_phase_sequence_or_creator = null;
+		selected_phase_sequence = null;
 		selectedPhase = null;
 	};
 
-	const selectPhase = (phase: PhaseData) => {
-		console.log(`selectPhase`, phase);
-		if (!selectedPhaseSequenceOrCreator) {
-			return playPhaseSong(phase);
+	const select_phase = (phase: PhaseData) => {
+		console.log(`select_phase`, phase);
+		if (!selected_phase_sequence_or_creator) {
+			return play_phase_song(phase);
 		}
-		return play_phase_sequence(selectedPhaseSequenceOrCreator, phase);
+		return play_phase_sequence(selected_phase_sequence_or_creator, phase);
 	};
 </script>
 
-<LevelButtons {selectedPhaseSequenceOrCreator} {play_phase_sequence} {cancel} />
+<LevelButtons {selected_phase_sequence_or_creator} {play_phase_sequence} {cancel} />
 <!-- TODO probably render the active stage+level here -->
 <div class="atlas">
 	<section>
@@ -94,9 +97,9 @@
 		<Level level={to_level_data_by_name('0')} let:phase>
 			<Phase
 				{phase}
-				{selectPhase}
+				{select_phase}
 				selected={phase === selectedPhase}
-				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
+				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
 	</section>
@@ -104,9 +107,9 @@
 		<Level level={to_level_data_by_name('1')} let:phase>
 			<Phase
 				{phase}
-				{selectPhase}
+				{select_phase}
 				selected={phase === selectedPhase}
-				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
+				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
 	</section>
@@ -114,9 +117,9 @@
 		<Level level={to_level_data_by_name('2')} let:phase>
 			<Phase
 				{phase}
-				{selectPhase}
+				{select_phase}
 				selected={phase === selectedPhase}
-				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
+				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
 	</section>
@@ -124,9 +127,9 @@
 		<Level level={to_level_data_by_name('3')} let:phase>
 			<Phase
 				{phase}
-				{selectPhase}
+				{select_phase}
 				selected={phase === selectedPhase}
-				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
+				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
 	</section>
@@ -134,9 +137,9 @@
 		<Level level={to_level_data_by_name('4')} let:phase>
 			<Phase
 				{phase}
-				{selectPhase}
+				{select_phase}
 				selected={phase === selectedPhase}
-				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
+				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
 	</section>
@@ -144,9 +147,9 @@
 		<Level level={to_level_data_by_name('5')} let:phase>
 			<Phase
 				{phase}
-				{selectPhase}
+				{select_phase}
 				selected={phase === selectedPhase}
-				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
+				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
 	</section>
@@ -154,9 +157,9 @@
 		<Level level={to_level_data_by_name('6')} let:phase>
 			<Phase
 				{phase}
-				{selectPhase}
+				{select_phase}
 				selected={phase === selectedPhase}
-				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
+				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
 	</section>
@@ -164,9 +167,9 @@
 		<Level level={to_level_data_by_name('7')} let:phase>
 			<Phase
 				{phase}
-				{selectPhase}
+				{select_phase}
 				selected={phase === selectedPhase}
-				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
+				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
 	</section>
@@ -174,9 +177,9 @@
 		<Level level={to_level_data_by_name('8')} let:phase>
 			<Phase
 				{phase}
-				{selectPhase}
+				{select_phase}
 				selected={phase === selectedPhase}
-				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
+				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
 	</section>
@@ -184,9 +187,9 @@
 		<Level level={to_level_data_by_name('9')} let:phase>
 			<Phase
 				{phase}
-				{selectPhase}
+				{select_phase}
 				selected={phase === selectedPhase}
-				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
+				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
 	</section>
@@ -194,9 +197,9 @@
 		<Level level={to_level_data_by_name('10')} let:phase>
 			<Phase
 				{phase}
-				{selectPhase}
+				{select_phase}
 				selected={phase === selectedPhase}
-				disabled={!!selectedPhaseSequence && !sequenceContains(selectedPhaseSequence, phase)}
+				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
 	</section>

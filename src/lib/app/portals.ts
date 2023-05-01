@@ -5,7 +5,7 @@ import type {PortalsData, PortalData} from '$lib/app/portal';
 
 export interface PortalsState {
 	data: PortalsData;
-	selectedPortal: PortalData | null;
+	selected_portal: PortalData | null;
 }
 
 export interface PortalsStore extends Readable<PortalsState> {
@@ -18,10 +18,10 @@ export const createPortalsStore = (initialState: PortalsState): PortalsStore => 
 	const portalsStore: PortalsStore = {
 		subscribe,
 		select: (slug: string) => {
-			if (get(store).selectedPortal?.slug === slug) return;
+			if (get(store).selected_portal?.slug === slug) return;
 			update(($portals) => ({
 				...$portals,
-				selectedPortal: $portals.data.portalsBySlug.get(slug)!,
+				selected_portal: $portals.data.portalsBySlug.get(slug)!,
 			}));
 		},
 	};

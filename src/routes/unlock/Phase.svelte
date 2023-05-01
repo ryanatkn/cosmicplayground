@@ -4,13 +4,13 @@
 	export let phase: PhaseData;
 	export let selected: boolean;
 	export let disabled: boolean;
-	export let selectPhase: (phase: PhaseData) => void; // TODO events instead of callbacks?
+	export let select_phase: (phase: PhaseData) => void; // TODO events instead of callbacks?
 </script>
 
 <div class="phase" title="phase {phase.name}">
 	<button
 		on:click={() => {
-			selectPhase(phase);
+			select_phase(phase);
 		}}
 		class:selected
 		class:buttonish={!disabled}

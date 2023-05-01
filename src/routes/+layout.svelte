@@ -124,11 +124,11 @@
 
 	const portals = createPortalsStore({
 		data: portalsData,
-		selectedPortal: portalsData.portalsBySlug.get($page.url.pathname.substring(1)) || null,
+		selected_portal: portalsData.portalsBySlug.get($page.url.pathname.substring(1)) || null,
 	});
 	setPortals(portals);
-	$: selectedPortalSlugFromPath = $page.url.pathname.substring(1).split('/')[0];
-	$: portals.select(selectedPortalSlugFromPath); // TODO hmm?
+	$: selected_portalSlugFromPath = $page.url.pathname.substring(1).split('/')[0];
+	$: portals.select(selected_portalSlugFromPath); // TODO hmm?
 
 	const idle = writable(false);
 	setIdle(idle);
@@ -202,7 +202,7 @@
 			class:secret={$settings.secretEnabled}
 			class:idle={$idle || $settings.idleMode}
 		>
-			{#if !$portals.selectedPortal || $portals.selectedPortal.showHomeButton}
+			{#if !$portals.selected_portal || $portals.selected_portal.showHomeButton}
 				<Hud>
 					<HomeButton />
 				</Hud>
