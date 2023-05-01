@@ -15,7 +15,7 @@
 	import {play_song} from '$lib/music/play_song';
 
 	// TODO refactor this so it doesn't use `bind`
-	let selectedPhase: PhaseData | null = null;
+	let selected_phase: PhaseData | null = null;
 	let selected_phase_sequence_or_creator: PhaseSequenceOrCreator | null = null;
 	let selected_phase_sequence: PhaseSequence | null = null;
 
@@ -60,16 +60,16 @@
 		// Play each song in sequence.
 		for (const phase_name of remaining_sequence) {
 			const phase = phase_data_by_name.get(phase_name)!;
-			selectedPhase = phase;
+			selected_phase = phase;
 			await play_phase_song(phase); // eslint-disable-line no-await-in-loop
 			if (
 				selected_phase_sequence_or_creator !== phase_sequence_or_creator ||
-				selectedPhase !== phase
+				selected_phase !== phase
 			) {
 				return; // canceled or changed
 			}
 		}
-		selectedPhase = null;
+		selected_phase = null;
 		selected_phase_sequence_or_creator = null;
 	};
 
@@ -77,7 +77,7 @@
 		pause_audio();
 		selected_phase_sequence_or_creator = null;
 		selected_phase_sequence = null;
-		selectedPhase = null;
+		selected_phase = null;
 	};
 
 	const select_phase = (phase: PhaseData) => {
@@ -98,7 +98,7 @@
 			<Phase
 				{phase}
 				{select_phase}
-				selected={phase === selectedPhase}
+				selected={phase === selected_phase}
 				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
@@ -108,7 +108,7 @@
 			<Phase
 				{phase}
 				{select_phase}
-				selected={phase === selectedPhase}
+				selected={phase === selected_phase}
 				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
@@ -118,7 +118,7 @@
 			<Phase
 				{phase}
 				{select_phase}
-				selected={phase === selectedPhase}
+				selected={phase === selected_phase}
 				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
@@ -128,7 +128,7 @@
 			<Phase
 				{phase}
 				{select_phase}
-				selected={phase === selectedPhase}
+				selected={phase === selected_phase}
 				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
@@ -138,7 +138,7 @@
 			<Phase
 				{phase}
 				{select_phase}
-				selected={phase === selectedPhase}
+				selected={phase === selected_phase}
 				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
@@ -148,7 +148,7 @@
 			<Phase
 				{phase}
 				{select_phase}
-				selected={phase === selectedPhase}
+				selected={phase === selected_phase}
 				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
@@ -158,7 +158,7 @@
 			<Phase
 				{phase}
 				{select_phase}
-				selected={phase === selectedPhase}
+				selected={phase === selected_phase}
 				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
@@ -168,7 +168,7 @@
 			<Phase
 				{phase}
 				{select_phase}
-				selected={phase === selectedPhase}
+				selected={phase === selected_phase}
 				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
@@ -178,7 +178,7 @@
 			<Phase
 				{phase}
 				{select_phase}
-				selected={phase === selectedPhase}
+				selected={phase === selected_phase}
 				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
@@ -188,7 +188,7 @@
 			<Phase
 				{phase}
 				{select_phase}
-				selected={phase === selectedPhase}
+				selected={phase === selected_phase}
 				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
@@ -198,7 +198,7 @@
 			<Phase
 				{phase}
 				{select_phase}
-				selected={phase === selectedPhase}
+				selected={phase === selected_phase}
 				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
 			/>
 		</Level>
