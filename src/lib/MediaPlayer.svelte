@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type {Writable} from 'svelte/store';
 	import {slide} from 'svelte/transition';
+	import {getClock} from '@feltcoop/dealt';
 
 	import Playlist from '$lib/Playlist.svelte';
 	import {playing_song} from '$lib/music/play_song';
@@ -32,6 +33,10 @@
 	$: selected_playlist_item =
 		(current_song && $playlist_items_data?.find((p) => current_song === p.song)) || null;
 
+	$: duration = $playing_song?.duration;
+	$: audio_el = $playing_song?.audio_el;
+	$: console.log(`audio_el`, audio_el?.currentTime);
+
 	export let collapsed = false;
 
 	const pause = () => {
@@ -51,6 +56,14 @@
 	const next = () => {
 		// TODO BLOCK
 	};
+
+	// TODO BLOCK figure this out
+	const clock = getClock();
+	clock.resume();
+	let current_time: number | undefined;
+	$: time = $clock.time;
+	$: time, audio_el && (current_time = audio_el.currentTime);
+	$: console.log(`current_time`, current_time);
 </script>
 
 <div class="player">
@@ -63,7 +76,18 @@
 			<button class="icon-button plain-button" on:click={() => restart()}>⏮</button>
 			<!-- TODO ? <button class="icon-button plain-button" on:click={() => stop()}>⏹</button> -->
 			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
-			<div style:flex="1" style:padding-left="var(--spacing_md)" />
+			{#if duration != null}
+				<input
+					class="plain-input"
+					type="range"
+					min={0}
+					max={duration}
+					step={0.01}
+					value={current_time}
+				/>
+			{:else}
+				<div style:flex="1" />
+			{/if}
 			<button class="icon-button plain-button" on:click={() => (collapsed = !collapsed)}
 				>{#if collapsed}+{:else}−{/if}</button
 			>
