@@ -87,7 +87,8 @@ export const phase_data_by_name: Map<string, PhaseData> = new Map(
 		{name: '2c', phase: 1, title: 'Frost', song: 'Frost', image: 'opo0415a'},
 		{name: '3a', phase: 0, title: 'Blacksmith', song: 'Blacksmith', image: 'heic1913c'},
 		{name: '3b', phase: 0, title: 'The Crown', song: 'The Crown', image: 'heic1913c'},
-		{name: '3c', phase: 1, title: 'Spacebuckler', song: 'Spacebuckler', image: 'heic1913c'},
+		{name: '3c', phase: 1, title: 'Bhangra Bass', song: 'Bhangra Bass', image: 'heic1913c'},
+		{name: '3d', phase: 1, title: 'Spacebuckler', song: 'Spacebuckler', image: 'heic1913c'},
 		{name: '4a', phase: 0, title: 'Brewing Potions', song: 'Brewing Potions', image: 'heic1302a'},
 		{name: '4b', phase: 0, title: 'Hit n Smash', song: 'Hit n Smash', image: 'heic1302a'},
 		{name: '4c', phase: 1, title: 'Fanfare X', song: 'Fanfare X', image: 'heic1302a'},
@@ -235,7 +236,7 @@ export const phase_sequences: PhaseSequenceOrCreator[] = [
 				'2b',
 				'2c',
 				'3b',
-				'3c',
+				'3d',
 				'4b',
 				randomItem(['4d', '4e']),
 				'5b',
@@ -287,7 +288,7 @@ export const phase_sequences: PhaseSequenceOrCreator[] = [
 				randomItem(['2a', '2b']),
 				'2c',
 				randomItem(['3a', '3b']),
-				'3c',
+				randomItem(['3c', '3d']),
 				randomItem([
 					['4a', '4d'],
 					['4b', '4c', '4e'],
@@ -353,7 +354,9 @@ export const phase_sequences: PhaseSequenceOrCreator[] = [
 			addPhase(randomItem(['2c', null]));
 			addPhase(randomItem(['3a', '3b']));
 			// had to suppress reaction at least once to get this option
-			addPhase(randomItem([cCount > MIN_C_COUNT_FOR_3C ? randomItem(['3c', null]) : null, null]));
+			addPhase(
+				randomItem([cCount > MIN_C_COUNT_FOR_3_TIER2 ? randomItem(['3c', '3d']) : null, null]),
+			);
 			addPhase(
 				randomItem([
 					['4a', '4d'],
@@ -391,7 +394,7 @@ export const sequenceContains = (phase_sequence: PhaseSequence, phase: PhaseData
 	phase_sequence.data.sequence.includes(phase.name);
 
 // TODO maybe do this differently, specific level outcomes integrated with the store?
-const MIN_C_COUNT_FOR_3C = 1;
+const MIN_C_COUNT_FOR_3_TIER2 = 1;
 const MIN_C_COUNT_FOR_4C = 1;
 const MIN_C_COUNT_FOR_BALANCED_ENDING = 4;
 const MAX_B_COUNT_FOR_BALANCED_ENDING = 7;

@@ -96,6 +96,11 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__The_Crown.mp3',
 		},
 		{
+			name: 'Bhangra Bass',
+			author: 'Punch Deck',
+			url: '/assets/audio/Punch_Deck__Bhangra_Bass.mp3',
+		},
+		{
 			name: 'Spacebuckler',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Spacebuckler.mp3',
