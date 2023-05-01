@@ -82,7 +82,7 @@
 			</button>
 			<button class="icon-button plain-button" on:click={() => restart()}>⏮</button>
 			<!-- TODO ? <button class="icon-button plain-button" on:click={() => stop()}>⏹</button> -->
-			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
+			<!-- TODO this shouldn't be needed -->
 			{#if duration != null}
 				<input
 					transition:fade|local={{duration: 133}}
@@ -98,6 +98,7 @@
 			{:else}
 				<div style:flex="1" />
 			{/if}
+			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
 			<button class="icon-button plain-button" on:click={() => (collapsed = !collapsed)}
 				>{#if collapsed}+{:else}−{/if}</button
 			>
