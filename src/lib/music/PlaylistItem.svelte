@@ -21,7 +21,9 @@
 
 <!-- TODO render link -->
 <button class:selected class="deselectable" on:click={play}
-	><small>{index + 1}</small> {playlist_item.song.name}</button
+	><div class="count">{index + 1}</div>
+	{playlist_item.song.name}
+	<div class="author">{playlist_item.song.author}</div></button
 >
 
 <style>
@@ -34,6 +36,8 @@
 		position: relative;
 		width: 100%;
 		justify-content: flex-start;
+		/* allow the content to shrink a lot, still needs responsive design work but isn't broken */
+		min-height: var(--button_height);
 	}
 	button:hover {
 		--border_color: var(--border_color_dark);
@@ -49,7 +53,18 @@
 		top: 0;
 		bottom: 0;
 	}
-	small {
-		margin-right: var(--spacing_md);
+	.count {
+		font-size: var(--font_size_sm);
+		font-weight: 500;
+		width: var(--spacing_xl3);
+		display: flex;
+	}
+	.author {
+		flex: 1;
+		display: flex;
+		justify-content: flex-end;
+		padding-left: var(--spacing_xl);
+		font-size: var(--font_size_sm);
+		font-weight: 500;
 	}
 </style>
