@@ -88,6 +88,7 @@
 					transition:fade|local={{duration: 133}}
 					on:input={input_current_time}
 					class="plain-input"
+					style:flex="1"
 					type="range"
 					min={0}
 					max={duration}
