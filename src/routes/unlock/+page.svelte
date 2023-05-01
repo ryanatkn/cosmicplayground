@@ -47,7 +47,7 @@
 		font-size: var(--font_size_xl3);
 	}
 	@media (max-width: 530px) {
-		.unlock {
+		ul {
 			font-size: var(--font_size_xl);
 		}
 	}
