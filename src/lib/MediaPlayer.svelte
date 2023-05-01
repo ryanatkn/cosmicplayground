@@ -81,6 +81,7 @@
 				{#if playing}⏸{:else}⏵{/if}
 			</button>
 			<button class="icon-button plain-button" on:click={() => restart()}>⏮</button>
+			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
 			<!-- TODO ? <button class="icon-button plain-button" on:click={() => stop()}>⏹</button> -->
 			<!-- TODO this shouldn't be needed -->
 			{#if duration != null}
@@ -98,7 +99,6 @@
 			{:else}
 				<div style:flex="1" />
 			{/if}
-			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
 			<button class="icon-button plain-button" on:click={() => (collapsed = !collapsed)}
 				>{#if collapsed}+{:else}−{/if}</button
 			>
