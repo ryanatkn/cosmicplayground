@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type {Writable} from 'svelte/store';
-	import {slide} from 'svelte/transition';
+	import {fade, slide} from 'svelte/transition';
 	import {getClock} from '@feltcoop/dealt';
 
 	import Playlist from '$lib/Playlist.svelte';
@@ -77,6 +77,7 @@
 			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
 			{#if duration != null}
 				<input
+					transition:fade|local={{duration: 133}}
 					class="plain-input"
 					type="range"
 					min={0}
