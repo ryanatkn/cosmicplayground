@@ -7,7 +7,7 @@
 	import Playlist from '$lib/Playlist.svelte';
 	import {playing_song} from '$lib/music/play_song';
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
-	import {pause_audio, play_audio} from '$lib/audio/play_audio';
+	import {play_audio} from '$lib/audio/play_audio';
 
 	$: console.log(`$playing_song`, $playing_song, $playing_song?.audio_el);
 	// TODO playbackRate option? https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/playbackRate
@@ -16,7 +16,6 @@
 
 	// TODO BLOCK pause/play buttons, show currentTime progress, scrub currentTime
 
-	$: playing = !!$playing_song;
 	$: current_song = $playing_song?.song;
 
 	let playlist: Playlist;
@@ -42,14 +41,14 @@
 
 	const pause = () => {
 		// TODO BLOCK doesn't update `playing_song`
-		pause_audio();
-		// HTMLMediaElement
+		$playing_song?.audio_el?.pause();
 	};
 	const resume = () => {
 		// TODO BLOCK
-		const audio_el = $playing_song?.audio_el;
 		console.log(`$playing_song`, $playing_song);
-		if (audio_el) void play_audio(audio_el);
+		if (audio_el) {
+			void play_audio(audio_el, current_time);
+		}
 	};
 	const restart = () => {
 		// TODO BLOCK
@@ -77,8 +76,12 @@
 	<div class="content">
 		<header class="centered-hz">
 			<!-- https://en.wikipedia.org/wiki/Media_control_symbols -->
-			<button class="icon-button plain-button" on:click={() => (playing ? pause() : resume())}>
-				{#if playing}⏸{:else}⏵{/if}
+			<!-- TODO what if there's `!audio_el`? -->
+			<button
+				class="icon-button plain-button"
+				on:click={() => (!audio_el || audio_el.paused ? resume() : pause())}
+			>
+				{#if !audio_el || audio_el.paused}⏵{:else}⏸{/if}
 			</button>
 			<button class="icon-button plain-button" on:click={() => restart()}>⏮</button>
 			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
