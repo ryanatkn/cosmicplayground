@@ -22,7 +22,7 @@
 		<a href="/">
 			<ChunkyButton>go back home</ChunkyButton>
 		</a>
-		<h3>if this was my fault im sorry</h3>
+		<h3>maybe it was the computers fault</h3>
 	</Panel>
 	<div class="sadface">
 		<FloatingIconButton
