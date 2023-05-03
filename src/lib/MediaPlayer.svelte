@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type {Writable} from 'svelte/store';
 	import {fade, slide} from 'svelte/transition';
-	import {getClock} from '@feltcoop/dealt';
 	import {swallow} from '@feltjs/util/dom.js';
+	import {onDestroy, onMount} from 'svelte';
 
 	import Playlist from '$lib/Playlist.svelte';
 	import {play_song, playing_song} from '$lib/music/play_song';
@@ -76,11 +76,18 @@
 	};
 
 	// TODO refactor? this updates the component's `current_time`, syncing to the audio element
-	const clock = getClock();
-	clock.resume(); // TODO BLOCK hacky
 	let current_time: number | undefined;
-	$: ({time} = $clock);
-	$: time, (current_time = audio_el?.currentTime);
+	let req: number;
+	const sync = () => {
+		current_time = audio_el?.currentTime;
+		req = requestAnimationFrame(sync);
+	};
+	onMount(() => {
+		sync();
+	});
+	onDestroy(() => {
+		cancelAnimationFrame(req);
+	});
 
 	const input_current_time = (e: Event & {currentTarget: EventTarget & HTMLInputElement}) => {
 		swallow(e);
