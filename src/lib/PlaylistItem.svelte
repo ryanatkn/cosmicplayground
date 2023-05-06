@@ -14,23 +14,24 @@
 
 	const play = async () => {
 		console.log(`playing playlist item`, playlist_item);
-		const playState = await play_song(playlist_item.song); // TODO global player controls
+		const playState = await play_song(song); // TODO global player controls
 		if (!playState) return;
 		await playState.play;
-		console.log('playing', playlist_item.song.name);
+		console.log('playing', song.name);
 		await playState.ended;
-		console.log('finished playing', playlist_item.song.name);
+		console.log('finished playing', song.name);
 	};
 
+	$: ({song} = playlist_item);
 	$: current_song = playing_song?.song;
-	$: selected = current_song === playlist_item.song;
+	$: selected = current_song === song;
 </script>
 
 <!-- TODO render link -->
 <button class:selected class="deselectable" on:click={play}
 	><div class="count">{index + 1}</div>
-	{playlist_item.song.name}
-	<div class="author">{playlist_item.song.author}</div></button
+	{song.name}
+	<div class="author">{song.author}</div></button
 >
 
 <style>

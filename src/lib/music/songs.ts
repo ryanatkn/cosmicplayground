@@ -86,6 +86,11 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Frost.mp3',
 		},
 		{
+			name: 'Dominant',
+			author: 'Punch Deck',
+			url: '/assets/audio/Punch_Deck__Dominant.mp3',
+		},
+		{
 			name: 'Blacksmith',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Blacksmith.mp3',
