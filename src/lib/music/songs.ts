@@ -61,6 +61,11 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Piña_Colada.mp3',
 		},
 		{
+			name: 'Mint Condition',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Mint_Condition.mp3',
+		},
+		{
 			name: 'Chronos',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Chronos.mp3',
@@ -264,11 +269,6 @@ export const songs_by_name: Map<string, Song> = new Map(
 			name: 'Winter',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Winter.mp3',
-		},
-		{
-			name: 'Mint Condition',
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Mint_Condition.mp3',
 		},
 	].map((v) => [v.name, v]),
 );
