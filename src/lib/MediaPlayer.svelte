@@ -31,7 +31,21 @@
 	$: duration = playing_song?.duration;
 	$: audio_el = playing_song?.audio_el;
 
-	// consider polling `audio_el.paused` like with `audio_el.currentTime` so we could have a `paused` local
+	// cache the last played song so we can resume to it for better UX
+	let last_playing_song: SongPlayState | null = null;
+	$: if (playing_song) last_playing_song = playing_song;
+
+	const play = () => {
+		if (playing_song) {
+			if (!audio_el || audio_el.paused) {
+				void resume();
+			} else {
+				pause();
+			}
+		} else {
+			dispatch('play', {song: last_playing_song?.song || songs[0]});
+		}
+	};
 	const pause = () => {
 		dispatch('pause', playing_song);
 	};
@@ -67,6 +81,7 @@
 	};
 
 	// TODO refactor? this updates the component's `current_time`, syncing to the audio element
+	// consider polling `audio_el.paused` like with `audio_el.currentTime` so we could have a `paused` local
 	let current_time: number | undefined;
 	let req: number;
 	const sync = () => {
@@ -104,10 +119,7 @@
 		<header class="centered-hz">
 			<!-- https://en.wikipedia.org/wiki/Media_control_symbols -->
 			<!-- TODO what if there's `!audio_el`? -->
-			<button
-				class="icon-button plain-button"
-				on:click={() => (!audio_el || audio_el.paused ? resume() : pause())}
-			>
+			<button class="icon-button plain-button" on:click={() => play()}>
 				{#if !audio_el || audio_el.paused}⏵{:else}⏸{/if}
 			</button>
 			<!-- TODO transition -->
