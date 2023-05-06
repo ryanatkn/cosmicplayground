@@ -28,8 +28,6 @@
 
 	// TODO skins (inspired by winamp)
 
-	// TODO BLOCK pause/play buttons, show currentTime progress, scrub currentTime
-
 	$: duration = playing_song?.duration;
 	$: audio_el = playing_song?.audio_el;
 

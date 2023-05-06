@@ -84,6 +84,7 @@ export const play_song = async (
 		audio_el,
 		duration: audio_el.duration,
 		play: start_paused ? null : play_audio(audio_el), // TODO do something with this before resolving?
+		// TODO BLOCK using a promise like this may be a bad idea
 		ended: new Promise<void>((resolve) =>
 			audio_el!.addEventListener(
 				'ended',
