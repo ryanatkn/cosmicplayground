@@ -23,7 +23,7 @@
 	export let playlist_items: PlaylistItemData[]; // TODO BLOCK compare to `songs`, maybe delete it
 	export let collapsed = false;
 
-	$: console.log(`playing_song`, playing_song, playing_song?.audio_el);
+	$: console.log(`MediaPlayer playing_song`, playing_song, playing_song?.audio_el);
 	// TODO playbackRate option? https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/playbackRate
 
 	// TODO skins (inspired by winamp)
@@ -35,17 +35,13 @@
 
 	// consider polling `audio_el.paused` like with `audio_el.currentTime` so we could have a `paused` local
 	const pause = () => {
-		// TODO BLOCK doesn't update `playing_song`
-		playing_song?.audio_el?.pause();
-		dispatch('pause');
+		dispatch('pause', playing_song);
 	};
 	const stop = () => {
 		dispatch('stop', playing_song);
 	};
 	const resume = async () => {
-		// TODO BLOCK
-		void playing_song?.audio_el?.play();
-		dispatch('resume');
+		dispatch('resume', playing_song);
 	};
 	const DOUBLE_CLICK_TIME = 0.29; // in seconds - TODO move?
 	const restart_or_previous = async () => {
