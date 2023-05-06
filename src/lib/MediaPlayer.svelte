@@ -1,12 +1,18 @@
 <script lang="ts">
 	import {fade, slide} from 'svelte/transition';
 	import {swallow} from '@feltjs/util/dom.js';
-	import {onDestroy, onMount} from 'svelte';
+	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
 
 	import Playlist from '$lib/Playlist.svelte';
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
 	import type {Song} from '$lib/music/songs';
 	import type {SongPlayState} from '$lib/music/play_song';
+
+	const dispatch = createEventDispatcher<{
+		stop: (state: SongPlayState) => void;
+		pause: (state: SongPlayState) => void;
+		resume: (state: SongPlayState) => void;
+	}>();
 
 	// TODO selection behavior
 
@@ -41,10 +47,12 @@
 	const pause = () => {
 		// TODO BLOCK doesn't update `playing_song`
 		playing_song?.audio_el?.pause();
+		dispatch('pause');
 	};
 	const stop = () => {
 		// TODO BLOCK different than `pause`
 		playing_song?.audio_el?.pause();
+		dispatch('stop');
 	};
 	const resume = async () => {
 		// TODO BLOCK
@@ -53,6 +61,7 @@
 			// TODO BLOCK probably don't do this
 			await play_audio(audio_el, current_time);
 		}
+		dispatch('resume');
 	};
 	const DOUBLE_CLICK_TIME = 0.29; // in seconds - TODO move?
 	const restart_or_previous = async () => {

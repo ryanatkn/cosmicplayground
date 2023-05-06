@@ -34,6 +34,7 @@ export const play_song = async (
 	start_paused = false,
 ): Promise<SongPlayState | undefined> => {
 	// state gets mustated as the `play_song` function progresses
+	// TODO BLOCK zod init
 	let state: SongPlayState = {
 		id: id++,
 		song,
