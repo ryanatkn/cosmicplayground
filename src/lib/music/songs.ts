@@ -61,11 +61,6 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Piña_Colada.mp3',
 		},
 		{
-			name: 'La Citadelle',
-			author: 'Komiku',
-			url: '/assets/audio/Komiku__La_Citadelle.mp3',
-		},
-		{
 			name: 'Chronos',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Chronos.mp3',
@@ -149,6 +144,11 @@ export const songs_by_name: Map<string, Song> = new Map(
 			name: 'Parhelion',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Parhelion.mp3',
+		},
+		{
+			name: 'La Citadelle',
+			author: 'Komiku',
+			url: '/assets/audio/Komiku__La_Citadelle.mp3',
 		},
 		{
 			name: 'Inteficial Artelligence',
