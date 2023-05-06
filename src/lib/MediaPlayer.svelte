@@ -57,6 +57,7 @@
 	};
 	const DOUBLE_CLICK_TIME = 0.29; // in seconds - TODO move?
 	const restart_or_previous = async () => {
+		// TODO BLOCK bugged after first click after clicking `stop`
 		const el = audio_el || last_playing_song?.audio_el;
 		if (!el || el.currentTime < DOUBLE_CLICK_TIME) {
 			const current_song_index = playing_song
