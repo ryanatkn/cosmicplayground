@@ -61,6 +61,11 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Piña_Colada.mp3',
 		},
 		{
+			name: 'Hit n Smash',
+			author: 'Rafael Krux',
+			url: '/assets/audio/Rafael_Krux__Hit_n_Smash.mp3',
+		},
+		{
 			name: 'Mint Condition',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Mint_Condition.mp3',
@@ -111,9 +116,9 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Rafael_Krux__Brewing_Potions.mp3',
 		},
 		{
-			name: 'Hit n Smash',
-			author: 'Rafael Krux',
-			url: '/assets/audio/Rafael_Krux__Hit_n_Smash.mp3',
+			name: "He's a Parrot",
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Hes_A_Parrot.mp3',
 		},
 		{
 			name: 'Celebration',
@@ -221,9 +226,9 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Facing_Storm.mp3',
 		},
 		{
-			name: "He's a Parrot",
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Hes_A_Parrot.mp3',
+			name: 'Catharsis',
+			author: 'Punch Deck',
+			url: '/assets/audio/Punch_Deck__Catharsis.mp3',
 		},
 		{
 			name: 'Lonely Mountain',
