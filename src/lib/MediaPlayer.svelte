@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {fade, slide} from 'svelte/transition';
+	import {slide} from 'svelte/transition';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
 
@@ -116,12 +116,11 @@
 			>
 				{#if !audio_el || audio_el.paused}⏵{:else}⏸{/if}
 			</button>
-			<!-- TODO ? <button class="icon-button plain-button" on:click={() => stop()}>⏹</button> -->
-			<!-- TODO this shouldn't be needed -->
+			<!-- TODO transition -->
 			{#if duration == null}
-				<div style:flex="1" />
+				<div class="duration" />
 			{:else}
-				<div class="centered-hz" style:flex="1" transition:fade|local={{duration: 133}}>
+				<div class="duration centered-hz">
 					<input
 						on:input={input_current_time}
 						class="plain-input"
@@ -132,7 +131,7 @@
 						step={0.01}
 						value={current_time}
 					/>
-					<div class="duration">
+					<div class="timestamp">
 						<span>{format_time(current_time || 0)}</span><span>{format_time(duration)}</span>
 					</div>
 				</div>
@@ -191,6 +190,10 @@
 		border: 1px solid var(--active_border_color);
 	}
 	.duration {
+		flex: 1;
+		min-width: 20rem;
+	}
+	.timestamp {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
