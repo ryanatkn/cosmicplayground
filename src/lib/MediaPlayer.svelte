@@ -57,24 +57,29 @@
 	};
 	const DOUBLE_CLICK_TIME = 0.29; // in seconds - TODO move?
 	const restart_or_previous = async () => {
-		if (audio_el) {
-			if (audio_el.currentTime < DOUBLE_CLICK_TIME) {
-				if (!playing_song) return;
-				const current_song_index = songs.indexOf(playing_song.song);
-				const previous_song_index =
-					current_song_index === 0 ? songs.length - 1 : current_song_index - 1;
-				const previous_song = songs[previous_song_index];
-				dispatch('play', {song: previous_song, start_paused: audio_el?.paused});
-				// TODO BLOCK this is end behavior -- if we move to an event system, we can deal with this another way
-				// if (playing?.audio_el) playing.audio_el.currentTime = 0;
-			} else {
-				audio_el.currentTime = 0;
-			}
+		const el = audio_el || last_playing_song?.audio_el;
+		if (!el || el.currentTime < DOUBLE_CLICK_TIME) {
+			const current_song_index = playing_song
+				? songs.indexOf(playing_song.song)
+				: last_playing_song
+				? songs.indexOf(last_playing_song.song)
+				: 1;
+			const previous_song_index =
+				current_song_index === 0 ? songs.length - 1 : current_song_index - 1;
+			const previous_song = songs[previous_song_index];
+			dispatch('play', {song: previous_song, start_paused: el?.paused});
+			// TODO BLOCK this is end behavior -- if we move to an event system, we can deal with this another way
+			// el.currentTime = 0;
+		} else {
+			el.currentTime = 0;
 		}
 	};
 	const next = async () => {
-		if (!playing_song) return;
-		const current_song_index = songs.indexOf(playing_song.song);
+		const current_song_index = playing_song
+			? songs.indexOf(playing_song.song)
+			: last_playing_song
+			? songs.indexOf(last_playing_song.song)
+			: songs.length - 1;
 		const next_song_index = current_song_index === songs.length - 1 ? 0 : current_song_index + 1;
 		const next_song = songs[next_song_index];
 		dispatch('play', {song: next_song, start_paused: audio_el?.paused});

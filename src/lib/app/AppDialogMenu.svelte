@@ -37,7 +37,7 @@
 		const {song} = options;
 		const playState = await play_song(song); // TODO global player controls
 		if (!playState) return;
-		// TODO BLOCK see `MediaPlayer` too
+		// TODO BLOCK how to handle `end`?
 		// if (playState?.audio_el) playState.audio_el.currentTime = 0;
 		await playState.play;
 		console.log('playing', song.name);
