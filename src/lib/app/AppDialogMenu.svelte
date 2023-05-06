@@ -8,7 +8,7 @@
 	import MediaPlayer from '$lib/MediaPlayer.svelte';
 	import {Song, all_songs, songs_by_name} from '$lib/music/songs';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
-	import {play_song, playing_song} from '$lib/music/play_song';
+	import {play_song, playing_song, type SongPlayState} from '$lib/music/play_song';
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
 
 	const playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values()).map((song) => ({
@@ -37,6 +37,15 @@
 		await playState.ended;
 		console.log('finished playing', song.name);
 	};
+	const stop = (s: SongPlayState): void => {
+		console.log(`stop`, s);
+	};
+	const pause = (s: SongPlayState): void => {
+		console.log(`pause`, s);
+	};
+	const resume = (s: SongPlayState): void => {
+		console.log(`resume`, s);
+	};
 </script>
 
 <div>
@@ -52,6 +61,9 @@
 	<section>
 		<MediaPlayer
 			on:play={(e) => play(e.detail)}
+			on:stop={(e) => stop(e.detail)}
+			on:pause={(e) => pause(e.detail)}
+			on:resume={(e) => resume(e.detail)}
 			{playlist_items}
 			songs={all_songs}
 			playing_song={$playing_song}
