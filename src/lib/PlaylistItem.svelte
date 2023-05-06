@@ -1,9 +1,16 @@
 <script lang="ts">
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
-	import {play_song, playing_song} from '$lib/music/play_song';
+	import type {SongPlayState} from '$lib/music/play_song';
+	import type {Song} from '$lib/music/songs';
 
 	export let playlist_item: PlaylistItemData;
 	export let index: number;
+	export let playing_song: SongPlayState | null;
+	export let play_song: (
+		song: Song,
+		volume?: number,
+		start_paused?: boolean,
+	) => Promise<SongPlayState | undefined>;
 
 	const play = async () => {
 		console.log(`playing playlist item`, playlist_item);
@@ -15,7 +22,7 @@
 		console.log('finished playing', playlist_item.song.name);
 	};
 
-	$: current_song = $playing_song?.song;
+	$: current_song = playing_song?.song;
 	$: selected = current_song === playlist_item.song;
 </script>
 

@@ -1,52 +1,56 @@
 <script lang="ts">
-	import type {Writable} from 'svelte/store';
 	import {fade, slide} from 'svelte/transition';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {onDestroy, onMount} from 'svelte';
 
 	import Playlist from '$lib/Playlist.svelte';
-	import {play_song, playing_song} from '$lib/music/play_song';
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
-	import {play_audio} from '$lib/audio/play_audio';
-	import {all_songs} from '$lib/music/songs';
+	import type {Song} from '$lib/music/songs';
+	import type {SongPlayState} from '$lib/music/play_song';
 
-	$: console.log(`$playing_song`, $playing_song, $playing_song?.audio_el);
+	// TODO selection behavior
+
+	export let songs: Song[]; // TODO BLOCK maybe `media_items` and `Media` super type?
+	export let playing_song: SongPlayState | null;
+	export let play_song: (
+		song: Song,
+		volume?: number,
+		start_paused?: boolean,
+	) => Promise<SongPlayState | undefined>;
+	export let play_audio: (audio: HTMLAudioElement, currentTime?: number) => Promise<void>;
+	export let playlist_items: PlaylistItemData[]; // TODO BLOCK compare to `songs`, maybe delete it
+	export let collapsed = false;
+
+	$: console.log(`playing_song`, playing_song, playing_song?.audio_el);
 	// TODO playbackRate option? https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/playbackRate
 
 	// TODO skins (inspired by winamp)
 
 	// TODO BLOCK pause/play buttons, show currentTime progress, scrub currentTime
 
-	$: current_song = $playing_song?.song;
-
-	let playlist: Playlist;
-	$: console.log(`playlist`, playlist);
-
-	// TODO BLOCK should we set the data in the store instead?
-	export let playlist_items: PlaylistItemData[];
-	export let collapsed = false;
-
-	let playlist_items_data: Writable<PlaylistItemData[]> | undefined;
-	$: playlist_items_data = playlist?.playlist_items;
-	$: if (playlist_items_data) $playlist_items_data = playlist_items;
-	$: console.log(`$data`, $playlist_items_data);
+	$: current_song = playing_song?.song;
 
 	let selected_playlist_item: PlaylistItemData | null = null;
 	$: selected_playlist_item =
-		(current_song && $playlist_items_data?.find((p) => current_song === p.song)) || null;
+		(current_song && playlist_items.find((p) => current_song === p.song)) || null;
 
-	$: duration = $playing_song?.duration;
-	$: audio_el = $playing_song?.audio_el;
+	$: duration = playing_song?.duration;
+	$: audio_el = playing_song?.audio_el;
 
 	// consider polling `audio_el.paused` like with `audio_el.currentTime` so we could have a `paused` local
 	const pause = () => {
 		// TODO BLOCK doesn't update `playing_song`
-		$playing_song?.audio_el?.pause();
+		playing_song?.audio_el?.pause();
+	};
+	const stop = () => {
+		// TODO BLOCK different than `pause`
+		playing_song?.audio_el?.pause();
 	};
 	const resume = async () => {
 		// TODO BLOCK
-		console.log(`$playing_song`, $playing_song);
+		console.log(`playing_song`, playing_song);
 		if (audio_el) {
+			// TODO BLOCK probably don't do this
 			await play_audio(audio_el, current_time);
 		}
 	};
@@ -54,11 +58,11 @@
 	const restart_or_previous = async () => {
 		if (audio_el) {
 			if (audio_el.currentTime < DOUBLE_CLICK_TIME) {
-				if (!$playing_song) return;
-				const current_song_index = all_songs.indexOf($playing_song.song);
+				if (!playing_song) return;
+				const current_song_index = songs.indexOf(playing_song.song);
 				const previous_song_index =
-					current_song_index === 0 ? all_songs.length - 1 : current_song_index - 1;
-				const previous_song = all_songs[previous_song_index];
+					current_song_index === 0 ? songs.length - 1 : current_song_index - 1;
+				const previous_song = songs[previous_song_index];
 				const playing = await play_song(previous_song, undefined, audio_el?.paused);
 				if (playing?.audio_el) playing.audio_el.currentTime = 0;
 			} else {
@@ -67,11 +71,10 @@
 		}
 	};
 	const next = async () => {
-		if (!$playing_song) return;
-		const current_song_index = all_songs.indexOf($playing_song.song);
-		const next_song_index =
-			current_song_index === all_songs.length - 1 ? 0 : current_song_index + 1;
-		const next_song = all_songs[next_song_index];
+		if (!playing_song) return;
+		const current_song_index = songs.indexOf(playing_song.song);
+		const next_song_index = current_song_index === songs.length - 1 ? 0 : current_song_index + 1;
+		const next_song = songs[next_song_index];
 		await play_song(next_song, undefined, audio_el?.paused);
 	};
 
@@ -109,6 +112,7 @@
 				{#if !audio_el || audio_el.paused}⏵{:else}⏸{/if}
 			</button>
 			<button class="icon-button plain-button" on:click={() => restart_or_previous()}>⏮</button>
+			<button class="icon-button plain-button" on:click={() => stop()}>⏹</button>
 			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
 			<!-- TODO ? <button class="icon-button plain-button" on:click={() => stop()}>⏹</button> -->
 			<!-- TODO this shouldn't be needed -->
@@ -131,10 +135,10 @@
 				>{#if collapsed}+{:else}−{/if}</button
 			>
 		</header>
-		<Playlist bind:this={playlist} {collapsed} />
-		{#if !collapsed && $playlist_items_data}
+		<Playlist {playlist_items} {collapsed} {playing_song} {play_song} />
+		{#if !collapsed}
 			<footer transition:slide|local>
-				<span><strong>{$playlist_items_data.length}</strong> songs</span>
+				<span><strong>{playlist_items.length}</strong> songs</span>
 			</footer>
 		{/if}
 	</div>

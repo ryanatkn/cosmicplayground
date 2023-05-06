@@ -6,8 +6,10 @@
 	import AboutPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import MediaPlayer from '$lib/MediaPlayer.svelte';
-	import {songs_by_name} from '$lib/music/songs';
+	import {all_songs, songs_by_name} from '$lib/music/songs';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
+	import {play_song, playing_song} from '$lib/music/play_song';
+	import {play_audio} from '$lib/audio/play_audio';
 
 	const playlist_items = Array.from(songs_by_name.values()).map((song) => ({
 		song,
@@ -34,7 +36,14 @@
 		</div>
 	{/if}
 	<section>
-		<MediaPlayer {playlist_items} bind:collapsed />
+		<MediaPlayer
+			{playlist_items}
+			songs={all_songs}
+			playing_song={$playing_song}
+			{play_song}
+			{play_audio}
+			bind:collapsed
+		/>
 	</section>
 	<PortalPreview href="/about">
 		<AboutPreview />
