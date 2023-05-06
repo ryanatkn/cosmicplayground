@@ -16,11 +16,6 @@
 	export let playlist_items: PlaylistItemData[];
 	export let collapsed: boolean;
 	export let playing_song: SongPlayState | null;
-	export let play_song: (
-		song: Song,
-		volume?: number,
-		start_paused?: boolean,
-	) => Promise<SongPlayState | undefined>;
 
 	$: current_song = playing_song?.song;
 	$: selected_playlist_item_index = playlist_items.findIndex((p) => p.song === current_song);
@@ -36,7 +31,7 @@
 				playlist_item={selected_playlist_item}
 				index={selected_playlist_item_index}
 				{playing_song}
-				{play_song}
+				on:play
 			/>
 		</div>
 	{/if}
@@ -46,7 +41,7 @@
 			<ul>
 				<!-- TODO add a random id and key by it -->
 				{#each playlist_items as playlist_item, index (playlist_item)}
-					<PlaylistItem {playlist_item} {index} {playing_song} {play_song} />
+					<PlaylistItem {playlist_item} {index} {playing_song} on:play on:stop on:pause on:resume />
 				{/each}
 			</ul>
 		</div>

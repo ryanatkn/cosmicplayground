@@ -76,11 +76,6 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Chemical_X.mp3',
 		},
 		{
-			name: 'Celebration',
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Celebration.mp3',
-		},
-		{
 			name: 'Frost',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Frost.mp3',
@@ -121,9 +116,9 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Rafael_Krux__Hit_n_Smash.mp3',
 		},
 		{
-			name: 'Fanfare X',
+			name: 'Celebration',
 			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Fanfare_X.mp3',
+			url: '/assets/audio/Alexander_Nakarada__Celebration.mp3',
 		},
 		{
 			name: 'Land Ho',

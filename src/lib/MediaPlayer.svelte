@@ -9,21 +9,16 @@
 	import type {SongPlayState} from '$lib/music/play_song';
 
 	const dispatch = createEventDispatcher<{
-		stop: (state: SongPlayState) => void;
-		pause: (state: SongPlayState) => void;
-		resume: (state: SongPlayState) => void;
+		play: {song: Song; volume?: number; start_paused?: boolean};
+		stop: SongPlayState;
+		pause: SongPlayState;
+		resume: SongPlayState; // TODO BLOCK maybe dont have this, use play?
 	}>();
 
 	// TODO selection behavior
 
 	export let songs: Song[]; // TODO BLOCK maybe `media_items` and `Media` super type?
 	export let playing_song: SongPlayState | null;
-	export let play_song: (
-		song: Song,
-		volume?: number,
-		start_paused?: boolean,
-	) => Promise<SongPlayState | undefined>;
-	export let play_audio: (audio: HTMLAudioElement, currentTime?: number) => Promise<void>;
 	export let playlist_items: PlaylistItemData[]; // TODO BLOCK compare to `songs`, maybe delete it
 	export let collapsed = false;
 
@@ -33,12 +28,6 @@
 	// TODO skins (inspired by winamp)
 
 	// TODO BLOCK pause/play buttons, show currentTime progress, scrub currentTime
-
-	$: current_song = playing_song?.song;
-
-	let selected_playlist_item: PlaylistItemData | null = null;
-	$: selected_playlist_item =
-		(current_song && playlist_items.find((p) => current_song === p.song)) || null;
 
 	$: duration = playing_song?.duration;
 	$: audio_el = playing_song?.audio_el;
@@ -56,11 +45,7 @@
 	};
 	const resume = async () => {
 		// TODO BLOCK
-		console.log(`playing_song`, playing_song);
-		if (audio_el) {
-			// TODO BLOCK probably don't do this
-			await play_audio(audio_el, current_time);
-		}
+		void playing_song?.audio_el?.play();
 		dispatch('resume');
 	};
 	const DOUBLE_CLICK_TIME = 0.29; // in seconds - TODO move?
@@ -72,8 +57,9 @@
 				const previous_song_index =
 					current_song_index === 0 ? songs.length - 1 : current_song_index - 1;
 				const previous_song = songs[previous_song_index];
-				const playing = await play_song(previous_song, undefined, audio_el?.paused);
-				if (playing?.audio_el) playing.audio_el.currentTime = 0;
+				dispatch('play', {song: previous_song, start_paused: audio_el?.paused});
+				// TODO BLOCK this is end behavior -- if we move to an event system, we can deal with this another way
+				// if (playing?.audio_el) playing.audio_el.currentTime = 0;
 			} else {
 				audio_el.currentTime = 0;
 			}
@@ -84,7 +70,7 @@
 		const current_song_index = songs.indexOf(playing_song.song);
 		const next_song_index = current_song_index === songs.length - 1 ? 0 : current_song_index + 1;
 		const next_song = songs[next_song_index];
-		await play_song(next_song, undefined, audio_el?.paused);
+		dispatch('play', {song: next_song, start_paused: audio_el?.paused});
 	};
 
 	// TODO refactor? this updates the component's `current_time`, syncing to the audio element
@@ -144,7 +130,7 @@
 				>{#if collapsed}+{:else}−{/if}</button
 			>
 		</header>
-		<Playlist {playlist_items} {collapsed} {playing_song} {play_song} />
+		<Playlist {playlist_items} {collapsed} {playing_song} on:play />
 		{#if !collapsed}
 			<footer transition:slide|local>
 				<span><strong>{playlist_items.length}</strong> songs</span>

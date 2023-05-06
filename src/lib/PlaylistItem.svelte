@@ -1,25 +1,24 @@
 <script lang="ts">
+	import {createEventDispatcher} from 'svelte';
+
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
 	import type {SongPlayState} from '$lib/music/play_song';
 	import type {Song} from '$lib/music/songs';
 
+	const dispatch = createEventDispatcher<{
+		play: {song: Song; volume?: number; start_paused?: boolean};
+		stop: SongPlayState;
+		pause: SongPlayState;
+		resume: SongPlayState; // TODO BLOCK maybe dont have this, use play?
+	}>();
+
 	export let playlist_item: PlaylistItemData;
 	export let index: number;
 	export let playing_song: SongPlayState | null;
-	export let play_song: (
-		song: Song,
-		volume?: number,
-		start_paused?: boolean,
-	) => Promise<SongPlayState | undefined>;
 
 	const play = async () => {
 		console.log(`playing playlist item`, playlist_item);
-		const playState = await play_song(song); // TODO global player controls
-		if (!playState) return;
-		await playState.play;
-		console.log('playing', song.name);
-		await playState.ended;
-		console.log('finished playing', song.name);
+		dispatch('play', {song});
 	};
 
 	$: ({song} = playlist_item);

@@ -92,7 +92,7 @@ export const phase_data_by_name: Map<string, PhaseData> = new Map(
 		{name: '3d', phase: 1, title: 'Spacebuckler', song: 'Spacebuckler', image: 'heic1913c'},
 		{name: '4a', phase: 0, title: 'Brewing Potions', song: 'Brewing Potions', image: 'heic1302a'},
 		{name: '4b', phase: 0, title: 'Hit n Smash', song: 'Hit n Smash', image: 'heic1302a'},
-		{name: '4c', phase: 1, title: 'Fanfare X', song: 'Fanfare X', image: 'heic1302a'},
+		{name: '4c', phase: 1, title: 'Celebration', song: 'Celebration', image: 'heic1302a'},
 		{name: '4d', phase: 1, title: 'Forest Night', song: 'Forest Night', image: 'heic0910i'},
 		{name: '4e', phase: 1, title: 'Land Ho', song: 'Land Ho', image: 'heic0910i'},
 		{name: '5a', phase: 0, title: 'Be Chillin', song: 'Be Chillin', image: 'heic2002a'},
