@@ -45,15 +45,12 @@
 		console.log('finished playing', song.name);
 	};
 	const stop = (state: SongPlayState | null): void => {
-		console.log(`stop`, state);
 		stop_song(state);
 	};
 	const pause = (state: SongPlayState | null): void => {
-		console.log(`pause`, state);
 		pause_song(state);
 	};
 	const resume = (state: SongPlayState | null): void => {
-		console.log(`resume`, state);
 		resume_song(state);
 	};
 </script>
