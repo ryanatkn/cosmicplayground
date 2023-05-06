@@ -22,7 +22,6 @@
 		start_paused?: boolean,
 	) => Promise<SongPlayState | undefined>;
 
-	// TODO BLOCK hoist
 	$: current_song = playing_song?.song;
 	$: selected_playlist_item_index = playlist_items.findIndex((p) => p.song === current_song);
 	$: selected_playlist_item =
@@ -45,6 +44,7 @@
 	<div class="playlist" transition:slide|local>
 		<div class="items-wrapper">
 			<ul>
+				<!-- TODO add a random id and key by it -->
 				{#each playlist_items as playlist_item, index (playlist_item)}
 					<PlaylistItem {playlist_item} {index} {playing_song} {play_song} />
 				{/each}
