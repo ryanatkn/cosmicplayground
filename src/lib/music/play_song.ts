@@ -98,3 +98,14 @@ export const play_song = async (
 	console.log('loaded', state);
 	return state;
 };
+
+export const stop_song = (state: SongPlayState | null): void => {
+	if (state) {
+		const {song, audio_el} = state;
+		audio_el?.pause();
+		playing_song.update((v) => (v?.song === song ? null : v));
+	} else {
+		get(playing_song)?.audio_el?.pause();
+		playing_song.set(null);
+	}
+};

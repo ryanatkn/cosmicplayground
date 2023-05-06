@@ -7,12 +7,13 @@
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
 	import type {Song} from '$lib/music/songs';
 	import type {SongPlayState} from '$lib/music/play_song';
+	import type {Flavored} from '@feltjs/util';
 
 	const dispatch = createEventDispatcher<{
 		play: {song: Song; volume?: number; start_paused?: boolean};
-		stop: SongPlayState;
-		pause: SongPlayState;
-		resume: SongPlayState; // TODO BLOCK maybe dont have this, use play?
+		stop: SongPlayState | null;
+		pause: SongPlayState | null;
+		resume: SongPlayState | null; // TODO BLOCK maybe dont have this, use play?
 	}>();
 
 	// TODO selection behavior
@@ -39,9 +40,7 @@
 		dispatch('pause');
 	};
 	const stop = () => {
-		// TODO BLOCK different than `pause`
-		playing_song?.audio_el?.pause();
-		dispatch('stop');
+		dispatch('stop', playing_song);
 	};
 	const resume = async () => {
 		// TODO BLOCK
@@ -93,6 +92,17 @@
 		if (Number.isNaN(t)) return;
 		if (audio_el) audio_el.currentTime = t;
 	};
+
+	$: has_song = !!playing_song;
+
+	// TODO handle hours, probably want to use date-fns, but isn't currently a dependency
+	// TODO refactor
+	type Seconds = Flavored<number, 'Seconds'>; // TODO use this
+	const format_time = (t: Seconds): string => {
+		const m = (t / 60) | 0;
+		const s = (t | 0) % 60;
+		return m + ':' + (s < 10 ? '0' : '') + s;
+	};
 </script>
 
 <div class="player">
@@ -106,15 +116,13 @@
 			>
 				{#if !audio_el || audio_el.paused}⏵{:else}⏸{/if}
 			</button>
-			<button class="icon-button plain-button" on:click={() => restart_or_previous()}>⏮</button>
-			<button class="icon-button plain-button" on:click={() => stop()}>⏹</button>
-			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
 			<!-- TODO ? <button class="icon-button plain-button" on:click={() => stop()}>⏹</button> -->
 			<!-- TODO this shouldn't be needed -->
-			<div style:flex="1">
-				{#if duration != null}
+			{#if duration == null}
+				<div style:flex="1" />
+			{:else}
+				<div class="centered-hz" style:flex="1" transition:fade|local={{duration: 133}}>
 					<input
-						transition:fade|local={{duration: 133}}
 						on:input={input_current_time}
 						class="plain-input"
 						style:flex="1"
@@ -124,8 +132,16 @@
 						step={0.01}
 						value={current_time}
 					/>
-				{/if}
-			</div>
+					<div class="duration">
+						<span>{format_time(current_time || 0)}</span><span>{format_time(duration)}</span>
+					</div>
+				</div>
+			{/if}
+			<button class="icon-button plain-button" on:click={() => restart_or_previous()}>⏮</button>
+			<button class="icon-button plain-button" on:click={() => stop()} disabled={!has_song}
+				>⏹</button
+			>
+			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
 			<button class="icon-button plain-button" on:click={() => (collapsed = !collapsed)}
 				>{#if collapsed}+{:else}−{/if}</button
 			>
@@ -173,5 +189,13 @@
 	}
 	button:active {
 		border: 1px solid var(--active_border_color);
+	}
+	.duration {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		font-size: var(--font_size_sm);
+		font-weight: 600;
+		width: var(--spacing_xl5);
 	}
 </style>
