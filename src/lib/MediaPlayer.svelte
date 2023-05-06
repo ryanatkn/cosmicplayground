@@ -197,5 +197,6 @@
 		font-size: var(--font_size_sm);
 		font-weight: 600;
 		width: var(--spacing_xl5);
+		color: var(--text_color_light);
 	}
 </style>
