@@ -32,6 +32,9 @@
 				index={selected_playlist_item_index}
 				{playing_song}
 				on:play
+				on:stop
+				on:pause
+				on:resume
 			/>
 		</div>
 	{/if}

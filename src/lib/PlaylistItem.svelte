@@ -9,16 +9,23 @@
 		play: {song: Song; volume?: number; start_paused?: boolean};
 		stop: SongPlayState;
 		pause: SongPlayState;
-		resume: SongPlayState; // TODO BLOCK maybe dont have this, use play?
+		resume: SongPlayState;
 	}>();
 
 	export let playlist_item: PlaylistItemData;
 	export let index: number;
 	export let playing_song: SongPlayState | null;
 
-	const play = async () => {
-		console.log(`playing playlist item`, playlist_item);
-		dispatch('play', {song});
+	const click = async () => {
+		if (playing_song && selected) {
+			if (playing_song?.audio_el?.paused) {
+				dispatch('resume', playing_song);
+			} else {
+				dispatch('pause', playing_song);
+			}
+		} else {
+			dispatch('play', {song});
+		}
 	};
 
 	$: ({song} = playlist_item);
@@ -27,7 +34,7 @@
 </script>
 
 <!-- TODO render link -->
-<button class:selected class="deselectable" on:click={play}
+<button class:selected class="deselectable" on:click={click}
 	><div class="count">{index + 1}</div>
 	{song.name}
 	<div class="author">{song.author}</div></button

@@ -70,14 +70,14 @@
 	{/if}
 	<section>
 		<MediaPlayer
-			on:play={(e) => play(e.detail)}
-			on:stop={(e) => stop(e.detail)}
-			on:pause={(e) => pause(e.detail)}
-			on:resume={(e) => resume(e.detail)}
 			{playlist_items}
 			songs={all_songs}
 			playing_song={$playing_song}
 			bind:collapsed
+			on:play={(e) => play(e.detail)}
+			on:stop={(e) => stop(e.detail)}
+			on:pause={(e) => pause(e.detail)}
+			on:resume={(e) => resume(e.detail)}
 		/>
 	</section>
 	<PortalPreview href="/about">

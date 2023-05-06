@@ -127,7 +127,6 @@ export const resume_song = (state: SongPlayState | null): void => {
 
 export const pause_song = (state: SongPlayState | null): void => {
 	const $playing_song = get(playing_song);
-	console.log(`$playing_song`, $playing_song);
 	if (state && state === $playing_song) {
 		$playing_song?.audio_el?.pause();
 	}

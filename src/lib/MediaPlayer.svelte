@@ -139,7 +139,7 @@
 				>{#if collapsed}+{:else}−{/if}</button
 			>
 		</header>
-		<Playlist {playlist_items} {collapsed} {playing_song} on:play />
+		<Playlist {playlist_items} {collapsed} {playing_song} on:play on:stop on:pause on:resume />
 		{#if !collapsed}
 			<footer transition:slide|local>
 				<span><strong>{playlist_items.length}</strong> songs</span>
