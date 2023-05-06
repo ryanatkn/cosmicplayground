@@ -10,8 +10,9 @@
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 	import {play_song, playing_song} from '$lib/music/play_song';
 	import {play_audio} from '$lib/audio/play_audio';
+	import type {PlaylistItemData} from '$lib/Playlist.svelte';
 
-	const playlist_items = Array.from(songs_by_name.values()).map((song) => ({
+	const playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values()).map((song) => ({
 		song,
 	}));
 

@@ -1,5 +1,7 @@
 <script lang="ts">
 	import Atlas from '$routes/unlock/Atlas.svelte';
+
+	// TODO BLOCK show the `MediaPlayer` onscreen when playing -- how? generically?
 </script>
 
 <div class="unlock-atlas">
