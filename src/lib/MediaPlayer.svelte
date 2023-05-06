@@ -196,6 +196,7 @@
 		align-items: center;
 		font-size: var(--font_size_sm);
 		font-weight: 600;
+		font-family: var(--font_family_mono);
 		width: var(--spacing_xl5);
 		color: var(--text_color_light);
 	}
