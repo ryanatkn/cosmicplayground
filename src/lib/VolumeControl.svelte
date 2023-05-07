@@ -15,6 +15,7 @@
 		<button class="icon-button plain-button" on:click={() => ($muted = !$muted)}>{text}</button>
 	{/if}
 	<input
+		class="plain-input"
 		type="number"
 		on:input={(e) => ($volume = Number(e.currentTarget.value))}
 		step={0.01}
@@ -23,6 +24,7 @@
 		value={$volume}
 	/>
 	<input
+		class="plain-input"
 		type="range"
 		on:input={(e) => ($volume = Number(e.currentTarget.value))}
 		step={0.01}
