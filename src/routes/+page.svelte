@@ -182,8 +182,8 @@
 				// TODO better validation, how? zod parser?
 				if (
 					!value ||
-					typeof value.crewRescuedAtOnceCount !== 'number' ||
-					isNaN(value.crewRescuedAtOnceCount) ||
+					typeof value.crew_rescued_at_once_count !== 'number' ||
+					isNaN(value.crew_rescued_at_once_count) ||
 					!Array.isArray(value.crew) ||
 					!value.crew.every((v: any) => typeof v === 'boolean')
 				) {

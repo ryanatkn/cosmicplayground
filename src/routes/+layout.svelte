@@ -114,6 +114,14 @@
 	$: if (audio_el) {
 		audio_el.volume = $muted ? 0 : volume ? $volume! : 1;
 	}
+	// TODO this is handled by `resume_song` and `pause_song` but I'm unclear of how it ought to work
+	// $: if (audio_el) {
+	// 	if ($paused) {
+	// 		if (!audio_el.paused) audio_el.pause();
+	// 	} else {
+	// 		if (audio_el.paused) audio_el.play();
+	// 	}
+	// }
 
 	const clock = setClock(); // TODO integrate with Pixi ticker?
 	clock.resume();

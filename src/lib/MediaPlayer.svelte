@@ -72,6 +72,7 @@
 			const previous_song_index =
 				current_song_index === 0 ? songs.length - 1 : current_song_index - 1;
 			const previous_song = songs[previous_song_index];
+			console.log(`el.paused`, el?.paused);
 			dispatch('play', {song: previous_song, start_paused: el?.paused});
 			// TODO BLOCK this is end behavior -- if we move to an event system, we can deal with this another way
 			// el.currentTime = 0;

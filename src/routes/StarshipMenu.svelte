@@ -55,10 +55,10 @@
 						<StarshipStageScore {scores} defaultIcon="❔" />
 						<br />
 						<p class="centered">
-							{#if scores.crewRescuedAtOnceCount >= 5}
+							{#if scores.crew_rescued_at_once_count >= 5}
 								<a href="/unlock">full crew ready</a>
-							{:else if scores.crewRescuedAtOnceCount}
-								{scores.crewRescuedAtOnceCount} crewmember{#if scores.crewRescuedAtOnceCount !== 1}s{/if}
+							{:else if scores.crew_rescued_at_once_count}
+								{scores.crew_rescued_at_once_count} crewmember{#if scores.crew_rescued_at_once_count !== 1}s{/if}
 								rescued in your best run
 							{:else}
 								no crewmembers have been rescued

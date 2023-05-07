@@ -10,6 +10,8 @@ import {locally_stored} from '$lib/util/locally_stored';
 // TODO refactor, probably into context
 export const volume = locally_stored(writable(DEFAULT_VOLUME), 'volume');
 export const muted = locally_stored(writable(false), 'muted');
+// TODO this isn't being used everywhere - see `clock.pause`
+export const paused = locally_stored(writable(false), 'paused');
 
 export interface SongPlayState {
 	id: number;
@@ -129,6 +131,7 @@ export const resume_song = (state: SongPlayState | null): void => {
 				  }
 				: null,
 		);
+		paused.set(false);
 	}
 };
 
@@ -136,5 +139,6 @@ export const pause_song = (state: SongPlayState | null): void => {
 	const $playing_song = get(playing_song);
 	if (state && state === $playing_song) {
 		$playing_song?.audio_el?.pause();
+		paused.set(true);
 	}
 };
