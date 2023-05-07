@@ -6,13 +6,13 @@
 	// TODO maybe events instead of writable stores?
 	export let volume: Writable<Volume>;
 	export let muted: Writable<boolean> | null = null;
-
-	$: text = muted ? ($muted ? '🔇' : '🔊') : null;
 </script>
 
 <label class:muted={$muted}>
 	{#if muted}
-		<button class="icon-button plain-button" on:click={() => ($muted = !$muted)}>{text}</button>
+		<button class="icon-button plain-button" on:click={() => ($muted = !$muted)}>
+			{#if $muted}🔇{:else if $volume < 0.33}🔉{:else}🔊{/if}
+		</button>
 	{/if}
 	<small>{Math.round($volume * 100)}<span>%</span></small>
 	<input

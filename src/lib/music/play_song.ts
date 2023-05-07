@@ -4,8 +4,7 @@ import type {AudioResource, ResourceStore} from '$lib/app/resource';
 import {toResourceStore} from '$lib/app/resource';
 import {pause_audio, play_audio, audio_by_url} from '$lib/audio/play_audio';
 import type {Song} from '$lib/music/songs';
-
-const DEFAULT_VOLUME = 0.5; // TODO where?
+import {DEFAULT_VOLUME} from '$lib/helpers';
 
 // TODO refactor, probably into context
 export const volume = writable(DEFAULT_VOLUME);
