@@ -21,10 +21,20 @@ export interface SongPlayState {
 	ended: Promise<unknown> | null;
 }
 
+let id = 0;
+const create_song_play_state = (song: Song): SongPlayState => ({
+	id: id++,
+	song,
+	audio: null,
+	$audio: null,
+	audio_el: null,
+	duration: null,
+	play: null,
+	ended: null,
+});
+
 // global store! ... normally I'd use context for this
 export const playing_song = writable<SongPlayState | null>(null);
-
-let id = 0;
 
 // TODO do we want a `SongPlay` component/store with methods like `pause`?
 
@@ -37,16 +47,7 @@ export const play_song = async (
 ): Promise<SongPlayState | undefined> => {
 	// state gets mustated as the `play_song` function progresses
 	// TODO BLOCK zod init
-	let state: SongPlayState = {
-		id: id++,
-		song,
-		audio: null,
-		$audio: null,
-		audio_el: null,
-		duration: null,
-		play: null,
-		ended: null,
-	};
+	let state = create_song_play_state(song);
 	// TODO cancel any existing? (with events, etc?)
 	playing_song.set(state);
 	const cleanup = (): undefined => {
