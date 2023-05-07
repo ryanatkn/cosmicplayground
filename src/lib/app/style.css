@@ -165,6 +165,7 @@ h3 {
 	transform: var(--clickable_transform_sm__active);
 }
 
+/* TODO remove this when felt-ui has dark mode */
 button,
 button:hover,
 button:active,

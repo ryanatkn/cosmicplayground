@@ -18,6 +18,8 @@
 		muted,
 		volume,
 		paused,
+		shuffle,
+		repeat,
 	} from '$lib/music/play_song';
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
 
@@ -76,6 +78,8 @@
 			{volume}
 			{muted}
 			{paused}
+			{shuffle}
+			{repeat}
 			bind:collapsed
 			on:play={(e) => play(e.detail)}
 			on:stop={(e) => stop(e.detail)}

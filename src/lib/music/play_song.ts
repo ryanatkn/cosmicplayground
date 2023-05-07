@@ -12,6 +12,8 @@ export const volume = locally_stored(writable(DEFAULT_VOLUME), 'volume');
 export const muted = locally_stored(writable(false), 'muted');
 // TODO this isn't being used everywhere - see `clock.pause`
 export const paused = locally_stored(writable(false), 'paused');
+export const shuffle = locally_stored(writable(false), 'shuffle');
+export const repeat = locally_stored(writable(false), 'repeat');
 
 export interface SongPlayState {
 	id: number;

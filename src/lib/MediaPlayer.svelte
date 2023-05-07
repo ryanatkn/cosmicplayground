@@ -27,6 +27,8 @@
 	export let volume: Writable<number> | null = null;
 	export let muted: Writable<boolean> | null = null;
 	export let paused: Writable<boolean> | null = null; // TODO is a bit strange, haven't figured out best syncing patterns with the element
+	export let shuffle: Writable<boolean> | null = null;
+	export let repeat: Writable<boolean> | null = null;
 
 	$: console.log(`MediaPlayer playing_song`, playing_song, playing_song?.audio_el);
 	// TODO playbackRate option? https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/playbackRate
@@ -169,6 +171,30 @@
 				{#if volume}
 					<VolumeControl {volume} {muted} />
 				{/if}
+				<div class="centered-hz">
+					{#if repeat}
+						<button
+							type="button"
+							class="togglable icon-button plain-button deselectable"
+							title="repeat is {$repeat ? 'enabled' : 'disabled'}"
+							class:selected={$repeat}
+							on:click={() => ($repeat = !$repeat)}
+						>
+							🔁
+						</button>
+					{/if}
+					{#if shuffle}
+						<button
+							type="button"
+							class="togglable icon-button plain-button deselectable"
+							title="shuffle is {$shuffle ? 'enabled' : 'disabled'}"
+							class:selected={$shuffle}
+							on:click={() => ($shuffle = !$shuffle)}
+						>
+							🔀
+						</button>
+					{/if}
+				</div>
 			</footer>
 		{/if}
 	</div>
@@ -221,5 +247,14 @@
 		font-weight: 600;
 		width: var(--spacing_xl5);
 		color: var(--text_color_light);
+	}
+	/* TODO move to style.css?  */
+	.togglable {
+		filter: grayscale();
+	}
+	.togglable.selected {
+		filter: none;
+		/* TODO probably do this differently */
+		font-size: 114%;
 	}
 </style>
