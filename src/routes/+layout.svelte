@@ -133,9 +133,17 @@
 	// but that seems tedious and error prone.
 	// $: if (pixi.app) {
 	// 	if ($clock.running) {
-	// 		if (!pixi.app.ticker.started) pixi.app.ticker.start();
+	// 		if (!pixi.app.ticker.started) {
+	// 			pixi.app.ticker.start();
+	// 			// TODO or this?
+	// 			// pixi.ticker.start();
+	// 		}
 	// 	} else {
-	// 		if (pixi.app.ticker.started) pixi.app.ticker.stop();
+	// 		if (pixi.app.ticker.started) {
+	// 			pixi.app.ticker.stop();
+	// 			// TODO or this?
+	// 			// pixi.ticker.stop();
+	// 		}
 	// 	}
 	// }
 

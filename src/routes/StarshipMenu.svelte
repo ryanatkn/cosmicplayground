@@ -32,7 +32,7 @@
 			<div class="button-text">
 				{#if starshipMode}exit{:else}play{/if}
 			</div>
-			<small><code>[space]</code></small>
+			<small><code>[Space]</code></small>
 		</StarshipPreview>
 		{#if starshipMode}
 			<PortalPreview
@@ -82,7 +82,7 @@
 		</div>
 	{/if}
 	<AppControlsTable {clock}
-		><tr><td><code>Space</code></td><td>toggle starship game</td></tr></AppControlsTable
+		><tr><td><code>[Space]</code></td><td>toggle starship game</td></tr></AppControlsTable
 	>
 </div>
 
