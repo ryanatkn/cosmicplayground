@@ -186,7 +186,7 @@
 				clock.pause(); // TODO make this add to a stack so we can safely unpause
 			}
 		} else if (key === 'Escape' && e.shiftKey && enableGlobalHotkeys(target)) {
-			// global nav up one
+			// global nav up one - I'd choose `ctrlKey` but it's taken by the OS
 			swallow(e);
 			await goto($page.url.pathname.split('/').slice(0, -1).join('/') || '/');
 		} else if (key === '-' && !e.ctrlKey && enableGlobalHotkeys(target)) {
