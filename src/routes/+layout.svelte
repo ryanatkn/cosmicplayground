@@ -114,7 +114,7 @@
 	$: if (audio_el) {
 		audio_el.volume = $muted ? 0 : volume ? $volume! : 1;
 	}
-	// TODO this is handled by `resume_song` and `pause_song` but I'm unclear of how it ought to work
+	// TODO this is handled by `resume_song` and `pause_song` but I'm unclear of how it ought to work, refactor with the above
 	// $: if (audio_el) {
 	// 	if ($paused) {
 	// 		if (!audio_el.paused) audio_el.pause();
