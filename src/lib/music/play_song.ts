@@ -38,7 +38,7 @@ export const play_song = async (
 	let state: SongPlayState = {
 		id: id++,
 		song,
-		volume,
+		volume, // TODO BLOCK if we keep this, make it a store?
 		audio: null,
 		$audio: null,
 		audio_el: null,
