@@ -27,7 +27,7 @@
 	export let volume: Writable<number> | null = null;
 	export let muted: Writable<boolean> | null = null;
 
-	// TODO BLOCK this syncing doesn't really belong here
+	// TODO BLOCK this syncing doesn't really belong here - put at same level that it's created and set in context
 	$: if (volume && playing_song?.audio_el) {
 		playing_song.audio_el.volume = $muted ? 0 : $volume!;
 	}
