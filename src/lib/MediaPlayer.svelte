@@ -26,6 +26,7 @@
 	export let collapsed = false;
 	export let volume: Writable<number> | null = null;
 	export let muted: Writable<boolean> | null = null;
+	export let paused: Writable<boolean> | null = null; // TODO is a bit strange, haven't figured out best syncing patterns with the element
 
 	$: console.log(`MediaPlayer playing_song`, playing_song, playing_song?.audio_el);
 	// TODO playbackRate option? https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/playbackRate
@@ -130,7 +131,7 @@
 			<!-- https://en.wikipedia.org/wiki/Media_control_symbols -->
 			<!-- TODO what if there's `!audio_el`? -->
 			<button class="icon-button plain-button" on:click={() => play()}>
-				{#if !audio_el || audio_el.paused}⏵{:else}⏸{/if}
+				{#if !audio_el || (paused ? $paused : audio_el.paused)}⏵{:else}⏸{/if}
 			</button>
 			<!-- TODO transition -->
 			{#if duration == null}

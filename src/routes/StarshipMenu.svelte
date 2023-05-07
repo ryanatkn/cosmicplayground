@@ -28,10 +28,12 @@
 				await toggleStarshipMode();
 			}}
 			{starshipMode}
-			><div class="button-text">
-				{#if starshipMode}exit{:else}play{/if}
-			</div></StarshipPreview
 		>
+			<div class="button-text">
+				{#if starshipMode}exit{:else}play{/if}
+			</div>
+			<small><code>[space]</code></small>
+		</StarshipPreview>
 		{#if starshipMode}
 			<PortalPreview
 				onClick={async () => {
@@ -41,9 +43,11 @@
 					await wait(); // TODO idk
 					void toggleStarshipMode();
 				}}
-				><div style="font-size: 84px;">↻</div>
-				<div class="button-text">restart</div></PortalPreview
-			>{/if}
+			>
+				<div style="font-size: 84px;">↻</div>
+				<div class="button-text">restart</div>
+				<small><code>[r]</code></small>
+			</PortalPreview>{/if}
 	</div>
 	{#if resetScores || importScores}
 		<div transition:scale|local>

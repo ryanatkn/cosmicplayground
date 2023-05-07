@@ -31,14 +31,14 @@
 	import {portalsData} from '$lib/app/portalsData';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 	import {setAudioCtx} from '$lib/audio/audioCtx';
-	import {showAppDialog} from '$lib/app/appDialog';
+	import {show_app_dialog} from '$lib/app/appDialog';
 	import AppDialogs from '$lib/app/AppDialogs.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import AppDialogMenu from '$lib/app/AppDialogMenu.svelte';
 	import {playing_song, muted, volume} from '$lib/music/play_song';
 
 	beforeNavigate(() => {
-		$showAppDialog = false;
+		$show_app_dialog = false;
 	});
 
 	const dimensions = writable({
@@ -170,11 +170,11 @@
 			settings.update((s) => ({...s, dev_mode: !s.dev_mode}));
 		} else if (key === 'Escape' && !e.shiftKey && enableGlobalHotkeys(e.currentTarget)) {
 			swallow(e);
-			if ($showAppDialog) {
-				$showAppDialog = false;
+			if ($show_app_dialog) {
+				$show_app_dialog = false;
 				clock.resume(); // TODO make this add to a stack so we can safely unpause
 			} else {
-				$showAppDialog = true;
+				$show_app_dialog = true;
 				clock.pause(); // TODO make this add to a stack so we can safely unpause
 			}
 		} else if (key === 'Escape' && e.shiftKey && enableGlobalHotkeys(target)) {

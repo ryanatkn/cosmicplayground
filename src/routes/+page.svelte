@@ -52,7 +52,7 @@
 	} from '$routes/data';
 	import type {PortalData} from '$lib/app/portal';
 	import {scrollDown} from '$lib/util/dom';
-	import {showAppDialog} from '$lib/app/appDialog';
+	import {show_app_dialog} from '$lib/app/appDialog';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -315,6 +315,7 @@
 		starshipMode = true;
 		clock.pause();
 		clock.reset();
+		$show_app_dialog = false;
 		transitioningStarshipModeCount++;
 		await wait(transitionDuration + 50); // trying to avoid glitchy horizontal scrollbar that sometimes appears
 		transitioningStarshipModeCount--;
@@ -326,15 +327,16 @@
 		starshipMode = false;
 		pause_audio();
 		clock.resume();
+		$show_app_dialog = false;
 		transitioningStarshipModeCount++;
 		await wait(transitionDuration + 50); // trying to avoid glitchy horizontal scrollbar that sometimes appears
 		transitioningStarshipModeCount--;
 		exitStarshipModeCount++;
 	};
 	const toggleStarshipMode = () => (starshipMode ? exitStarshipMode() : enterStarshipMode());
-	const toggleStarshipMenu = () => ($showAppDialog = true);
+	const toggleStarshipMenu = () => ($show_app_dialog = true);
 
-	const onWindowKeydown = async (
+	const keydown = async (
 		e: KeyboardEvent & {
 			currentTarget: EventTarget & Window;
 		},
@@ -374,7 +376,7 @@
 	};
 </script>
 
-<svelte:window on:keydown={(e) => void onWindowKeydown(e)} />
+<svelte:window on:keydown={keydown} />
 
 <div
 	class="home"
