@@ -47,7 +47,6 @@ export const play_song = async (
 	start_paused = false,
 ): Promise<SongPlayState | undefined> => {
 	// state gets mustated as the `play_song` function progresses
-	// TODO BLOCK zod init
 	let state = create_song_play_state(song);
 	// TODO cancel any existing? (with events, etc?)
 	playing_song.set(state);
@@ -74,7 +73,11 @@ export const play_song = async (
 	update_state({audio});
 	console.log('loading', state);
 	await audio.load();
-	// TODO BLOCK bail if not still `playing_song`
+	// bail if not still `playing_song`
+	const $playing_song_after_load = get(playing_song);
+	if ($playing_song_after_load?.id !== state.id) {
+		return; // no need to cleanup, at least with the current behavior
+	}
 	const $audio = get(audio);
 	if (!$audio || $audio.status !== 'success' || !$audio.audio) {
 		console.error('Failed to load song'); // TODO handle failures better (Dialog error?)
