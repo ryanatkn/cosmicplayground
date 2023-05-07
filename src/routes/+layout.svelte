@@ -168,6 +168,7 @@
 	const onKeyDown = async (e: KeyboardEvent) => {
 		// TODO main menu!
 		const {key, target} = e;
+		console.log(`key`, key);
 		if (key === '`' && !e.ctrlKey && enableGlobalHotkeys(target)) {
 			// global pause
 			swallow(e);
@@ -189,6 +190,11 @@
 			// global nav up one - I'd choose `ctrlKey` but it's taken by the OS
 			swallow(e);
 			await goto($page.url.pathname.split('/').slice(0, -1).join('/') || '/');
+		} else if (e.key === '!' && e.ctrlKey && enableGlobalHotkeys(target)) {
+			if ($page.url.pathname !== '/unlock/atlas') {
+				swallow(e);
+				await goto('/unlock/atlas');
+			}
 		} else if (key === '-' && !e.ctrlKey && enableGlobalHotkeys(target)) {
 			swallow(e);
 			settings.update((s) => ({...s, idleMode: !s.idleMode}));
