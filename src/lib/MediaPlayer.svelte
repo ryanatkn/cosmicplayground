@@ -36,19 +36,21 @@
 	$: duration = playing_song?.duration;
 	$: audio_el = playing_song?.audio_el;
 
+	$: final_paused = (paused ? $paused : audio_el?.paused) ?? false;
+
 	// cache the last played song so we can resume to it for better UX
 	let last_playing_song: SongPlayState | null = null;
 	$: if (playing_song) last_playing_song = playing_song;
 
 	const play = () => {
 		if (playing_song) {
-			if (!audio_el || audio_el.paused) {
+			if (!audio_el || final_paused) {
 				void resume();
 			} else {
 				pause();
 			}
 		} else {
-			dispatch('play', {song: last_playing_song?.song || songs[0]});
+			dispatch('play', {song: last_playing_song?.song || songs[0], start_paused: final_paused});
 		}
 	};
 	const pause = () => {
@@ -73,8 +75,7 @@
 			const previous_song_index =
 				current_song_index === 0 ? songs.length - 1 : current_song_index - 1;
 			const previous_song = songs[previous_song_index];
-			console.log(`el.paused`, el?.paused);
-			dispatch('play', {song: previous_song, start_paused: el?.paused});
+			dispatch('play', {song: previous_song, start_paused: final_paused});
 			// TODO BLOCK this is end behavior -- if we move to an event system, we can deal with this another way
 			// el.currentTime = 0;
 		} else {
@@ -89,7 +90,7 @@
 			: songs.length - 1;
 		const next_song_index = current_song_index === songs.length - 1 ? 0 : current_song_index + 1;
 		const next_song = songs[next_song_index];
-		dispatch('play', {song: next_song, start_paused: audio_el?.paused});
+		dispatch('play', {song: next_song, start_paused: final_paused});
 	};
 
 	// TODO refactor? this updates the component's `current_time`, syncing to the audio element
@@ -131,7 +132,7 @@
 			<!-- https://en.wikipedia.org/wiki/Media_control_symbols -->
 			<!-- TODO what if there's `!audio_el`? -->
 			<button class="icon-button plain-button" on:click={() => play()}>
-				{#if !audio_el || (paused ? $paused : audio_el.paused)}⏵{:else}⏸{/if}
+				{#if !audio_el || final_paused}⏵{:else}⏸{/if}
 			</button>
 			<!-- TODO transition -->
 			{#if duration == null}
