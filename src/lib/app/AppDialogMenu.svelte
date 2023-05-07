@@ -15,9 +15,10 @@
 		resume_song,
 		type SongPlayState,
 		pause_song,
+		muted,
+		volume,
 	} from '$lib/music/play_song';
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
-	import {writable} from 'svelte/store';
 
 	const playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values()).map((song) => ({
 		song,
@@ -36,7 +37,7 @@
 	const play = async (options: {song: Song; volume?: number; start_paused?: boolean}) => {
 		console.log(`playing`, options);
 		const {song} = options;
-		const playState = await play_song(song); // TODO global player controls
+		const playState = await play_song(song, options.volume ?? $volume);
 		if (!playState) return;
 		// TODO BLOCK how to handle `end`?
 		// if (playState?.audio_el) playState.audio_el.currentTime = 0;
@@ -54,12 +55,6 @@
 	const resume = (state: SongPlayState | null): void => {
 		resume_song(state);
 	};
-
-	// TODO BLOCK make these used by the playing system, both on initially playing and change when playing
-	// TODO maybe events instead of writable stores?
-	const DEFAULT_VOLUME = 0.5;
-	const volume = writable(DEFAULT_VOLUME);
-	const muted = writable(false);
 </script>
 
 <div>

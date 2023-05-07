@@ -33,6 +33,7 @@
 	import {midiToFreq, type Midi} from '$lib/music/midi';
 	import {DEFAULT_TUNING} from '$lib/music/constants';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
+	import {muted, volume} from '$lib/music/play_song';
 
 	const clock = getClock();
 
@@ -138,8 +139,6 @@
 	let osc: OscillatorNode | undefined;
 	let gain: GainNode | undefined;
 	const audioCtx = getAudioCtx();
-	let volume = 0.5;
-	let muted = false;
 	$: freqMin = midiToFreq(startNote, DEFAULT_TUNING);
 	$: freqMax = midiToFreq(endNote, DEFAULT_TUNING);
 	const calcFreq = (pct: number) => lerp(freqMin, freqMax, pct);
@@ -157,14 +156,14 @@
 		);
 	};
 	const getVolume = (): number => {
-		if (muted) return 0;
+		if ($muted) return 0;
 		switch (loopState) {
 			case 'movingLeft':
 			case 'movingRight':
-				return volume;
+				return $volume;
 			case 'waitingLeft':
 			case 'waitingRight':
-				return volume;
+				return $volume;
 			default:
 				throw Error();
 		}
@@ -264,20 +263,20 @@
 <div class="easing-aud-viz">
 	<section>
 		<section class="controls">
-			<div class="controls-group {muted ? 'disabled' : ''}">
-				<FloatingIconButton label={muted ? 'unmute' : 'mute'} on:click={() => (muted = !muted)}>
-					{muted ? '🔇' : '🔊'}
+			<div class="controls-group {$muted ? 'disabled' : ''}">
+				<FloatingIconButton label={$muted ? 'unmute' : 'mute'} on:click={() => ($muted = !$muted)}>
+					{$muted ? '🔇' : '🔊'}
 				</FloatingIconButton>
 				<input
 					type="range"
-					bind:value={volume}
+					bind:value={$volume}
 					min={0}
 					max={1}
 					step={0.01}
 					style="width: 200px;"
-					disabled={muted}
+					disabled={$muted}
 				/>
-				<div>{Math.round(volume * 100)}<span>%</span></div>
+				<div>{Math.round($volume * 100)}<span>%</span></div>
 			</div>
 			<label class="controls-group">
 				<input type="range" bind:value={startNote} min={lowestNote} max={highestNote} step={1} />

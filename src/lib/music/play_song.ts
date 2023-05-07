@@ -7,10 +7,13 @@ import type {Song} from '$lib/music/songs';
 
 const DEFAULT_VOLUME = 0.5; // TODO where?
 
+// TODO refactor, probably into context
+export const volume = writable(DEFAULT_VOLUME);
+export const muted = writable(false);
+
 export interface SongPlayState {
 	id: number;
 	song: Song;
-	volume: number;
 	audio: ResourceStore<AudioResource> | null;
 	$audio: AudioResource | null;
 	audio_el: HTMLAudioElement | null;
@@ -38,7 +41,6 @@ export const play_song = async (
 	let state: SongPlayState = {
 		id: id++,
 		song,
-		volume, // TODO BLOCK if we keep this, make it a store?
 		audio: null,
 		$audio: null,
 		audio_el: null,
@@ -71,6 +73,7 @@ export const play_song = async (
 	update_state({audio});
 	console.log('loading', state);
 	await audio.load();
+	// TODO BLOCK bail if not still `playing_song`
 	const $audio = get(audio);
 	if (!$audio || $audio.status !== 'success' || !$audio.audio) {
 		console.error('Failed to load song'); // TODO handle failures better (Dialog error?)
@@ -78,7 +81,7 @@ export const play_song = async (
 		return cleanup();
 	}
 	const audio_el = $audio.audio;
-	audio_el.volume = volume; // TODO where?
+	audio_el.volume = volume;
 	update_state({
 		$audio,
 		audio_el,

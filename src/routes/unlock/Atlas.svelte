@@ -12,7 +12,7 @@
 	import Phase from '$routes/unlock/Phase.svelte';
 	import LevelButtons from '$routes/unlock/LevelButtons.svelte';
 	import {pause_audio} from '$lib/audio/play_audio';
-	import {play_song} from '$lib/music/play_song';
+	import {play_song, volume} from '$lib/music/play_song';
 
 	// TODO refactor this so it doesn't use `bind`
 	let selected_phase: PhaseData | null = null;
@@ -21,7 +21,7 @@
 
 	const play_phase_song = async (phase: PhaseData): Promise<void> => {
 		console.log(`playPhaseSong`, phase);
-		const playState = await play_song(phase.song); // TODO global player controls
+		const playState = await play_song(phase.song, $volume); // TODO global player controls
 		if (!playState) return;
 		await playState.play;
 		console.log('playing', phase.name, phase.song.name);

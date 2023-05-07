@@ -36,14 +36,9 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Space_Ambience.mp3',
 		},
 		{
-			name: 'Traveler',
+			name: 'Winter',
 			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Traveler.mp3',
-		},
-		{
-			name: 'Adventures of Flying Jack',
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Main_Theme_Adventures_of_Flying_Jack.mp3',
+			url: '/assets/audio/Alexander_Nakarada__Winter.mp3',
 		},
 		{
 			name: 'Adventure',
@@ -54,6 +49,16 @@ export const songs_by_name: Map<string, Song> = new Map(
 			name: 'Adventure (Metal Version)',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Adventure_Metal.mp3',
+		},
+		{
+			name: 'Traveler',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Traveler.mp3',
+		},
+		{
+			name: 'Adventures of Flying Jack',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Main_Theme_Adventures_of_Flying_Jack.mp3',
 		},
 		{
 			name: 'Piña Colada',
@@ -264,11 +269,6 @@ export const songs_by_name: Map<string, Song> = new Map(
 			name: 'Dream',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Dream.mp3',
-		},
-		{
-			name: 'Winter',
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Winter.mp3',
 		},
 	].map((v) => [v.name, v]),
 );
