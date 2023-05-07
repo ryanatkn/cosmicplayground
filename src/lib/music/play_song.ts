@@ -5,10 +5,11 @@ import {toResourceStore} from '$lib/app/resource';
 import {pause_audio, play_audio, audio_by_url} from '$lib/audio/play_audio';
 import type {Song} from '$lib/music/songs';
 import {DEFAULT_VOLUME} from '$lib/helpers';
+import {locally_stored} from '$lib/util/locally_stored';
 
 // TODO refactor, probably into context
-export const volume = writable(DEFAULT_VOLUME);
-export const muted = writable(false);
+export const volume = locally_stored(writable(DEFAULT_VOLUME), 'volume');
+export const muted = locally_stored(writable(false), 'muted');
 
 export interface SongPlayState {
 	id: number;

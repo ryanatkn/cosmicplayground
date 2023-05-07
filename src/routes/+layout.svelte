@@ -35,6 +35,7 @@
 	import AppDialogs from '$lib/app/AppDialogs.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import AppDialogMenu from '$lib/app/AppDialogMenu.svelte';
+	import {playing_song, muted, volume} from '$lib/music/play_song';
 
 	beforeNavigate(() => {
 		$showAppDialog = false;
@@ -60,7 +61,7 @@
 	let loadingStatus: AsyncStatus = 'initial';
 
 	onMount(async () => {
-		const redirecting = checkLegacyHashRedirect();
+		const redirecting = check_legacy_hash_redirect();
 		if (redirecting) await redirecting;
 
 		loadingStatus = 'pending';
@@ -91,7 +92,7 @@
 
 	// We used to have routes like `/#deep-breath` and now it's just `/deep-breath`,
 	// so this redirects to the hashless route as needed.
-	const checkLegacyHashRedirect = (): Promise<void> | undefined => {
+	const check_legacy_hash_redirect = (): Promise<void> | undefined => {
 		const {hash} = window.location;
 		if (!hash) return;
 		window.location.hash = '';
@@ -105,6 +106,14 @@
 		idleMode: false,
 		timeToGoIdle: 6000,
 	});
+	// TODO refactor `settings` with this stuff -- granular stores seems better these days
+	$: audio_el = $playing_song?.audio_el;
+	$: if (audio_el) {
+		audio_el.volume = $muted ? 0 : $volume!;
+	}
+	$: if (audio_el) {
+		audio_el.volume = $muted ? 0 : volume ? $volume! : 1;
+	}
 
 	const clock = setClock(); // TODO integrate with Pixi ticker?
 	clock.resume();

@@ -8,19 +8,21 @@
  */
 export const loadFromStorage = <T>(
 	key: string,
-	defaultValue: T,
+	defaultValue: T | (() => T),
 	validate?: (value: any) => asserts value is T,
 ): T => {
 	const stored = localStorage.getItem(key);
 	console.log('loading', key, stored);
-	if (!stored) return defaultValue;
+	if (stored === null) {
+		return typeof defaultValue === 'function' ? (defaultValue as () => T)() : defaultValue;
+	}
 	try {
 		const parsed = JSON.parse(stored);
 		validate?.(parsed);
 		return parsed;
 	} catch (err) {
 		localStorage.removeItem(key);
-		return defaultValue;
+		return typeof defaultValue === 'function' ? (defaultValue as () => T)() : defaultValue;
 	}
 };
 
