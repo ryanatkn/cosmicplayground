@@ -86,6 +86,7 @@ export const play_song = async (
 		update_state({$audio});
 		return cleanup();
 	}
+	paused.set(start_paused);
 	const audio_el = $audio.audio;
 	audio_el.volume = volume;
 	update_state({
