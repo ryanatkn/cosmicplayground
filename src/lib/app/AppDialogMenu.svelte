@@ -17,6 +17,7 @@
 		pause_song,
 	} from '$lib/music/play_song';
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
+	import {writable} from 'svelte/store';
 
 	const playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values()).map((song) => ({
 		song,
@@ -53,6 +54,12 @@
 	const resume = (state: SongPlayState | null): void => {
 		resume_song(state);
 	};
+
+	// TODO BLOCK make these used by the playing system, both on initially playing and change when playing
+	// TODO maybe events instead of writable stores?
+	const DEFAULT_VOLUME = 0.5;
+	const volume = writable(DEFAULT_VOLUME);
+	const muted = writable(false);
 </script>
 
 <div>
@@ -70,6 +77,8 @@
 			{playlist_items}
 			songs={all_songs}
 			playing_song={$playing_song}
+			{volume}
+			{muted}
 			bind:collapsed
 			on:play={(e) => play(e.detail)}
 			on:stop={(e) => stop(e.detail)}

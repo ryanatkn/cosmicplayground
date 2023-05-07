@@ -2,12 +2,14 @@
 	import {slide} from 'svelte/transition';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
+	import type {Writable} from 'svelte/store';
 
 	import Playlist from '$lib/Playlist.svelte';
+	import VolumeControl from '$lib/VolumeControl.svelte';
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
 	import type {Song} from '$lib/music/songs';
 	import type {SongPlayState} from '$lib/music/play_song';
-	import type {Flavored} from '@feltjs/util';
+	import type {Seconds} from '$lib/helpers';
 
 	const dispatch = createEventDispatcher<{
 		play: {song: Song; volume?: number; start_paused?: boolean};
@@ -22,6 +24,8 @@
 	export let playing_song: SongPlayState | null;
 	export let playlist_items: PlaylistItemData[]; // TODO BLOCK compare to `songs`, maybe delete it
 	export let collapsed = false;
+	export let volume: Writable<number> | null = null;
+	export let muted: Writable<boolean> | null = null;
 
 	$: console.log(`MediaPlayer playing_song`, playing_song, playing_song?.audio_el);
 	// TODO playbackRate option? https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/playbackRate
@@ -112,7 +116,6 @@
 
 	// TODO handle hours, probably want to use date-fns, but isn't currently a dependency
 	// TODO refactor
-	type Seconds = Flavored<number, 'Seconds'>; // TODO use this
 	const format_time = (t: Seconds): string => {
 		const m = (t / 60) | 0;
 		const s = (t | 0) % 60;
@@ -161,6 +164,9 @@
 		{#if !collapsed}
 			<footer transition:slide|local>
 				<span><strong>{playlist_items.length}</strong> songs</span>
+				{#if volume}
+					<VolumeControl {volume} {muted} />
+				{/if}
 			</footer>
 		{/if}
 	</div>
