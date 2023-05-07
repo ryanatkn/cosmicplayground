@@ -81,9 +81,10 @@
 			</Panel>
 		</div>
 	{/if}
-	<AppControlsTable {clock}
-		><tr><td><code>[Space]</code></td><td>toggle starship game</td></tr></AppControlsTable
-	>
+	<AppControlsTable {clock}>
+		<tr><td><code>[Space]</code></td><td>toggle starship game</td></tr>
+		<tr><td><code>[r]</code></td><td>restart starship game</td></tr>
+	</AppControlsTable>
 </div>
 
 <style>
