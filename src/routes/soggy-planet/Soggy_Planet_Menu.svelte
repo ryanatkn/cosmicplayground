@@ -15,7 +15,7 @@
 		<svelte:fragment slot="end">
 			<tr>
 				<td><code>[shift+Backtick `]</code></td><td
-					>toggle dev mode (currently <code>{dev_mode})</code></td
+					>toggle dev mode (currently <code>{dev_mode}</code>)</td
 				>
 			</tr>
 		</svelte:fragment>
