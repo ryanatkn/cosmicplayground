@@ -20,6 +20,8 @@
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import Soggy_Planet_Tour from '$routes/soggy-planet/Soggy_Planet_Tour.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
+	import Soggy_Planet_Menu from '$routes/soggy-planet/Soggy_Planet_Menu.svelte';
+	import AppDialog from '$lib/app/AppDialog.svelte';
 
 	const DEBUG_START_TIME = 0; // set to start the tour at any time for dev purposes
 	const debug_start_time = dev ? DEBUG_START_TIME : 0;
@@ -348,6 +350,10 @@
 	{/if} -->
 	</div>
 {/if}
+
+<AppDialog>
+	<Soggy_Planet_Menu {clock} />
+</AppDialog>
 
 <style>
 	.soggy-planet {

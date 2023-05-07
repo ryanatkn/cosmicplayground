@@ -10,6 +10,8 @@
 		$show_app_dialog = false;
 		clock.resume();
 	};
+
+	// TODO rename to "main menu" ? is what we call it in the UI in the controls instructions
 </script>
 
 {#if $appDialogEl}<Teleport to={$appDialogEl}><slot {exit} /></Teleport>{/if}

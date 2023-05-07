@@ -27,6 +27,7 @@
 							one level above you{:else}there's {navLevel} levels above you{/if})</td
 					>
 				</tr>
+				<slot name="end" />
 			</table>
 		</section>
 	</div>
