@@ -82,7 +82,7 @@ export const phase_data_by_name: Map<string, PhaseData> = new Map(
 		{name: '1b', phase: 0, title: 'Chronos', song: 'Chronos', image: 'opo0501a'},
 		{name: '1c', phase: 1, title: 'Mint Condition', song: 'Mint Condition', image: 'opo0501a'},
 		{name: '1d', phase: 1, title: 'Hit n Smash', song: 'Hit n Smash', image: 'opo0501a'},
-		{name: '2a', phase: 0, title: 'Celebration', song: 'Celebration', image: 'opo0415a'},
+		{name: '2a', phase: 0, title: 'Flutter', song: 'Flutter', image: 'opo0415a'},
 		{name: '2b', phase: 0, title: 'Chemical X', song: 'Chemical X', image: 'opo0415a'},
 		{name: '2c', phase: 1, title: 'Frost', song: 'Frost', image: 'opo0415a'},
 		{name: '2d', phase: 1, title: 'Dominant', song: 'Dominant', image: 'opo0415a'},

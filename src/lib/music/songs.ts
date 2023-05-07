@@ -66,9 +66,9 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Piña_Colada.mp3',
 		},
 		{
-			name: 'Hit n Smash',
-			author: 'Rafael Krux',
-			url: '/assets/audio/Rafael_Krux__Hit_n_Smash.mp3',
+			name: 'Chronos',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Chronos.mp3',
 		},
 		{
 			name: 'Mint Condition',
@@ -76,9 +76,14 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Mint_Condition.mp3',
 		},
 		{
-			name: 'Chronos',
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Chronos.mp3',
+			name: 'Hit n Smash',
+			author: 'Rafael Krux',
+			url: '/assets/audio/Rafael_Krux__Hit_n_Smash.mp3',
+		},
+		{
+			name: 'Flutter',
+			author: 'Punch Deck',
+			url: '/assets/audio/Punch_Deck__Flutter.mp3',
 		},
 		{
 			name: 'Chemical X',
