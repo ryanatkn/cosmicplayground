@@ -43,7 +43,7 @@
 	} from '$routes/starshipStage';
 	import {lookup_song} from '$lib/music/songs';
 	import {pause_audio} from '$lib/audio/play_audio';
-	import {play_song, volume} from '$lib/music/play_song';
+	import {play_song} from '$lib/music/play_song';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 	import {
 		STORAGE_KEY_STRENGTH_BOOSTER1,
@@ -362,16 +362,16 @@
 			}
 		} else if (e.key === '1' && e.ctrlKey) {
 			swallow(e);
-			await play_song(lookup_song('Spacey Intro'), $volume);
+			await play_song(lookup_song('Spacey Intro'));
 		} else if (e.key === '2' && e.ctrlKey) {
 			swallow(e);
-			await play_song(lookup_song('Spacey Outro'), $volume);
+			await play_song(lookup_song('Spacey Outro'));
 		} else if (e.key === '3' && e.ctrlKey) {
 			swallow(e);
-			await play_song(lookup_song('Futuristic 4'), $volume);
+			await play_song(lookup_song('Futuristic 4'));
 		} else if (e.key === '4' && e.ctrlKey) {
 			swallow(e);
-			await play_song(lookup_song('Futuristic 1'), $volume);
+			await play_song(lookup_song('Futuristic 1'));
 		}
 	};
 </script>

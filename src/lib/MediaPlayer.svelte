@@ -14,7 +14,7 @@
 	import type {Seconds} from '$lib/helpers';
 
 	const dispatch = createEventDispatcher<{
-		play: {song: Song; volume?: number; start_paused?: boolean};
+		play: Song;
 		stop: SongPlayState | null;
 		pause: SongPlayState | null;
 		resume: SongPlayState | null; // TODO BLOCK maybe dont have this, use play?
@@ -58,7 +58,7 @@
 				pause();
 			}
 		} else {
-			dispatch('play', {song: last_playing_song?.song || songs[0], start_paused: final_paused});
+			dispatch('play', last_playing_song?.song || songs[0]);
 		}
 	};
 	const pause = () => {
@@ -77,7 +77,7 @@
 		if (!el || el.currentTime < DOUBLE_CLICK_TIME) {
 			const previous_song = to_previous_song();
 			if (previous_song) {
-				dispatch('play', {song: previous_song, start_paused: final_paused});
+				dispatch('play', previous_song);
 			} // TODO BLOCK this is end behavior -- if we move to an event system, we can deal with this another way
 			// el.currentTime = 0;
 		} else {
@@ -87,7 +87,7 @@
 	const next = async () => {
 		const next_song = to_next_song();
 		if (next_song) {
-			dispatch('play', {song: next_song, start_paused: final_paused});
+			dispatch('play', next_song);
 		}
 	};
 

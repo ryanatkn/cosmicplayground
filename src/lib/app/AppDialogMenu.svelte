@@ -37,10 +37,9 @@
 	}
 
 	// TODO BLOCK extract a type and use everywhere, probably
-	const play = async (options: {song: Song; volume?: number; start_paused?: boolean}) => {
-		console.log(`playing`, options);
-		const {song} = options;
-		const playState = await play_song(song, options.volume ?? $volume, options?.start_paused);
+	const play = async (song: Song) => {
+		console.log(`playing`, song);
+		const playState = await play_song(song);
 		if (!playState) return;
 		// TODO BLOCK how to handle `end`?
 		// if (playState?.audio_el) playState.audio_el.currentTime = 0;

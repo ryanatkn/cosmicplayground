@@ -6,7 +6,7 @@
 	import type {Song} from '$lib/music/songs';
 
 	const dispatch = createEventDispatcher<{
-		play: {song: Song; volume?: number; start_paused?: boolean};
+		play: Song;
 		stop: SongPlayState;
 		pause: SongPlayState;
 		resume: SongPlayState;
@@ -24,7 +24,7 @@
 				dispatch('pause', playing_song);
 			}
 		} else {
-			dispatch('play', {song});
+			dispatch('play', song);
 		}
 	};
 

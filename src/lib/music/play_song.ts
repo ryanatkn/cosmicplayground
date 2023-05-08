@@ -45,12 +45,8 @@ export const playing_song = writable<SongPlayState | null>(null);
 
 // TODO extract an audio player store
 // TODO this API is not fun, resources should probably be stores
-export const play_song = async (
-	song: Song,
-	volume: number = DEFAULT_VOLUME,
-	start_paused = false,
-): Promise<SongPlayState | undefined> => {
-	console.log(`play_song`, song, volume, start_paused);
+export const play_song = async (song: Song): Promise<SongPlayState | undefined> => {
+	console.log(`play_song`, song, volume);
 	// state gets mustated as the `play_song` function progresses
 	let state = create_song_play_state(song);
 	// TODO cancel any existing? (with events, etc?)
@@ -94,14 +90,13 @@ export const play_song = async (
 		update_state({$audio});
 		return cleanup();
 	}
-	paused.set(start_paused);
 	const audio_el = $audio.audio;
-	audio_el.volume = volume;
+	audio_el.volume = get(volume);
 	update_state({
 		$audio,
 		audio_el,
 		duration: audio_el.duration,
-		play: start_paused ? null : play_audio(audio_el), // TODO do something with this before resolving?
+		play: get(paused) ? null : play_audio(audio_el), // TODO do something with this before resolving?
 		// TODO BLOCK using a promise like this may be a bad idea
 		ended: new Promise<void>((resolve) =>
 			audio_el!.addEventListener(
