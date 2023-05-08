@@ -40,7 +40,7 @@
 	const play = async (options: {song: Song; volume?: number; start_paused?: boolean}) => {
 		console.log(`playing`, options);
 		const {song} = options;
-		const playState = await play_song(song, options.volume ?? $volume);
+		const playState = await play_song(song, options.volume ?? $volume, options?.start_paused);
 		if (!playState) return;
 		// TODO BLOCK how to handle `end`?
 		// if (playState?.audio_el) playState.audio_el.currentTime = 0;
