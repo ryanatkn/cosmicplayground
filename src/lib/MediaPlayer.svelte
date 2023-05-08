@@ -44,13 +44,15 @@
 
 	$: final_paused = (paused ? $paused : audio_el?.paused) ?? false;
 
+	$: has_song = !!playing_song;
+
 	// cache the last played song so we can resume to it for better UX
 	let last_playing_song: SongPlayState | null = null;
 	$: if (playing_song) last_playing_song = playing_song;
 
 	const play = () => {
-		if (playing_song) {
-			if (!audio_el || final_paused) {
+		if (has_song) {
+			if (final_paused) {
 				void resume();
 			} else {
 				pause();
@@ -145,8 +147,6 @@
 		if (audio_el) audio_el.currentTime = t;
 	};
 
-	$: has_song = !!playing_song;
-
 	// TODO handle hours, probably want to use date-fns, but isn't currently a dependency
 	// TODO refactor
 	const format_time = (t: Seconds): string => {
@@ -160,9 +160,12 @@
 	<div class="content">
 		<header class="centered-hz">
 			<!-- https://en.wikipedia.org/wiki/Media_control_symbols -->
-			<!-- TODO what if there's `!audio_el`? -->
 			<button type="button" class="icon-button plain-button" on:click={() => play()}>
-				{#if !audio_el || final_paused}⏵{:else}⏸{/if}
+				{#if !has_song || final_paused}
+					⏵
+				{:else}
+					⏸
+				{/if}
 			</button>
 			<!-- TODO transition -->
 			<div class="duration centered-hz">
