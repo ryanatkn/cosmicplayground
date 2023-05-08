@@ -47,6 +47,7 @@
 		console.log('playing', song.name);
 		await playState.ended;
 		console.log('finished playing', song.name);
+		// TODO BLOCK this is the responsibility of the `MediaPlayer`, right? do we want to listen to `ended` there? events or promises?
 		if ($repeat) {
 			// TODO BLOCK
 		} else if ($shuffle) {
