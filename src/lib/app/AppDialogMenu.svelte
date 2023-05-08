@@ -47,6 +47,13 @@
 		console.log('playing', song.name);
 		await playState.ended;
 		console.log('finished playing', song.name);
+		if ($repeat) {
+			// TODO BLOCK
+		} else if ($shuffle) {
+			// TODO BLOCK
+		} else {
+			// TODO BLOCK
+		}
 	};
 	const stop = (state: SongPlayState | null): void => {
 		stop_song(state);
