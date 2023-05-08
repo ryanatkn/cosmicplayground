@@ -4,6 +4,7 @@
 	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
 	import type {Writable} from 'svelte/store';
 	import {randomItem} from '@feltjs/util/random.js';
+	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
 
 	import Playlist from '$lib/Playlist.svelte';
 	import VolumeControl from '$lib/VolumeControl.svelte';
@@ -38,6 +39,8 @@
 
 	$: duration = playing_song?.duration;
 	$: audio_el = playing_song?.audio_el;
+	$: audio = playing_song?.audio;
+	$: status = $audio?.status;
 
 	$: final_paused = (paused ? $paused : audio_el?.paused) ?? false;
 
@@ -162,25 +165,26 @@
 				{#if !audio_el || final_paused}⏵{:else}⏸{/if}
 			</button>
 			<!-- TODO transition -->
-			{#if duration == null}
-				<div class="duration" />
-			{:else}
-				<div class="duration centered-hz">
-					<input
-						on:input={input_current_time}
-						class="plain-input"
-						style:flex="1"
-						type="range"
-						min={0}
-						max={duration}
-						step={0.01}
-						value={current_time}
-					/>
-					<div class="timestamp">
+			<div class="duration centered-hz">
+				<input
+					on:input={input_current_time}
+					disabled={duration == null}
+					class="plain-input"
+					style:flex="1"
+					type="range"
+					min={0}
+					max={duration ?? 1}
+					step={0.01}
+					value={current_time ?? 0}
+				/>
+				<div class="timestamp">
+					{#if status === 'pending'}
+						<PendingAnimation />
+					{:else if duration != null}
 						<span>{format_time(current_time || 0)}</span><span>{format_time(duration)}</span>
-					</div>
+					{/if}
 				</div>
-			{/if}
+			</div>
 			<button class="icon-button plain-button" on:click={() => restart_or_previous()}>⏮</button>
 			<button class="icon-button plain-button" on:click={() => stop()} disabled={!has_song}
 				>⏹</button
