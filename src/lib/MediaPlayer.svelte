@@ -3,6 +3,7 @@
 	import {swallow} from '@feltjs/util/dom.js';
 	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
 	import type {Writable} from 'svelte/store';
+	import {randomItem} from '@feltjs/util/random.js';
 
 	import Playlist from '$lib/Playlist.svelte';
 	import VolumeControl from '$lib/VolumeControl.svelte';
@@ -69,30 +70,54 @@
 		// TODO BLOCK bugged after first click after clicking `stop`
 		const el = audio_el || last_playing_song?.audio_el;
 		if (!el || el.currentTime < DOUBLE_CLICK_TIME) {
-			const current_song_index = playing_song
-				? songs.indexOf(playing_song.song)
-				: last_playing_song
-				? songs.indexOf(last_playing_song.song)
-				: 1;
-			const previous_song_index =
-				current_song_index === 0 ? songs.length - 1 : current_song_index - 1;
-			const previous_song = songs[previous_song_index];
-			dispatch('play', {song: previous_song, start_paused: final_paused});
-			// TODO BLOCK this is end behavior -- if we move to an event system, we can deal with this another way
+			const previous_song = to_previous_song();
+			if (previous_song) {
+				dispatch('play', {song: previous_song, start_paused: final_paused});
+			} // TODO BLOCK this is end behavior -- if we move to an event system, we can deal with this another way
 			// el.currentTime = 0;
 		} else {
 			el.currentTime = 0;
 		}
 	};
 	const next = async () => {
+		const next_song = to_next_song();
+		if (next_song) {
+			dispatch('play', {song: next_song, start_paused: final_paused});
+		}
+	};
+
+	const to_previous_song = (): Song | undefined => {
+		if (songs.length <= 1) return songs[0];
+		if ($shuffle) return to_random_song(playing_song?.song || last_playing_song?.song);
+		const current_song_index = playing_song
+			? songs.indexOf(playing_song.song)
+			: last_playing_song
+			? songs.indexOf(last_playing_song.song)
+			: 1;
+		const previous_song_index =
+			current_song_index === 0 ? songs.length - 1 : current_song_index - 1;
+		return songs[previous_song_index];
+	};
+	const to_next_song = (): Song | undefined => {
+		if (songs.length <= 1) return songs[0];
+		if ($shuffle) return to_random_song(playing_song?.song || last_playing_song?.song);
 		const current_song_index = playing_song
 			? songs.indexOf(playing_song.song)
 			: last_playing_song
 			? songs.indexOf(last_playing_song.song)
 			: songs.length - 1;
 		const next_song_index = current_song_index === songs.length - 1 ? 0 : current_song_index + 1;
-		const next_song = songs[next_song_index];
-		dispatch('play', {song: next_song, start_paused: final_paused});
+		return songs[next_song_index];
+	};
+
+	const to_random_song = (exclude_song?: Song | null): Song | undefined => {
+		if (songs.length === 0) return undefined;
+		if (songs.length === 1) return songs[0];
+		let song: Song;
+		do {
+			song = randomItem(songs);
+		} while (song === exclude_song);
+		return song;
 	};
 
 	// TODO refactor? this updates the component's `current_time`, syncing to the audio element
