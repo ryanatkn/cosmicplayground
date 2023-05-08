@@ -26,9 +26,9 @@ export interface SongPlayState {
 	ended: Promise<unknown> | null;
 }
 
-let id = 0;
+let _id = 0;
 const create_song_play_state = (song: Song): SongPlayState => ({
-	id: id++,
+	id: _id++,
 	song,
 	audio: null,
 	$audio: null,
@@ -121,9 +121,9 @@ export const play_song = async (
 export const stop_song = (state: SongPlayState | null): void => {
 	console.log(`stop_song`, state);
 	if (state) {
-		const {song, audio_el} = state;
+		const {id, audio_el} = state;
 		audio_el?.pause();
-		playing_song.update((v) => (v?.song === song ? null : v));
+		playing_song.update((v) => (v?.id === id ? null : v));
 	} else {
 		get(playing_song)?.audio_el?.pause();
 		playing_song.set(null);
@@ -133,7 +133,7 @@ export const stop_song = (state: SongPlayState | null): void => {
 export const resume_song = (state: SongPlayState | null): void => {
 	console.log(`resume_song`, state);
 	const $playing_song = get(playing_song);
-	if (state && state === $playing_song) {
+	if (state && state.id === $playing_song?.id) {
 		playing_song.update(($p) =>
 			$p
 				? {
@@ -149,7 +149,7 @@ export const resume_song = (state: SongPlayState | null): void => {
 export const pause_song = (state: SongPlayState | null): void => {
 	console.log(`pause_song`, state);
 	const $playing_song = get(playing_song);
-	if (state && state === $playing_song) {
+	if (state && state.id === $playing_song?.id) {
 		$playing_song?.audio_el?.pause();
 		paused.set(true);
 	}
