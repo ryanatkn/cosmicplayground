@@ -102,8 +102,8 @@ export const play_song = async (song: Song): Promise<SongPlayState | undefined> 
 			audio_el!.addEventListener(
 				'ended',
 				() => {
-					resolve();
 					cleanup();
+					resolve();
 				},
 				{once: true},
 			),
