@@ -34,11 +34,11 @@
 </script>
 
 <!-- TODO render link -->
-<button class:selected class="deselectable" on:click={click}
-	><div class="count">{index + 1}</div>
+<button type="button" class:selected class="deselectable" on:click={click}>
+	<div class="count">{index + 1}</div>
 	{song.name}
-	<div class="author">{song.author}</div></button
->
+	<div class="author">{song.author}</div>
+</button>
 
 <style>
 	button {

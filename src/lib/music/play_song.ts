@@ -50,9 +50,15 @@ export const play_song = async (
 	volume: number = DEFAULT_VOLUME,
 	start_paused = false,
 ): Promise<SongPlayState | undefined> => {
+	console.log(`play_song`, song, volume, start_paused);
 	// state gets mustated as the `play_song` function progresses
 	let state = create_song_play_state(song);
 	// TODO cancel any existing? (with events, etc?)
+	const $playing_song = get(playing_song);
+	if (song === $playing_song?.song) {
+		console.log('bailing early');
+		return;
+	} // TODO BLOCK is this right?
 	playing_song.set(state);
 	const cleanup = (): undefined => {
 		playing_song.update((v) => (v === state ? null : v));
@@ -113,6 +119,7 @@ export const play_song = async (
 };
 
 export const stop_song = (state: SongPlayState | null): void => {
+	console.log(`stop_song`, state);
 	if (state) {
 		const {song, audio_el} = state;
 		audio_el?.pause();
@@ -124,6 +131,7 @@ export const stop_song = (state: SongPlayState | null): void => {
 };
 
 export const resume_song = (state: SongPlayState | null): void => {
+	console.log(`resume_song`, state);
 	const $playing_song = get(playing_song);
 	if (state && state === $playing_song) {
 		playing_song.update(($p) =>
@@ -139,6 +147,7 @@ export const resume_song = (state: SongPlayState | null): void => {
 };
 
 export const pause_song = (state: SongPlayState | null): void => {
+	console.log(`pause_song`, state);
 	const $playing_song = get(playing_song);
 	if (state && state === $playing_song) {
 		$playing_song?.audio_el?.pause();

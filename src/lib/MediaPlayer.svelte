@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {slide} from 'svelte/transition';
+	import {fade, slide} from 'svelte/transition';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
 	import type {Writable} from 'svelte/store';
@@ -161,7 +161,7 @@
 		<header class="centered-hz">
 			<!-- https://en.wikipedia.org/wiki/Media_control_symbols -->
 			<!-- TODO what if there's `!audio_el`? -->
-			<button class="icon-button plain-button" on:click={() => play()}>
+			<button type="button" class="icon-button plain-button" on:click={() => play()}>
 				{#if !audio_el || final_paused}⏵{:else}⏸{/if}
 			</button>
 			<!-- TODO transition -->
@@ -181,16 +181,28 @@
 					{#if status === 'pending'}
 						<PendingAnimation />
 					{:else if duration != null}
-						<span>{format_time(current_time || 0)}</span><span>{format_time(duration)}</span>
+						<div in:fade|local>
+							<span>{format_time(current_time || 0)}</span><span>{format_time(duration)}</span>
+						</div>
 					{/if}
 				</div>
 			</div>
-			<button class="icon-button plain-button" on:click={() => restart_or_previous()}>⏮</button>
-			<button class="icon-button plain-button" on:click={() => stop()} disabled={!has_song}
-				>⏹</button
+			<button type="button" class="icon-button plain-button" on:click={() => restart_or_previous()}>
+				⏮
+			</button>
+			<button
+				type="button"
+				class="icon-button plain-button"
+				on:click={() => stop()}
+				disabled={!has_song}
 			>
-			<button class="icon-button plain-button" on:click={() => next()}>⏭</button>
-			<button class="icon-button plain-button" on:click={() => (collapsed = !collapsed)}
+				⏹
+			</button>
+			<button type="button" class="icon-button plain-button" on:click={() => next()}> ⏭ </button>
+			<button
+				type="button"
+				class="icon-button plain-button"
+				on:click={() => (collapsed = !collapsed)}
 				>{#if collapsed}+{:else}−{/if}</button
 			>
 		</header>
