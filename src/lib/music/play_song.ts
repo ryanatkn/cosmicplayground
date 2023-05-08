@@ -52,12 +52,12 @@ export const play_song = async (song: Song): Promise<SongPlayState | undefined> 
 	// TODO cancel any existing? (with events, etc?)
 	const $playing_song = get(playing_song);
 	if (song === $playing_song?.song) {
-		console.log('bailing early');
+		console.log('already playing', $playing_song);
 		return;
-	} // TODO BLOCK is this right?
+	}
 	playing_song.set(state);
 	const cleanup = (): undefined => {
-		playing_song.update((v) => (v === state ? null : v));
+		playing_song.update((v) => (v?.id === state.id ? null : v));
 		return undefined;
 	};
 	const update_state = (partial?: Partial<SongPlayState>) => {
