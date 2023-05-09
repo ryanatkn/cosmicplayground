@@ -87,14 +87,12 @@
 	};
 	const DOUBLE_CLICK_TIME = 0.29; // in seconds - TODO move?
 	const restart_or_previous = async () => {
-		// TODO BLOCK bugged after first click after clicking `stop`
 		const el = audio_el || last_playing_song?.audio_el;
 		if (!el || el.currentTime < DOUBLE_CLICK_TIME) {
 			const previous_playlist_item = to_previous_playlist_item();
 			if (previous_playlist_item) {
 				dispatch('play', previous_playlist_item);
-			} // TODO BLOCK this is end behavior -- if we move to an event system, we can deal with this another way
-			// el.currentTime = 0;
+			}
 		} else {
 			el.currentTime = 0;
 		}

@@ -35,26 +35,10 @@
 		setInStorage(STORAGE_KEY_MEDIA_PLAYER_COLLAPSED, collapsed);
 	}
 
-	// TODO BLOCK extract a type and use everywhere, probably
 	const play = async (playlist_item: PlaylistItemData) => {
 		const {song} = playlist_item;
-		console.log(`playing`, song);
 		const playState = await play_song(song);
 		if (!playState) return;
-		// TODO BLOCK how to handle `end`?
-		// if (playState?.audio_el) playState.audio_el.currentTime = 0;
-		await playState.play;
-		console.log('playing', song.name);
-		await playState.ended;
-		console.log('finished playing', song.name);
-		// TODO BLOCK this is the responsibility of the `MediaPlayer`, right? do we want to listen to `ended` there? events or promises?
-		if ($repeat) {
-			// TODO BLOCK
-		} else if ($shuffle) {
-			// TODO BLOCK
-		} else {
-			// TODO BLOCK
-		}
 	};
 </script>
 
