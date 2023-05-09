@@ -48,7 +48,7 @@
 	export let shuffle = false;
 	export let repeat = false;
 
-	$: console.log(`MediaPlayer playing_song`, playing_song, playing_song?.audio_el);
+	$: console.log(`[MediaPlayer playing_song]`, playing_song, playing_song?.audio_el);
 	$: has_song = !!playing_song;
 	$: duration = playing_song?.duration;
 	$: audio_el = playing_song?.audio_el;
@@ -57,14 +57,29 @@
 
 	// cache the last played song so we can resume to it for better UX
 	let last_playing_song: SongPlayState | null = null;
-	$: if (playing_song) last_playing_song = playing_song;
+	let ended: Promise<unknown> | null = null;
+	$: if (playing_song) void update_playing_song(playing_song);
+	const update_playing_song = async (p: SongPlayState | null) => {
+		if (!p) {
+			return;
+		}
+		last_playing_song = p;
+		if (!p.ended || p.ended === ended) return; // TODO hacky - need to rethink the play state - will re-run when `ended` is populated
+		ended = p.ended;
+		await p.ended;
+		if (ended !== p.ended) return;
+		const next_playlist_item = repeat
+			? playlist_items.find((p2) => p2.song === p.song)
+			: to_next_playlist_item();
+		dispatch('play', next_playlist_item);
+	};
 
 	const play = () => {
 		if (has_song) {
 			paused = !paused;
 			dispatch('paused', paused);
 		} else {
-			dispatch('play', last_playing_song || playlist_items[0]);
+			dispatch('play', last_playing_song || to_next_playlist_item());
 		}
 	};
 	const stop = () => {
