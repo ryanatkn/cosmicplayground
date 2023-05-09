@@ -4,7 +4,7 @@ import type {AudioResource, ResourceStore} from '$lib/app/resource';
 import {toResourceStore} from '$lib/app/resource';
 import {pause_audio, play_audio, audio_by_url} from '$lib/audio/play_audio';
 import type {Song} from '$lib/music/songs';
-import {DEFAULT_VOLUME} from '$lib/helpers';
+import {DEFAULT_VOLUME} from '$lib/audio/helpers';
 import {locally_stored} from '$lib/util/locally_stored';
 
 // TODO refactor, probably into context

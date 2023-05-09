@@ -5,16 +5,20 @@
 	export type PlaylistItemData = z.infer<typeof PlaylistItemData>;
 </script>
 
-<script lang="ts">
+<script lang="ts" strictEvents>
 	import {slide} from 'svelte/transition';
 	import {z} from 'zod';
+	import type {ComponentEvents} from 'svelte';
 
 	import PlaylistItem from '$lib/PlaylistItem.svelte';
 	import {Song} from '$lib/music/songs';
 	import type {SongPlayState} from '$lib/music/play_song';
 
+	type $$Events = ComponentEvents<PlaylistItem>;
+
 	export let playlist_items: PlaylistItemData[];
 	export let collapsed: boolean;
+	export let paused: boolean;
 	export let playing_song: SongPlayState | null;
 
 	$: current_song = playing_song?.song;
@@ -30,11 +34,10 @@
 			<PlaylistItem
 				playlist_item={selected_playlist_item}
 				index={selected_playlist_item_index}
+				{paused}
 				{playing_song}
 				on:play
-				on:stop
-				on:pause
-				on:resume
+				on:paused
 			/>
 		</div>
 	{/if}
@@ -44,7 +47,7 @@
 			<ul>
 				<!-- TODO add a random id and key by it -->
 				{#each playlist_items as playlist_item, index (playlist_item)}
-					<PlaylistItem {playlist_item} {index} {playing_song} on:play on:stop on:pause on:resume />
+					<PlaylistItem {playlist_item} {index} {paused} {playing_song} on:play on:paused />
 				{/each}
 			</ul>
 		</div>

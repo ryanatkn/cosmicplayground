@@ -27,7 +27,7 @@
 	import {getClock} from '@feltcoop/dealt';
 
 	import {svelteEasings} from '$lib/app/easings';
-	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
+	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';
 	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {midiNames} from '$lib/music/notes';
 	import {midiToFreq, type Midi} from '$lib/music/midi';
@@ -150,7 +150,7 @@
 
 		// TODO volume controls
 		gain!.gain.setTargetAtTime(
-			volumeToGain(getVolume()),
+			volume_to_gain(getVolume()),
 			audioCtx.currentTime,
 			SMOOTH_GAIN_TIME_CONSTANT,
 		);

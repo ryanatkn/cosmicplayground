@@ -6,7 +6,7 @@
 	import {hslToRgb, getDimensions} from '@feltcoop/dealt';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
-	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
+	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';
 	import {freqToMidi} from '$lib/music/midi';
 	import {DEFAULT_TUNING} from '$lib/music/constants';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
@@ -128,7 +128,7 @@
 		gain = audioCtx.createGain();
 		gain.gain.value = 0;
 		gain.gain.setTargetAtTime(
-			volumeToGain(VOLUME),
+			volume_to_gain(VOLUME),
 			audioCtx.currentTime,
 			SMOOTH_GAIN_TIME_CONSTANT,
 		);

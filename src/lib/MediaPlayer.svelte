@@ -1,50 +1,59 @@
-<script lang="ts">
+<script lang="ts" strictEvents>
 	import {fade, slide} from 'svelte/transition';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
-	import type {Writable} from 'svelte/store';
 	import {randomItem} from '@feltjs/util/random.js';
 	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
 
 	import Playlist from '$lib/Playlist.svelte';
 	import VolumeControl from '$lib/VolumeControl.svelte';
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
-	import type {Song} from '$lib/music/songs';
 	import type {SongPlayState} from '$lib/music/play_song';
-	import type {Seconds} from '$lib/helpers';
-
-	const dispatch = createEventDispatcher<{
-		play: Song;
-		stop: SongPlayState | null;
-		pause: SongPlayState | null;
-		resume: SongPlayState | null; // TODO BLOCK maybe dont have this, use play?
-	}>();
+	import type {Seconds} from '$lib/time';
+	import type {Volume} from '$lib/audio/helpers';
 
 	// TODO selection behavior
 
-	export let songs: Song[]; // TODO BLOCK maybe `media_items` and `Media` super type?
-	export let playing_song: SongPlayState | null;
-	export let playlist_items: PlaylistItemData[]; // TODO BLOCK compare to `songs`, maybe delete it
-	export let collapsed = false;
-	export let volume: Writable<number> | null = null;
-	export let muted: Writable<boolean> | null = null;
-	export let paused: Writable<boolean> | null = null; // TODO is a bit strange, haven't figured out best syncing patterns with the element
-	export let shuffle: Writable<boolean> | null = null;
-	export let repeat: Writable<boolean> | null = null;
-
-	$: console.log(`MediaPlayer playing_song`, playing_song, playing_song?.audio_el);
 	// TODO playbackRate option? https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/playbackRate
 
 	// TODO skins (inspired by winamp)
 
+	// TODO try to not duplicate with `dispatch`
+	interface $$Events {
+		play: CustomEvent<PlaylistItemData>;
+		stop: void;
+		paused: CustomEvent<boolean>;
+		volume: CustomEvent<number>;
+		muted: CustomEvent<boolean>;
+		shuffle: CustomEvent<boolean>;
+		repeat: CustomEvent<boolean>;
+	}
+
+	const dispatch = createEventDispatcher<{
+		play: PlaylistItemData;
+		stop: void;
+		paused: boolean;
+		volume: number;
+		muted: boolean;
+		shuffle: boolean;
+		repeat: boolean;
+	}>();
+
+	export let playing_song: SongPlayState | null;
+	export let playlist_items: PlaylistItemData[];
+	export let collapsed = false;
+	export let paused = false; // TODO maybe make these optional, and don't set locally?
+	export let volume: Volume = 1;
+	export let muted = false;
+	export let shuffle = false;
+	export let repeat = false;
+
+	$: console.log(`MediaPlayer playing_song`, playing_song, playing_song?.audio_el);
+	$: has_song = !!playing_song;
 	$: duration = playing_song?.duration;
 	$: audio_el = playing_song?.audio_el;
 	$: audio = playing_song?.audio;
 	$: status = $audio?.status;
-
-	$: final_paused = (paused ? $paused : audio_el?.paused) ?? false;
-
-	$: has_song = !!playing_song;
 
 	// cache the last played song so we can resume to it for better UX
 	let last_playing_song: SongPlayState | null = null;
@@ -52,32 +61,23 @@
 
 	const play = () => {
 		if (has_song) {
-			if (final_paused) {
-				void resume();
-			} else {
-				pause();
-			}
+			paused = !paused;
+			dispatch('paused', paused);
 		} else {
-			dispatch('play', last_playing_song?.song || songs[0]);
+			dispatch('play', last_playing_song || playlist_items[0]);
 		}
 	};
-	const pause = () => {
-		dispatch('pause', playing_song);
-	};
 	const stop = () => {
-		dispatch('stop', playing_song);
-	};
-	const resume = async () => {
-		dispatch('resume', playing_song);
+		dispatch('stop');
 	};
 	const DOUBLE_CLICK_TIME = 0.29; // in seconds - TODO move?
 	const restart_or_previous = async () => {
 		// TODO BLOCK bugged after first click after clicking `stop`
 		const el = audio_el || last_playing_song?.audio_el;
 		if (!el || el.currentTime < DOUBLE_CLICK_TIME) {
-			const previous_song = to_previous_song();
-			if (previous_song) {
-				dispatch('play', previous_song);
+			const previous_playlist_item = to_previous_playlist_item();
+			if (previous_playlist_item) {
+				dispatch('play', previous_playlist_item);
 			} // TODO BLOCK this is end behavior -- if we move to an event system, we can deal with this another way
 			// el.currentTime = 0;
 		} else {
@@ -85,44 +85,52 @@
 		}
 	};
 	const next = async () => {
-		const next_song = to_next_song();
-		if (next_song) {
-			dispatch('play', next_song);
+		const next_playlist_item = to_next_playlist_item();
+		if (next_playlist_item) {
+			dispatch('play', next_playlist_item);
 		}
 	};
 
-	const to_previous_song = (): Song | undefined => {
-		if (songs.length <= 1) return songs[0];
-		if ($shuffle) return to_random_song(playing_song?.song || last_playing_song?.song);
-		const current_song_index = playing_song
-			? songs.indexOf(playing_song.song)
+	const to_previous_playlist_item = (): PlaylistItemData | undefined => {
+		if (playlist_items.length <= 1) {
+			return playlist_items[0];
+		}
+		if (shuffle) {
+			return to_random_playlist_item(playing_song || last_playing_song);
+		}
+		const current_index = playing_song
+			? playlist_items.findIndex((p) => p.song === playing_song!.song)
 			: last_playing_song
-			? songs.indexOf(last_playing_song.song)
+			? playlist_items.findIndex((p) => p.song === last_playing_song!.song)
 			: 1;
-		const previous_song_index =
-			current_song_index === 0 ? songs.length - 1 : current_song_index - 1;
-		return songs[previous_song_index];
+		const previous_index = current_index === 0 ? playlist_items.length - 1 : current_index - 1;
+		return playlist_items[previous_index];
 	};
-	const to_next_song = (): Song | undefined => {
-		if (songs.length <= 1) return songs[0];
-		if ($shuffle) return to_random_song(playing_song?.song || last_playing_song?.song);
-		const current_song_index = playing_song
-			? songs.indexOf(playing_song.song)
+	const to_next_playlist_item = (): PlaylistItemData | undefined => {
+		if (playlist_items.length <= 1) {
+			return playlist_items[0];
+		}
+		if (shuffle) {
+			return to_random_playlist_item(playing_song || last_playing_song);
+		}
+		const current_index = playing_song
+			? playlist_items.findIndex((p) => p.song === playing_song!.song)
 			: last_playing_song
-			? songs.indexOf(last_playing_song.song)
-			: songs.length - 1;
-		const next_song_index = current_song_index === songs.length - 1 ? 0 : current_song_index + 1;
-		return songs[next_song_index];
+			? playlist_items.findIndex((p) => p.song === last_playing_song!.song)
+			: playlist_items.length - 1;
+		const next_index = current_index === playlist_items.length - 1 ? 0 : current_index + 1;
+		return playlist_items[next_index];
 	};
-
-	const to_random_song = (exclude_song?: Song | null): Song | undefined => {
-		if (songs.length === 0) return undefined;
-		if (songs.length === 1) return songs[0];
-		let song: Song;
+	const to_random_playlist_item = (
+		exclude_playlist_item?: PlaylistItemData | null,
+	): PlaylistItemData | undefined => {
+		if (playlist_items.length === 0) return undefined;
+		if (playlist_items.length === 1) return playlist_items[0];
+		let playlist_item: PlaylistItemData;
 		do {
-			song = randomItem(songs);
-		} while (song === exclude_song);
-		return song;
+			playlist_item = randomItem(playlist_items);
+		} while (playlist_item === exclude_playlist_item);
+		return playlist_item;
 	};
 
 	// TODO refactor? this updates the component's `current_time`, syncing to the audio element
@@ -161,7 +169,7 @@
 		<header class="centered-hz">
 			<!-- https://en.wikipedia.org/wiki/Media_control_symbols -->
 			<button type="button" class="icon-button plain-button" on:click={() => play()}>
-				{#if !has_song || final_paused}
+				{#if !has_song || paused}
 					⏵
 				{:else}
 					⏸
@@ -184,7 +192,7 @@
 					{#if status === 'pending'}
 						<PendingAnimation />
 					{:else if duration != null}
-						<div in:fade|local>
+						<div class="centered" in:fade|local>
 							<span>{format_time(current_time || 0)}</span><span>{format_time(duration)}</span>
 						</div>
 					{/if}
@@ -209,31 +217,35 @@
 				>{#if collapsed}+{:else}−{/if}</button
 			>
 		</header>
-		<Playlist {playlist_items} {collapsed} {playing_song} on:play on:stop on:pause on:resume />
+		<Playlist {playlist_items} {collapsed} {paused} {playing_song} on:play on:paused />
 		{#if !collapsed}
 			<footer transition:slide|local>
-				{#if volume}
-					<VolumeControl {volume} {muted} />
-				{/if}
+				<VolumeControl {volume} {muted} on:volume on:muted />
 				<div class="centered-hz">
-					{#if repeat}
+					{#if repeat !== null}
 						<button
 							type="button"
 							class="togglable icon-button plain-button deselectable"
-							title="repeat is {$repeat ? 'enabled' : 'disabled'}"
-							class:selected={$repeat}
-							on:click={() => ($repeat = !$repeat)}
+							title="repeat is {repeat ? 'enabled' : 'disabled'}"
+							class:selected={repeat}
+							on:click={() => {
+								repeat = !repeat;
+								dispatch('repeat', repeat);
+							}}
 						>
 							🔁
 						</button>
 					{/if}
-					{#if shuffle}
+					{#if shuffle !== null}
 						<button
 							type="button"
 							class="togglable icon-button plain-button deselectable"
-							title="shuffle is {$shuffle ? 'enabled' : 'disabled'}"
-							class:selected={$shuffle}
-							on:click={() => ($shuffle = !$shuffle)}
+							title="shuffle is {shuffle ? 'enabled' : 'disabled'}"
+							class:selected={shuffle}
+							on:click={() => {
+								shuffle = !shuffle;
+								dispatch('shuffle', shuffle);
+							}}
 						>
 							🔀
 						</button>

@@ -6,14 +6,13 @@
 	import AboutPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import MediaPlayer from '$lib/MediaPlayer.svelte';
-	import {Song, all_songs, songs_by_name} from '$lib/music/songs';
+	import {songs_by_name} from '$lib/music/songs';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 	import {
 		play_song,
 		playing_song,
 		stop_song,
 		resume_song,
-		type SongPlayState,
 		pause_song,
 		muted,
 		volume,
@@ -27,7 +26,7 @@
 		song,
 	}));
 
-	const STORAGE_KEY_MEDIA_PLAYER_COLLAPSED = 'MEDIA_PLAYER_COLLAPSED';
+	const STORAGE_KEY_MEDIA_PLAYER_COLLAPSED = 'media_player_collapsed';
 	const DEFAULT_COLLAPSED = false;
 	let collapsed = loadFromStorage(STORAGE_KEY_MEDIA_PLAYER_COLLAPSED, DEFAULT_COLLAPSED);
 	let last_collapsed = collapsed;
@@ -37,7 +36,8 @@
 	}
 
 	// TODO BLOCK extract a type and use everywhere, probably
-	const play = async (song: Song) => {
+	const play = async (playlist_item: PlaylistItemData) => {
+		const {song} = playlist_item;
 		console.log(`playing`, song);
 		const playState = await play_song(song);
 		if (!playState) return;
@@ -56,15 +56,6 @@
 			// TODO BLOCK
 		}
 	};
-	const stop = (state: SongPlayState | null): void => {
-		stop_song(state);
-	};
-	const pause = (state: SongPlayState | null): void => {
-		pause_song(state);
-	};
-	const resume = (state: SongPlayState | null): void => {
-		resume_song(state);
-	};
 </script>
 
 <div>
@@ -79,19 +70,21 @@
 	{/if}
 	<section>
 		<MediaPlayer
-			{playlist_items}
-			songs={all_songs}
 			playing_song={$playing_song}
-			{volume}
-			{muted}
-			{paused}
-			{shuffle}
-			{repeat}
+			{playlist_items}
+			volume={$volume}
+			muted={$muted}
+			paused={$paused}
+			shuffle={$shuffle}
+			repeat={$repeat}
 			bind:collapsed
 			on:play={(e) => play(e.detail)}
-			on:stop={(e) => stop(e.detail)}
-			on:pause={(e) => pause(e.detail)}
-			on:resume={(e) => resume(e.detail)}
+			on:stop={() => stop_song($playing_song)}
+			on:paused={(e) => (e.detail ? pause_song($playing_song) : resume_song($playing_song))}
+			on:volume={(e) => ($volume = e.detail)}
+			on:muted={(e) => ($muted = e.detail)}
+			on:shuffle={(e) => ($shuffle = e.detail)}
+			on:repeat={(e) => ($repeat = e.detail)}
 		/>
 	</section>
 	<PortalPreview href="/about">

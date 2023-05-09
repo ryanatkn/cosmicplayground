@@ -6,7 +6,7 @@
 	import {getDimensions} from '@feltcoop/dealt';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
-	import {volumeToGain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/utils';
+	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';
 
 	const dimensions = getDimensions();
 
@@ -43,7 +43,7 @@
 	$: displayedVolume = volume === undefined ? '' : Math.round(volume * 100);
 	$: if (gain && volume !== undefined) {
 		gain.gain.setTargetAtTime(
-			volumeToGain(volume),
+			volume_to_gain(volume),
 			audioCtx.currentTime,
 			SMOOTH_GAIN_TIME_CONSTANT,
 		);

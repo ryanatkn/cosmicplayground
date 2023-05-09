@@ -1,30 +1,25 @@
-<script lang="ts">
+<script lang="ts" strictEvents>
 	import {createEventDispatcher} from 'svelte';
 
 	import type {PlaylistItemData} from '$lib/Playlist.svelte';
 	import type {SongPlayState} from '$lib/music/play_song';
-	import type {Song} from '$lib/music/songs';
 
 	const dispatch = createEventDispatcher<{
-		play: Song;
-		stop: SongPlayState;
-		pause: SongPlayState;
-		resume: SongPlayState;
+		play: PlaylistItemData;
+		paused: boolean;
 	}>();
 
 	export let playlist_item: PlaylistItemData;
 	export let index: number;
 	export let playing_song: SongPlayState | null;
+	export let paused: boolean;
 
 	const click = async () => {
 		if (playing_song && selected) {
-			if (playing_song?.audio_el?.paused) {
-				dispatch('resume', playing_song);
-			} else {
-				dispatch('pause', playing_song);
-			}
+			paused = !paused;
+			dispatch('paused', paused);
 		} else {
-			dispatch('play', song);
+			dispatch('play', playlist_item);
 		}
 	};
 
