@@ -236,7 +236,7 @@ export const phase_sequences: PhaseSequenceOrCreator[] = [
 				'1b',
 				'1d',
 				'2b',
-				'2c',
+				'2d',
 				'3b',
 				'3d',
 				'4b',
@@ -288,7 +288,7 @@ export const phase_sequences: PhaseSequenceOrCreator[] = [
 				randomItem(['1a', '1b']),
 				randomItem(['1c', '1d']),
 				randomItem(['2a', '2b']),
-				'2c',
+				randomItem(['2c', '2d']),
 				randomItem(['3a', '3b']),
 				randomItem(['3c', '3d']),
 				randomItem([
@@ -353,7 +353,7 @@ export const phase_sequences: PhaseSequenceOrCreator[] = [
 			addPhase(randomItem(['1a', '1b']));
 			addPhase(randomItem(['1c', '1d']));
 			addPhase(randomItem(['2a', '2b']));
-			addPhase(randomItem(['2c', null]));
+			addPhase(randomItem(['2c', '2d']));
 			addPhase(randomItem(['3a', '3b']));
 			// had to suppress reaction at least once to get this option
 			addPhase(
