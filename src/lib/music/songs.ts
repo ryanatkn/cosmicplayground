@@ -156,9 +156,9 @@ export const songs_by_name: Map<string, Song> = new Map(
 			url: '/assets/audio/Kevin_MacLeod__Painting_Room.mp3',
 		},
 		{
-			name: 'Parhelion',
+			name: 'VHS Heroes',
 			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Parhelion.mp3',
+			url: '/assets/audio/Punch_Deck__VHS_Heroes.mp3',
 		},
 		{
 			name: 'La Citadelle',
