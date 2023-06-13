@@ -20,7 +20,7 @@
 		shuffle,
 		repeat,
 	} from '$lib/music/play_song';
-	import type {PlaylistItemData} from '$lib/Playlist.svelte';
+	import type {PlaylistItemData} from '$lib/playlist';
 
 	const playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values()).map((song) => ({
 		song,

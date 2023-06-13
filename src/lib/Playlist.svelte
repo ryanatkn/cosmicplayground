@@ -1,18 +1,10 @@
-<script lang="ts" context="module">
-	export const PlaylistItemData = z.object({
-		song: Song,
-	});
-	export type PlaylistItemData = z.infer<typeof PlaylistItemData>;
-</script>
-
 <script lang="ts" strictEvents>
 	import {slide} from 'svelte/transition';
-	import {z} from 'zod';
 	import type {ComponentEvents} from 'svelte';
 
 	import PlaylistItem from '$lib/PlaylistItem.svelte';
-	import {Song} from '$lib/music/songs';
 	import type {SongPlayState} from '$lib/music/play_song';
+	import type {PlaylistItemData} from '$lib/playlist';
 
 	type $$Events = ComponentEvents<PlaylistItem>;
 

@@ -7,7 +7,7 @@
 
 	import Playlist from '$lib/Playlist.svelte';
 	import VolumeControl from '$lib/VolumeControl.svelte';
-	import type {PlaylistItemData} from '$lib/Playlist.svelte';
+	import type {PlaylistItemData} from '$lib/playlist';
 	import type {SongPlayState} from '$lib/music/play_song';
 	import type {Seconds} from '$lib/time';
 	import type {Volume} from '$lib/audio/helpers';

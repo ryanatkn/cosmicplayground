@@ -1,7 +1,7 @@
 <script lang="ts" strictEvents>
 	import {createEventDispatcher} from 'svelte';
 
-	import type {PlaylistItemData} from '$lib/Playlist.svelte';
+	import type {PlaylistItemData} from '$lib/playlist';
 	import type {SongPlayState} from '$lib/music/play_song';
 
 	const dispatch = createEventDispatcher<{
