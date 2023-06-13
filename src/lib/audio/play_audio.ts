@@ -12,15 +12,14 @@ export const playing_audio = (url: string): boolean => {
 	return !!$audio.audio && !$audio.audio.paused;
 };
 
-// TODO BLOCK `paused`
-export const pause_audio = (onPause?: (audio: AudioResource) => void): void => {
+export const pause_audio = (paused?: (audio: AudioResource) => void): void => {
 	// TODO probably set playing audio to module-level state instead of this
 	// (seems fine because audio is a global UX)
 	for (const audio of audio_by_url.values()) {
 		const $audio = get(audio); // TODO
 		if ($audio.audio && !$audio.audio.paused) {
 			$audio.audio.pause();
-			onPause?.($audio);
+			paused?.($audio);
 		}
 	}
 };
