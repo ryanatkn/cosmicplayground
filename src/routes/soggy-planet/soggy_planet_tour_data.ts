@@ -4,7 +4,7 @@ import type {TourData} from '$lib/app/tour';
 import {createTourBuilder} from '$lib/app/tourBuilder';
 import {z} from 'zod';
 
-// TODO BLOCK go to Mesopotamia instead of the southern island, see about flipping vertically, fade to night at end
+// TODO BLOCK go to Tigris/Euphrates instead of the southern island, see about flipping vertically, fade to night at end
 
 export const Point_Of_Interest = z.object({
 	name: z.string(),
