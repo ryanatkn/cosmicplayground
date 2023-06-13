@@ -78,7 +78,7 @@ const render_content = (name: string): string => {
 	const data = lookup_point_of_interest(name);
 	const link = `<a href="${data.url}">${name}</a>`;
 	return `<span style="position: relative; left: ${data.x}px; top: ${data.y}px;">${
-		data.myth ? link + '<span title="this may be a myth">?</span>' : link
+		data.myth ? link + `<span title="${name} may be a myth">?</span>` : link
 	}</span>`;
 };
 

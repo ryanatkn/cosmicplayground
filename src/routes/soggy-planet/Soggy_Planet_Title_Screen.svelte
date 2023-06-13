@@ -62,7 +62,7 @@
 					<a href="https://wikipedia.org/wiki/Sea_level_rise">estimated possible maximum</a>
 				</li>
 			</ul>
-			<p>For a song-length tour of our soggy planet with history and myth:</p>
+			<p>For a 3 minute musical tour of some of our soggy planet's sunken history and myths:</p>
 			<ul>
 				<li>
 					<p style:margin-bottom={0}>
@@ -105,7 +105,7 @@
 		<section class="markup">
 			<h2>Tour</h2>
 			<p>
-				Soggy Planet includes a song-length tour of some points of interest related to sea levels a
+				Soggy Planet includes a 3 minute tour of some points of interest related to sea levels at
 				the <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">Last Glacial Maximum</a>.
 				Click the <button on:click={start_tour}>start tour</button>
 				button on <button on:click={load}>the map</button> or see
@@ -120,7 +120,7 @@
 							<!-- TODO make these buttons to zoom to the locations on the map -->
 							{point_of_interest.name}
 						</td>
-						<td class="centered-text" title="this may be a myth"
+						<td class="centered-text" title="{point_of_interest.name} may be a myth"
 							>{#if point_of_interest.myth}?{/if}</td
 						>
 						<td><a href={point_of_interest.url}>{point_of_interest.url.substring(8)}</a></td>

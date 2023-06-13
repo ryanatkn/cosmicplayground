@@ -16,7 +16,7 @@
 	</p>
 {/if}
 <p>
-	<a href="/assets/audio/ocean_waves.mp3">Recording of the ocean waves</a> by
+	<a href="/assets/audio/ocean_waves.mp3">recording of the ocean waves</a> by
 	<a href="https://freesound.org/people/Noted451/sounds/531015/">Noted451 on freesound.org</a>,
 	<a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a>
 </p>

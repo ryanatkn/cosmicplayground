@@ -28,10 +28,12 @@
 				await toggleStarshipMode();
 			}}
 			{starshipMode}
-			><div class="button-text">
-				{#if starshipMode}exit{:else}play{/if}
-			</div></StarshipPreview
 		>
+			<div class="button-text">
+				{#if starshipMode}exit{:else}play{/if}
+			</div>
+			<small><code>[Space]</code></small>
+		</StarshipPreview>
 		{#if starshipMode}
 			<PortalPreview
 				onClick={async () => {
@@ -41,9 +43,11 @@
 					await wait(); // TODO idk
 					void toggleStarshipMode();
 				}}
-				><div style="font-size: 84px;">↻</div>
-				<div class="button-text">restart</div></PortalPreview
-			>{/if}
+			>
+				<div style="font-size: 84px;">↻</div>
+				<div class="button-text">restart</div>
+				<small><code>[r]</code></small>
+			</PortalPreview>{/if}
 	</div>
 	{#if resetScores || importScores}
 		<div transition:scale|local>
@@ -55,10 +59,10 @@
 						<StarshipStageScore {scores} defaultIcon="❔" />
 						<br />
 						<p class="centered">
-							{#if scores.crewRescuedAtOnceCount >= 5}
+							{#if scores.crew_rescued_at_once_count >= 5}
 								<a href="/unlock">full crew ready</a>
-							{:else if scores.crewRescuedAtOnceCount}
-								{scores.crewRescuedAtOnceCount} crewmember{#if scores.crewRescuedAtOnceCount !== 1}s{/if}
+							{:else if scores.crew_rescued_at_once_count}
+								{scores.crew_rescued_at_once_count} crewmember{#if scores.crew_rescued_at_once_count !== 1}s{/if}
 								rescued in your best run
 							{:else}
 								no crewmembers have been rescued
@@ -77,9 +81,10 @@
 			</Panel>
 		</div>
 	{/if}
-	<AppControlsTable {clock}
-		><tr><td><code>Space</code></td><td>toggle starship game</td></tr></AppControlsTable
-	>
+	<AppControlsTable {clock}>
+		<tr><td><code>[Space]</code></td><td>toggle starship game</td></tr>
+		<tr><td><code>[r]</code></td><td>restart starship game</td></tr>
+	</AppControlsTable>
 </div>
 
 <style>

@@ -34,7 +34,7 @@
 		Nakarada<br />
 		<a href="https://www.serpentsoundstudios.com">serpentsoundstudios.com</a>
 		<br /><br />
-		<a href="/assets/audio/water_trickle.mp3">water trickle recording</a> <br /> by
+		<a href="/assets/audio/water_trickle.mp3">recording of water trickling</a> <br /> by
 		<a href="https://freesound.org/people/FractalStudios/sounds/363120/"
 			>FractalStudios on freesound.org</a
 		>,

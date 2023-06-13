@@ -41,9 +41,9 @@
 		rescuedAllCrewAtOnce,
 		toInitialScores,
 	} from '$routes/starshipStage';
-	import {lookup_song_data} from '$lib/music/songs';
-	import {pauseAudio} from '$lib/audio/playAudio';
-	import {playSong} from '$lib/music/playSong';
+	import {lookup_song} from '$lib/music/songs';
+	import {pause_audio} from '$lib/audio/play_audio';
+	import {play_song} from '$lib/music/play_song';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 	import {
 		STORAGE_KEY_STRENGTH_BOOSTER1,
@@ -52,7 +52,7 @@
 	} from '$routes/data';
 	import type {PortalData} from '$lib/app/portal';
 	import {scrollDown} from '$lib/util/dom';
-	import {showAppDialog} from '$lib/app/appDialog';
+	import {show_app_dialog} from '$lib/app/appDialog';
 
 	const dimensions = getDimensions();
 	const clock = getClock();
@@ -182,8 +182,8 @@
 				// TODO better validation, how? zod parser?
 				if (
 					!value ||
-					typeof value.crewRescuedAtOnceCount !== 'number' ||
-					isNaN(value.crewRescuedAtOnceCount) ||
+					typeof value.crew_rescued_at_once_count !== 'number' ||
+					isNaN(value.crew_rescued_at_once_count) ||
 					!Array.isArray(value.crew) ||
 					!value.crew.every((v: any) => typeof v === 'boolean')
 				) {
@@ -315,6 +315,7 @@
 		starshipMode = true;
 		clock.pause();
 		clock.reset();
+		$show_app_dialog = false;
 		transitioningStarshipModeCount++;
 		await wait(transitionDuration + 50); // trying to avoid glitchy horizontal scrollbar that sometimes appears
 		transitioningStarshipModeCount--;
@@ -324,17 +325,18 @@
 		console.log('exitStarshipMode');
 		starshipAngle = 0;
 		starshipMode = false;
-		pauseAudio();
+		pause_audio();
 		clock.resume();
+		$show_app_dialog = false;
 		transitioningStarshipModeCount++;
 		await wait(transitionDuration + 50); // trying to avoid glitchy horizontal scrollbar that sometimes appears
 		transitioningStarshipModeCount--;
 		exitStarshipModeCount++;
 	};
 	const toggleStarshipMode = () => (starshipMode ? exitStarshipMode() : enterStarshipMode());
-	const toggleStarshipMenu = () => ($showAppDialog = true);
+	const toggleStarshipMenu = () => ($show_app_dialog = true);
 
-	const onWindowKeydown = async (
+	const keydown = async (
 		e: KeyboardEvent & {
 			currentTarget: EventTarget & Window;
 		},
@@ -360,21 +362,21 @@
 			}
 		} else if (e.key === '1' && e.ctrlKey) {
 			swallow(e);
-			await playSong(lookup_song_data('Spacey Intro'));
+			await play_song(lookup_song('Spacey Intro'));
 		} else if (e.key === '2' && e.ctrlKey) {
 			swallow(e);
-			await playSong(lookup_song_data('Spacey Outro'));
+			await play_song(lookup_song('Spacey Outro'));
 		} else if (e.key === '3' && e.ctrlKey) {
 			swallow(e);
-			await playSong(lookup_song_data('Futuristic 4'));
+			await play_song(lookup_song('Futuristic 4'));
 		} else if (e.key === '4' && e.ctrlKey) {
 			swallow(e);
-			await playSong(lookup_song_data('Futuristic 1'));
+			await play_song(lookup_song('Futuristic 1'));
 		}
 	};
 </script>
 
-<svelte:window on:keydown={(e) => void onWindowKeydown(e)} />
+<svelte:window on:keydown={keydown} />
 
 <div
 	class="home"

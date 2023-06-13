@@ -4,6 +4,7 @@
 	export let classes = '';
 	export let style: string | null = null;
 
+	// TODO maybe change `onClick` to an event, but then we'd lose this check:
 	// This check and the whole component are both a bit weird,
 	// not sure of a better way to share styles and behaviors.
 	if (href && onClick) {

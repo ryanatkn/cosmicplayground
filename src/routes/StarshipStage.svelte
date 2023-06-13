@@ -8,7 +8,6 @@
 		type CameraStore,
 		type Controller,
 		getClock,
-		getIdle,
 	} from '@feltcoop/dealt';
 
 	import {
@@ -48,9 +47,6 @@
 	const pixi = getPixi();
 
 	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;
-
-	const idle = getIdle();
-	$: if ($idle) clock.pause();
 
 	let camera: CameraStore;
 	let scores: Writable<StarshipStageScores>;

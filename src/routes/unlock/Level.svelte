@@ -1,9 +1,9 @@
 <script lang="ts">
-	import {toPhaseDatasByLevelName, type LevelData} from '$routes/unlock/phases';
+	import {to_phase_datas_by_level_name, type LevelData} from '$routes/unlock/phases';
 
 	export let level: LevelData;
 
-	$: phases = toPhaseDatasByLevelName(level.name);
+	$: phases = to_phase_datas_by_level_name(level.name);
 
 	$: mainPhases = phases.filter((p) => p.phase === 0);
 	$: secondaryPhases = phases.filter((p) => p.phase === 1);
@@ -13,8 +13,8 @@
 	}
 </script>
 
-<div class="level" style:height="{level.imageMeta.thumbnail.height * 2}px">
-	<img class="pixelated" src={level.imageMeta.thumbnail.url} alt={level.imageMeta.title} />
+<div class="level" style:height="{level.image_meta.thumbnail.height * 2}px">
+	<img class="pixelated" src={level.image_meta.thumbnail.url} alt={level.image_meta.title} />
 	<div class="phases">
 		<div class="main-phases">
 			{#each mainPhases as phase (phase)}<slot {phase} {phases} />{/each}
