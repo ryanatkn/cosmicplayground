@@ -65,7 +65,7 @@ export const play_song = async (song: Song): Promise<SongPlayState | undefined> 
 		playing_song.update((v) => (v?.id === state.id ? (state = {...state, ...partial}) : v));
 	};
 	const {url} = song;
-	// TODO BLOCK is this the desired behavior? if playing already, just pause and abort?
+	// TODO is this the desired behavior? if playing already, just pause and abort?
 	let abort = false;
 	pause_audio((resource) => {
 		if (resource.url === url) abort = true;
