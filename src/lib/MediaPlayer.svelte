@@ -180,7 +180,7 @@
 <div class="player">
 	<div class="content">
 		<header class="centered-hz">
-			<!-- https://en.wikipedia.org/wiki/Media_control_symbols -->
+			<!-- https://wikipedia.org/wiki/Media_control_symbols -->
 			<button type="button" class="icon-button plain-button" on:click={() => play()}>
 				{#if !has_song || paused}
 					⏵
