@@ -39,8 +39,6 @@ export const points_of_interest: Point_Of_Interest[] = [
 		myth: true,
 		x: 0,
 		y: 50,
-		// TODO BLOCK include this text?
-		// {name: 'Altai flood', url: 'https://wikipedia.org/wiki/Altai_flood', x: -20, y: -140},
 	},
 	// 6.8 1061 -444
 	{name: 'Adriatic Sea', url: 'https://wikipedia.org/wiki/Adriatic_Sea', x: 330, y: -120},
