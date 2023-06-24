@@ -157,7 +157,7 @@ export const songs_by_name: Map<string, Song> = new Map(
 		},
 		{
 			name: 'VHS Heroes',
-			author: 'Alexander Nakarada',
+			author: 'Punch Deck',
 			url: '/assets/audio/Punch_Deck__VHS_Heroes.mp3',
 		},
 		{
