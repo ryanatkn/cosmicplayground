@@ -27,7 +27,7 @@
 			<p>
 				Alexander composed <a href={lookup_song('Spacey Intro').url}>Spacey Intro</a> and
 				<a href={lookup_song('Spacey Intro').url}>Spacey Outro</a> with inspiration from cosmicplayground
-				💚💜
+				💜🌠
 			</p>
 		</svelte:fragment>
 	</CreditsMusicAuthor>

@@ -42,7 +42,6 @@
 		toInitialScores,
 	} from '$routes/starshipStage';
 	import {lookup_song} from '$lib/music/songs';
-	import {pause_audio} from '$lib/audio/play_audio';
 	import {play_song} from '$lib/music/play_song';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 	import {
@@ -325,7 +324,6 @@
 		console.log('exitStarshipMode');
 		starshipAngle = 0;
 		starshipMode = false;
-		pause_audio();
 		clock.resume();
 		$show_app_dialog = false;
 		transitioningStarshipModeCount++;
@@ -361,6 +359,7 @@
 				if ($currentStageScores) await finish($currentStageScores);
 			}
 		} else if (e.key === '1' && e.ctrlKey) {
+			// TODO change/move these
 			swallow(e);
 			await play_song(lookup_song('Spacey Intro'));
 		} else if (e.key === '2' && e.ctrlKey) {
