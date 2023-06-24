@@ -175,22 +175,30 @@
 		const s = (t | 0) % 60;
 		return m + ':' + (s < 10 ? '0' : '') + s;
 	};
+
+	$: show_play = !has_song || paused;
 </script>
 
 <div class="player">
 	<div class="content">
 		<header class="centered-hz">
 			<!-- https://en.wikipedia.org/wiki/Media_control_symbols -->
-			<button type="button" class="icon-button plain-button" on:click={() => play()}>
-				{#if !has_song || paused}
+			<button
+				title={show_play ? 'play' : 'pause'}
+				type="button"
+				class="icon-button plain-button"
+				on:click={() => play()}
+			>
+				{#if show_play}
 					⏵
 				{:else}
 					⏸
 				{/if}
 			</button>
 			<!-- TODO transition -->
-			<div class="duration centered-hz">
+			<label class="duration centered-hz">
 				<input
+					title="time"
 					on:input={input_current_time}
 					disabled={duration == null}
 					class="plain-input"
@@ -210,11 +218,17 @@
 						</div>
 					{/if}
 				</div>
-			</div>
-			<button type="button" class="icon-button plain-button" on:click={() => restart_or_previous()}>
+			</label>
+			<button
+				title="restart or previous"
+				type="button"
+				class="icon-button plain-button"
+				on:click={() => restart_or_previous()}
+			>
 				⏮
 			</button>
 			<button
+				title="stop"
 				type="button"
 				class="icon-button plain-button"
 				on:click={() => stop()}
@@ -222,8 +236,11 @@
 			>
 				⏹
 			</button>
-			<button type="button" class="icon-button plain-button" on:click={() => next()}> ⏭ </button>
+			<button title="next" type="button" class="icon-button plain-button" on:click={() => next()}>
+				⏭
+			</button>
 			<button
+				title={collapsed ? 'expand' : 'collapse'}
 				type="button"
 				class="icon-button plain-button"
 				on:click={() => (collapsed = !collapsed)}
