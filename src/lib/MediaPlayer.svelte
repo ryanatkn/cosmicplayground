@@ -196,9 +196,8 @@
 				{/if}
 			</button>
 			<!-- TODO transition -->
-			<label class="duration centered-hz">
+			<label class="duration centered-hz" title="time">
 				<input
-					title="time"
 					on:input={input_current_time}
 					disabled={duration == null}
 					class="plain-input"
