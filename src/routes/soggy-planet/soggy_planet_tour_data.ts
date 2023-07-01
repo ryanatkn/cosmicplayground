@@ -4,8 +4,6 @@ import type {TourData} from '$lib/app/tour';
 import {createTourBuilder} from '$lib/app/tourBuilder';
 import {z} from 'zod';
 
-// TODO BLOCK fade to night at end
-
 export const Point_Of_Interest = z.object({
 	name: z.string(),
 	url: z.string(),
@@ -91,7 +89,7 @@ export const create_soggy_planet_tour_data = (
 	const t_base = 1000;
 	const t_idle = t_base * 6;
 	const t_move = t_base * 3; // expected to be lower than idle for some calculations
-	const t_end_sequence = 15250;
+	const t_end_sequence = 13900;
 	const t_intro_text = 2000;
 	const t_intro_idle = 4000;
 
@@ -387,14 +385,14 @@ export const create_soggy_planet_tour_data = (
 	// -> disappear zooming into the Mariana Trench
 	// TODO validate that there's enough time to finish the end sequence
 	b.pan(-434, 635, t_end_sequence, quadInOut);
-	b.zoom(1.1, t_move - 1500);
-	b.wait(t_move - 1500);
-	b.zoom(0.8, t_move - 1500);
-	b.wait(t_move - 1500);
-	b.zoom(1.1, t_move - 1500);
-	b.wait(t_move - 1500);
-	b.zoom(1.0, t_end_sequence - t_move * 3 + 1000); // a bit hacky but whatev
-	b.wait(t_end_sequence - t_move * 3 + 1000); // a bit hacky but whatev
+	b.zoom(1.1, t_move);
+	b.wait(t_move);
+	b.zoom(0.8, t_move);
+	b.wait(t_move);
+	b.zoom(1.1, t_move);
+	b.wait(t_move);
+	b.zoom(1.0, t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
+	b.wait(t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
 	b.zoom(5, t_move / 2, quadInOut);
 	b.wait(t_move / 2);
 	b.zoomBy(0.85, 500);
