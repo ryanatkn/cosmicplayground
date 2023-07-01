@@ -92,7 +92,7 @@ export const create_soggy_planet_tour_data = (
 
 	const t_base = 1000;
 	const t_idle = t_base * 6;
-	const t_move = t_base * 3;
+	const t_move = t_base * 3; // expected to be lower than idle for some calculations
 	const t_end_sequence = 15250;
 	const t_intro_text = 2000;
 	const t_intro_idle = 4000;
@@ -145,49 +145,49 @@ export const create_soggy_planet_tour_data = (
 	b.event('update_daylight', {min: 0, max: 0});
 	b.event('update_sea_level', {min: 12, max: 12}); // 12 is present day sea level
 	b.event('play_water_trickle');
-	b.event('show_text', `for tens of thousands of years`);
+	b.event('show_text', {content: 'for tens of thousands of years', count: 3});
 	b.zoom(200, 2000);
 	b.wait(t_intro_text);
-	b.event('show_text', `civilizations have thrived`);
+	b.event('show_text', {content: 'civilizations have thrived', count: 3});
 	b.zoom(50, 3000);
 	b.wait(t_intro_text);
-	b.event('show_text', `along coastlines and waterways`);
+	b.event('show_text', {content: 'along coastlines and waterways', count: 3});
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle - 1000);
 	b.event('clear_text');
 	b.wait(1000);
-	b.event(
-		'show_text',
-		`<span style="position: relative; left: 0; top: -170px;">around 19 or 20 thousand years ago</span>`,
-	);
+	b.event('show_text', {
+		content: `<span style="position: relative; left: 0; top: -170px;">around 19 or 20 thousand years ago</span>`,
+		count: 3,
+	});
 	b.zoom(3, 6000);
 	b.wait(t_intro_text);
-	b.event(
-		'show_text',
-		`<span style="position: relative; left: 0; top: -195px;">at the end of <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a></span>`,
-	);
+	b.event('show_text', {
+		content: `<span style="position: relative; left: 0; top: -195px;">at the end of <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a></span>`,
+		count: 3,
+	});
 	b.wait(t_intro_text);
-	b.event(
-		'show_text',
-		`<span style="position: relative; left: 0; top: -170px;">global sea levels were about 125 meters lower</span>`,
-	);
+	b.event('show_text', {
+		content: `<span style="position: relative; left: 0; top: -170px;">global sea levels were about 125 meters lower</span>`,
+		count: 3,
+	});
 	b.wait(t_intro_text - smooth_sea_level_to(12, 0));
 	b.wait(t_intro_idle);
 	b.event('clear_text');
 	b.wait(1000);
 	b.event('update_land_images', {min: 6, max: 6});
 	b.event('play_main_song');
-	b.event(
-		'show_text',
-		`<span style="position: relative; left: 170px; top: -80px;">glaciers ate mountains of moisture</span>`,
-	);
+	b.event('show_text', {
+		content: `<span style="position: relative; left: 170px; top: -80px;">glaciers ate mountains of moisture</span>`,
+		count: 2,
+	});
 	b.pan(-174, 1092, 4000);
 	b.zoom(0.7, 4000);
 	b.wait(t_intro_text + t_intro_text / 2);
-	b.event(
-		'show_text',
-		`<span style="position: relative; left: 200px; top: -90px;">and myth flooded our imaginations</span>`,
-	);
+	b.event('show_text', {
+		content: `<span style="position: relative; left: 200px; top: -90px;">and myth flooded our imaginations</span>`,
+		count: 2,
+	});
 	b.wait(t_intro_text / 2);
 	b.wait(t_intro_idle);
 	b.event('clear_text');
@@ -316,14 +316,16 @@ export const create_soggy_planet_tour_data = (
 	b.event('show_text', render_content('Ys'));
 	b.wait(b.get_time_diff() - smooth_sea_level_to(1, 9, 80));
 
-	// Thule
+	// pan through the Americas
 	b.event('clear_text');
-	b.pan(-2136, 323, t_move);
-	b.zoom(5.7, t_move);
+	b.pan(-2717, 1236, t_move);
+	b.zoom(1.6, t_move);
 	b.wait(t_move - smooth_sea_level_to(8, 0));
-	b.zoomBy(0.78, t_idle);
-	b.panBy(40, 15, t_idle);
-	b.event('show_text', render_content('Thule'));
+	b.zoomBy(0.78, t_idle - t_move);
+	b.panBy(40, 15, t_idle - t_move);
+	b.wait();
+	b.pan(-3020, 548, t_move);
+	b.zoom(1.9, t_move);
 	b.wait();
 
 	// Beringia
@@ -384,14 +386,14 @@ export const create_soggy_planet_tour_data = (
 
 	// -> disappear zooming into the Mariana Trench
 	// TODO validate that there's enough time to finish the end sequence
-	b.pan(-12198, 1204, t_end_sequence, quadInOut);
+	b.pan(-434, 635, t_end_sequence, quadInOut);
+	b.zoom(1.1, t_move);
+	b.wait(t_move);
 	b.zoom(0.8, t_move);
 	b.wait(t_move);
-	b.zoom(0.7, t_move);
+	b.zoom(1.1, t_move);
 	b.wait(t_move);
-	b.zoom(0.84, t_move);
-	b.wait(t_move);
-	b.zoom(0.74, t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
+	b.zoom(1.0, t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
 	b.wait(t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
 	b.zoom(5, t_move, quadInOut);
 	b.wait(t_move);

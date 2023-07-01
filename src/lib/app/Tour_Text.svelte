@@ -45,9 +45,10 @@
 	on:keydown|capture={keydown}
 >
 	<div style:height="{height}px">
-		{#each tour_text as text (text)}
+		<!-- hacky but `i` is expected to not change, avoids need for uniqueness -->
+		{#each tour_text as text, i (i + text)}
 			<div class="text" in:blur|local={{duration: transition_in_duration, amount: blur_amount}}>
-				{@html text}
+				{@html text || '&nbsp;'}
 			</div>
 		{/each}
 	</div>
