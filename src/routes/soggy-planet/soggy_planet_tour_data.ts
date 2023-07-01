@@ -46,12 +46,10 @@ export const points_of_interest: Point_Of_Interest[] = [
 	{name: 'Doggerland', url: 'https://wikipedia.org/wiki/Doggerland', x: 0, y: -200},
 	// 16.1 2105 -490
 	{name: 'Ys', url: 'https://wikipedia.org/wiki/Ys', myth: true, x: 20, y: 20},
-	// 5.7 2136 -323
-	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', myth: true, x: -290, y: -430},
 	// 3.2 4036 -302
 	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia', x: -200, y: 230},
 	// 11 3404 -482
-	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: 110, y: -130},
+	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: 110, y: -90},
 	// 3.5 4591 -577
 	{
 		name: 'Land bridges of Japan',
@@ -346,11 +344,11 @@ export const create_soggy_planet_tour_data = (
 	b.panBy(10, -2, t_idle - 2900);
 	b.event('show_text', render_content('Missoula floods'));
 	b.wait();
-	b.zoom(3, 300, sineOut);
+	b.zoom(4, 500, sineOut);
 	b.wait();
-	b.zoomBy(0.97, 2900 - 300, sineOut);
-	b.panBy(3, 2, 2900 - 300, sineOut);
-	b.wait(2900 - 300);
+	b.zoomBy(0.83, 2900 - 500, sineOut);
+	b.panBy(3, 2, 2900 - 500, sineOut);
+	b.wait(2900 - 500);
 
 	// pan through South America
 	b.event('clear_text');
