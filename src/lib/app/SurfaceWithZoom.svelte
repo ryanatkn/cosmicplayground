@@ -25,7 +25,7 @@
 
 	const events = new Map<number, PointerEvent>();
 	let last_pinch_distance: number | null = null;
-	const POINTER_ZOOM_SENSITIVITY = 0.01; // multiplier for the pointer delta
+	const POINTER_ZOOM_SENSITIVITY = 1.005; // multiplier for the pointer delta
 
 	const updatePointerPosition = (clientX: number, clientY: number): void => {
 		const rect = el.getBoundingClientRect();
@@ -106,7 +106,9 @@
 			const distance = Math.hypot(x2 - x1, y2 - y1);
 			if (last_pinch_distance !== null) {
 				const delta = last_pinch_distance - distance;
-				zoomCamera(delta * POINTER_ZOOM_SENSITIVITY, (x1 + x2) / 2, (y1 + y2) / 2, 0.0002);
+				// TODO BLOCK change sensitivity based on the delta as a temporary hack,
+				// because currently this API only looks at `delta` for direction, not magnitude
+				zoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, POINTER_ZOOM_SENSITIVITY);
 			}
 			last_pinch_distance = distance;
 		}
