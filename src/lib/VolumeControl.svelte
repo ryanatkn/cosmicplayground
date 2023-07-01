@@ -13,7 +13,7 @@
 	export let muted = false;
 </script>
 
-<label class:muted>
+<label class:muted title="volume">
 	{#if muted}
 		<button
 			class="icon-button plain-button"
