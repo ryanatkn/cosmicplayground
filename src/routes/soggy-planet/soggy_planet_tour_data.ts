@@ -391,8 +391,8 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_move);
 	b.zoom(1.1, t_move);
 	b.wait(t_move);
-	b.zoom(1.0, t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
-	b.wait(t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
+	b.zoom(1.0, t_end_sequence - t_move * 3 - 2500); // a bit hacky but whatev
+	b.wait(t_end_sequence - t_move * 3 - 2500); // a bit hacky but whatev
 	b.zoom(5, t_move / 2, quadInOut);
 	b.wait(t_move / 2);
 	b.zoomBy(0.85, 500);
@@ -400,7 +400,7 @@ export const create_soggy_planet_tour_data = (
 	b.event('debug_final_zoom_in');
 	b.zoom(4000, 1000);
 	b.wait();
-	b.wait(1000);
+	b.wait(1500);
 	b.event('show_title');
 	b.wait(title_duration);
 	b.event('show_credits');
