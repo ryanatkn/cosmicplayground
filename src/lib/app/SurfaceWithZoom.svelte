@@ -1,8 +1,7 @@
 <script lang="ts">
 	import {swallow} from '@feltjs/util/dom.js';
 
-	// TODO probably delete this and replace with `SurfaceWithZoom`, renaming that one,
-	// because this uses mouse+touch events instead of pointer, and doesn't handle pinch-to-zoom
+	// TODO pinch to zoom - https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events/Pinch_zoom_gestures
 
 	// TODO merge with `@feltcoop/dealt/Surface.svelte`
 	// TODO maybe pass camera, but some components would need refactoring
