@@ -68,8 +68,11 @@
 				updatePointerPosition(e.clientX, e.clientY);
 			}
 			pointerDown = false;
-			last_pinch_distance = null;
 		}
+		// stop the jank that happens when releasing one finger after pinch-to-zoom
+		last_pinch_distance = null;
+		pointerX = null;
+		pointerY = null;
 	};
 	const pointerleave = (e: PointerEvent) => {
 		if (!inputEnabled) return;
