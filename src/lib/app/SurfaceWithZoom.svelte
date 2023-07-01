@@ -24,7 +24,14 @@
 
 	let el: HTMLDivElement;
 
-	const updatePointerPosition = (clientX: number, clientY: number): void => {
+	const events = new Map<number, PointerEvent>();
+
+	const updatePointerPosition = (
+		id: number,
+		primary: boolean,
+		clientX: number,
+		clientY: number,
+	): void => {
 		const rect = el.getBoundingClientRect();
 
 		// update dragging
@@ -51,22 +58,24 @@
 		console.log(`pointerdown`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		swallow(e);
-		updatePointerPosition(e.clientX, e.clientY);
+		events.set(e.pointerId, e);
+		updatePointerPosition(e.pointerId, e.isPrimary, e.clientX, e.clientY);
 		pointerDown = true;
-		focus();
 	};
 	const pointerup = (e: PointerEvent) => {
 		console.log(`pointerup`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		swallow(e);
-		updatePointerPosition(e.clientX, e.clientY);
+		events.delete(e.pointerId);
+		updatePointerPosition(e.pointerId, e.isPrimary, e.clientX, e.clientY);
 		pointerDown = false;
 	};
 	const pointerleave = (e: PointerEvent) => {
 		console.log(`pointerleave`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		swallow(e);
-		updatePointerPosition(e.clientX, e.clientY);
+		events.delete(e.pointerId);
+		updatePointerPosition(e.pointerId, e.isPrimary, e.clientX, e.clientY);
 		pointerDown = false;
 		pointerX = null;
 		pointerY = null;
@@ -74,8 +83,9 @@
 	const pointermove = (e: PointerEvent) => {
 		console.log(`pointermove`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
+		events.set(e.pointerId, e);
 		swallow(e);
-		updatePointerPosition(e.clientX, e.clientY);
+		updatePointerPosition(e.pointerId, e.isPrimary, e.clientX, e.clientY);
 	};
 </script>
 

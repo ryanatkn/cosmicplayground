@@ -82,7 +82,6 @@
 		touch = true;
 		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
 		pointerDown = true;
-		focus();
 	};
 	const onTouchend = (e: TouchEvent) => {
 		if (!inputEnabled) return;
