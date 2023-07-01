@@ -18,7 +18,7 @@
 		<h2>About</h2>
 		<p>
 			Cosmicplayground is an open source noncommercial hobby project (<a
-				href="https://github.com/ryanatkn/cosmicplayground">GitHub</a
+				href="https://github.com/ryanatkn/cosmicplayground">source on GitHub</a
 			>) exploring some tools and toys using web technology for fun and learning. It's made by
 			<a href="https://www.ryanatkn.com">Ryan Atkinson</a>
 			with <a href="https://svelte.dev/">Svelte</a>,
