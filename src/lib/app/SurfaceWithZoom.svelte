@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {swallow} from '@feltjs/util/dom.js';
 
-	// TODO pinch to zoom - https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events/Pinch_zoom_gestures
+	// TODO BLOCK pinch to zoom - https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events/Pinch_zoom_gestures
 
 	// TODO merge with `@feltcoop/dealt/Surface.svelte`
 	// TODO maybe pass camera, but some components would need refactoring
@@ -39,7 +39,7 @@
 		pointerY = clientY - rect.top; // / domElementScale;
 	};
 
-	const onWheel = (e: WheelEvent) => {
+	const wheel = (e: WheelEvent) => {
 		if (!inputEnabled || pointerX === null || pointerY === null) return;
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
 		zoomCamera(scaleDelta, pointerX, pointerY);
@@ -47,42 +47,31 @@
 
 	// TODO mount only for mobile
 	// TODO handle all touches not just the first
-	const onTouchstart = (e: TouchEvent) => {
+	const pointerdown = (e: PointerEvent) => {
 		if (!inputEnabled) return;
 		swallow(e);
-		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+		updatePointerPosition(e.clientX, e.clientY);
 		pointerDown = true;
 		focus();
-		// if (!inputEnabled) return;
-		// swallow(e);
-		// startDragging();
 	};
-	const onTouchend = (e: TouchEvent) => {
+	const pointerup = (e: PointerEvent) => {
 		if (!inputEnabled) return;
 		swallow(e);
-		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+		updatePointerPosition(e.clientX, e.clientY);
 		pointerDown = false;
-		// if (!inputEnabled) return;
-		// swallow(e);
-		// stopDragging();
 	};
-	const onTouchcancel = (e: TouchEvent) => {
+	const pointercancel = (e: PointerEvent) => {
 		if (!inputEnabled) return;
 		swallow(e);
-		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+		updatePointerPosition(e.clientX, e.clientY);
 		pointerDown = false;
-		// if (!inputEnabled) return;
-		// stopDragging();
-		// pointerX = null;
-		// pointerY = null;
+		pointerX = null;
+		pointerY = null;
 	};
-	const onTouchmove = (e: TouchEvent) => {
+	const pointermove = (e: PointerEvent) => {
 		if (!inputEnabled) return;
 		swallow(e);
-		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-		// if (!inputEnabled) return;
-		// swallow(e);
-		// updatePointerPosition(e.clientX, e.clientY);
+		updatePointerPosition(e.clientX, e.clientY);
 	};
 </script>
 
@@ -92,11 +81,12 @@
 	bind:this={el}
 	class="surface"
 	style="width: {width}px; height: {height}px;"
-	on:wheel|passive={onWheel}
-	on:touchstart={onTouchstart}
-	on:touchend={onTouchend}
-	on:touchcancel={onTouchcancel}
-	on:touchmove={onTouchmove}
+	on:wheel|passive={wheel}
+	on:pointerdown={pointerdown}
+	on:pointerup={pointerup}
+	on:pointermove={pointermove}
+	on:pointerleave={pointercancel}
+	on:pointercancel={pointercancel}
 >
 	<slot />
 </div>

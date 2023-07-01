@@ -7,7 +7,7 @@
 		computeBlendedImagesCycleZIndex,
 	} from '$lib/app/blendedImagesCycle';
 	import {getPixiScene} from '$lib/app/pixi';
-	import Surface from '$lib/app/Surface.svelte';
+	import SurfaceWithZoom from '$lib/app/SurfaceWithZoom.svelte';
 	import type Camera from '$lib/app/Camera.svelte';
 
 	// TODO looks like we could use `Pixi.Prepare` to make initial rendering smoother:
@@ -15,8 +15,6 @@
 
 	// TODO should we cache stuff at the module scope? mainly thinking of the render textures
 	// or should we free all resources when this is unmounted? including all base textures?
-
-	// TODO BLOCK support pinch to zoom with multiple touches
 
 	export let camera: Camera;
 	export let inputEnabled = true;
@@ -298,7 +296,7 @@
 	};
 </script>
 
-<Surface
+<SurfaceWithZoom
 	width={$width}
 	height={$height}
 	scale={$scale}
