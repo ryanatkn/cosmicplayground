@@ -86,6 +86,10 @@
 		events.set(e.pointerId, e);
 		swallow(e);
 		updatePointerPosition(e.pointerId, e.isPrimary, e.clientX, e.clientY);
+		// when 2 pointers are down, handle pinch-to-zoom gestures
+		if (events.size === 2) {
+			console.log('ZOOMM!!');
+		}
 	};
 </script>
 
