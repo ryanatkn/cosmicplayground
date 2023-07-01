@@ -338,15 +338,15 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_move / 2);
 	b.zoom(11, t_move / 2);
 	b.wait();
-	b.zoomBy(0.77, t_idle - 2900);
-	b.panBy(10, -2, t_idle - 2900);
+	b.zoomBy(0.77, t_idle - 2800);
+	b.panBy(10, -2, t_idle - 2800);
 	b.event('show_text', render_content('Missoula floods'));
 	b.wait();
 	b.zoom(4, 500, sineOut);
 	b.wait();
-	b.zoomBy(0.83, 2900 - 500, sineOut);
-	b.panBy(3, 2, 2900 - 500, sineOut);
-	b.wait(2900 - 500);
+	b.zoomBy(0.83, 2800 - 500, sineOut);
+	b.panBy(3, 2, 2800 - 500, sineOut);
+	b.wait(2800 - 500);
 
 	// pan through South America
 	b.event('clear_text');
