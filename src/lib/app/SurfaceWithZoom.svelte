@@ -26,12 +26,7 @@
 
 	const events = new Map<number, PointerEvent>();
 
-	const updatePointerPosition = (
-		id: number,
-		primary: boolean,
-		clientX: number,
-		clientY: number,
-	): void => {
+	const updatePointerPosition = (clientX: number, clientY: number): void => {
 		const rect = el.getBoundingClientRect();
 
 		// update dragging
@@ -52,42 +47,54 @@
 		zoomCamera(scaleDelta, pointerX, pointerY);
 	};
 
-	// TODO mount only for mobile
-	// TODO handle all touches not just the first
 	const pointerdown = (e: PointerEvent) => {
 		console.log(`pointerdown`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		swallow(e);
 		events.set(e.pointerId, e);
-		updatePointerPosition(e.pointerId, e.isPrimary, e.clientX, e.clientY);
-		pointerDown = true;
+		if (e.isPrimary) {
+			if (events.size === 1) {
+				updatePointerPosition(e.clientX, e.clientY);
+				pointerDown = true; // only set to `true` when there's 1 event, but setting to `false` occurs no matter what, because other pointers may have gone down
+			}
+		}
 	};
 	const pointerup = (e: PointerEvent) => {
 		console.log(`pointerup`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		swallow(e);
 		events.delete(e.pointerId);
-		updatePointerPosition(e.pointerId, e.isPrimary, e.clientX, e.clientY);
-		pointerDown = false;
+		if (e.isPrimary) {
+			if (events.size === 1) {
+				updatePointerPosition(e.clientX, e.clientY);
+			}
+			pointerDown = false;
+		}
 	};
 	const pointerleave = (e: PointerEvent) => {
 		console.log(`pointerleave`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		swallow(e);
 		events.delete(e.pointerId);
-		updatePointerPosition(e.pointerId, e.isPrimary, e.clientX, e.clientY);
-		pointerDown = false;
-		pointerX = null;
-		pointerY = null;
+		if (e.isPrimary) {
+			if (events.size === 1) {
+				updatePointerPosition(e.clientX, e.clientY);
+			}
+			pointerDown = false;
+			pointerX = null;
+			pointerY = null;
+		}
 	};
 	const pointermove = (e: PointerEvent) => {
 		console.log(`pointermove`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		events.set(e.pointerId, e);
 		swallow(e);
-		updatePointerPosition(e.pointerId, e.isPrimary, e.clientX, e.clientY);
 		// when 2 pointers are down, handle pinch-to-zoom gestures
-		if (events.size === 2) {
+		const eventCount = events.size;
+		if (eventCount === 1) {
+			updatePointerPosition(e.clientX, e.clientY);
+		} else if (eventCount === 2) {
 			console.log('ZOOMM!!');
 		}
 	};
