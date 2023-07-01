@@ -25,7 +25,7 @@
 
 	const events = new Map<number, PointerEvent>();
 	let last_pinch_distance: number | null = null;
-	const POINTER_ZOOM_SENSITIVITY = 1.005; // multiplier for the pointer delta
+	const POINTER_ZOOM_SENSITIVITY = 1.008; // multiplier for the pointer delta
 
 	const updatePointerPosition = (clientX: number, clientY: number): void => {
 		const rect = el.getBoundingClientRect();
