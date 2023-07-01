@@ -182,7 +182,7 @@
 <div class="player">
 	<div class="content">
 		<header class="centered-hz">
-			<!-- https://en.wikipedia.org/wiki/Media_control_symbols -->
+			<!-- https://wikipedia.org/wiki/Media_control_symbols -->
 			<button
 				title={show_play ? 'play' : 'pause'}
 				type="button"

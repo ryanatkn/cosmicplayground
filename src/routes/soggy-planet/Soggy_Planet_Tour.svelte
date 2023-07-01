@@ -88,6 +88,19 @@
 	};
 
 	let tour_text: string[] | null = null; // TODO maybe make a store? move/refactor?
+	const add_tour_text = (text: string | {content: string; count: number}): void => {
+		if (typeof text === 'string') {
+			tour_text = [text];
+		} else {
+			// TODO this is super hacky for layout reasons, bleh, just want to ship
+			const v = tour_text ? tour_text.filter(Boolean) : [];
+			v.push(text.content);
+			while (v.length < text.count) {
+				v.push('');
+			}
+			tour_text = v;
+		}
+	};
 
 	const hooks: Partial<TourHooks> = {
 		event: (name, data) => {
@@ -106,7 +119,7 @@
 					return;
 				}
 				case 'show_text': {
-					tour_text = (tour_text || []).concat(data as string); // TODO type
+					add_tour_text(data as any); // TODO type
 					return;
 				}
 				case 'clear_text': {

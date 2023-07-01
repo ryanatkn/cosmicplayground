@@ -15,55 +15,53 @@ export type Point_Of_Interest = z.infer<typeof Point_Of_Interest>;
 
 export const points_of_interest: Point_Of_Interest[] = [
 	// 2.2 67 -1358
-	{name: 'Zealandia', url: 'https://wikipedia.org/wiki/Zealandia', x: -400, y: -70},
+	{name: 'Zealandia', url: 'https://wikipedia.org/wiki/Zealandia', x: 400, y: 70},
 	// 2.6 664 -920
-	{name: 'Sundaland', url: 'https://wikipedia.org/wiki/Sundaland', x: -300, y: 200},
+	{name: 'Sundaland', url: 'https://wikipedia.org/wiki/Sundaland', x: 300, y: -200},
 	// 3.9 1222 -940
 	{
 		name: 'Kumari Kandam',
 		url: 'https://wikipedia.org/wiki/Kumari_Kandam',
 		myth: true,
 		x: 0,
-		y: -404,
+		y: 404,
 	},
 	// 3.2 1445 -1223
-	{name: 'Lemuria', url: 'https://wikipedia.org/wiki/Lemuria', myth: true, x: -200, y: -230},
+	{name: 'Lemuria', url: 'https://wikipedia.org/wiki/Lemuria', myth: true, x: 200, y: 230},
 	// 3.5 1221 -1634
-	{name: 'Kerguelen Plateau', url: 'https://wikipedia.org/wiki/Kerguelen_Plateau', x: 0, y: -70},
-	// 6.2 1061 -444
-	{name: 'Altai flood', url: 'https://wikipedia.org/wiki/Altai_flood', x: 20, y: 140},
+	{name: 'Persian Gulf', url: 'https://wikipedia.org/wiki/Persian_Gulf', x: 210, y: -80},
 	// 10 1648 -527
 	{
 		name: 'Black Sea deluge',
 		url: 'https://wikipedia.org/wiki/Black_Sea_deluge_hypothesis',
 		myth: true,
 		x: 0,
-		y: 0,
+		y: 50,
 	},
+	// 6.8 1061 -444
+	{name: 'Adriatic Sea', url: 'https://wikipedia.org/wiki/Adriatic_Sea', x: 130, y: -410},
 	// 13.3 2022 -403
-	{name: 'Doggerland', url: 'https://wikipedia.org/wiki/Doggerland', x: 0, y: 200},
+	{name: 'Doggerland', url: 'https://wikipedia.org/wiki/Doggerland', x: 0, y: -200},
 	// 16.1 2105 -490
-	{name: 'Ys', url: 'https://wikipedia.org/wiki/Ys', myth: true, x: -20, y: -20},
-	// 5.7 2136 -323
-	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', myth: true, x: 290, y: 430},
+	{name: 'Ys', url: 'https://wikipedia.org/wiki/Ys', myth: true, x: 20, y: 20},
 	// 3.2 4036 -302
-	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia', x: 200, y: -220},
+	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia', x: -200, y: 230},
 	// 11 3404 -482
-	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: -110, y: 130},
+	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: 110, y: -90},
 	// 3.5 4591 -577
 	{
 		name: 'Land bridges of Japan',
 		url: 'https://wikipedia.org/wiki/Land_bridges_of_Japan',
-		x: -400,
-		y: -300,
+		x: 400,
+		y: 300,
 	},
 	// 2 4162 -978
 	{
 		name: 'Mu',
 		url: 'https://wikipedia.org/wiki/Mu_(mythical_lost_continent)',
 		myth: true,
-		x: -320,
-		y: 30,
+		x: 120,
+		y: -30,
 	},
 ];
 
@@ -90,13 +88,13 @@ export const create_soggy_planet_tour_data = (
 
 	const t_base = 1000;
 	const t_idle = t_base * 6;
-	const t_move = t_base * 3;
-	const t_end_sequence = 15250;
+	const t_move = t_base * 3; // expected to be lower than idle for some calculations
+	const t_end_sequence = 13900;
 	const t_intro_text = 2000;
 	const t_intro_idle = 4000;
 
-	const x_start = -24;
-	const y_start = -1405;
+	const x_start = 24;
+	const y_start = 1405;
 	const zoom_start = 5000;
 
 	// TODO refactor, maybe to be stateful to simplify the API
@@ -143,49 +141,49 @@ export const create_soggy_planet_tour_data = (
 	b.event('update_daylight', {min: 0, max: 0});
 	b.event('update_sea_level', {min: 12, max: 12}); // 12 is present day sea level
 	b.event('play_water_trickle');
-	b.event('show_text', `for tens of thousands of years`);
+	b.event('show_text', {content: 'for tens of thousands of years', count: 3});
 	b.zoom(200, 2000);
 	b.wait(t_intro_text);
-	b.event('show_text', `we have thrived`);
+	b.event('show_text', {content: 'we have thrived', count: 3});
 	b.zoom(50, 3000);
 	b.wait(t_intro_text);
-	b.event('show_text', `along coastlines and waterways`);
+	b.event('show_text', {content: 'along coastlines and waterways', count: 3});
 	b.wait(t_intro_text);
 	b.wait(t_intro_idle - 1000);
 	b.event('clear_text');
 	b.wait(1000);
-	b.event(
-		'show_text',
-		`<span style="position: relative; left: 0; top: 170px;">around 19 or 20 thousand years ago</span>`,
-	);
+	b.event('show_text', {
+		content: `<span style="position: relative; left: 0; top: -170px;">around 19 or 20 thousand years ago</span>`,
+		count: 3,
+	});
 	b.zoom(3, 6000);
 	b.wait(t_intro_text);
-	b.event(
-		'show_text',
-		`<span style="position: relative; left: 0; top: 195px;">at the end of <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a></span>`,
-	);
+	b.event('show_text', {
+		content: `<span style="position: relative; left: 0; top: -195px;">at the end of <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a></span>`,
+		count: 3,
+	});
 	b.wait(t_intro_text);
-	b.event(
-		'show_text',
-		`<span style="position: relative; left: 0; top: 170px;">global sea levels were about 125 meters lower</span>`,
-	);
+	b.event('show_text', {
+		content: `<span style="position: relative; left: 0; top: -170px;">global sea levels were about 125 meters lower</span>`,
+		count: 3,
+	});
 	b.wait(t_intro_text - smooth_sea_level_to(12, 0));
-	b.wait(t_intro_idle - 1000);
+	b.wait(t_intro_idle);
 	b.event('clear_text');
 	b.wait(1000);
 	b.event('update_land_images', {min: 6, max: 6});
 	b.event('play_main_song');
-	b.event(
-		'show_text',
-		`<span style="position: relative; left: -300px; top: 110px;">glaciers ate mountains of moisture</span>`,
-	);
-	b.pan(174, -1092, 4000);
+	b.event('show_text', {
+		content: `<span style="position: relative; left: 200px; top: -100px;">glaciers ate mountains of moisture</span>`,
+		count: 2,
+	});
+	b.pan(-174, 1092, 4000);
 	b.zoom(0.7, 4000);
 	b.wait(t_intro_text + t_intro_text / 2);
-	b.event(
-		'show_text',
-		`<span style="position: relative; left: -300px; top: 110px;">and myth flooded our imaginations</span>`,
-	);
+	b.event('show_text', {
+		content: `<span style="position: relative; left: 250px; top: -110px;">and myth flooded our imaginations</span>`,
+		count: 2,
+	});
 	b.wait(t_intro_text / 2);
 	b.wait(t_intro_idle);
 	b.event('clear_text');
@@ -198,7 +196,7 @@ export const create_soggy_planet_tour_data = (
 	// (so they shouldn't be used before this point!)
 
 	// Zealandia
-	b.pan(67, -1358, t_move);
+	b.pan(-67, 1358, t_move);
 	b.zoom(2.2, t_move);
 	b.wait(t_move - smooth_sea_level_to(1, 12));
 	b.zoomBy(1.02, t_idle, sineOut);
@@ -211,7 +209,7 @@ export const create_soggy_planet_tour_data = (
 
 	// Sundaland
 	b.event('clear_text');
-	b.pan(664, -920, t_move);
+	b.pan(-664, 920, t_move);
 	b.zoom(1.8, t_move / 2);
 	b.wait(t_move / 2 - smooth_sea_level_to(1, 12));
 	b.zoom(2.6, t_move / 2);
@@ -224,7 +222,7 @@ export const create_soggy_planet_tour_data = (
 
 	// Kumari Kandam
 	b.event('clear_text');
-	b.pan(1222, -940, t_move);
+	b.pan(-1222, 940, t_move);
 	b.zoom(1.8, t_move / 2);
 	b.wait(t_move / 2 - smooth_sea_level_to(1, 12));
 	b.zoom(3.9, t_move / 2);
@@ -237,7 +235,7 @@ export const create_soggy_planet_tour_data = (
 
 	// Lemuria
 	b.event('clear_text');
-	b.pan(1445, -1223, t_move);
+	b.pan(-1445, 1223, t_move);
 	b.zoom(2.9, t_move / 2);
 	b.wait(t_move / 2 - smooth_sea_level_to(1, 12));
 	b.zoom(3.2, t_move / 2);
@@ -251,36 +249,22 @@ export const create_soggy_planet_tour_data = (
 	b.wait(1500 - smooth_sea_level_to(11, 0)); // - 2000
 	b.wait();
 
-	// Kerguelen Plateau
+	// Persian Gulf
 	b.event('clear_text');
-	b.pan(1221, -1634, t_move);
-	b.zoom(3.1, t_move / 2);
+	b.pan(-1460, 724, t_move);
+	b.zoom(4.7, t_move / 2);
 	b.wait(t_move / 2 - smooth_sea_level_to(1, 12));
+	b.event('update_land_images', {min: 6, max: 6});
 	b.zoom(3.5, t_move / 2);
 	b.wait();
 	b.zoomBy(1.01, t_idle, sineOut);
 	b.panBy(-1, -2, t_idle, sineOut);
-	b.event('show_text', render_content('Kerguelen Plateau'));
+	b.event('show_text', render_content('Persian Gulf'));
 	b.wait(b.get_time_diff() - smooth_sea_level_to(11, 0));
-
-	// Altai flood
-	b.event('clear_text');
-	b.pan(1061, -444, t_move);
-	b.zoom(3.1, t_move * (1 / 3));
-	b.wait(t_move * (1 / 3));
-	b.event('update_land_images', {min: 6, max: 6});
-	b.zoom(2.2, t_move * (1 / 3));
-	b.wait(t_move * (1 / 3));
-	b.zoom(6.2, t_move * (1 / 3));
-	b.wait();
-	b.zoomBy(1.02, t_idle, sineOut);
-	b.panBy(-1, -3, t_idle, sineOut);
-	b.event('show_text', render_content('Altai flood'));
-	b.wait();
 
 	// Black Sea deluge
 	b.event('clear_text');
-	b.pan(1648, -527, t_move);
+	b.pan(-1648, 527, t_move);
 	b.zoom(4.6, t_move * (1 / 3));
 	b.wait(t_move * (1 / 3) - smooth_sea_level_to(1, 12));
 	b.zoom(3.4, t_move * (1 / 3));
@@ -292,9 +276,19 @@ export const create_soggy_planet_tour_data = (
 	b.event('show_text', render_content('Black Sea deluge'));
 	b.wait(b.get_time_diff() - smooth_sea_level_to(11, 0));
 
+	// Adriatic Sea
+	b.event('clear_text');
+	b.pan(-1847, 578, t_move);
+	b.zoom(6.8, t_move);
+	b.wait(t_move - smooth_sea_level_to(1, 12));
+	b.zoomBy(1.02, t_idle, sineOut);
+	b.panBy(-1, -3, t_idle, sineOut);
+	b.event('show_text', render_content('Adriatic Sea'));
+	b.wait(t_idle - smooth_sea_level_to(11, 0));
+
 	// Doggerland
 	b.event('clear_text');
-	b.pan(2022, -403, t_move);
+	b.pan(-2022, 403, t_move);
 	b.zoom(5.6, t_move * (1 / 2));
 	b.wait(t_move * (1 / 2));
 	b.zoom(4.3, t_move * (1 / 2));
@@ -308,7 +302,7 @@ export const create_soggy_planet_tour_data = (
 
 	// Ys
 	b.event('clear_text');
-	b.pan(2105, -490, t_move);
+	b.pan(-2105, 490, t_move);
 	b.zoom(9.6, t_move / 2);
 	b.wait(t_move / 2 - smooth_sea_level_to(10, 0));
 	b.zoom(16.1, t_move / 2);
@@ -318,44 +312,51 @@ export const create_soggy_planet_tour_data = (
 	b.event('show_text', render_content('Ys'));
 	b.wait(b.get_time_diff() - smooth_sea_level_to(1, 9, 80));
 
-	// Thule
+	// pan through North America
 	b.event('clear_text');
-	b.pan(2136, -323, t_move);
-	b.zoom(5.7, t_move);
-	b.wait(t_move - smooth_sea_level_to(8, 0));
-	b.zoomBy(0.78, t_idle);
-	b.panBy(40, 15, t_idle);
-	b.event('show_text', render_content('Thule'));
-	b.wait();
+	b.pan(-3020, 548, t_idle + t_move);
+	b.zoom(1.6, t_idle + t_move - 2500);
+	b.wait(t_idle + t_move - smooth_sea_level_to(8, 0));
 
 	// Beringia
 	b.event('clear_text');
-	b.pan(4036, -302, t_move);
-	b.zoom(1.8, t_move * (1 / 2));
+	b.pan(-4036, 302, t_move);
+	b.zoom(2.4, t_move * (1 / 2));
 	b.wait(t_move * (1 / 2) - smooth_sea_level_to(1, 12));
-	b.zoom(3.2, t_move * (1 / 2));
+	b.zoom(3.4, t_move * (1 / 2));
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(3, 2, t_idle, sineOut);
-	b.wait(2000 - smooth_sea_level_to(11, 0)); // delay for music
 	b.event('show_text', render_content('Beringia'));
+	b.wait(2000 - smooth_sea_level_to(11, 0)); // delay for music
 	b.wait();
 
 	// Missoula floods
 	b.event('clear_text');
-	b.pan(3404, -482, t_move);
+	b.pan(-3404, 482, t_move);
 	b.zoom(2.6, t_move / 2);
 	b.wait(t_move / 2);
 	b.zoom(11, t_move / 2);
 	b.wait();
-	b.zoomBy(0.77, t_idle);
-	b.panBy(10, -2, t_idle);
+	b.zoomBy(0.77, t_idle - 2800);
+	b.panBy(10, -2, t_idle - 2800);
 	b.event('show_text', render_content('Missoula floods'));
+	b.wait();
+	b.zoom(4, 500, sineOut);
+	b.wait();
+	b.zoomBy(0.83, 2800 - 500, sineOut);
+	b.panBy(3, 2, 2800 - 500, sineOut);
+	b.wait(2800 - 500);
+
+	// pan through South America
+	b.event('clear_text');
+	b.pan(-2764, 1267, t_move * 2);
+	b.zoom(1.3, t_move);
 	b.wait();
 
 	// Land bridges of Japan
 	b.event('clear_text');
-	b.pan(4591, -577, t_move);
+	b.pan(-4591, 577, t_move);
 	b.zoom(1.9, t_move * (1 / 2));
 	b.wait(t_move * (1 / 2) - smooth_sea_level_to(1, 12));
 	b.zoom(3.5, t_move * (1 / 2));
@@ -367,10 +368,10 @@ export const create_soggy_planet_tour_data = (
 
 	// Mu
 	b.event('clear_text');
-	b.pan(4162, -978, t_move);
+	b.pan(-4059, 1007, t_move);
 	b.zoom(1.7, t_move / 2);
 	b.wait(t_move / 2 - smooth_sea_level_to(1, 12));
-	b.zoom(2, t_move / 2);
+	b.zoom(2.2, t_move / 2);
 	b.wait();
 	b.zoomBy(0.99, t_idle, sineOut);
 	b.panBy(-2, -2, t_idle, sineOut);
@@ -378,31 +379,28 @@ export const create_soggy_planet_tour_data = (
 	b.wait(1000 - smooth_sea_level_to(1, 12));
 	b.wait(1000 - smooth_sea_level_to(11, 0));
 	b.event('show_text', render_content('Mu'));
-	b.wait(1500);
-	b.wait(1000 - smooth_sea_level_to(1, 12));
-	b.wait(1000 - smooth_sea_level_to(11, 0));
 	b.wait();
 	b.event('clear_text');
 
 	// -> disappear zooming into the Mariana Trench
 	// TODO validate that there's enough time to finish the end sequence
-	b.pan(12198, -1204, t_end_sequence, quadInOut);
+	b.pan(-434, 635, t_end_sequence, quadInOut);
+	b.zoom(1.1, t_move);
+	b.wait(t_move);
 	b.zoom(0.8, t_move);
 	b.wait(t_move);
-	b.zoom(0.7, t_move);
+	b.zoom(1.1, t_move);
 	b.wait(t_move);
-	b.zoom(0.84, t_move);
-	b.wait(t_move);
-	b.zoom(0.74, t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
-	b.wait(t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
-	b.zoom(5, t_move, quadInOut);
-	b.wait(t_move);
+	b.zoom(1.0, t_end_sequence - t_move * 3 - 2500); // a bit hacky but whatev
+	b.wait(t_end_sequence - t_move * 3 - 2500); // a bit hacky but whatev
+	b.zoom(5, t_move / 2, quadInOut);
+	b.wait(t_move / 2);
 	b.zoomBy(0.85, 500);
 	b.wait(500);
 	b.event('debug_final_zoom_in');
 	b.zoom(4000, 1000);
 	b.wait();
-	b.wait(1000);
+	b.wait(1500);
 	b.event('show_title');
 	b.wait(title_duration);
 	b.event('show_credits');
