@@ -41,7 +41,7 @@ export const points_of_interest: Point_Of_Interest[] = [
 		y: 50,
 	},
 	// 6.8 1061 -444
-	{name: 'Adriatic Sea', url: 'https://wikipedia.org/wiki/Adriatic_Sea', x: 330, y: -120},
+	{name: 'Adriatic Sea', url: 'https://wikipedia.org/wiki/Adriatic_Sea', x: 130, y: -410},
 	// 13.3 2022 -403
 	{name: 'Doggerland', url: 'https://wikipedia.org/wiki/Doggerland', x: 0, y: -200},
 	// 16.1 2105 -490
@@ -282,13 +282,13 @@ export const create_soggy_planet_tour_data = (
 
 	// Adriatic Sea
 	b.event('clear_text');
-	b.pan(-1886, 529, t_move);
+	b.pan(-1847, 578, t_move);
 	b.zoom(6.8, t_move);
-	b.wait();
+	b.wait(t_move - smooth_sea_level_to(1, 12));
 	b.zoomBy(1.02, t_idle, sineOut);
 	b.panBy(-1, -3, t_idle, sineOut);
 	b.event('show_text', render_content('Adriatic Sea'));
-	b.wait();
+	b.wait(t_idle - smooth_sea_level_to(11, 0));
 
 	// Doggerland
 	b.event('clear_text');
@@ -316,7 +316,7 @@ export const create_soggy_planet_tour_data = (
 	b.event('show_text', render_content('Ys'));
 	b.wait(b.get_time_diff() - smooth_sea_level_to(1, 9, 80));
 
-	// pan through the Americas
+	// pan through North America
 	b.event('clear_text');
 	b.pan(-2717, 1236, t_move);
 	b.zoom(1.6, t_move);
@@ -337,8 +337,8 @@ export const create_soggy_planet_tour_data = (
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(3, 2, t_idle, sineOut);
-	b.wait(2000 - smooth_sea_level_to(11, 0)); // delay for music
 	b.event('show_text', render_content('Beringia'));
+	b.wait(2000 - smooth_sea_level_to(11, 0)); // delay for music
 	b.wait();
 
 	// Missoula floods
