@@ -144,7 +144,7 @@ export const create_soggy_planet_tour_data = (
 	b.event('show_text', {content: 'for tens of thousands of years', count: 3});
 	b.zoom(200, 2000);
 	b.wait(t_intro_text);
-	b.event('show_text', {content: 'civilizations have thrived', count: 3});
+	b.event('show_text', {content: 'we have thrived', count: 3});
 	b.zoom(50, 3000);
 	b.wait(t_intro_text);
 	b.event('show_text', {content: 'along coastlines and waterways', count: 3});
@@ -174,14 +174,14 @@ export const create_soggy_planet_tour_data = (
 	b.event('update_land_images', {min: 6, max: 6});
 	b.event('play_main_song');
 	b.event('show_text', {
-		content: `<span style="position: relative; left: 170px; top: -80px;">glaciers ate mountains of moisture</span>`,
+		content: `<span style="position: relative; left: 200px; top: -100px;">glaciers ate mountains of moisture</span>`,
 		count: 2,
 	});
 	b.pan(-174, 1092, 4000);
 	b.zoom(0.7, 4000);
 	b.wait(t_intro_text + t_intro_text / 2);
 	b.event('show_text', {
-		content: `<span style="position: relative; left: 200px; top: -90px;">and myth flooded our imaginations</span>`,
+		content: `<span style="position: relative; left: 250px; top: -110px;">and myth flooded our imaginations</span>`,
 		count: 2,
 	});
 	b.wait(t_intro_text / 2);
