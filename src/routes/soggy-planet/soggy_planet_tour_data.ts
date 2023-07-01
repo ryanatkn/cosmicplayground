@@ -378,9 +378,6 @@ export const create_soggy_planet_tour_data = (
 	b.wait(1000 - smooth_sea_level_to(1, 12));
 	b.wait(1000 - smooth_sea_level_to(11, 0));
 	b.event('show_text', render_content('Mu'));
-	b.wait(1500);
-	b.wait(1000 - smooth_sea_level_to(1, 12));
-	b.wait(1000 - smooth_sea_level_to(11, 0));
 	b.wait();
 	b.event('clear_text');
 
