@@ -48,6 +48,7 @@
 	// TODO mount only for mobile
 	// TODO handle all touches not just the first
 	const pointerdown = (e: PointerEvent) => {
+		console.log(`pointerdown`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		swallow(e);
 		updatePointerPosition(e.clientX, e.clientY);
@@ -55,12 +56,14 @@
 		focus();
 	};
 	const pointerup = (e: PointerEvent) => {
+		console.log(`pointerup`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		swallow(e);
 		updatePointerPosition(e.clientX, e.clientY);
 		pointerDown = false;
 	};
-	const pointercancel = (e: PointerEvent) => {
+	const pointerleave = (e: PointerEvent) => {
+		console.log(`pointerleave`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		swallow(e);
 		updatePointerPosition(e.clientX, e.clientY);
@@ -69,6 +72,7 @@
 		pointerY = null;
 	};
 	const pointermove = (e: PointerEvent) => {
+		console.log(`pointermove`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		swallow(e);
 		updatePointerPosition(e.clientX, e.clientY);
@@ -85,8 +89,8 @@
 	on:pointerdown={pointerdown}
 	on:pointerup={pointerup}
 	on:pointermove={pointermove}
-	on:pointerleave={pointercancel}
-	on:pointercancel={pointercancel}
+	on:pointerleave={pointerleave}
+	on:pointercancel={pointerleave}
 >
 	<slot />
 </div>
