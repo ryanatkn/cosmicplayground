@@ -21,6 +21,7 @@
 		zoomDirection: number,
 		pivotX: number = $width / 2,
 		pivotY: number = $height / 2,
+		multiplier = 1, // TODO this is hacky, added for pinch-to-zoom, should support with the wheel event usage too and be merged with `zoomDirection`
 	): void => {
 		if (zoomDirection === 0) return;
 		const scaleAmount = zoomDirection > 0 ? 1 / ZOOM_SCALING_FACTOR : ZOOM_SCALING_FACTOR;
@@ -30,7 +31,9 @@
 
 		// Center relative to the pivot point.
 		// When zooming with the mouse, this is the mouse's screen position.
-		const scaleRatio = (newScale - oldScale) / oldScale;
+		const scaleRatio = multiplier * ((newScale - oldScale) / oldScale);
+		// TODO BLOCK this is busted
+		console.log(`scaleRatio`, scaleRatio);
 		const mouseDistX = pivotX - $width / 2;
 		const mouseDistY = pivotY - $height / 2;
 		const dx = (mouseDistX * scaleRatio) / newScale;

@@ -10,6 +10,7 @@
 		zoomDirection: number,
 		screenPivotX: number,
 		screenPivotY: number,
+		multipler?: number,
 	) => void;
 	export let moveCamera: (dx: number, dy: number) => void;
 	export let inputEnabled = true;
@@ -23,6 +24,8 @@
 	let el: HTMLDivElement;
 
 	const events = new Map<number, PointerEvent>();
+	let last_pinch_distance: number | null = null;
+	const POINTER_ZOOM_SENSITIVITY = 0.01; // multiplier for the pointer delta
 
 	const updatePointerPosition = (clientX: number, clientY: number): void => {
 		const rect = el.getBoundingClientRect();
@@ -67,6 +70,7 @@
 				updatePointerPosition(e.clientX, e.clientY);
 			}
 			pointerDown = false;
+			last_pinch_distance = null;
 		}
 	};
 	const pointerleave = (e: PointerEvent) => {
@@ -79,6 +83,7 @@
 				updatePointerPosition(e.clientX, e.clientY);
 			}
 			pointerDown = false;
+			last_pinch_distance = null;
 			pointerX = null;
 			pointerY = null;
 		}
@@ -93,7 +98,17 @@
 		if (eventCount === 1) {
 			updatePointerPosition(e.clientX, e.clientY);
 		} else if (eventCount === 2) {
-			console.log('ZOOMM!!');
+			const es = Array.from(events.values());
+			const x1 = es[0].clientX;
+			const y1 = es[0].clientY;
+			const x2 = es[1].clientX;
+			const y2 = es[1].clientY;
+			const distance = Math.hypot(x2 - x1, y2 - y1);
+			if (last_pinch_distance !== null) {
+				const delta = last_pinch_distance - distance;
+				zoomCamera(delta * POINTER_ZOOM_SENSITIVITY, (x1 + x2) / 2, (y1 + y2) / 2, 0.0002);
+			}
+			last_pinch_distance = distance;
 		}
 	};
 </script>
