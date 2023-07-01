@@ -49,7 +49,7 @@ export const points_of_interest: Point_Of_Interest[] = [
 	// 5.7 2136 -323
 	{name: 'Thule', url: 'https://wikipedia.org/wiki/Thule', myth: true, x: -290, y: -430},
 	// 3.2 4036 -302
-	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia', x: -200, y: 220},
+	{name: 'Beringia', url: 'https://wikipedia.org/wiki/Beringia', x: -200, y: 230},
 	// 11 3404 -482
 	{name: 'Missoula floods', url: 'https://wikipedia.org/wiki/Missoula_floods', x: 110, y: -130},
 	// 3.5 4591 -577
@@ -318,22 +318,16 @@ export const create_soggy_planet_tour_data = (
 
 	// pan through North America
 	b.event('clear_text');
-	b.pan(-2717, 1236, t_move);
-	b.zoom(1.6, t_move);
-	b.wait(t_move - smooth_sea_level_to(8, 0));
-	b.zoomBy(0.78, t_idle - t_move);
-	b.panBy(40, 15, t_idle - t_move);
-	b.wait();
-	b.pan(-3020, 548, t_move);
-	b.zoom(1.9, t_move);
-	b.wait();
+	b.pan(-3020, 548, t_idle + t_move);
+	b.zoom(1.6, t_idle + t_move - 2500);
+	b.wait(t_idle + t_move - smooth_sea_level_to(8, 0));
 
 	// Beringia
 	b.event('clear_text');
 	b.pan(-4036, 302, t_move);
-	b.zoom(1.8, t_move * (1 / 2));
+	b.zoom(2.4, t_move * (1 / 2));
 	b.wait(t_move * (1 / 2) - smooth_sea_level_to(1, 12));
-	b.zoom(3.2, t_move * (1 / 2));
+	b.zoom(3.4, t_move * (1 / 2));
 	b.wait();
 	b.zoomBy(0.98, t_idle, sineOut);
 	b.panBy(3, 2, t_idle, sineOut);
@@ -351,6 +345,12 @@ export const create_soggy_planet_tour_data = (
 	b.zoomBy(0.77, t_idle);
 	b.panBy(10, -2, t_idle);
 	b.event('show_text', render_content('Missoula floods'));
+	b.wait();
+
+	// pan through South America
+	b.event('clear_text');
+	b.pan(-2764, 1267, t_move * 2);
+	b.zoom(1.3, t_move);
 	b.wait();
 
 	// Land bridges of Japan
