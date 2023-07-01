@@ -1,7 +1,8 @@
 <script lang="ts">
 	import {swallow} from '@feltjs/util/dom.js';
 
-	// TODO pinch to zoom - https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events/Pinch_zoom_gestures
+	// TODO probably delete this and replace with `SurfaceWithZoom`, renaming that one,
+	// because this uses mouse+touch events instead of pointer, and doesn't handle pinch-to-zoom
 
 	// TODO merge with `@feltcoop/dealt/Surface.svelte`
 	// TODO maybe pass camera, but some components would need refactoring
@@ -81,7 +82,6 @@
 		touch = true;
 		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
 		pointerDown = true;
-		focus();
 	};
 	const onTouchend = (e: TouchEvent) => {
 		if (!inputEnabled) return;
@@ -133,6 +133,7 @@
 
 <style>
 	.interactive-surface {
+		-webkit-user-select: none;
 		user-select: none;
 		touch-action: none;
 	}

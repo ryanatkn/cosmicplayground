@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {writable} from 'svelte/store';
 
-	const ZOOM_SCALING_FACTOR = 1.1;
+	const ZOOM_SENSITIVITY = 1.1;
 
 	// These properties are not reactive.
 	// To update after mounting, set the stores below directly.
@@ -21,9 +21,10 @@
 		zoomDirection: number,
 		pivotX: number = $width / 2,
 		pivotY: number = $height / 2,
+		sensitivity = ZOOM_SENSITIVITY, // TODO this is hacky, added for pinch-to-zoom, should support with the wheel event usage too and be merged with `zoomDirection`
 	): void => {
 		if (zoomDirection === 0) return;
-		const scaleAmount = zoomDirection > 0 ? 1 / ZOOM_SCALING_FACTOR : ZOOM_SCALING_FACTOR;
+		const scaleAmount = zoomDirection > 0 ? 1 / sensitivity : sensitivity;
 		const oldScale = $scale;
 		const newScale = oldScale * scaleAmount;
 		$scale = newScale;

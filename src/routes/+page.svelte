@@ -559,6 +559,7 @@
 		width: 100%; /* allows nesting without shared rows to let the toggle stay still */
 	}
 	.starship-mode nav {
+		-webkit-user-select: none;
 		user-select: none;
 	}
 

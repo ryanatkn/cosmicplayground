@@ -4,6 +4,8 @@
 		default: {item: LayoutItem; index: number};
 	}
 
+	// TODO this is unused
+
 	export let items: T[];
 	export let totalCount: number | undefined;
 	export let width: number;

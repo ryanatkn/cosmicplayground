@@ -63,6 +63,7 @@
 		font-weight: 300;
 		padding-bottom: 40px; /* center the text slightly better */
 		overflow: hidden; /* lazy hack for small screens, assuming 1080p or larger */
+		-webkit-user-select: none;
 		user-select: none;
 	}
 	.earth-text {

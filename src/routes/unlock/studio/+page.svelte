@@ -3,7 +3,7 @@
 
 	import {initialStageData, type StageData} from '$routes/unlock/stage';
 	import UnlockStageBuilder from '$routes/unlock/UnlockStageBuilder.svelte';
-	import Tabs from '$lib/ui/Tabs.svelte';
+	import Tabs from '$lib/Tabs.svelte';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import StudioMenu from '$routes/unlock/studio/StudioMenu.svelte';
