@@ -148,7 +148,7 @@ export const create_soggy_planet_tour_data = (
 	b.event('show_text', `for tens of thousands of years`);
 	b.zoom(200, 2000);
 	b.wait(t_intro_text);
-	b.event('show_text', `we have thrived`);
+	b.event('show_text', `civilizations have thrived`);
 	b.zoom(50, 3000);
 	b.wait(t_intro_text);
 	b.event('show_text', `along coastlines and waterways`);
@@ -158,35 +158,35 @@ export const create_soggy_planet_tour_data = (
 	b.wait(1000);
 	b.event(
 		'show_text',
-		`<span style="position: relative; left: 0; top: 170px;">around 19 or 20 thousand years ago</span>`,
+		`<span style="position: relative; left: 0; top: -170px;">around 19 or 20 thousand years ago</span>`,
 	);
 	b.zoom(3, 6000);
 	b.wait(t_intro_text);
 	b.event(
 		'show_text',
-		`<span style="position: relative; left: 0; top: 195px;">at the end of <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a></span>`,
+		`<span style="position: relative; left: 0; top: -195px;">at the end of <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a></span>`,
 	);
 	b.wait(t_intro_text);
 	b.event(
 		'show_text',
-		`<span style="position: relative; left: 0; top: 170px;">global sea levels were about 125 meters lower</span>`,
+		`<span style="position: relative; left: 0; top: -170px;">global sea levels were about 125 meters lower</span>`,
 	);
 	b.wait(t_intro_text - smooth_sea_level_to(12, 0));
-	b.wait(t_intro_idle - 1000);
+	b.wait(t_intro_idle);
 	b.event('clear_text');
 	b.wait(1000);
 	b.event('update_land_images', {min: 6, max: 6});
 	b.event('play_main_song');
 	b.event(
 		'show_text',
-		`<span style="position: relative; left: -300px; top: 110px;">glaciers ate mountains of moisture</span>`,
+		`<span style="position: relative; left: 170px; top: -80px;">glaciers ate mountains of moisture</span>`,
 	);
 	b.pan(-174, 1092, 4000);
 	b.zoom(0.7, 4000);
 	b.wait(t_intro_text + t_intro_text / 2);
 	b.event(
 		'show_text',
-		`<span style="position: relative; left: -300px; top: 110px;">and myth flooded our imaginations</span>`,
+		`<span style="position: relative; left: 200px; top: -90px;">and myth flooded our imaginations</span>`,
 	);
 	b.wait(t_intro_text / 2);
 	b.wait(t_intro_idle);

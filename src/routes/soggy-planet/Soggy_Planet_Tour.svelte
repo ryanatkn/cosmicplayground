@@ -88,6 +88,9 @@
 	};
 
 	let tour_text: string[] | null = null; // TODO maybe make a store? move/refactor?
+	const add_tour_text = (text: string): void => {
+		tour_text = (tour_text || []).concat(text);
+	};
 
 	const hooks: Partial<TourHooks> = {
 		event: (name, data) => {
@@ -106,7 +109,7 @@
 					return;
 				}
 				case 'show_text': {
-					tour_text = (tour_text || []).concat(data as string); // TODO type
+					add_tour_text(data as string); // TODO type
 					return;
 				}
 				case 'clear_text': {

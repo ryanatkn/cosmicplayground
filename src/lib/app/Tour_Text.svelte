@@ -1,20 +1,25 @@
 <script lang="ts">
-	import {getClock} from '@feltcoop/dealt';
+	import {getClock, getDimensions} from '@feltcoop/dealt';
 	import {swallow} from '@feltjs/util/dom.js';
-	import {blur, slide} from 'svelte/transition';
+	import {blur} from 'svelte/transition';
+
+	const clock = getClock();
+	const dimensions = getDimensions();
 
 	// TODO has some copypasta, needs refactoring
 
 	export let tour_text: string[];
-	export let transition_in_duration = 410;
+	export let transition_in_duration = 1000;
 	export let transition_out_duration = 870;
+	export let height_per_item = 90;
+
+	$: height = height_per_item * tour_text.length;
 
 	// TODO better visual effect? typewriter?
 
 	// transition vars
 	const blur_amount = 99;
 
-	const clock = getClock();
 	const click = (e: MouseEvent): void => {
 		if (e.target instanceof HTMLAnchorElement) {
 			swallow(e);
@@ -31,31 +36,32 @@
 	};
 </script>
 
+<!-- the top offset is super hacky but w/e -->
 <div
 	class="tour-text markup"
 	transition:blur|local={{duration: transition_out_duration, amount: blur_amount}}
+	style:top="{$dimensions.height / 2 - 164}px"
+	on:click|capture={click}
+	on:keydown|capture={keydown}
 >
-	{#each tour_text as text (text)}
-		<div class="text" in:slide|local={{duration: transition_in_duration}}>
-			<div
-				in:blur|local={{duration: transition_in_duration, amount: blur_amount}}
-				on:click|capture={click}
-				on:keydown|capture={keydown}
-			>
+	<div style:height="{height}px">
+		{#each tour_text as text (text)}
+			<div class="text" in:blur|local={{duration: transition_in_duration, amount: blur_amount}}>
 				{@html text}
 			</div>
-		</div>
-	{/each}
+		{/each}
+	</div>
 </div>
 
 <style>
 	.tour-text {
-		width: 100%;
 		height: 100%;
+		width: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
+		text-align: center;
 		font-size: 64px;
 		line-height: 1.5;
 		font-weight: 300;
