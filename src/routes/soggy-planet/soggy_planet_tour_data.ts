@@ -64,7 +64,7 @@ export const points_of_interest: Point_Of_Interest[] = [
 		name: 'Mu',
 		url: 'https://wikipedia.org/wiki/Mu_(mythical_lost_continent)',
 		myth: true,
-		x: 320,
+		x: 120,
 		y: -30,
 	},
 ];
@@ -342,10 +342,15 @@ export const create_soggy_planet_tour_data = (
 	b.wait(t_move / 2);
 	b.zoom(11, t_move / 2);
 	b.wait();
-	b.zoomBy(0.77, t_idle);
-	b.panBy(10, -2, t_idle);
+	b.zoomBy(0.77, t_idle - 2900);
+	b.panBy(10, -2, t_idle - 2900);
 	b.event('show_text', render_content('Missoula floods'));
 	b.wait();
+	b.zoom(3, 300, sineOut);
+	b.wait();
+	b.zoomBy(0.97, 2900 - 300, sineOut);
+	b.panBy(3, 2, 2900 - 300, sineOut);
+	b.wait(2900 - 300);
 
 	// pan through South America
 	b.event('clear_text');
@@ -367,10 +372,10 @@ export const create_soggy_planet_tour_data = (
 
 	// Mu
 	b.event('clear_text');
-	b.pan(-4162, 978, t_move);
+	b.pan(-4059, 1007, t_move);
 	b.zoom(1.7, t_move / 2);
 	b.wait(t_move / 2 - smooth_sea_level_to(1, 12));
-	b.zoom(2, t_move / 2);
+	b.zoom(2.2, t_move / 2);
 	b.wait();
 	b.zoomBy(0.99, t_idle, sineOut);
 	b.panBy(-2, -2, t_idle, sineOut);
@@ -384,16 +389,16 @@ export const create_soggy_planet_tour_data = (
 	// -> disappear zooming into the Mariana Trench
 	// TODO validate that there's enough time to finish the end sequence
 	b.pan(-434, 635, t_end_sequence, quadInOut);
-	b.zoom(1.1, t_move);
-	b.wait(t_move);
-	b.zoom(0.8, t_move);
-	b.wait(t_move);
-	b.zoom(1.1, t_move);
-	b.wait(t_move);
-	b.zoom(1.0, t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
-	b.wait(t_end_sequence - t_move * 3 - 2000); // a bit hacky but whatev
-	b.zoom(5, t_move, quadInOut);
-	b.wait(t_move);
+	b.zoom(1.1, t_move - 1500);
+	b.wait(t_move - 1500);
+	b.zoom(0.8, t_move - 1500);
+	b.wait(t_move - 1500);
+	b.zoom(1.1, t_move - 1500);
+	b.wait(t_move - 1500);
+	b.zoom(1.0, t_end_sequence - t_move * 3 + 1000); // a bit hacky but whatev
+	b.wait(t_end_sequence - t_move * 3 + 1000); // a bit hacky but whatev
+	b.zoom(5, t_move / 2, quadInOut);
+	b.wait(t_move / 2);
 	b.zoomBy(0.85, 500);
 	b.wait(500);
 	b.event('debug_final_zoom_in');

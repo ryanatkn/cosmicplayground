@@ -9,7 +9,7 @@
 	// TODO has some copypasta, needs refactoring
 
 	export let tour_text: string[];
-	export let transition_in_duration = 1000;
+	export let transition_in_duration = 600;
 	export let transition_out_duration = 870;
 	export let height_per_item = 90;
 
