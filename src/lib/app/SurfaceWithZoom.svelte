@@ -23,7 +23,6 @@
 	export let pointerY: number | null = null;
 
 	let el: HTMLDivElement;
-	let touch = false;
 
 	const updatePointerPosition = (clientX: number, clientY: number): void => {
 		const rect = el.getBoundingClientRect();
@@ -39,34 +38,7 @@
 		pointerX = clientX - rect.left; //  / domElementScale;
 		pointerY = clientY - rect.top; // / domElementScale;
 	};
-	const startDragging = () => {
-		pointerDown = true;
-	};
-	const stopDragging = () => {
-		pointerDown = false;
-	};
 
-	const onMouseMove = (e: MouseEvent) => {
-		if (!inputEnabled) return;
-		swallow(e);
-		updatePointerPosition(e.clientX, e.clientY);
-	};
-	const onMouseDown = (e: MouseEvent) => {
-		if (!inputEnabled) return;
-		swallow(e);
-		startDragging();
-	};
-	const onMouseUp = (e: MouseEvent) => {
-		if (!inputEnabled) return;
-		swallow(e);
-		stopDragging();
-	};
-	const onMouseLeave = () => {
-		if (!inputEnabled) return;
-		stopDragging();
-		pointerX = null;
-		pointerY = null;
-	};
 	const onWheel = (e: WheelEvent) => {
 		if (!inputEnabled || pointerX === null || pointerY === null) return;
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
@@ -78,36 +50,39 @@
 	const onTouchstart = (e: TouchEvent) => {
 		if (!inputEnabled) return;
 		swallow(e);
-		touch = true;
 		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
 		pointerDown = true;
 		focus();
+		// if (!inputEnabled) return;
+		// swallow(e);
+		// startDragging();
 	};
 	const onTouchend = (e: TouchEvent) => {
 		if (!inputEnabled) return;
 		swallow(e);
-		touch = true;
 		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
 		pointerDown = false;
+		// if (!inputEnabled) return;
+		// swallow(e);
+		// stopDragging();
 	};
 	const onTouchcancel = (e: TouchEvent) => {
 		if (!inputEnabled) return;
 		swallow(e);
-		touch = true;
 		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
 		pointerDown = false;
+		// if (!inputEnabled) return;
+		// stopDragging();
+		// pointerX = null;
+		// pointerY = null;
 	};
 	const onTouchmove = (e: TouchEvent) => {
 		if (!inputEnabled) return;
 		swallow(e);
-		touch = true;
 		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-	};
-
-	const onContextmenu = (e: MouseEvent) => {
-		if (touch && !e.shiftKey) {
-			swallow(e);
-		}
+		// if (!inputEnabled) return;
+		// swallow(e);
+		// updatePointerPosition(e.clientX, e.clientY);
 	};
 </script>
 
@@ -115,24 +90,20 @@
 
 <div
 	bind:this={el}
-	class="interactive-surface"
+	class="surface"
 	style="width: {width}px; height: {height}px;"
-	on:mousemove={onMouseMove}
-	on:mousedown={onMouseDown}
-	on:mouseup={onMouseUp}
-	on:mouseleave={onMouseLeave}
 	on:wheel|passive={onWheel}
 	on:touchstart={onTouchstart}
 	on:touchend={onTouchend}
 	on:touchcancel={onTouchcancel}
 	on:touchmove={onTouchmove}
-	on:contextmenu={onContextmenu}
 >
 	<slot />
 </div>
 
 <style>
-	.interactive-surface {
+	.surface {
+		-webkit-user-select: none;
 		user-select: none;
 		touch-action: none;
 	}

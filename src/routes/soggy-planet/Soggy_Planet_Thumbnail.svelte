@@ -70,6 +70,7 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		-webkit-user-select: none;
 		user-select: none;
 	}
 	@media (max-width: 600px) {

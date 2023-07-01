@@ -134,6 +134,7 @@
 
 <style>
 	.interactive-surface {
+		-webkit-user-select: none;
 		user-select: none;
 		touch-action: none;
 	}
