@@ -25,7 +25,7 @@
 
 	const events = new Map<number, PointerEvent>();
 	let last_pinch_distance: number | null = null;
-	const POINTER_ZOOM_SENSITIVITY = 1.008; // multiplier for the pointer delta
+	const POINTER_ZOOM_SENSITIVITY = 1.002; // multiplier for the pointer delta
 
 	const updatePointerPosition = (clientX: number, clientY: number): void => {
 		const rect = el.getBoundingClientRect();
@@ -45,11 +45,10 @@
 	const wheel = (e: WheelEvent) => {
 		if (!inputEnabled || pointerX === null || pointerY === null) return;
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
-		zoomCamera(scaleDelta, pointerX, pointerY);
+		zoomCamera(scaleDelta, pointerX, pointerY); // TODO handle sensitivity
 	};
 
 	const pointerdown = (e: PointerEvent) => {
-		console.log(`pointerdown`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		swallow(e);
 		events.set(e.pointerId, e);
@@ -61,7 +60,6 @@
 		}
 	};
 	const pointerup = (e: PointerEvent) => {
-		console.log(`pointerup`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		swallow(e);
 		events.delete(e.pointerId);
@@ -74,7 +72,6 @@
 		}
 	};
 	const pointerleave = (e: PointerEvent) => {
-		console.log(`pointerleave`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
 		swallow(e);
 		events.delete(e.pointerId);
@@ -89,10 +86,9 @@
 		}
 	};
 	const pointermove = (e: PointerEvent) => {
-		console.log(`pointermove`, e.pointerId, e.pointerType, e.isPrimary);
 		if (!inputEnabled) return;
-		events.set(e.pointerId, e);
 		swallow(e);
+		events.set(e.pointerId, e);
 		// when 2 pointers are down, handle pinch-to-zoom gestures
 		const eventCount = events.size;
 		if (eventCount === 1) {
@@ -106,9 +102,9 @@
 			const distance = Math.hypot(x2 - x1, y2 - y1);
 			if (last_pinch_distance !== null) {
 				const delta = last_pinch_distance - distance;
-				// TODO BLOCK change sensitivity based on the delta as a temporary hack,
-				// because currently this API only looks at `delta` for direction, not magnitude
-				zoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, POINTER_ZOOM_SENSITIVITY);
+				const magnitude = Math.abs(delta / 0.33); // magic number for per-event deltas
+				const sensitivity = magnitude * (POINTER_ZOOM_SENSITIVITY - 1) + 1; // TODO super hacky
+				zoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, sensitivity); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
 			}
 			last_pinch_distance = distance;
 		}
@@ -127,6 +123,7 @@
 	on:pointermove={pointermove}
 	on:pointerleave={pointerleave}
 	on:pointercancel={pointerleave}
+	on:pointerout={pointerleave}
 >
 	<slot />
 </div>
