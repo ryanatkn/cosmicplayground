@@ -15,6 +15,20 @@
 	export let moveCamera: (dx: number, dy: number) => void;
 	export let inputEnabled = true;
 
+	let debugArgs: any[] = [];
+
+	const debugZoomCamera: (
+		zoomDirection: number,
+		screenPivotX: number,
+		screenPivotY: number,
+		multipler?: number,
+	) => void = (...args) => {
+		zoomCamera(...args);
+		const nextDebugArgs = debugArgs.slice(-20);
+		nextDebugArgs.push(args);
+		debugArgs = nextDebugArgs;
+	};
+
 	// TODO probably refactor these, written before `events` was added for pinch gestures
 	let pointerDown = false;
 	let pointerX: number | null = null;
@@ -48,7 +62,7 @@
 	const wheel = (e: WheelEvent) => {
 		const {x, y} = toPointerPosition(e.clientX, e.clientY, el);
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
-		zoomCamera(scaleDelta, x, y); // TODO handle sensitivity
+		debugZoomCamera(scaleDelta, x, y); // TODO handle sensitivity
 	};
 
 	const pointerdown = (e: PointerEvent) => {
@@ -95,7 +109,7 @@
 				const delta = last_pinch_distance - distance;
 				const magnitude = Math.abs(delta / 0.33); // magic number for per-event deltas
 				const sensitivity = magnitude * (POINTER_ZOOM_SENSITIVITY - 1) + 1; // TODO super hacky
-				zoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, sensitivity); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
+				debugZoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, sensitivity); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
 			}
 			last_pinch_distance = distance;
 		}
@@ -121,6 +135,11 @@
 	on:touchmove|nonpassive={swallow}
 >
 	<slot />
+	<div class="debugging">
+		{#each debugArgs as a}
+			<div>{a[0]} - {a[1]} - {a[2]} - {a[3] ?? ''}</div>
+		{/each}
+	</div>
 </div>
 
 <style>
@@ -128,5 +147,14 @@
 		-webkit-user-select: none;
 		user-select: none;
 		touch-action: none;
+	}
+	.debugging {
+		position: fixed;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100px;
+		user-select: none;
+		font-size: var(--font_size_sm);
 	}
 </style>
