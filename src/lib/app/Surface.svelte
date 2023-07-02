@@ -10,27 +10,34 @@
 		zoomDirection: number,
 		screenPivotX: number,
 		screenPivotY: number,
-		multipler?: number,
+		multiplier?: number,
 	) => void;
 	export let moveCamera: (dx: number, dy: number) => void;
 	export let inputEnabled = true;
 
-	let debugArgs: any[] = [];
+	let debugArgs: Array<{
+		zoomDirection: number;
+		multiplier?: number;
+		x1: number;
+		x2: number;
+		y1: number;
+		y2: number;
+	}> = [];
 
 	const debugZoomCamera: (
 		zoomDirection: number,
 		screenPivotX: number,
 		screenPivotY: number,
-		multipler?: number,
-	) => void = (zoomDirection, screenPivotX, screenPivotY, multipler) => {
-		zoomCamera(zoomDirection, screenPivotX, screenPivotY, multipler);
+		multiplier?: number,
+	) => void = (zoomDirection, screenPivotX, screenPivotY, multiplier) => {
+		zoomCamera(zoomDirection, screenPivotX, screenPivotY, multiplier);
 		const nextDebugArgs = debugArgs.slice(-20);
 		const es = Array.from(events.values());
 		const x1 = es[0]?.clientX;
 		const y1 = es[0]?.clientY;
 		const x2 = es[1]?.clientX;
 		const y2 = es[1]?.clientY;
-		nextDebugArgs.push({zoomDirection, multipler, x1, x2, y1, y2});
+		nextDebugArgs.push({zoomDirection, multiplier, x1, x2, y1, y2});
 		debugArgs = nextDebugArgs;
 	};
 
@@ -140,13 +147,18 @@
 	on:touchmove|nonpassive={swallow}
 >
 	<slot />
-	<table class="debugging">
-		{#each debugArgs as a}
-			<tr>
-				<td>{a[0].toFixed(1)}</td><td>{a[1]}</td><td>{a[2]}</td><td>{a[3]?.toFixed(3) ?? ''}</td>
-			</tr>
-		{/each}
-	</table>
+	<div class="debugging">
+		<table>
+			{#each debugArgs as a}
+				<tr>
+					<td>{a.zoomDirection.toFixed(1)}</td>
+					<td>{a.multiplier?.toFixed(3) ?? ''}</td>
+					<td>{a.x1}, {a.y1}</td>
+					<td>{a.x2}, {a.y2}</td>
+				</tr>
+			{/each}
+		</table>
+	</div>
 </div>
 
 <style>
@@ -163,5 +175,11 @@
 		user-select: none;
 		font-size: var(--font_size_sm);
 		white-space: nowrap;
+	}
+	tr {
+		height: 20px;
+	}
+	td {
+		padding: 0 var(--spacing_xs);
 	}
 </style>
