@@ -22,10 +22,15 @@
 		screenPivotX: number,
 		screenPivotY: number,
 		multipler?: number,
-	) => void = (...args) => {
-		zoomCamera(...args);
+	) => void = (zoomDirection, screenPivotX, screenPivotY, multipler) => {
+		zoomCamera(zoomDirection, screenPivotX, screenPivotY, multipler);
 		const nextDebugArgs = debugArgs.slice(-20);
-		nextDebugArgs.push(args);
+		const es = Array.from(events.values());
+		const x1 = es[0]?.clientX;
+		const y1 = es[0]?.clientY;
+		const x2 = es[1]?.clientX;
+		const y2 = es[1]?.clientY;
+		nextDebugArgs.push({zoomDirection, multipler, x1, x2, y1, y2});
 		debugArgs = nextDebugArgs;
 	};
 
@@ -135,13 +140,13 @@
 	on:touchmove|nonpassive={swallow}
 >
 	<slot />
-	<div class="debugging">
+	<table class="debugging">
 		{#each debugArgs as a}
-			<div>
-				{a[0].toFixed(1)} - {a[1]} - {a[2]} - {a[3]?.toFixed(3) ?? ''}
-			</div>
+			<tr>
+				<td>{a[0].toFixed(1)}</td><td>{a[1]}</td><td>{a[2]}</td><td>{a[3]?.toFixed(3) ?? ''}</td>
+			</tr>
 		{/each}
-	</div>
+	</table>
 </div>
 
 <style>
