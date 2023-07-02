@@ -137,7 +137,7 @@
 	<slot />
 	<div class="debugging">
 		{#each debugArgs as a}
-			<div>{a[0]} - {a[1]} - {a[2]} - {a[3] ?? ''}</div>
+			<div>{a[0]} - {a[1]} - {a[2]} - {a[3]?.toString().slice(0, 6) ?? ''}</div>
 		{/each}
 	</div>
 </div>
