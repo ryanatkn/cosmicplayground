@@ -155,8 +155,8 @@
 		left: 0;
 		top: 0;
 		height: 100%;
-		width: 100px;
 		user-select: none;
 		font-size: var(--font_size_sm);
+		white-space: nowrap;
 	}
 </style>
