@@ -177,7 +177,7 @@
 		white-space: nowrap;
 	}
 	tr {
-		height: 20px;
+		height: 17px;
 	}
 	td {
 		padding: 0 var(--spacing_xs);
