@@ -138,7 +138,7 @@
 	<div class="debugging">
 		{#each debugArgs as a}
 			<div>
-				{a[0].toString().slice(0, 4)} - {a[1]} - {a[2]} - {a[3]?.toString().slice(0, 6) ?? ''}
+				{a[0].toFixed(1)} - {a[1]} - {a[2]} - {a[3]?.toFixed(3) ?? ''}
 			</div>
 		{/each}
 	</div>
