@@ -26,9 +26,7 @@
 	let last_pinch_distance: number | null = null;
 	const POINTER_ZOOM_SENSITIVITY = 1.002; // multiplier for the pointer delta
 
-	const updatePointerPosition = (clientX: number, clientY: number): void => {
-		const rect = el.getBoundingClientRect();
-
+	const pan = (clientX: number, clientY: number): void => {
 		// update dragging
 		if (pointerX !== null && pointerY !== null) {
 			const dx = pointerX - clientX;
@@ -37,6 +35,7 @@
 		}
 
 		// TODO correctly handle when the DOM element itself is scaled -- maybe the existing `scale` should be `zoom` and this is `scale`?
+		const rect = el.getBoundingClientRect();
 		pointerX = clientX - rect.left; //  / domElementScale;
 		pointerY = clientY - rect.top; // / domElementScale;
 	};
@@ -56,8 +55,8 @@
 		last_pinch_distance = null;
 		if (e.isPrimary) {
 			if (events.size === 1) {
-				updatePointerPosition(e.clientX, e.clientY);
 				pointerDown = true;
+				pan(e.clientX, e.clientY);
 			}
 		}
 	};
@@ -80,7 +79,7 @@
 		const eventCount = events.size;
 		if (eventCount === 1) {
 			if (pointerDown) {
-				updatePointerPosition(e.clientX, e.clientY);
+				pan(e.clientX, e.clientY);
 			}
 		} else if (eventCount === 2) {
 			const es = Array.from(events.values());
