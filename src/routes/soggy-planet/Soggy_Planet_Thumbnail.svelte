@@ -23,7 +23,8 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <div
 	class="soggy-planet-thumbnail"
-	style="width: {earthWidth / 2}px; height: {earthWidth / 2}px;"
+	style:width="{earthWidth / 2}px"
+	style:height="{earthWidth / 2}px;"
 	role={onClick ? 'button' : undefined}
 	aria-label={onClick ? label : undefined}
 	tabindex={onClick ? 0 : undefined}

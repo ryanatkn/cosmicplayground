@@ -111,22 +111,15 @@
 				button on <button on:click={load}>the map</button> or see
 				<a href="https://www.youtube.com/watch?v=akP5J3jfjt4">the video on YouTube</a>.
 			</p>
-			<p>The tour walks through the following points of interest:</p>
-			<table>
-				<thead><th>name</th><th>myth?</th><th>url</th></thead>
+			<p>Learn about the tour's points of interest on Wikipedia:</p>
+			<ul>
 				{#each points_of_interest as point_of_interest (point_of_interest)}
-					<tr>
-						<td>
-							<!-- TODO make these buttons to zoom to the locations on the map -->
-							{point_of_interest.name}
-						</td>
-						<td class="centered-text" title="{point_of_interest.name} may be a myth"
-							>{#if point_of_interest.myth}?{/if}</td
-						>
-						<td><a href={point_of_interest.url}>{point_of_interest.url.substring(8)}</a></td>
-					</tr>
+					<li>
+						<a href={point_of_interest.url}>{point_of_interest.name}</a>
+						{#if point_of_interest.myth}(myth?){/if}
+					</li>
 				{/each}
-			</table>
+			</ul>
 		</section>
 	</Panel>
 	<Panel>
@@ -154,5 +147,10 @@
 		flex-direction: column;
 		align-items: center;
 		padding: var(--spacing_xl7) 0;
+	}
+
+	/* TODO hacky */
+	.soggy-planet-title-screen :global(.portal-preview) {
+		margin: 0;
 	}
 </style>
