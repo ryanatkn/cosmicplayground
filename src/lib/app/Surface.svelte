@@ -30,7 +30,7 @@
 		const rect = el.getBoundingClientRect();
 
 		// update dragging
-		if (pointerDown && pointerX !== null && pointerY !== null) {
+		if (pointerX !== null && pointerY !== null) {
 			const dx = pointerX - clientX;
 			const dy = pointerY - clientY;
 			moveCamera(dx / scale, dy / scale);
@@ -57,7 +57,7 @@
 		if (e.isPrimary) {
 			if (events.size === 1) {
 				updatePointerPosition(e.clientX, e.clientY);
-				pointerDown = true; // only set to `true` *after* updating the position
+				pointerDown = true;
 			}
 		}
 	};
@@ -79,7 +79,9 @@
 		// when 2 pointers are down, handle pinch-to-zoom gestures
 		const eventCount = events.size;
 		if (eventCount === 1) {
-			updatePointerPosition(e.clientX, e.clientY);
+			if (pointerDown) {
+				updatePointerPosition(e.clientX, e.clientY);
+			}
 		} else if (eventCount === 2) {
 			const es = Array.from(events.values());
 			const x1 = es[0].clientX;
