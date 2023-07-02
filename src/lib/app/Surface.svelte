@@ -26,29 +26,32 @@
 	let last_pinch_distance: number | null = null;
 	const POINTER_ZOOM_SENSITIVITY = 1.002; // multiplier for the pointer delta
 
-	const updatePointerPosition = (clientX: number, clientY: number): void => {
+	const toPointerPosition = (clientX: number, clientY: number, el: HTMLElement) => {
+		// TODO correctly handle when the DOM element itself is scaled -- maybe the existing `scale` should be `zoom` and this is `scale`?
 		const rect = el.getBoundingClientRect();
+		const x = clientX - rect.left; //  / domElementScale;
+		const y = clientY - rect.top; // / domElementScale;
+		return {x, y};
+	};
 
-		// update dragging
-		if (pointerDown && pointerX !== null && pointerY !== null) {
+	const pan = (clientX: number, clientY: number): void => {
+		if (pointerX !== null && pointerY !== null) {
 			const dx = pointerX - clientX;
 			const dy = pointerY - clientY;
 			moveCamera(dx / scale, dy / scale);
 		}
-
-		// TODO correctly handle when the DOM element itself is scaled -- maybe the existing `scale` should be `zoom` and this is `scale`?
-		pointerX = clientX - rect.left; //  / domElementScale;
-		pointerY = clientY - rect.top; // / domElementScale;
+		const p = toPointerPosition(clientX, clientY, el);
+		pointerX = p.x;
+		pointerY = p.y;
 	};
 
 	const wheel = (e: WheelEvent) => {
-		if (!inputEnabled || pointerX === null || pointerY === null) return;
+		const {x, y} = toPointerPosition(e.clientX, e.clientY, el);
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
-		zoomCamera(scaleDelta, pointerX, pointerY); // TODO handle sensitivity
+		zoomCamera(scaleDelta, x, y); // TODO handle sensitivity
 	};
 
 	const pointerdown = (e: PointerEvent) => {
-		if (!inputEnabled) return;
 		swallow(e);
 		events.set(e.pointerId, e);
 		pointerX = null;
@@ -56,13 +59,12 @@
 		last_pinch_distance = null;
 		if (e.isPrimary) {
 			if (events.size === 1) {
-				updatePointerPosition(e.clientX, e.clientY);
-				pointerDown = true; // only set to `true` *after* updating the position
+				pointerDown = true;
+				pan(e.clientX, e.clientY);
 			}
 		}
 	};
 	const pointerup = (e: PointerEvent) => {
-		if (!inputEnabled) return;
 		swallow(e);
 		events.delete(e.pointerId);
 		pointerX = null;
@@ -73,13 +75,15 @@
 		}
 	};
 	const pointermove = (e: PointerEvent) => {
-		if (!inputEnabled) return;
 		swallow(e);
+		if (!events.has(e.pointerId)) return;
 		events.set(e.pointerId, e);
 		// when 2 pointers are down, handle pinch-to-zoom gestures
 		const eventCount = events.size;
 		if (eventCount === 1) {
-			updatePointerPosition(e.clientX, e.clientY);
+			if (pointerDown) {
+				pan(e.clientX, e.clientY);
+			}
 		} else if (eventCount === 2) {
 			const es = Array.from(events.values());
 			const x1 = es[0].clientX;
@@ -104,13 +108,13 @@
 	bind:this={el}
 	class="surface"
 	style="width: {width}px; height: {height}px;"
-	on:wheel|passive={wheel}
-	on:pointerdown={pointerdown}
-	on:pointermove={pointermove}
-	on:pointerup={pointerup}
-	on:pointerleave={pointerup}
-	on:pointercancel={pointerup}
-	on:pointerout={pointerup}
+	on:wheel|passive={inputEnabled ? wheel : undefined}
+	on:pointerdown={inputEnabled ? pointerdown : undefined}
+	on:pointermove={inputEnabled ? pointermove : undefined}
+	on:pointerup={inputEnabled ? pointerup : undefined}
+	on:pointerleave={inputEnabled ? pointerup : undefined}
+	on:pointercancel={inputEnabled ? pointerup : undefined}
+	on:pointerout={inputEnabled ? pointerup : undefined}
 >
 	<slot />
 </div>
