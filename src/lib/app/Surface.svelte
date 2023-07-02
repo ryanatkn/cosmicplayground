@@ -27,7 +27,6 @@
 	const POINTER_ZOOM_SENSITIVITY = 1.002; // multiplier for the pointer delta
 
 	const pan = (clientX: number, clientY: number): void => {
-		// update dragging
 		if (pointerX !== null && pointerY !== null) {
 			const dx = pointerX - clientX;
 			const dy = pointerY - clientY;
@@ -41,13 +40,12 @@
 	};
 
 	const wheel = (e: WheelEvent) => {
-		if (!inputEnabled || pointerX === null || pointerY === null) return;
+		if (pointerX === null || pointerY === null) return;
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
 		zoomCamera(scaleDelta, pointerX, pointerY); // TODO handle sensitivity
 	};
 
 	const pointerdown = (e: PointerEvent) => {
-		if (!inputEnabled) return;
 		swallow(e);
 		events.set(e.pointerId, e);
 		pointerX = null;
@@ -61,7 +59,6 @@
 		}
 	};
 	const pointerup = (e: PointerEvent) => {
-		if (!inputEnabled) return;
 		swallow(e);
 		events.delete(e.pointerId);
 		pointerX = null;
@@ -72,8 +69,8 @@
 		}
 	};
 	const pointermove = (e: PointerEvent) => {
-		if (!inputEnabled) return;
 		swallow(e);
+		if (!events.has(e.pointerId)) return;
 		events.set(e.pointerId, e);
 		// when 2 pointers are down, handle pinch-to-zoom gestures
 		const eventCount = events.size;
@@ -105,13 +102,13 @@
 	bind:this={el}
 	class="surface"
 	style="width: {width}px; height: {height}px;"
-	on:wheel|passive={wheel}
-	on:pointerdown={pointerdown}
-	on:pointermove={pointermove}
-	on:pointerup={pointerup}
-	on:pointerleave={pointerup}
-	on:pointercancel={pointerup}
-	on:pointerout={pointerup}
+	on:wheel|passive={inputEnabled ? wheel : undefined}
+	on:pointerdown={inputEnabled ? pointerdown : undefined}
+	on:pointermove={inputEnabled ? pointermove : undefined}
+	on:pointerup={inputEnabled ? pointerup : undefined}
+	on:pointerleave={inputEnabled ? pointerup : undefined}
+	on:pointercancel={inputEnabled ? pointerup : undefined}
+	on:pointerout={inputEnabled ? pointerup : undefined}
 >
 	<slot />
 </div>
