@@ -15,11 +15,10 @@
 	export let moveCamera: (dx: number, dy: number) => void;
 	export let inputEnabled = true;
 
-	// TODO dispatch events (instead or in addition to binding?)
-	// exported for binding
-	export let pointerDown = false;
-	export let pointerX: number | null = null;
-	export let pointerY: number | null = null;
+	// TODO probably refactor these, written before `events` was added for pinch gestures
+	let pointerDown = false;
+	let pointerX: number | null = null;
+	let pointerY: number | null = null;
 
 	let el: HTMLDivElement;
 
@@ -31,9 +30,9 @@
 		const rect = el.getBoundingClientRect();
 
 		// update dragging
-		if (pointerDown) {
-			const dx = pointerX === null ? 0 : pointerX - clientX;
-			const dy = pointerY === null ? 0 : pointerY - clientY;
+		if (pointerDown && pointerX !== null && pointerY !== null) {
+			const dx = pointerX - clientX;
+			const dy = pointerY - clientY;
 			moveCamera(dx / scale, dy / scale);
 		}
 
@@ -52,10 +51,13 @@
 		if (!inputEnabled) return;
 		swallow(e);
 		events.set(e.pointerId, e);
+		pointerX = null;
+		pointerY = null;
+		last_pinch_distance = null;
 		if (e.isPrimary) {
 			if (events.size === 1) {
 				updatePointerPosition(e.clientX, e.clientY);
-				pointerDown = true; // only set to `true` when there's 1 event, but setting to `false` occurs no matter what, because other pointers may have gone down
+				pointerDown = true; // only set to `true` *after* updating the position
 			}
 		}
 	};
@@ -63,29 +65,11 @@
 		if (!inputEnabled) return;
 		swallow(e);
 		events.delete(e.pointerId);
-		if (e.isPrimary) {
-			if (events.size === 1) {
-				updatePointerPosition(e.clientX, e.clientY);
-			}
-			pointerDown = false;
-		}
-		// stop the jank that happens when releasing one finger after pinch-to-zoom
-		last_pinch_distance = null;
 		pointerX = null;
 		pointerY = null;
-	};
-	const pointerleave = (e: PointerEvent) => {
-		if (!inputEnabled) return;
-		swallow(e);
-		events.delete(e.pointerId);
+		last_pinch_distance = null;
 		if (e.isPrimary) {
-			if (events.size === 1) {
-				updatePointerPosition(e.clientX, e.clientY);
-			}
 			pointerDown = false;
-			last_pinch_distance = null;
-			pointerX = null;
-			pointerY = null;
 		}
 	};
 	const pointermove = (e: PointerEvent) => {
@@ -122,11 +106,11 @@
 	style="width: {width}px; height: {height}px;"
 	on:wheel|passive={wheel}
 	on:pointerdown={pointerdown}
-	on:pointerup={pointerup}
 	on:pointermove={pointermove}
-	on:pointerleave={pointerleave}
-	on:pointercancel={pointerleave}
-	on:pointerout={pointerleave}
+	on:pointerup={pointerup}
+	on:pointerleave={pointerup}
+	on:pointercancel={pointerup}
+	on:pointerout={pointerup}
 >
 	<slot />
 </div>
