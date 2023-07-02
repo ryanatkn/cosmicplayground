@@ -7,7 +7,7 @@
 		computeBlendedImagesCycleZIndex,
 	} from '$lib/app/blendedImagesCycle';
 	import {getPixiScene} from '$lib/app/pixi';
-	import SurfaceWithZoom from '$lib/app/SurfaceWithZoom.svelte';
+	import Surface from '$lib/app/Surface.svelte';
 	import type Camera from '$lib/app/Camera.svelte';
 
 	// TODO looks like we could use `Pixi.Prepare` to make initial rendering smoother:
@@ -296,7 +296,7 @@
 	};
 </script>
 
-<SurfaceWithZoom
+<Surface
 	width={$width}
 	height={$height}
 	scale={$scale}

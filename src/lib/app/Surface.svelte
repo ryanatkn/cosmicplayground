@@ -1,9 +1,6 @@
 <script lang="ts">
 	import {swallow} from '@feltjs/util/dom.js';
 
-	// TODO probably delete this and replace with `SurfaceWithZoom`, renaming that one,
-	// because this uses mouse+touch events instead of pointer, and doesn't handle pinch-to-zoom
-
 	// TODO merge with `@feltcoop/dealt/Surface.svelte`
 	// TODO maybe pass camera, but some components would need refactoring
 	export let width: number;
@@ -13,26 +10,29 @@
 		zoomDirection: number,
 		screenPivotX: number,
 		screenPivotY: number,
+		multipler?: number,
 	) => void;
 	export let moveCamera: (dx: number, dy: number) => void;
 	export let inputEnabled = true;
 
-	// TODO dispatch events (instead or in addition to binding?)
-	// exported for binding
-	export let pointerDown = false;
-	export let pointerX: number | null = null;
-	export let pointerY: number | null = null;
+	// TODO probably refactor these, written before `events` was added for pinch gestures
+	let pointerDown = false;
+	let pointerX: number | null = null;
+	let pointerY: number | null = null;
 
 	let el: HTMLDivElement;
-	let touch = false;
+
+	const events = new Map<number, PointerEvent>();
+	let last_pinch_distance: number | null = null;
+	const POINTER_ZOOM_SENSITIVITY = 1.002; // multiplier for the pointer delta
 
 	const updatePointerPosition = (clientX: number, clientY: number): void => {
 		const rect = el.getBoundingClientRect();
 
 		// update dragging
-		if (pointerDown) {
-			const dx = pointerX === null ? 0 : pointerX - clientX;
-			const dy = pointerY === null ? 0 : pointerY - clientY;
+		if (pointerDown && pointerX !== null && pointerY !== null) {
+			const dx = pointerX - clientX;
+			const dy = pointerY - clientY;
 			moveCamera(dx / scale, dy / scale);
 		}
 
@@ -40,73 +40,60 @@
 		pointerX = clientX - rect.left; //  / domElementScale;
 		pointerY = clientY - rect.top; // / domElementScale;
 	};
-	const startDragging = () => {
-		pointerDown = true;
-	};
-	const stopDragging = () => {
-		pointerDown = false;
-	};
 
-	const onMouseMove = (e: MouseEvent) => {
-		if (!inputEnabled) return;
-		swallow(e);
-		updatePointerPosition(e.clientX, e.clientY);
-	};
-	const onMouseDown = (e: MouseEvent) => {
-		if (!inputEnabled) return;
-		swallow(e);
-		startDragging();
-	};
-	const onMouseUp = (e: MouseEvent) => {
-		if (!inputEnabled) return;
-		swallow(e);
-		stopDragging();
-	};
-	const onMouseLeave = () => {
-		if (!inputEnabled) return;
-		stopDragging();
-		pointerX = null;
-		pointerY = null;
-	};
-	const onWheel = (e: WheelEvent) => {
+	const wheel = (e: WheelEvent) => {
 		if (!inputEnabled || pointerX === null || pointerY === null) return;
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
-		zoomCamera(scaleDelta, pointerX, pointerY);
+		zoomCamera(scaleDelta, pointerX, pointerY); // TODO handle sensitivity
 	};
 
-	// TODO mount only for mobile
-	// TODO handle all touches not just the first
-	const onTouchstart = (e: TouchEvent) => {
+	const pointerdown = (e: PointerEvent) => {
 		if (!inputEnabled) return;
 		swallow(e);
-		touch = true;
-		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-		pointerDown = true;
+		events.set(e.pointerId, e);
+		pointerX = null;
+		pointerY = null;
+		last_pinch_distance = null;
+		if (e.isPrimary) {
+			if (events.size === 1) {
+				updatePointerPosition(e.clientX, e.clientY);
+				pointerDown = true; // only set to `true` *after* updating the position
+			}
+		}
 	};
-	const onTouchend = (e: TouchEvent) => {
+	const pointerup = (e: PointerEvent) => {
 		if (!inputEnabled) return;
 		swallow(e);
-		touch = true;
-		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-		pointerDown = false;
+		events.delete(e.pointerId);
+		pointerX = null;
+		pointerY = null;
+		last_pinch_distance = null;
+		if (e.isPrimary) {
+			pointerDown = false;
+		}
 	};
-	const onTouchcancel = (e: TouchEvent) => {
+	const pointermove = (e: PointerEvent) => {
 		if (!inputEnabled) return;
 		swallow(e);
-		touch = true;
-		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-		pointerDown = false;
-	};
-	const onTouchmove = (e: TouchEvent) => {
-		if (!inputEnabled) return;
-		swallow(e);
-		touch = true;
-		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-	};
-
-	const onContextmenu = (e: MouseEvent) => {
-		if (touch && !e.shiftKey) {
-			swallow(e);
+		events.set(e.pointerId, e);
+		// when 2 pointers are down, handle pinch-to-zoom gestures
+		const eventCount = events.size;
+		if (eventCount === 1) {
+			updatePointerPosition(e.clientX, e.clientY);
+		} else if (eventCount === 2) {
+			const es = Array.from(events.values());
+			const x1 = es[0].clientX;
+			const y1 = es[0].clientY;
+			const x2 = es[1].clientX;
+			const y2 = es[1].clientY;
+			const distance = Math.hypot(x2 - x1, y2 - y1);
+			if (last_pinch_distance !== null) {
+				const delta = last_pinch_distance - distance;
+				const magnitude = Math.abs(delta / 0.33); // magic number for per-event deltas
+				const sensitivity = magnitude * (POINTER_ZOOM_SENSITIVITY - 1) + 1; // TODO super hacky
+				zoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, sensitivity); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
+			}
+			last_pinch_distance = distance;
 		}
 	};
 </script>
@@ -115,24 +102,21 @@
 
 <div
 	bind:this={el}
-	class="interactive-surface"
+	class="surface"
 	style="width: {width}px; height: {height}px;"
-	on:mousemove={onMouseMove}
-	on:mousedown={onMouseDown}
-	on:mouseup={onMouseUp}
-	on:mouseleave={onMouseLeave}
-	on:wheel|passive={onWheel}
-	on:touchstart={onTouchstart}
-	on:touchend={onTouchend}
-	on:touchcancel={onTouchcancel}
-	on:touchmove={onTouchmove}
-	on:contextmenu={onContextmenu}
+	on:wheel|passive={wheel}
+	on:pointerdown={pointerdown}
+	on:pointermove={pointermove}
+	on:pointerup={pointerup}
+	on:pointerleave={pointerup}
+	on:pointercancel={pointerup}
+	on:pointerout={pointerup}
 >
 	<slot />
 </div>
 
 <style>
-	.interactive-surface {
+	.surface {
 		-webkit-user-select: none;
 		user-select: none;
 		touch-action: none;
