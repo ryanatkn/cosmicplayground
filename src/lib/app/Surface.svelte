@@ -22,7 +22,9 @@
 		x2: number;
 		y1: number;
 		y2: number;
+		dt: number;
 	}> = [];
+	let last_t: number | null = null;
 
 	const debugZoomCamera: (
 		zoomDirection: number,
@@ -37,7 +39,10 @@
 		const y1 = es[0]?.clientY;
 		const x2 = es[1]?.clientX;
 		const y2 = es[1]?.clientY;
-		nextDebugArgs.push({zoomDirection, multiplier, x1, x2, y1, y2});
+		const t = performance.now();
+		const dt = last_t === null ? 0 : Math.round(t - last_t);
+		last_t = t;
+		nextDebugArgs.push({zoomDirection, multiplier, x1, x2, y1, y2, dt});
 		debugArgs = nextDebugArgs;
 	};
 
@@ -128,8 +133,6 @@
 	};
 </script>
 
-<!-- on:mouseenter={onMouseEnter} -->
-
 <div
 	bind:this={el}
 	class="surface"
@@ -142,9 +145,8 @@
 	on:pointerleave={inputEnabled ? pointerup : undefined}
 	on:pointercancel={inputEnabled ? pointerup : undefined}
 	on:pointerout={inputEnabled ? pointerup : undefined}
-	on:touchstart|nonpassive={swallow}
-	on:touchend|nonpassive={swallow}
-	on:touchmove|nonpassive={swallow}
+	on:touchstart|nonpassive={inputEnabled ? swallow : undefined}
+	on:touchmove|nonpassive={inputEnabled ? swallow : undefined}
 >
 	<slot />
 	<div class="debugging">
@@ -155,6 +157,7 @@
 					<td>{a.multiplier?.toFixed(3) ?? ''}</td>
 					<td>{a.x1}, {a.y1}</td>
 					<td>{a.x2}, {a.y2}</td>
+					<td>{a.dt}</td>
 				</tr>
 			{/each}
 		</table>
