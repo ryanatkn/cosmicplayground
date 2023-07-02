@@ -107,7 +107,8 @@
 <div
 	bind:this={el}
 	class="surface"
-	style="width: {width}px; height: {height}px;"
+	style:width="{width}px"
+	style:height="{height}px"
 	on:wheel|passive={inputEnabled ? wheel : undefined}
 	on:pointerdown={inputEnabled ? pointerdown : undefined}
 	on:pointermove={inputEnabled ? pointermove : undefined}
@@ -115,6 +116,9 @@
 	on:pointerleave={inputEnabled ? pointerup : undefined}
 	on:pointercancel={inputEnabled ? pointerup : undefined}
 	on:pointerout={inputEnabled ? pointerup : undefined}
+	on:touchstart|nonpassive={swallow}
+	on:touchend|nonpassive={swallow}
+	on:touchmove|nonpassive={swallow}
 >
 	<slot />
 </div>
