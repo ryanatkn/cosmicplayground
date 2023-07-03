@@ -101,6 +101,9 @@
 	};
 </script>
 
+<!-- might want to try this if there are problems on iOS:
+	on:touchstart|nonpassive={inputEnabled ? swallow : undefined}
+	on:touchmove|nonpassive={inputEnabled ? swallow : undefined} -->
 <div
 	bind:this={el}
 	class="surface"
@@ -113,8 +116,6 @@
 	on:pointerleave={inputEnabled ? pointerup : undefined}
 	on:pointercancel={inputEnabled ? pointerup : undefined}
 	on:pointerout={inputEnabled ? pointerup : undefined}
-	on:touchstart|nonpassive={inputEnabled ? swallow : undefined}
-	on:touchmove|nonpassive={inputEnabled ? swallow : undefined}
 >
 	<slot />
 </div>
