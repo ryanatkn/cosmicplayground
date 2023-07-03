@@ -1,4 +1,6 @@
 <script lang="ts">
+	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
+
 	import Soggy_Planet_Thumbnail from '$routes/soggy-planet/Soggy_Planet_Thumbnail.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
@@ -12,7 +14,6 @@
 	import type {ResourcesStore} from '$lib/app/resources';
 	import PortalLink from '$lib/app/PortalLink.svelte';
 	import {points_of_interest} from '$routes/soggy-planet/soggy_planet_tour_data';
-	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
 
 	export let resources: ResourcesStore;
 	export let proceed: () => void;
@@ -86,10 +87,10 @@
 				<li>or learn more below</li>
 			</ul>
 			<p>
-				This page is not mobile friendly! Sorry... It may also be slow depending on your hardware
-				and browser. See <a href="https://github.com/ryanatkn/cosmicplayground/issues/56"
-					>this performance issue on GitHub</a
-				>.
+				This map is resource-intensive and may be broken or slow depending on your hardware and
+				browser. More optimizations like <a
+					href="https://github.com/ryanatkn/cosmicplayground/issues/56">this one</a
+				> would help.
 			</p>
 			<p>
 				The code and image data are
