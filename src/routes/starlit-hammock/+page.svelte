@@ -236,7 +236,7 @@
 	</div>
 {:else}
 	<div class="interaction-surface-wrapper" style="width: {width}px; height: {height}px;">
-		<Surface {width} {height} {scale} zoomCamera={zoom_camera} moveCamera={move_camera} />
+		<Surface {width} {height} {scale} {zoom_camera} {move_camera} />
 	</div>
 {/if}
 <div class="hud idle-fade">

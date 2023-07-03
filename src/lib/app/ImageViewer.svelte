@@ -6,16 +6,16 @@
 	export let x: number;
 	export let y: number;
 	export let scale: number;
-	export let zoomCamera: (
+	export let zoom_camera: (
 		zoomDirection: number,
 		screenPivotX: number,
 		screenPivotY: number,
 	) => void; // TODO this API is wonky, maybe change to a camera store
-	export let moveCamera: (dx: number, dy: number) => void;
-	export let inputEnabled = true;
+	export let move_camera: (dx: number, dy: number) => void;
+	export let input_enabled = true;
 </script>
 
-<Surface {width} {height} {scale} {zoomCamera} {moveCamera} {inputEnabled}>
+<Surface {width} {height} {scale} {zoom_camera} {move_camera} disabled={!input_enabled}>
 	<div class="image-viewer">
 		<div
 			class="transform-wrapper"
