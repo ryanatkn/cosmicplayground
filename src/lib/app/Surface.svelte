@@ -1,8 +1,6 @@
 <script lang="ts">
 	import {swallow} from '@feltjs/util/dom.js';
 
-	// TODO merge with `@feltcoop/dealt/Surface.svelte`
-	// TODO maybe pass camera, but some components would need refactoring
 	export let width: number;
 	export let height: number;
 	export let scale: number;
