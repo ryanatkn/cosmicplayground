@@ -120,10 +120,11 @@
 			const y2 = es[1].clientY;
 			const distance = Math.hypot(x2 - x1, y2 - y1);
 			if (last_pinch_distance !== null) {
+				const count = e.getCoalescedEvents().length;
 				const delta = last_pinch_distance - distance;
 				const magnitude = Math.abs(delta / 0.33); // magic number for per-event deltas
 				const sensitivity = magnitude * (POINTER_ZOOM_SENSITIVITY - 1) + 1; // TODO super hacky
-				debugZoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, magnitude, sensitivity); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
+				debugZoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, count, sensitivity); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
 			}
 			last_pinch_distance = distance;
 		}
