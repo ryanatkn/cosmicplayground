@@ -63,13 +63,13 @@
 
 	let enablePixiEarthViewer = true; // old slow DOM version is available
 
-	$: inputEnabled = !$touring;
+	$: input_enabled = !$touring;
 
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
 		if (show_title_screen) return;
 		// map screen
-		if (!inputEnabled) return;
+		if (!input_enabled) return;
 		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			swallow(e);
 			returnToTitleScreen();
@@ -203,14 +203,14 @@
 					{seaImages}
 					{activeLandValue}
 					{activeSeaLevel}
-					{inputEnabled}
+					{input_enabled}
 					{imageWidth}
 					{imageHeight}
 				/>
 			{:else}
 				<EarthViewerDom
 					{camera}
-					{inputEnabled}
+					{input_enabled}
 					{earth1LeftOffset}
 					{earth2LeftOffset}
 					{landImages}

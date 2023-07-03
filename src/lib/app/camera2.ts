@@ -11,8 +11,8 @@ export interface Camera2 {
 	width: Writable<number>;
 	height: Writable<number>;
 	scale: Writable<number>;
-	moveCamera: (dx: number, dy: number) => void;
-	zoomCamera: (zoomDirection: number, pivotX?: number, pivotY?: number) => void;
+	move_camera: (dx: number, dy: number) => void;
+	zoom_camera: (zoomDirection: number, pivotX?: number, pivotY?: number) => void;
 }
 
 const SCALE_FACTOR = 1.1;
@@ -24,7 +24,7 @@ export const createCamera2 = (): Camera2 => {
 		width: writable(0),
 		height: writable(0),
 		scale: writable(1),
-		zoomCamera: (
+		zoom_camera: (
 			zoomDirection: number,
 			pivotX: number = get(width) / 2,
 			pivotY: number = get(height) / 2,
@@ -42,9 +42,9 @@ export const createCamera2 = (): Camera2 => {
 			const mouseDistY = pivotY - get(height) / 2;
 			const dx = (mouseDistX * scaleRatio) / newScale;
 			const dy = (mouseDistY * scaleRatio) / newScale;
-			camera.moveCamera(dx, dy);
+			camera.move_camera(dx, dy);
 		},
-		moveCamera: (dx: number, dy: number): void => {
+		move_camera: (dx: number, dy: number): void => {
 			x.update(($x) => $x + dx);
 			y.update(($y) => $y + dy);
 		},

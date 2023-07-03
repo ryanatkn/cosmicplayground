@@ -17,7 +17,7 @@
 	export const height = writable(initialHeight);
 	export const scale = writable(initialScale);
 
-	export const zoomCamera = (
+	export const zoom_camera = (
 		zoomDirection: number,
 		pivotX: number = $width / 2,
 		pivotY: number = $height / 2,
@@ -36,10 +36,10 @@
 		const mouseDistY = pivotY - $height / 2;
 		const dx = (mouseDistX * scaleRatio) / newScale;
 		const dy = (mouseDistY * scaleRatio) / newScale;
-		moveCamera(dx, dy);
+		move_camera(dx, dy);
 	};
 
-	export const moveCamera = (dx: number, dy: number): void => {
+	export const move_camera = (dx: number, dy: number): void => {
 		$x += dx;
 		$y += dy;
 	};
