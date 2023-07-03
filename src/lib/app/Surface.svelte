@@ -10,7 +10,7 @@
 		zoomDirection: number,
 		screenPivotX: number,
 		screenPivotY: number,
-		multipler?: number,
+		multiplier?: number,
 	) => void;
 	export let moveCamera: (dx: number, dy: number) => void;
 	export let inputEnabled = true;
@@ -76,7 +76,6 @@
 	};
 	const pointermove = (e: PointerEvent) => {
 		swallow(e);
-		if (!events.has(e.pointerId)) return;
 		events.set(e.pointerId, e);
 		// when 2 pointers are down, handle pinch-to-zoom gestures
 		const eventCount = events.size;
@@ -102,12 +101,14 @@
 	};
 </script>
 
-<!-- on:mouseenter={onMouseEnter} -->
-
+<!-- might want to try this if there are problems on iOS:
+	on:touchstart|nonpassive={inputEnabled ? swallow : undefined}
+	on:touchmove|nonpassive={inputEnabled ? swallow : undefined} -->
 <div
 	bind:this={el}
 	class="surface"
-	style="width: {width}px; height: {height}px;"
+	style:width="{width}px"
+	style:height="{height}px"
 	on:wheel|passive={inputEnabled ? wheel : undefined}
 	on:pointerdown={inputEnabled ? pointerdown : undefined}
 	on:pointermove={inputEnabled ? pointermove : undefined}

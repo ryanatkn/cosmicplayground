@@ -1,4 +1,6 @@
 <script lang="ts">
+	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
+
 	import Soggy_Planet_Thumbnail from '$routes/soggy-planet/Soggy_Planet_Thumbnail.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
@@ -25,8 +27,11 @@
 	const has_loaded = !!localStorage.getItem(HAS_LOADED_KEY);
 	$: enable_loading_by_clicking_thumbnail = has_loaded;
 
+	let loading = false;
 	const load = async () => {
+		loading = true;
 		await resources.load();
+		loading = false;
 		if ($resources.status === 'success') {
 			if (!has_loaded) localStorage.setItem(HAS_LOADED_KEY, 'true');
 			proceed();
@@ -39,6 +44,11 @@
 </Hud>
 <div class="soggy-planet-title-screen">
 	<Soggy_Planet_Thumbnail onClick={enable_loading_by_clicking_thumbnail ? load : null} />
+	<div class="loading_animation">
+		{#if loading}
+			<PendingAnimation />
+		{/if}
+	</div>
 	<Panel>
 		<section class="markup">
 			<p>
@@ -77,10 +87,10 @@
 				<li>or learn more below</li>
 			</ul>
 			<p>
-				This page is not mobile friendly! Sorry... It may also be slow depending on your hardware
-				and browser. See <a href="https://github.com/ryanatkn/cosmicplayground/issues/56"
-					>this performance issue on GitHub</a
-				>.
+				This map is resource-intensive and may be broken or slow depending on your hardware and
+				browser. More optimizations like <a
+					href="https://github.com/ryanatkn/cosmicplayground/issues/56">this one</a
+				> would help.
 			</p>
 			<p>
 				The code and image data are
@@ -152,5 +162,12 @@
 	/* TODO hacky */
 	.soggy-planet-title-screen :global(.portal-preview) {
 		margin: 0;
+	}
+
+	.loading_animation {
+		height: 0;
+		position: relative;
+		top: 48px;
+		color: var(--ocean_color);
 	}
 </style>

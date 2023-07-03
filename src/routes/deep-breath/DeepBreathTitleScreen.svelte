@@ -60,9 +60,10 @@
 				are below.
 			</p>
 			<p>
-				This page is not mobile friendly! Sorry... It may also be slow depending on your hardware
-				and browser. See <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">the video</a> if it doesn't
-				work.
+				This map is resource-intensive and may be broken or slow depending on your hardware and
+				browser. More optimizations like <a
+					href="https://github.com/ryanatkn/cosmicplayground/issues/56">this one</a
+				> would help.
 			</p>
 			<p>See also <PortalLink slug="soggy-planet" />.</p>
 		</section>
