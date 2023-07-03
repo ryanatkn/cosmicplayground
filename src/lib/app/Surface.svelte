@@ -22,9 +22,7 @@
 		x2: number;
 		y1: number;
 		y2: number;
-		dt: number;
 	}> = [];
-	let last_t: number | null = null;
 
 	const debugZoomCamera: (
 		zoomDirection: number,
@@ -39,10 +37,7 @@
 		const y1 = es[0]?.clientY;
 		const x2 = es[1]?.clientX;
 		const y2 = es[1]?.clientY;
-		const t = performance.now();
-		const dt = last_t === null ? 0 : Math.round(t - last_t);
-		last_t = t;
-		nextDebugArgs.push({zoomDirection, multiplier, x1, x2, y1, y2, dt});
+		nextDebugArgs.push({zoomDirection, multiplier, x1, x2, y1, y2});
 		debugArgs = nextDebugArgs;
 	};
 
@@ -107,7 +102,7 @@
 	};
 	const pointermove = (e: PointerEvent) => {
 		swallow(e);
-		if (!events.has(e.pointerId)) return;
+		if (!events.has(e.pointerId)) throw Error(); // TODO delete this line
 		events.set(e.pointerId, e);
 		// when 2 pointers are down, handle pinch-to-zoom gestures
 		const eventCount = events.size;
@@ -157,7 +152,6 @@
 					<td>{a.multiplier?.toFixed(3) ?? ''}</td>
 					<td>{a.x1}, {a.y1}</td>
 					<td>{a.x2}, {a.y2}</td>
-					<td>{a.dt}</td>
 				</tr>
 			{/each}
 		</table>
