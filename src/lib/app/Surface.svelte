@@ -15,34 +15,6 @@
 	export let moveCamera: (dx: number, dy: number) => void;
 	export let inputEnabled = true;
 
-	let debugArgs: Array<{
-		zoomDirection: number;
-		multiplier?: number;
-		x1: number;
-		x2: number;
-		y1: number;
-		y2: number;
-		magnitude: number;
-	}> = [];
-
-	const debugZoomCamera: (
-		zoomDirection: number,
-		screenPivotX: number,
-		screenPivotY: number,
-		magnitude: number,
-		multiplier?: number,
-	) => void = (zoomDirection, screenPivotX, screenPivotY, magnitude, multiplier) => {
-		zoomCamera(zoomDirection, screenPivotX, screenPivotY, multiplier);
-		const nextDebugArgs = debugArgs.slice(-20);
-		const es = Array.from(events.values());
-		const x1 = es[0]?.clientX;
-		const y1 = es[0]?.clientY;
-		const x2 = es[1]?.clientX;
-		const y2 = es[1]?.clientY;
-		nextDebugArgs.push({zoomDirection, multiplier, x1, x2, y1, y2, magnitude});
-		debugArgs = nextDebugArgs;
-	};
-
 	// TODO probably refactor these, written before `events` was added for pinch gestures
 	let pointerDown = false;
 	let pointerX: number | null = null;
@@ -76,7 +48,7 @@
 	const wheel = (e: WheelEvent) => {
 		const {x, y} = toPointerPosition(e.clientX, e.clientY, el);
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
-		debugZoomCamera(scaleDelta, x, y, 0); // TODO handle sensitivity
+		zoomCamera(scaleDelta, x, y); // TODO handle sensitivity
 	};
 
 	const pointerdown = (e: PointerEvent) => {
@@ -120,11 +92,10 @@
 			const y2 = es[1].clientY;
 			const distance = Math.hypot(x2 - x1, y2 - y1);
 			if (last_pinch_distance !== null) {
-				const count = e.getCoalescedEvents().length;
 				const delta = last_pinch_distance - distance;
 				const magnitude = Math.abs(delta / 0.33); // magic number for per-event deltas
 				const sensitivity = magnitude * (POINTER_ZOOM_SENSITIVITY - 1) + 1; // TODO super hacky
-				debugZoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, count, sensitivity); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
+				zoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, sensitivity); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
 			}
 			last_pinch_distance = distance;
 		}
@@ -147,19 +118,6 @@
 	on:touchmove|nonpassive={inputEnabled ? swallow : undefined}
 >
 	<slot />
-	<div class="debugging">
-		<table>
-			{#each debugArgs as a}
-				<tr>
-					<td>{a.zoomDirection.toFixed(1)}</td>
-					<td>{a.multiplier?.toFixed(3) ?? ''}</td>
-					<td>{a.x1}, {a.y1}</td>
-					<td>{a.x2}, {a.y2}</td>
-					<td>{a.magnitude}</td>
-				</tr>
-			{/each}
-		</table>
-	</div>
 </div>
 
 <style>
@@ -167,20 +125,5 @@
 		-webkit-user-select: none;
 		user-select: none;
 		touch-action: none;
-	}
-	.debugging {
-		position: fixed;
-		left: 0;
-		top: 0;
-		height: 100%;
-		user-select: none;
-		font-size: var(--font_size_sm);
-		white-space: nowrap;
-	}
-	tr {
-		height: 17px;
-	}
-	td {
-		padding: 0 var(--spacing_xs);
 	}
 </style>
