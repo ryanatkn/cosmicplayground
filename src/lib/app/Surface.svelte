@@ -76,7 +76,6 @@
 	};
 	const pointermove = (e: PointerEvent) => {
 		swallow(e);
-		if (!events.has(e.pointerId)) throw Error(); // TODO delete this line
 		events.set(e.pointerId, e);
 		// when 2 pointers are down, handle pinch-to-zoom gestures
 		const eventCount = events.size;
