@@ -12,6 +12,7 @@
 	import type {ResourcesStore} from '$lib/app/resources';
 	import PortalLink from '$lib/app/PortalLink.svelte';
 	import {points_of_interest} from '$routes/soggy-planet/soggy_planet_tour_data';
+	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
 
 	export let resources: ResourcesStore;
 	export let proceed: () => void;
@@ -25,8 +26,11 @@
 	const has_loaded = !!localStorage.getItem(HAS_LOADED_KEY);
 	$: enable_loading_by_clicking_thumbnail = has_loaded;
 
+	let loading = false;
 	const load = async () => {
+		loading = true;
 		await resources.load();
+		loading = false;
 		if ($resources.status === 'success') {
 			if (!has_loaded) localStorage.setItem(HAS_LOADED_KEY, 'true');
 			proceed();
@@ -39,6 +43,11 @@
 </Hud>
 <div class="soggy-planet-title-screen">
 	<Soggy_Planet_Thumbnail onClick={enable_loading_by_clicking_thumbnail ? load : null} />
+	<div class="loading_animation">
+		{#if loading}
+			<PendingAnimation />
+		{/if}
+	</div>
 	<Panel>
 		<section class="markup">
 			<p>
@@ -152,5 +161,12 @@
 	/* TODO hacky */
 	.soggy-planet-title-screen :global(.portal-preview) {
 		margin: 0;
+	}
+
+	.loading_animation {
+		height: 0;
+		position: relative;
+		top: 48px;
+		color: var(--ocean_color);
 	}
 </style>
