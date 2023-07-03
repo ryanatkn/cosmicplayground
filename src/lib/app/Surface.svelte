@@ -26,7 +26,7 @@
 	let last_pinch_distance: number | null = null;
 	const POINTER_ZOOM_SENSITIVITY = 1.002; // multiplier for the pointer delta
 
-	const toPointerPosition = (clientX: number, clientY: number, el: HTMLElement) => {
+	const to_pointer_position = (clientX: number, clientY: number, el: HTMLElement) => {
 		// TODO correctly handle when the DOM element itself is scaled -- maybe the existing `scale` should be `zoom` and this is `scale`?
 		const rect = el.getBoundingClientRect();
 		const x = clientX - rect.left; //  / domElementScale;
@@ -40,13 +40,13 @@
 			const dy = pointer_y - clientY;
 			move_camera(dx / scale, dy / scale);
 		}
-		const p = toPointerPosition(clientX, clientY, el);
+		const p = to_pointer_position(clientX, clientY, el);
 		pointer_x = p.x;
 		pointer_y = p.y;
 	};
 
 	const wheel = (e: WheelEvent) => {
-		const {x, y} = toPointerPosition(e.clientX, e.clientY, el);
+		const {x, y} = to_pointer_position(e.clientX, e.clientY, el);
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
 		zoom_camera(scaleDelta, x, y); // TODO handle sensitivity
 	};
@@ -78,12 +78,12 @@
 		swallow(e);
 		events.set(e.pointerId, e);
 		// when 2 pointers are down, handle pinch-to-zoom gestures
-		const eventCount = events.size;
-		if (eventCount === 1) {
+		const event_count = events.size;
+		if (event_count === 1) {
 			if (pointer_down) {
 				pan(e.clientX, e.clientY);
 			}
-		} else if (eventCount === 2) {
+		} else if (event_count === 2) {
 			const es = Array.from(events.values());
 			const x1 = es[0].clientX;
 			const y1 = es[0].clientY;
