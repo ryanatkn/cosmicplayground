@@ -22,16 +22,16 @@
 		x2: number;
 		y1: number;
 		y2: number;
-		pointerId: number;
+		magnitude: number;
 	}> = [];
 
 	const debugZoomCamera: (
 		zoomDirection: number,
 		screenPivotX: number,
 		screenPivotY: number,
-		pointerId: number,
+		magnitude: number,
 		multiplier?: number,
-	) => void = (zoomDirection, screenPivotX, screenPivotY, pointerId, multiplier) => {
+	) => void = (zoomDirection, screenPivotX, screenPivotY, magnitude, multiplier) => {
 		zoomCamera(zoomDirection, screenPivotX, screenPivotY, multiplier);
 		const nextDebugArgs = debugArgs.slice(-20);
 		const es = Array.from(events.values());
@@ -39,7 +39,7 @@
 		const y1 = es[0]?.clientY;
 		const x2 = es[1]?.clientX;
 		const y2 = es[1]?.clientY;
-		nextDebugArgs.push({zoomDirection, multiplier, x1, x2, y1, y2, pointerId});
+		nextDebugArgs.push({zoomDirection, multiplier, x1, x2, y1, y2, magnitude});
 		debugArgs = nextDebugArgs;
 	};
 
@@ -154,7 +154,7 @@
 					<td>{a.multiplier?.toFixed(3) ?? ''}</td>
 					<td>{a.x1}, {a.y1}</td>
 					<td>{a.x2}, {a.y2}</td>
-					<td>{a.pointerId}</td>
+					<td>{a.magnitude}</td>
 				</tr>
 			{/each}
 		</table>
