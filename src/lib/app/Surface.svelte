@@ -22,6 +22,7 @@
 		x2: number;
 		y1: number;
 		y2: number;
+		pointerId: number;
 	}> = [];
 
 	const debugZoomCamera: (
@@ -29,6 +30,7 @@
 		screenPivotX: number,
 		screenPivotY: number,
 		multiplier?: number,
+		pointerId: number,
 	) => void = (zoomDirection, screenPivotX, screenPivotY, multiplier) => {
 		zoomCamera(zoomDirection, screenPivotX, screenPivotY, multiplier);
 		const nextDebugArgs = debugArgs.slice(-20);
@@ -37,7 +39,7 @@
 		const y1 = es[0]?.clientY;
 		const x2 = es[1]?.clientX;
 		const y2 = es[1]?.clientY;
-		nextDebugArgs.push({zoomDirection, multiplier, x1, x2, y1, y2});
+		nextDebugArgs.push({zoomDirection, multiplier, x1, x2, y1, y2, pointerId});
 		debugArgs = nextDebugArgs;
 	};
 
@@ -121,7 +123,7 @@
 				const delta = last_pinch_distance - distance;
 				const magnitude = Math.abs(delta / 0.33); // magic number for per-event deltas
 				const sensitivity = magnitude * (POINTER_ZOOM_SENSITIVITY - 1) + 1; // TODO super hacky
-				debugZoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, sensitivity); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
+				debugZoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, sensitivity, e.pointerId); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
 			}
 			last_pinch_distance = distance;
 		}
@@ -152,6 +154,7 @@
 					<td>{a.multiplier?.toFixed(3) ?? ''}</td>
 					<td>{a.x1}, {a.y1}</td>
 					<td>{a.x2}, {a.y2}</td>
+					<td>{a.pointerId}</td>
 				</tr>
 			{/each}
 		</table>
