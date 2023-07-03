@@ -29,9 +29,9 @@
 		zoomDirection: number,
 		screenPivotX: number,
 		screenPivotY: number,
-		multiplier?: number,
 		pointerId: number,
-	) => void = (zoomDirection, screenPivotX, screenPivotY, multiplier) => {
+		multiplier?: number,
+	) => void = (zoomDirection, screenPivotX, screenPivotY, pointerId, multiplier) => {
 		zoomCamera(zoomDirection, screenPivotX, screenPivotY, multiplier);
 		const nextDebugArgs = debugArgs.slice(-20);
 		const es = Array.from(events.values());
@@ -76,7 +76,7 @@
 	const wheel = (e: WheelEvent) => {
 		const {x, y} = toPointerPosition(e.clientX, e.clientY, el);
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
-		debugZoomCamera(scaleDelta, x, y); // TODO handle sensitivity
+		debugZoomCamera(scaleDelta, x, y, 0); // TODO handle sensitivity
 	};
 
 	const pointerdown = (e: PointerEvent) => {
@@ -123,7 +123,7 @@
 				const delta = last_pinch_distance - distance;
 				const magnitude = Math.abs(delta / 0.33); // magic number for per-event deltas
 				const sensitivity = magnitude * (POINTER_ZOOM_SENSITIVITY - 1) + 1; // TODO super hacky
-				debugZoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, sensitivity, e.pointerId); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
+				debugZoomCamera(delta, (x1 + x2) / 2, (y1 + y2) / 2, e.pointerId, sensitivity); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
 			}
 			last_pinch_distance = distance;
 		}
