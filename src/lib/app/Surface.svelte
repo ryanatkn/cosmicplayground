@@ -4,13 +4,13 @@
 	export let width: number;
 	export let height: number;
 	export let scale: number;
-	export let zoom_camera: (
-		zoomDirection: number,
-		screenPivotX: number,
-		screenPivotY: number,
+	export let zoom: (
+		direction: number,
+		pivot_x: number,
+		pivot_y: number,
 		multiplier?: number,
 	) => void;
-	export let move_camera: (dx: number, dy: number) => void;
+	export let pan: (dx: number, dy: number) => void;
 	export let disabled = false;
 
 	// TODO probably refactor these, written before `events` was added for pinch gestures
@@ -32,11 +32,11 @@
 		return {x, y};
 	};
 
-	const pan = (clientX: number, clientY: number): void => {
+	const pan_to = (clientX: number, clientY: number): void => {
 		if (pointer_x !== null && pointer_y !== null) {
 			const dx = pointer_x - clientX;
 			const dy = pointer_y - clientY;
-			move_camera(dx / scale, dy / scale);
+			pan(dx / scale, dy / scale);
 		}
 		const p = to_pointer_position(clientX, clientY, el);
 		pointer_x = p.x;
@@ -46,7 +46,7 @@
 	const wheel = (e: WheelEvent) => {
 		const {x, y} = to_pointer_position(e.clientX, e.clientY, el);
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
-		zoom_camera(scaleDelta, x, y); // TODO handle sensitivity
+		zoom(scaleDelta, x, y);
 	};
 
 	const pointerdown = (e: PointerEvent) => {
@@ -58,7 +58,7 @@
 		if (e.isPrimary) {
 			if (events.size === 1) {
 				pointer_down = true;
-				pan(e.clientX, e.clientY);
+				pan_to(e.clientX, e.clientY);
 			}
 		}
 	};
@@ -79,7 +79,7 @@
 		const event_count = events.size;
 		if (event_count === 1) {
 			if (pointer_down) {
-				pan(e.clientX, e.clientY);
+				pan_to(e.clientX, e.clientY);
 			}
 		} else if (event_count === 2) {
 			const es = Array.from(events.values());
@@ -92,7 +92,7 @@
 				const delta = last_pinch_distance - distance;
 				const magnitude = Math.abs(delta / 0.33); // magic number for per-event deltas
 				const sensitivity = magnitude * (POINTER_ZOOM_SENSITIVITY - 1) + 1; // TODO super hacky
-				zoom_camera(delta, (x1 + x2) / 2, (y1 + y2) / 2, sensitivity); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
+				zoom(delta, (x1 + x2) / 2, (y1 + y2) / 2, sensitivity); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
 			}
 			last_pinch_distance = distance;
 		}

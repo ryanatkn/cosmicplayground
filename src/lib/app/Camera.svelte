@@ -18,24 +18,24 @@
 	export const scale = writable(initialScale);
 
 	export const zoom_camera = (
-		zoomDirection: number,
-		pivotX: number = $width / 2,
-		pivotY: number = $height / 2,
-		sensitivity = ZOOM_SENSITIVITY, // TODO this is hacky, added for pinch-to-zoom, should support with the wheel event usage too and be merged with `zoomDirection`
+		direction: number,
+		pivot_x: number = $width / 2,
+		pivot_y: number = $height / 2,
+		sensitivity = ZOOM_SENSITIVITY, // TODO this is hacky, added for pinch-to-zoom, should support with the wheel event usage too and be merged with `direction`
 	): void => {
-		if (zoomDirection === 0) return;
-		const scaleAmount = zoomDirection > 0 ? 1 / sensitivity : sensitivity;
-		const oldScale = $scale;
-		const newScale = oldScale * scaleAmount;
-		$scale = newScale;
+		if (direction === 0) return;
+		const scale_amount = direction > 0 ? 1 / sensitivity : sensitivity;
+		const old_scale = $scale;
+		const new_scale = old_scale * scale_amount;
+		$scale = new_scale;
 
 		// Center relative to the pivot point.
 		// When zooming with the mouse, this is the mouse's screen position.
-		const scaleRatio = (newScale - oldScale) / oldScale;
-		const mouseDistX = pivotX - $width / 2;
-		const mouseDistY = pivotY - $height / 2;
-		const dx = (mouseDistX * scaleRatio) / newScale;
-		const dy = (mouseDistY * scaleRatio) / newScale;
+		const scale_ratio = (new_scale - old_scale) / old_scale;
+		const mouse_dist_x = pivot_x - $width / 2;
+		const mouse_dist_y = pivot_y - $height / 2;
+		const dx = (mouse_dist_x * scale_ratio) / new_scale;
+		const dy = (mouse_dist_y * scale_ratio) / new_scale;
 		move_camera(dx, dy);
 	};
 

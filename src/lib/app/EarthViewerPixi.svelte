@@ -300,7 +300,7 @@
 	width={$width}
 	height={$height}
 	scale={$scale}
-	move_camera={camera.move_camera}
-	zoom_camera={camera.zoom_camera}
+	zoom={camera.zoom_camera}
+	pan={camera.move_camera}
 	disabled={!input_enabled}
 />
