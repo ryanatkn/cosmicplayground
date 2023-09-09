@@ -6,8 +6,8 @@
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
 
 [cosmicplayground.org](https://www.cosmicplayground.org)
-is an open source hobby project exploring some
-tools and toys using web technology for fun and learning.
+is a free and open source noncommercial hobby project exploring
+tools and toys using web tech for fun and learning.
 It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
 
 - [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
