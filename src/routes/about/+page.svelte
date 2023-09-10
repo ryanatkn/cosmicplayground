@@ -17,7 +17,7 @@
 	<Panel>
 		<h2>About</h2>
 		<p>
-			Cosmicplayground is a free and open source noncommercial hobby project exploring tools and
+			cosmicplayground.org is a free and open source noncommercial hobby project exploring tools and
 			toys using web tech for fun and learning. The <a
 				href="https://github.com/ryanatkn/cosmicplayground">source code and assets</a
 			>
