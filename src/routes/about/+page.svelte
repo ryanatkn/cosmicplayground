@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Panel from '$lib/app/Panel.svelte';
-	import Credits from './Credits.svelte';
-	import CreditsProjectSignature from './CreditsProjectSignature.svelte';
+	import Credits from '$routes/about/Credits.svelte';
+	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
 </script>
 
 <header>
@@ -17,12 +17,17 @@
 	<Panel>
 		<h2>About</h2>
 		<p>
-			Cosmicplayground is an open source (<a href="https://github.com/ryanatkn/cosmicplayground"
-				>@cosmicplayground@github.com</a
-			>) noncommercial hobby project exploring some tools and toys using web technology for fun and
-			learning. It's made by <a href="https://www.ryanatkn.com">Ryan Atkinson</a>
-			with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and <em>space</em>. Read on for the full
-			credits.
+			cosmicplayground.org is a free and open source noncommercial hobby project exploring tools and
+			toys using web tech for fun and learning. The <a
+				href="https://github.com/ryanatkn/cosmicplayground">source code and assets</a
+			>
+			are on GitHub. It's made by
+			<a href="https://www.ryanatkn.com">Ryan Atkinson</a>
+			with <a href="https://svelte.dev/">Svelte</a>,
+			<a href="https://kit.svelte.dev/">SvelteKit</a>, <a href="https://vitejs.dev/">Vite</a>,
+			<a href="https://typescriptlang.org/">TypeScript</a>,
+			<a href="https://pixijs.com/">PixiJS</a>, many freely licensed assets (see below), and
+			<em>space</em>.
 		</p>
 	</Panel>
 	<Panel>

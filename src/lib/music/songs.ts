@@ -1,10 +1,14 @@
-export interface SongData {
-	name: string;
-	author: string;
-	url: string;
-}
+import {z} from 'zod';
 
-export const songsByName: Map<string, SongData> = new Map(
+export const Song = z.object({
+	name: z.string(),
+	author: z.string(),
+	url: z.string(),
+	// TODO duration, but as metadata? write a gen file to output data? would allow us to display that info before loading
+});
+export type Song = z.infer<typeof Song>;
+
+export const songs_by_name: Map<string, Song> = new Map(
 	[
 		{
 			name: 'Spacey Intro',
@@ -32,14 +36,9 @@ export const songsByName: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Space_Ambience.mp3',
 		},
 		{
-			name: 'Traveler',
+			name: 'Winter',
 			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Traveler.mp3',
-		},
-		{
-			name: 'Main Theme (Adventures of Flying Jack)',
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Main_Theme_Adventures_of_Flying_Jack.mp3',
+			url: '/assets/audio/Alexander_Nakarada__Winter.mp3',
 		},
 		{
 			name: 'Adventure',
@@ -52,14 +51,19 @@ export const songsByName: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Adventure_Metal.mp3',
 		},
 		{
+			name: 'Traveler',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Traveler.mp3',
+		},
+		{
+			name: 'Adventures of Flying Jack',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Main_Theme_Adventures_of_Flying_Jack.mp3',
+		},
+		{
 			name: 'Piña Colada',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Piña_Colada.mp3',
-		},
-		{
-			name: 'La Citadelle',
-			author: 'Komiku',
-			url: '/assets/audio/Komiku__La_Citadelle.mp3',
 		},
 		{
 			name: 'Chronos',
@@ -67,19 +71,34 @@ export const songsByName: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Chronos.mp3',
 		},
 		{
+			name: 'Mint Condition',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Mint_Condition.mp3',
+		},
+		{
+			name: 'Hit n Smash',
+			author: 'Rafael Krux',
+			url: '/assets/audio/Rafael_Krux__Hit_n_Smash.mp3',
+		},
+		{
+			name: 'Flutter',
+			author: 'Punch Deck',
+			url: '/assets/audio/Punch_Deck__Flutter.mp3',
+		},
+		{
 			name: 'Chemical X',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Chemical_X.mp3',
 		},
 		{
-			name: 'Celebration',
+			name: 'Frost',
 			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Celebration.mp3',
+			url: '/assets/audio/Alexander_Nakarada__Frost.mp3',
 		},
 		{
-			name: 'Bouchedag',
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Bouchedag.mp3',
+			name: 'Dominant',
+			author: 'Punch Deck',
+			url: '/assets/audio/Punch_Deck__Dominant.mp3',
 		},
 		{
 			name: 'Blacksmith',
@@ -92,6 +111,11 @@ export const songsByName: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__The_Crown.mp3',
 		},
 		{
+			name: 'Bhangra Bass',
+			author: 'Punch Deck',
+			url: '/assets/audio/Punch_Deck__Bhangra_Bass.mp3',
+		},
+		{
 			name: 'Spacebuckler',
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Spacebuckler.mp3',
@@ -102,14 +126,14 @@ export const songsByName: Map<string, SongData> = new Map(
 			url: '/assets/audio/Rafael_Krux__Brewing_Potions.mp3',
 		},
 		{
-			name: 'Hit n Smash',
-			author: 'Rafael Krux',
-			url: '/assets/audio/Rafael_Krux__Hit_n_Smash.mp3',
+			name: "He's a Parrot",
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Hes_A_Parrot.mp3',
 		},
 		{
-			name: 'Fanfare X',
+			name: 'Celebration',
 			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Fanfare_X.mp3',
+			url: '/assets/audio/Alexander_Nakarada__Celebration.mp3',
 		},
 		{
 			name: 'Land Ho',
@@ -127,14 +151,24 @@ export const songsByName: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Be_Chillin.mp3',
 		},
 		{
-			name: 'Parhelion',
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Parhelion.mp3',
-		},
-		{
 			name: 'Painting Room',
 			author: 'Kevin MacLeod',
 			url: '/assets/audio/Kevin_MacLeod__Painting_Room.mp3',
+		},
+		{
+			name: 'VHS Heroes',
+			author: 'Punch Deck',
+			url: '/assets/audio/Punch_Deck__VHS_Heroes.mp3',
+		},
+		{
+			name: 'La Citadelle',
+			author: 'Komiku',
+			url: '/assets/audio/Komiku__La_Citadelle.mp3',
+		},
+		{
+			name: 'Inteficial Artelligence',
+			author: 'Alexander Nakarada',
+			url: '/assets/audio/Alexander_Nakarada__Inteficial_Artelligence.mp3',
 		},
 		{
 			name: 'Rush',
@@ -202,9 +236,9 @@ export const songsByName: Map<string, SongData> = new Map(
 			url: '/assets/audio/Alexander_Nakarada__Facing_Storm.mp3',
 		},
 		{
-			name: "He's a Parrot",
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Hes_A_Parrot.mp3',
+			name: 'Catharsis',
+			author: 'Punch Deck',
+			url: '/assets/audio/Punch_Deck__Catharsis.mp3',
 		},
 		{
 			name: 'Lonely Mountain',
@@ -241,40 +275,32 @@ export const songsByName: Map<string, SongData> = new Map(
 			author: 'Alexander Nakarada',
 			url: '/assets/audio/Alexander_Nakarada__Dream.mp3',
 		},
-		{
-			name: 'Winter',
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Winter.mp3',
-		},
-		{
-			name: 'Mint Condition',
-			author: 'Alexander Nakarada',
-			url: '/assets/audio/Alexander_Nakarada__Mint_Condition.mp3',
-		},
 	].map((v) => [v.name, v]),
 );
 
-export const toSongData = (name: string): SongData => {
-	const data = songsByName.get(name);
-	if (!data) throw Error('Unknown song: ' + name);
-	return data;
+export const all_songs: Song[] = Array.from(songs_by_name.values());
+
+export const lookup_song = (name: string): Song => {
+	const song = songs_by_name.get(name);
+	if (!song) throw Error('Unknown song: ' + name);
+	return song;
 };
 
-const songsByNameByAuthor: Map<string, SongData[]> = new Map();
-for (const s of songsByName.values()) {
-	let songs = songsByNameByAuthor.get(s.author);
+const songs_by_name_by_author: Map<string, Song[]> = new Map();
+for (const s of songs_by_name.values()) {
+	let songs = songs_by_name_by_author.get(s.author);
 	if (!songs) {
-		songsByNameByAuthor.set(s.author, (songs = []));
+		songs_by_name_by_author.set(s.author, (songs = []));
 	}
 	songs.push(s);
 }
 
-export const toSongDatasByAuthor = (name: string): SongData[] => {
-	const datas = songsByNameByAuthor.get(name);
-	if (!datas) throw Error('Unknown author: ' + name);
-	return datas;
+export const lookup_songs_by_author = (name: string): Song[] => {
+	const songs = songs_by_name_by_author.get(name);
+	if (!songs) throw Error('Unknown author: ' + name);
+	return songs;
 };
 
-export const songAuthors = Array.from(
-	new Set(Array.from(songsByName.values()).map((v) => v.author)),
+export const song_authors = Array.from(
+	new Set(Array.from(songs_by_name.values()).map((v) => v.author)),
 );

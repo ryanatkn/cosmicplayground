@@ -19,6 +19,7 @@ export interface TourBuilder {
 	zoomBy: (scale: number, duration: number, easing?: Easing) => void;
 	event: (name: string, data?: unknown) => () => void;
 	finalize: () => TourData;
+	get_time_diff: () => number;
 }
 
 // TODO refactor into a class?
@@ -47,7 +48,7 @@ export const createTourBuilder = (): TourBuilder => {
 		if (lastOfSameType && lastOfSameType.startTime + lastOfSameType.duration > step.startTime) {
 			console.error('Conflicting step', step);
 			throw Error(
-				`Cannot add conflicting step with type ${step.type} with currentTime ${currentTime} at trnasform ${steps.length}`,
+				`Cannot add conflicting step with type ${step.type} with currentTime ${currentTime} at transform ${steps.length}`,
 			);
 		}
 		steps.push(step);
@@ -98,5 +99,7 @@ export const createTourBuilder = (): TourBuilder => {
 		};
 	};
 
-	return {wait, pan, zoom, panBy, zoomBy, event, finalize};
+	const get_time_diff = (): number => currentMaxTime - currentTime;
+
+	return {wait, pan, zoom, panBy, zoomBy, event, finalize, get_time_diff};
 };

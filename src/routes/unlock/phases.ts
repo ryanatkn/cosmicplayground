@@ -1,7 +1,7 @@
 import {randomItem} from '@feltjs/util/random.js';
 
 import {toImageMeta, type ImageMeta} from '$lib/app/images';
-import {type SongData, toSongData} from '$lib/music/songs';
+import {type Song, lookup_song} from '$lib/music/songs';
 
 // TODO rename Stage to what? world, story? hmm
 
@@ -10,59 +10,57 @@ export interface PhaseData {
 	phase: number;
 	title: string;
 	stage: LevelData;
-	song: SongData;
+	song: Song;
 }
 
 export interface LevelData {
 	name: string;
 	image: string;
-	imageMeta: ImageMeta;
+	image_meta: ImageMeta;
 }
 
-export const toPhaseData = (name: string): PhaseData => {
-	const data = PhaseDatas.get(name);
+export const to_phase_data = (name: string): PhaseData => {
+	const data = phase_data_by_name.get(name);
 	if (!data) throw Error('Unknown level: ' + name);
 	return data;
 };
 
-export const toPhaseDatasByLevelName = (name: string): PhaseData[] => {
-	const data = PhaseDatasByLevelName.get(name);
+export const to_phase_datas_by_level_name = (name: string): PhaseData[] => {
+	const data = phase_datas_by_level_name.get(name);
 	if (!data) throw Error('Unknown stage: ' + name);
 	return data;
 };
 
-export const toLevelDataByName = (name: string): LevelData => {
-	const data = LevelDatas.get(name);
+export const to_level_data_by_name = (name: string): LevelData => {
+	const data = level_data_by_name.get(name);
 	if (!data) throw Error('Unknown stage: ' + name);
 	return data;
 };
 
-export const toPhaseDataByLevelName = (levelName: string): LevelData =>
-	toLevelDataByName(levelName.slice(0, -1));
+export const to_phase_data_by_level_name = (levelName: string): LevelData =>
+	to_level_data_by_name(levelName.slice(0, -1));
 
-export const LevelDatas: Map<string, LevelData> = new Map(
+export const level_data_by_name: Map<string, LevelData> = new Map(
 	[
 		{name: '0', image: 'heic0506a'},
 		{name: '1', image: 'opo0501a'},
 		{name: '2', image: 'opo0415a'},
 		{name: '3', image: 'heic1913c'},
-		{name: '4', image: 'heic1302a'},
-		{name: '5', image: 'heic0910i'},
-		{name: '6', image: 'heic2002a'},
+		{name: '4', image: 'heic0910i'},
+		{name: '5', image: 'heic2002a'},
+		{name: '6', image: 'heic1712a'},
 		{name: '7', image: 'heic1712a'},
-		{name: '8', image: 'heic1712a'},
-		{name: '9', image: 'potw2029a'},
-		{name: '10', image: 'heic0817a'},
-		{name: '11', image: 'heic0206a'},
-		{name: '12', image: 'heic1107a'},
+		{name: '8', image: 'heic0817a'},
+		{name: '9', image: 'heic1302a'},
+		{name: '10', image: 'heic1107a'},
 	].map((v) => {
-		(v as unknown as LevelData).imageMeta = toImageMeta(v.image);
+		(v as unknown as LevelData).image_meta = toImageMeta(v.image);
 		return [v.name, v as unknown as LevelData];
 	}),
 );
 
 // TODO could add "sugar", 0-1, and sort by it on atlas
-export const PhaseDatas: Map<string, PhaseData> = new Map(
+export const phase_data_by_name: Map<string, PhaseData> = new Map(
 	[
 		{name: '0a', phase: 0, title: 'Adventure', song: 'Adventure', image: 'heic0506a'},
 		{
@@ -77,60 +75,71 @@ export const PhaseDatas: Map<string, PhaseData> = new Map(
 			name: '0d',
 			phase: 1,
 			title: 'Adventures of Flying Jack',
-			song: 'Main Theme (Adventures of Flying Jack)',
+			song: 'Adventures of Flying Jack',
 			image: 'heic0506a',
 		},
 		{name: '1a', phase: 0, title: 'Piña Colada', song: 'Piña Colada', image: 'opo0501a'},
-		{name: '1b', phase: 0, title: 'La Citadelle', song: 'La Citadelle', image: 'opo0501a'},
-		{name: '1c', phase: 1, title: 'Chronos', song: 'Chronos', image: 'opo0501a'},
-		{name: '2a', phase: 0, title: 'Chemical X', song: 'Chemical X', image: 'opo0415a'},
-		{name: '2b', phase: 0, title: 'Celebration', song: 'Celebration', image: 'opo0415a'},
-		{name: '2c', phase: 1, title: 'Bouchedag', song: 'Bouchedag', image: 'opo0415a'},
+		{name: '1b', phase: 0, title: 'Chronos', song: 'Chronos', image: 'opo0501a'},
+		{name: '1c', phase: 1, title: 'Mint Condition', song: 'Mint Condition', image: 'opo0501a'},
+		{name: '1d', phase: 1, title: 'Hit n Smash', song: 'Hit n Smash', image: 'opo0501a'},
+		{name: '2a', phase: 0, title: 'Flutter', song: 'Flutter', image: 'opo0415a'},
+		{name: '2b', phase: 0, title: 'Chemical X', song: 'Chemical X', image: 'opo0415a'},
+		{name: '2c', phase: 1, title: 'Frost', song: 'Frost', image: 'opo0415a'},
+		{name: '2d', phase: 1, title: 'Dominant', song: 'Dominant', image: 'opo0415a'},
 		{name: '3a', phase: 0, title: 'Blacksmith', song: 'Blacksmith', image: 'heic1913c'},
 		{name: '3b', phase: 0, title: 'The Crown', song: 'The Crown', image: 'heic1913c'},
-		{name: '3c', phase: 1, title: 'Spacebuckler', song: 'Spacebuckler', image: 'heic1913c'},
-		{name: '4a', phase: 0, title: 'Brewing Potions', song: 'Brewing Potions', image: 'heic1302a'},
-		{name: '4b', phase: 0, title: 'Hit n Smash', song: 'Hit n Smash', image: 'heic1302a'},
-		{name: '4c', phase: 1, title: 'Fanfare X', song: 'Fanfare X', image: 'heic1302a'},
-		{name: '5a', phase: 0, title: 'Forest Night', song: 'Forest Night', image: 'heic0910i'},
-		{name: '5b', phase: 0, title: 'Land Ho', song: 'Land Ho', image: 'heic0910i'},
-		{name: '6a', phase: 0, title: 'Be Chillin', song: 'Be Chillin', image: 'heic2002a'},
-		{name: '6b', phase: 0, title: 'Painting Room', song: 'Painting Room', image: 'heic2002a'},
-		{name: '6c', phase: 1, title: 'Parhelion', song: 'Parhelion', image: 'heic2002a'},
-		{name: '7a', phase: 0, title: 'Grid', song: 'Grid', image: 'heic1712a'},
-		{name: '7b', phase: 0, title: 'Journey of Hope', song: 'Journey of Hope', image: 'heic1712a'},
-		{name: '7c', phase: 1, title: 'Rush', song: 'Rush', image: 'heic1712a'},
-		{name: '8a', phase: 0, title: 'Jotunheim', song: 'Jotunheim', image: 'heic1712a'},
-		{name: '8b', phase: 0, title: 'Bleu', song: 'Bleu', image: 'heic1712a'},
-		{name: '8d', phase: 1, title: 'Flynyrd Mynyrd', song: 'Flynyrd Mynyrd', image: 'heic1712a'},
-		{name: '8c', phase: 1, title: 'Desert Fox', song: 'Desert Fox', image: 'heic1712a'},
-		{name: '9a', phase: 0, title: 'Fireworks', song: 'Fireworks', image: 'potw2029a'},
-		{name: '9b', phase: 0, title: 'The Desert', song: 'The Desert', image: 'potw2029a'},
-		{name: '9d', phase: 1, title: 'Alive', song: 'Alive (Instrumental)', image: 'potw2029a'},
-		{name: '9c', phase: 1, title: 'Assassin', song: 'Assassin', image: 'potw2029a'},
-		{name: '10a', phase: 0, title: 'The Expanse', song: 'The Expanse', image: 'heic0817a'},
-		{name: '10b', phase: 0, title: 'Facing Storm', song: 'Facing Storm', image: 'heic0817a'},
-		{name: '10d', phase: 1, title: "He's a Parrot", song: "He's a Parrot", image: 'heic0817a'},
-		{name: '10c', phase: 1, title: 'Lonely Mountain', song: 'Lonely Mountain', image: 'heic0817a'},
-		{name: '11a', phase: 0, title: 'Shining Stars', song: 'Shining Stars', image: 'heic0206a'},
-		{name: '11c', phase: 0, title: 'Life', song: 'Life', image: 'heic0206a'},
-		{name: '11b', phase: 0, title: 'Nomadic Sunset', song: 'Nomadic Sunset', image: 'heic0206a'},
-		{name: '12a', phase: 0, title: 'Chemical Z', song: 'Chemical Z', image: 'heic1107a'},
-		{name: '12c', phase: 0, title: 'Dream', song: 'Dream', image: 'heic1107a'},
-		{name: '12b', phase: 0, title: 'Terra Mystica', song: 'Terra Mystica', image: 'heic1107a'},
+		{name: '3c', phase: 1, title: 'Bhangra Bass', song: 'Bhangra Bass', image: 'heic1913c'},
+		{name: '3d', phase: 1, title: 'Spacebuckler', song: 'Spacebuckler', image: 'heic1913c'},
+		{name: '4a', phase: 0, title: 'Brewing Potions', song: 'Brewing Potions', image: 'heic0910i'},
+		{name: '4b', phase: 0, title: "He's a Parrot", song: "He's a Parrot", image: 'heic0910i'},
+		{name: '4c', phase: 1, title: 'Celebration', song: 'Celebration', image: 'heic0910i'},
+		{name: '4d', phase: 1, title: 'Forest Night', song: 'Forest Night', image: 'heic0910i'},
+		{name: '4e', phase: 1, title: 'Land Ho', song: 'Land Ho', image: 'heic0910i'},
+		{name: '5a', phase: 0, title: 'Be Chillin', song: 'Be Chillin', image: 'heic2002a'},
+		{name: '5b', phase: 0, title: 'Painting Room', song: 'Painting Room', image: 'heic2002a'},
+		{name: '5c', phase: 1, title: 'VHS Heroes', song: 'VHS Heroes', image: 'heic2002a'},
+		{name: '5d', phase: 1, title: 'Journey of Hope', song: 'Journey of Hope', image: 'heic2002a'},
+		{name: '6a', phase: 0, title: 'Grid', song: 'Grid', image: 'heic1712a'},
+		{name: '6b', phase: 0, title: 'La Citadelle', song: 'La Citadelle', image: 'heic1712a'},
+		{name: '6c', phase: 1, title: 'Rush', song: 'Rush', image: 'heic1712a'},
+		{
+			name: '6d',
+			phase: 1,
+			title: 'Inteficial Artelligence',
+			song: 'Inteficial Artelligence',
+			image: 'heic1712a',
+		},
+		{name: '7a', phase: 0, title: 'Jotunheim', song: 'Jotunheim', image: 'heic1712a'},
+		{name: '7b', phase: 0, title: 'Bleu', song: 'Bleu', image: 'heic1712a'},
+		{name: '7d', phase: 1, title: 'Flynyrd Mynyrd', song: 'Flynyrd Mynyrd', image: 'heic1712a'},
+		{name: '7c', phase: 1, title: 'Desert Fox', song: 'Desert Fox', image: 'heic1712a'},
+		{name: '8a', phase: 0, title: 'The Expanse', song: 'The Expanse', image: 'heic0817a'},
+		{name: '8b', phase: 0, title: 'Facing Storm', song: 'Facing Storm', image: 'heic0817a'},
+		{name: '8d', phase: 1, title: 'Catharsis', song: 'Catharsis', image: 'heic0817a'},
+		{name: '8c', phase: 1, title: 'Lonely Mountain', song: 'Lonely Mountain', image: 'heic0817a'},
+		{name: '9a', phase: 0, title: 'Fireworks', song: 'Fireworks', image: 'heic1302a'},
+		{name: '9b', phase: 0, title: 'The Desert', song: 'The Desert', image: 'heic1302a'},
+		{name: '9d', phase: 1, title: 'Alive', song: 'Alive (Instrumental)', image: 'heic1302a'},
+		{name: '9c', phase: 1, title: 'Assassin', song: 'Assassin', image: 'heic1302a'},
+		{name: '10a', phase: 0, title: 'Shining Stars', song: 'Shining Stars', image: 'heic1107a'},
+		{name: '10c', phase: 0, title: 'Life', song: 'Life', image: 'heic1107a'},
+		{name: '10b', phase: 0, title: 'Nomadic Sunset', song: 'Nomadic Sunset', image: 'heic1107a'},
+		{name: '10d', phase: 1, title: 'Chemical Z', song: 'Chemical Z', image: 'heic1107a'},
+		{name: '10e', phase: 1, title: 'Dream', song: 'Dream', image: 'heic1107a'},
+		{name: '10f', phase: 1, title: 'Terra Mystica', song: 'Terra Mystica', image: 'heic1107a'},
 	].map((v) => {
-		(v as unknown as PhaseData).song = toSongData(v.song);
-		(v as unknown as PhaseData).stage = toPhaseDataByLevelName(v.name);
+		(v as unknown as PhaseData).song = lookup_song(v.song);
+		(v as unknown as PhaseData).stage = to_phase_data_by_level_name(v.name);
 		return [v.name, v as unknown as PhaseData];
 	}),
 );
 
-const PhaseDatasByLevelName = new Map<string, PhaseData[]>();
-for (const PhaseData of PhaseDatas.values()) {
-	const stage = toPhaseDataByLevelName(PhaseData.name);
-	let PhaseDatas = PhaseDatasByLevelName.get(stage.name);
-	if (!PhaseDatas) PhaseDatasByLevelName.set(stage.name, (PhaseDatas = []));
-	PhaseDatas.push(PhaseData);
+const phase_datas_by_level_name = new Map<string, PhaseData[]>();
+for (const phase_data of phase_data_by_name.values()) {
+	const stage = to_phase_data_by_level_name(phase_data.name);
+	let phase_datas = phase_datas_by_level_name.get(stage.name);
+	if (!phase_datas) phase_datas_by_level_name.set(stage.name, (phase_datas = []));
+	phase_datas.push(phase_data);
 }
 
 export type PhaseSequenceOrCreator = {
@@ -146,7 +155,7 @@ export interface PhaseSequenceData {
 }
 export const toPhaseSequence = (l: PhaseSequenceOrCreator): PhaseSequence =>
 	typeof l.data === 'function' ? {...l, data: l.data()} : (l as any); // TODO why doesn't this type narrow?
-export const phaseSequences: PhaseSequenceOrCreator[] = [
+export const phase_sequences: PhaseSequenceOrCreator[] = [
 	{
 		name: 'sugar_pure',
 		data: {
@@ -156,15 +165,15 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'2a',
 				'3a',
 				'4a',
+				'4c',
 				'5a',
 				'6a',
 				'7a',
 				'8a',
 				'9a',
+				'9c',
 				'10a',
-				'10c',
-				'11a',
-				'12a',
+				'10d',
 			],
 		},
 	},
@@ -181,19 +190,19 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'3a',
 				'3c',
 				'4a',
+				'4d',
 				'5a',
+				'5c',
 				'6a',
 				'6c',
 				'7a',
-				'7c',
+				'7d',
 				'8a',
 				'8d',
 				'9a',
 				'9d',
-				'10a',
-				'10d',
-				'11c',
-				'12c',
+				'10c',
+				'10e',
 			],
 		},
 	},
@@ -206,15 +215,15 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'2b',
 				'3b',
 				'4b',
+				'4e',
 				'5b',
 				'6b',
 				'7b',
 				'8b',
 				'9b',
+				'9c',
 				'10b',
-				'10c',
-				'11b',
-				'12b',
+				'10f',
 			],
 		},
 	},
@@ -225,16 +234,17 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'0b',
 				'0d',
 				'1b',
-				'1c',
+				'1d',
 				'2b',
-				'2c',
+				'2d',
 				'3b',
-				'3c',
+				'3d',
 				'4b',
-				'4c',
+				randomItem(['4d', '4e']),
 				'5b',
+				'5d',
 				'6b',
-				'6c',
+				'6d',
 				'7b',
 				'7c',
 				'8b',
@@ -242,9 +252,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				'9b',
 				'9c',
 				'10b',
-				'10c',
-				'11b',
-				'12b',
+				randomItem(['10e', '10f']),
 			],
 		},
 	},
@@ -257,16 +265,16 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				randomItem(['2a', '2b']),
 				randomItem(['3a', '3b']),
 				randomItem([
-					['4a', '5a'],
-					['4b', '5b'],
+					['4a', '4d'],
+					['4b', '4e'],
 				]),
+				randomItem(['5a', '5b']),
 				randomItem(['6a', '6b']),
 				randomItem(['7a', '7b']),
 				randomItem(['8a', '8b']),
-				randomItem(['9a', '9b']),
 				randomItem([
-					['10a', '10c', '11a', '12a'],
-					['10b', '10c', '11b', '12b'],
+					['9a', '9c', '10a', '10d'],
+					['9b', '9c', '10b', '10f'],
 				]),
 			].flat(),
 		}),
@@ -278,30 +286,30 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 				randomItem(['0a', '0b']),
 				randomItem(['0c', '0d']),
 				randomItem(['1a', '1b']),
-				'1c',
+				randomItem(['1c', '1d']),
 				randomItem(['2a', '2b']),
-				'2c',
+				randomItem(['2c', '2d']),
 				randomItem(['3a', '3b']),
-				'3c',
+				randomItem(['3c', '3d']),
 				randomItem([
-					['4a', '5a'],
-					['4b', '4c', '5b'],
+					['4a', '4d'],
+					['4b', '4c', '4e'],
 				]),
+				randomItem(['5a', '5b']),
+				randomItem(['5c', '5d']),
 				randomItem(['6a', '6b']),
-				'6c',
+				randomItem(['6c', '6d']),
 				randomItem(['7a', '7b']),
-				'7c',
-				randomItem(['8a', '8b']),
-				randomItem(['8c', '8d']),
+				randomItem(['7c', '7d']),
 				randomItem([
-					['9a', '9d'],
-					['9b', '9c'],
+					['8a', '8d'],
+					['8b', '8c'],
 				]),
 				randomItem([
 					// TODO should be weighted or enabled by how many balance points accumulated before this
-					['10a', '10c', '11a', '12a'],
-					['10a', '10d', '11c', '12c'],
-					['10b', '10c', '11b', '12b'],
+					['9a', '9c', '10a', '10d'],
+					['9a', '9d', '10c', '10e'],
+					['9b', '9c', '10b', '10f'],
 				]),
 			].flat(),
 		}),
@@ -311,7 +319,7 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 		data: (): PhaseSequenceData => {
 			/*
 
-		Conditions that disallow 12c:
+		Conditions that disallow 11e:
 		
 		- not enough balance (full a+c's is ok, maybe need more c's in that case, or perhaps it's naturally balanced because some c's  )
 		- too much salt
@@ -343,34 +351,36 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 			addPhase(randomItem(['0a', '0b']));
 			addPhase(randomItem(['0c', '0d']));
 			addPhase(randomItem(['1a', '1b']));
-			addPhase(randomItem(['1c', null]));
+			addPhase(randomItem(['1c', '1d']));
 			addPhase(randomItem(['2a', '2b']));
-			addPhase(randomItem(['2c', null]));
+			addPhase(randomItem(['2c', '2d']));
 			addPhase(randomItem(['3a', '3b']));
 			// had to suppress reaction at least once to get this option
-			addPhase(randomItem([cCount > MIN_C_COUNT_FOR_3C ? randomItem(['3c', null]) : null, null]));
+			addPhase(
+				randomItem([cCount > MIN_C_COUNT_FOR_3_TIER2 ? randomItem(['3c', '3d']) : null, null]),
+			);
 			addPhase(
 				randomItem([
-					['4a', '5a'],
-					['4b', cCount > MIN_C_COUNT_FOR_4C ? randomItem(['4c', null]) : null, '5b'],
+					['4a', '4d'],
+					['4b', cCount > MIN_C_COUNT_FOR_4C ? randomItem(['4c', null]) : null, '4e'],
 				]),
 			);
+			addPhase(randomItem(['5a', '5b']));
+			addPhase(randomItem(['5c', '5d']));
 			addPhase(randomItem(['6a', '6b']));
-			addPhase(randomItem(['6c', null]));
+			addPhase(randomItem(['6c', '6d']));
 			addPhase(randomItem(['7a', '7b']));
-			addPhase(randomItem(['7c', null]));
+			addPhase(randomItem(['7c', '7d', null]));
 			addPhase(randomItem(['8a', '8b']));
 			addPhase(randomItem(['8c', '8d', null]));
-			addPhase(randomItem(['9a', '9b']));
-			addPhase(randomItem(['9c', '9d', null]));
 			addPhase(
 				randomItem(
 					[
-						['10a', '10c', '11a', '12a'],
+						['9a', '9c', '10a', '10d'],
 						cCount >= MIN_C_COUNT_FOR_BALANCED_ENDING && bCount <= MAX_B_COUNT_FOR_BALANCED_ENDING
-							? ['10a', '10d', '11c', '12c']
+							? ['9a', '9d', '10c', '10e']
 							: null,
-						['10b', '10c', '11b', '12b'],
+						['9b', '9c', '10b', '10f'],
 					].filter(Boolean),
 				),
 			);
@@ -378,15 +388,15 @@ export const phaseSequences: PhaseSequenceOrCreator[] = [
 		},
 	},
 ];
-export const phaseSequencesByName: Map<string, PhaseSequenceOrCreator> = new Map(
-	phaseSequences.map((l) => [l.name, l]),
+export const phase_sequences_by_name: Map<string, PhaseSequenceOrCreator> = new Map(
+	phase_sequences.map((l) => [l.name, l]),
 );
 
-export const sequenceContains = (phaseSequence: PhaseSequence, phase: PhaseData): boolean =>
-	phaseSequence.data.sequence.includes(phase.name);
+export const sequenceContains = (phase_sequence: PhaseSequence, phase: PhaseData): boolean =>
+	phase_sequence.data.sequence.includes(phase.name);
 
 // TODO maybe do this differently, specific level outcomes integrated with the store?
-const MIN_C_COUNT_FOR_3C = 1;
+const MIN_C_COUNT_FOR_3_TIER2 = 1;
 const MIN_C_COUNT_FOR_4C = 1;
 const MIN_C_COUNT_FOR_BALANCED_ENDING = 4;
 const MAX_B_COUNT_FOR_BALANCED_ENDING = 7;

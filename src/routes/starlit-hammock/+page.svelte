@@ -3,14 +3,14 @@
 	import {sineInOut} from 'svelte/easing';
 	import {getClock, getDimensions} from '@feltcoop/dealt';
 
-	import StarlitHammock from './StarlitHammock.svelte';
+	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/app/ImagePicker.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import {spaceImages, type ImageMeta} from '$lib/app/images';
 	import ImageCreditsCaption from '$lib/app/ImageCreditsCaption.svelte';
 	import Surface from '$lib/app/Surface.svelte';
 	import Panel from '$lib/app/Panel.svelte';
-	import AboutPortalPreview from './Preview.svelte';
+	import AboutPortalPreview from '$routes/starlit-hammock/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 
 	/*
@@ -32,41 +32,41 @@
 	$: width = $dimensions.width;
 	$: height = $dimensions.height;
 
-	let showPicker = false;
+	let show_picker = false;
 
 	let activeImage = randomItem(spaceImages);
 
 	const clock = getClock();
 
-	const pickImage = (image: ImageMeta) => {
+	const pick_image = (image: ImageMeta) => {
 		activeImage = image;
-		showPicker = false;
+		show_picker = false;
 	};
-	const pickRandomImage = () => {
+	const pick_random_image = () => {
 		if (spaceImages.length === 1) return; // just in case
 		let newImage;
 		do {
 			newImage = randomItem(spaceImages);
 		} while (newImage === activeImage);
-		pickImage(newImage);
+		pick_image(newImage);
 	};
 	// TODO maybe navigate history in addition to the list?
-	const pickPreviousImage = () => {
+	const pick_previous_image = () => {
 		const activeIndex = spaceImages.indexOf(activeImage); // TODO maybe store the index and derive `activeImage`?
 		const previousIndex = activeIndex === 0 ? spaceImages.length - 1 : activeIndex - 1;
-		pickImage(spaceImages[previousIndex]);
+		pick_image(spaceImages[previousIndex]);
 	};
-	const pickNextImage = () => {
+	const pick_next_image = () => {
 		const activeIndex = spaceImages.indexOf(activeImage); // TODO maybe store the index and derive `activeImage`?
 		const nextIndex = activeIndex === spaceImages.length - 1 ? 0 : activeIndex + 1;
-		pickImage(spaceImages[nextIndex]);
+		pick_image(spaceImages[nextIndex]);
 	};
 
 	// TODO customize and make reactive?
-	const scaleMin = 0;
-	const scaleMax = 2;
+	const scale_min = 0;
+	const scale_max = 2;
 	const MIN_SCALE_MULT = 5; // for small images, this ensures we can scale at least this multiple of the minimum
-	const transitionDuration = 60000;
+	const transition_duration = 60000;
 	const WAIT_AFTER_INTERACTION = 1000; // TODO increase
 	// const pauseDuration = 0;
 
@@ -74,58 +74,58 @@
 	let x: number;
 	let y: number;
 	let scale: number;
-	let targetX: number;
-	let targetY: number;
-	let targetScale: number;
-	let startX: number;
-	let startY: number;
-	let startScale: number;
-	let transitionTime = 0;
-	let transitionPauseTimer = 0;
+	let target_x: number;
+	let target_y: number;
+	let target_scale: number;
+	let start_x: number;
+	let start_y: number;
+	let start_scale: number;
+	let transition_time = 0;
+	let transition_pause_timer = 0;
 	const update = (dt: number) => {
-		if (transitionPauseTimer > 0) {
-			transitionPauseTimer -= dt;
-			if (transitionPauseTimer > 0) return;
+		if (transition_pause_timer > 0) {
+			transition_pause_timer -= dt;
+			if (transition_pause_timer > 0) return;
 		}
-		transitionTime += dt;
-		if (transitionTime >= transitionDuration) {
-			transitionTime = 0;
-			[targetX, targetY, targetScale] = randomTransform(
+		transition_time += dt;
+		if (transition_time >= transition_duration) {
+			transition_time = 0;
+			[target_x, target_y, target_scale] = randomTransform(
 				width,
 				height,
 				activeImage.info.width,
 				activeImage.info.height,
-				scaleMin,
-				scaleMax,
+				scale_min,
+				scale_max,
 			);
-			startX = x;
-			startY = y;
-			startScale = scale;
+			start_x = x;
+			start_y = y;
+			start_scale = scale;
 		}
-		updateTransform(transitionTime, transitionDuration);
+		updateTransform(transition_time, transition_duration);
 	};
 	const updateTransform = (currentTime: number, duration: number) => {
 		// TODO could make this a pure function that returns `[x, y, scale]`
 		// but currently don't need it, and it'd create a lot of garbage
 		const easedValue = sineInOut(currentTime / duration);
-		x = startX + easedValue * (targetX - startX);
-		y = startY + easedValue * (targetY - startY);
-		scale = startScale + easedValue * (targetScale - startScale);
+		x = start_x + easedValue * (target_x - start_x);
+		y = start_y + easedValue * (target_y - start_y);
+		scale = start_scale + easedValue * (target_scale - start_scale);
 	};
 	const randomize = (imageWidth: number, imageHeight: number) => {
 		// console.log('randomize', width, height, imageWidth, imageHeight);
-		[x, y, scale] = randomTransform(width, height, imageWidth, imageHeight, scaleMin, scaleMax);
-		startX = x;
-		startY = y;
-		startScale = scale;
+		[x, y, scale] = randomTransform(width, height, imageWidth, imageHeight, scale_min, scale_max);
+		start_x = x;
+		start_y = y;
+		start_scale = scale;
 		// TODO ensure these are different enough?
-		[targetX, targetY, targetScale] = randomTransform(
+		[target_x, target_y, target_scale] = randomTransform(
 			width,
 			height,
 			imageWidth,
 			imageHeight,
-			scaleMin,
-			scaleMax,
+			scale_min,
+			scale_max,
 		);
 	};
 	const randomTransform = (
@@ -149,22 +149,22 @@
 	// TODO clamp instead of randomize when width/height change, but randomize when activeImage changes
 	$: randomize(activeImage.info.width, activeImage.info.height);
 	// $: clampTarget(width, height); // TODO
-	$: !showPicker && update($clock.dt);
+	$: !show_picker && update($clock.dt);
 
 	const onKeydown = (e: KeyboardEvent) => {
 		switch (e.key) {
 			case '1':
-				showPicker = !showPicker;
+				show_picker = !show_picker;
 				break;
 			case 'ArrowLeft':
-				pickPreviousImage();
+				pick_previous_image();
 				break;
 			case 'ArrowRight':
-				pickNextImage();
+				pick_next_image();
 				break;
 			case 'ArrowUp':
 			case 'ArrowDown':
-				pickRandomImage();
+				pick_random_image();
 				break;
 			case ' ':
 				randomize(activeImage.info.width, activeImage.info.height);
@@ -174,50 +174,55 @@
 
 	// TODO extract camera store, copypasted from deep-breath
 	const SCALE_FACTOR = 1.1;
-	const zoomCamera = (
-		zoomDirection: number,
-		screenPivotX: number = width / 2,
-		screenPivotY: number = height / 2,
+	const zoom_camera = (
+		zoom_direction: number,
+		screen_pivot_x: number = width / 2,
+		screen_pivot_y: number = height / 2,
 	) => {
-		if (zoomDirection === 0) return;
-		const scaleAmount = zoomDirection > 0 ? 1 / SCALE_FACTOR : SCALE_FACTOR;
-		const oldScale = scale;
-		const newScale = oldScale * scaleAmount;
-		scale = newScale;
+		if (zoom_direction === 0) return;
+		const scale_amount = zoom_direction > 0 ? 1 / SCALE_FACTOR : SCALE_FACTOR;
+		const old_scale = scale;
+		const new_scale = old_scale * scale_amount;
+		scale = new_scale;
 
 		// Center relative to the pivot point.
 		// When zooming with the mouse, this is the mouse's screen position.
-		const scaleRatio = (newScale - oldScale) / oldScale;
-		const mouseDistX = screenPivotX - width / 2;
-		const mouseDistY = screenPivotY - height / 2;
-		const dx = (mouseDistX * scaleRatio) / newScale;
-		const dy = (mouseDistY * scaleRatio) / newScale;
-		moveCamera(dx, dy);
+		const scale_ratio = (new_scale - old_scale) / old_scale;
+		const mouse_dist_x = screen_pivot_x - width / 2;
+		const mouse_dist_y = screen_pivot_y - height / 2;
+		const dx = (mouse_dist_x * scale_ratio) / new_scale;
+		const dy = (mouse_dist_y * scale_ratio) / new_scale;
+		move_camera(dx, dy);
 	};
-	const moveCamera = (dx: number, dy: number) => {
+	const move_camera = (dx: number, dy: number) => {
 		x += dx;
 		y += dy;
 
 		// TODO where to best do this?
-		transitionPauseTimer = WAIT_AFTER_INTERACTION;
-		transitionTime = transitionDuration; // force a new transition to be randomized once the pause timer expires
+		transition_pause_timer = WAIT_AFTER_INTERACTION;
+		transition_time = transition_duration; // force a new transition to be randomized once the pause timer expires
 	};
-	$: cameraX = -x * scale + width / 2;
-	$: cameraY = -y * scale + height / 2;
+	$: camera_x = -x * scale + width / 2;
+	$: camera_y = -y * scale + height / 2;
 </script>
 
 <svelte:window on:keydown|capture={onKeydown} />
 
 <!-- TODO probably want a better pattern than this -->
-{#if showPicker}
+{#if show_picker}
 	<div class="overlay-bg" />
 {/if}
 
-<StarlitHammock {cameraX} {cameraY} cameraScale={scale} imageUrl={activeImage.info.url} />
+<StarlitHammock
+	cameraX={camera_x}
+	cameraY={camera_y}
+	cameraScale={scale}
+	imageUrl={activeImage.info.url}
+/>
 
-{#if showPicker}
+{#if show_picker}
 	<div class="overlay">
-		<ImagePicker images={spaceImages} {pickImage} />
+		<ImagePicker images={spaceImages} {pick_image} />
 		<footer>
 			<Panel>
 				<h2>
@@ -231,7 +236,7 @@
 	</div>
 {:else}
 	<div class="interaction-surface-wrapper" style="width: {width}px; height: {height}px;">
-		<Surface {width} {height} {scale} {zoomCamera} {moveCamera} />
+		<Surface {width} {height} {scale} zoom={zoom_camera} pan={move_camera} />
 	</div>
 {/if}
 <div class="hud idle-fade">
@@ -242,12 +247,12 @@
 	A possible fix would be to include a special slot
 	with content that's hidden or empty and only used for sizing purposes.
 	-->
-	<FloatingTextButton on:click={pickRandomImage}>random image</FloatingTextButton>
-	<FloatingTextButton on:click={() => (showPicker = !showPicker)}>
-		{#if showPicker}close image picker{:else}pick an image{/if}
+	<FloatingTextButton on:click={pick_random_image}>random image</FloatingTextButton>
+	<FloatingTextButton on:click={() => (show_picker = !show_picker)}>
+		{#if show_picker}close image picker{:else}pick an image{/if}
 	</FloatingTextButton>
 </div>
-{#if !showPicker}
+{#if !show_picker}
 	<div class="credits idle-fade markup">
 		<Panel>
 			<ImageCreditsCaption image={activeImage} />

@@ -34,17 +34,17 @@
 
 <div class="tour-title" out:blur|local={{duration: transitionOutDuration, amount: blurAmount}}>
 	<div class="text" style={textStyle}>
-		<div in:blur={{duration: transitionInDuration, amount: blurAmount}}>
+		<div in:blur|local={{duration: transitionInDuration, amount: blurAmount}}>
 			If all ice on <span class="earth-text">Earth</span> melts,
 		</div>
 	</div>
 	<div class="text" style={textStyle}>
-		<div in:blur={{duration: transitionInDuration, amount: blurAmount, delay: text2Delay}}>
+		<div in:blur|local={{duration: transitionInDuration, amount: blurAmount, delay: text2Delay}}>
 			how will sea levels change?
 		</div>
 	</div>
 	<div class="text final-text" style={textStyle}>
-		<div in:blur={{duration: transitionInDuration, amount: blurAmount, delay: maxDelay}}>
+		<div in:blur|local={{duration: transitionInDuration, amount: blurAmount, delay: maxDelay}}>
 			This is a rough sketch.
 		</div>
 	</div>
@@ -63,6 +63,7 @@
 		font-weight: 300;
 		padding-bottom: 40px; /* center the text slightly better */
 		overflow: hidden; /* lazy hack for small screens, assuming 1080p or larger */
+		-webkit-user-select: none;
 		user-select: none;
 	}
 	.earth-text {

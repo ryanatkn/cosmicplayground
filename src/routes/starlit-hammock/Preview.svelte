@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {getClock} from '@feltcoop/dealt';
 
-	import GalaxyBg from './GalaxyBg.svelte';
+	import GalaxyBg from '$routes/starlit-hammock/GalaxyBg.svelte';
 
 	const clock = getClock();
 </script>

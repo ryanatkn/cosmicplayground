@@ -17,7 +17,7 @@
 	// or should we free all resources when this is unmounted? including all base textures?
 
 	export let camera: Camera;
-	export let inputEnabled = true;
+	export let input_enabled = true;
 	export let landImages: string[]; // not reactive
 	export let seaImages: string[]; // not reactive
 	export let shoreImage: string | undefined = undefined; // not reactive
@@ -300,7 +300,7 @@
 	width={$width}
 	height={$height}
 	scale={$scale}
-	moveCamera={camera.moveCamera}
-	zoomCamera={camera.zoomCamera}
-	{inputEnabled}
+	zoom={camera.zoom_camera}
+	pan={camera.move_camera}
+	disabled={!input_enabled}
 />

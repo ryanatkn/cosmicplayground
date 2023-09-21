@@ -1,24 +1,30 @@
 <script lang="ts">
-	import {onMount} from 'svelte';
+	import {onMount, tick} from 'svelte';
 	import {randomFloat} from '@feltjs/util/random.js';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
+	import {dev} from '$app/environment';
 
-	import SoggyPlanetTitleScreen from './SoggyPlanetTitleScreen.svelte';
+	import Soggy_Planet_Title_Screen from '$routes/soggy-planet/Soggy_Planet_Title_Screen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import DaylightHud from '$lib/app/DaylightHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
 	import {createResourcesStore} from '$lib/app/resources';
-	import {getSettings} from '$lib/app/settings';
+	import {get_settings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import SoggyPlanetDevHud from './SoggyPlanetDevHud.svelte';
-	import SoggyPlanetTour from './SoggyPlanetTour.svelte';
+	import Soggy_Planet_Dev_Hud from '$routes/soggy-planet/Soggy_Planet_Dev_Hud.svelte';
 	import Camera from '$lib/app/Camera.svelte';
+	import {SHORE_COUNT} from '$routes/soggy-planet//constants';
+	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
+	import Soggy_Planet_Tour from '$routes/soggy-planet/Soggy_Planet_Tour.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
-	import {SHORE_COUNT} from './constants';
+	import Soggy_Planet_Menu from '$routes/soggy-planet/Soggy_Planet_Menu.svelte';
+	import AppDialog from '$lib/app/AppDialog.svelte';
+
+	const DEBUG_START_TIME = 0; // set to start the tour at any time for dev purposes
+	const debug_start_time = dev ? DEBUG_START_TIME : 0;
 
 	const clock = getClock();
 
@@ -34,256 +40,309 @@
 	$: if (height) $height = $dimensions.height;
 
 	// TODO image metadata
-	const imageWidth = 4096;
-	const imageHeight = 2048;
+	const image_width = 4096;
+	const image_height = 2048;
 
-	const initialX = randomFloat(0, imageWidth);
-	const initialY = randomFloat($dimensions.height / 2, imageHeight - $dimensions.height / 2);
-	const initialWidth = $dimensions.width;
-	const initialHeight = $dimensions.height;
+	const initial_x = randomFloat(0, image_width);
+	const initial_y = randomFloat($dimensions.height / 2, image_height - $dimensions.height / 2);
+	const initial_width = $dimensions.width;
+	const initial_height = $dimensions.height;
 
-	const settings = getSettings();
-	$: devMode = $settings.devMode;
-
-	let tour: Tour | undefined;
-	$: touring = tour ? tour.touring : null;
+	const settings = get_settings();
+	$: dev_mode = $settings.dev_mode;
 
 	// TODO add auto pan button - share logic with Starlit Hanmmock and deep breath
 
-	let showHud = true;
-	const toggleHud = (value = !showHud) => {
-		showHud = value;
+	let show_hud = true;
+	const toggle_hud = (value = !show_hud) => {
+		show_hud = value;
 	};
 
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
-	const onKeyDown = (e: KeyboardEvent) => {
-		if (showTitleScreen) return;
+	const keydown = (e: KeyboardEvent) => {
+		if (show_title_screen) return;
 		// map screen
 		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			swallow(e);
-			returnToTitleScreen();
+			go_to_title_screen();
 		} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
 			swallow(e);
-			toggleHud();
+			toggle_hud();
 		}
 	};
 
-	const onClickHudToggle = (e: Event) => {
+	const click_hud_toggle = (e: Event) => {
 		swallow(e);
-		toggleHud();
+		toggle_hud();
 	};
 
 	// Earth's land
-	const landImages = Array.from({length: 12}, (_, i) => `/assets/earth/land_${i + 1}.png`);
-	let cycledLandValue = 0;
-	$: cycledLandIndex = Math.floor(cycledLandValue);
+	const to_land_images = (min: number, max: number): string[] =>
+		Array.from({length: 1 + max - min}, (_, i) => `/assets/earth/land_${i + 1 + min}.png`);
+	let land_images = to_land_images(0, 11);
+	let cycled_land_value = 0;
+	$: cycled_land_index = Math.floor(cycled_land_value);
 
 	// Earth's lights
+	const DEFAULT_LIGHTS_OPACITY_MIN = 0;
+	const DEFAULT_LIGHTS_OPACITY_MAX = 0.91;
 	const LIGHTS_IMAGE = `/assets/earth/lights.png`;
-	const LIGHTS_OPACITY_MIN = 0;
-	const LIGHTS_OPACITY_MAX = 0.91;
+	let lights_opacity_min = DEFAULT_LIGHTS_OPACITY_MIN;
+	let lights_opacity_max = DEFAULT_LIGHTS_OPACITY_MAX;
+	let lights_opacity = lights_opacity_min;
 	const LIGHTS_OPACITY_CYCLE_TIMER = 3000; // larger is slower
-	let lightsOpacity = LIGHTS_OPACITY_MIN;
-	let lightsTimer = LIGHTS_OPACITY_CYCLE_TIMER * 1.7;
-	$: if (selectedDaylight === null) lightsTimer += $clock.dt;
-	$: lightsOpacity = toLightsOpacity(lightsTimer);
-	const toLightsOpacity = (time: number): number =>
-		LIGHTS_OPACITY_MIN +
-		((LIGHTS_OPACITY_MAX - LIGHTS_OPACITY_MIN) *
+	let lights_timer = LIGHTS_OPACITY_CYCLE_TIMER * 1.7;
+	$: if (selected_daylight === null) lights_timer += $clock.dt;
+	$: lights_opacity = to_lights_opacity(lights_timer);
+	const to_lights_opacity = (time: number): number =>
+		lights_opacity_min +
+		((lights_opacity_max - lights_opacity_min) *
 			(Math.sin(time / LIGHTS_OPACITY_CYCLE_TIMER) + 1)) /
 			2;
 	// TODO would be cool to have nightfall overlay the shape of the real thing, not global
-	$: nightfallOpacity = (activeDaylight - LIGHTS_OPACITY_MIN) * 0.48;
+	$: nightfall_opacity = (active_daylight - lights_opacity_min) * 0.48;
 
 	// TODO this is weird because the shore images were bolted on after the fact.
 	// Refactoring the sea images to have a single base and later the second/third above would be ideal
 
 	// Earth's sea
-	const seaImages = Array.from({length: 3}, (_, i) => `/assets/earth/sea_${i + 1}.png`);
-	const shoreImage = '/assets/earth/shore.png';
-	const seashoreFloorIndex = SHORE_COUNT;
-	const seaIndexMax = seaImages.length + SHORE_COUNT - 1;
+	const sea_images = Array.from({length: 3}, (_, i) => `/assets/earth/sea_${i + 1}.png`);
+	const shore_image = '/assets/earth/shore.png';
+	const seashore_floor_index = SHORE_COUNT;
+	const sea_index_max = sea_images.length + SHORE_COUNT - 1;
 	const SEA_LEVEL_CYCLE_TIMER = 1000; // larger is slower
-	let seaLevelTimer = SEA_LEVEL_CYCLE_TIMER * 2.5;
-	$: if (selectedSeaLevel === null && hoveredSeaLevel === null) {
-		seaLevelTimer += $clock.dt;
+	let sea_level_timer = SEA_LEVEL_CYCLE_TIMER * 2.5;
+	$: if (selected_sea_level === null && hovered_sea_level === null) {
+		sea_level_timer += $clock.dt;
 	}
-	const toSeaLevel = (time: number): number =>
-		(seaIndexMax * (Math.sin(time / SEA_LEVEL_CYCLE_TIMER) + 1)) / 2;
-	let seaLevel = toSeaLevel(seaLevelTimer);
-	$: seaLevel = toSeaLevel(seaLevelTimer);
+	const to_sea_level = (time: number): number =>
+		(sea_index_max * (Math.sin(time / SEA_LEVEL_CYCLE_TIMER) + 1)) / 2;
+	let sea_level = to_sea_level(sea_level_timer);
+	$: sea_level = to_sea_level(sea_level_timer);
 
 	// update every clock tick
 	const LAND_DELAY = 230;
-	let landTimer = 0;
-	$: if (selectedLandIndex === null && hoveredLandIndex === null) {
-		landTimer += $clock.dt;
-		cycledLandValue = (landTimer / LAND_DELAY) % landImages.length;
+	let land_timer = 0;
+	$: if (selected_land_index === null && hovered_land_index === null) {
+		land_timer += $clock.dt;
+		cycled_land_value = (land_timer / LAND_DELAY) % land_images.length;
 	}
 
-	let selectedSeaLevel: number | null = null;
-	let hoveredSeaLevel: number | null = null;
-	$: activeSeaLevel = hoveredSeaLevel ?? selectedSeaLevel ?? seaLevel;
-	const selectSeaLevel = (value: number | null) => {
-		selectedSeaLevel = value;
+	let selected_sea_level: number | null = null;
+	let hovered_sea_level: number | null = null;
+	$: active_sea_level = hovered_sea_level ?? selected_sea_level ?? sea_level;
+	const select_sea_level = (value: number | null) => {
+		selected_sea_level = value;
 	};
-	const hoverSeaLevel = (value: number | null) => {
-		hoveredSeaLevel = value;
-	};
-
-	const onBeginTour = () => {
-		selectLandIndex(null);
-		hoverLandIndex(null);
-		selectSeaLevel(14);
-		hoverSeaLevel(null);
-		selectDaylight(1);
-		hoverDaylight(null);
+	const hover_sea_level = (value: number | null) => {
+		hovered_sea_level = value;
 	};
 
-	let selectedLandIndex: number | null = null;
-	let hoveredLandIndex: number | null = null;
-	$: activeLandIndex = hoveredLandIndex ?? selectedLandIndex ?? cycledLandIndex;
-	$: activeLandValue = activeLandIndex === cycledLandIndex ? cycledLandValue : activeLandIndex;
-	const setCycledLandValue = (value: number) => {
-		landTimer = LAND_DELAY * value;
+	let selected_land_index: number | null = null;
+	let hovered_land_index: number | null = null;
+	$: active_land_index = hovered_land_index ?? selected_land_index ?? cycled_land_index;
+	$: active_land_value =
+		active_land_index === cycled_land_index ? cycled_land_value : active_land_index;
+	const set_cycled_land_value = (value: number) => {
+		land_timer = LAND_DELAY * value;
 	};
-	const selectLandIndex = (index: number | null) => {
-		selectedLandIndex = index;
-		if (index !== null) setCycledLandValue(index);
+	const select_land_index = (index: number | null) => {
+		selected_land_index = index;
+		if (index !== null) set_cycled_land_value(index);
 	};
-	const hoverLandIndex = (index: number | null) => {
-		hoveredLandIndex = index;
-		if (index !== null) setCycledLandValue(index);
+	const hover_land_index = (index: number | null) => {
+		hovered_land_index = index;
+		if (index !== null) set_cycled_land_value(index);
 	};
 
-	let selectedDaylight: number | null = null;
-	let hoveredDaylight: number | null = null;
-	$: activeDaylight = hoveredDaylight ?? selectedDaylight ?? lightsOpacity;
-	const selectDaylight = (value: number | null) => {
-		selectedDaylight = value;
+	let selected_daylight: number | null = null;
+	let hovered_daylight: number | null = null;
+	$: active_daylight = hovered_daylight ?? selected_daylight ?? lights_opacity;
+	const select_daylight = (value: number | null) => {
+		selected_daylight = value;
 	};
-	const hoverDaylight = (value: number | null) => {
-		hoveredDaylight = value;
+	const hover_daylight = (value: number | null) => {
+		hovered_daylight = value;
 	};
 
 	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
 	const resources = createResourcesStore();
-	landImages.forEach((url) => resources.addResource('image', url));
-	seaImages.forEach((url) => resources.addResource('image', url));
-	resources.addResource('image', shoreImage);
+	land_images.forEach((url) => resources.addResource('image', url));
+	sea_images.forEach((url) => resources.addResource('image', url));
+	resources.addResource('image', shore_image);
 	resources.addResource('image', LIGHTS_IMAGE);
 
 	// in dev mode, bypass the title screen for convenience
-	let showTitleScreen = true;
+	let show_title_screen = true;
 	const proceed = () => {
-		showTitleScreen = false;
+		show_title_screen = !show_title_screen;
 	};
-	const returnToTitleScreen = () => {
-		if ($touring) tour!.cancel();
-		showTitleScreen = true;
+	const go_to_title_screen = () => {
+		show_title_screen = true;
+	};
+	const go_to_map = () => {
+		show_title_screen = false;
 	};
 	onMount(() => {
 		// in dev mode, bypass the title screen for convenience
-		if (devMode) {
-			showTitleScreen = false;
+		if (dev_mode) {
+			go_to_map();
 			void resources.load();
 		}
 	});
 
-	const DISABLED_UNTIL_READY = true;
+	let tour: Tour | undefined;
+	$: touring = tour ? tour.touring : null;
+	$: console.log(`$touring`, $touring);
+
+	const start_tour = async (): Promise<void> => {
+		if (show_title_screen) {
+			go_to_map();
+			await resources.load();
+		}
+		if (!tour) await tick();
+		if (!tour) return; // TODO hmm?
+
+		tour.begin_tour();
+	};
+
+	const on_begin_tour = () => {
+		console.log(`on_begin_tour args`);
+	};
+
+	// TODO hacky
+	let was_touring = false;
+	$: {
+		if (was_touring && !$touring) {
+			lights_opacity_min = DEFAULT_LIGHTS_OPACITY_MIN;
+			lights_opacity_max = DEFAULT_LIGHTS_OPACITY_MAX;
+		}
+		was_touring = !!$touring;
+	}
+
+	const update_land_images: (min: number, max: number) => void = (min, max) => {
+		console.log(`update_land_images`, min, max);
+		land_images = to_land_images(min, max);
+		select_land_index(min === max ? max : null);
+		hover_land_index(null);
+	};
+	const update_daylight: (min: number, max: number) => void = (min, max) => {
+		lights_opacity_min = min;
+		lights_opacity_max = max;
+		select_daylight(max);
+		hover_daylight(max);
+	};
+	const update_sea_level: (min: number, max: number) => void = (_min, max) => {
+		// TODO would be nice to animate these better, but for now I'm just hacking some basic smoothing into the tour script with helpers
+		select_sea_level(max);
+		hover_sea_level(max);
+	};
 </script>
 
-<svelte:window on:keydown={onKeyDown} />
+<svelte:window on:keydown={keydown} />
 
-<Camera bind:this={camera} {initialX} {initialY} {initialWidth} {initialHeight} />
+<Camera
+	bind:this={camera}
+	initialX={initial_x}
+	initialY={initial_y}
+	initialWidth={initial_width}
+	initialHeight={initial_height}
+/>
 
 {#if camera && x && y && scale}
 	<div class="soggy-planet">
-		{#if !showTitleScreen && $resources.status === 'success'}
+		{#if !show_title_screen && $resources.status === 'success'}
 			<EarthViewerPixi
 				{camera}
-				{landImages}
-				{seaImages}
-				{shoreImage}
+				landImages={land_images}
+				seaImages={sea_images}
+				shoreImage={shore_image}
 				shoreImageCount={SHORE_COUNT}
-				{seashoreFloorIndex}
+				seashoreFloorIndex={seashore_floor_index}
 				lightsImage={LIGHTS_IMAGE}
-				lightsOpacity={activeDaylight}
-				{nightfallOpacity}
+				lightsOpacity={active_daylight}
+				nightfallOpacity={nightfall_opacity}
 				showLights={true}
-				{activeLandValue}
-				{activeSeaLevel}
-				{imageWidth}
-				{imageHeight}
+				activeLandValue={active_land_value}
+				activeSeaLevel={active_sea_level}
+				imageWidth={image_width}
+				imageHeight={image_height}
 			/>
-			<SoggyPlanetTour {camera} bind:tour on:begin={onBeginTour} />
+			<Soggy_Planet_Tour
+				{camera}
+				bind:tour
+				on:begin={on_begin_tour}
+				{update_land_images}
+				{update_daylight}
+				{update_sea_level}
+			/>
 			<Hud>
+				<!-- TODO these conditions are awkward copypasta from deep-breath -->
 				{#if tour && $touring}
 					<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
-				{:else if showHud}
-					<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
+				{:else if show_hud}
+					<FloatingIconButton label="go back to title screen" on:click={go_to_title_screen}>
 						⇦
 					</FloatingIconButton>
 				{:else}
 					<div class="hud-top-controls">
 						<FloatingIconButton
-							pressed={showHud}
+							pressed={show_hud}
 							label="toggle hud controls"
-							on:click={onClickHudToggle}
+							on:click={click_hud_toggle}
 						>
 							∙∙∙
 						</FloatingIconButton>
 					</div>
 				{/if}
-				{#if !$touring || devMode}
-					{#if showHud}
-						<div class="hud-top-controls">
-							<FloatingIconButton
-								pressed={showHud}
-								label="toggle hud controls"
-								on:click={onClickHudToggle}
-							>
-								∙∙∙
-							</FloatingIconButton>
-							{#if !DISABLED_UNTIL_READY && tour && !$touring}
-								<FloatingTextButton on:click={tour.beginTour}>tour</FloatingTextButton>
-							{/if}
-						</div>
-						<div class="hud-left-controls">
-							<DaylightHud
-								daylight={activeDaylight}
-								{selectedDaylight}
-								{selectDaylight}
-								{hoverDaylight}
-							/>
-							{#if devMode}
-								<SoggyPlanetDevHud {x} {y} {scale} />
-							{/if}
-						</div>
-						{#if !$touring}
-							<div class="month-wrapper">
-								<MonthHud
-									{activeLandIndex}
-									{selectedLandIndex}
-									{selectLandIndex}
-									{hoverLandIndex}
-								/>
-							</div>
-							<SeaLevelHud
-								seaLevel={activeSeaLevel}
-								{seaIndexMax}
-								{selectedSeaLevel}
-								{selectSeaLevel}
-								{hoverSeaLevel}
-							/>
+				{#if show_hud && (!$touring || dev_mode)}
+					<div class="hud-top-controls">
+						<FloatingIconButton
+							pressed={show_hud}
+							label="toggle hud controls"
+							on:click={click_hud_toggle}
+						>
+							∙∙∙
+						</FloatingIconButton>
+						<FloatingTextButton
+							label="start the tour of our soggy planet with history and myth"
+							on:click={start_tour}
+						>
+							tour
+						</FloatingTextButton>
+					</div>
+					<div class="hud-left-controls">
+						<DaylightHud
+							daylight={active_daylight}
+							{selected_daylight}
+							{select_daylight}
+							{hover_daylight}
+						/>
+						{#if dev_mode}
+							<Soggy_Planet_Dev_Hud tour={tour || null} {x} {y} {scale} {debug_start_time} />
 						{/if}
-					{/if}
+					</div>
+					<div class="month-wrapper">
+						<MonthHud
+							{active_land_index}
+							{selected_land_index}
+							{select_land_index}
+							{hover_land_index}
+						/>
+					</div>
+					<SeaLevelHud
+						sea_level={active_sea_level}
+						{sea_index_max}
+						{selected_sea_level}
+						{select_sea_level}
+						{hover_sea_level}
+					/>
 				{/if}
 			</Hud>
 		{:else}
-			<SoggyPlanetTitleScreen {resources} {proceed} />
+			<Soggy_Planet_Title_Screen {resources} {proceed} {start_tour} />
 		{/if}
-		<!-- {#if devMode}
+		<!-- {#if dev_mode}
 		<div
 			style="position: fixed; left: calc(50% - 3px); top: calc(50% - 3px); width: 7px; height: 7px;
 			background-color: rgba(255, 50, 50, 1);"
@@ -291,6 +350,10 @@
 	{/if} -->
 	</div>
 {/if}
+
+<AppDialog>
+	<Soggy_Planet_Menu {clock} />
+</AppDialog>
 
 <style>
 	.soggy-planet {

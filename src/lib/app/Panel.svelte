@@ -22,4 +22,9 @@
 		background-color: var(--bg_light);
 		border-radius: var(--border_radius_3);
 	}
+	@media (max-width: 580px) {
+		.panel-content {
+			padding: var(--spacing-2);
+		}
+	}
 </style>

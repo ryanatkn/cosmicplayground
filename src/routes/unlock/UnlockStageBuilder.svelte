@@ -3,9 +3,9 @@
 	import {swallow} from '@feltjs/util/dom.js';
 	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
-	import {initialStageData, type StageData} from './stage';
-	import UnlockStage from './UnlockStage.svelte';
-	import {Stage} from './unlockStage';
+	import {initialStageData, type StageData} from '$routes/unlock/stage';
+	import UnlockStage from '$routes/unlock/UnlockStage.svelte';
+	import {Stage} from '$routes/unlock/unlockStage';
 	import {getPixi} from '$lib/app/pixi';
 
 	/*

@@ -3,14 +3,14 @@
 	import {getClock} from '@feltcoop/dealt';
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
-	import {createDeepBreathTourData} from './deepBreathTourData';
-	import {type TourHooks, type TourData, updateAudioOnSeek, findTourStep} from '$lib/app/tour';
-	import {getSettings} from '$lib/app/settings';
-	import DeepBreathTourIntro from './DeepBreathTourIntro.svelte';
-	import DeepBreathTourTitle from './DeepBreathTourTitle.svelte';
+	import {createDeepBreathTourData} from '$routes/deep-breath/deepBreathTourData';
+	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/app/tour';
+	import {get_settings} from '$lib/app/settings';
+	import DeepBreathTourIntro from '$routes/deep-breath/DeepBreathTourIntro.svelte';
+	import DeepBreathTourTitle from '$routes/deep-breath/DeepBreathTourTitle.svelte';
 	import Tour from '$lib/app/Tour.svelte';
 	import type Camera from '$lib/app/Camera.svelte';
-	import DeepBreathTourCredits from './DeepBreathTourCredits.svelte';
+	import DeepBreathTourCredits from '$routes/deep-breath/DeepBreathTourCredits.svelte';
 
 	export let camera: Camera;
 
@@ -22,7 +22,7 @@
 	export let currentTime: Writable<number> | undefined = undefined as any;
 	export let currentStepIndex: Writable<number> | undefined = undefined as any;
 	export let paused: boolean | undefined = undefined as any;
-	export let beginTour: (() => void) | undefined = undefined as any;
+	export let begin_tour: (() => void) | undefined = undefined as any;
 	// owned by this component
 	export const showTourIntro: Writable<boolean> = writable(false);
 	export const showTourTitle: Writable<boolean> = writable(false);
@@ -33,9 +33,8 @@
 
 	const clock = getClock();
 
-	const settings = getSettings();
-	$: devMode = $settings.devMode;
-	$: audioEnabled = $settings.audioEnabled;
+	const settings = get_settings();
+	$: ({audio_enabled, dev_mode} = $settings);
 
 	const tourResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
 	const mainSongUrl = '/assets/audio/Alexander_Nakarada__Winter.mp3';
@@ -63,7 +62,7 @@
 	const tourTitleTotalDuration =
 		tourTitleTransitionDuration * 2 + tourTitleMaxDelay + tourTitlePauseDuration;
 
-	$: mainSongStep = $tourData && findTourStep($tourData, 'playMainSong');
+	$: mainSongStep = $tourData && findTourStep($tourData, 'play_main_song');
 	$: oceanWavesStep = $tourData && findTourStep($tourData, 'playOceanWavesSound');
 
 	// TODO move to `Tour.svelte` after audio is moved there
@@ -73,12 +72,12 @@
 		updatePaused(paused);
 	}
 	const updatePaused = (paused: boolean): void => {
-		updateAudioOnSeek(mainSong.audio!, mainSongStep!, $currentTime!, audioEnabled, paused!);
-		updateAudioOnSeek(
+		update_audio_on_seek(mainSong.audio!, mainSongStep!, $currentTime!, audio_enabled, paused!);
+		update_audio_on_seek(
 			oceanWavesSound.audio!,
 			oceanWavesStep!,
 			$currentTime!,
-			audioEnabled,
+			audio_enabled,
 			paused!,
 		);
 	};
@@ -91,23 +90,23 @@
 				}
 				case 'playOceanWavesSound': {
 					oceanWavesSound.audio!.currentTime = 0;
-					if (audioEnabled) void oceanWavesSound.audio!.play();
+					if (audio_enabled) void oceanWavesSound.audio!.play();
 					return;
 				}
-				case 'playMainSong': {
+				case 'play_main_song': {
 					mainSong.audio!.currentTime = 0;
-					if (audioEnabled) void mainSong.audio!.play();
+					if (audio_enabled) void mainSong.audio!.play();
 					break;
 				}
-				case 'showIntro': {
+				case 'show_intro': {
 					$showTourIntro = true;
 					return;
 				}
-				case 'showTitle': {
+				case 'show_title': {
 					$showTourTitle = true;
 					return;
 				}
-				case 'showCredits': {
+				case 'show_credits': {
 					$showTourCredits = true;
 					return;
 				}
@@ -121,8 +120,14 @@
 			if (!oceanWavesSound.audio) throw Error('seek expects expected oceanWavesSound.audio');
 			if (!mainSongStep) throw Error('seek expects mainSongStep');
 			if (!oceanWavesStep) throw Error('seek expects oceanWavesStep');
-			updateAudioOnSeek(mainSong.audio, mainSongStep, currentTime, audioEnabled, paused!);
-			updateAudioOnSeek(oceanWavesSound.audio, oceanWavesStep, currentTime, audioEnabled, paused!);
+			update_audio_on_seek(mainSong.audio, mainSongStep, currentTime, audio_enabled, paused!);
+			update_audio_on_seek(
+				oceanWavesSound.audio,
+				oceanWavesStep,
+				currentTime,
+				audio_enabled,
+				paused!,
+			);
 			$showTourIntro = false;
 			$showTourTitle = false;
 			$showTourCredits = false;
@@ -166,8 +171,8 @@
 	{camera}
 	{clock}
 	{hooks}
-	createTourData={() =>
-		createDeepBreathTourData(tourIntroTotalDuration, tourTitleTotalDuration, devMode)}
+	create_tour_data={() =>
+		createDeepBreathTourData(tourIntroTotalDuration, tourTitleTotalDuration, dev_mode)}
 	on:begin
 	bind:this={tour}
 	bind:touring
@@ -175,7 +180,7 @@
 	bind:currentTime
 	bind:currentStepIndex
 	bind:paused
-	bind:beginTour
+	bind:begin_tour
 />
 
 <style>

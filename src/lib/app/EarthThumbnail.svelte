@@ -52,6 +52,7 @@
 	.earth-thumbnail {
 		position: relative;
 		overflow: hidden;
+		-webkit-user-select: none;
 		user-select: none;
 	}
 	.text {

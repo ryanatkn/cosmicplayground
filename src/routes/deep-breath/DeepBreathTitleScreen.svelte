@@ -1,13 +1,13 @@
 <script lang="ts">
-	import DeepBreathThumbnail from './DeepBreathThumbnail.svelte';
+	import DeepBreathThumbnail from '$routes/deep-breath/DeepBreathThumbnail.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
 	import ResourcesLoadingProgress from '$lib/app/ResourcesLoadingProgress.svelte';
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
-	import DeepBreathCredits from './DeepBreathCredits.svelte';
-	import CreditsProjectSignature from '../about/CreditsProjectSignature.svelte';
-	import AboutPortalPreview from './Preview.svelte';
+	import DeepBreathCredits from '$routes/deep-breath/DeepBreathCredits.svelte';
+	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
+	import DeepBreathPortalPreview from '$routes/deep-breath/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import type {ResourcesStore} from '$lib/app/resources';
 	import PortalLink from '$lib/app/PortalLink.svelte';
@@ -60,9 +60,10 @@
 				are below.
 			</p>
 			<p>
-				This page is not mobile friendly! Darn. It may also be slow depending on your hardware and
-				browser. See <a href="https://www.youtube.com/watch?v=7xEPqg-Kyg4">the video</a> if it doesn't
-				work.
+				This map is resource-intensive and may be broken or slow depending on your hardware and
+				browser. More optimizations like <a
+					href="https://github.com/ryanatkn/cosmicplayground/issues/56">this one</a
+				> would help.
 			</p>
 			<p>See also <PortalLink slug="soggy-planet" />.</p>
 		</section>
@@ -72,7 +73,7 @@
 		{:else if $resources.status !== 'initial'}
 			<ResourcesLoadingProgress {resources} />
 		{:else}
-			<p>The download is about 75MB of images. If that's cool with you, continue on:</p>
+			<p>The download is about 75MB of images. If that's ok with you, continue on:</p>
 			<ChunkyButton on:click={load}>continue with 75MB download!</ChunkyButton>
 		{/if}
 		<hr />
@@ -112,7 +113,7 @@
 	<!-- TODO pull this href from portal data? -->
 	<section>
 		<PortalPreview href="/about">
-			<AboutPortalPreview />
+			<DeepBreathPortalPreview />
 		</PortalPreview>
 	</section>
 </div>

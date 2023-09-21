@@ -52,7 +52,7 @@ const toIconFontSize = (radius: number): number => radius * 1.4;
 export interface StarshipStageScores {
 	// stay in sync with `parseStarshipStageScores`!
 	crew: boolean[]; // mirrors `MOON_ICONS`
-	crewRescuedAtOnceCount: number;
+	crew_rescued_at_once_count: number;
 }
 export const parseStarshipStageScores = (str: string): StarshipStageScores | undefined => {
 	try {
@@ -62,7 +62,7 @@ export const parseStarshipStageScores = (str: string): StarshipStageScores | und
 		if (
 			Array.isArray(parsed.crew) &&
 			parsed.crew.every((c: any) => typeof c === 'boolean') &&
-			typeof parsed.crewRescuedAtOnceCount === 'number'
+			typeof parsed.crew_rescued_at_once_count === 'number'
 		) {
 			return parsed;
 		}
@@ -76,7 +76,7 @@ export const rescuedAllCrew = (scores: StarshipStageScores): boolean => scores.c
 export const rescuedAllMoons = (scores: StarshipStageScores): boolean =>
 	scores.crew.slice(1).every(Boolean);
 export const rescuedAllCrewAtOnce = (scores: StarshipStageScores): boolean =>
-	scores.crew.length === scores.crewRescuedAtOnceCount;
+	scores.crew.length === scores.crew_rescued_at_once_count;
 export const mergeScores = (
 	existingScores: StarshipStageScores,
 	newScores: StarshipStageScores | undefined,
@@ -88,9 +88,9 @@ export const mergeScores = (
 	}
 	// TODO would be cool to track the rescued combos and give special messages/behaviors/achievements,
 	// for example could show what the player achieved with each combination of enhancements (speed, unlock, push)
-	finalScores.crewRescuedAtOnceCount = Math.max(
+	finalScores.crew_rescued_at_once_count = Math.max(
 		toCrewRescuedCount(newScores.crew),
-		finalScores.crewRescuedAtOnceCount,
+		finalScores.crew_rescued_at_once_count,
 	);
 	return finalScores;
 };
@@ -98,12 +98,12 @@ export const toScores = (stage: Stage): StarshipStageScores => {
 	const crew = [!stage.planet.dead, ...stage.moonsArray.map((moon) => !moon.dead)];
 	return {
 		crew,
-		crewRescuedAtOnceCount: toCrewRescuedCount(crew),
+		crew_rescued_at_once_count: toCrewRescuedCount(crew),
 	};
 };
 export const toInitialScores = (stage: Stage): StarshipStageScores => ({
 	crew: [false, ...stage.moonsArray.map(() => false)],
-	crewRescuedAtOnceCount: 0,
+	crew_rescued_at_once_count: 0,
 });
 const toCrewRescuedCount = (crew: boolean[]): number => crew.filter(Boolean).length;
 

@@ -16,13 +16,13 @@
 	while Chrome and Edge get severe framerate issues
 	seemingly because they're shy about using more GPU.
 
-	To toggle on the DOM version of the EarthViewer, you need to be in `devMode` -
+	To toggle on the DOM version of the EarthViewer, you need to be in `dev_mode` -
 	press ctrl+backtick and then click "webgl" in the top left.
 
 	*/
 
 	export let camera: Camera;
-	export let inputEnabled = true;
+	export let input_enabled = true;
 	export let earth1LeftOffset: number;
 	export let earth2LeftOffset: number;
 	export let landImages: string[];
@@ -50,9 +50,9 @@
 	x={imageViewerX}
 	y={imageViewerY}
 	scale={$scale}
-	moveCamera={camera.moveCamera}
-	zoomCamera={camera.zoomCamera}
-	{inputEnabled}
+	move_camera={camera.move_camera}
+	zoom_camera={camera.zoom_camera}
+	{input_enabled}
 >
 	<div class="earths pixelated">
 		<div class="earth" style="left: {earth1LeftOffset}px">

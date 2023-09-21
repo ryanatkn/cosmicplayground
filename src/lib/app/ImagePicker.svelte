@@ -2,12 +2,12 @@
 	import type {ImageMeta} from '$lib/app/images';
 
 	export let images: ImageMeta[];
-	export let pickImage: (image: ImageMeta) => void;
+	export let pick_image: (image: ImageMeta) => void;
 </script>
 
 <div class="image-picker">
 	{#each images as image (image.info.url)}
-		<button on:click={() => pickImage(image)}>
+		<button on:click={() => pick_image(image)}>
 			<img
 				src={image.thumbnail.url}
 				alt={image.title}

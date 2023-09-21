@@ -1,7 +1,7 @@
 <script lang="ts">
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
-	import type {StarshipStageScores} from '../starshipStage';
-	import StarshipStageScore from '../StarshipStageScore.svelte';
+	import type {StarshipStageScores} from '$routes/starshipStage';
+	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
 
 	export let unlocked: boolean;
 	export let scores: StarshipStageScores;

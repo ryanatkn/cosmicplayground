@@ -8,7 +8,6 @@
 		type CameraStore,
 		type Controller,
 		getClock,
-		getIdle,
 	} from '@feltcoop/dealt';
 
 	import {
@@ -21,7 +20,7 @@
 		PLAYER_STRENGTH_BOOSTED3,
 		Stage,
 		type StarshipStageScores,
-	} from './starshipStage';
+	} from '$routes/starshipStage';
 	import {getPixi} from '$lib/app/pixi';
 
 	export let viewportWidth: number;
@@ -48,9 +47,6 @@
 	const pixi = getPixi();
 
 	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;
-
-	const idle = getIdle();
-	$: if ($idle) clock.pause();
 
 	let camera: CameraStore;
 	let scores: Writable<StarshipStageScores>;

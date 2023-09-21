@@ -6,7 +6,7 @@
 	import type Tour from '$lib/app/Tour.svelte';
 
 	export let tour: Tour;
-	export let debugStartTime: number;
+	export let debug_start_time: number;
 
 	$: ({currentTime, currentStepIndex} = tour);
 
@@ -51,10 +51,10 @@
 </FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {
-		tour.seekTimeTo(debugStartTime);
+		tour.seekTimeTo(debug_start_time);
 	}}
 >
-	seek to {Math.round(debugStartTime / 1000)}s
+	seek to {Math.round(debug_start_time / 1000)}s
 </FloatingTextButton>
 <FloatingTextButton
 	on:click={() => {

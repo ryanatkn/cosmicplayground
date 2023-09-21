@@ -6,7 +6,6 @@
 	const clock = getClock();
 </script>
 
-<!-- TODO handle color -->
 <EarthThumbnail
 	width={320}
 	height={160}

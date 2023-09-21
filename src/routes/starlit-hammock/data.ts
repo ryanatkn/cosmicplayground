@@ -1,5 +1,5 @@
 import type {PortalData} from '$lib/app/portal';
-import Preview from './Preview.svelte';
+import Preview from '$routes/starlit-hammock/Preview.svelte';
 
 const data: PortalData = {
 	name: 'starlit hammock',

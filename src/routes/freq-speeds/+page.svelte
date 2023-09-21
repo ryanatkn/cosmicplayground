@@ -2,16 +2,16 @@
 	import {onDestroy} from 'svelte';
 	import {getClock, getDimensions} from '@feltcoop/dealt';
 
-	import FreqSpeeds from './FreqSpeeds.svelte';
+	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
 	import {setInStorage} from '$lib/util/storage';
-	import {STORAGE_KEY_STRENGTH_BOOSTER2} from '../data';
-	import {getSettings} from '$lib/app/settings';
+	import {STORAGE_KEY_STRENGTH_BOOSTER2} from '$routes/data';
+	import {get_settings} from '$lib/app/settings';
 
 	// TODO give user control over speed in dialog
 
 	const dimensions = getDimensions();
 	const clock = getClock();
-	const settings = getSettings();
+	const settings = get_settings();
 
 	const hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60];
 	const WINNING_HZ_ITEMS = new Set([0, 119, 59, 60]);

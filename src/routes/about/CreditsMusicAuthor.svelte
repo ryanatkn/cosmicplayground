@@ -1,10 +1,19 @@
 <script lang="ts">
 	import Details from '$lib/app/Details.svelte';
-	import {toSongDatasByAuthor} from '$lib/music/songs';
+	import {lookup_songs_by_author} from '$lib/music/songs';
+
+	const names = ['Piña Colada', 'Winter', 'Spacey Intro', 'Spacey Outro'];
 
 	export let author: string;
-	const SONG_MAX_DEFAULT_COUNT = 2;
-	$: songs1 = toSongDatasByAuthor(author)!;
+	const SONG_MAX_DEFAULT_COUNT = 4;
+	$: songs1 = lookup_songs_by_author(author)!.sort((a, b) => {
+		const a_index = names.indexOf(a.name);
+		const b_index = names.indexOf(b.name);
+		if (a_index === -1 && b_index === -1) return 1;
+		if (a_index === -1) return 1;
+		if (b_index === -1) return -1;
+		return a_index - b_index;
+	});
 	$: songs1a = songs1.slice(0, SONG_MAX_DEFAULT_COUNT);
 	$: songs1b = songs1.slice(SONG_MAX_DEFAULT_COUNT);
 </script>
@@ -43,6 +52,14 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 5px 0;
+	}
+	@media (max-width: 580px) {
+		.audio-file {
+			flex-direction: column;
+		}
+		.audio-file audio {
+			margin-left: 0;
+		}
 	}
 	audio {
 		margin-left: 20px;

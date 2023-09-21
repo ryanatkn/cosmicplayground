@@ -1,138 +1,125 @@
 <script lang="ts">
 	import {swallow} from '@feltjs/util/dom.js';
 
-	// TODO pinch to zoom - https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events/Pinch_zoom_gestures
-
-	// TODO merge with `@feltcoop/dealt/Surface.svelte`
-	// TODO maybe pass camera, but some components would need refactoring
 	export let width: number;
 	export let height: number;
 	export let scale: number;
-	export let zoomCamera: (
-		zoomDirection: number,
-		screenPivotX: number,
-		screenPivotY: number,
+	export let zoom: (
+		direction: number,
+		pivot_x: number,
+		pivot_y: number,
+		multiplier?: number,
 	) => void;
-	export let moveCamera: (dx: number, dy: number) => void;
-	export let inputEnabled = true;
+	export let pan: (dx: number, dy: number) => void;
+	export let disabled = false;
 
-	// TODO dispatch events (instead or in addition to binding?)
-	// exported for binding
-	export let pointerDown = false;
-	export let pointerX: number | null = null;
-	export let pointerY: number | null = null;
+	// TODO probably refactor these, written before `events` was added for pinch gestures
+	let pointer_down = false;
+	let pointer_x: number | null = null;
+	let pointer_y: number | null = null;
 
 	let el: HTMLDivElement;
-	let touch = false;
 
-	const updatePointerPosition = (clientX: number, clientY: number): void => {
-		const rect = el.getBoundingClientRect();
+	const events = new Map<number, PointerEvent>();
+	let last_pinch_distance: number | null = null;
+	const POINTER_ZOOM_SENSITIVITY = 1.002; // multiplier for the pointer delta
 
-		// update dragging
-		if (pointerDown) {
-			const dx = pointerX === null ? 0 : pointerX - clientX;
-			const dy = pointerY === null ? 0 : pointerY - clientY;
-			moveCamera(dx / scale, dy / scale);
-		}
-
+	const to_pointer_position = (clientX: number, clientY: number, el: HTMLElement) => {
 		// TODO correctly handle when the DOM element itself is scaled -- maybe the existing `scale` should be `zoom` and this is `scale`?
-		pointerX = clientX - rect.left; //  / domElementScale;
-		pointerY = clientY - rect.top; // / domElementScale;
-	};
-	const startDragging = () => {
-		pointerDown = true;
-	};
-	const stopDragging = () => {
-		pointerDown = false;
+		const rect = el.getBoundingClientRect();
+		const x = clientX - rect.left; //  / domElementScale;
+		const y = clientY - rect.top; // / domElementScale;
+		return {x, y};
 	};
 
-	const onMouseMove = (e: MouseEvent) => {
-		if (!inputEnabled) return;
-		swallow(e);
-		updatePointerPosition(e.clientX, e.clientY);
+	const pan_to = (clientX: number, clientY: number): void => {
+		if (pointer_x !== null && pointer_y !== null) {
+			const dx = pointer_x - clientX;
+			const dy = pointer_y - clientY;
+			pan(dx / scale, dy / scale);
+		}
+		const p = to_pointer_position(clientX, clientY, el);
+		pointer_x = p.x;
+		pointer_y = p.y;
 	};
-	const onMouseDown = (e: MouseEvent) => {
-		if (!inputEnabled) return;
-		swallow(e);
-		startDragging();
-	};
-	const onMouseUp = (e: MouseEvent) => {
-		if (!inputEnabled) return;
-		swallow(e);
-		stopDragging();
-	};
-	const onMouseLeave = () => {
-		if (!inputEnabled) return;
-		stopDragging();
-		pointerX = null;
-		pointerY = null;
-	};
-	const onWheel = (e: WheelEvent) => {
-		if (!inputEnabled || pointerX === null || pointerY === null) return;
+
+	const wheel = (e: WheelEvent) => {
+		const {x, y} = to_pointer_position(e.clientX, e.clientY, el);
 		const scaleDelta = e.deltaX + e.deltaY + e.deltaZ;
-		zoomCamera(scaleDelta, pointerX, pointerY);
+		zoom(scaleDelta, x, y);
 	};
 
-	// TODO mount only for mobile
-	// TODO handle all touches not just the first
-	const onTouchstart = (e: TouchEvent) => {
-		if (!inputEnabled) return;
+	const pointerdown = (e: PointerEvent) => {
 		swallow(e);
-		touch = true;
-		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-		pointerDown = true;
-		focus();
+		events.set(e.pointerId, e);
+		pointer_x = null;
+		pointer_y = null;
+		last_pinch_distance = null;
+		if (e.isPrimary) {
+			if (events.size === 1) {
+				pointer_down = true;
+				pan_to(e.clientX, e.clientY);
+			}
+		}
 	};
-	const onTouchend = (e: TouchEvent) => {
-		if (!inputEnabled) return;
+	const pointerup = (e: PointerEvent) => {
 		swallow(e);
-		touch = true;
-		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-		pointerDown = false;
+		events.delete(e.pointerId);
+		pointer_x = null;
+		pointer_y = null;
+		last_pinch_distance = null;
+		if (e.isPrimary) {
+			pointer_down = false;
+		}
 	};
-	const onTouchcancel = (e: TouchEvent) => {
-		if (!inputEnabled) return;
+	const pointermove = (e: PointerEvent) => {
 		swallow(e);
-		touch = true;
-		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-		pointerDown = false;
-	};
-	const onTouchmove = (e: TouchEvent) => {
-		if (!inputEnabled) return;
-		swallow(e);
-		touch = true;
-		updatePointerPosition(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-	};
-
-	const onContextmenu = (e: MouseEvent) => {
-		if (touch && !e.shiftKey) {
-			swallow(e);
+		events.set(e.pointerId, e);
+		// when 2 pointers are down, handle pinch-to-zoom gestures
+		const event_count = events.size;
+		if (event_count === 1) {
+			if (pointer_down) {
+				pan_to(e.clientX, e.clientY);
+			}
+		} else if (event_count === 2) {
+			const es = Array.from(events.values());
+			const x1 = es[0].clientX;
+			const y1 = es[0].clientY;
+			const x2 = es[1].clientX;
+			const y2 = es[1].clientY;
+			const distance = Math.hypot(x2 - x1, y2 - y1);
+			if (last_pinch_distance !== null) {
+				const delta = last_pinch_distance - distance;
+				const magnitude = Math.abs(delta / 0.33); // magic number for per-event deltas
+				const sensitivity = magnitude * (POINTER_ZOOM_SENSITIVITY - 1) + 1; // TODO super hacky
+				zoom(delta, (x1 + x2) / 2, (y1 + y2) / 2, sensitivity); // TODO is weird that `delta` is only for direction, see the API, merge with `sensitivity` probably
+			}
+			last_pinch_distance = distance;
 		}
 	};
 </script>
 
-<!-- on:mouseenter={onMouseEnter} -->
-
 <div
 	bind:this={el}
-	class="interactive-surface"
-	style="width: {width}px; height: {height}px;"
-	on:mousemove={onMouseMove}
-	on:mousedown={onMouseDown}
-	on:mouseup={onMouseUp}
-	on:mouseleave={onMouseLeave}
-	on:wheel|passive={onWheel}
-	on:touchstart={onTouchstart}
-	on:touchend={onTouchend}
-	on:touchcancel={onTouchcancel}
-	on:touchmove={onTouchmove}
-	on:contextmenu={onContextmenu}
+	class="surface"
+	style:width="{width}px"
+	style:height="{height}px"
+	on:wheel|passive={disabled ? undefined : wheel}
+	on:pointerdown={disabled ? undefined : pointerdown}
+	on:pointermove={disabled ? undefined : pointermove}
+	on:pointerup={disabled ? undefined : pointerup}
+	on:pointerleave={disabled ? undefined : pointerup}
+	on:pointercancel={disabled ? undefined : pointerup}
+	on:pointerout={disabled ? undefined : pointerup}
+	on:touchstart|nonpassive={disabled ? undefined : swallow}
+	on:touchmove|nonpassive={disabled ? undefined : swallow}
 >
 	<slot />
 </div>
 
 <style>
-	.interactive-surface {
+	.surface {
+		-webkit-user-select: none;
 		user-select: none;
 		touch-action: none;
 	}

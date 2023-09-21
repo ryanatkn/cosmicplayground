@@ -11,8 +11,8 @@ export interface Camera2 {
 	width: Writable<number>;
 	height: Writable<number>;
 	scale: Writable<number>;
-	moveCamera: (dx: number, dy: number) => void;
-	zoomCamera: (zoomDirection: number, pivotX?: number, pivotY?: number) => void;
+	move_camera: (dx: number, dy: number) => void;
+	zoom_camera: (direction: number, pivot_x?: number, pivot_y?: number) => void;
 }
 
 const SCALE_FACTOR = 1.1;
@@ -24,27 +24,27 @@ export const createCamera2 = (): Camera2 => {
 		width: writable(0),
 		height: writable(0),
 		scale: writable(1),
-		zoomCamera: (
-			zoomDirection: number,
-			pivotX: number = get(width) / 2,
-			pivotY: number = get(height) / 2,
+		zoom_camera: (
+			direction: number,
+			pivot_x: number = get(width) / 2,
+			pivot_y: number = get(height) / 2,
 		): void => {
-			if (zoomDirection === 0) return;
-			const scaleAmount = zoomDirection > 0 ? 1 / SCALE_FACTOR : SCALE_FACTOR;
-			const oldScale = get(scale);
-			const newScale = oldScale * scaleAmount;
-			scale.set(newScale);
+			if (direction === 0) return;
+			const scale_amount = direction > 0 ? 1 / SCALE_FACTOR : SCALE_FACTOR;
+			const old_scale = get(scale);
+			const new_scale = old_scale * scale_amount;
+			scale.set(new_scale);
 
 			// Center relative to the pivot point.
 			// When zooming with the mouse, this is the mouse's screen position.
-			const scaleRatio = (newScale - oldScale) / oldScale;
-			const mouseDistX = pivotX - get(width) / 2;
-			const mouseDistY = pivotY - get(height) / 2;
-			const dx = (mouseDistX * scaleRatio) / newScale;
-			const dy = (mouseDistY * scaleRatio) / newScale;
-			camera.moveCamera(dx, dy);
+			const scale_ratio = (new_scale - old_scale) / old_scale;
+			const mouse_dist_x = pivot_x - get(width) / 2;
+			const mouse_dist_y = pivot_y - get(height) / 2;
+			const dx = (mouse_dist_x * scale_ratio) / new_scale;
+			const dy = (mouse_dist_y * scale_ratio) / new_scale;
+			camera.move_camera(dx, dy);
 		},
-		moveCamera: (dx: number, dy: number): void => {
+		move_camera: (dx: number, dy: number): void => {
 			x.update(($x) => $x + dx);
 			y.update(($y) => $y + dy);
 		},

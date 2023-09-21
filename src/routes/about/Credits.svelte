@@ -1,11 +1,11 @@
 <script lang="ts">
-	import CreditsSoggyPlanet from './CreditsSoggyPlanet.svelte';
-	import CreditsPaintFreqs from './CreditsPaintFreqs.svelte';
-	import CreditsNightLights from './CreditsNightLights.svelte';
-	import CreditsSpaceImages from './CreditsSpaceImages.svelte';
-	import CreditsUnderConstruction from './CreditsUnderConstruction.svelte';
-	import CreditsMusic from './CreditsMusic.svelte';
-	import CreditsBannerAndIcon from './CreditsBannerAndIcon.svelte';
+	import CreditsSoggyPlanet from '$routes/about/CreditsSoggyPlanet.svelte';
+	import CreditsPaintFreqs from '$routes/about/CreditsPaintFreqs.svelte';
+	import CreditsNightLights from '$routes/about/CreditsNightLights.svelte';
+	import CreditsSpaceImages from '$routes/about/CreditsSpaceImages.svelte';
+	import CreditsUnderConstruction from '$routes/about/CreditsUnderConstruction.svelte';
+	import CreditsMusic from '$routes/about/CreditsMusic.svelte';
+	import CreditsBannerAndIcon from '$routes/about/CreditsBannerAndIcon.svelte';
 	import Panel from '$lib/app/Panel.svelte';
 
 	// TODO should credits be a portal convention? `/src/portals/{slug}/Credits.svelte`
@@ -37,6 +37,7 @@
 					<code>src/static/assets</code>
 				</a>
 			</li>
+			<li>more credits below</li>
 		</ul>
 	</div>
 </Panel>

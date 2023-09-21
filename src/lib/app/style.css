@@ -27,6 +27,8 @@
 	); /*  TODO probably make this a lighter shade of the primary color */
 	--text_color: hsl(0, 0%, 80%);
 	--text_color_light: hsl(0, 0%, 62%);
+	--text_color_lighter: hsl(0, 0%, 39%);
+	/* --text_color_dark: hsl(0, 0%, 2%); */
 	--link_color: var(--ocean_text_color);
 	--light_border_color: rgba(255, 255, 255, 0.13);
 	/* TODO reuse --ocean_color and --land_color, maybe using the substitution trick */
@@ -164,6 +166,7 @@ h3 {
 	transform: var(--clickable_transform_sm__active);
 }
 
+/* TODO remove this when felt-ui has dark mode */
 button,
 button:hover,
 button:active,
@@ -172,9 +175,6 @@ button.selected,
 button:disabled {
 	background: transparent;
 	box-shadow: none;
-}
-button:disabled {
-	opacity: 0.39;
 }
 
 /* TODO upstream */
@@ -260,4 +260,22 @@ summary:active {
 }
 .pulsing {
 	animation: pulsing var(--pulsing_duration, 0.2s) linear infinite alternate;
+}
+
+/* TODO upstream */
+/* TODO make this not affect paragraph text line spacing */
+.markup p button {
+	display: inline-block;
+	margin-bottom: 0 !important;
+	padding-top: var(--spacing_xs);
+	padding-bottom: var(--spacing_xs);
+	min-height: auto;
+}
+
+/* TODO upstream next to .plain-button */
+.plain-input {
+	border: 1px solid transparent;
+}
+.plain-input:hover {
+	border-color: var(--border_color_darker);
 }

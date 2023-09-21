@@ -24,10 +24,12 @@
 
 <div class="tour-title" out:blur|local={{duration: transitionDuration, amount: blurAmount}}>
 	<div class="text" style={textStyle}>
-		<div in:blur={{duration: transitionDuration, amount: blurAmount}}>deep</div>
+		<div in:blur|local={{duration: transitionDuration, amount: blurAmount}}>deep</div>
 	</div>
 	<div class="text" style={textStyle}>
-		<div in:blur={{duration: transitionDuration, amount: blurAmount, delay: maxDelay}}>breath</div>
+		<div in:blur|local={{duration: transitionDuration, amount: blurAmount, delay: maxDelay}}>
+			breath
+		</div>
 	</div>
 </div>
 
@@ -45,6 +47,7 @@
 		color: var(--ocean_text_color);
 		padding-bottom: 40px; /* center the text slightly better */
 		overflow: hidden; /* lazy hack for small screens, assuming 1080p or larger */
+		-webkit-user-select: none;
 		user-select: none;
 	}
 	.text {

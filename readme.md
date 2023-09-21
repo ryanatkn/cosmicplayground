@@ -6,13 +6,10 @@
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
 
 [cosmicplayground.org](https://www.cosmicplayground.org)
-is an open source hobby project exploring some
-tools and toys using web technology for fun and learning.
+is a free and open source noncommercial hobby project exploring
+tools and toys using web tech for fun and learning.
 It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
 
-- There's a little action game on the home screen: to play, click the starship `🛸`.
-  It works but it's a work in progress (the gameplay isn't signalled very well),
-  and rescuing all of the crew at once grants access to some early previews of stuff.
 - [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
   where sea levels rise and fall and the lights of civilization shine through the night.
   It displays sea levels roughly between the
@@ -20,17 +17,18 @@ It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
   before the
   [early Holocene sea level rise](https://wikipedia.org/wiki/Early_Holocene_sea_level_rise)
   and one [estimated possible maximum](https://wikipedia.org/wiki/Sea_level_rise).
+  - Soggy Planet includes a 3 minute tour of some points of interest related to sea levels
+    at the [Last Glacial Maximum](https://wikipedia.org/wiki/Last_Glacial_Maximum),
+    [made in 2 days](https://github.com/ryanatkn/cosmicplayground/pull/72)
+    for [the Svelte hackathon](https://hack.sveltesociety.dev/)
+    ([cosmicplayground.org/soggy-planet](https://www.cosmicplayground.org/soggy-planet),
+    [YouTube](https://www.youtube.com/watch?v=akP5J3jfjt4))
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
   invites you to sit back and soak in the staggering beauty of space
   as it slowly surveys the skies.
   Space out or zoom and pan around to explore on your own—try to spot your atoms' cousins!
   It displays images from Hubble, [spacetelescope.org](https://www.spacetelescope.org/about/).
   Try it on an idle screen but be mindful of the power usage. :]
-  - Safari users: Starlit Hammock uses the modern image format webp instead of jpg,
-    which means it only works on iOS 14 & macOS Big Sur or later
-- mobile caveats D:
-  - pinch-to-zoom doesn't work yet (I'm being stubborn and don't want to use a library)
-  - some mobile browsers may crash if the GPU can't handle the load :|
 - Two tools for understanding
   [the easing functions in Svelte](https://svelte.dev/docs#run-time-svelte-easing)
   (see also [the official example](https://svelte.dev/examples/easing)):

@@ -2,7 +2,7 @@
 	import {sineInOut} from 'svelte/easing';
 
 	import type Camera from '$lib/app/Camera.svelte';
-	import TweenedValue from './TweenedValue.svelte';
+	import TweenedValue from '$lib/app/TweenedValue.svelte';
 
 	export let camera: Camera;
 	export let enabled = true;

@@ -6,18 +6,18 @@
 	import {swallow} from '@feltjs/util/dom.js';
 	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
 
-	import DeepBreathTitleScreen from './DeepBreathTitleScreen.svelte';
-	import DeepBreathTour from './DeepBreathTour.svelte';
+	import DeepBreathTitleScreen from '$routes/deep-breath/DeepBreathTitleScreen.svelte';
+	import DeepBreathTour from '$routes/deep-breath/DeepBreathTour.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import EarthViewerDom from '$lib/app/EarthViewerDom.svelte';
 	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
 	import {createResourcesStore} from '$lib/app/resources';
-	import {getSettings} from '$lib/app/settings';
+	import {get_settings} from '$lib/app/settings';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import DeepBreathDevHud from './DeepBreathDevHud.svelte';
+	import DeepBreathDevHud from '$routes/deep-breath/DeepBreathDevHud.svelte';
 	import Camera from '$lib/app/Camera.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
 
@@ -43,10 +43,10 @@
 	const initialWidth = $dimensions.width;
 	const initialHeight = $dimensions.height;
 
-	const settings = getSettings();
-	$: devMode = $settings.devMode;
+	const settings = get_settings();
+	$: dev_mode = $settings.dev_mode;
 
-	const debugStartTime = 0; // ~0-300000
+	const debug_start_time = 0; // ~0-300000
 
 	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
 	const resources = createResourcesStore();
@@ -63,13 +63,13 @@
 
 	let enablePixiEarthViewer = true; // old slow DOM version is available
 
-	$: inputEnabled = !$touring;
+	$: input_enabled = !$touring;
 
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
-		if (showTitleScreen) return;
+		if (show_title_screen) return;
 		// map screen
-		if (!inputEnabled) return;
+		if (!input_enabled) return;
 		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
 			swallow(e);
 			returnToTitleScreen();
@@ -172,18 +172,18 @@
 	seaImages.forEach((url) => resources.addResource('image', url));
 
 	// in dev mode, bypass the title screen for convenience
-	let showTitleScreen = true;
+	let show_title_screen = true;
 	const proceed = () => {
-		showTitleScreen = false;
+		show_title_screen = false;
 	};
 	const returnToTitleScreen = () => {
 		if ($touring) tour!.cancel();
-		showTitleScreen = true;
+		show_title_screen = true;
 	};
 	onMount(() => {
 		// in dev mode, bypass the title screen for convenience
-		if (devMode) {
-			showTitleScreen = false;
+		if (dev_mode) {
+			show_title_screen = false;
 			void resources.load();
 		}
 	});
@@ -195,7 +195,7 @@
 
 {#if camera && x && y && scale}
 	<div class="deep-breath">
-		{#if !showTitleScreen && $resources.status === 'success'}
+		{#if !show_title_screen && $resources.status === 'success'}
 			{#if enablePixiEarthViewer}
 				<EarthViewerPixi
 					{camera}
@@ -203,14 +203,14 @@
 					{seaImages}
 					{activeLandValue}
 					{activeSeaLevel}
-					{inputEnabled}
+					{input_enabled}
 					{imageWidth}
 					{imageHeight}
 				/>
 			{:else}
 				<EarthViewerDom
 					{camera}
-					{inputEnabled}
+					{input_enabled}
 					{earth1LeftOffset}
 					{earth2LeftOffset}
 					{landImages}
@@ -236,50 +236,48 @@
 						∙∙∙
 					</FloatingIconButton>
 				{/if}
-				{#if !$touring || devMode}
-					{#if showHud}
-						<div class="hud-top-controls">
-							<FloatingIconButton
-								pressed={showHud}
-								label="toggle hud controls"
-								on:click={onClickHudToggle}
-							>
-								∙∙∙
-							</FloatingIconButton>
-							{#if tour && !$touring}
-								<FloatingTextButton on:click={tour.beginTour}>tour</FloatingTextButton>
-							{/if}
-						</div>
-						<div class="hud-left-controls">
-							{#if devMode}
-								<DeepBreathDevHud
-									tour={tour || null}
-									{x}
-									{y}
-									{scale}
-									togglePixiEarthViewer={(v) => (enablePixiEarthViewer = v)}
-									{enablePixiEarthViewer}
-									{debugStartTime}
-								/>
-							{/if}
-						</div>
-						{#if !$touring}
-							<div class="month-wrapper">
-								<MonthHud
-									{activeLandIndex}
-									{selectedLandIndex}
-									{selectLandIndex}
-									{hoverLandIndex}
-								/>
-							</div>
-							<SeaLevelHud
-								seaLevel={activeSeaLevel}
-								{seaIndexMax}
-								{selectedSeaLevel}
-								{selectSeaLevel}
-								{hoverSeaLevel}
+				{#if showHud && (!$touring || dev_mode)}
+					<div class="hud-top-controls">
+						<FloatingIconButton
+							pressed={showHud}
+							label="toggle hud controls"
+							on:click={onClickHudToggle}
+						>
+							∙∙∙
+						</FloatingIconButton>
+						{#if tour && !$touring}
+							<FloatingTextButton on:click={tour.begin_tour}>tour</FloatingTextButton>
+						{/if}
+					</div>
+					<div class="hud-left-controls">
+						{#if dev_mode}
+							<DeepBreathDevHud
+								tour={tour || null}
+								{x}
+								{y}
+								{scale}
+								togglePixiEarthViewer={(v) => (enablePixiEarthViewer = v)}
+								{enablePixiEarthViewer}
+								{debug_start_time}
 							/>
 						{/if}
+					</div>
+					{#if !$touring}
+						<div class="month-wrapper">
+							<MonthHud
+								active_land_index={activeLandIndex}
+								selected_land_index={selectedLandIndex}
+								select_land_index={selectLandIndex}
+								hover_land_index={hoverLandIndex}
+							/>
+						</div>
+						<SeaLevelHud
+							sea_level={activeSeaLevel}
+							sea_index_max={seaIndexMax}
+							selected_sea_level={selectedSeaLevel}
+							select_sea_level={selectSeaLevel}
+							hover_sea_level={hoverSeaLevel}
+						/>
 					{/if}
 				{/if}
 			</Hud>
