@@ -4,7 +4,7 @@
 	import {onMount} from 'svelte';
 	import {randomFloat} from '@feltjs/util/random.js';
 	import {swallow} from '@feltjs/util/dom.js';
-	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
+	import {getClock, enableGlobalHotkeys, getDimensions} from '@ryanatkn/dealt';
 
 	import DeepBreathTitleScreen from '$routes/deep-breath/DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from '$routes/deep-breath/DeepBreathTour.svelte';

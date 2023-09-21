@@ -1,5 +1,5 @@
 import {mapRecord} from '@feltjs/util/object.js';
-import {hslToStr, type Hsl, type Hue} from '@feltcoop/dealt';
+import {hslToStr, type Hsl, type Hue} from '@ryanatkn/dealt';
 
 import {midis, isMidi, type Midi} from '$lib/music/midi.js';
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {round} from '@feltjs/util/maths.js';
-	import {getClock} from '@feltcoop/dealt';
+	import {getClock} from '@ryanatkn/dealt';
 
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import type Tour from '$lib/app/Tour.svelte';

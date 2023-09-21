@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {scale} from 'svelte/transition';
 	import {wait} from '@feltjs/util/async.js';
-	import type {ClockStore} from '@feltcoop/dealt';
+	import type {ClockStore} from '@ryanatkn/dealt';
 
 	import Panel from '$lib/app/Panel.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';

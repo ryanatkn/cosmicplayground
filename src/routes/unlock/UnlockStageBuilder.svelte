@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {createEventDispatcher, onMount} from 'svelte';
 	import {swallow} from '@feltjs/util/dom.js';
-	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
+	import {getClock, enableGlobalHotkeys, getDimensions} from '@ryanatkn/dealt';
 
 	import {initialStageData, type StageData} from '$routes/unlock/stage';
 	import UnlockStage from '$routes/unlock/UnlockStage.svelte';

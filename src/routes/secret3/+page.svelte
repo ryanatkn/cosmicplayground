@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
-	import {getClock, getDimensions} from '@feltcoop/dealt';
+	import {getClock, getDimensions} from '@ryanatkn/dealt';
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 	import {get_settings} from '$lib/app/settings';

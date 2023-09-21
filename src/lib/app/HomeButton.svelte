@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {goto} from '$app/navigation';
 	import {swallow} from '@feltjs/util/dom.js';
-	import {enableGlobalHotkeys} from '@feltcoop/dealt';
+	import {enableGlobalHotkeys} from '@ryanatkn/dealt';
 
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 

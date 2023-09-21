@@ -6,7 +6,7 @@
 	import {dequal} from 'dequal/lite';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {browser} from '$app/environment';
-	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
+	import {getClock, enableGlobalHotkeys, getDimensions} from '@ryanatkn/dealt';
 
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';

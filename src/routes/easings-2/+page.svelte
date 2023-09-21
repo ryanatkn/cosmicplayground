@@ -24,7 +24,7 @@
 
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@feltjs/util/maths.js';
-	import {getClock} from '@feltcoop/dealt';
+	import {getClock} from '@ryanatkn/dealt';
 
 	import {svelteEasings} from '$lib/app/easings';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {getClock, getDimensions} from '@feltcoop/dealt';
+	import {getClock, getDimensions} from '@ryanatkn/dealt';
 
 	import {freezeframe} from '$lib/app/freezeframe';
 

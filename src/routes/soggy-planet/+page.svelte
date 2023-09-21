@@ -2,7 +2,7 @@
 	import {onMount, tick} from 'svelte';
 	import {randomFloat} from '@feltjs/util/random.js';
 	import {swallow} from '@feltjs/util/dom.js';
-	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
+	import {getClock, enableGlobalHotkeys, getDimensions} from '@ryanatkn/dealt';
 	import {dev} from '$app/environment';
 
 	import Soggy_Planet_Title_Screen from '$routes/soggy-planet/Soggy_Planet_Title_Screen.svelte';

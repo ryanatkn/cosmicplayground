@@ -11,7 +11,7 @@ import {
 	updateEntityDirection,
 	type Hsl,
 	type StageOptions,
-} from '@feltcoop/dealt';
+} from '@ryanatkn/dealt';
 
 // TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
 // and our `Hsl` is good for fast manipulation

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {getClock} from '@feltcoop/dealt';
+	import {getClock} from '@ryanatkn/dealt';
 
 	import EarthThumbnail from '$lib/app/EarthThumbnail.svelte';
 	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/soggy-planet/constants';

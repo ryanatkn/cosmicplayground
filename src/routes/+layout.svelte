@@ -17,7 +17,7 @@
 		setClock,
 		enableGlobalHotkeys,
 		setDimensions,
-	} from '@feltcoop/dealt';
+	} from '@ryanatkn/dealt';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg';
 	import {PixiApp, setPixi} from '$lib/app/pixi';

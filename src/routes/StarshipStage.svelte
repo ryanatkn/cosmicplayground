@@ -8,7 +8,7 @@
 		type CameraStore,
 		type Controller,
 		getClock,
-	} from '@feltcoop/dealt';
+	} from '@ryanatkn/dealt';
 
 	import {
 		PLAYER_SPEED,

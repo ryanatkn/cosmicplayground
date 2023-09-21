@@ -3,7 +3,7 @@
 	import {createEventDispatcher, onDestroy} from 'svelte';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {UnreachableError} from '@feltjs/util/error.js';
-	import type {ClockStore} from '@feltcoop/dealt';
+	import type {ClockStore} from '@ryanatkn/dealt';
 
 	import {get_settings} from '$lib/app/settings';
 	import {reset_render_stats, getRenderStats} from '$lib/app/renderStats';

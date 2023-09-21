@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {getClock, getDimensions} from '@feltcoop/dealt';
+	import {getClock, getDimensions} from '@ryanatkn/dealt';
 	import {swallow} from '@feltjs/util/dom.js';
 	import {blur} from 'svelte/transition';
 

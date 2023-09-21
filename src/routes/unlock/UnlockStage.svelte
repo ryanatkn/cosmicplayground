@@ -7,7 +7,7 @@
 		type Controller,
 		getClock,
 		getIdle,
-	} from '@feltcoop/dealt';
+	} from '@ryanatkn/dealt';
 	import type {Writable} from 'svelte/store';
 
 	import {getPixi} from '$lib/app/pixi';

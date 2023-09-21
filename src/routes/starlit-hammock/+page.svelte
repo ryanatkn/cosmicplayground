@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {randomItem, randomFloat} from '@feltjs/util/random.js';
 	import {sineInOut} from 'svelte/easing';
-	import {getClock, getDimensions} from '@feltcoop/dealt';
+	import {getClock, getDimensions} from '@ryanatkn/dealt';
 
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/app/ImagePicker.svelte';

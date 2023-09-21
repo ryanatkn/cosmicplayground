@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {getClock} from '@feltcoop/dealt';
+	import {getClock} from '@ryanatkn/dealt';
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
 

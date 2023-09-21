@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {getDimensions} from '@feltcoop/dealt';
+	import {getDimensions} from '@ryanatkn/dealt';
 
 	import Soggy_Planet_Credits from '$routes/soggy-planet/Soggy_Planet_Credits.svelte';
 	import Soggy_Planet_Thumbnail from '$routes/soggy-planet/Soggy_Planet_Thumbnail.svelte';

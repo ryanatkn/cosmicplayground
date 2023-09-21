@@ -1,4 +1,4 @@
-import {DEFAULT_STRENGTH, DEFAULT_TIME_DILATION} from '@feltcoop/dealt';
+import {DEFAULT_STRENGTH, DEFAULT_TIME_DILATION} from '@ryanatkn/dealt';
 
 // interface EntityData {
 // 	id: number;

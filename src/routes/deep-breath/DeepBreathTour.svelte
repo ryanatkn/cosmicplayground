@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
-	import {getClock} from '@feltcoop/dealt';
+	import {getClock} from '@ryanatkn/dealt';
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTourData} from '$routes/deep-breath/deepBreathTourData';

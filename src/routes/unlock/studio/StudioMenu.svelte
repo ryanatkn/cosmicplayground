@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {ClockStore} from '@feltcoop/dealt';
+	import type {ClockStore} from '@ryanatkn/dealt';
 
 	import AppControlsTable from '$lib/app/AppControlsTable.svelte';
 

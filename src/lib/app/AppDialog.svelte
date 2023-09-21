@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Teleport from '@feltjs/felt-ui/Teleport.svelte';
-	import {getClock} from '@feltcoop/dealt';
+	import {getClock} from '@ryanatkn/dealt';
 
 	import {show_app_dialog, appDialogEl} from '$lib/app/appDialog';
 

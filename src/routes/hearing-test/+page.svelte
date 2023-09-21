@@ -3,7 +3,7 @@
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@feltjs/util/maths.js';
 	import {swallow} from '@feltjs/util/dom.js';
-	import {getDimensions} from '@feltcoop/dealt';
+	import {getDimensions} from '@ryanatkn/dealt';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {getClock} from '@feltcoop/dealt';
+	import {getClock} from '@ryanatkn/dealt';
 
 	import {initialStageData, type StageData} from '$routes/unlock/stage';
 	import UnlockStageBuilder from '$routes/unlock/UnlockStageBuilder.svelte';
