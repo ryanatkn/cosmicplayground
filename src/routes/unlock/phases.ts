@@ -1,4 +1,4 @@
-import {randomItem} from '@feltjs/util/random.js';
+import {randomItem} from '@grogarden/util/random.js';
 
 import {toImageMeta, type ImageMeta} from '$lib/app/images';
 import {type Song, lookup_song} from '$lib/music/songs';

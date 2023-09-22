@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {scale} from 'svelte/transition';
-	import {wait} from '@feltjs/util/async.js';
+	import {wait} from '@grogarden/util/async.js';
 	import type {ClockStore} from '@ryanatkn/dealt';
 
 	import Panel from '$lib/app/Panel.svelte';

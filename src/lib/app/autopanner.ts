@@ -1,5 +1,5 @@
 import {writable, type Readable} from 'svelte/store';
-import {randomFloat} from '@feltjs/util/random.js';
+import {randomFloat} from '@grogarden/util/random.js';
 
 // This is the old version of the autopanner that relied on CSS transitions for movement.
 // The newer version has an `update` function that handles time deltas.

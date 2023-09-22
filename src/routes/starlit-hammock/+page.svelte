@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {randomItem, randomFloat} from '@feltjs/util/random.js';
+	import {randomItem, randomFloat} from '@grogarden/util/random.js';
 	import {sineInOut} from 'svelte/easing';
 	import {getClock, getDimensions} from '@ryanatkn/dealt';
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {onMount, tick} from 'svelte';
-	import {randomFloat} from '@feltjs/util/random.js';
-	import {swallow} from '@feltjs/util/dom.js';
+	import {randomFloat} from '@grogarden/util/random.js';
+	import {swallow} from '@grogarden/util/dom.js';
 	import {getClock, enableGlobalHotkeys, getDimensions} from '@ryanatkn/dealt';
 	import {dev} from '$app/environment';
 

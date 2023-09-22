@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {spring} from 'svelte/motion';
 	import {onDestroy} from 'svelte';
-	import {lerp} from '@feltjs/util/maths.js';
-	import {swallow} from '@feltjs/util/dom.js';
+	import {lerp} from '@grogarden/util/maths.js';
+	import {swallow} from '@grogarden/util/dom.js';
 	import {hslToRgb, getDimensions} from '@ryanatkn/dealt';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';

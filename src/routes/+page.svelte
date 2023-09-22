@@ -1,10 +1,10 @@
 <script lang="ts">
 	import {tick} from 'svelte';
-	import {wait} from '@feltjs/util/async.js';
-	import {EMPTY_ARRAY} from '@feltjs/util/array.js';
-	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
+	import {wait} from '@grogarden/util/async.js';
+	import {EMPTY_ARRAY} from '@grogarden/util/array.js';
+	import PendingAnimation from '@fuz.dev/fuz/PendingAnimation.svelte';
 	import {dequal} from 'dequal/lite';
-	import {swallow} from '@feltjs/util/dom.js';
+	import {swallow} from '@grogarden/util/dom.js';
 	import {browser} from '$app/environment';
 	import {getClock, enableGlobalHotkeys, getDimensions} from '@ryanatkn/dealt';
 

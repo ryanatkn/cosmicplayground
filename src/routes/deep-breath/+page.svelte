@@ -2,8 +2,8 @@
 	import {tweened} from 'svelte/motion';
 	import {cubicInOut} from 'svelte/easing';
 	import {onMount} from 'svelte';
-	import {randomFloat} from '@feltjs/util/random.js';
-	import {swallow} from '@feltjs/util/dom.js';
+	import {randomFloat} from '@grogarden/util/random.js';
+	import {swallow} from '@grogarden/util/dom.js';
 	import {getClock, enableGlobalHotkeys, getDimensions} from '@ryanatkn/dealt';
 
 	import DeepBreathTitleScreen from '$routes/deep-breath/DeepBreathTitleScreen.svelte';

@@ -1,16 +1,16 @@
 <script lang="ts">
-	import '@feltjs/felt-ui/style.css';
+	import '@fuz.dev/fuz/style.css';
 	import '$lib/app/style.css';
 	import '$lib/app/style-utilities.css';
 
 	import {onMount} from 'svelte';
-	import type {AsyncStatus} from '@feltjs/util/async.js';
+	import type {AsyncStatus} from '@grogarden/util/async.js';
 	import {browser} from '$app/environment';
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
 	import {beforeNavigate, goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
-	import {swallow} from '@feltjs/util/dom.js';
+	import {swallow} from '@grogarden/util/dom.js';
 	import {
 		setIdle,
 		trackIdleState,

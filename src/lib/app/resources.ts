@@ -1,6 +1,6 @@
 import {writable, type Readable} from 'svelte/store';
-import type {AsyncStatus} from '@feltjs/util/async.js';
-import {UnreachableError} from '@feltjs/util/error.js';
+import type {AsyncStatus} from '@grogarden/util/async.js';
+import {UnreachableError} from '@grogarden/util/error.js';
 
 /*
 

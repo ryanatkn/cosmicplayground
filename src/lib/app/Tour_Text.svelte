@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {getClock, getDimensions} from '@ryanatkn/dealt';
-	import {swallow} from '@feltjs/util/dom.js';
+	import {swallow} from '@grogarden/util/dom.js';
 	import {blur} from 'svelte/transition';
 
 	const clock = getClock();

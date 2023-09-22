@@ -1,6 +1,6 @@
 import {get, type Writable} from 'svelte/store';
-import {identity} from '@feltjs/util/function.js';
-import type {Json} from '@feltjs/util/json.js';
+import {identity} from '@grogarden/util/function.js';
+import type {Json} from '@grogarden/util/json.js';
 
 import {loadFromStorage, setInStorage} from '$lib/util/storage';
 

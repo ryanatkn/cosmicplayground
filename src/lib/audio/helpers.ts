@@ -1,5 +1,5 @@
 import type {Flavored} from '@feltjs/util';
-import {round} from '@feltjs/util/maths.js';
+import {round} from '@grogarden/util/maths.js';
 import {z} from 'zod';
 
 export type Frequency = number;

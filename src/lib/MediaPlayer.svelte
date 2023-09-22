@@ -1,9 +1,9 @@
 <script lang="ts" strictEvents>
 	import {fade, slide} from 'svelte/transition';
-	import {swallow} from '@feltjs/util/dom.js';
+	import {swallow} from '@grogarden/util/dom.js';
 	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
-	import {randomItem} from '@feltjs/util/random.js';
-	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
+	import {randomItem} from '@grogarden/util/random.js';
+	import PendingAnimation from '@fuz.dev/fuz/PendingAnimation.svelte';
 
 	import Playlist from '$lib/Playlist.svelte';
 	import VolumeControl from '$lib/VolumeControl.svelte';
