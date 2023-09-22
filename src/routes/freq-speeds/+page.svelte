@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
-	import {getClock, getDimensions} from '@ryanatkn/dealt';
+	import {get_clock, get_contextmenu_dimensions} from '@ryanatkn/dealt';
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
 	import {setInStorage} from '$lib/util/storage';
@@ -9,8 +9,8 @@
 
 	// TODO give user control over speed in dialog
 
-	const dimensions = getDimensions();
-	const clock = getClock();
+	const dimensions = get_contextmenu_dimensions();
+	const clock = get_clock();
 	const settings = get_settings();
 
 	const hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60];

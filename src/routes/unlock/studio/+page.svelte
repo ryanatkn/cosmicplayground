@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {getClock} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
 
 	import {initialStageData, type StageData} from '$routes/unlock/stage';
 	import UnlockStageBuilder from '$routes/unlock/UnlockStageBuilder.svelte';
@@ -11,7 +11,7 @@
 	// TODO needs a lot of refactoring -- either combine tabs with controls
 	// in the stage builder or extract elsewhere
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	// TODO store an index and each separate?
 	const STORAGE_KEY_STAGES = 'unlock_stages';

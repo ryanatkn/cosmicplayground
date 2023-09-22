@@ -5,7 +5,7 @@
 		DomCanvasRenderer,
 		type CameraStore,
 		type Controller,
-		getClock,
+		get_clock,
 		getIdle,
 	} from '@ryanatkn/dealt';
 	import type {Writable} from 'svelte/store';
@@ -26,7 +26,7 @@
 
 	$: console.log(`UnlockStage.svelte stage`, stage);
 
-	const clock = getClock();
+	const clock = get_clock();
 	const pixi = getPixi();
 
 	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;

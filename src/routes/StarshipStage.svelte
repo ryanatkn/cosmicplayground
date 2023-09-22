@@ -7,7 +7,7 @@
 		DomCanvasRenderer,
 		type CameraStore,
 		type Controller,
-		getClock,
+		get_clock,
 	} from '@ryanatkn/dealt';
 
 	import {
@@ -43,7 +43,7 @@
 	export let stage: Stage;
 	export let enableDomCanvasRenderer = false;
 
-	const clock = getClock();
+	const clock = get_clock();
 	const pixi = getPixi();
 
 	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Teleport from '@fuz.dev/fuz/Teleport.svelte';
-	import {getClock} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
 
 	import {show_app_dialog, appDialogEl} from '$lib/app/appDialog';
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	const exit = () => {
 		$show_app_dialog = false;

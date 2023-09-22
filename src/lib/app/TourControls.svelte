@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {round} from '@grogarden/util/maths.js';
-	import {getClock} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
 
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
@@ -10,7 +10,7 @@
 
 	$: ({currentTime, currentStepIndex} = tour);
 
-	const clock = getClock();
+	const clock = get_clock();
 	$: ({running} = $clock);
 
 	const TIME_DELTA_SM = 1000;

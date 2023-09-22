@@ -1,7 +1,9 @@
 <script lang="ts">
 	import {createEventDispatcher, onMount} from 'svelte';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {getClock, enableGlobalHotkeys, getDimensions} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
+	import { get_contextmenu_dimensions} from '@fuz.dev/fuz/contextmenu.js';
+	import { enable_global_hotkeys} from '@ryanatkn/dealt/dom.js';
 
 	import {initialStageData, type StageData} from '$routes/unlock/stage';
 	import UnlockStage from '$routes/unlock/UnlockStage.svelte';
@@ -26,8 +28,8 @@ TODO ideas
 
 	const enableDomCanvasRenderer = false; // TODO use this?
 
-	const dimensions = getDimensions();
-	const clock = getClock();
+	const dimensions = get_contextmenu_dimensions();
+	const clock = get_clock();
 	const pixi = getPixi();
 
 	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
@@ -156,19 +158,19 @@ TODO ideas
 	const toggleExpandControls = () => (expandControls = !expandControls);
 
 	const onWindowKeydown = (e: KeyboardEvent) => {
-		if (e.key === '`' && e.ctrlKey && enableGlobalHotkeys(e.target)) {
+		if (e.key === '`' && e.ctrlKey && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			toggleExpandControls();
-		} else if (e.key === ' ' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === ' ' && !e.ctrlKey && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			resetStage();
-		} else if (e.key === 's' && e.ctrlKey && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === 's' && e.ctrlKey && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			saveData();
-		} else if (e.key === '}' && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === '}' && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			simulate(100);
-		} else if (e.key === ']' && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === ']' && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			if (e.ctrlKey) {
 				simulate(10);

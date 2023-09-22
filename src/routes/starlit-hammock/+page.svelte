@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {randomItem, randomFloat} from '@grogarden/util/random.js';
 	import {sineInOut} from 'svelte/easing';
-	import {getClock, getDimensions} from '@ryanatkn/dealt';
+	import {get_clock, get_contextmenu_dimensions} from '@ryanatkn/dealt';
 
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/app/ImagePicker.svelte';
@@ -26,7 +26,7 @@
 
 	*/
 
-	const dimensions = getDimensions();
+	const dimensions = get_contextmenu_dimensions();
 	let width = $dimensions.width;
 	let height = $dimensions.height;
 	$: width = $dimensions.width;
@@ -36,7 +36,7 @@
 
 	let activeImage = randomItem(spaceImages);
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	const pick_image = (image: ImageMeta) => {
 		activeImage = image;

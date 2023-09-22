@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {getClock} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
 
 	import PortalLink from '$lib/app/PortalLink.svelte';
 	import {freezeframe} from '$lib/app/freezeframe';
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	$: freeze = !$clock.running;
 </script>

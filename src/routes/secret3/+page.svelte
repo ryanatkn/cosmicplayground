@@ -1,12 +1,12 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
-	import {getClock, getDimensions} from '@ryanatkn/dealt';
+	import {get_clock, get_contextmenu_dimensions} from '@ryanatkn/dealt';
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 	import {get_settings} from '$lib/app/settings';
 	import {unlockSatisfyingSecret} from '$lib/util/secret';
 
-	const dimensions = getDimensions();
+	const dimensions = get_contextmenu_dimensions();
 	const settings = get_settings();
 
 	let width = $dimensions.width;
@@ -14,7 +14,7 @@
 	$: width = $dimensions.width;
 	$: height = $dimensions.height;
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	const hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60, 144];
 	const WINNING_HZ_ITEMS = new Set([0, 143, 144, 287]);

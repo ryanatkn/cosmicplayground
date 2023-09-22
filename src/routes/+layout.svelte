@@ -5,7 +5,6 @@
 
 	import {onMount} from 'svelte';
 	import type {AsyncStatus} from '@grogarden/util/async.js';
-	import {browser} from '$app/environment';
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
 	import {beforeNavigate, goto} from '$app/navigation';
@@ -14,10 +13,9 @@
 	import {
 		setIdle,
 		trackIdleState,
-		setClock,
-		enableGlobalHotkeys,
-		setDimensions,
 	} from '@ryanatkn/dealt';
+	import {set_clock} from '@ryanatkn/dealt/clock.js';
+	import {enable_global_hotkeys} from '@ryanatkn/dealt/dom.js';
 
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg';
 	import {PixiApp, setPixi} from '$lib/app/pixi';
@@ -41,15 +39,12 @@
 		$show_app_dialog = false;
 	});
 
-	const dimensions = writable({
-		width: browser ? window.innerWidth : 1,
-		height: browser ? window.innerHeight : 1,
-	});
-	setDimensions(dimensions);
-
 	let supportsWebGL: boolean | null = null;
 
 	let pixi = new PixiApp();
+
+	const clock = set_clock();
+	const dimensions = set_dimensions();
 
 	setPixi(pixi);
 
@@ -161,15 +156,15 @@
 		// TODO main menu!
 		const {key, target} = e;
 		console.log(`key`, key);
-		if (key === '`' && !e.ctrlKey && enableGlobalHotkeys(target)) {
+		if (key === '`' && !e.ctrlKey && enable_global_hotkeys(target)) {
 			// global pause
 			swallow(e);
 			clock.toggle();
-		} else if (key === '`' && e.ctrlKey && enableGlobalHotkeys(target)) {
+		} else if (key === '`' && e.ctrlKey && enable_global_hotkeys(target)) {
 			// toggle dev mode
 			swallow(e);
 			settings.update((s) => ({...s, dev_mode: !s.dev_mode}));
-		} else if (key === 'Escape' && !e.shiftKey && enableGlobalHotkeys(e.currentTarget)) {
+		} else if (key === 'Escape' && !e.shiftKey && enable_global_hotkeys(e.currentTarget)) {
 			swallow(e);
 			if ($show_app_dialog) {
 				$show_app_dialog = false;
@@ -178,20 +173,20 @@
 				$show_app_dialog = true;
 				clock.pause(); // TODO make this add to a stack so we can safely unpause
 			}
-		} else if (key === 'Escape' && e.shiftKey && enableGlobalHotkeys(target)) {
+		} else if (key === 'Escape' && e.shiftKey && enable_global_hotkeys(target)) {
 			// global nav up one - I'd choose `ctrlKey` but it's taken by the OS
 			swallow(e);
 			await goto($page.url.pathname.split('/').slice(0, -1).join('/') || '/');
-		} else if (e.key === '!' && e.ctrlKey && enableGlobalHotkeys(target)) {
+		} else if (e.key === '!' && e.ctrlKey && enable_global_hotkeys(target)) {
 			if ($page.url.pathname !== '/unlock/atlas') {
 				swallow(e);
 				await goto('/unlock/atlas');
 			}
-		} else if (key === '-' && !e.ctrlKey && enableGlobalHotkeys(target)) {
+		} else if (key === '-' && !e.ctrlKey && enable_global_hotkeys(target)) {
 			swallow(e);
 			settings.update((s) => ({...s, idleMode: !s.idleMode}));
 			console.log('idle mode is now', $settings.idleMode);
-		} else if (key === '=' && !e.ctrlKey && enableGlobalHotkeys(target)) {
+		} else if (key === '=' && !e.ctrlKey && enable_global_hotkeys(target)) {
 			swallow(e);
 			settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
 			console.log('recording mode is now', $settings.recordingMode);

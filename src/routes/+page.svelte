@@ -6,7 +6,9 @@
 	import {dequal} from 'dequal/lite';
 	import {swallow} from '@grogarden/util/dom.js';
 	import {browser} from '$app/environment';
-	import {getClock, enableGlobalHotkeys, getDimensions} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
+	import {enable_global_hotkeys} from '@ryanatkn/dealt/dom.js';
+	import {get_contextmenu_dimensions} from '@fuz.dev/fuz/contextmenu.js';
 
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';
@@ -53,8 +55,8 @@
 	import {scrollDown} from '$lib/util/dom';
 	import {show_app_dialog} from '$lib/app/appDialog';
 
-	const dimensions = getDimensions();
-	const clock = getClock();
+	const dimensions = get_contextmenu_dimensions();
+	const clock = get_clock();
 
 	let strengthBooster1Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER1, false);
 	let strengthBooster2Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
@@ -341,10 +343,10 @@
 	) => {
 		// TODO integrate this with the controls in `__layout.svelte` and `World.svelte`
 		// TODO controls for toggling the speed/strength boosters
-		if (e.key === ' ' && !e.ctrlKey && enableGlobalHotkeys(e.currentTarget)) {
+		if (e.key === ' ' && !e.ctrlKey && enable_global_hotkeys(e.currentTarget)) {
 			swallow(e);
 			await toggleStarshipMode();
-		} else if (e.key === 'r' && !e.ctrlKey && enableGlobalHotkeys(e.currentTarget)) {
+		} else if (e.key === 'r' && !e.ctrlKey && enable_global_hotkeys(e.currentTarget)) {
 			swallow(e);
 			void exitStarshipMode();
 			await tick();

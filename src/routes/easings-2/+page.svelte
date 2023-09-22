@@ -24,7 +24,7 @@
 
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@grogarden/util/maths.js';
-	import {getClock} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
 
 	import {svelteEasings} from '$lib/app/easings';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';
@@ -35,7 +35,7 @@
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import {muted, volume} from '$lib/music/play_song';
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	const easings = svelteEasings;
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {getDimensions} from '@ryanatkn/dealt';
+	import {get_contextmenu_dimensions} from '@ryanatkn/dealt';
 
 	import Soggy_Planet_Credits from '$routes/soggy-planet/Soggy_Planet_Credits.svelte';
 	import Soggy_Planet_Thumbnail from '$routes/soggy-planet/Soggy_Planet_Thumbnail.svelte';
@@ -7,7 +7,7 @@
 	import PortalLink from '$lib/app/PortalLink.svelte';
 	import DeepBreathCredits from '$routes/deep-breath/DeepBreathCredits.svelte';
 
-	const dimensions = getDimensions();
+	const dimensions = get_contextmenu_dimensions();
 
 	$: earthWidth = Math.min(THUMBNAIL_WIDTH_DEFAULT, $dimensions.width - 100); // roughly account for padding/margins of containers
 </script>

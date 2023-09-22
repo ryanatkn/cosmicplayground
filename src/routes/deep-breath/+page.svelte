@@ -4,7 +4,7 @@
 	import {onMount} from 'svelte';
 	import {randomFloat} from '@grogarden/util/random.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {getClock, enableGlobalHotkeys, getDimensions} from '@ryanatkn/dealt';
+	import {get_clock, enable_global_hotkeys, get_contextmenu_dimensions} from '@ryanatkn/dealt';
 
 	import DeepBreathTitleScreen from '$routes/deep-breath/DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from '$routes/deep-breath/DeepBreathTour.svelte';
@@ -21,7 +21,7 @@
 	import Camera from '$lib/app/Camera.svelte';
 	import type Tour from '$lib/app/Tour.svelte';
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	let camera: Camera | undefined;
 	$: x = camera?.x;
@@ -30,7 +30,7 @@
 	$: width = camera?.width;
 	$: height = camera?.height;
 
-	const dimensions = getDimensions();
+	const dimensions = get_contextmenu_dimensions();
 	$: if (width) $width = $dimensions.width;
 	$: if (height) $height = $dimensions.height;
 
@@ -70,10 +70,10 @@
 		if (show_title_screen) return;
 		// map screen
 		if (!input_enabled) return;
-		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+		if (e.key === 'Escape' && !e.ctrlKey && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			returnToTitleScreen();
-		} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === '1' && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			toggleHud();
 		}

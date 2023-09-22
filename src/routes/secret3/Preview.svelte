@@ -1,9 +1,9 @@
 <script lang="ts">
-	import {getClock} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 
-	const clock = getClock();
+	const clock = get_clock();
 </script>
 
 <FreqSpectacle

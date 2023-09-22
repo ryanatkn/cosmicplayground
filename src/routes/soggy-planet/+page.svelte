@@ -2,7 +2,7 @@
 	import {onMount, tick} from 'svelte';
 	import {randomFloat} from '@grogarden/util/random.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {getClock, enableGlobalHotkeys, getDimensions} from '@ryanatkn/dealt';
+	import {get_clock, enable_global_hotkeys, get_contextmenu_dimensions} from '@ryanatkn/dealt';
 	import {dev} from '$app/environment';
 
 	import Soggy_Planet_Title_Screen from '$routes/soggy-planet/Soggy_Planet_Title_Screen.svelte';
@@ -26,7 +26,7 @@
 	const DEBUG_START_TIME = 0; // set to start the tour at any time for dev purposes
 	const debug_start_time = dev ? DEBUG_START_TIME : 0;
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	let camera: Camera | undefined;
 	$: x = camera?.x;
@@ -35,7 +35,7 @@
 	$: width = camera?.width;
 	$: height = camera?.height;
 
-	const dimensions = getDimensions();
+	const dimensions = get_contextmenu_dimensions();
 	$: if (width) $width = $dimensions.width;
 	$: if (height) $height = $dimensions.height;
 
@@ -62,10 +62,10 @@
 	const keydown = (e: KeyboardEvent) => {
 		if (show_title_screen) return;
 		// map screen
-		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+		if (e.key === 'Escape' && !e.ctrlKey && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			go_to_title_screen();
-		} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === '1' && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			toggle_hud();
 		}

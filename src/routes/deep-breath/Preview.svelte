@@ -1,9 +1,9 @@
 <script lang="ts">
-	import {getClock} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
 
 	import EarthThumbnail from '$lib/app/EarthThumbnail.svelte';
 
-	const clock = getClock();
+	const clock = get_clock();
 </script>
 
 <EarthThumbnail

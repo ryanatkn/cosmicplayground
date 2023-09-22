@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {getClock, getDimensions} from '@ryanatkn/dealt';
+	import {get_clock, get_contextmenu_dimensions} from '@ryanatkn/dealt';
 	import {swallow} from '@grogarden/util/dom.js';
 	import {blur} from 'svelte/transition';
 
-	const clock = getClock();
-	const dimensions = getDimensions();
+	const clock = get_clock();
+	const dimensions = get_contextmenu_dimensions();
 
 	// TODO has some copypasta, needs refactoring
 

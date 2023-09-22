@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
-	import {getClock} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {createDeepBreathTourData} from '$routes/deep-breath/deepBreathTourData';
@@ -31,7 +31,7 @@
 	let {scale} = camera;
 	$: ({scale} = camera);
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	const settings = get_settings();
 	$: ({audio_enabled, dev_mode} = $settings);

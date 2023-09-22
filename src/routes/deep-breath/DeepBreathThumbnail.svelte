@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {getClock} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
 
 	import EarthThumbnail from '$lib/app/EarthThumbnail.svelte';
 	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/deep-breath/constants';
@@ -8,7 +8,7 @@
 	export let label = 'proceed';
 	export let onClick: ((e: MouseEvent) => void) | null = null;
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	$: textScale = earthWidth / THUMBNAIL_WIDTH_DEFAULT;
 </script>

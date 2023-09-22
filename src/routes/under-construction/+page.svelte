@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {getClock, getDimensions} from '@ryanatkn/dealt';
+	import {get_clock, get_contextmenu_dimensions} from '@ryanatkn/dealt';
 
 	import {freezeframe} from '$lib/app/freezeframe';
 
-	const clock = getClock();
-	const dimensions = getDimensions();
+	const clock = get_clock();
+	const dimensions = get_contextmenu_dimensions();
 
 	const maxWidth = 1667;
 	const maxHeight = 781;
