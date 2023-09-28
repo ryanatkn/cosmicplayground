@@ -21,7 +21,7 @@
 	// because the download size is so large.
 	const HAS_LOADED_KEY = 'cpg__hasLoadedDeepBreath';
 	const hasLoaded = !!localStorage.getItem(HAS_LOADED_KEY);
-	$: enableLoadingByClickingThumbnail = hasLoaded;
+	const enableLoadingByClickingThumbnail = hasLoaded;
 
 	const load = async () => {
 		await resources.load();

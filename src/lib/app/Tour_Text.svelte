@@ -1,5 +1,6 @@
 <script lang="ts">
-	import {get_clock, get_contextmenu_dimensions} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
+	import {get_contextmenu_dimensions} from '@ryanatkn/dealt';
 	import {swallow} from '@grogarden/util/dom.js';
 	import {blur} from 'svelte/transition';
 
@@ -37,6 +38,7 @@
 </script>
 
 <!-- the top offset is super hacky but w/e -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
 	class="tour-text markup"
 	transition:blur|local={{duration: transition_out_duration, amount: blur_amount}}
@@ -48,6 +50,7 @@
 		<!-- hacky but `i` is expected to not change, avoids need for uniqueness -->
 		{#each tour_text as text, i (i + text)}
 			<div class="text" in:blur|local={{duration: transition_in_duration, amount: blur_amount}}>
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 				{@html text || '&nbsp;'}
 			</div>
 		{/each}

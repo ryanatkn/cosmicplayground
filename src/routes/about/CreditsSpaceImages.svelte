@@ -5,8 +5,8 @@
 	import ImageCredits from '$lib/app/ImageCredits.svelte';
 
 	const visibleCount = 2; // TODO increase
-	$: visibleImages = spaceImages.slice(0, visibleCount);
-	$: hiddenImages = spaceImages.slice(visibleCount);
+	const visibleImages = spaceImages.slice(0, visibleCount);
+	const hiddenImages = spaceImages.slice(visibleCount);
 </script>
 
 <PortalLink slug="starlit-hammock" />

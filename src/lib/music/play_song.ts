@@ -99,7 +99,7 @@ export const play_song = async (song: Song): Promise<SongPlayState | undefined> 
 		play: get(paused) ? null : play_audio(audio_el), // TODO do something with this before resolving?
 		// TODO using a promise like this may be a bad idea, rethink this API
 		ended: new Promise<void>((resolve) =>
-			audio_el!.addEventListener(
+			audio_el.addEventListener(
 				'ended',
 				() => {
 					cleanup();

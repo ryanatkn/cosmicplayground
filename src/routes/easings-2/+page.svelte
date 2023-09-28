@@ -263,7 +263,7 @@
 <div class="easing-aud-viz">
 	<section>
 		<section class="controls">
-			<div class="controls-group {$muted ? 'disabled' : ''}">
+			<div class="controls-group" class:disabled={$muted}>
 				<FloatingIconButton label={$muted ? 'unmute' : 'mute'} on:click={() => ($muted = !$muted)}>
 					{$muted ? '🔇' : '🔊'}
 				</FloatingIconButton>

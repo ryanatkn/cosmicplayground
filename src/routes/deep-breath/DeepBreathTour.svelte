@@ -72,13 +72,13 @@
 		updatePaused(paused);
 	}
 	const updatePaused = (paused: boolean): void => {
-		update_audio_on_seek(mainSong.audio!, mainSongStep!, $currentTime!, audio_enabled, paused!);
+		update_audio_on_seek(mainSong.audio!, mainSongStep!, $currentTime!, audio_enabled, paused);
 		update_audio_on_seek(
 			oceanWavesSound.audio!,
 			oceanWavesStep!,
 			$currentTime!,
 			audio_enabled,
-			paused!,
+			paused,
 		);
 	};
 
