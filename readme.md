@@ -18,9 +18,7 @@ It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
   [early Holocene sea level rise](https://wikipedia.org/wiki/Early_Holocene_sea_level_rise)
   and one [estimated possible maximum](https://wikipedia.org/wiki/Sea_level_rise).
   - Soggy Planet includes a 3 minute tour of some points of interest related to sea levels
-    at the [Last Glacial Maximum](https://wikipedia.org/wiki/Last_Glacial_Maximum),
-    [made in 2 days](https://github.com/ryanatkn/cosmicplayground/pull/72)
-    for [the Svelte hackathon](https://hack.sveltesociety.dev/)
+    at the [Last Glacial Maximum](https://wikipedia.org/wiki/Last_Glacial_Maximum)
     ([cosmicplayground.org/soggy-planet](https://www.cosmicplayground.org/soggy-planet),
     [YouTube](https://www.youtube.com/watch?v=akP5J3jfjt4))
 - [Starlit Hammock](https://www.cosmicplayground.org/starlit-hammock)
