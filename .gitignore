@@ -7,10 +7,11 @@
 /dist
 
 /.gro
+/dist_*
 
 *.pem
 /.env*
 
 *.ignore
 *.ignore.*
-ignore/
+ignore
