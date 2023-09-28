@@ -1,4 +1,4 @@
-import type {Flavored} from '@grogarden/util';
+import type {Flavored} from '@grogarden/util/types.js';
 import {z} from 'zod';
 
 // TODO upstream to @grogarden/util?
