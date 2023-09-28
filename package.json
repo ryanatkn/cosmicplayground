@@ -40,9 +40,9 @@
   "devDependencies": {
     "@changesets/changelog-git": "^0.1.14",
     "@feltjs/eslint-config": "^0.4.0",
-    "@feltjs/gro": "^0.83.0",
     "@fuz.dev/fuz": "^0.69.0",
-    "@grogarden/util": "^0.13.1",
+    "@grogarden/gro": "^0.90.0",
+    "@grogarden/util": "^0.14.0",
     "@ryanatkn/dealt": "^0.24.2",
     "@sveltejs/adapter-static": "^2.0.3",
     "@sveltejs/kit": "^1.25.0",
