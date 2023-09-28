@@ -25,7 +25,7 @@
 	// because the download size is so large.
 	const HAS_LOADED_KEY = 'cpg__hasLoadedSoggyPlanet';
 	const has_loaded = !!localStorage.getItem(HAS_LOADED_KEY);
-	$: enable_loading_by_clicking_thumbnail = has_loaded;
+	const enable_loading_by_clicking_thumbnail = has_loaded;
 
 	let loading = false;
 	const load = async () => {

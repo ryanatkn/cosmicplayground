@@ -3,7 +3,9 @@
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@grogarden/util/maths.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {hslToRgb, get_contextmenu_dimensions} from '@ryanatkn/dealt';
+	import {hsl_to_rgb} from '@ryanatkn/dealt/colors.js';
+	// TODO BLOCK see get_viewport and get_layout
+	import { get_contextmenu_dimensions} from '@ryanatkn/dealt';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';
@@ -52,7 +54,7 @@
 	$: if (canvas && width && height) updateCanvas();
 
 	// TODO move to shared location? src/music/notes? colors?
-	const colorsByChroma = Array.from({length: 12}, (_, i) => hslToRgb(i / 12, 0.3, 0.5));
+	const colorsByChroma = Array.from({length: 12}, (_, i) => hsl_to_rgb(i / 12, 0.3, 0.5));
 
 	// could debounce this if it's too slow on resize
 	const updateCanvas = () => {
