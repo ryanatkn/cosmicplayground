@@ -1,4 +1,4 @@
-import {mapRecord} from '@grogarden/util/object.js';
+import {map_record} from '@grogarden/util/object.js';
 import {hslToStr, type Hsl, type Hue} from '@ryanatkn/dealt';
 
 import {midis, isMidi, type Midi} from '$lib/music/midi.js';
@@ -82,5 +82,5 @@ export const noteChromaToHsl = Object.freeze(
 	),
 );
 export const noteChromaToHslString = Object.freeze(
-	mapRecord(noteChromaToHsl, ([h, s, l]) => hslToStr(h, s, l)),
+	map_record(noteChromaToHsl, ([h, s, l]) => hslToStr(h, s, l)),
 );

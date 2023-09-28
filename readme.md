@@ -60,7 +60,7 @@ npm start # or gro dev
 npm run build # for production, or gro build
 ```
 
-> learn more about [Gro](https://github.com/feltjs/gro)
+> learn more about [Gro](https://github.com/grogarden/gro)
 
 For full setup instructions from scratch,
 see the [cosmicplayground/setup](https://github.com/cosmicplayground/setup) repo.
@@ -81,7 +81,7 @@ made with [Svelte](https://github.com/sveltejs/svelte) ∙
 [@Sinova/Collisions](https://github.com/Sinova/Collisions/) ∙
 [TypeScript](https://github.com/microsoft/TypeScript) ∙
 [uvu](https://github.com/lukeed/uvu) ∙
-[Gro](https://github.com/feltjs/gro) ∙
+[Gro](https://github.com/grogarden/gro) ∙
 [ESLint](https://github.com/eslint/eslint) ∙
 [Prettier](https://github.com/prettier/prettier)
 & [more](package.json)

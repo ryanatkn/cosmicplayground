@@ -1,4 +1,4 @@
-import type {Flavored} from '@feltjs/util';
+import type {Flavored} from '@grogarden/util';
 import {round} from '@grogarden/util/maths.js';
 import {z} from 'zod';
 
