@@ -71,7 +71,7 @@
 		const next_playlist_item = repeat
 			? playlist_items.find((p2) => p2.song === p.song)
 			: to_next_playlist_item();
-		dispatch('play', next_playlist_item);
+		if (next_playlist_item) dispatch('play', next_playlist_item);
 	};
 
 	const play = () => {
@@ -79,7 +79,8 @@
 			paused = !paused;
 			dispatch('paused', paused);
 		} else {
-			dispatch('play', last_playing_song || to_next_playlist_item());
+			const next_playlist_item = last_playing_song || to_next_playlist_item();
+			if (next_playlist_item) dispatch('play', next_playlist_item);
 		}
 	};
 	const stop = () => {
