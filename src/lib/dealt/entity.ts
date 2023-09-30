@@ -1,11 +1,11 @@
 import * as Pixi from 'pixi.js';
 
 import type {EntityBody} from './entityBody';
-import {hslToHex, hslToStr, type Hsl} from './colors';
+import {hsl_to_hex, hsl_to_string, type Hsl} from './colors';
 
 const DEFAULT_COLOR: Hsl = [0.611, 1, 0.7];
-const DEFAULT_COLOR_STR = hslToStr(...DEFAULT_COLOR);
-const DEFAULT_COLOR_HEX = hslToHex(...DEFAULT_COLOR);
+const DEFAULT_COLOR_STR = hsl_to_string(...DEFAULT_COLOR);
+const DEFAULT_COLOR_HEX = hsl_to_hex(...DEFAULT_COLOR);
 
 // TODO probably want increments of ~3px for line width in the design language,
 // and connect it to an `Entity` property like
@@ -63,8 +63,8 @@ export class Entity<T extends EntityBody = EntityBody> {
 		const [h2, s2, l2] = _color;
 		if (h === h2 && s === s2 && l === l2) return;
 		this._color = hsl;
-		this.colorStr = hslToStr(h, s, l);
-		const colorHex = (this.colorHex = hslToHex(h, s, l));
+		this.colorStr = hsl_to_string(h, s, l);
+		const colorHex = (this.colorHex = hsl_to_hex(h, s, l));
 		if (this.graphics) {
 			this.graphics.tint = colorHex;
 		}
