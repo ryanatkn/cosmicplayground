@@ -5,7 +5,7 @@
 	import {swallow} from '@grogarden/util/dom.js';
 	import {hsl_to_rgb} from '$lib/dealt/colors.js';
 	// TODO BLOCK see get_viewport and get_layout
-	import {get_dimensions} from '$lib/dealt';
+	import {get_dimensions} from '$lib/dealt/dimensions.js';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';

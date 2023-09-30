@@ -465,14 +465,6 @@
       "svelte": "./dist/dealt/World.svelte",
       "types": "./dist/dealt/World.svelte.d.ts"
     },
-    "./dealt/index.js": {
-      "default": "./dist/dealt/index.js",
-      "types": "./dist/dealt/index.d.ts"
-    },
-    "./dealt/util/random.js": {
-      "default": "./dist/dealt/util/random.js",
-      "types": "./dist/dealt/util/random.d.ts"
-    },
     "./dimensions.js": {
       "default": "./dist/dimensions.js",
       "types": "./dist/dimensions.d.ts"

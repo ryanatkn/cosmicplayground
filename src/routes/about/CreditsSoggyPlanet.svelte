@@ -1,6 +1,6 @@
 <script lang="ts">
 	// TODO BLOCK see get_viewport and get_layout
-	import {get_dimensions} from '$lib/dealt';
+	import {get_dimensions} from '$lib/dealt/dimensions.js';
 
 	import Soggy_Planet_Credits from '$routes/soggy-planet/Soggy_Planet_Credits.svelte';
 	import Soggy_Planet_Thumbnail from '$routes/soggy-planet/Soggy_Planet_Thumbnail.svelte';
