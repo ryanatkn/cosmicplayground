@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Breadcrumbs from '@fuz.dev/fuz/Breadcrumbs.svelte';
+	import Breadcrumb from '@fuz.dev/fuz_library/Breadcrumb.svelte';
 	import {page} from '$app/stores';
 
 	import Panel from '$lib/app/Panel.svelte';
@@ -44,10 +44,10 @@
 
 <div>
 	{#if $page.url.pathname !== '/'}
-		<div class="breadcrumbs">
+		<div class="breadcrumb">
 			<Panel>
 				<div class="markup centered">
-					<Breadcrumbs>🌠</Breadcrumbs>
+					<Breadcrumb>🌠</Breadcrumb>
 				</div>
 			</Panel>
 		</div>
@@ -77,12 +77,12 @@
 </div>
 
 <style>
-	.breadcrumbs {
+	.breadcrumb {
 		/* TODO don't hardcode */
 		padding: 12px;
 	}
 	/* TODO hacky */
-	.breadcrumbs :global(.panel) {
+	.breadcrumb :global(.panel) {
 		margin-top: 0;
 	}
 	section {

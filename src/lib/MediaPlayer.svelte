@@ -2,8 +2,8 @@
 	import {fade, slide} from 'svelte/transition';
 	import {swallow} from '@grogarden/util/dom.js';
 	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
-	import {randomItem} from '@grogarden/util/random.js';
-	import PendingAnimation from '@fuz.dev/fuz/PendingAnimation.svelte';
+	import {random_item} from '@grogarden/util/random.js';
+	import PendingAnimation from '@fuz.dev/fuz_library/PendingAnimation.svelte';
 
 	import Playlist from '$lib/Playlist.svelte';
 	import VolumeControl from '$lib/VolumeControl.svelte';
@@ -141,7 +141,7 @@
 		if (playlist_items.length === 1) return playlist_items[0];
 		let playlist_item: PlaylistItemData;
 		do {
-			playlist_item = randomItem(playlist_items);
+			playlist_item = random_item(playlist_items);
 		} while (playlist_item === exclude_playlist_item);
 		return playlist_item;
 	};

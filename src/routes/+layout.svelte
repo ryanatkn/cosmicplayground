@@ -1,8 +1,11 @@
 <script lang="ts">
 	import '@fuz.dev/fuz/style.css';
+	import '@fuz.dev/fuz/theme.css';
 	import '$lib/app/style.css';
 	import '$lib/app/style-utilities.css';
 
+	import Themed from '@fuz.dev/fuz/Themed.svelte';
+	import {sync_color_scheme} from '@fuz.dev/fuz/theme.js';
 	import {onMount} from 'svelte';
 	import type {AsyncStatus} from '@grogarden/util/async.js';
 	import {writable} from 'svelte/store';
@@ -10,10 +13,7 @@
 	import {beforeNavigate, goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {
-		setIdle,
-		trackIdleState,
-	} from '@ryanatkn/dealt';
+	import {setIdle, trackIdleState} from '@ryanatkn/dealt';
 	import {set_clock} from '@ryanatkn/dealt/clock.js';
 	import {enable_global_hotkeys} from '@ryanatkn/dealt/dom.js';
 
@@ -34,6 +34,9 @@
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import AppDialogMenu from '$lib/app/AppDialogMenu.svelte';
 	import {playing_song, muted, volume} from '$lib/music/play_song';
+
+	const selected_color_scheme = writable('dark' as const);
+	sync_color_scheme($selected_color_scheme); // TODO probably shouldn't be needed
 
 	beforeNavigate(() => {
 		$show_app_dialog = false;
@@ -110,7 +113,6 @@
 		audio_el.volume = $muted ? 0 : volume ? $volume! : 1;
 	}
 
-	const clock = setClock(); // TODO integrate with Pixi ticker?
 	clock.resume();
 	$: updateRenderStats($clock.dt);
 
@@ -204,52 +206,54 @@
 	on:keydown={onKeyDown}
 />
 
-{#if supportsWebGL}
-	{#if loadingStatus !== 'success'}
-		<WaitingScreen status={loadingStatus} />
+<Themed {selected_color_scheme} color_scheme_fallback={$selected_color_scheme}>
+	{#if supportsWebGL}
+		{#if loadingStatus !== 'success'}
+			<WaitingScreen status={loadingStatus} />
+		{:else}
+			<div
+				class="pixi-wrapper fade-in"
+				style="width: {$dimensions.width}px; height: {$dimensions.height}px;"
+			>
+				<PixiView {pixi} width={$dimensions.width} height={$dimensions.height} />
+			</div>
+			<main
+				class="fade-in"
+				class:paused={!$clock.running}
+				class:secret={$settings.secretEnabled}
+				class:idle={$idle || $settings.idleMode}
+			>
+				{#if !$portals.selected_portal || $portals.selected_portal.showHomeButton}
+					<Hud>
+						<HomeButton />
+					</Hud>
+				{/if}
+				<slot />
+			</main>
+			<AppDialogs />
+			<AppDialog>
+				<AppDialogMenu />
+			</AppDialog>
+		{/if}
+	{:else if supportsWebGL === null}
+		<!-- render nothing yet -->
 	{:else}
-		<div
-			class="pixi-wrapper fade-in"
-			style="width: {$dimensions.width}px; height: {$dimensions.height}px;"
-		>
-			<PixiView {pixi} width={$dimensions.width} height={$dimensions.height} />
-		</div>
-		<main
-			class="fade-in"
-			class:paused={!$clock.running}
-			class:secret={$settings.secretEnabled}
-			class:idle={$idle || $settings.idleMode}
-		>
-			{#if !$portals.selected_portal || $portals.selected_portal.showHomeButton}
-				<Hud>
-					<HomeButton />
-				</Hud>
-			{/if}
-			<slot />
-		</main>
-		<AppDialogs />
-		<AppDialog>
-			<AppDialogMenu />
-		</AppDialog>
+		<Panel>
+			<div class="markup">
+				<h1>oh no :(</h1>
+				<p>
+					It looks like your browser doesn't support WebGL, and sadly this website requires it. I'm
+					sorry, please try another browser or device if you can. (or enable it?)
+				</p>
+				<p>
+					source code is at <a href="https://github.com/ryanatkn/cosmicplayground"
+						>github.com/ryanatkn/cosmicplayground</a
+					>
+				</p>
+			</div>
+		</Panel>
 	{/if}
-{:else if supportsWebGL === null}
-	<!-- render nothing yet -->
-{:else}
-	<Panel>
-		<div class="markup">
-			<h1>oh no :(</h1>
-			<p>
-				It looks like your browser doesn't support WebGL, and sadly this website requires it. I'm
-				sorry, please try another browser or device if you can. (or enable it?)
-			</p>
-			<p>
-				source code is at <a href="https://github.com/ryanatkn/cosmicplayground"
-					>github.com/ryanatkn/cosmicplayground</a
-				>
-			</p>
-		</div>
-	</Panel>
-{/if}
+</Themed>
 
 <!-- TODO should we have a `<Portals/>` component that the `App` mounts? -->
 <style>

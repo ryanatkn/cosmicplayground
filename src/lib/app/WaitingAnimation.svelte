@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type {AsyncStatus} from '@grogarden/util/async.js';
-	import PendingAnimation from '@fuz.dev/fuz/PendingAnimation.svelte';
+	import PendingAnimation from '@fuz.dev/fuz_library/PendingAnimation.svelte';
 
 	export let status: AsyncStatus = 'pending'; // 'initial' is unhandled
 
