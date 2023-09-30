@@ -9,7 +9,7 @@ export class PixiApp {
 	default_scene!: Container;
 	current_scene!: Container;
 
-	init(options: IApplicationOptions): void {
+	init(options: Partial<IApplicationOptions>): void {
 		// Tell Pixi to use pixelated image scaling by default. BIG PX
 		// Unfortunately this can cause choppy movement. We may want to revert this global default.
 		// Here's how to change it back to the default for a resource:
