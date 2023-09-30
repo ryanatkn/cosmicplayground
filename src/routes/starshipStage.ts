@@ -2,17 +2,11 @@ import {random_float} from '@grogarden/util/random.js';
 import {get, writable, type Writable} from 'svelte/store';
 import {dequal} from 'dequal/lite';
 
-import {
-	Stage as BaseStage,
-	type EntityCircle,
-	frag,
-	collide,
-	updateEntityDirection,
-	DEFAULT_STRENGTH,
-	Entity,
-	type Hsl,
-	type StageOptions,
-} from '$lib/dealt/index.js';
+import type {Hsl} from '$lib/dealt/colors.js';
+import {DEFAULT_STRENGTH, Entity} from '$lib/dealt/entity.js';
+import {Stage as BaseStage, type StageOptions} from '$lib/dealt/stage.js';
+import type {EntityCircle} from '$lib/dealt/entityBody.js';
+import {collide, frag} from '$lib/dealt/entityHelpers.js';
 
 // TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
 // and our `Hsl` is good for fast manipulation

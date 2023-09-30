@@ -1,4 +1,4 @@
-import {randomFloat} from '@grogarden/util/random.js';
+import {random_float} from '@grogarden/util/random.js';
 import {CollisionResult, type Collisions} from '@ryanatkn/collisions';
 
 import {Entity} from './entity';
@@ -61,7 +61,7 @@ export const frag = (
 const toRandomRadii = (totalArea: number, count: number, scaleVariance: number): number[] => {
 	const mults: number[] = [];
 	for (let i = 0; i < count; i++) {
-		mults[i] = 1 + randomFloat(0, 1) * (scaleVariance - 1);
+		mults[i] = 1 + random_float(0, 1) * (scaleVariance - 1);
 	}
 	const multsSum = mults.reduce((acc, m) => acc + m);
 	const multPcts = mults.map((m) => m / multsSum);
