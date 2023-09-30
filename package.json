@@ -1,5 +1,5 @@
 {
-  "name": "cosmicplayground",
+  "name": "@ryanatkn/cosmicplayground",
   "description": "tools and toys for expanding minds 🌌 a free and open source noncommercial hobby project exploring tools and toys using web tech for fun and learning",
   "homepage": "https://www.cosmicplayground.org/",
   "license": "Unlicense",
@@ -16,9 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/ryanatkn/cosmicplayground.git"
   },
-  "bugs": {
-    "url": "https://github.com/ryanatkn/cosmicplayground/issues"
-  },
+  "bugs": "https://github.com/ryanatkn/cosmicplayground/issues",
   "keywords": [
     "space",
     "web",
