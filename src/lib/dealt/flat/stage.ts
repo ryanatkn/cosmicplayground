@@ -1,5 +1,5 @@
-import type {Flavored} from '@grogarden/util';
-import {toRandomAlea, type Alea} from '@grogarden/util/random-alea.js';
+import type {Flavored} from '@grogarden/util/types.js';
+import {create_random_alea, type Alea} from '@grogarden/util/random_alea.js';
 import * as Pixi from 'pixi.js';
 import {Collisions} from '@ryanatkn/collisions';
 
@@ -113,7 +113,7 @@ export class Stage {
 			sim = new Simulation(collisions),
 			container = new Pixi.Container(),
 			controller = new Controller(),
-			random = toRandomAlea(),
+			random = create_random_alea(),
 		} = options;
 
 		if (data) {

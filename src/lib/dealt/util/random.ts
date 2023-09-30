@@ -1,6 +1,6 @@
 import {browser} from '$app/environment';
-import {toRandomAlea} from '@grogarden/util/random-alea.js';
-import {randomItem, randomInt} from '@grogarden/util/random.js';
+import {create_random_alea} from '@grogarden/util/random_alea.js';
+import {random_item, random_int} from '@grogarden/util/random.js';
 import {derived, writable, type Readable, type Writable} from 'svelte/store';
 
 // deterministic random numbers for deterministic builds and SSR
@@ -11,7 +11,7 @@ export const seed: Writable<any[]> = writable(
 export let random_float!: ToRandom;
 export const random_seeded: Readable<ToRandom> = derived(
 	[seed],
-	($seed): ToRandom => toRandomAlea(...$seed),
+	($seed): ToRandom => create_random_alea(...$seed),
 );
 random_seeded.subscribe((r) => (random_float = r));
 
@@ -25,7 +25,7 @@ export const random_items = <T>(items: T[], count: number, random = random_float
 	if (count >= items.length) return items;
 	const results = new Set<T>();
 	while (results.size < count) {
-		results.add(randomItem(items, random));
+		results.add(random_item(items, random));
 	}
 	return Array.from(results);
 };
@@ -38,7 +38,7 @@ export const shuffle: <T>(array: T[], random?: ToRandom) => T[] = (
 	const len = array.length;
 	const max = len - 1;
 	for (let i = 0; i < len; i++) {
-		const dest_index = randomInt(0, max, random);
+		const dest_index = random_int(0, max, random);
 		if (i === dest_index) continue;
 		const destItem = array[dest_index];
 		array[dest_index] = array[i];
