@@ -8,7 +8,7 @@
 	import {browser} from '$app/environment';
 	import {get_clock} from '@ryanatkn/dealt/clock.js';
 	import {enable_global_hotkeys} from '@ryanatkn/dealt/dom.js';
-	import {get_contextmenu_dimensions} from '@fuz.dev/fuz/contextmenu.js';
+	import {get_contextmenu_dimensions} from '@fuz.dev/fuz_contextmenu/contextmenu.js';
 
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';

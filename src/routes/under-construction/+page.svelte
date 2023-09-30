@@ -1,5 +1,6 @@
 <script lang="ts">
-	import {get_clock, get_contextmenu_dimensions} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
+	import {get_contextmenu_dimensions} from '@ryanatkn/dealt';
 
 	import {freezeframe} from '$lib/app/freezeframe';
 

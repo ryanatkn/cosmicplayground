@@ -1,4 +1,4 @@
-import {randomFloat} from '@grogarden/util/random.js';
+import {random_float} from '@grogarden/util/random.js';
 import {get, writable, type Writable} from 'svelte/store';
 import {dequal} from 'dequal/lite';
 import {
@@ -293,20 +293,20 @@ export class Stage extends BaseStage {
 					// (like the fixed velocities of moving objects, and vectors/speeds after fragging)
 					for (const f of newMoonFragments) {
 						f.speed = moltenIsRock
-							? randomFloat(_molten.speed * 1.2, _molten.speed * 2.44)
+							? random_float(_molten.speed * 1.2, _molten.speed * 2.44)
 							: moltenIsMoonFragment
-							? randomFloat(_molten.speed / 2, _molten.speed * 2)
-							: randomFloat(_molten.speed / 8, _molten.speed);
+							? random_float(_molten.speed / 2, _molten.speed * 2)
+							: random_float(_molten.speed / 8, _molten.speed);
 						f.directionX = moltenIsRock
-							? randomFloat(_molten.directionX / 2, _molten.directionX * 2)
+							? random_float(_molten.directionX / 2, _molten.directionX * 2)
 							: moltenIsMoonFragment
-							? randomFloat(_molten.directionX / 2, _molten.directionX * 2)
-							: randomFloat(-_molten.directionX / 2, _molten.directionX);
+							? random_float(_molten.directionX / 2, _molten.directionX * 2)
+							: random_float(-_molten.directionX / 2, _molten.directionX);
 						f.directionY = moltenIsRock
-							? randomFloat(_molten.directionY / 2, _molten.directionY * 2)
+							? random_float(_molten.directionY / 2, _molten.directionY * 2)
 							: moltenIsMoonFragment
-							? randomFloat(_molten.directionY / 2, _molten.directionY * 2)
-							: randomFloat(-_molten.directionY / 2, _molten.directionY);
+							? random_float(_molten.directionY / 2, _molten.directionY * 2)
+							: random_float(-_molten.directionY / 2, _molten.directionY);
 						f.color = COLOR_MOLTEN;
 					}
 				} else if (_rock && _planet) {
@@ -317,17 +317,17 @@ export class Stage extends BaseStage {
 					shouldUpdateScores = true;
 					(planetFragmentsToAdd || (planetFragmentsToAdd = [])).push(...newPlanetFragments);
 					for (const p of newPlanetFragments) {
-						p.speed = _rock.speed * 0.2 * randomFloat(0.5, 1.0);
-						p.directionX = randomFloat(-_rock.directionX / 2, _rock.directionX / 2);
-						p.directionY = randomFloat(-_rock.directionY / 2, _rock.directionY / 2);
+						p.speed = _rock.speed * 0.2 * random_float(0.5, 1.0);
+						p.directionX = random_float(-_rock.directionX / 2, _rock.directionX / 2);
+						p.directionY = random_float(-_rock.directionY / 2, _rock.directionY / 2);
 						p.color = COLOR_MOLTEN;
 					}
 					const newRockFragments = frag(_rock, collisions, 210) as Array<Entity<EntityCircle>>;
 					(rockFragmentsToAdd || (rockFragmentsToAdd = [])).push(...newRockFragments);
 					for (const r of newRockFragments) {
-						r.speed = randomFloat(_rock.speed / 2, _rock.speed * 2);
-						r.directionX = randomFloat(-_rock.directionX * 2, _rock.directionX * 0.25);
-						r.directionY = randomFloat(-_rock.directionY * 2, _rock.directionY * 0.25);
+						r.speed = random_float(_rock.speed / 2, _rock.speed * 2);
+						r.directionX = random_float(-_rock.directionX * 2, _rock.directionX * 0.25);
+						r.directionY = random_float(-_rock.directionY * 2, _rock.directionY * 0.25);
 					}
 				} else if (_moonFragment && (_planet || _planetFragment || _rockFragment)) {
 					// TODO this logic is very similar to _molten but need to avoid double counting the same _moonFragment

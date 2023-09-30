@@ -2,9 +2,10 @@
 	import {tweened} from 'svelte/motion';
 	import {cubicInOut} from 'svelte/easing';
 	import {onMount} from 'svelte';
-	import {randomFloat} from '@grogarden/util/random.js';
+	import {random_float} from '@grogarden/util/random.js';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {get_clock, enable_global_hotkeys, get_contextmenu_dimensions} from '@ryanatkn/dealt';
+	import {enable_global_hotkeys, get_contextmenu_dimensions} from '@ryanatkn/dealt';
 
 	import DeepBreathTitleScreen from '$routes/deep-breath/DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from '$routes/deep-breath/DeepBreathTour.svelte';
@@ -38,8 +39,8 @@
 	const imageWidth = 4096;
 	const imageHeight = 2048;
 
-	const initialX = randomFloat(0, imageWidth);
-	const initialY = randomFloat($dimensions.height / 2, imageHeight - $dimensions.height / 2);
+	const initialX = random_float(0, imageWidth);
+	const initialY = random_float($dimensions.height / 2, imageHeight - $dimensions.height / 2);
 	const initialWidth = $dimensions.width;
 	const initialHeight = $dimensions.height;
 

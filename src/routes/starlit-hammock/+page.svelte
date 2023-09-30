@@ -1,7 +1,8 @@
 <script lang="ts">
-	import {randomItem, randomFloat} from '@grogarden/util/random.js';
+	import {random_item, random_float} from '@grogarden/util/random.js';
 	import {sineInOut} from 'svelte/easing';
-	import {get_clock, get_contextmenu_dimensions} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
+	import {get_contextmenu_dimensions} from '@ryanatkn/dealt';
 
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/app/ImagePicker.svelte';
@@ -34,7 +35,7 @@
 
 	let show_picker = false;
 
-	let activeImage = randomItem(spaceImages);
+	let activeImage = random_item(spaceImages);
 
 	const clock = get_clock();
 
@@ -46,7 +47,7 @@
 		if (spaceImages.length === 1) return; // just in case
 		let newImage;
 		do {
-			newImage = randomItem(spaceImages);
+			newImage = random_item(spaceImages);
 		} while (newImage === activeImage);
 		pick_image(newImage);
 	};
@@ -140,9 +141,9 @@
 		// so these calculations ensure it's at least fullscreen with some zoom room
 		const actualScaleMin = Math.max(scaleMin, Math.max(width / imageWidth, height / imageHeight));
 		const actualScaleMax = Math.max(scaleMax, actualScaleMin * MIN_SCALE_MULT);
-		const scale = randomFloat(actualScaleMin, actualScaleMax);
-		const x = randomFloat(width / 2 / scale, imageWidth - width / 2 / scale);
-		const y = randomFloat(height / 2 / scale, imageHeight - height / 2 / scale);
+		const scale = random_float(actualScaleMin, actualScaleMax);
+		const x = random_float(width / 2 / scale, imageWidth - width / 2 / scale);
+		const y = random_float(height / 2 / scale, imageHeight - height / 2 / scale);
 		return [x, y, scale];
 	};
 

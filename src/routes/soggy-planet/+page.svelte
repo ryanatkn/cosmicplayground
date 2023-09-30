@@ -1,8 +1,9 @@
 <script lang="ts">
 	import {onMount, tick} from 'svelte';
-	import {randomFloat} from '@grogarden/util/random.js';
+	import {random_float} from '@grogarden/util/random.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {get_clock, enable_global_hotkeys, get_contextmenu_dimensions} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
+	import {enable_global_hotkeys, get_contextmenu_dimensions} from '@ryanatkn/dealt';
 	import {dev} from '$app/environment';
 
 	import Soggy_Planet_Title_Screen from '$routes/soggy-planet/Soggy_Planet_Title_Screen.svelte';
@@ -43,8 +44,8 @@
 	const image_width = 4096;
 	const image_height = 2048;
 
-	const initial_x = randomFloat(0, image_width);
-	const initial_y = randomFloat($dimensions.height / 2, image_height - $dimensions.height / 2);
+	const initial_x = random_float(0, image_width);
+	const initial_y = random_float($dimensions.height / 2, image_height - $dimensions.height / 2);
 	const initial_width = $dimensions.width;
 	const initial_height = $dimensions.height;
 

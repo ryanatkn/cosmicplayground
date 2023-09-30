@@ -5,9 +5,9 @@
 		DomCanvasRenderer,
 		type CameraStore,
 		type Controller,
-		get_clock,
 		getIdle,
 	} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
 	import type {Writable} from 'svelte/store';
 
 	import {getPixi} from '$lib/app/pixi';

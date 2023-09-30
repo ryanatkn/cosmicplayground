@@ -1,4 +1,4 @@
-import {randomItem} from '@grogarden/util/random.js';
+import {random_item} from '@grogarden/util/random.js';
 
 import {toImageMeta, type ImageMeta} from '$lib/app/images';
 import {type Song, lookup_song} from '$lib/music/songs';
@@ -240,7 +240,7 @@ export const phase_sequences: PhaseSequenceOrCreator[] = [
 				'3b',
 				'3d',
 				'4b',
-				randomItem(['4d', '4e']),
+				random_item(['4d', '4e']),
 				'5b',
 				'5d',
 				'6b',
@@ -252,7 +252,7 @@ export const phase_sequences: PhaseSequenceOrCreator[] = [
 				'9b',
 				'9c',
 				'10b',
-				randomItem(['10e', '10f']),
+				random_item(['10e', '10f']),
 			],
 		},
 	},
@@ -260,19 +260,19 @@ export const phase_sequences: PhaseSequenceOrCreator[] = [
 		name: 'random_pure',
 		data: () => ({
 			sequence: [
-				randomItem(['0a', '0b']),
-				randomItem(['1a', '1b']),
-				randomItem(['2a', '2b']),
-				randomItem(['3a', '3b']),
-				randomItem([
+				random_item(['0a', '0b']),
+				random_item(['1a', '1b']),
+				random_item(['2a', '2b']),
+				random_item(['3a', '3b']),
+				random_item([
 					['4a', '4d'],
 					['4b', '4e'],
 				]),
-				randomItem(['5a', '5b']),
-				randomItem(['6a', '6b']),
-				randomItem(['7a', '7b']),
-				randomItem(['8a', '8b']),
-				randomItem([
+				random_item(['5a', '5b']),
+				random_item(['6a', '6b']),
+				random_item(['7a', '7b']),
+				random_item(['8a', '8b']),
+				random_item([
 					['9a', '9c', '10a', '10d'],
 					['9b', '9c', '10b', '10f'],
 				]),
@@ -283,29 +283,29 @@ export const phase_sequences: PhaseSequenceOrCreator[] = [
 		name: 'random_balanced',
 		data: () => ({
 			sequence: [
-				randomItem(['0a', '0b']),
-				randomItem(['0c', '0d']),
-				randomItem(['1a', '1b']),
-				randomItem(['1c', '1d']),
-				randomItem(['2a', '2b']),
-				randomItem(['2c', '2d']),
-				randomItem(['3a', '3b']),
-				randomItem(['3c', '3d']),
-				randomItem([
+				random_item(['0a', '0b']),
+				random_item(['0c', '0d']),
+				random_item(['1a', '1b']),
+				random_item(['1c', '1d']),
+				random_item(['2a', '2b']),
+				random_item(['2c', '2d']),
+				random_item(['3a', '3b']),
+				random_item(['3c', '3d']),
+				random_item([
 					['4a', '4d'],
 					['4b', '4c', '4e'],
 				]),
-				randomItem(['5a', '5b']),
-				randomItem(['5c', '5d']),
-				randomItem(['6a', '6b']),
-				randomItem(['6c', '6d']),
-				randomItem(['7a', '7b']),
-				randomItem(['7c', '7d']),
-				randomItem([
+				random_item(['5a', '5b']),
+				random_item(['5c', '5d']),
+				random_item(['6a', '6b']),
+				random_item(['6c', '6d']),
+				random_item(['7a', '7b']),
+				random_item(['7c', '7d']),
+				random_item([
 					['8a', '8d'],
 					['8b', '8c'],
 				]),
-				randomItem([
+				random_item([
 					// TODO should be weighted or enabled by how many balance points accumulated before this
 					['9a', '9c', '10a', '10d'],
 					['9a', '9d', '10c', '10e'],
@@ -348,33 +348,33 @@ export const phase_sequences: PhaseSequenceOrCreator[] = [
 					addOneLevel(names);
 				}
 			};
-			addPhase(randomItem(['0a', '0b']));
-			addPhase(randomItem(['0c', '0d']));
-			addPhase(randomItem(['1a', '1b']));
-			addPhase(randomItem(['1c', '1d']));
-			addPhase(randomItem(['2a', '2b']));
-			addPhase(randomItem(['2c', '2d']));
-			addPhase(randomItem(['3a', '3b']));
+			addPhase(random_item(['0a', '0b']));
+			addPhase(random_item(['0c', '0d']));
+			addPhase(random_item(['1a', '1b']));
+			addPhase(random_item(['1c', '1d']));
+			addPhase(random_item(['2a', '2b']));
+			addPhase(random_item(['2c', '2d']));
+			addPhase(random_item(['3a', '3b']));
 			// had to suppress reaction at least once to get this option
 			addPhase(
-				randomItem([cCount > MIN_C_COUNT_FOR_3_TIER2 ? randomItem(['3c', '3d']) : null, null]),
+				random_item([cCount > MIN_C_COUNT_FOR_3_TIER2 ? random_item(['3c', '3d']) : null, null]),
 			);
 			addPhase(
-				randomItem([
+				random_item([
 					['4a', '4d'],
-					['4b', cCount > MIN_C_COUNT_FOR_4C ? randomItem(['4c', null]) : null, '4e'],
+					['4b', cCount > MIN_C_COUNT_FOR_4C ? random_item(['4c', null]) : null, '4e'],
 				]),
 			);
-			addPhase(randomItem(['5a', '5b']));
-			addPhase(randomItem(['5c', '5d']));
-			addPhase(randomItem(['6a', '6b']));
-			addPhase(randomItem(['6c', '6d']));
-			addPhase(randomItem(['7a', '7b']));
-			addPhase(randomItem(['7c', '7d', null]));
-			addPhase(randomItem(['8a', '8b']));
-			addPhase(randomItem(['8c', '8d', null]));
+			addPhase(random_item(['5a', '5b']));
+			addPhase(random_item(['5c', '5d']));
+			addPhase(random_item(['6a', '6b']));
+			addPhase(random_item(['6c', '6d']));
+			addPhase(random_item(['7a', '7b']));
+			addPhase(random_item(['7c', '7d', null]));
+			addPhase(random_item(['8a', '8b']));
+			addPhase(random_item(['8c', '8d', null]));
 			addPhase(
-				randomItem(
+				random_item(
 					[
 						['9a', '9c', '10a', '10d'],
 						cCount >= MIN_C_COUNT_FOR_BALANCED_ENDING && bCount <= MAX_B_COUNT_FOR_BALANCED_ENDING

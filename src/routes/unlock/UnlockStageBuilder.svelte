@@ -2,8 +2,8 @@
 	import {createEventDispatcher, onMount} from 'svelte';
 	import {swallow} from '@grogarden/util/dom.js';
 	import {get_clock} from '@ryanatkn/dealt/clock.js';
-	import { get_contextmenu_dimensions} from '@fuz.dev/fuz/contextmenu.js';
-	import { enable_global_hotkeys} from '@ryanatkn/dealt/dom.js';
+	import {get_contextmenu_dimensions} from '@fuz.dev/fuz_contextmenu/contextmenu.js';
+	import {enable_global_hotkeys} from '@ryanatkn/dealt/dom.js';
 
 	import {initialStageData, type StageData} from '$routes/unlock/stage';
 	import UnlockStage from '$routes/unlock/UnlockStage.svelte';

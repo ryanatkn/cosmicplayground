@@ -1,5 +1,5 @@
 import {writable, type Readable} from 'svelte/store';
-import {randomFloat} from '@grogarden/util/random.js';
+import {random_float} from '@grogarden/util/random.js';
 
 // This is the old version of the autopanner that relied on CSS transitions for movement.
 // The newer version has an `update` function that handles time deltas.
@@ -67,15 +67,15 @@ export const createAutopannerStore = (options: AutopannerOptions): AutopannerSto
 
 			// TODO maybe change the duration based on the distance/scaling to be done?
 			// or maybe ensure either/both the scaling/distance factor are significantly different?
-			newState.scale = randomFloat(newOptions.scaleMin, newOptions.scaleMax);
+			newState.scale = random_float(newOptions.scaleMin, newOptions.scaleMax);
 			const scaledImageWidth = newOptions.imageWidth * newState.scale;
 			const scaledImageHeight = newOptions.imageHeight * newState.scale;
 			const xMin = 0;
 			const yMin = 0;
 			const xMax = scaledImageWidth - newOptions.width;
 			const yMax = scaledImageHeight - newOptions.height;
-			newState.x = -randomFloat(xMin, xMax);
-			newState.y = -randomFloat(yMin, yMax);
+			newState.x = -random_float(xMin, xMax);
+			newState.y = -random_float(yMin, yMax);
 
 			clearTimeout(timeout);
 			timeout = setTimeout(() => randomize(), transitionDuration + pauseDuration);

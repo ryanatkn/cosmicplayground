@@ -7,8 +7,8 @@
 		DomCanvasRenderer,
 		type CameraStore,
 		type Controller,
-		get_clock,
 	} from '@ryanatkn/dealt';
+	import {get_clock} from '@ryanatkn/dealt/clock.js';
 
 	import {
 		PLAYER_SPEED,

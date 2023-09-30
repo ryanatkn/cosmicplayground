@@ -3,7 +3,7 @@
 	import {createEventDispatcher, onDestroy} from 'svelte';
 	import {swallow} from '@grogarden/util/dom.js';
 	import {UnreachableError} from '@grogarden/util/error.js';
-	import type {ClockStore} from '@ryanatkn/dealt';
+	import type {ClockStore} from '@ryanatkn/dealt/clock.js';
 
 	import {get_settings} from '$lib/app/settings';
 	import {reset_render_stats, getRenderStats} from '$lib/app/renderStats';
