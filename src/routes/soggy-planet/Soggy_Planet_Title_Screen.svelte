@@ -50,7 +50,7 @@
 		{/if}
 	</div>
 	<Panel>
-		<section class="markup">
+		<section class="prose">
 			<p>
 				Soggy Planet is an interactive map of Earth where sea levels rise and fall and the lights of
 				civilization shine through the night. It displays <a
@@ -112,7 +112,7 @@
 		{/if}
 	</Panel>
 	<Panel>
-		<section class="markup">
+		<section class="prose">
 			<h2>Tour</h2>
 			<p>
 				Soggy Planet includes a 3 minute tour of some points of interest related to sea levels at
@@ -133,13 +133,13 @@
 		</section>
 	</Panel>
 	<Panel>
-		<section class="markup">
+		<section class="prose">
 			<h2>Credits</h2>
 			<Soggy_Planet_Credits />
 		</section>
 	</Panel>
 	<Panel>
-		<section class="markup">
+		<section class="prose">
 			<CreditsProjectSignature />
 		</section>
 	</Panel>

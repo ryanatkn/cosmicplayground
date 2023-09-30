@@ -254,7 +254,7 @@
 	</FloatingTextButton>
 </div>
 {#if !show_picker}
-	<div class="credits idle-fade markup">
+	<div class="credits idle-fade prose">
 		<Panel>
 			<ImageCreditsCaption image={activeImage} />
 		</Panel>

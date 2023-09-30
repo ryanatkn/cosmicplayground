@@ -64,7 +64,7 @@
 	--text_shadow_reverse_sm: -1px -1px rgba(0, 0, 0, 0.6);
 	--hud_element_size: 72px;
 	--earth_wobble: 23.5deg;
-	/* TODO maybe upstream this to Felt, so underlining only happens inside `.markup` */
+	/* TODO maybe upstream this to Felt, so underlining only happens inside `.prose` */
 	--link_text_decoration_hover: none;
 	/* TODO dark mode */
 	--bg: #000;
@@ -92,7 +92,7 @@ select {
 	color: var(--text_color);
 }
 
-.markup {
+.prose {
 	--link_text_decoration_hover: underline;
 	/* TODO upstream, use a different class for padding */
 	padding: 0;
@@ -187,7 +187,7 @@ tr:hover {
 th {
 	text-align: left;
 	font-weight: 300;
-	font-size: var(--font_size_xl);
+	font-size: var(--size_xl);
 	padding: var(--spacing_sm);
 }
 
@@ -264,7 +264,7 @@ summary:active {
 
 /* TODO upstream */
 /* TODO make this not affect paragraph text line spacing */
-.markup p button {
+.prose p button {
 	display: inline-block;
 	margin-bottom: 0 !important;
 	padding-top: var(--spacing_xs);

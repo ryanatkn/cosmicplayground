@@ -239,7 +239,7 @@
 		<!-- render nothing yet -->
 	{:else}
 		<Panel>
-			<div class="markup">
+			<div class="prose">
 				<h1>oh no :(</h1>
 				<p>
 					It looks like your browser doesn't support WebGL, and sadly this website requires it. I'm

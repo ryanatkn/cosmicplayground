@@ -181,7 +181,7 @@
 
 <div class="player">
 	<div class="content">
-		<header class="centered-hz">
+		<header class="box row">
 			<!-- https://wikipedia.org/wiki/Media_control_symbols -->
 			<button
 				title={show_play ? 'play' : 'pause'}
@@ -196,7 +196,7 @@
 				{/if}
 			</button>
 			<!-- TODO transition -->
-			<label class="duration centered-hz" title="time">
+			<label class="duration box row" title="time">
 				<input
 					on:input={input_current_time}
 					disabled={duration == null}
@@ -212,7 +212,7 @@
 					{#if status === 'pending'}
 						<PendingAnimation />
 					{:else if duration != null}
-						<div class="centered" in:fade|local>
+						<div class="box" in:fade|local>
 							<span>{format_time(current_time || 0)}</span><span>{format_time(duration)}</span>
 						</div>
 					{/if}
@@ -250,7 +250,7 @@
 		{#if !collapsed}
 			<footer transition:slide|local>
 				<VolumeControl {volume} {muted} on:volume on:muted />
-				<div class="centered-hz">
+				<div class="box row">
 					{#if repeat !== null}
 						<button
 							type="button"
@@ -328,7 +328,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		font-size: var(--font_size_sm);
+		font-size: var(--size_sm);
 		font-weight: 600;
 		width: var(--spacing_xl5);
 		color: var(--text_color_light);

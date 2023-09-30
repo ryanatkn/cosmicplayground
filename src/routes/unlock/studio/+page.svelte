@@ -102,7 +102,7 @@
 		z-index: 1;
 	}
 	.controls button {
-		font-size: var(--font_size_xl4);
-		width: var(--font_size_xl6);
+		font-size: var(--size_xl4);
+		width: var(--size_xl6);
 	}
 </style>

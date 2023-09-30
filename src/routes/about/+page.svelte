@@ -13,7 +13,7 @@
 <figure style:margin="var(--spacing_xl3) auto">
 	<img src="/favicon.png" width="192" height="192" alt="cosmicplayground icon" />
 </figure>
-<div class="markup">
+<div class="prose">
 	<Panel>
 		<h2>About</h2>
 		<p>
@@ -78,7 +78,7 @@
 	.header-content {
 		position: relative;
 	}
-	.markup {
+	.prose {
 		margin-bottom: var(--spacing_xl9);
 	}
 	@media (max-width: 900px) {

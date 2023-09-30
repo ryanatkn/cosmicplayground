@@ -52,13 +52,13 @@
 	{#if resetScores || importScores}
 		<div transition:scale|local>
 			<Panel>
-				<div class="markup">
+				<div class="prose">
 					<h2>scores</h2>
 					{#if scores}
 						<br />
 						<StarshipStageScore {scores} defaultIcon="❔" />
 						<br />
-						<p class="centered">
+						<p class="box">
 							{#if scores.crew_rescued_at_once_count >= 5}
 								<a href="/unlock">full crew ready</a>
 							{:else if scores.crew_rescued_at_once_count}
@@ -69,7 +69,7 @@
 							{/if}
 						</p>
 					{/if}
-					<div class="centered-hz">
+					<div class="box row">
 						{#if resetScores}
 							<button on:click={resetScores}>reset scores</button>
 						{/if}
@@ -104,7 +104,7 @@
 		margin: 0;
 	}
 	.button-text {
-		font-size: var(--font_size_xl3);
+		font-size: var(--size_xl3);
 		font-weight: 300;
 	}
 </style>

@@ -46,7 +46,7 @@
 	{#if $page.url.pathname !== '/'}
 		<div class="breadcrumb">
 			<Panel>
-				<div class="markup centered">
+				<div class="prose box">
 					<Breadcrumb>🌠</Breadcrumb>
 				</div>
 			</Panel>

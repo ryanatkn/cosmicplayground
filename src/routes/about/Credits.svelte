@@ -12,7 +12,7 @@
 </script>
 
 <Panel>
-	<div class="markup">
+	<div class="prose">
 		<h2>Credits</h2>
 		<p>
 			This project relies on lots of amazing freely licensed content. See below for links and

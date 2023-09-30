@@ -63,7 +63,7 @@
 		bottom: 0;
 	}
 	.count {
-		font-size: var(--font_size_sm);
+		font-size: var(--size_sm);
 		font-weight: 500;
 		width: var(--spacing_xl3);
 		display: flex;
@@ -73,7 +73,7 @@
 		display: flex;
 		justify-content: flex-end;
 		padding-left: var(--spacing_xl);
-		font-size: var(--font_size_sm);
+		font-size: var(--size_sm);
 		font-weight: 500;
 	}
 </style>

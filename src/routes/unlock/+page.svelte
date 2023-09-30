@@ -4,7 +4,7 @@
 </script>
 
 <div class="unlock">
-	<section class="column centered">
+	<section class="column box">
 		<h1>
 			unlock<img
 				src="/assets/characters/spider.png"
@@ -21,7 +21,7 @@
 			a little can go a long way) in the meantime, you can click the links below to see some
 			previews:
 		</aside>
-		<ul class="markup">
+		<ul class="prose">
 			<!-- <li><a href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a></li> -->
 			<li><a href="/unlock/studio">studio</a></li>
 			<li><a href="/unlock/atlas">atlas</a></li>
@@ -46,11 +46,11 @@
 		align-items: center;
 	}
 	ul {
-		font-size: var(--font_size_xl3);
+		font-size: var(--size_xl3);
 	}
 	@media (max-width: 530px) {
 		ul {
-			font-size: var(--font_size_xl);
+			font-size: var(--size_xl);
 		}
 	}
 	ul {

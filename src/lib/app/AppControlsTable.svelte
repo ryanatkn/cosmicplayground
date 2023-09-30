@@ -10,7 +10,7 @@
 </script>
 
 <Panel
-	><div class="markup centered">
+	><div class="prose box">
 		<section>
 			<h2>controls</h2>
 			<table>

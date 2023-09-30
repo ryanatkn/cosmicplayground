@@ -13,7 +13,7 @@
 	const blurAmount = 20;
 </script>
 
-<div class="tour-credits markup" class:displayForVideo>
+<div class="tour-credits prose" class:displayForVideo>
 	<section in:blur|local={{duration: transitionDuration, amount: blurAmount}}>
 		<h2>created by</h2>
 		Ryan Atkinson<br />

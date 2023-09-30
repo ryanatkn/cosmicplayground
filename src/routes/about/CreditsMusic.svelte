@@ -3,7 +3,7 @@
 	import CreditsMusicAuthor from '$routes/about/CreditsMusicAuthor.svelte';
 </script>
 
-<div class="markup">
+<div class="prose">
 	<CreditsMusicAuthor author="Alexander Nakarada">
 		<svelte:fragment slot="links">
 			<ul>
