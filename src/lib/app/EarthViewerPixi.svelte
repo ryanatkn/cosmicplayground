@@ -2,6 +2,7 @@
 	import * as Pixi from '@pixi/core';
 	import {Sprite} from '@pixi/sprite';
 	import {Container} from '@pixi/display';
+	import {TilingSprite} from '@pixi/sprite-tiling';
 
 	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum';
 	import {
@@ -90,7 +91,7 @@
 				overlayContainer = new Container();
 				mapContainer.addChild(overlayContainer);
 
-				const nightfallSprite = new Pixi.TilingSprite(Pixi.Texture.WHITE, $width, $height);
+				const nightfallSprite = new TilingSprite(Pixi.Texture.WHITE, $width, $height);
 				nightfallSprite.tint = 0x000000;
 				nightfallSprite.alpha = 0;
 				overlayContainer.addChild(nightfallSprite);
@@ -110,10 +111,10 @@
 		},
 	});
 
-	const landSprites: Pixi.TilingSprite[] = []; // not reactive
-	const seaSprites: Pixi.TilingSprite[] = []; // not reactive
-	let shoreSprite: Pixi.TilingSprite | undefined = undefined; // not reactive
-	const overlaySprites: Pixi.TilingSprite[] = []; // not reactive
+	const landSprites: TilingSprite[] = []; // not reactive
+	const seaSprites: TilingSprite[] = []; // not reactive
+	let shoreSprite: TilingSprite | undefined = undefined; // not reactive
+	const overlaySprites: TilingSprite[] = []; // not reactive
 	let mapContainer: Container;
 	let landContainer: Container;
 	let seashoreContainer: Container; // includes shore sprites
@@ -136,12 +137,12 @@
 	$: updateSpritesDimensions(seaSprites, $width, $height);
 	$: shoreSprite && updateSpriteDimensions(shoreSprite, $width, $height);
 	$: updateSpritesDimensions(overlaySprites, $width, $height);
-	const updateSpritesDimensions = (sprites: Pixi.TilingSprite[], width: number, height: number) => {
+	const updateSpritesDimensions = (sprites: TilingSprite[], width: number, height: number) => {
 		for (const sprite of sprites) {
 			updateSpriteDimensions(sprite, width, height);
 		}
 	};
-	const updateSpriteDimensions = (sprite: Pixi.TilingSprite, width: number, height: number) => {
+	const updateSpriteDimensions = (sprite: TilingSprite, width: number, height: number) => {
 		sprite.width = width;
 		sprite.height = height;
 	};
@@ -150,7 +151,7 @@
 	$: shoreSprite && updateSpriteTransforms(shoreSprite, tilePositionX, tilePositionY, $scale);
 	$: updateSpritesTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
 	const updateSpritesTransforms = (
-		sprites: Pixi.TilingSprite[],
+		sprites: TilingSprite[],
 		tilePositionX: number,
 		tilePositionY: number,
 		$scale: number,
@@ -160,7 +161,7 @@
 		}
 	};
 	const updateSpriteTransforms = (
-		sprite: Pixi.TilingSprite,
+		sprite: TilingSprite,
 		tilePositionX: number,
 		tilePositionY: number,
 		$scale: number,
@@ -294,7 +295,7 @@
 			height: imageHeight * 2,
 		});
 		pixi.app.renderer.render(tempTextureContainer, {renderTexture});
-		return new Pixi.TilingSprite(renderTexture, $width, $height);
+		return new TilingSprite(renderTexture, $width, $height);
 	};
 </script>
 

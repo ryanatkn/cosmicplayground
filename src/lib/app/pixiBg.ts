@@ -1,8 +1,9 @@
 import {writable, type Readable} from 'svelte/store';
 import * as Pixi from '@pixi/core';
+import {TilingSprite} from '@pixi/sprite-tiling';
 
 export interface PixiBgState {
-	sprite: Pixi.TilingSprite;
+	sprite: TilingSprite;
 	width: number;
 	height: number;
 	x: number;
@@ -26,7 +27,7 @@ export const createPixiBgStore = (
 	driftSpeed = BG_DRIFT_SPEED,
 ): PixiBgStore => {
 	texture.baseTexture.setStyle(Pixi.SCALE_MODES.LINEAR); // make it scroll smoothly
-	const sprite = new Pixi.TilingSprite(texture, width, height);
+	const sprite = new TilingSprite(texture, width, height);
 	sprite.alpha = alpha;
 
 	const {subscribe, update} = writable<PixiBgState>({sprite, width, height, x, y});
