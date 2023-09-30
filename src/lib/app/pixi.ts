@@ -14,6 +14,7 @@ export class PixiApp {
 		// Unfortunately this can cause choppy movement. We may want to revert this global default.
 		// Here's how to change it back to the default for a resource:
 		settings.SCALE_MODE = SCALE_MODES.NEAREST;
+		// BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
 
 		this.app = new Application(options);
 		// this.app.ticker.add((dt) => {

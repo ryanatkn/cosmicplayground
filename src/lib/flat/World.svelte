@@ -1,11 +1,12 @@
 <script lang="ts">
+	import {onMount} from 'svelte';
+
 	import DomCanvas from '$lib/flat/DomCanvas.svelte';
 	import PixiCanvas from '$lib/flat/PixiCanvas.svelte';
-	import type {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
-	import type {Stage} from '$lib/flat/stage';
-	import {get_clock} from '$lib/flat/clock';
-	import type {PixiApp} from '$lib/flat/pixi';
-	import {onMount} from 'svelte';
+	import type {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer.js';
+	import type {Stage} from '$lib/flat/stage.js';
+	import {get_clock} from '$lib/flat/clock.js';
+	import type {PixiApp} from '$lib/app/pixi.js';
 
 	export let stage: Stage;
 	export let pixi: PixiApp | null = null;

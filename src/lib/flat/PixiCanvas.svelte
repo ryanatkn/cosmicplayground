@@ -1,9 +1,9 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
 
-	import type {Stage} from '$lib/flat/stage'; // TODO shouldnt import this
-	import type {ClockStore} from '$lib/flat/clock';
-	import type {PixiApp} from '$lib/flat/pixi';
+	import type {Stage} from '$lib/flat/stage.js'; // TODO shouldnt import this
+	import type {ClockStore} from '$lib/flat/clock.js';
+	import type {PixiApp} from '$lib/app/pixi.js';
 
 	export let pixi: PixiApp; // is not reactive
 	export let stage: Stage; // is not reactive
@@ -12,9 +12,9 @@
 	$: ({running} = $clock);
 
 	const {container, camera} = stage;
-	pixi.currentScene.addChild(container);
+	pixi.current_scene.addChild(container);
 	onDestroy(() => {
-		pixi.currentScene.removeChild(container);
+		pixi.current_scene.removeChild(container);
 	});
 
 	// This stops the app's rendering when paused for efficiency.
