@@ -1,14 +1,13 @@
 <script lang="ts">
 	import {swallow} from '@grogarden/util/dom.js';
 	import type {Writable} from 'svelte/store';
-	import {
-		World,
-		SurfaceWithControlller,
-		DomCanvasRenderer,
-		type CameraStore,
-		type Controller,
-	} from '$lib/dealt';
+
 	import {get_clock} from '$lib/dealt/clock.js';
+	import World from '$lib/dealt/World.svelte';
+	import SurfaceWithControlller from '$lib/dealt/SurfaceWithControlller.svelte';
+	import {DomCanvasRenderer} from '$lib/dealt/DomCanvasRenderer.js';
+	import type {CameraStore} from '$lib/dealt/camera.js';
+	import type {Controller} from '$lib/dealt/Controller.js';
 
 	import {
 		PLAYER_SPEED,

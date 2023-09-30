@@ -1,4 +1,4 @@
-import {DEFAULT_STRENGTH, DEFAULT_TIME_DILATION} from '$lib/dealt';
+import {DEFAULT_STRENGTH, DEFAULT_TIME_DILATION} from '$lib/dealt/entity.js';
 
 // interface EntityData {
 // 	id: number;
