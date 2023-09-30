@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {round} from '@grogarden/util/maths.js';
-	import {get_clock} from '$lib/dealt/clock.js';
+	import {get_clock} from '$lib/flat/clock.js';
 
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 	import type Tour from '$lib/app/Tour.svelte';

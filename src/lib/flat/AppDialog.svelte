@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Teleport from '@fuz.dev/fuz_library/Teleport.svelte';
 
-	import {get_clock} from './clock';
-	import {showAppDialog, appDialogEl} from './appDialog';
+	import {get_clock} from '$lib/flat/clock';
+	import {showAppDialog, appDialogEl} from '$lib/flat/appDialog';
 
 	const clock = get_clock();
 

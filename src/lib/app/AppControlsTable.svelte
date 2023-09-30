@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {page} from '$app/stores';
-	import type {ClockStore} from '$lib/dealt/clock.js';
+	import type {ClockStore} from '$lib/flat/clock.js';
 
 	import Panel from '$lib/app/Panel.svelte';
 

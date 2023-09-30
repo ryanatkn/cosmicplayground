@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type {Writable} from 'svelte/store';
 
-	import World from '$lib/dealt/World.svelte';
-	import SurfaceWithControlller from '$lib/dealt/SurfaceWithControlller.svelte';
-	import {DomCanvasRenderer} from '$lib/dealt/DomCanvasRenderer.js';
-	import type {Controller} from '$lib/dealt/Controller.js';
-	import type {CameraStore} from '$lib/dealt/camera.js';
-	import {get_clock} from '$lib/dealt/clock.js';
+	import World from '$lib/flat/World.svelte';
+	import SurfaceWithControlller from '$lib/flat/SurfaceWithControlller.svelte';
+	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer.js';
+	import type {Controller} from '$lib/flat/Controller.js';
+	import type {CameraStore} from '$lib/flat/camera.js';
+	import {get_clock} from '$lib/flat/clock.js';
 	import {get_pixi} from '$lib/app/pixi';
 	import type {UnlockStageScores, Stage} from '$routes/unlock/unlockStage';
 	import {get_idle} from '$lib/idle.js';

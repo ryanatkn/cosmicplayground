@@ -333,137 +333,125 @@
       "default": "./dist/audio/play_audio.js",
       "types": "./dist/audio/play_audio.d.ts"
     },
-    "./dealt/AppDialog.svelte": {
-      "svelte": "./dist/dealt/AppDialog.svelte",
-      "types": "./dist/dealt/AppDialog.svelte.d.ts"
+    "./flat/AppDialog.svelte": {
+      "svelte": "./dist/flat/AppDialog.svelte",
+      "types": "./dist/flat/AppDialog.svelte.d.ts"
     },
-    "./dealt/appDialog.js": {
-      "default": "./dist/dealt/appDialog.js",
-      "types": "./dist/dealt/appDialog.d.ts"
+    "./flat/appDialog.js": {
+      "default": "./dist/flat/appDialog.js",
+      "types": "./dist/flat/appDialog.d.ts"
     },
-    "./dealt/AppDialogMenu.svelte": {
-      "svelte": "./dist/dealt/AppDialogMenu.svelte",
-      "types": "./dist/dealt/AppDialogMenu.svelte.d.ts"
+    "./flat/AppDialogMenu.svelte": {
+      "svelte": "./dist/flat/AppDialogMenu.svelte",
+      "types": "./dist/flat/AppDialogMenu.svelte.d.ts"
     },
-    "./dealt/AppDialogs.svelte": {
-      "svelte": "./dist/dealt/AppDialogs.svelte",
-      "types": "./dist/dealt/AppDialogs.svelte.d.ts"
+    "./flat/AppDialogs.svelte": {
+      "svelte": "./dist/flat/AppDialogs.svelte",
+      "types": "./dist/flat/AppDialogs.svelte.d.ts"
     },
-    "./dealt/camera.js": {
-      "default": "./dist/dealt/camera.js",
-      "types": "./dist/dealt/camera.d.ts"
+    "./flat/camera.js": {
+      "default": "./dist/flat/camera.js",
+      "types": "./dist/flat/camera.d.ts"
     },
-    "./dealt/Canvas.svelte": {
-      "svelte": "./dist/dealt/Canvas.svelte",
-      "types": "./dist/dealt/Canvas.svelte.d.ts"
+    "./flat/Canvas.svelte": {
+      "svelte": "./dist/flat/Canvas.svelte",
+      "types": "./dist/flat/Canvas.svelte.d.ts"
     },
-    "./dealt/CanvasRenderer.js": {
-      "default": "./dist/dealt/CanvasRenderer.js",
-      "types": "./dist/dealt/CanvasRenderer.d.ts"
+    "./flat/CanvasRenderer.js": {
+      "default": "./dist/flat/CanvasRenderer.js",
+      "types": "./dist/flat/CanvasRenderer.d.ts"
     },
-    "./dealt/Clock.svelte": {
-      "svelte": "./dist/dealt/Clock.svelte",
-      "types": "./dist/dealt/Clock.svelte.d.ts"
+    "./flat/Clock.svelte": {
+      "svelte": "./dist/flat/Clock.svelte",
+      "types": "./dist/flat/Clock.svelte.d.ts"
     },
-    "./dealt/clock.js": {
-      "default": "./dist/dealt/clock.js",
-      "types": "./dist/dealt/clock.d.ts"
+    "./flat/clock.js": {
+      "default": "./dist/flat/clock.js",
+      "types": "./dist/flat/clock.d.ts"
     },
-    "./dealt/colors.js": {
-      "default": "./dist/dealt/colors.js",
-      "types": "./dist/dealt/colors.d.ts"
+    "./flat/colors.js": {
+      "default": "./dist/flat/colors.js",
+      "types": "./dist/flat/colors.d.ts"
     },
-    "./dealt/Controller.js": {
-      "default": "./dist/dealt/Controller.js",
-      "types": "./dist/dealt/Controller.d.ts"
+    "./flat/Controller.js": {
+      "default": "./dist/flat/Controller.js",
+      "types": "./dist/flat/Controller.d.ts"
     },
-    "./dealt/dimensions.js": {
-      "default": "./dist/dealt/dimensions.js",
-      "types": "./dist/dealt/dimensions.d.ts"
+    "./flat/dimensions.js": {
+      "default": "./dist/flat/dimensions.js",
+      "types": "./dist/flat/dimensions.d.ts"
     },
-    "./dealt/dom.js": {
-      "default": "./dist/dealt/dom.js",
-      "types": "./dist/dealt/dom.d.ts"
+    "./flat/dom.js": {
+      "default": "./dist/flat/dom.js",
+      "types": "./dist/flat/dom.d.ts"
     },
-    "./dealt/DomCanvas.svelte": {
-      "svelte": "./dist/dealt/DomCanvas.svelte",
-      "types": "./dist/dealt/DomCanvas.svelte.d.ts"
+    "./flat/DomCanvas.svelte": {
+      "svelte": "./dist/flat/DomCanvas.svelte",
+      "types": "./dist/flat/DomCanvas.svelte.d.ts"
     },
-    "./dealt/DomCanvasRenderer.js": {
-      "default": "./dist/dealt/DomCanvasRenderer.js",
-      "types": "./dist/dealt/DomCanvasRenderer.d.ts"
+    "./flat/DomCanvasRenderer.js": {
+      "default": "./dist/flat/DomCanvasRenderer.js",
+      "types": "./dist/flat/DomCanvasRenderer.d.ts"
     },
-    "./dealt/entity.js": {
-      "default": "./dist/dealt/entity.js",
-      "types": "./dist/dealt/entity.d.ts"
+    "./flat/entity.js": {
+      "default": "./dist/flat/entity.js",
+      "types": "./dist/flat/entity.d.ts"
     },
-    "./dealt/entityBody.js": {
-      "default": "./dist/dealt/entityBody.js",
-      "types": "./dist/dealt/entityBody.d.ts"
+    "./flat/entityBody.js": {
+      "default": "./dist/flat/entityBody.js",
+      "types": "./dist/flat/entityBody.d.ts"
     },
-    "./dealt/entityHelpers.js": {
-      "default": "./dist/dealt/entityHelpers.js",
-      "types": "./dist/dealt/entityHelpers.d.ts"
+    "./flat/entityHelpers.js": {
+      "default": "./dist/flat/entityHelpers.js",
+      "types": "./dist/flat/entityHelpers.d.ts"
     },
-    "./dealt/pixi.js": {
-      "default": "./dist/dealt/pixi.js",
-      "types": "./dist/dealt/pixi.d.ts"
+    "./flat/Portal.svelte": {
+      "svelte": "./dist/flat/Portal.svelte",
+      "types": "./dist/flat/Portal.svelte.d.ts"
     },
-    "./dealt/PixiCanvas.svelte": {
-      "svelte": "./dist/dealt/PixiCanvas.svelte",
-      "types": "./dist/dealt/PixiCanvas.svelte.d.ts"
+    "./flat/renderer.js": {
+      "default": "./dist/flat/renderer.js",
+      "types": "./dist/flat/renderer.d.ts"
     },
-    "./dealt/PixiView.svelte": {
-      "svelte": "./dist/dealt/PixiView.svelte",
-      "types": "./dist/dealt/PixiView.svelte.d.ts"
+    "./flat/renderStats.js": {
+      "default": "./dist/flat/renderStats.js",
+      "types": "./dist/flat/renderStats.d.ts"
     },
-    "./dealt/Portal.svelte": {
-      "svelte": "./dist/dealt/Portal.svelte",
-      "types": "./dist/dealt/Portal.svelte.d.ts"
+    "./flat/settings.js": {
+      "default": "./dist/flat/settings.js",
+      "types": "./dist/flat/settings.d.ts"
     },
-    "./dealt/renderer.js": {
-      "default": "./dist/dealt/renderer.js",
-      "types": "./dist/dealt/renderer.d.ts"
+    "./flat/Simulation.js": {
+      "default": "./dist/flat/Simulation.js",
+      "types": "./dist/flat/Simulation.d.ts"
     },
-    "./dealt/renderStats.js": {
-      "default": "./dist/dealt/renderStats.js",
-      "types": "./dist/dealt/renderStats.d.ts"
+    "./flat/stage.js": {
+      "default": "./dist/flat/stage.js",
+      "types": "./dist/flat/stage.d.ts"
     },
-    "./dealt/settings.js": {
-      "default": "./dist/dealt/settings.js",
-      "types": "./dist/dealt/settings.d.ts"
+    "./flat/storage.js": {
+      "default": "./dist/flat/storage.js",
+      "types": "./dist/flat/storage.d.ts"
     },
-    "./dealt/Simulation.js": {
-      "default": "./dist/dealt/Simulation.js",
-      "types": "./dist/dealt/Simulation.d.ts"
+    "./flat/SurfaceWithControlller.svelte": {
+      "svelte": "./dist/flat/SurfaceWithControlller.svelte",
+      "types": "./dist/flat/SurfaceWithControlller.svelte.d.ts"
     },
-    "./dealt/stage.js": {
-      "default": "./dist/dealt/stage.js",
-      "types": "./dist/dealt/stage.d.ts"
+    "./flat/trackIdleState.js": {
+      "default": "./dist/flat/trackIdleState.js",
+      "types": "./dist/flat/trackIdleState.d.ts"
     },
-    "./dealt/storage.js": {
-      "default": "./dist/dealt/storage.js",
-      "types": "./dist/dealt/storage.d.ts"
+    "./flat/WaitingAnimation.svelte": {
+      "svelte": "./dist/flat/WaitingAnimation.svelte",
+      "types": "./dist/flat/WaitingAnimation.svelte.d.ts"
     },
-    "./dealt/SurfaceWithControlller.svelte": {
-      "svelte": "./dist/dealt/SurfaceWithControlller.svelte",
-      "types": "./dist/dealt/SurfaceWithControlller.svelte.d.ts"
+    "./flat/WaitingScreen.svelte": {
+      "svelte": "./dist/flat/WaitingScreen.svelte",
+      "types": "./dist/flat/WaitingScreen.svelte.d.ts"
     },
-    "./dealt/trackIdleState.js": {
-      "default": "./dist/dealt/trackIdleState.js",
-      "types": "./dist/dealt/trackIdleState.d.ts"
-    },
-    "./dealt/WaitingAnimation.svelte": {
-      "svelte": "./dist/dealt/WaitingAnimation.svelte",
-      "types": "./dist/dealt/WaitingAnimation.svelte.d.ts"
-    },
-    "./dealt/WaitingScreen.svelte": {
-      "svelte": "./dist/dealt/WaitingScreen.svelte",
-      "types": "./dist/dealt/WaitingScreen.svelte.d.ts"
-    },
-    "./dealt/World.svelte": {
-      "svelte": "./dist/dealt/World.svelte",
-      "types": "./dist/dealt/World.svelte.d.ts"
+    "./flat/World.svelte": {
+      "svelte": "./dist/flat/World.svelte",
+      "types": "./dist/flat/World.svelte.d.ts"
     },
     "./dimensions.js": {
       "default": "./dist/dimensions.js",

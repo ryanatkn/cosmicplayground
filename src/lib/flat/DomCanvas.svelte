@@ -1,9 +1,9 @@
 <script lang="ts">
 	import {onMount} from 'svelte';
 
-	import type {DomCanvasRenderer} from './DomCanvasRenderer';
-	import type {ClockStore} from './clock';
-	import type {Stage} from './stage';
+	import type {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer';
+	import type {ClockStore} from '$lib/flat/clock';
+	import type {Stage} from '$lib/flat/stage';
 
 	export let width: number;
 	export let height: number;

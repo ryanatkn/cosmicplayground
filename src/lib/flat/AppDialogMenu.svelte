@@ -2,7 +2,7 @@
 	import Breadcrumb from '@fuz.dev/fuz_library/Breadcrumb.svelte';
 	import {page} from '$app/stores';
 
-	import Clock from './Clock.svelte';
+	import Clock from '$lib/flat/Clock.svelte';
 
 	let cleared = false;
 </script>

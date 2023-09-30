@@ -3,10 +3,15 @@ import {create_random_alea, type Alea} from '@grogarden/util/random_alea.js';
 import * as Pixi from 'pixi.js';
 import {Collisions} from '@ryanatkn/collisions';
 
-import {Simulation} from './Simulation';
-import {Controller} from './Controller';
-import {type CameraStore, type CameraState, toCameraStore, SPRING_OPTS_HARD} from './camera';
-import type {Entity} from './entity.js';
+import {Simulation} from '$lib/flat/Simulation';
+import {Controller} from '$lib/flat/Controller';
+import {
+	type CameraStore,
+	type CameraState,
+	toCameraStore,
+	SPRING_OPTS_HARD,
+} from '$lib/flat/camera';
+import type {Entity} from '$lib/flat/entity.js';
 
 // TODO hack
 interface StageData {

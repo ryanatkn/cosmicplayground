@@ -1,7 +1,7 @@
 import * as Pixi from 'pixi.js';
 
-import type {EntityBody} from './entityBody';
-import {hsl_to_hex, hsl_to_string, type Hsl} from './colors';
+import type {EntityBody} from '$lib/flat/entityBody';
+import {hsl_to_hex, hsl_to_string, type Hsl} from '$lib/flat/colors';
 
 const DEFAULT_COLOR: Hsl = [0.611, 1, 0.7];
 const DEFAULT_COLOR_STR = hsl_to_string(...DEFAULT_COLOR);

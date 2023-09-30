@@ -1,8 +1,8 @@
 import {random_float} from '@grogarden/util/random.js';
 import {CollisionResult, type Collisions} from '@ryanatkn/collisions';
 
-import {Entity} from './entity.js';
-import type {EntityCircle} from './entityBody';
+import {Entity} from '$lib/flat/entity.js';
+import type {EntityCircle} from '$lib/flat/entityBody';
 
 export const collisionResult = new CollisionResult();
 

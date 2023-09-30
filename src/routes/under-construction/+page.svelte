@@ -1,6 +1,6 @@
 <script lang="ts">
-	import {get_clock} from '$lib/dealt/clock.js';
-	import {get_dimensions} from '$lib/dealt/dimensions.js';
+	import {get_clock} from '$lib/flat/clock.js';
+	import {get_dimensions} from '$lib/flat/dimensions.js';
 
 	import {freezeframe} from '$lib/app/freezeframe';
 

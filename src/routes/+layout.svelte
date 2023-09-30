@@ -13,8 +13,8 @@
 	import {beforeNavigate, goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {set_clock} from '$lib/dealt/clock.js';
-	import {enable_global_hotkeys} from '$lib/dealt/dom.js';
+	import {set_clock} from '$lib/flat/clock.js';
+	import {enable_global_hotkeys} from '$lib/flat/dom.js';
 
 	import {set_idle, track_idle_state} from '$lib/idle.js';
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg';

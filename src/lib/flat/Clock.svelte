@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {get_clock} from './clock';
+	import {get_clock} from '$lib/flat/clock';
 	import PendingAnimation from '@fuz.dev/fuz_library/PendingAnimation.svelte';
 
 	export let clock = get_clock();

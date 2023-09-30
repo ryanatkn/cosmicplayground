@@ -1,11 +1,11 @@
 import {random_float} from '@grogarden/util/random.js';
 import {get, writable, type Writable} from 'svelte/store';
 import {dequal} from 'dequal/lite';
-import type {Hsl} from '$lib/dealt/colors.js';
-import {collide, frag} from '$lib/dealt/entityHelpers.js';
-import {type StageOptions, Stage as BaseStage} from '$lib/dealt/stage.js';
-import type {EntityCircle} from '$lib/dealt/entityBody.js';
-import {DEFAULT_STRENGTH, Entity} from '$lib/dealt/entity.js';
+import type {Hsl} from '$lib/flat/colors.js';
+import {collide, frag} from '$lib/flat/entityHelpers.js';
+import {type StageOptions, Stage as BaseStage} from '$lib/flat/stage.js';
+import type {EntityCircle} from '$lib/flat/entityBody.js';
+import {DEFAULT_STRENGTH, Entity} from '$lib/flat/entity.js';
 
 // TODO BLOCK
 // updateEntityDirection

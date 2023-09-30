@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Dialog from '@fuz.dev/fuz_dialog/Dialog.svelte';
 
-	import {showAppDialog, appDialogEl} from './appDialog';
-	import {get_clock} from './clock';
+	import {showAppDialog, appDialogEl} from '$lib/flat/appDialog';
+	import {get_clock} from '$lib/flat/clock';
 
 	const clock = get_clock();
 

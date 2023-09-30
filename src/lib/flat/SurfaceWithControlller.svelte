@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Surface from '@feltjs/felt-mural/Surface.svelte';
 
-	import type {Controller} from './Controller';
+	import type {Controller} from '$lib/flat/Controller';
 
 	// TODO merge with `./Surface.svelte`
 

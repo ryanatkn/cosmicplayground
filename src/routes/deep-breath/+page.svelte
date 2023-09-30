@@ -3,11 +3,11 @@
 	import {cubicInOut} from 'svelte/easing';
 	import {onMount} from 'svelte';
 	import {random_float} from '@grogarden/util/random.js';
-	import {get_clock} from '$lib/dealt/clock.js';
+	import {get_clock} from '$lib/flat/clock.js';
 	import {swallow} from '@grogarden/util/dom.js';
 
-	import {get_dimensions} from '$lib/dealt/dimensions.js';
-	import {enable_global_hotkeys} from '$lib/dealt/dom.js';
+	import {get_dimensions} from '$lib/flat/dimensions.js';
+	import {enable_global_hotkeys} from '$lib/flat/dom.js';
 	import DeepBreathTitleScreen from '$routes/deep-breath/DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from '$routes/deep-breath/DeepBreathTour.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';

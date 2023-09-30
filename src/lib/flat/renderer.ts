@@ -1,4 +1,4 @@
-import type {Entity} from './entity.js';
+import type {Entity} from '$lib/flat/entity.js';
 
 export interface Renderer {
 	resize: (width: number, height: number) => void;

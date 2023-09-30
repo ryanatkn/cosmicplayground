@@ -3,7 +3,7 @@ import * as assert from 'uvu/assert';
 import {Collisions} from '@ryanatkn/collisions';
 import {noop} from '@grogarden/util/function.js';
 
-import {Simulation} from './Simulation.js';
+import {Simulation} from '$lib/flat/Simulation.js';
 
 test('Simulation', async () => {
 	const collisions = new Collisions();

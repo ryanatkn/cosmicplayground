@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type {AsyncStatus} from '@grogarden/util/async.js';
 
-	import WaitingAnimation from './WaitingAnimation.svelte';
+	import WaitingAnimation from '$lib/flat/WaitingAnimation.svelte';
 
 	export let status: AsyncStatus;
 </script>

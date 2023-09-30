@@ -1,7 +1,7 @@
 import {drawCircle, drawPolygon} from '@ryanatkn/collisions';
 
-import type {Renderer} from './renderer';
-import type {Entity} from './entity.js';
+import type {Renderer} from '$lib/flat/renderer';
+import type {Entity} from '$lib/flat/entity.js';
 
 export class CanvasRenderer implements Renderer {
 	width = -1;

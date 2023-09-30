@@ -7,19 +7,19 @@
 	import * as Pixi from 'pixi.js';
 	import {page} from '$app/stores';
 
-	import {setIdle, trackIdleState} from './trackIdleState';
-	import {set_dimensions, type Dimensions} from './dimensions';
-	import {set_clock} from './clock';
-	import {setSettings} from './settings';
-	import PixiView from './PixiView.svelte';
-	import WaitingScreen from './WaitingScreen.svelte';
-	import {PixiApp, setPixi} from './pixi';
-	import {updateRenderStats} from './renderStats';
-	import {enable_global_hotkeys} from './dom';
-	import {showAppDialog} from './appDialog';
-	import AppDialogs from './AppDialogs.svelte';
-	import AppDialog from './AppDialog.svelte';
-	import AppDialogMenu from './AppDialogMenu.svelte';
+	import {setIdle, trackIdleState} from '$lib/flat/trackIdleState';
+	import {set_dimensions, type Dimensions} from '$lib/flat/dimensions';
+	import {set_clock} from '$lib/flat/clock';
+	import {setSettings} from '$lib/flat/settings';
+	import PixiView from '$lib/flat/PixiView.svelte';
+	import WaitingScreen from '$lib/flat/WaitingScreen.svelte';
+	import {PixiApp, setPixi} from '$lib/flat/pixi';
+	import {updateRenderStats} from '$lib/flat/renderStats';
+	import {enable_global_hotkeys} from '$lib/flat/dom';
+	import {showAppDialog} from '$lib/flat/appDialog';
+	import AppDialogs from '$lib/flat/AppDialogs.svelte';
+	import AppDialog from '$lib/flat/AppDialog.svelte';
+	import AppDialogMenu from '$lib/flat/AppDialogMenu.svelte';
 
 	export const dimensions: Writable<Dimensions> = writable({width: 0, height: 0});
 	set_dimensions(dimensions);

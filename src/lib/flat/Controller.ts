@@ -1,7 +1,7 @@
 import {writable} from 'svelte/store';
 
-import type {CameraState} from './camera';
-import type {Entity} from './entity.js';
+import type {CameraState} from '$lib/flat/camera';
+import type {Entity} from '$lib/flat/entity.js';
 
 // TODO rethink and handle dynamic mappings
 

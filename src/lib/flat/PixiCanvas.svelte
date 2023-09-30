@@ -1,9 +1,9 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
 
-	import type {Stage} from './stage'; // TODO shouldnt import this
-	import type {ClockStore} from './clock';
-	import type {PixiApp} from './pixi';
+	import type {Stage} from '$lib/flat/stage'; // TODO shouldnt import this
+	import type {ClockStore} from '$lib/flat/clock';
+	import type {PixiApp} from '$lib/flat/pixi';
 
 	export let pixi: PixiApp; // is not reactive
 	export let stage: Stage; // is not reactive
