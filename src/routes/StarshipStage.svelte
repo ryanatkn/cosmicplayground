@@ -7,7 +7,7 @@
 	import SurfaceWithControlller from '$lib/flat/SurfaceWithControlller.svelte';
 	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer.js';
 	import type {CameraStore} from '$lib/flat/camera.js';
-	import type {Controller} from '$lib/flat/Controller.js';
+	import type {Controller} from '$lib/flat/controller.js';
 
 	import {
 		PLAYER_SPEED,

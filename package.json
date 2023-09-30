@@ -375,9 +375,9 @@
       "default": "./dist/flat/colors.js",
       "types": "./dist/flat/colors.d.ts"
     },
-    "./flat/Controller.js": {
-      "default": "./dist/flat/Controller.js",
-      "types": "./dist/flat/Controller.d.ts"
+    "./flat/controller.js": {
+      "default": "./dist/flat/controller.js",
+      "types": "./dist/flat/controller.d.ts"
     },
     "./flat/dimensions.js": {
       "default": "./dist/flat/dimensions.js",

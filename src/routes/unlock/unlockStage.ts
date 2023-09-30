@@ -6,9 +6,7 @@ import {collide, frag} from '$lib/flat/entityHelpers.js';
 import {type StageOptions, Stage as BaseStage} from '$lib/flat/stage.js';
 import type {EntityCircle} from '$lib/flat/entityBody.js';
 import {DEFAULT_STRENGTH, Entity} from '$lib/flat/entity.js';
-
-// TODO BLOCK
-// updateEntityDirection
+import {update_direction} from '$lib/flat/controller.js';
 
 // TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
 // and our `Hsl` is good for fast manipulation
@@ -199,7 +197,7 @@ export class Stage extends BaseStage {
 		} = this;
 
 		// TODO add a player controller component to handle this
-		updateEntityDirection(controller, player, $camera, this.$viewport, this.$layout);
+		update_direction(controller, player, $camera);
 
 		// TODO the `as any` is needed because flow control doesn't account for the callbacks setting this
 		let rockFragmentsToAdd: Array<Entity<EntityCircle>> | null = null as any;

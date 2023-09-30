@@ -4,7 +4,7 @@ import * as Pixi from 'pixi.js';
 import {Collisions} from '@ryanatkn/collisions';
 
 import {Simulation} from '$lib/flat/Simulation';
-import {Controller} from '$lib/flat/Controller';
+import {Controller} from '$lib/flat/controller.js';
 import {
 	type CameraStore,
 	type CameraState,

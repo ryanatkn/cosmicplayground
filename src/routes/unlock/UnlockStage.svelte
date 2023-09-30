@@ -4,7 +4,7 @@
 	import World from '$lib/flat/World.svelte';
 	import SurfaceWithControlller from '$lib/flat/SurfaceWithControlller.svelte';
 	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer.js';
-	import type {Controller} from '$lib/flat/Controller.js';
+	import type {Controller} from '$lib/flat/controller.js';
 	import type {CameraStore} from '$lib/flat/camera.js';
 	import {get_clock} from '$lib/flat/clock.js';
 	import {get_pixi} from '$lib/app/pixi';

@@ -3,6 +3,7 @@ import {writable} from 'svelte/store';
 import type {CameraState} from '$lib/flat/camera';
 import type {Entity} from '$lib/flat/entity.js';
 
+// TODO this is hacky, rewrite with runes
 // TODO rethink and handle dynamic mappings
 
 export class Controller {
@@ -111,7 +112,7 @@ const MIN_MAGNITUDE = 5; // TODO this is still janky, see more comments below
 
 // TODO move this where?
 // TODO maybe return values instead?
-export const updateDirection = (
+export const update_direction = (
 	controller: Controller,
 	entity: Entity,
 	camera: CameraState,
