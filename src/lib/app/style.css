@@ -71,8 +71,8 @@
 	--input_bg_color: #000;
 	--button_color_lighter: #000;
 	--button_color_disabled: #000;
-	--button_color_hover: var(--tint_light_1);
-	--button_color_active: var(--tint_light_2);
+	--button_color_hover: var(--lighten_2);
+	--button_color_active: var(--lighten_3);
 }
 
 html {
@@ -182,7 +182,7 @@ td {
 	padding: var(--spacing_sm);
 }
 tr:hover {
-	background-color: var(--tint_light_1);
+	background-color: var(--lighten_2);
 }
 th {
 	text-align: left;
