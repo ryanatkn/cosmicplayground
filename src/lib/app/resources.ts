@@ -1,6 +1,9 @@
 import {writable, type Readable} from 'svelte/store';
 import type {AsyncStatus} from '@grogarden/util/async.js';
 import {UnreachableError} from '@grogarden/util/error.js';
+import {Assets} from '@pixi/assets';
+
+console.log(`Assets`, Assets);
 
 /*
 
@@ -139,6 +142,7 @@ export const createResourcesStore = (): ResourcesStore => {
 				for (const resource of state.resources) {
 					switch (resource.type) {
 						case 'image': {
+							Assets.load(resource.url); // TODO BLOCK
 							const image = new Image();
 							image.addEventListener('load', () => onLoad(resource.url), {once: true});
 							image.addEventListener('error', () => onError(resource.url), {once: true});

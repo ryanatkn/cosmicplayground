@@ -46,6 +46,7 @@
     "@grogarden/gro": "^0.92.5",
     "@grogarden/util": "^0.15.0",
     "@pixi/app": "^7.3.1",
+    "@pixi/assets": "^7.3.1",
     "@pixi/core": "^7.3.1",
     "@pixi/display": "^7.3.1",
     "@pixi/graphics": "^7.3.1",
