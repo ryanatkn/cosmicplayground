@@ -20,18 +20,18 @@
 		if (!el) return; // not ready
 		const {firstChild} = el;
 		if (firstChild) {
-			if (pixi.app.view === firstChild) return; // didn't change
+			if (pixi.app.view === (firstChild as any)) return; // didn't change
 			if (el.childNodes.length > 1) {
 				throw Error(`PixiView has ${el.childNodes.length} child nodes! Expected 0 or 1.`);
 			}
 			el.removeChild(firstChild);
 		}
-		el.appendChild(pixi.app.view);
+		el.appendChild(pixi.app.view as any);
 	};
 
 	$: mountView(pixi);
 	onMount(() => mountView(pixi));
-	onDestroy(() => el.removeChild(pixi.app.view));
+	onDestroy(() => el.removeChild(pixi.app.view as any));
 </script>
 
 <div style="width: {width}px; height: {height}px;" bind:this={el} />
