@@ -12,7 +12,7 @@ export interface PortalsStore extends Readable<PortalsState> {
 	select: (slug: string) => void;
 }
 
-export const createPortalsStore = (initialState: PortalsState): PortalsStore => {
+export const create_portals_store = (initialState: PortalsState): PortalsStore => {
 	const store = writable<PortalsState>(initialState);
 	const {subscribe, update} = store;
 	const portalsStore: PortalsStore = {
@@ -21,7 +21,7 @@ export const createPortalsStore = (initialState: PortalsState): PortalsStore => 
 			if (get(store).selected_portal?.slug === slug) return;
 			update(($portals) => ({
 				...$portals,
-				selected_portal: $portals.data.portalsBySlug.get(slug)!,
+				selected_portal: $portals.data.portals_by_slug.get(slug)!,
 			}));
 		},
 	};

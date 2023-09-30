@@ -13,20 +13,20 @@
 	import {beforeNavigate, goto} from '$app/navigation';
 	import * as Pixi from 'pixi.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {setIdle, trackIdleState} from '@ryanatkn/dealt';
-	import {set_clock} from '@ryanatkn/dealt/clock.js';
-	import {enable_global_hotkeys} from '@ryanatkn/dealt/dom.js';
+	import {set_clock} from '$lib/dealt/flat/clock.js';
+	import {enable_global_hotkeys} from '$lib/dealt/flat/dom.js';
 
+	import {set_idle, track_idle_state} from '$lib/idle.js';
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg';
-	import {PixiApp, setPixi} from '$lib/app/pixi';
+	import {PixiApp, set_pixi} from '$lib/app/pixi';
 	import PixiView from '$lib/app/PixiView.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
 	import Panel from '$lib/app/Panel.svelte';
 	import {set_settings} from '$lib/app/settings';
-	import {setPortals, createPortalsStore} from '$lib/app/portals';
-	import {updateRenderStats} from '$lib/app/renderStats';
-	import {portalsData} from '$lib/app/portalsData';
+	import {setPortals, create_portals_store} from '$lib/app/portals';
+	import {update_render_stats} from '$lib/app/renderStats';
+	import {portals_data} from '$lib/app/portals_data';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 	import {setAudioCtx} from '$lib/audio/audioCtx';
 	import {show_app_dialog} from '$lib/app/appDialog';
@@ -34,6 +34,7 @@
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import AppDialogMenu from '$lib/app/AppDialogMenu.svelte';
 	import {playing_song, muted, volume} from '$lib/music/play_song';
+	import {set_dimensions} from '$lib/dimensions.js';
 
 	const selected_color_scheme = writable('dark' as const);
 	sync_color_scheme($selected_color_scheme); // TODO probably shouldn't be needed
@@ -42,18 +43,18 @@
 		$show_app_dialog = false;
 	});
 
-	let supportsWebGL: boolean | null = null;
+	let supports_webgl: boolean | null = null;
 
 	let pixi = new PixiApp();
 
 	const clock = set_clock();
-	const dimensions = set_dimensions();
+	const dimensions = set_dimensions(writable({width: 0, height: 0}));
 
-	setPixi(pixi);
+	set_pixi(pixi);
 
 	const bgImageUrl = '/assets/space/galaxies.jpg';
 	let bg: PixiBgStore;
-	$: bg?.updateDimensions($dimensions.width, $dimensions.height);
+	$: bg?.update_dimensions($dimensions.width, $dimensions.height);
 	$: bg?.tick($clock.dt);
 
 	let loadingStatus: AsyncStatus = 'initial';
@@ -67,10 +68,10 @@
 		(window as any).pixi = Pixi as any;
 		try {
 			pixi.init({width: $dimensions.width, height: $dimensions.height, sharedTicker: true}); // TODO do the dimensions need to be reactive?
-			supportsWebGL = true;
+			supports_webgl = true;
 		} catch (err) {
 			console.error('failed to create PixiApp', err);
-			supportsWebGL = false; // usually probably correct to infer this
+			supports_webgl = false; // usually probably correct to infer this
 			pixi = {} as any; // TODO this is just a hack for type safety
 			console.error(err);
 		}
@@ -82,7 +83,7 @@
 					$dimensions.width,
 					$dimensions.height,
 				);
-				pixi.defaultScene.addChild($bg.sprite);
+				pixi.default_scene.addChild($bg.sprite);
 				loadingStatus = 'success';
 			});
 		}
@@ -100,9 +101,9 @@
 	const settings = set_settings({
 		audio_enabled: true,
 		dev_mode: false,
-		recordingMode: false,
-		idleMode: false,
-		timeToGoIdle: 6000,
+		recording_mode: false,
+		idle_mode: false,
+		time_to_go_idle: 6000,
 	});
 	// TODO refactor `settings` with this stuff -- granular stores seems better these days
 	$: audio_el = $playing_song?.audio_el;
@@ -114,7 +115,7 @@
 	}
 
 	clock.resume();
-	$: updateRenderStats($clock.dt);
+	$: update_render_stats($clock.dt);
 
 	// TODO We want to do this to avoid unnecessary rendering when the app is paused,
 	// but the problem is it breaks some experiences like soggy planet.
@@ -136,21 +137,21 @@
 	// 	}
 	// }
 
-	const portals = createPortalsStore({
-		data: portalsData,
-		selected_portal: portalsData.portalsBySlug.get($page.url.pathname.substring(1)) || null,
+	const portals = create_portals_store({
+		data: portals_data,
+		selected_portal: portals_data.portals_by_slug.get($page.url.pathname.substring(1)) || null,
 	});
 	setPortals(portals);
 	$: selected_portalSlugFromPath = $page.url.pathname.substring(1).split('/')[0];
 	$: portals.select(selected_portalSlugFromPath); // TODO hmm?
 
 	const idle = writable(false);
-	setIdle(idle);
-	$: timeToGoIdle = $settings.dev_mode
+	set_idle(idle);
+	$: time_to_go_idle = $settings.dev_mode
 		? 99999999999
-		: $settings.recordingMode
+		: $settings.recording_mode
 		? 500
-		: $settings.timeToGoIdle;
+		: $settings.time_to_go_idle;
 	setAudioCtx(); // allows components to do `const audioCtx = getAudioCtx();` which uses svelte's `getContext`
 
 	// TODO integrate this with the controls in `index.svelte` and `World.svelte`
@@ -186,12 +187,12 @@
 			}
 		} else if (key === '-' && !e.ctrlKey && enable_global_hotkeys(target)) {
 			swallow(e);
-			settings.update((s) => ({...s, idleMode: !s.idleMode}));
-			console.log('idle mode is now', $settings.idleMode);
+			settings.update((s) => ({...s, idle_mode: !s.idle_mode}));
+			console.log('idle mode is now', $settings.idle_mode);
 		} else if (key === '=' && !e.ctrlKey && enable_global_hotkeys(target)) {
 			swallow(e);
-			settings.update((s) => ({...s, recordingMode: !s.recordingMode}));
-			console.log('recording mode is now', $settings.recordingMode);
+			settings.update((s) => ({...s, recording_mode: !s.recording_mode}));
+			console.log('recording mode is now', $settings.recording_mode);
 		}
 	};
 </script>
@@ -202,12 +203,12 @@
 
 <svelte:window
 	on:resize={() => ($dimensions = {width: window.innerWidth, height: window.innerHeight})}
-	use:trackIdleState={{idle, timeToGoIdle, idleIntervalTime: 1000}}
+	use:track_idle_state={{idle, time_to_go_idle, idle_interval_time: 1000}}
 	on:keydown={onKeyDown}
 />
 
 <Themed {selected_color_scheme} color_scheme_fallback={$selected_color_scheme}>
-	{#if supportsWebGL}
+	{#if supports_webgl}
 		{#if loadingStatus !== 'success'}
 			<WaitingScreen status={loadingStatus} />
 		{:else}
@@ -221,7 +222,7 @@
 				class="fade-in"
 				class:paused={!$clock.running}
 				class:secret={$settings.secretEnabled}
-				class:idle={$idle || $settings.idleMode}
+				class:idle={$idle || $settings.idle_mode}
 			>
 				{#if !$portals.selected_portal || $portals.selected_portal.showHomeButton}
 					<Hud>
@@ -235,7 +236,7 @@
 				<AppDialogMenu />
 			</AppDialog>
 		{/if}
-	{:else if supportsWebGL === null}
+	{:else if supports_webgl === null}
 		<!-- render nothing yet -->
 	{:else}
 		<Panel>

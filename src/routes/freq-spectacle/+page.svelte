@@ -1,14 +1,14 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
-	import {get_clock} from '@ryanatkn/dealt/clock.js';
-	import {get_contextmenu_dimensions} from '@ryanatkn/dealt';
+	import {get_clock} from '$lib/dealt/flat/clock.js';
+	import {get_dimensions} from '$lib/dealt';
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 	import {get_settings} from '$lib/app/settings';
 	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '$routes/data';
 	import {setInStorage} from '$lib/util/storage';
 
-	const dimensions = get_contextmenu_dimensions();
+	const dimensions = get_dimensions();
 	const settings = get_settings();
 
 	let width = $dimensions.width;

@@ -6,7 +6,7 @@
 		computeBlendedImagesCycleOpacities,
 		computeBlendedImagesCycleZIndex,
 	} from '$lib/app/blendedImagesCycle';
-	import {getPixiScene} from '$lib/app/pixi';
+	import {get_pixi_scene} from '$lib/app/pixi';
 	import Surface from '$lib/app/Surface.svelte';
 	import type Camera from '$lib/app/Camera.svelte';
 
@@ -38,7 +38,7 @@
 
 	$: ({x, y, width, height, scale} = camera);
 
-	const [pixi] = getPixiScene({
+	const [pixi] = get_pixi_scene({
 		load: (loader) => {
 			for (const landImage of landImages) {
 				if (!loader.resources[landImage]) loader.add(landImage);

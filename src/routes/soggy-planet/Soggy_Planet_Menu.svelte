@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {ClockStore} from '@ryanatkn/dealt/clock.js';
+	import type {ClockStore} from '$lib/dealt/flat/clock.js';
 
 	import AppControlsTable from '$lib/app/AppControlsTable.svelte';
 	import {get_settings} from '$lib/app/settings';

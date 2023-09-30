@@ -10,7 +10,7 @@ export interface PixiBgState {
 }
 
 export interface PixiBgStore extends Readable<PixiBgState> {
-	updateDimensions: (width: number, height: number) => void;
+	update_dimensions: (width: number, height: number) => void;
 	tick: (dt: number) => void;
 }
 
@@ -33,7 +33,7 @@ export const createPixiBgStore = (
 
 	return {
 		subscribe,
-		updateDimensions: (width: number, height: number): void => {
+		update_dimensions: (width: number, height: number): void => {
 			update((state) => {
 				const {sprite} = state;
 				if (!sprite || (state.width === width && state.height === height)) {

@@ -1,6 +1,7 @@
 import {random_float} from '@grogarden/util/random.js';
 import {get, writable, type Writable} from 'svelte/store';
 import {dequal} from 'dequal/lite';
+
 import {
 	Stage as BaseStage,
 	type EntityCircle,
@@ -11,7 +12,7 @@ import {
 	Entity,
 	type Hsl,
 	type StageOptions,
-} from '@ryanatkn/dealt';
+} from '$lib/dealt/index.js';
 
 // TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
 // and our `Hsl` is good for fast manipulation

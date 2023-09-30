@@ -4,7 +4,7 @@
 	export let slug: string;
 
 	const portals = getPortals();
-	$: portal = $portals.data.portalsBySlug.get(slug)!;
+	$: portal = $portals.data.portals_by_slug.get(slug)!;
 </script>
 
 <a href="/{slug}">

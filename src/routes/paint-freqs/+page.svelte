@@ -3,9 +3,9 @@
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@grogarden/util/maths.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {hsl_to_rgb} from '@ryanatkn/dealt/colors.js';
+	import {hsl_to_rgb} from '$lib/dealt/colors.js';
 	// TODO BLOCK see get_viewport and get_layout
-	import { get_contextmenu_dimensions} from '@ryanatkn/dealt';
+	import {get_dimensions} from '$lib/dealt';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';
@@ -39,7 +39,7 @@
 
   */
 
-	const dimensions = get_contextmenu_dimensions();
+	const dimensions = get_dimensions();
 	let width = $dimensions.width;
 	let height = $dimensions.height;
 	$: width = $dimensions.width;
@@ -227,7 +227,7 @@
 	{/if}
 	{#if width !== undefined}<canvas class="bg-canvas" bind:this={canvas} />{/if}
 	{#if displayedFreq}
-		<div class="freq idle-fade">
+		<div class="freq idle_fade">
 			<div>{displayedFreq}<span class="unit">hz</span></div>
 		</div>
 	{/if}
@@ -242,7 +242,7 @@
 		on:touchcancel={handlePointerUp}
 		on:touchmove={handlePointerMove}
 	/>
-	<div class="controls idle-fade">
+	<div class="controls idle_fade">
 		<!-- TODO this is a good candidate for the Hud component -->
 		<FloatingIconButton label="reset" on:click={clear}>↻</FloatingIconButton>
 	</div>

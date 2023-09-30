@@ -7,8 +7,8 @@
 		DomCanvasRenderer,
 		type CameraStore,
 		type Controller,
-	} from '@ryanatkn/dealt';
-	import {get_clock} from '@ryanatkn/dealt/clock.js';
+	} from '$lib/dealt';
+	import {get_clock} from '$lib/dealt/flat/clock.js';
 
 	import {
 		PLAYER_SPEED,
@@ -21,7 +21,7 @@
 		Stage,
 		type StarshipStageScores,
 	} from '$routes/starshipStage';
-	import {getPixi} from '$lib/app/pixi';
+	import {get_pixi} from '$lib/app/pixi';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;
@@ -44,7 +44,7 @@
 	export let enableDomCanvasRenderer = false;
 
 	const clock = get_clock();
-	const pixi = getPixi();
+	const pixi = get_pixi();
 
 	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;
 

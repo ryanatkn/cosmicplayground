@@ -2,8 +2,8 @@
 	import {onMount, tick} from 'svelte';
 	import {random_float} from '@grogarden/util/random.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {get_clock} from '@ryanatkn/dealt/clock.js';
-	import {enable_global_hotkeys, get_contextmenu_dimensions} from '@ryanatkn/dealt';
+	import {get_clock} from '$lib/dealt/flat/clock.js';
+	import {enable_global_hotkeys, get_dimensions} from '$lib/dealt';
 	import {dev} from '$app/environment';
 
 	import Soggy_Planet_Title_Screen from '$routes/soggy-planet/Soggy_Planet_Title_Screen.svelte';
@@ -36,7 +36,7 @@
 	$: width = camera?.width;
 	$: height = camera?.height;
 
-	const dimensions = get_contextmenu_dimensions();
+	const dimensions = get_dimensions();
 	$: if (width) $width = $dimensions.width;
 	$: if (height) $height = $dimensions.height;
 

@@ -1,6 +1,4 @@
 :root {
-	color-scheme: dark;
-
 	--ocean_hue: 214;
 	--land_hue: 124;
 	--space_hue: 304;
@@ -194,15 +192,15 @@ th {
 .idle {
 	cursor: none;
 }
-.idle-fade {
+.idle_fade {
 	transition: var(--fade_transition);
 }
-.idle .idle-fade {
+.idle .idle_fade {
 	opacity: 0;
 	cursor: none;
 }
-.idle .idle-fade button {
-	/* kind of a hack, but putting `idle-fade` on every button is no good -
+.idle .idle_fade button {
+	/* kind of a hack, but putting `idle_fade` on every button is no good -
 	what other elements should be selected as well? */
 	cursor: none;
 }

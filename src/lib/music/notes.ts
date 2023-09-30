@@ -1,5 +1,5 @@
 import {map_record} from '@grogarden/util/object.js';
-import {hsl_to_string, type Hsl, type Hue} from '@ryanatkn/dealt/colors.js';
+import {hsl_to_string, type Hsl, type Hue} from '$lib/dealt/colors.js';
 
 import {midis, isMidi, type Midi} from '$lib/music/midi.js';
 

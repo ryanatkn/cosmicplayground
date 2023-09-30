@@ -3,9 +3,9 @@
 	import {cubicInOut} from 'svelte/easing';
 	import {onMount} from 'svelte';
 	import {random_float} from '@grogarden/util/random.js';
-	import {get_clock} from '@ryanatkn/dealt/clock.js';
+	import {get_clock} from '$lib/dealt/flat/clock.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {enable_global_hotkeys, get_contextmenu_dimensions} from '@ryanatkn/dealt';
+	import {enable_global_hotkeys, get_dimensions} from '$lib/dealt';
 
 	import DeepBreathTitleScreen from '$routes/deep-breath/DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from '$routes/deep-breath/DeepBreathTour.svelte';
@@ -31,7 +31,7 @@
 	$: width = camera?.width;
 	$: height = camera?.height;
 
-	const dimensions = get_contextmenu_dimensions();
+	const dimensions = get_dimensions();
 	$: if (width) $width = $dimensions.width;
 	$: if (height) $height = $dimensions.height;
 

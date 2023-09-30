@@ -3,8 +3,8 @@ import {getContext, setContext, onMount, onDestroy} from 'svelte';
 
 export class PixiApp {
 	app!: Pixi.Application;
-	defaultScene!: Pixi.Container;
-	currentScene!: Pixi.Container;
+	default_scene!: Pixi.Container;
+	current_scene!: Pixi.Container;
 
 	init(options: Pixi.IApplicationOptions): void {
 		// Tell Pixi to use pixelated image scaling by default. BIG PX
@@ -17,49 +17,46 @@ export class PixiApp {
 		// 	console.log(`dt`, dt);
 		// });
 
-		const defaultScene = new Pixi.Container();
-		(defaultScene as any).interactiveChildren = false; // TODO this type error goes away with `esModuleInterop: true` in tsconfig, but that causes gross js output and it's not needed at runtime
-		this.defaultScene = this.currentScene = defaultScene;
-		this.app.stage.addChild(defaultScene);
+		const default_scene = new Pixi.Container();
+		(default_scene as any).interactiveChildren = false; // TODO this type error goes away with `esModuleInterop: true` in tsconfig, but that causes gross js output and it's not needed at runtime
+		this.default_scene = this.current_scene = default_scene;
+		this.app.stage.addChild(default_scene);
 	}
 
-	mountScene(scene: Pixi.Container): void {
+	mount_scene(scene: Pixi.Container): void {
 		// these checks prevent mistakes, but we may want to change the behavior
-		if (this.currentScene === scene) {
+		if (this.current_scene === scene) {
 			throw Error(`Cannot mount scene that's already mounted. Unmount it first.`);
 		}
-		if (this.defaultScene !== scene && this.currentScene !== this.defaultScene) {
+		if (this.default_scene !== scene && this.current_scene !== this.default_scene) {
 			throw Error(`Cannot replace a scene that is not the default. Reset it first.`);
 		}
-		this.app.stage.removeChild(this.currentScene);
-		this.currentScene = scene;
+		this.app.stage.removeChild(this.current_scene);
+		this.current_scene = scene;
 		this.app.stage.addChild(scene);
 	}
 
-	unmountScene(scene: Pixi.Container): void {
-		if (this.currentScene !== scene) {
+	unmount_scene(scene: Pixi.Container): void {
+		if (this.current_scene !== scene) {
 			throw Error(`Cannot unmount scene because it's not currently mounted`);
 		}
-		this.mountScene(this.defaultScene);
+		this.mount_scene(this.default_scene);
 	}
 
 	// The loader API is troublesome because it errors with concurrent requests,
 	// and we don't want to create multiple loaders or call `reset` for efficiency.
 	// This helper is the first step to wrangling a better API without changing internals.
-	waitForLoad(): Promise<void> {
+	wait_for_load(): Promise<void> {
 		if (!this.app.loader.loading) {
-			throw Error('Called `waitForLoad` when not loading.'); // maybe call `load` automatically instead?
+			throw Error('Called `wait_for_load` when not loading.'); // maybe call `load` automatically instead?
 		}
 		return new Promise((r: () => void) => this.app.loader.onLoad.once(r));
 	}
 }
 
-export const pixiContextKey = {};
-export const getPixi = (): PixiApp => getContext(pixiContextKey);
-export const setPixi = (pixi: PixiApp): PixiApp => {
-	setContext(pixiContextKey, pixi);
-	return pixi;
-};
+const PIXI_KEY = Symbol('pixi');
+export const get_pixi = (): PixiApp => getContext(PIXI_KEY);
+export const set_pixi = (pixi: PixiApp): PixiApp => setContext(PIXI_KEY, pixi);
 
 export interface PixiSceneHooks {
 	load?: (loader: Pixi.Loader) => void;
@@ -71,9 +68,9 @@ export interface PixiSceneHooks {
 	destroy?: (scene: Pixi.Container | null, loader: Pixi.Loader) => void;
 }
 
-export const getPixiScene = (
+export const get_pixi_scene = (
 	hooks: PixiSceneHooks,
-	pixi: PixiApp = getPixi(),
+	pixi: PixiApp = get_pixi(),
 ): [PixiApp, Pixi.Container] => {
 	let destroyed = false;
 
@@ -92,7 +89,7 @@ export const getPixiScene = (
 	// and the scene component can display whatever it wants.
 	const scene = new Pixi.Container();
 	(scene as any).interactiveChildren = false; // TODO this type error goes away with `esModuleInterop: true` in tsconfig, but that causes gross js output and it's not needed at runtime
-	pixi.mountScene(scene);
+	pixi.mount_scene(scene);
 
 	// If we're already loading while creating a new scene,
 	// cancel whatever's going on in the loader.
@@ -120,7 +117,7 @@ export const getPixiScene = (
 		ready();
 		hooks.destroy?.(scene, pixi.app.loader);
 		destroyed = true;
-		pixi.unmountScene(scene);
+		pixi.unmount_scene(scene);
 		// pixi.Pixi.utils.clearTextureCache(); // TODO see below
 		scene.destroy({
 			children: true,

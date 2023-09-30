@@ -5,7 +5,7 @@
 	import {base} from '$app/paths';
 
 	const settings = get_settings();
-	$: display_for_video = $settings.recordingMode;
+	$: display_for_video = $settings.recording_mode;
 
 	export let transition_duration: number;
 

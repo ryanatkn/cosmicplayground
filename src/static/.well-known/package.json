@@ -46,7 +46,6 @@
     "@fuz.dev/fuz_library": "^0.5.6",
     "@grogarden/gro": "^0.92.5",
     "@grogarden/util": "^0.15.0",
-    "@ryanatkn/dealt": "^0.26.0",
     "@sveltejs/adapter-static": "^2.0.3",
     "@sveltejs/kit": "^1.25.1",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
@@ -238,13 +237,13 @@
       "svelte": "./dist/app/PortalPreview.svelte",
       "types": "./dist/app/PortalPreview.svelte.d.ts"
     },
+    "./app/portals_data.js": {
+      "default": "./dist/app/portals_data.js",
+      "types": "./dist/app/portals_data.d.ts"
+    },
     "./app/portals.js": {
       "default": "./dist/app/portals.js",
       "types": "./dist/app/portals.d.ts"
-    },
-    "./app/portalsData.js": {
-      "default": "./dist/app/portalsData.js",
-      "types": "./dist/app/portalsData.d.ts"
     },
     "./app/renderStats.js": {
       "default": "./dist/app/renderStats.js",
@@ -331,6 +330,451 @@
     "./audio/play_audio.js": {
       "default": "./dist/audio/play_audio.js",
       "types": "./dist/audio/play_audio.d.ts"
+    },
+    "./dealt/corpora/animals.json": {
+      "default": "./dist/dealt/corpora/animals.json"
+    },
+    "./dealt/corpora/animals.json.d.js": {
+      "default": "./dist/dealt/corpora/animals.json.d.js",
+      "types": "./dist/dealt/corpora/animals.json.d.d.ts"
+    },
+    "./dealt/corpora/artifacts.json": {
+      "default": "./dist/dealt/corpora/artifacts.json"
+    },
+    "./dealt/corpora/artifacts.json.d.js": {
+      "default": "./dist/dealt/corpora/artifacts.json.d.js",
+      "types": "./dist/dealt/corpora/artifacts.json.d.d.ts"
+    },
+    "./dealt/corpora/characters.json": {
+      "default": "./dist/dealt/corpora/characters.json"
+    },
+    "./dealt/corpora/characters.json.d.js": {
+      "default": "./dist/dealt/corpora/characters.json.d.js",
+      "types": "./dist/dealt/corpora/characters.json.d.d.ts"
+    },
+    "./dealt/corpora/colors.json": {
+      "default": "./dist/dealt/corpora/colors.json"
+    },
+    "./dealt/corpora/colors.json.d.js": {
+      "default": "./dist/dealt/corpora/colors.json.d.js",
+      "types": "./dist/dealt/corpora/colors.json.d.d.ts"
+    },
+    "./dealt/corpora/descriptions.json": {
+      "default": "./dist/dealt/corpora/descriptions.json"
+    },
+    "./dealt/corpora/descriptions.json.d.js": {
+      "default": "./dist/dealt/corpora/descriptions.json.d.js",
+      "types": "./dist/dealt/corpora/descriptions.json.d.d.ts"
+    },
+    "./dealt/corpora/emoji.json": {
+      "default": "./dist/dealt/corpora/emoji.json"
+    },
+    "./dealt/corpora/emoji.json.d.js": {
+      "default": "./dist/dealt/corpora/emoji.json.d.js",
+      "types": "./dist/dealt/corpora/emoji.json.d.d.ts"
+    },
+    "./dealt/corpora/emotions.json": {
+      "default": "./dist/dealt/corpora/emotions.json"
+    },
+    "./dealt/corpora/emotions.json.d.js": {
+      "default": "./dist/dealt/corpora/emotions.json.d.js",
+      "types": "./dist/dealt/corpora/emotions.json.d.d.ts"
+    },
+    "./dealt/corpora/events.json": {
+      "default": "./dist/dealt/corpora/events.json"
+    },
+    "./dealt/corpora/events.json.d.js": {
+      "default": "./dist/dealt/corpora/events.json.d.js",
+      "types": "./dist/dealt/corpora/events.json.d.d.ts"
+    },
+    "./dealt/corpora/fabrics.json": {
+      "default": "./dist/dealt/corpora/fabrics.json"
+    },
+    "./dealt/corpora/fabrics.json.d.js": {
+      "default": "./dist/dealt/corpora/fabrics.json.d.js",
+      "types": "./dist/dealt/corpora/fabrics.json.d.d.ts"
+    },
+    "./dealt/corpora/features.json": {
+      "default": "./dist/dealt/corpora/features.json"
+    },
+    "./dealt/corpora/features.json.d.js": {
+      "default": "./dist/dealt/corpora/features.json.d.js",
+      "types": "./dist/dealt/corpora/features.json.d.d.ts"
+    },
+    "./dealt/corpora/flowers.json": {
+      "default": "./dist/dealt/corpora/flowers.json"
+    },
+    "./dealt/corpora/flowers.json.d.js": {
+      "default": "./dist/dealt/corpora/flowers.json.d.js",
+      "types": "./dist/dealt/corpora/flowers.json.d.d.ts"
+    },
+    "./dealt/corpora/fruits.json": {
+      "default": "./dist/dealt/corpora/fruits.json"
+    },
+    "./dealt/corpora/fruits.json.d.js": {
+      "default": "./dist/dealt/corpora/fruits.json.d.js",
+      "types": "./dist/dealt/corpora/fruits.json.d.d.ts"
+    },
+    "./dealt/corpora/governments.json": {
+      "default": "./dist/dealt/corpora/governments.json"
+    },
+    "./dealt/corpora/governments.json.d.js": {
+      "default": "./dist/dealt/corpora/governments.json.d.js",
+      "types": "./dist/dealt/corpora/governments.json.d.d.ts"
+    },
+    "./dealt/corpora/hazards.json": {
+      "default": "./dist/dealt/corpora/hazards.json"
+    },
+    "./dealt/corpora/hazards.json.d.js": {
+      "default": "./dist/dealt/corpora/hazards.json.d.js",
+      "types": "./dist/dealt/corpora/hazards.json.d.d.ts"
+    },
+    "./dealt/corpora/herbs.json": {
+      "default": "./dist/dealt/corpora/herbs.json"
+    },
+    "./dealt/corpora/herbs.json.d.js": {
+      "default": "./dist/dealt/corpora/herbs.json.d.js",
+      "types": "./dist/dealt/corpora/herbs.json.d.d.ts"
+    },
+    "./dealt/corpora/industries.json": {
+      "default": "./dist/dealt/corpora/industries.json"
+    },
+    "./dealt/corpora/industries.json.d.js": {
+      "default": "./dist/dealt/corpora/industries.json.d.js",
+      "types": "./dist/dealt/corpora/industries.json.d.d.ts"
+    },
+    "./dealt/corpora/instruments.json": {
+      "default": "./dist/dealt/corpora/instruments.json"
+    },
+    "./dealt/corpora/instruments.json.d.js": {
+      "default": "./dist/dealt/corpora/instruments.json.d.js",
+      "types": "./dist/dealt/corpora/instruments.json.d.d.ts"
+    },
+    "./dealt/corpora/moods.json": {
+      "default": "./dist/dealt/corpora/moods.json"
+    },
+    "./dealt/corpora/moods.json.d.js": {
+      "default": "./dist/dealt/corpora/moods.json.d.js",
+      "types": "./dist/dealt/corpora/moods.json.d.d.ts"
+    },
+    "./dealt/corpora/natures.json": {
+      "default": "./dist/dealt/corpora/natures.json"
+    },
+    "./dealt/corpora/natures.json.d.js": {
+      "default": "./dist/dealt/corpora/natures.json.d.js",
+      "types": "./dist/dealt/corpora/natures.json.d.d.ts"
+    },
+    "./dealt/corpora/oceans.json": {
+      "default": "./dist/dealt/corpora/oceans.json"
+    },
+    "./dealt/corpora/oceans.json.d.js": {
+      "default": "./dist/dealt/corpora/oceans.json.d.js",
+      "types": "./dist/dealt/corpora/oceans.json.d.d.ts"
+    },
+    "./dealt/corpora/passages.json": {
+      "default": "./dist/dealt/corpora/passages.json"
+    },
+    "./dealt/corpora/passages.json.d.js": {
+      "default": "./dist/dealt/corpora/passages.json.d.js",
+      "types": "./dist/dealt/corpora/passages.json.d.d.ts"
+    },
+    "./dealt/corpora/rooms.json": {
+      "default": "./dist/dealt/corpora/rooms.json"
+    },
+    "./dealt/corpora/rooms.json.d.js": {
+      "default": "./dist/dealt/corpora/rooms.json.d.js",
+      "types": "./dist/dealt/corpora/rooms.json.d.d.ts"
+    },
+    "./dealt/corpora/seas.json": {
+      "default": "./dist/dealt/corpora/seas.json"
+    },
+    "./dealt/corpora/seas.json.d.js": {
+      "default": "./dist/dealt/corpora/seas.json.d.js",
+      "types": "./dist/dealt/corpora/seas.json.d.d.ts"
+    },
+    "./dealt/corpora/settings.json": {
+      "default": "./dist/dealt/corpora/settings.json"
+    },
+    "./dealt/corpora/settings.json.d.js": {
+      "default": "./dist/dealt/corpora/settings.json.d.js",
+      "types": "./dist/dealt/corpora/settings.json.d.d.ts"
+    },
+    "./dealt/corpora/spices.json": {
+      "default": "./dist/dealt/corpora/spices.json"
+    },
+    "./dealt/corpora/spices.json.d.js": {
+      "default": "./dist/dealt/corpora/spices.json.d.js",
+      "types": "./dist/dealt/corpora/spices.json.d.d.ts"
+    },
+    "./dealt/corpora/subjects.json": {
+      "default": "./dist/dealt/corpora/subjects.json"
+    },
+    "./dealt/corpora/subjects.json.d.js": {
+      "default": "./dist/dealt/corpora/subjects.json.d.js",
+      "types": "./dist/dealt/corpora/subjects.json.d.d.ts"
+    },
+    "./dealt/corpora/vegetables.json": {
+      "default": "./dist/dealt/corpora/vegetables.json"
+    },
+    "./dealt/corpora/vegetables.json.d.js": {
+      "default": "./dist/dealt/corpora/vegetables.json.d.js",
+      "types": "./dist/dealt/corpora/vegetables.json.d.d.ts"
+    },
+    "./dealt/corpora/winds.json": {
+      "default": "./dist/dealt/corpora/winds.json"
+    },
+    "./dealt/corpora/winds.json.d.js": {
+      "default": "./dist/dealt/corpora/winds.json.d.js",
+      "types": "./dist/dealt/corpora/winds.json.d.d.ts"
+    },
+    "./dealt/emoji.js": {
+      "default": "./dist/dealt/emoji.js",
+      "types": "./dist/dealt/emoji.d.ts"
+    },
+    "./dealt/flat/AppDialog.svelte": {
+      "svelte": "./dist/dealt/flat/AppDialog.svelte",
+      "types": "./dist/dealt/flat/AppDialog.svelte.d.ts"
+    },
+    "./dealt/flat/appDialog.js": {
+      "default": "./dist/dealt/flat/appDialog.js",
+      "types": "./dist/dealt/flat/appDialog.d.ts"
+    },
+    "./dealt/flat/AppDialogMenu.svelte": {
+      "svelte": "./dist/dealt/flat/AppDialogMenu.svelte",
+      "types": "./dist/dealt/flat/AppDialogMenu.svelte.d.ts"
+    },
+    "./dealt/flat/AppDialogs.svelte": {
+      "svelte": "./dist/dealt/flat/AppDialogs.svelte",
+      "types": "./dist/dealt/flat/AppDialogs.svelte.d.ts"
+    },
+    "./dealt/flat/camera.js": {
+      "default": "./dist/dealt/flat/camera.js",
+      "types": "./dist/dealt/flat/camera.d.ts"
+    },
+    "./dealt/flat/Canvas.svelte": {
+      "svelte": "./dist/dealt/flat/Canvas.svelte",
+      "types": "./dist/dealt/flat/Canvas.svelte.d.ts"
+    },
+    "./dealt/flat/CanvasRenderer.js": {
+      "default": "./dist/dealt/flat/CanvasRenderer.js",
+      "types": "./dist/dealt/flat/CanvasRenderer.d.ts"
+    },
+    "./dealt/flat/Clock.svelte": {
+      "svelte": "./dist/dealt/flat/Clock.svelte",
+      "types": "./dist/dealt/flat/Clock.svelte.d.ts"
+    },
+    "./dealt/flat/clock.js": {
+      "default": "./dist/dealt/flat/clock.js",
+      "types": "./dist/dealt/flat/clock.d.ts"
+    },
+    "./dealt/flat/colors.js": {
+      "default": "./dist/dealt/flat/colors.js",
+      "types": "./dist/dealt/flat/colors.d.ts"
+    },
+    "./dealt/flat/Controller.js": {
+      "default": "./dist/dealt/flat/Controller.js",
+      "types": "./dist/dealt/flat/Controller.d.ts"
+    },
+    "./dealt/flat/dimensions.js": {
+      "default": "./dist/dealt/flat/dimensions.js",
+      "types": "./dist/dealt/flat/dimensions.d.ts"
+    },
+    "./dealt/flat/dom.js": {
+      "default": "./dist/dealt/flat/dom.js",
+      "types": "./dist/dealt/flat/dom.d.ts"
+    },
+    "./dealt/flat/DomCanvas.svelte": {
+      "svelte": "./dist/dealt/flat/DomCanvas.svelte",
+      "types": "./dist/dealt/flat/DomCanvas.svelte.d.ts"
+    },
+    "./dealt/flat/DomCanvasRenderer.js": {
+      "default": "./dist/dealt/flat/DomCanvasRenderer.js",
+      "types": "./dist/dealt/flat/DomCanvasRenderer.d.ts"
+    },
+    "./dealt/flat/entity.js": {
+      "default": "./dist/dealt/flat/entity.js",
+      "types": "./dist/dealt/flat/entity.d.ts"
+    },
+    "./dealt/flat/entityBody.js": {
+      "default": "./dist/dealt/flat/entityBody.js",
+      "types": "./dist/dealt/flat/entityBody.d.ts"
+    },
+    "./dealt/flat/entityHelpers.js": {
+      "default": "./dist/dealt/flat/entityHelpers.js",
+      "types": "./dist/dealt/flat/entityHelpers.d.ts"
+    },
+    "./dealt/flat/pixi.js": {
+      "default": "./dist/dealt/flat/pixi.js",
+      "types": "./dist/dealt/flat/pixi.d.ts"
+    },
+    "./dealt/flat/PixiCanvas.svelte": {
+      "svelte": "./dist/dealt/flat/PixiCanvas.svelte",
+      "types": "./dist/dealt/flat/PixiCanvas.svelte.d.ts"
+    },
+    "./dealt/flat/PixiView.svelte": {
+      "svelte": "./dist/dealt/flat/PixiView.svelte",
+      "types": "./dist/dealt/flat/PixiView.svelte.d.ts"
+    },
+    "./dealt/flat/Portal.svelte": {
+      "svelte": "./dist/dealt/flat/Portal.svelte",
+      "types": "./dist/dealt/flat/Portal.svelte.d.ts"
+    },
+    "./dealt/flat/renderer.js": {
+      "default": "./dist/dealt/flat/renderer.js",
+      "types": "./dist/dealt/flat/renderer.d.ts"
+    },
+    "./dealt/flat/renderStats.js": {
+      "default": "./dist/dealt/flat/renderStats.js",
+      "types": "./dist/dealt/flat/renderStats.d.ts"
+    },
+    "./dealt/flat/settings.js": {
+      "default": "./dist/dealt/flat/settings.js",
+      "types": "./dist/dealt/flat/settings.d.ts"
+    },
+    "./dealt/flat/Simulation.js": {
+      "default": "./dist/dealt/flat/Simulation.js",
+      "types": "./dist/dealt/flat/Simulation.d.ts"
+    },
+    "./dealt/flat/stage.js": {
+      "default": "./dist/dealt/flat/stage.js",
+      "types": "./dist/dealt/flat/stage.d.ts"
+    },
+    "./dealt/flat/storage.js": {
+      "default": "./dist/dealt/flat/storage.js",
+      "types": "./dist/dealt/flat/storage.d.ts"
+    },
+    "./dealt/flat/SurfaceWithControlller.svelte": {
+      "svelte": "./dist/dealt/flat/SurfaceWithControlller.svelte",
+      "types": "./dist/dealt/flat/SurfaceWithControlller.svelte.d.ts"
+    },
+    "./dealt/flat/trackIdleState.js": {
+      "default": "./dist/dealt/flat/trackIdleState.js",
+      "types": "./dist/dealt/flat/trackIdleState.d.ts"
+    },
+    "./dealt/flat/WaitingAnimation.svelte": {
+      "svelte": "./dist/dealt/flat/WaitingAnimation.svelte",
+      "types": "./dist/dealt/flat/WaitingAnimation.svelte.d.ts"
+    },
+    "./dealt/flat/WaitingScreen.svelte": {
+      "svelte": "./dist/dealt/flat/WaitingScreen.svelte",
+      "types": "./dist/dealt/flat/WaitingScreen.svelte.d.ts"
+    },
+    "./dealt/flat/World.svelte": {
+      "svelte": "./dist/dealt/flat/World.svelte",
+      "types": "./dist/dealt/flat/World.svelte.d.ts"
+    },
+    "./dealt/Footer.svelte": {
+      "svelte": "./dist/dealt/Footer.svelte",
+      "types": "./dist/dealt/Footer.svelte.d.ts"
+    },
+    "./dealt/index.js": {
+      "default": "./dist/dealt/index.js",
+      "types": "./dist/dealt/index.d.ts"
+    },
+    "./dealt/RandomizeSeedButton.svelte": {
+      "svelte": "./dist/dealt/RandomizeSeedButton.svelte",
+      "types": "./dist/dealt/RandomizeSeedButton.svelte.d.ts"
+    },
+    "./dealt/shadow.js": {
+      "default": "./dist/dealt/shadow.js",
+      "types": "./dist/dealt/shadow.d.ts"
+    },
+    "./dealt/style.css": {
+      "default": "./dist/dealt/style.css"
+    },
+    "./dealt/Tabs.svelte": {
+      "svelte": "./dist/dealt/Tabs.svelte",
+      "types": "./dist/dealt/Tabs.svelte.d.ts"
+    },
+    "./dealt/tarot/tarot.json": {
+      "default": "./dist/dealt/tarot/tarot.json"
+    },
+    "./dealt/tarot/tarot.json.d.js": {
+      "default": "./dist/dealt/tarot/tarot.json.d.js",
+      "types": "./dist/dealt/tarot/tarot.json.d.d.ts"
+    },
+    "./dealt/tarot/tarot.js": {
+      "default": "./dist/dealt/tarot/tarot.js",
+      "types": "./dist/dealt/tarot/tarot.d.ts"
+    },
+    "./dealt/Thumbnail.svelte": {
+      "svelte": "./dist/dealt/Thumbnail.svelte",
+      "types": "./dist/dealt/Thumbnail.svelte.d.ts"
+    },
+    "./dealt/util/random.js": {
+      "default": "./dist/dealt/util/random.js",
+      "types": "./dist/dealt/util/random.d.ts"
+    },
+    "./dealt/zodiac/Aquarius.svelte": {
+      "svelte": "./dist/dealt/zodiac/Aquarius.svelte",
+      "types": "./dist/dealt/zodiac/Aquarius.svelte.d.ts"
+    },
+    "./dealt/zodiac/Aries.svelte": {
+      "svelte": "./dist/dealt/zodiac/Aries.svelte",
+      "types": "./dist/dealt/zodiac/Aries.svelte.d.ts"
+    },
+    "./dealt/zodiac/Cancer.svelte": {
+      "svelte": "./dist/dealt/zodiac/Cancer.svelte",
+      "types": "./dist/dealt/zodiac/Cancer.svelte.d.ts"
+    },
+    "./dealt/zodiac/Capricorn.svelte": {
+      "svelte": "./dist/dealt/zodiac/Capricorn.svelte",
+      "types": "./dist/dealt/zodiac/Capricorn.svelte.d.ts"
+    },
+    "./dealt/zodiac/Gemini.svelte": {
+      "svelte": "./dist/dealt/zodiac/Gemini.svelte",
+      "types": "./dist/dealt/zodiac/Gemini.svelte.d.ts"
+    },
+    "./dealt/zodiac/Leo.svelte": {
+      "svelte": "./dist/dealt/zodiac/Leo.svelte",
+      "types": "./dist/dealt/zodiac/Leo.svelte.d.ts"
+    },
+    "./dealt/zodiac/Libra.svelte": {
+      "svelte": "./dist/dealt/zodiac/Libra.svelte",
+      "types": "./dist/dealt/zodiac/Libra.svelte.d.ts"
+    },
+    "./dealt/zodiac/Pisces.svelte": {
+      "svelte": "./dist/dealt/zodiac/Pisces.svelte",
+      "types": "./dist/dealt/zodiac/Pisces.svelte.d.ts"
+    },
+    "./dealt/zodiac/Sagittarius.svelte": {
+      "svelte": "./dist/dealt/zodiac/Sagittarius.svelte",
+      "types": "./dist/dealt/zodiac/Sagittarius.svelte.d.ts"
+    },
+    "./dealt/zodiac/Scorpio.svelte": {
+      "svelte": "./dist/dealt/zodiac/Scorpio.svelte",
+      "types": "./dist/dealt/zodiac/Scorpio.svelte.d.ts"
+    },
+    "./dealt/zodiac/Taurus.svelte": {
+      "svelte": "./dist/dealt/zodiac/Taurus.svelte",
+      "types": "./dist/dealt/zodiac/Taurus.svelte.d.ts"
+    },
+    "./dealt/zodiac/Virgo.svelte": {
+      "svelte": "./dist/dealt/zodiac/Virgo.svelte",
+      "types": "./dist/dealt/zodiac/Virgo.svelte.d.ts"
+    },
+    "./dealt/zodiac/zodiac_components.js": {
+      "default": "./dist/dealt/zodiac/zodiac_components.js",
+      "types": "./dist/dealt/zodiac/zodiac_components.d.ts"
+    },
+    "./dealt/zodiac/zodiac.json": {
+      "default": "./dist/dealt/zodiac/zodiac.json"
+    },
+    "./dealt/zodiac/Zodiac.svelte": {
+      "svelte": "./dist/dealt/zodiac/Zodiac.svelte",
+      "types": "./dist/dealt/zodiac/Zodiac.svelte.d.ts"
+    },
+    "./dealt/zodiac/zodiac.js": {
+      "default": "./dist/dealt/zodiac/zodiac.js",
+      "types": "./dist/dealt/zodiac/zodiac.d.ts"
+    },
+    "./dimensions.js": {
+      "default": "./dist/dimensions.js",
+      "types": "./dist/dimensions.d.ts"
+    },
+    "./idle.js": {
+      "default": "./dist/idle.js",
+      "types": "./dist/idle.d.ts"
     },
     "./MediaPlayer.svelte": {
       "svelte": "./dist/MediaPlayer.svelte",

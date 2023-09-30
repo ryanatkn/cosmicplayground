@@ -1,11 +1,11 @@
 import type {SvelteComponent} from 'svelte';
 
-// TODO is this the right file name? `Portal.ts`? `portalData.ts`? `portalsData.js`? `data.js`? `types.ts`?
+// TODO is this the right file name? `Portal.ts`? `portalData.ts`? `portals_data.js`? `data.js`? `types.ts`?
 // does it even belong in this directory?
 
 export interface PortalsData {
 	portals: PortalData[];
-	portalsBySlug: Map<string, PortalData>;
+	portals_by_slug: Map<string, PortalData>;
 }
 
 // These properties are defined explicitly for each portal.

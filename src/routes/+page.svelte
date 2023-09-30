@@ -2,14 +2,14 @@
 	import {tick} from 'svelte';
 	import {wait} from '@grogarden/util/async.js';
 	import {EMPTY_ARRAY} from '@grogarden/util/array.js';
-	import PendingAnimation from '@fuz.dev/fuz/PendingAnimation.svelte';
+	import PendingAnimation from '@fuz.dev/fuz_library/PendingAnimation.svelte';
 	import {dequal} from 'dequal/lite';
 	import {swallow} from '@grogarden/util/dom.js';
 	import {browser} from '$app/environment';
-	import {get_clock} from '@ryanatkn/dealt/clock.js';
-	import {enable_global_hotkeys} from '@ryanatkn/dealt/dom.js';
-	import {get_contextmenu_dimensions} from '@fuz.dev/fuz_contextmenu/contextmenu.js';
 
+	import {get_clock} from '$lib/dealt/flat/clock.js';
+	import {enable_global_hotkeys} from '$lib/dealt/flat/dom.js';
+	import {get_dimensions} from '$lib/dimensions.js';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';
 	import aboutPortal from '$routes/about/data';
@@ -55,7 +55,7 @@
 	import {scrollDown} from '$lib/util/dom';
 	import {show_app_dialog} from '$lib/app/appDialog';
 
-	const dimensions = get_contextmenu_dimensions();
+	const dimensions = get_dimensions();
 	const clock = get_clock();
 
 	let strengthBooster1Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER1, false);
@@ -73,7 +73,7 @@
 	let worldWidth: number;
 	let worldHeight: number;
 	$: viewScale = viewWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
-	// TODO make this a helper to clarify the deps `updateDimensions`
+	// TODO make this a helper to clarify the deps `update_dimensions`
 	$: if (cameraUnlocked) {
 		// Expand the world dimensions to fit the viewport dimensions.
 		// It needs to match the viewport aspect ratio and

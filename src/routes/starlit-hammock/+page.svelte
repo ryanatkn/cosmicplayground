@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {random_item, random_float} from '@grogarden/util/random.js';
 	import {sineInOut} from 'svelte/easing';
-	import {get_clock} from '@ryanatkn/dealt/clock.js';
-	import {get_contextmenu_dimensions} from '@ryanatkn/dealt';
+	import {get_clock} from '$lib/dealt/flat/clock.js';
+	import {get_dimensions} from '$lib/dealt';
 
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/app/ImagePicker.svelte';
@@ -27,7 +27,7 @@
 
 	*/
 
-	const dimensions = get_contextmenu_dimensions();
+	const dimensions = get_dimensions();
 	let width = $dimensions.width;
 	let height = $dimensions.height;
 	$: width = $dimensions.width;
@@ -240,7 +240,7 @@
 		<Surface {width} {height} {scale} zoom={zoom_camera} pan={move_camera} />
 	</div>
 {/if}
-<div class="hud idle-fade">
+<div class="hud idle_fade">
 	<!-- TODO showing both of these buttons all the time has a slight UX annoyance
 	where the size of the picker toggle changes.
   one fix is to only show "random image" when the picker is closed,
@@ -254,7 +254,7 @@
 	</FloatingTextButton>
 </div>
 {#if !show_picker}
-	<div class="credits idle-fade prose">
+	<div class="credits idle_fade prose">
 		<Panel>
 			<ImageCreditsCaption image={activeImage} />
 		</Panel>

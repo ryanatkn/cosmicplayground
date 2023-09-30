@@ -4,7 +4,7 @@
 	import {get_settings} from '$lib/app/settings';
 
 	const settings = get_settings();
-	$: displayForVideo = $settings.recordingMode;
+	$: displayForVideo = $settings.recording_mode;
 
 	export let transitionDuration: number;
 

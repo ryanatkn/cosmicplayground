@@ -2,7 +2,7 @@
 	import type {AsyncStatus} from '@grogarden/util/async.js';
 	import * as Pixi from 'pixi.js';
 
-	import {getPixiScene} from '$lib/app/pixi';
+	import {get_pixi_scene} from '$lib/app/pixi';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
 
 	// TODO refactor with the route component
@@ -13,7 +13,7 @@
 	// Maybe we could look in `Pixi.BaseTextureCache`
 	// and be aggressive about calling `loader.reset`?
 	// But then we'll throw away loading assets if they're not done. (does the browser cache tho?)
-	// Probably want to encapsulate this possibly-concurrent loader logic, maybe in `getPixiScene`?
+	// Probably want to encapsulate this possibly-concurrent loader logic, maybe in `get_pixi_scene`?
 
 	export let cameraX: number;
 	export let cameraY: number;
@@ -23,7 +23,7 @@
 	let sprite: Pixi.Sprite | null = null;
 	let destroyed = false;
 
-	const [pixi, scene] = getPixiScene({
+	const [pixi, scene] = get_pixi_scene({
 		loaded: async () => {
 			// this *might* handle a corner case bug due to the fact that we're not reactively listening to the loader
 			if (!destroyed) await updateSprite(imageUrl);
@@ -43,12 +43,12 @@
 		if (!resource) {
 			if (sprite) destroySprite();
 			if (pixi.app.loader.loading) {
-				await pixi.waitForLoad();
+				await pixi.wait_for_load();
 				await updateSprite(url);
 			} else {
 				if (!pixi.app.loader.resources[url]) pixi.app.loader.add(url);
 				pixi.app.loader.load();
-				await pixi.waitForLoad();
+				await pixi.wait_for_load();
 				await updateSprite(url);
 			}
 		} else if (!resource.texture) {

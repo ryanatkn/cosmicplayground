@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {goto} from '$app/navigation';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {enable_global_hotkeys} from '@ryanatkn/dealt/dom.js';
+	import {enable_global_hotkeys} from '$lib/dealt/flat/dom.js';
 
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 
@@ -15,7 +15,7 @@
 
 <svelte:window on:keydown={onKeydown} />
 
-<a href="/" class="idle-fade">
+<a href="/" class="idle_fade">
 	<FloatingIconButton label="go back home">⇦</FloatingIconButton>
 </a>
 

@@ -3,12 +3,12 @@
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@grogarden/util/maths.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {get_contextmenu_dimensions} from '@ryanatkn/dealt';
+	import {get_dimensions} from '$lib/dealt';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';
 
-	const dimensions = get_contextmenu_dimensions();
+	const dimensions = get_dimensions();
 
 	const audioCtx = getAudioCtx();
 
