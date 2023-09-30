@@ -50,10 +50,8 @@ and there's no 3rd party junk anywhere.
 > **important**: Windows is not supported directly but
 > [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) works
 
-To play with the code, you'll need Node 18.6+;
-
 ```bash
-npm i
+npm i # node 20.7+
 npm start # or gro dev
 # open your browser to localhost:5173 or whatever it says
 npm run build # for production, or gro build
