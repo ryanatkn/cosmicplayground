@@ -3,9 +3,10 @@
 	import {random_float} from '@grogarden/util/random.js';
 	import {swallow} from '@grogarden/util/dom.js';
 	import {get_clock} from '$lib/dealt/clock.js';
-	import {enable_global_hotkeys, get_dimensions} from '$lib/dealt';
 	import {dev} from '$app/environment';
 
+	import {enable_global_hotkeys} from '$lib/dealt/dom.js';
+	import {get_dimensions} from '$lib/dealt/dimensions.js';
 	import Soggy_Planet_Title_Screen from '$routes/soggy-planet/Soggy_Planet_Title_Screen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
