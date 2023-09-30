@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as Pixi from '@pixi/core';
+	import {Filter, Texture, RenderTexture} from '@pixi/core';
 	import {Sprite} from '@pixi/sprite';
 	import {Container} from '@pixi/display';
 	import {TilingSprite} from '@pixi/sprite-tiling';
@@ -81,7 +81,7 @@
 			if (shoreImage) {
 				shoreSprite = createMapSprite(resources[shoreImage]!.texture!);
 				seashoreContainer.addChild(shoreSprite);
-				const filter = new Pixi.Filter(undefined, shaderFrag, toAlphaValues(shoreImageCount!));
+				const filter = new Filter(undefined, shaderFrag, toAlphaValues(shoreImageCount!));
 				shoreSprite.filters = [filter];
 			}
 			updateSpritesTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
@@ -91,7 +91,7 @@
 				overlayContainer = new Container();
 				mapContainer.addChild(overlayContainer);
 
-				const nightfallSprite = new TilingSprite(Pixi.Texture.WHITE, $width, $height);
+				const nightfallSprite = new TilingSprite(Texture.WHITE, $width, $height);
 				nightfallSprite.tint = 0x000000;
 				nightfallSprite.alpha = 0;
 				overlayContainer.addChild(nightfallSprite);
@@ -280,7 +280,7 @@
 		}
 	};
 
-	const createMapSprite = (texture: Pixi.Texture) => {
+	const createMapSprite = (texture: Texture) => {
 		const tempSprite1 = new Sprite(texture);
 		const tempSprite2 = new Sprite(texture);
 		tempSprite2.angle = 180;
@@ -290,7 +290,7 @@
 		tempTextureContainer.addChild(tempSprite1);
 		tempTextureContainer.addChild(tempSprite2);
 		// TODO cache this at module scope? see comment at top of file
-		const renderTexture = Pixi.RenderTexture.create({
+		const renderTexture = RenderTexture.create({
 			width: imageWidth,
 			height: imageHeight * 2,
 		});

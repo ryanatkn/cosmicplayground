@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type {AsyncStatus} from '@grogarden/util/async.js';
-	import * as Pixi from '@pixi/core';
+	import {Texture, SCALE_MODES} from '@pixi/core';
 	import {Sprite} from '@pixi/sprite';
 	import {Container} from '@pixi/display';
 
@@ -12,7 +12,7 @@
 	// TODO This code is hacky and complex because the Pixi loader API is a headache :/
 	// Biggest problem is it throws an error if you add a resource while it's loading.
 	// (looking at this much later, can we just detect if a resource has already been loaded?)
-	// Maybe we could look in `Pixi.BaseTextureCache`
+	// Maybe we could look in `BaseTextureCache`
 	// and be aggressive about calling `loader.reset`?
 	// But then we'll throw away loading assets if they're not done. (does the browser cache tho?)
 	// Probably want to encapsulate this possibly-concurrent loader logic, maybe in `get_pixi_scene`?
@@ -64,10 +64,10 @@
 		}
 	};
 
-	const createSprite = (texture: Pixi.Texture) => {
+	const createSprite = (texture: Texture) => {
 		if (sprite) destroySprite();
 		// I think I'd prefer nearest neighbor, but that causes weird artifacts with slow animation
-		texture.baseTexture.setStyle(Pixi.SCALE_MODES.LINEAR); // TODO where to do this? ideally on load
+		texture.baseTexture.setStyle(SCALE_MODES.LINEAR); // TODO where to do this? ideally on load
 		sprite = new Sprite(texture);
 		camera.addChild(sprite);
 	};
