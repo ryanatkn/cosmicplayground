@@ -333,6 +333,10 @@
       "default": "./dist/audio/play_audio.js",
       "types": "./dist/audio/play_audio.d.ts"
     },
+    "./dimensions.js": {
+      "default": "./dist/dimensions.js",
+      "types": "./dist/dimensions.d.ts"
+    },
     "./flat/AppDialog.svelte": {
       "svelte": "./dist/flat/AppDialog.svelte",
       "types": "./dist/flat/AppDialog.svelte.d.ts"
@@ -405,6 +409,18 @@
       "default": "./dist/flat/entityHelpers.js",
       "types": "./dist/flat/entityHelpers.d.ts"
     },
+    "./flat/pixi.js": {
+      "default": "./dist/flat/pixi.js",
+      "types": "./dist/flat/pixi.d.ts"
+    },
+    "./flat/PixiCanvas.svelte": {
+      "svelte": "./dist/flat/PixiCanvas.svelte",
+      "types": "./dist/flat/PixiCanvas.svelte.d.ts"
+    },
+    "./flat/PixiView.svelte": {
+      "svelte": "./dist/flat/PixiView.svelte",
+      "types": "./dist/flat/PixiView.svelte.d.ts"
+    },
     "./flat/Portal.svelte": {
       "svelte": "./dist/flat/Portal.svelte",
       "types": "./dist/flat/Portal.svelte.d.ts"
@@ -452,10 +468,6 @@
     "./flat/World.svelte": {
       "svelte": "./dist/flat/World.svelte",
       "types": "./dist/flat/World.svelte.d.ts"
-    },
-    "./dimensions.js": {
-      "default": "./dist/dimensions.js",
-      "types": "./dist/dimensions.d.ts"
     },
     "./idle.js": {
       "default": "./dist/idle.js",
