@@ -12,6 +12,7 @@
 	import {page} from '$app/stores';
 	import {beforeNavigate, goto} from '$app/navigation';
 	import {swallow} from '@grogarden/util/dom.js';
+	import {Assets} from '@pixi/assets';
 
 	import {set_clock} from '$lib/flat/clock.js';
 	import {enable_global_hotkeys} from '$lib/flat/dom.js';
@@ -73,18 +74,10 @@
 			pixi = {} as any; // TODO this is just a hack for type safety
 			console.error(err);
 		}
-		// pixi.Pixi.utils.clearTextureCache();
-		if (!pixi.app.loader.resources[bgImageUrl]) {
-			pixi.app.loader.add(bgImageUrl).load(() => {
-				bg = createPixiBgStore(
-					pixi.app.loader.resources[bgImageUrl].texture!,
-					$dimensions.width,
-					$dimensions.height,
-				);
-				pixi.default_scene.addChild($bg.sprite);
-				loadingStatus = 'success';
-			});
-		}
+		const bg_image_texture = await Assets.load(bgImageUrl);
+		bg = createPixiBgStore(bg_image_texture, $dimensions.width, $dimensions.height);
+		pixi.default_scene.addChild($bg.sprite);
+		loadingStatus = 'success';
 	});
 
 	// We used to have routes like `/#deep-breath` and now it's just `/deep-breath`,
