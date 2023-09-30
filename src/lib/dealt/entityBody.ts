@@ -1,6 +1,6 @@
 import type {Body, Circle, Point, Polygon} from '@ryanatkn/collisions';
 
-import type {Entity} from './entity';
+import type {Entity} from './entity.js';
 
 export interface IEntityBody extends Body {
 	entity: Entity;

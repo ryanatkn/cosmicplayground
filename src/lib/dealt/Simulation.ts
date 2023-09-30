@@ -1,6 +1,6 @@
 import type {Collisions, CollisionResult, FilterPotentials} from '@ryanatkn/collisions';
 
-import type {Entity} from './entity';
+import type {Entity} from './entity.js';
 import type {EntityBody} from './entityBody';
 import {collisionResult} from './entityHelpers';
 

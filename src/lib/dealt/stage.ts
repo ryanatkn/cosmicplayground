@@ -6,7 +6,7 @@ import {Collisions} from '@ryanatkn/collisions';
 import {Simulation} from './Simulation';
 import {Controller} from './Controller';
 import {type CameraStore, type CameraState, toCameraStore, SPRING_OPTS_HARD} from './camera';
-import type {Entity} from './entity';
+import type {Entity} from './entity.js';
 
 // TODO hack
 interface StageData {
