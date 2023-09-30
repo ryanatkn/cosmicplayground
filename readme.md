@@ -47,9 +47,8 @@ It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
 Everything is staticly hosted on GitHub pages,
 and there's no 3rd party junk anywhere.
 
-> **important**: Windows is not yet supported directly, but Windows users can use
-> [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) and other VMs;
-> see [this issue](https://github.com/ryanatkn/cosmicplayground/issues/29) for more
+> **important**: Windows is not supported directly but
+> [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) works
 
 To play with the code, you'll need Node 18.6+;
 
