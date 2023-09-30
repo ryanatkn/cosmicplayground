@@ -18,5 +18,5 @@ export interface PortalData {
 	// previewWidth: number;
 	// previewHeight: number;
 	// slugAliases: string[]; // TODO if we ever change a portal slug, support redirects, and maybe add some Easter eggs
-	Preview: typeof SvelteComponent;
+	Preview: typeof SvelteComponent<any>;
 }
