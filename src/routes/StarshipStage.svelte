@@ -8,7 +8,7 @@
 		type CameraStore,
 		type Controller,
 	} from '$lib/dealt';
-	import {get_clock} from '$lib/dealt/flat/clock.js';
+	import {get_clock} from '$lib/dealt/clock.js';
 
 	import {
 		PLAYER_SPEED,

@@ -1,5 +1,7 @@
 import {z} from 'zod';
 
+// TODO maybe replace with earbetter or another dep
+
 export const Song = z.object({
 	name: z.string(),
 	author: z.string(),

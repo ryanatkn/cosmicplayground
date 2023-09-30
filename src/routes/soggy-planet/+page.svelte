@@ -2,7 +2,7 @@
 	import {onMount, tick} from 'svelte';
 	import {random_float} from '@grogarden/util/random.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {get_clock} from '$lib/dealt/flat/clock.js';
+	import {get_clock} from '$lib/dealt/clock.js';
 	import {enable_global_hotkeys, get_dimensions} from '$lib/dealt';
 	import {dev} from '$app/environment';
 

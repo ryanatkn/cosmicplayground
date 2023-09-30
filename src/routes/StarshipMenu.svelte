@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {scale} from 'svelte/transition';
 	import {wait} from '@grogarden/util/async.js';
-	import type {ClockStore} from '$lib/dealt/flat/clock.js';
+	import type {ClockStore} from '$lib/dealt/clock.js';
 
 	import Panel from '$lib/app/Panel.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';

@@ -7,8 +7,8 @@
 	import {swallow} from '@grogarden/util/dom.js';
 	import {browser} from '$app/environment';
 
-	import {get_clock} from '$lib/dealt/flat/clock.js';
-	import {enable_global_hotkeys} from '$lib/dealt/flat/dom.js';
+	import {get_clock} from '$lib/dealt/clock.js';
+	import {enable_global_hotkeys} from '$lib/dealt/dom.js';
 	import {get_dimensions} from '$lib/dimensions.js';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';

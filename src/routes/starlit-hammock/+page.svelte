@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {random_item, random_float} from '@grogarden/util/random.js';
 	import {sineInOut} from 'svelte/easing';
-	import {get_clock} from '$lib/dealt/flat/clock.js';
+	import {get_clock} from '$lib/dealt/clock.js';
 	import {get_dimensions} from '$lib/dealt';
 
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';

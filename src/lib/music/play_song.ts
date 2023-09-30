@@ -7,6 +7,8 @@ import type {Song} from '$lib/music/songs';
 import {DEFAULT_VOLUME} from '$lib/audio/helpers';
 import {locally_stored} from '$lib/util/locally_stored';
 
+// TODO maybe replace with earbetter or another dep
+
 // TODO refactor, probably into context
 export const volume = locally_stored(writable(DEFAULT_VOLUME), 'volume');
 export const muted = locally_stored(writable(false), 'muted');

@@ -1,7 +1,9 @@
 import {map_record} from '@grogarden/util/object.js';
-import {hsl_to_string, type Hsl, type Hue} from '$lib/dealt/flat/colors.js';
+import {hsl_to_string, type Hsl, type Hue} from '$lib/dealt/colors.js';
 
 import {midis, isMidi, type Midi} from '$lib/music/midi.js';
+
+// TODO replace with earbetter dep
 
 export const NOTE_FLAT_SYMBOL = '♭';
 export const NOTE_SHARP_SYMBOL = '♯';
