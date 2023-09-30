@@ -1,5 +1,6 @@
-import * as Pixi from '@pixi/core';
 import {Container} from '@pixi/display';
+import {Text} from '@pixi/text';
+import {Graphics} from '@pixi/graphics';
 
 import type {EntityBody} from '$lib/flat/entityBody';
 import {hsl_to_hex, hsl_to_string, type Hsl} from '$lib/flat/colors';
@@ -135,7 +136,7 @@ export class Entity<T extends EntityBody = EntityBody> {
 		this.container.y = y;
 	}
 
-	graphics!: Pixi.Graphics; // TODO use for polygons etc
+	graphics!: Graphics; // TODO use for polygons etc
 
 	drawn = false;
 	draw(): void {
@@ -146,7 +147,7 @@ export class Entity<T extends EntityBody = EntityBody> {
 		const {body} = this;
 
 		if (body._circle) {
-			const graphics = (this.graphics = new Pixi.Graphics());
+			const graphics = (this.graphics = new Graphics());
 			this.container.addChild(graphics);
 			graphics.lineStyle(ENTITY_LINE_WIDTH, 0xffffff);
 			graphics.beginFill(0, 0);
@@ -154,7 +155,7 @@ export class Entity<T extends EntityBody = EntityBody> {
 			graphics.endFill();
 			graphics.tint = this.colorHex;
 		} else if (body._polygon) {
-			const graphics = (this.graphics = new Pixi.Graphics());
+			const graphics = (this.graphics = new Graphics());
 			this.container.addChild(graphics);
 			graphics.lineStyle(ENTITY_LINE_WIDTH, 0xffffff);
 			graphics.beginFill(0, 0);
@@ -167,7 +168,7 @@ export class Entity<T extends EntityBody = EntityBody> {
 		}
 
 		if (this.text) {
-			const text = new Pixi.Text(this.text, {fontSize: this.fontSize, fontFamily: this.fontFamily});
+			const text = new Text(this.text, {fontSize: this.fontSize, fontFamily: this.fontFamily});
 			if (this.textOffsetX || this.textOffsetY) {
 				text.position.set(this.textOffsetX, this.textOffsetY);
 			}

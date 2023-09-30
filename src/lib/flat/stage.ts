@@ -1,7 +1,7 @@
 import type {Flavored} from '@grogarden/util/types.js';
 import {create_random_alea, type Alea} from '@grogarden/util/random_alea.js';
-import * as Pixi from '@pixi/core';
 import {Container} from '@pixi/display';
+import {Graphics} from '@pixi/graphics';
 import {Collisions} from '@ryanatkn/collisions';
 
 import {Simulation} from '$lib/flat/Simulation';
@@ -85,7 +85,7 @@ export class Stage {
 	sim: Simulation;
 	collisions: Collisions;
 	container: Container;
-	mask: Pixi.Graphics | null = null;
+	mask: Graphics | null = null;
 	controller: Controller;
 	random: Alea;
 
@@ -252,7 +252,7 @@ export class Stage {
 			}
 		} else {
 			if (!this.mask) {
-				this.mask = new Pixi.Graphics();
+				this.mask = new Graphics();
 				this.container.mask = this.mask;
 				this.container.addChild(this.mask);
 			} else {

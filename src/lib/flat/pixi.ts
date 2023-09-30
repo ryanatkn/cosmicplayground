@@ -1,19 +1,20 @@
 import * as Pixi from '@pixi/core';
+import {Application, type IApplicationOptions} from '@pixi/app';
 import {Container} from '@pixi/display';
 import {getContext, setContext} from 'svelte';
 
 // TODO BLOCK 2 copies of this
 export class PixiApp {
-	app!: Pixi.Application;
+	app!: Application;
 	defaultScene!: Container;
 	currentScene!: Container;
 
-	init(options: Pixi.IApplicationOptions): void {
+	init(options: IApplicationOptions): void {
 		// Tell Pixi to use pixelated image scaling by default. BIG PX
 		// Unfortunately this can cause choppy movement. We may want to revert this global default.
 		Pixi.BaseTexture.defaultOptions.scaleMode = Pixi.SCALE_MODES.NEAREST;
 
-		this.app = new Pixi.Application(options);
+		this.app = new Application(options);
 		// this.app.ticker.add((dt) => {
 		// 	console.log(`dt`, dt);
 		// });
