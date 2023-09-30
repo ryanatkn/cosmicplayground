@@ -8,7 +8,6 @@
 	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer.js';
 	import type {CameraStore} from '$lib/flat/camera.js';
 	import type {Controller} from '$lib/flat/controller.js';
-
 	import {
 		PLAYER_SPEED,
 		PLAYER_SPEED_BOOSTED,
@@ -19,8 +18,8 @@
 		PLAYER_STRENGTH_BOOSTED3,
 		Stage,
 		type StarshipStageScores,
-	} from '$routes/starshipStage';
-	import {get_pixi} from '$lib/app/pixi';
+	} from '$routes/starshipStage.js';
+	import {get_pixi} from '$lib/app/pixi.js';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;
