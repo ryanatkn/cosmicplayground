@@ -1,6 +1,7 @@
 import * as Pixi from 'pixi.js';
 import {getContext, setContext, onMount, onDestroy} from 'svelte';
 
+// TODO BLOCK 2 copies of this
 export class PixiApp {
 	app!: Pixi.Application;
 	default_scene!: Pixi.Container;
