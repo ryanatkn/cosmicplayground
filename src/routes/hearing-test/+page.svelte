@@ -127,6 +127,7 @@
 			<div>{displayedFreq}<span class="unit">hz</span></div>
 		</div>
 	{/if}
+	<!-- TODO better a11y -->
 	<div
 		role="none"
 		class="absolute z-3 w-100 h-100"
