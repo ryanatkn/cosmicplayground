@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type {AsyncStatus} from '@grogarden/util/async.js';
 	import * as Pixi from '@pixi/core';
+	import {Sprite} from '@pixi/sprite';
+	import {Container} from '@pixi/display';
 
 	import {get_pixi_scene} from '$lib/app/pixi';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
@@ -20,7 +22,7 @@
 	export let cameraScale: number;
 	export let imageUrl: string;
 
-	let sprite: Pixi.Sprite | null = null;
+	let sprite: Sprite | null = null;
 	let destroyed = false;
 
 	const [pixi, scene] = get_pixi_scene({
@@ -33,7 +35,7 @@
 			destroyed = true;
 		},
 	});
-	const camera = new Pixi.Container();
+	const camera = new Container();
 	scene.addChild(camera);
 
 	$: void updateSprite(imageUrl);
@@ -66,7 +68,7 @@
 		if (sprite) destroySprite();
 		// I think I'd prefer nearest neighbor, but that causes weird artifacts with slow animation
 		texture.baseTexture.setStyle(Pixi.SCALE_MODES.LINEAR); // TODO where to do this? ideally on load
-		sprite = new Pixi.Sprite(texture);
+		sprite = new Sprite(texture);
 		camera.addChild(sprite);
 	};
 
@@ -79,7 +81,7 @@
 
 	// TODO copied from `EarthPixiViewer`, extract camera store (see also `View.svelte` parent component)
 	$: updateCamera(camera, cameraX, cameraY, cameraScale);
-	const updateCamera = (camera: Pixi.Container, x: number, y: number, scale: number) => {
+	const updateCamera = (camera: Container, x: number, y: number, scale: number) => {
 		camera.scale.set(scale);
 		camera.position.set(x, y);
 	};

@@ -1,11 +1,12 @@
 import * as Pixi from '@pixi/core';
+import {Container} from '@pixi/display';
 import {getContext, setContext, onMount, onDestroy} from 'svelte';
 
 // TODO BLOCK 2 copies of this
 export class PixiApp {
 	app!: Pixi.Application;
-	default_scene!: Pixi.Container;
-	current_scene!: Pixi.Container;
+	default_scene!: Container;
+	current_scene!: Container;
 
 	init(options: Pixi.IApplicationOptions): void {
 		// Tell Pixi to use pixelated image scaling by default. BIG PX
@@ -18,13 +19,13 @@ export class PixiApp {
 		// 	console.log(`dt`, dt);
 		// });
 
-		const default_scene = new Pixi.Container();
+		const default_scene = new Container();
 		(default_scene as any).interactiveChildren = false; // TODO this type error goes away with `esModuleInterop: true` in tsconfig, but that causes gross js output and it's not needed at runtime
 		this.default_scene = this.current_scene = default_scene;
 		this.app.stage.addChild(default_scene);
 	}
 
-	mount_scene(scene: Pixi.Container): void {
+	mount_scene(scene: Container): void {
 		// these checks prevent mistakes, but we may want to change the behavior
 		if (this.current_scene === scene) {
 			throw Error(`Cannot mount scene that's already mounted. Unmount it first.`);
@@ -37,7 +38,7 @@ export class PixiApp {
 		this.app.stage.addChild(scene);
 	}
 
-	unmount_scene(scene: Pixi.Container): void {
+	unmount_scene(scene: Container): void {
 		if (this.current_scene !== scene) {
 			throw Error(`Cannot unmount scene because it's not currently mounted`);
 		}
@@ -62,17 +63,17 @@ export const set_pixi = (pixi: PixiApp): PixiApp => setContext(PIXI_KEY, pixi);
 export interface PixiSceneHooks {
 	load?: (loader: Pixi.Loader) => void;
 	loaded?: (
-		scene: Pixi.Container,
+		scene: Container,
 		resources: Partial<Record<string, Pixi.LoaderResource>>, // TODO Pixi.IResourceDictionary ? why is it partial?
 		loader: Pixi.Loader,
 	) => void;
-	destroy?: (scene: Pixi.Container | null, loader: Pixi.Loader) => void;
+	destroy?: (scene: Container | null, loader: Pixi.Loader) => void;
 }
 
 export const get_pixi_scene = (
 	hooks: PixiSceneHooks,
 	pixi: PixiApp = get_pixi(),
-): [PixiApp, Pixi.Container] => {
+): [PixiApp, Container] => {
 	let destroyed = false;
 
 	// Disable the app, and use the `Pixi.Prepare` plugin
@@ -88,7 +89,7 @@ export const get_pixi_scene = (
 
 	// Mount the scene right away. When loading, we'll show a black background
 	// and the scene component can display whatever it wants.
-	const scene = new Pixi.Container();
+	const scene = new Container();
 	(scene as any).interactiveChildren = false; // TODO this type error goes away with `esModuleInterop: true` in tsconfig, but that causes gross js output and it's not needed at runtime
 	pixi.mount_scene(scene);
 

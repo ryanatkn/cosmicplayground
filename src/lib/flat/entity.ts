@@ -1,4 +1,5 @@
 import * as Pixi from '@pixi/core';
+import {Container} from '@pixi/display';
 
 import type {EntityBody} from '$lib/flat/entityBody';
 import {hsl_to_hex, hsl_to_string, type Hsl} from '$lib/flat/colors';
@@ -98,7 +99,7 @@ export class Entity<T extends EntityBody = EntityBody> {
 
 	constructor(
 		public readonly body: T,
-		public readonly container: Pixi.Container = new Pixi.Container(),
+		public readonly container: Container = new Container(),
 	) {
 		// TODO add an options object? or just do assignments after construction? more reusable to do options
 		body.entity = this;

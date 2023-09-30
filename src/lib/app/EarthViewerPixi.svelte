@@ -1,5 +1,7 @@
 <script lang="ts">
 	import * as Pixi from '@pixi/core';
+	import {Sprite} from '@pixi/sprite';
+	import {Container} from '@pixi/display';
 
 	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum';
 	import {
@@ -54,10 +56,10 @@
 			}
 		},
 		loaded: (scene, resources, _loader) => {
-			mapContainer = new Pixi.Container();
+			mapContainer = new Container();
 			scene.addChild(mapContainer);
 
-			landContainer = new Pixi.Container();
+			landContainer = new Container();
 			mapContainer.addChild(landContainer);
 			landContainer.sortableChildren = true;
 			for (const landImage of landImages) {
@@ -68,7 +70,7 @@
 			updateSpritesTransforms(landSprites, tilePositionX, tilePositionY, $scale);
 			updateLandOpacities(activeLandValue);
 
-			seashoreContainer = new Pixi.Container();
+			seashoreContainer = new Container();
 			mapContainer.addChild(seashoreContainer);
 			for (const seaImage of seaImages) {
 				const sprite = createMapSprite(resources[seaImage]!.texture!);
@@ -85,7 +87,7 @@
 			updateSeaOpacities(activeSeaLevel);
 
 			if (lightsImage) {
-				overlayContainer = new Pixi.Container();
+				overlayContainer = new Container();
 				mapContainer.addChild(overlayContainer);
 
 				const nightfallSprite = new Pixi.TilingSprite(Pixi.Texture.WHITE, $width, $height);
@@ -112,10 +114,10 @@
 	const seaSprites: Pixi.TilingSprite[] = []; // not reactive
 	let shoreSprite: Pixi.TilingSprite | undefined = undefined; // not reactive
 	const overlaySprites: Pixi.TilingSprite[] = []; // not reactive
-	let mapContainer: Pixi.Container;
-	let landContainer: Pixi.Container;
-	let seashoreContainer: Pixi.Container; // includes shore sprites
-	let overlayContainer: Pixi.Container;
+	let mapContainer: Container;
+	let landContainer: Container;
+	let seashoreContainer: Container; // includes shore sprites
+	let overlayContainer: Container;
 
 	$: tilePositionX = -$x * $scale + $width / 2;
 	$: tilePositionY = -$y * $scale + $height / 2;
@@ -278,12 +280,12 @@
 	};
 
 	const createMapSprite = (texture: Pixi.Texture) => {
-		const tempSprite1 = new Pixi.Sprite(texture);
-		const tempSprite2 = new Pixi.Sprite(texture);
+		const tempSprite1 = new Sprite(texture);
+		const tempSprite2 = new Sprite(texture);
 		tempSprite2.angle = 180;
 		tempSprite2.y = imageHeight * 2;
 		tempSprite2.x = imageWidth;
-		const tempTextureContainer = new Pixi.Container();
+		const tempTextureContainer = new Container();
 		tempTextureContainer.addChild(tempSprite1);
 		tempTextureContainer.addChild(tempSprite2);
 		// TODO cache this at module scope? see comment at top of file

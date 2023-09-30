@@ -1,6 +1,7 @@
 import type {Flavored} from '@grogarden/util/types.js';
 import {create_random_alea, type Alea} from '@grogarden/util/random_alea.js';
 import * as Pixi from '@pixi/core';
+import {Container} from '@pixi/display';
 import {Collisions} from '@ryanatkn/collisions';
 
 import {Simulation} from '$lib/flat/Simulation';
@@ -37,7 +38,7 @@ export interface StageOptions {
 	data?: Partial<StageData>;
 	sim?: Simulation;
 	collisions?: Collisions;
-	container?: Pixi.Container;
+	container?: Container;
 	controller?: Controller;
 	random?: Alea;
 	// these are the initial dimensions that are updated via `resize`
@@ -83,7 +84,7 @@ export class Stage {
 	// so you can draw canvas over the Pixi for e.g. debugging collisions
 	sim: Simulation;
 	collisions: Collisions;
-	container: Pixi.Container;
+	container: Container;
 	mask: Pixi.Graphics | null = null;
 	controller: Controller;
 	random: Alea;
@@ -116,7 +117,7 @@ export class Stage {
 			viewportHeight,
 			collisions = new Collisions(),
 			sim = new Simulation(collisions),
-			container = new Pixi.Container(),
+			container = new Container(),
 			controller = new Controller(),
 			random = create_random_alea(),
 		} = options;
