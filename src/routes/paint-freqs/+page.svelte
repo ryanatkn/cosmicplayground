@@ -4,7 +4,6 @@
 	import {lerp} from '@grogarden/util/maths.js';
 	import {swallow} from '@grogarden/util/dom.js';
 	import {hsl_to_rgb} from '$lib/flat/colors.js';
-	// TODO BLOCK see get_viewport and get_layout
 	import {get_dimensions} from '$lib/flat/dimensions.js';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
@@ -232,6 +231,7 @@
 		</div>
 	{/if}
 	<div
+		role="none"
 		class="interaction-surface"
 		on:mousedown={handlePointerDown}
 		on:mouseup={handlePointerUp}

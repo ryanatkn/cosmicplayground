@@ -128,6 +128,7 @@
 		</div>
 	{/if}
 	<div
+		role="none"
 		class="absolute z-3 w-100 h-100"
 		on:mousedown={handlePointerDown}
 		on:mouseup={handlePointerUp}
