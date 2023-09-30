@@ -48,10 +48,14 @@
 		background-color: var(--ocean_color);
 		position: absolute;
 		opacity: 0.65;
-		box-shadow: 1px 0 2px 1px #000, 2px 0 7px #000;
+		box-shadow:
+			1px 0 2px 1px #000,
+			2px 0 7px #000;
 	}
 	.selected .water-level-fill {
-		box-shadow: -1px 0 2px 1px var(--ocean_text_color), -2px 0 7px #000;
+		box-shadow:
+			-1px 0 2px 1px var(--ocean_text_color),
+			-2px 0 7px #000;
 	}
 	.water-level:active .water-level-fill {
 		opacity: 1;
