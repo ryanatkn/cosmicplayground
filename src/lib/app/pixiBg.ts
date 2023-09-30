@@ -1,5 +1,5 @@
 import {writable, type Readable} from 'svelte/store';
-import * as Pixi from 'pixi.js';
+import * as Pixi from '@pixi/core';
 
 export interface PixiBgState {
 	sprite: Pixi.TilingSprite;

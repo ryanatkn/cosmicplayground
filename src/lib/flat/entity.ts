@@ -1,4 +1,4 @@
-import * as Pixi from 'pixi.js';
+import * as Pixi from '@pixi/core';
 
 import type {EntityBody} from '$lib/flat/entityBody';
 import {hsl_to_hex, hsl_to_string, type Hsl} from '$lib/flat/colors';

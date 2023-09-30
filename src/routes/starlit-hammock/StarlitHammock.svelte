@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type {AsyncStatus} from '@grogarden/util/async.js';
-	import * as Pixi from 'pixi.js';
+	import * as Pixi from '@pixi/core';
 
 	import {get_pixi_scene} from '$lib/app/pixi';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';

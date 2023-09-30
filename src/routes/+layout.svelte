@@ -11,7 +11,7 @@
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
 	import {beforeNavigate, goto} from '$app/navigation';
-	import * as Pixi from 'pixi.js';
+	import * as Pixi from '@pixi/core';
 	import {swallow} from '@grogarden/util/dom.js';
 
 	import {set_clock} from '$lib/flat/clock.js';
@@ -65,7 +65,7 @@
 
 		loadingStatus = 'pending';
 
-		(window as any).pixi = Pixi as any;
+		(window as any).pixi = Pixi; // TODO BLOCK maybe delete this?
 		try {
 			pixi.init({width: $dimensions.width, height: $dimensions.height, sharedTicker: true}); // TODO do the dimensions need to be reactive?
 			supports_webgl = true;

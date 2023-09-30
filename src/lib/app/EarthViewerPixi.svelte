@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as Pixi from 'pixi.js';
+	import * as Pixi from '@pixi/core';
 
 	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum';
 	import {

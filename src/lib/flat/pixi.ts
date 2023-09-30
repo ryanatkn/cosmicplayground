@@ -1,4 +1,4 @@
-import * as Pixi from 'pixi.js';
+import * as Pixi from '@pixi/core';
 import {getContext, setContext} from 'svelte';
 
 // TODO BLOCK 2 copies of this

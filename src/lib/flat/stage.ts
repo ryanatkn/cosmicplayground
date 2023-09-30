@@ -1,6 +1,6 @@
 import type {Flavored} from '@grogarden/util/types.js';
 import {create_random_alea, type Alea} from '@grogarden/util/random_alea.js';
-import * as Pixi from 'pixi.js';
+import * as Pixi from '@pixi/core';
 import {Collisions} from '@ryanatkn/collisions';
 
 import {Simulation} from '$lib/flat/Simulation';
