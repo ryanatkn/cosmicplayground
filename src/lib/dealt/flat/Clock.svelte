@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {get_clock} from './clock';
-	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
+	import PendingAnimation from '@fuz.dev/fuz_library/PendingAnimation.svelte';
 
 	export let clock = get_clock();
 

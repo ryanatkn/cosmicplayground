@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Breadcrumbs from '@feltjs/felt-ui/Breadcrumbs.svelte';
+	import Breadcrumb from '@fuz.dev/fuz_library/Breadcrumb.svelte';
 	import {page} from '$app/stores';
 
 	import Clock from './Clock.svelte';
@@ -12,7 +12,7 @@
 		<div class="breadcrumbs">
 			<div class="panel padded-md">
 				<section class="markup centered">
-					<Breadcrumbs>🔮</Breadcrumbs>
+					<Breadcrumb>🔮</Breadcrumb>
 				</section>
 				<section class="pane padded-md centered">
 					<Clock />
@@ -37,7 +37,7 @@
 				</section>
 			</div>
 			<div class="markup centered">
-				<Breadcrumbs>🔮</Breadcrumbs>
+				<Breadcrumb>🔮</Breadcrumb>
 			</div>
 		</div>
 	{/if}

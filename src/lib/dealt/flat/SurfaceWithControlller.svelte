@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Surface from '@feltjs/felt-ui/Surface.svelte';
+	import Surface from '@feltjs/felt-mural/Surface.svelte';
 
 	import type {Controller} from './Controller';
 

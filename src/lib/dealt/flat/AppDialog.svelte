@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Teleport from '@feltjs/felt-ui/Teleport.svelte';
+	import Teleport from '@fuz.dev/fuz_library/Teleport.svelte';
 
 	import {get_clock} from './clock';
 	import {showAppDialog, appDialogEl} from './appDialog';

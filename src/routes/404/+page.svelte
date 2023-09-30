@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {page} from '$app/stores';
-	import Breadcrumbs from '@fuz.dev/fuz/Breadcrumbs.svelte';
+	import Breadcrumb from '@fuz.dev/fuz/Breadcrumb.svelte';
 
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
@@ -17,7 +17,7 @@
 		<h1>oh no!</h1>
 		<h3>no portal exists here</h3>
 		<blockquote>
-			<Breadcrumbs path={$page.url.pathname} />
+			<Breadcrumb path={$page.url.pathname} />
 		</blockquote>
 		<a href="/">
 			<ChunkyButton>go back home</ChunkyButton>
