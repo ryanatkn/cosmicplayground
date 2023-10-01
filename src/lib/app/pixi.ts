@@ -133,5 +133,5 @@ export const get_pixi_scene = (
 		});
 	});
 
-	return [pixi, scene];
+	return {pixi, scene};
 };
