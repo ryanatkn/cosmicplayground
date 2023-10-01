@@ -49,6 +49,6 @@
 		text-align: center;
 	}
 	.muted small {
-		color: var(--text_color_light);
+		color: var(--text_2);
 	}
 </style>

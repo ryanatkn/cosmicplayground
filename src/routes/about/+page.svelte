@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {base} from '$app/paths';
+
 	import Panel from '$lib/app/Panel.svelte';
 	import Credits from '$routes/about/Credits.svelte';
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
@@ -30,9 +32,6 @@
 			<em>space</em>.
 		</p>
 	</Panel>
-	<Panel>
-		<CreditsProjectSignature />
-	</Panel>
 	<Credits />
 	<Panel>
 		<h2>Privacy</h2>
@@ -46,23 +45,24 @@
 	<Panel>
 		<h2>Package</h2>
 		<p>
-			This website depends on heaps of open source. Can't name it all too big. See
-			<a href="https://github.com/ryanatkn/cosmicplayground/blob/main/package.json">package.json</a
-			>.
+			This website depends on heaps of open source, see
+			<a href="{base}/.well-known/package.json">{base}/.well-known/package.json</a>.
 		</p>
 	</Panel>
-	<Panel>
-		<CreditsProjectSignature />
-		<div style="position: relative; cursor: none; height: 0">
-			<img
-				aria-hidden
-				src="/assets/characters/spider.png"
-				alt="spiderspace dot org"
-				style="position: absolute; bottom: -33px; right: -29px;"
-				on:click={() => window.open('https://spiderspace.org')}
-			/>
-		</div>
-	</Panel>
+	<div class="box">
+		<Panel>
+			<CreditsProjectSignature />
+			<div style="position: relative; cursor: none; height: 0">
+				<img
+					aria-hidden
+					src="/assets/characters/spider.png"
+					alt="spiderspace dot org"
+					style="position: absolute; bottom: -33px; right: -29px;"
+					on:click={() => window.open('https://spiderspace.org')}
+				/>
+			</div>
+		</Panel>
+	</div>
 </div>
 
 <style>
@@ -74,6 +74,9 @@
 		margin-top: 10px;
 		display: flex;
 		justify-content: center;
+	}
+	h2 {
+		margin-top: 0;
 	}
 	.header-content {
 		position: relative;

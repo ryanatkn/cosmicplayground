@@ -14,12 +14,9 @@
 				aria-hidden
 			/>
 		</h1>
-		<aside>
+		<aside class="width_sm">
 			you made it, welcome. did you reach this place by rescuing the crew all at once in the actual
-			game? if so, wow, that sounds like it deserves a reward. anyway, I should program something to
-			continue that gameplay seamlessly (and improve the initial experience, it's at the stage where
-			a little can go a long way) in the meantime, you can click the links below to see some
-			previews:
+			game? if so, wow, that sounds like it deserves a reward. anyway, here's some previews:
 		</aside>
 		<ul class="prose">
 			<!-- <li><a href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a></li> -->

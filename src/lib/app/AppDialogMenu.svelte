@@ -52,7 +52,7 @@
 			</Panel>
 		</div>
 	{/if}
-	<section>
+	<Panel>
 		<MediaPlayer
 			playing_song={$playing_song}
 			{playlist_items}
@@ -70,10 +70,12 @@
 			on:shuffle={(e) => ($shuffle = e.detail)}
 			on:repeat={(e) => ($repeat = e.detail)}
 		/>
-	</section>
-	<PortalPreview href="/about">
-		<AboutPreview />
-	</PortalPreview>
+	</Panel>
+	<Panel>
+		<PortalPreview href="/about">
+			<AboutPreview />
+		</PortalPreview>
+	</Panel>
 </div>
 
 <style>
@@ -84,9 +86,5 @@
 	/* TODO hacky */
 	.breadcrumb :global(.panel) {
 		margin-top: 0;
-	}
-	section {
-		padding: var(--spacing_md);
-		margin-bottom: var(--spacing_xl5);
 	}
 </style>

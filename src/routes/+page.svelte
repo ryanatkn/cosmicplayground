@@ -393,7 +393,7 @@
 		style:transition={starshipReady ? 'none' : `transform ${transitionDuration}ms ease-in-out`}
 	>
 		<header class="portals">
-			<PortalPreview href={aboutPortal.slug} classes="portal-preview--{aboutPortal.slug}">
+			<PortalPreview href={aboutPortal.slug} classes="portal_preview--{aboutPortal.slug}">
 				<svelte:component this={aboutPortal.Preview} />
 			</PortalPreview>
 		</header>
@@ -414,9 +414,9 @@
 			<div class="portals">
 				{#each portals as portal (portal)}
 					{#if portal === starshipPortal}
-						<StarshipPreview onClick={toggleStarshipMenu} classes="portal-preview--starship" />
+						<StarshipPreview onClick={toggleStarshipMenu} classes="portal_preview--starship" />
 					{:else}
-						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
+						<PortalPreview href={portal.slug} classes="portal_preview--{portal.slug}">
 							<svelte:component this={portal.Preview} />
 						</PortalPreview>
 					{/if}
@@ -456,7 +456,7 @@
 			{#each secondaryPortals as portals}
 				<div class="portals strength-portals">
 					{#each portals as portal}
-						<PortalPreview href={portal.slug} classes="portal-preview--{portal.slug}">
+						<PortalPreview href={portal.slug} classes="portal_preview--{portal.slug}">
 							<svelte:component this={portal.Preview} />
 						</PortalPreview>
 					{/each}
@@ -577,13 +577,13 @@
 
 	/* TODO how to do this? data with a css variable?
 	or is this the right time to add CSS variables to JS? */
-	:global(.portal-preview--soggy-planet) {
+	:global(.portal_preview--soggy-planet) {
 		border-color: var(--ocean_color) !important;
 	}
-	:global(.portal-preview--starlit-hammock) {
+	:global(.portal_preview--starlit-hammock) {
 		border-color: var(--space_color) !important;
 	}
-	:global(.portal-preview--starship) {
+	:global(.portal_preview--starship) {
 		border-color: var(--photon_color) !important;
 	}
 	.exit {

@@ -14,17 +14,17 @@
 
 {#if href}
 	<!-- TODO remove this interpolated class, or at least clean it up (needs sy rollup plugin fix) -->
-	<a class="portal-preview buttonish {classes}" {href} {style}>
+	<a class="portal_preview buttonish {classes}" {href} {style}>
 		<slot />
 	</a>
 {:else}
-	<button class="portal-preview {classes}" on:click={onClick} {style} type="button">
+	<button class="portal_preview {classes}" on:click={onClick} {style} type="button">
 		<slot />
 	</button>
 {/if}
 
 <style>
-	.portal-preview {
+	.portal_preview {
 		background: transparent;
 		border: var(--portal_border);
 		border-radius: var(--portal_border_radius);
@@ -37,17 +37,18 @@
 		justify-content: center;
 		flex-grow: 0;
 		transition: var(--clickable_transition);
+		text-decoration: none;
 		transform: scale3d(1, 1, 1);
 	}
 	/* in other places we don't use :focus like this to duplicate the hover style,
 	but here it works alright because the action navigates away -
 	see `button:focus` in main.css for more */
-	.portal-preview:hover,
-	.portal-preview:focus {
+	.portal_preview:hover,
+	.portal_preview:focus {
 		border-style: var(--clickable_border_style__hover);
 		transform: var(--clickable_transform_sm__hover);
 	}
-	.portal-preview:active {
+	.portal_preview:active {
 		border-style: var(--clickable_border_style__active);
 		transform: var(--clickable_transform_sm__active);
 	}

@@ -100,7 +100,7 @@
 		justify-content: center;
 	}
 	/* TODO hacky */
-	.starship-preview :global(.portal-preview) {
+	.starship-preview :global(.portal_preview) {
 		margin: 0;
 	}
 	.button-text {

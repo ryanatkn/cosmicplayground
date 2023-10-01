@@ -13,7 +13,7 @@
 
 <Panel>
 	<div class="prose">
-		<h2>Credits</h2>
+		<h2 style:margin-top="0">Credits</h2>
 		<p>
 			This project relies on lots of amazing freely licensed content. See below for links and
 			copyright info.

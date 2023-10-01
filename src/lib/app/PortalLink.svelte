@@ -13,7 +13,7 @@
 
 <style>
 	a {
-		background-color: var(--bg_3);
+		background-color: var(--bg);
 		padding: 0 8px;
 		border-radius: 5px;
 		color: var(--color_3);

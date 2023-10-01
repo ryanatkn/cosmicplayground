@@ -332,7 +332,7 @@
 		font-size: var(--size_sm);
 		font-weight: 600;
 		width: var(--spacing_xl5);
-		color: var(--text_color_light);
+		color: var(--text_2);
 	}
 	/* TODO move to style.css?  */
 	.togglable {

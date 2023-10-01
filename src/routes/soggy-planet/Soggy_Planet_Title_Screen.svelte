@@ -160,7 +160,7 @@
 	}
 
 	/* TODO hacky */
-	.soggy-planet-title-screen :global(.portal-preview) {
+	.soggy-planet-title-screen :global(.portal_preview) {
 		margin: 0;
 	}
 

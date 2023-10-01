@@ -5,7 +5,7 @@
 	export let classes: string | undefined = undefined;
 	export let starshipMode = false;
 
-	$: finalClasses = starshipMode ? classes : (classes || '') + ' portal-preview--starship';
+	$: finalClasses = starshipMode ? classes : (classes || '') + ' portal_preview--starship';
 </script>
 
 <PortalPreview style="font-size: 84px;" classes={finalClasses} {...$$restProps} {onClick}
