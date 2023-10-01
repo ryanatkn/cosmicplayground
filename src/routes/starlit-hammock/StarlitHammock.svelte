@@ -6,6 +6,7 @@
 
 	import {get_pixi_scene} from '$lib/app/pixi';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
+	import {Assets} from '@pixi/assets';
 
 	// TODO refactor with the route component
 
@@ -25,13 +26,13 @@
 	let sprite: Sprite | null = null;
 	let destroyed = false;
 
-	const [pixi, scene] = get_pixi_scene({
+	const {scene} = get_pixi_scene({
 		loaded: async () => {
 			// this *might* handle a corner case bug due to the fact that we're not reactively listening to the loader
 			if (!destroyed) await updateSprite(imageUrl);
 		},
 		destroy: () => {
-			if (sprite) destroySprite();
+			destroySprite();
 			destroyed = true;
 		},
 	});
@@ -40,28 +41,11 @@
 
 	$: void updateSprite(imageUrl);
 	const updateSprite = async (url: string) => {
-		if (url !== imageUrl) return;
-		const resource = pixi.app.loader.resources[url];
-		if (!resource) {
-			if (sprite) destroySprite();
-			if (pixi.app.loader.loading) {
-				await pixi.wait_for_load();
-				await updateSprite(url);
-			} else {
-				if (!pixi.app.loader.resources[url]) pixi.app.loader.add(url);
-				pixi.app.loader.load();
-				await pixi.wait_for_load();
-				await updateSprite(url);
-			}
-		} else if (!resource.texture) {
-			// no-op, resource exists but it's not loaded, let the load callback do the work
-			if (sprite) destroySprite();
-		} else if (sprite && sprite.texture === resource.texture) {
-			// no-op, sprite is already loaded and what we expect
-		} else {
-			// texture's ready
-			createSprite(resource.texture);
+		const texture = await Assets.load(url);
+		if (sprite && sprite.texture === texture) {
+			return;
 		}
+		createSprite(texture);
 	};
 
 	const createSprite = (texture: Texture) => {

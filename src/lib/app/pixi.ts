@@ -75,7 +75,7 @@ export interface PixiSceneHooks {
 export const get_pixi_scene = (
 	hooks: PixiSceneHooks,
 	pixi: PixiApp = get_pixi(),
-): [PixiApp, Container] => {
+): {pixi: PixiApp; scene: Container} => {
 	let destroyed = false;
 
 	// Disable the app, and use the `Pixi.Prepare` plugin

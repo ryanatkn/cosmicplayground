@@ -46,7 +46,7 @@ export const createDeepBreathTourData = (
 	// to align everything at the end.
 
 	// -> start in Indian Ocean
-	const wait_for_loadEvent = b.event('load'); // TODO what happens if the tour is canceled while loading?
+	const wait_for_load_event = b.event('load'); // TODO what happens if the tour is canceled while loading?
 	if (dev_mode) {
 		// dev_mode startup events
 		b.pan(xStart, yStart, 0);
@@ -59,7 +59,7 @@ export const createDeepBreathTourData = (
 		b.zoom(50, 1000);
 		b.wait();
 	}
-	wait_for_loadEvent();
+	wait_for_load_event();
 	if (!dev_mode) {
 		// more non-dev_mode startup events, needed to sync music to timestamps (hacky yes)
 		b.zoom(zoomStart, 1000);

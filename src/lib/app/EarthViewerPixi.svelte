@@ -41,7 +41,7 @@
 
 	$: ({x, y, width, height, scale} = camera);
 
-	const [pixi] = get_pixi_scene({
+	const {pixi} = get_pixi_scene({
 		load: (loader) => {
 			for (const landImage of landImages) {
 				if (!loader.resources[landImage]) loader.add(landImage);
