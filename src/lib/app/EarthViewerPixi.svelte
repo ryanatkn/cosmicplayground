@@ -68,6 +68,7 @@
 			mapContainer.addChild(landContainer);
 			landContainer.sortableChildren = true;
 			for (const landImage of landImages) {
+				// TODO BLOCK preload these assets for sync lookup
 				const sprite = createMapSprite(await Assets.load(landImage)); // eslint-disable-line no-await-in-loop
 				landContainer.addChild(sprite);
 				landSprites.push(sprite);
