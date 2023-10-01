@@ -3,8 +3,6 @@
 	import {page} from '$app/stores';
 
 	import Panel from '$lib/app/Panel.svelte';
-	import AboutPreview from '$routes/about/Preview.svelte';
-	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import MediaPlayer from '$lib/MediaPlayer.svelte';
 	import {songs_by_name} from '$lib/music/songs';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
