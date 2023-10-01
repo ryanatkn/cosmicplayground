@@ -267,5 +267,5 @@ summary:active {
 	border: 1px solid transparent;
 }
 .plain-input:hover {
-	border-color: var(--border_color_darker);
+	border-color: var(--border_5);
 }

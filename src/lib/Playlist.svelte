@@ -50,7 +50,7 @@
 	.playlist {
 		display: flex;
 		flex-direction: column;
-		border: 1px var(--border_color_darker) solid;
+		border: 1px var(--border_5) solid;
 		border-radius: 2px;
 		overflow: hidden;
 	}

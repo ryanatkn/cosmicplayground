@@ -316,7 +316,7 @@
 	}
 	/* TODO should this be applied to global `.plain-button`? */
 	button:hover {
-		border: 1px solid var(--border_color_darker);
+		border: 1px solid var(--border_5);
 	}
 	button:active {
 		border: 1px solid var(--active_border_color);
