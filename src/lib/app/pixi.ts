@@ -45,16 +45,6 @@ export class PixiApp {
 		}
 		this.mount_scene(this.default_scene);
 	}
-
-	// The loader API is troublesome because it errors with concurrent requests,
-	// and we don't want to create multiple loaders or call `reset` for efficiency.
-	// This helper is the first step to wrangling a better API without changing internals.
-	wait_for_load(): Promise<void> {
-		if (!this.app.loader.loading) {
-			throw Error('Called `wait_for_load` when not loading.'); // maybe call `load` automatically instead?
-		}
-		return new Promise((r: () => void) => this.app.loader.onLoad.once(r));
-	}
 }
 
 const PIXI_KEY = Symbol('pixi');
