@@ -45,7 +45,8 @@
 
 	let supports_webgl: boolean | null = null;
 
-	let pixi = new PixiApp();
+	const pixi = new PixiApp();
+	console.log(`pixi`, pixi);
 
 	const clock = set_clock();
 	const dimensions = set_dimensions(writable({width: 0, height: 0}));
@@ -71,7 +72,6 @@
 		} catch (err) {
 			console.error('failed to create PixiApp', err);
 			supports_webgl = false; // usually probably correct to infer this
-			pixi = {} as any; // TODO this is just a hack for type safety
 			console.error(err);
 		}
 		const bg_image_texture = await Assets.load(bgImageUrl);
