@@ -13,6 +13,8 @@
 	import {beforeNavigate, goto} from '$app/navigation';
 	import {swallow} from '@grogarden/util/dom.js';
 	import {Assets} from '@pixi/assets';
+	import {base} from '$app/paths';
+	import {browser} from '$app/environment';
 
 	import {set_clock} from '$lib/flat/clock.js';
 	import {enable_global_hotkeys} from '$lib/flat/dom.js';
@@ -49,11 +51,17 @@
 	console.log(`pixi`, pixi);
 
 	const clock = set_clock();
-	const dimensions = set_dimensions(writable({width: 0, height: 0}));
+
+	const dimensions = set_dimensions(
+		writable(
+			browser ? {width: window.innerWidth, height: window.innerHeight} : {width: 0, height: 0},
+		),
+	);
+	$: console.log(`$dimensions`, $dimensions);
 
 	set_pixi(pixi);
 
-	const bgImageUrl = '/assets/space/galaxies.jpg';
+	const bgImageUrl = base + '/assets/space/galaxies.jpg';
 	let bg: PixiBgStore;
 	$: bg?.update_dimensions($dimensions.width, $dimensions.height);
 	$: bg?.tick($clock.dt);
@@ -75,6 +83,7 @@
 			console.error(err);
 		}
 		const bg_image_texture = await Assets.load(bgImageUrl);
+		console.log(`bg_image_texture`, bg_image_texture);
 		bg = createPixiBgStore(bg_image_texture, $dimensions.width, $dimensions.height);
 		pixi.default_scene.addChild($bg.sprite);
 		loadingStatus = 'success';
