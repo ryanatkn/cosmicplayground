@@ -85,8 +85,8 @@ export const get_pixi_scene = (
 		// TODO show progress? or expect title screen to make these gtg?
 		if (destroyed) return; // in case the scene is destroyed before loading finishes
 		await hooks.loaded?.(scene);
-		// See `ready` above -- avoids jank.
-		pixi.app.renderer.plugins.prepare.upload(scene, () => ready());
+		// TODO disabled after upgrade - was used to avoid jank
+		// pixi.app.renderer.plugins.prepare.upload(scene, () => ready());
 	});
 
 	onDestroy(() => {
