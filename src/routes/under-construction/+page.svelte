@@ -41,7 +41,7 @@
 					style="width: 350px; height: 350px;"
 					class="pixelated"
 				/>
-				<button type="button" class="image-button" on:click={toggleClock}>
+				<button type="button" class="image_button" on:click={toggleClock}>
 					<img
 						src="/assets/construction/person-rock.gif"
 						use:freezeframe={freeze}
@@ -55,7 +55,7 @@
 					use:freezeframe={freeze}
 					alt="under construction: person dig fast"
 				/>
-				<button type="button" class="image-button" on:click={toggleClock}>
+				<button type="button" class="image_button" on:click={toggleClock}>
 					<img
 						src="/assets/construction/person-rock.gif"
 						use:freezeframe={freeze}

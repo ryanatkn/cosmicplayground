@@ -201,7 +201,7 @@
 				<input
 					on:input={input_current_time}
 					disabled={duration == null}
-					class="plain-input"
+					class="plain"
 					style:flex="1"
 					type="range"
 					min={0}

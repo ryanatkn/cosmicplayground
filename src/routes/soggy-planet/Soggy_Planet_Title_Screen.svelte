@@ -77,8 +77,8 @@
 				<ul>
 					<li>
 						<p style:margin-bottom={0}>
-							click the <button on:click={start_tour}>tour</button>
-							button on <button on:click={load}>the map</button>
+							click the <button class="inline" on:click={start_tour}>tour</button>
+							button on <button class="inline" on:click={load}>the map</button>
 						</p>
 					</li>
 					<li>
@@ -118,8 +118,8 @@
 				<p>
 					Soggy Planet includes a 3 minute tour of some points of interest related to sea levels at
 					the <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">Last Glacial Maximum</a>.
-					Click the <button on:click={start_tour}>start tour</button>
-					button on <button on:click={load}>the map</button> or see
+					Click the <button class="inline" on:click={start_tour}>start tour</button>
+					button on <button class="inline" on:click={load}>the map</button> or see
 					<a href="https://www.youtube.com/watch?v=akP5J3jfjt4">the video on YouTube</a>.
 				</p>
 				<p>Learn about the tour's points of interest on Wikipedia:</p>

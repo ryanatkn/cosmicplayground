@@ -27,7 +27,7 @@
 	{/if}
 	<small>{Math.round(volume * 100)}<span>%</span></small>
 	<input
-		class="plain-input"
+		class="plain"
 		type="range"
 		on:input={(e) => {
 			volume = Number(e.currentTarget.value);

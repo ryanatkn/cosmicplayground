@@ -71,11 +71,6 @@
 			on:repeat={(e) => ($repeat = e.detail)}
 		/>
 	</Panel>
-	<Panel>
-		<PortalPreview href="/about">
-			<AboutPreview />
-		</PortalPreview>
-	</Panel>
 </div>
 
 <style>

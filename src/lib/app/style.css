@@ -74,13 +74,6 @@ html {
 body {
 	height: 100%;
 	background-color: #000;
-	font-size: 1.8rem; /* TODO hmm */
-}
-
-/* TODO probably don't need this when doing dark mode correctly */
-input,
-select {
-	color: var(--text_color);
 }
 
 .prose {
@@ -221,7 +214,7 @@ summary:active {
 	animation: fade-in 1s linear;
 }
 
-.image-button {
+.image_button {
 	cursor: pointer;
 	height: auto;
 	transition: var(--clickable_transition);
@@ -230,13 +223,13 @@ summary:active {
 	border: none;
 	display: inline-block;
 }
-.image-button:focus {
+.image_button:focus {
 	transform: var(--clickable_transform__focus);
 }
-.image-button:hover {
+.image_button:hover {
 	transform: var(--clickable_transform__hover);
 }
-.image-button:active {
+.image_button:active {
 	transform: var(--clickable_transform__active);
 }
 
@@ -250,22 +243,4 @@ summary:active {
 }
 .pulsing {
 	animation: pulsing var(--pulsing_duration, 0.2s) linear infinite alternate;
-}
-
-/* TODO upstream */
-/* TODO make this not affect paragraph text line spacing */
-.prose p button {
-	display: inline-block;
-	margin-bottom: 0 !important;
-	padding-top: var(--spacing_xs);
-	padding-bottom: var(--spacing_xs);
-	min-height: auto;
-}
-
-/* TODO upstream next to .plain */
-.plain-input {
-	border: 1px solid transparent;
-}
-.plain-input:hover {
-	border-color: var(--border_5);
 }

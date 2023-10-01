@@ -68,7 +68,7 @@
 	<UnlockStageBuilder data={selectedData} on:save={(e) => updateSelectedData(e.detail)}>
 		<div class="controls">
 			{#if datas.length >= 2}
-				<button on:click={() => deleteSelected()}>✕</button>
+				<button title="delete data item" on:click={() => deleteSelected()}>✕</button>
 				<Tabs bind:selectedIndex={selectedDataIndex} items={datas} let:selected let:index>
 					<button
 						class:selected
@@ -78,7 +78,7 @@
 				</Tabs>
 			{/if}
 			{#if datas.length < MAX_DATA_COUNT}
-				<button on:click={() => addData()}>+</button>
+				<button title="add data item" on:click={() => addData()}>+</button>
 			{/if}
 		</div>
 	</UnlockStageBuilder>
