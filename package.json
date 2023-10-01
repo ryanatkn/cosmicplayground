@@ -3,7 +3,7 @@
   "description": "tools and toys for expanding minds 🌌 a free and open source noncommercial hobby project building tools and toys with web tech",
   "homepage": "https://www.cosmicplayground.org/",
   "license": "Unlicense",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "start": "gro dev",
