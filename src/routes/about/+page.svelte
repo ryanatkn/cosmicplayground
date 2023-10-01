@@ -15,53 +15,55 @@
 <figure style:margin="var(--spacing_xl3) auto">
 	<img src="/favicon.png" width="192" height="192" alt="cosmicplayground icon" />
 </figure>
-<div class="prose">
-	<Panel>
-		<h2>About</h2>
-		<p>
-			cosmicplayground.org is a free and open source noncommercial hobby project exploring tools and
-			toys using web tech for fun and learning. The <a
-				href="https://github.com/ryanatkn/cosmicplayground">source code and assets</a
-			>
-			are on GitHub. It's made by
-			<a href="https://www.ryanatkn.com">Ryan Atkinson</a>
-			with <a href="https://svelte.dev/">Svelte</a>,
-			<a href="https://kit.svelte.dev/">SvelteKit</a>, <a href="https://vitejs.dev/">Vite</a>,
-			<a href="https://typescriptlang.org/">TypeScript</a>,
-			<a href="https://pixijs.com/">PixiJS</a>, many freely licensed assets (see below), and
-			<em>space</em>.
-		</p>
-	</Panel>
-	<Credits />
-	<Panel>
-		<h2>Privacy</h2>
-		<p>
-			This website tracks nothing beyond <a href="https://pages.github.com/">GitHub Pages</a>
-			serving static files. It has no server to store your data, and it makes no third party network
-			requests. See
-			<a href="https://github.com/ryanatkn/cosmicplayground">the source code</a> for more.
-		</p>
-	</Panel>
-	<Panel>
-		<h2>Package</h2>
-		<p>
-			This website depends on heaps of open source, see
-			<a href="{base}/.well-known/package.json">{base}/.well-known/package.json</a>.
-		</p>
-	</Panel>
-	<div class="box">
+<div class="box width_full">
+	<div class="box width_md prose">
 		<Panel>
-			<CreditsProjectSignature />
-			<div style="position: relative; cursor: none; height: 0">
-				<img
-					aria-hidden
-					src="/assets/characters/spider.png"
-					alt="spiderspace dot org"
-					style="position: absolute; bottom: -33px; right: -29px;"
-					on:click={() => window.open('https://spiderspace.org')}
-				/>
-			</div>
+			<h2>About</h2>
+			<p>
+				cosmicplayground.org is a free and open source noncommercial hobby project exploring tools
+				and toys using web tech for fun and learning. The <a
+					href="https://github.com/ryanatkn/cosmicplayground">source code and assets</a
+				>
+				are on GitHub. It's made by
+				<a href="https://www.ryanatkn.com">Ryan Atkinson</a>
+				with <a href="https://svelte.dev/">Svelte</a>,
+				<a href="https://kit.svelte.dev/">SvelteKit</a>, <a href="https://vitejs.dev/">Vite</a>,
+				<a href="https://typescriptlang.org/">TypeScript</a>,
+				<a href="https://pixijs.com/">PixiJS</a>, many freely licensed assets (see below), and
+				<em>space</em>.
+			</p>
 		</Panel>
+		<Credits />
+		<Panel>
+			<h2>Privacy</h2>
+			<p>
+				This website tracks nothing beyond <a href="https://pages.github.com/">GitHub Pages</a>
+				serving static files. It has no server to store your data, and it makes no third party network
+				requests. See
+				<a href="https://github.com/ryanatkn/cosmicplayground">the source code</a> for more.
+			</p>
+		</Panel>
+		<Panel>
+			<h2>Package</h2>
+			<p>
+				This website depends on heaps of open source, see
+				<a href="{base}/.well-known/package.json">{base}/.well-known/package.json</a>.
+			</p>
+		</Panel>
+		<div class="box">
+			<Panel>
+				<CreditsProjectSignature />
+				<div style="position: relative; cursor: none; height: 0">
+					<img
+						aria-hidden
+						src="/assets/characters/spider.png"
+						alt="spiderspace dot org"
+						style="position: absolute; bottom: -33px; right: -29px;"
+						on:click={() => window.open('https://spiderspace.org')}
+					/>
+				</div>
+			</Panel>
+		</div>
 	</div>
 </div>
 

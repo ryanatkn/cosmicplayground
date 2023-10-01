@@ -1,4 +1,4 @@
-<section class="panel width_md">
+<section class="panel">
 	<div class="content">
 		<slot />
 	</div>
