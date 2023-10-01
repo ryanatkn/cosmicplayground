@@ -68,8 +68,7 @@
 			mapContainer.addChild(landContainer);
 			landContainer.sortableChildren = true;
 			for (const landImage of landImages) {
-				// TODO BLOCK preload these assets for sync lookup
-				const sprite = createMapSprite(await Assets.load(landImage)); // eslint-disable-line no-await-in-loop
+				const sprite = createMapSprite(Assets.get(landImage));
 				landContainer.addChild(sprite);
 				landSprites.push(sprite);
 			}
@@ -79,12 +78,12 @@
 			seashoreContainer = new Container();
 			mapContainer.addChild(seashoreContainer);
 			for (const seaImage of seaImages) {
-				const sprite = createMapSprite(await Assets.load(seaImage)); // eslint-disable-line no-await-in-loop
+				const sprite = createMapSprite(Assets.get(seaImage));
 				seashoreContainer.addChild(sprite);
 				seaSprites.push(sprite);
 			}
 			if (shoreImage) {
-				shoreSprite = createMapSprite(await Assets.load(shoreImage));
+				shoreSprite = createMapSprite(Assets.get(shoreImage));
 				seashoreContainer.addChild(shoreSprite);
 				const filter = new Filter(undefined, shaderFrag, toAlphaValues(shoreImageCount!));
 				shoreSprite.filters = [filter];
@@ -102,7 +101,7 @@
 				overlayContainer.addChild(nightfallSprite);
 				overlaySprites.push(nightfallSprite);
 
-				const lightsSprite = createMapSprite(await Assets.load(lightsImage));
+				const lightsSprite = createMapSprite(Assets.get(lightsImage));
 				lightsSprite.alpha = 0;
 				overlayContainer.addChild(lightsSprite);
 				overlaySprites.push(lightsSprite);
