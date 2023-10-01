@@ -2,7 +2,7 @@
 	import {random_item, random_float} from '@grogarden/util/random.js';
 	import {sineInOut} from 'svelte/easing';
 	import {get_clock} from '$lib/flat/clock.js';
-	import {get_dimensions} from '$lib/flat/dimensions.js';
+	import {get_dimensions} from '$lib/dimensions.js';
 
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/app/ImagePicker.svelte';

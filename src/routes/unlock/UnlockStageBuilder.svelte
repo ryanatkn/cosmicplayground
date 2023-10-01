@@ -2,7 +2,7 @@
 	import {createEventDispatcher, onMount} from 'svelte';
 	import {swallow} from '@grogarden/util/dom.js';
 	import {get_clock} from '$lib/flat/clock.js';
-	import {get_dimensions} from '$lib/flat/dimensions.js';
+	import {get_dimensions} from '$lib/dimensions.js';
 	import {enable_global_hotkeys} from '$lib/flat/dom.js';
 
 	import {initialStageData, type StageData} from '$routes/unlock/stage';

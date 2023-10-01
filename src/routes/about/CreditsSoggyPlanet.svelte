@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {get_dimensions} from '$lib/flat/dimensions.js';
+	import {get_dimensions} from '$lib/dimensions.js';
 
 	import Soggy_Planet_Credits from '$routes/soggy-planet/Soggy_Planet_Credits.svelte';
 	import Soggy_Planet_Thumbnail from '$routes/soggy-planet/Soggy_Planet_Thumbnail.svelte';
