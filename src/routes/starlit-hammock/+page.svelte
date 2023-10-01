@@ -255,9 +255,11 @@
 </div>
 {#if !show_picker}
 	<div class="credits idle_fade prose">
-		<Panel>
-			<ImageCreditsCaption image={activeImage} />
-		</Panel>
+		<div class="width_md">
+			<Panel>
+				<ImageCreditsCaption image={activeImage} />
+			</Panel>
+		</div>
 	</div>
 {/if}
 
