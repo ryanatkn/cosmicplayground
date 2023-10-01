@@ -52,13 +52,9 @@ export const get_pixi = (): PixiApp => getContext(PIXI_KEY);
 export const set_pixi = (pixi: PixiApp): PixiApp => setContext(PIXI_KEY, pixi);
 
 export interface PixiSceneHooks {
-	load?: () => Promise<void>;
-	loaded?: (
-		scene: Container,
-		resources: Partial<Record<string, Pixi.LoaderResource>>, // TODO Pixi.IResourceDictionary ? why is it partial?
-		loader: Pixi.Loader,
-	) => void;
-	destroy?: (scene: Container | null, loader: Pixi.Loader) => void;
+	load?: (scene: Container) => Promise<void> | void;
+	loaded?: (scene: Container) => Promise<void> | void;
+	destroy?: (scene: Container | null) => void;
 }
 
 export const get_pixi_scene = (
@@ -84,31 +80,19 @@ export const get_pixi_scene = (
 	(scene as any).interactiveChildren = false; // TODO this type error goes away with `esModuleInterop: true` in tsconfig, but that causes gross js output and it's not needed at runtime
 	pixi.mount_scene(scene);
 
-	// If we're already loading while creating a new scene,
-	// cancel whatever's going on in the loader.
-	// Otherwise, the loader throws error when the new scene calls `loader.add`.
-	// We may want to provide an option to override this.
-	// (or mabye a deeper fix with the loader is in order)
-	if (pixi.app.loader.loading) {
-		console.log('resetting loader! ack');
-		pixi.app.loader.reset();
-	}
-
 	onMount(async () => {
-		await hooks.load?.();
+		await hooks.load?.(scene);
 		// TODO show progress? or expect title screen to make these gtg?
-		pixi.app.loader.load((loader, resources) => {
-			if (destroyed) return; // in case the scene is destroyed before loading finishes
-			hooks.loaded?.(scene, resources, loader);
-			// See `ready` above -- avoids jank.
-			pixi.app.renderer.plugins.prepare.upload(scene, () => ready());
-		});
+		if (destroyed) return; // in case the scene is destroyed before loading finishes
+		await hooks.loaded?.(scene);
+		// See `ready` above -- avoids jank.
+		pixi.app.renderer.plugins.prepare.upload(scene, () => ready());
 	});
 
 	onDestroy(() => {
 		console.log('destroying pixi scene', scene, pixi);
 		ready();
-		hooks.destroy?.(scene, pixi.app.loader);
+		hooks.destroy?.(scene);
 		destroyed = true;
 		pixi.unmount_scene(scene);
 		// pixi.Pixi.utils.clearTextureCache(); // TODO see below

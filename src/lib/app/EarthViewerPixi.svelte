@@ -60,7 +60,7 @@
 			}
 			await Promise.all(promises);
 		},
-		loaded: (scene, resources, _loader) => {
+		loaded: (scene) => {
 			mapContainer = new Container();
 			scene.addChild(mapContainer);
 
@@ -109,7 +109,7 @@
 				updateSpritesTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
 			}
 		},
-		destroy: (_scene, _loader) => {
+		destroy: () => {
 			console.log('destroyed earth');
 			// k
 		},
