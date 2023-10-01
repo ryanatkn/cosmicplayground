@@ -83,7 +83,6 @@
 			console.error(err);
 		}
 		const bg_image_texture = await Assets.load(bgImageUrl);
-		console.log(`bg_image_texture`, bg_image_texture);
 		bg = createPixiBgStore(bg_image_texture, $dimensions.width, $dimensions.height);
 		pixi.default_scene.addChild($bg.sprite);
 		loadingStatus = 'success';

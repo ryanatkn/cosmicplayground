@@ -53,7 +53,6 @@
 		// I think I'd prefer nearest neighbor, but that causes weird artifacts with slow animation
 		texture.baseTexture.setStyle(SCALE_MODES.LINEAR); // TODO where to do this? ideally on load
 		sprite = new Sprite(texture);
-		console.log(`sprite`, sprite);
 		camera.addChild(sprite);
 	};
 

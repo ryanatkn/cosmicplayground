@@ -77,14 +77,10 @@ export const get_pixi_scene = (
 	pixi.mount_scene(scene);
 
 	onMount(async () => {
-		console.log('load()');
 		await hooks.load?.(scene);
-		console.log('load done');
 		// TODO show progress? or expect title screen to make these gtg?
 		if (destroyed) return; // in case the scene is destroyed before loading finishes
-		console.log('loaded()');
 		await hooks.loaded?.(scene);
-		console.log('loaded done');
 		// TODO disabled after upgrade - was used to avoid jank
 		// pixi.app.renderer.plugins.prepare.upload(scene, () => ready());
 		ready();
