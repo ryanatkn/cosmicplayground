@@ -44,11 +44,9 @@
 
 <div>
 	{#if $page.url.pathname !== '/'}
-		<div class="breadcrumb">
+		<div class="prose box">
 			<Panel>
-				<div class="prose box">
-					<Breadcrumb>🌠</Breadcrumb>
-				</div>
+				<Breadcrumb>🌠</Breadcrumb>
 			</Panel>
 		</div>
 	{/if}
@@ -72,14 +70,3 @@
 		/>
 	</Panel>
 </div>
-
-<style>
-	.breadcrumb {
-		/* TODO don't hardcode */
-		padding: 12px;
-	}
-	/* TODO hacky */
-	.breadcrumb :global(.panel) {
-		margin-top: 0;
-	}
-</style>
