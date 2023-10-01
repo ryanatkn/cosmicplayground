@@ -52,7 +52,7 @@ export const get_pixi = (): PixiApp => getContext(PIXI_KEY);
 export const set_pixi = (pixi: PixiApp): PixiApp => setContext(PIXI_KEY, pixi);
 
 export interface PixiSceneHooks {
-	load?: (loader: Pixi.Loader) => void;
+	load?: () => Promise<void>;
 	loaded?: (
 		scene: Container,
 		resources: Partial<Record<string, Pixi.LoaderResource>>, // TODO Pixi.IResourceDictionary ? why is it partial?
@@ -94,8 +94,8 @@ export const get_pixi_scene = (
 		pixi.app.loader.reset();
 	}
 
-	onMount(() => {
-		hooks.load?.(pixi.app.loader);
+	onMount(async () => {
+		await hooks.load?.();
 		// TODO show progress? or expect title screen to make these gtg?
 		pixi.app.loader.load((loader, resources) => {
 			if (destroyed) return; // in case the scene is destroyed before loading finishes

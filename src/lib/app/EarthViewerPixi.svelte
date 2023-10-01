@@ -3,6 +3,7 @@
 	import {Sprite} from '@pixi/sprite';
 	import {Container} from '@pixi/display';
 	import {TilingSprite} from '@pixi/sprite-tiling';
+	import {Assets} from '@pixi/assets';
 
 	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum';
 	import {
@@ -42,19 +43,22 @@
 	$: ({x, y, width, height, scale} = camera);
 
 	const {pixi} = get_pixi_scene({
-		load: (loader) => {
+		load: async () => {
+			// TODO maybe use a manifest/bundle
+			const promises: Array<Promise<any>> = [];
 			for (const landImage of landImages) {
-				if (!loader.resources[landImage]) loader.add(landImage);
+				promises.push(Assets.load(landImage));
 			}
 			for (const seaImage of seaImages) {
-				if (!loader.resources[seaImage]) loader.add(seaImage);
+				promises.push(Assets.load(seaImage));
 			}
 			if (shoreImage) {
-				if (!loader.resources[shoreImage]) loader.add(shoreImage);
+				promises.push(Assets.load(shoreImage));
 			}
 			if (lightsImage) {
-				if (!loader.resources[lightsImage]) loader.add(lightsImage);
+				promises.push(Assets.load(lightsImage));
 			}
+			await Promise.all(promises);
 		},
 		loaded: (scene, resources, _loader) => {
 			mapContainer = new Container();
