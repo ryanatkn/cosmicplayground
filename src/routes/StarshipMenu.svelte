@@ -52,13 +52,13 @@
 	{#if resetScores || importScores}
 		<div transition:scale|local>
 			<Panel>
-				<div class="prose">
+				<div>
 					<h2>scores</h2>
 					{#if scores}
 						<br />
 						<StarshipStageScore {scores} defaultIcon="❔" />
 						<br />
-						<p class="box">
+						<p class="box spaced">
 							{#if scores.crew_rescued_at_once_count >= 5}
 								<a href="/unlock">full crew ready</a>
 							{:else if scores.crew_rescued_at_once_count}
