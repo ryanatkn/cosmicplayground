@@ -3,7 +3,6 @@ import {Application, type IApplicationOptions} from '@pixi/app';
 import {Container} from '@pixi/display';
 import {getContext, setContext, onMount, onDestroy} from 'svelte';
 
-// TODO BLOCK 2 copies of this
 export class PixiApp {
 	app!: Application;
 	default_scene!: Container;

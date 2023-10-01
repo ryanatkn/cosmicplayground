@@ -1,9 +1,7 @@
 import {getContext, setContext} from 'svelte';
 import type {Writable} from 'svelte/store';
 
-// TODO BLOCK refactor?
-
-// TODO is this the right module name? `layout`? `view`?
+// TODO is this the right module name? `layout`?
 
 export interface Dimensions {
 	width: number;
