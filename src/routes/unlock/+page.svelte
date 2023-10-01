@@ -4,7 +4,7 @@
 </script>
 
 <div class="unlock">
-	<section class="column centered">
+	<section class="column box">
 		<h1>
 			unlock<img
 				src="/assets/characters/spider.png"
@@ -14,14 +14,11 @@
 				aria-hidden
 			/>
 		</h1>
-		<aside>
+		<aside class="width_sm">
 			you made it, welcome. did you reach this place by rescuing the crew all at once in the actual
-			game? if so, wow, that sounds like it deserves a reward. anyway, I should program something to
-			continue that gameplay seamlessly (and improve the initial experience, it's at the stage where
-			a little can go a long way) in the meantime, you can click the links below to see some
-			previews:
+			game? if so, wow. anyway, here's some previews of things that may never be:
 		</aside>
-		<ul class="markup">
+		<ul class="prose">
 			<!-- <li><a href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a></li> -->
 			<li><a href="/unlock/studio">studio</a></li>
 			<li><a href="/unlock/atlas">atlas</a></li>
@@ -46,11 +43,11 @@
 		align-items: center;
 	}
 	ul {
-		font-size: var(--font_size_xl3);
+		font-size: var(--size_xl3);
 	}
 	@media (max-width: 530px) {
 		ul {
-			font-size: var(--font_size_xl);
+			font-size: var(--size_xl);
 		}
 	}
 	ul {

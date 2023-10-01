@@ -4,7 +4,7 @@
 	Alternatively, we could have the hud take a prop to position it to the left/right/top/bottom,
 	but then multiple huds could overlap, which could be easily avoided with a single hud.
 -->
-<div class="hud idle-fade">
+<div class="hud idle_fade">
 	<slot />
 </div>
 

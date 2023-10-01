@@ -1,7 +1,9 @@
-import {mapRecord} from '@feltjs/util/object.js';
-import {hslToStr, type Hsl, type Hue} from '@feltcoop/dealt';
+import {map_record} from '@grogarden/util/object.js';
+import {hsl_to_string, type Hsl, type Hue} from '$lib/flat/colors.js';
 
 import {midis, isMidi, type Midi} from '$lib/music/midi.js';
+
+// TODO replace with earbetter dep
 
 export const NOTE_FLAT_SYMBOL = '♭';
 export const NOTE_SHARP_SYMBOL = '♯';
@@ -63,18 +65,24 @@ export const transpose = (midi: Midi, semitones: Semitones): Midi => {
 
 // TODO the hue shouldn't be hardcoded from the chroma - this relationship should be user-customizable (`app.colors` or `app.audio.colors` or something)
 export const noteChromaToHue = Object.freeze(
-	chromas.reduce((result, chroma) => {
-		result[chroma] = chroma / 12;
-		return result;
-	}, {} as Record<Chroma, Hue>),
+	chromas.reduce(
+		(result, chroma) => {
+			result[chroma] = chroma / 12;
+			return result;
+		},
+		{} as Record<Chroma, Hue>,
+	),
 );
 // TODO consider changing to a memoized helper function with optional saturation+lightness
 export const noteChromaToHsl = Object.freeze(
-	chromas.reduce((result, chroma) => {
-		result[chroma] = Object.freeze([noteChromaToHue[chroma], 0.5, 0.5] as const);
-		return result;
-	}, {} as Record<Chroma, Hsl>),
+	chromas.reduce(
+		(result, chroma) => {
+			result[chroma] = Object.freeze([noteChromaToHue[chroma], 0.5, 0.5] as const);
+			return result;
+		},
+		{} as Record<Chroma, Hsl>,
+	),
 );
 export const noteChromaToHslString = Object.freeze(
-	mapRecord(noteChromaToHsl, ([h, s, l]) => hslToStr(h, s, l)),
+	map_record(noteChromaToHsl, ([h, s, l]) => hsl_to_string(h, s, l)),
 );

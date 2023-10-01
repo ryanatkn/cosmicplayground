@@ -1,10 +1,11 @@
 <script lang="ts">
-	import {getClock, getDimensions} from '@feltcoop/dealt';
-	import {swallow} from '@feltjs/util/dom.js';
+	import {get_clock} from '$lib/flat/clock.js';
+	import {get_dimensions} from '$lib/dimensions.js';
+	import {swallow} from '@grogarden/util/dom.js';
 	import {blur} from 'svelte/transition';
 
-	const clock = getClock();
-	const dimensions = getDimensions();
+	const clock = get_clock();
+	const dimensions = get_dimensions();
 
 	// TODO has some copypasta, needs refactoring
 
@@ -37,8 +38,9 @@
 </script>
 
 <!-- the top offset is super hacky but w/e -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="tour-text markup"
+	class="tour-text prose"
 	transition:blur|local={{duration: transition_out_duration, amount: blur_amount}}
 	style:top="{$dimensions.height / 2 - 164}px"
 	on:click|capture={click}
@@ -48,6 +50,7 @@
 		<!-- hacky but `i` is expected to not change, avoids need for uniqueness -->
 		{#each tour_text as text, i (i + text)}
 			<div class="text" in:blur|local={{duration: transition_in_duration, amount: blur_amount}}>
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 				{@html text || '&nbsp;'}
 			</div>
 		{/each}

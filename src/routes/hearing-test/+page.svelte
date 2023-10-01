@@ -1,14 +1,14 @@
 <script lang="ts">
 	import {spring} from 'svelte/motion';
 	import {onDestroy} from 'svelte';
-	import {lerp} from '@feltjs/util/maths.js';
-	import {swallow} from '@feltjs/util/dom.js';
-	import {getDimensions} from '@feltcoop/dealt';
+	import {lerp} from '@grogarden/util/maths.js';
+	import {swallow} from '@grogarden/util/dom.js';
+	import {get_dimensions} from '$lib/dimensions.js';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';
 
-	const dimensions = getDimensions();
+	const dimensions = get_dimensions();
 
 	const audioCtx = getAudioCtx();
 
@@ -127,7 +127,9 @@
 			<div>{displayedFreq}<span class="unit">hz</span></div>
 		</div>
 	{/if}
+	<!-- TODO better a11y -->
 	<div
+		role="none"
 		class="absolute z-3 w-100 h-100"
 		on:mousedown={handlePointerDown}
 		on:mouseup={handlePointerUp}

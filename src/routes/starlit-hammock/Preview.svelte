@@ -1,9 +1,9 @@
 <script lang="ts">
-	import {getClock} from '@feltcoop/dealt';
+	import {get_clock} from '$lib/flat/clock.js';
 
 	import GalaxyBg from '$routes/starlit-hammock/GalaxyBg.svelte';
 
-	const clock = getClock();
+	const clock = get_clock();
 </script>
 
 <div><span class="starlit">starlit</span> hammock</div>

@@ -1,12 +1,16 @@
 <script lang="ts">
-	import * as Pixi from 'pixi.js';
+	import {Filter, Texture, RenderTexture} from '@pixi/core';
+	import {Sprite} from '@pixi/sprite';
+	import {Container} from '@pixi/display';
+	import {TilingSprite} from '@pixi/sprite-tiling';
+	import {Assets} from '@pixi/assets';
 
 	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum';
 	import {
 		computeBlendedImagesCycleOpacities,
 		computeBlendedImagesCycleZIndex,
 	} from '$lib/app/blendedImagesCycle';
-	import {getPixiScene} from '$lib/app/pixi';
+	import {get_pixi_scene} from '$lib/app/pixi';
 	import Surface from '$lib/app/Surface.svelte';
 	import type Camera from '$lib/app/Camera.svelte';
 
@@ -38,63 +42,66 @@
 
 	$: ({x, y, width, height, scale} = camera);
 
-	const [pixi] = getPixiScene({
-		load: (loader) => {
+	const {pixi} = get_pixi_scene({
+		load: async () => {
+			// TODO maybe use a manifest/bundle
+			const promises: Array<Promise<any>> = [];
 			for (const landImage of landImages) {
-				if (!loader.resources[landImage]) loader.add(landImage);
+				promises.push(Assets.load(landImage));
 			}
 			for (const seaImage of seaImages) {
-				if (!loader.resources[seaImage]) loader.add(seaImage);
+				promises.push(Assets.load(seaImage));
 			}
 			if (shoreImage) {
-				if (!loader.resources[shoreImage]) loader.add(shoreImage);
+				promises.push(Assets.load(shoreImage));
 			}
 			if (lightsImage) {
-				if (!loader.resources[lightsImage]) loader.add(lightsImage);
+				promises.push(Assets.load(lightsImage));
 			}
+			await Promise.all(promises);
 		},
-		loaded: (scene, resources, _loader) => {
-			mapContainer = new Pixi.Container();
+		loaded: async (scene) => {
+			mapContainer = new Container();
 			scene.addChild(mapContainer);
 
-			landContainer = new Pixi.Container();
+			landContainer = new Container();
 			mapContainer.addChild(landContainer);
 			landContainer.sortableChildren = true;
 			for (const landImage of landImages) {
-				const sprite = createMapSprite(resources[landImage]!.texture!);
+				const sprite = createMapSprite(Assets.get(landImage));
 				landContainer.addChild(sprite);
 				landSprites.push(sprite);
 			}
 			updateSpritesTransforms(landSprites, tilePositionX, tilePositionY, $scale);
 			updateLandOpacities(activeLandValue);
 
-			seashoreContainer = new Pixi.Container();
+			seashoreContainer = new Container();
 			mapContainer.addChild(seashoreContainer);
 			for (const seaImage of seaImages) {
-				const sprite = createMapSprite(resources[seaImage]!.texture!);
+				const sprite = createMapSprite(Assets.get(seaImage));
 				seashoreContainer.addChild(sprite);
 				seaSprites.push(sprite);
 			}
 			if (shoreImage) {
-				shoreSprite = createMapSprite(resources[shoreImage]!.texture!);
+				shoreSprite = createMapSprite(Assets.get(shoreImage));
 				seashoreContainer.addChild(shoreSprite);
-				const filter = new Pixi.Filter(undefined, shaderFrag, toAlphaValues(shoreImageCount!));
+				const filter = new Filter(undefined, shaderFrag, toAlphaValues(shoreImageCount!));
 				shoreSprite.filters = [filter];
 			}
 			updateSpritesTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
 			updateSeaOpacities(activeSeaLevel);
 
 			if (lightsImage) {
-				overlayContainer = new Pixi.Container();
+				overlayContainer = new Container();
 				mapContainer.addChild(overlayContainer);
 
-				const nightfallSprite = new Pixi.TilingSprite(Pixi.Texture.WHITE, $width, $height);
+				const nightfallSprite = new TilingSprite(Texture.WHITE, $width, $height);
 				nightfallSprite.tint = 0x000000;
 				nightfallSprite.alpha = 0;
 				overlayContainer.addChild(nightfallSprite);
 				overlaySprites.push(nightfallSprite);
 
-				const lightsSprite = createMapSprite(resources[lightsImage]!.texture!);
+				const lightsSprite = createMapSprite(Assets.get(lightsImage));
 				lightsSprite.alpha = 0;
 				overlayContainer.addChild(lightsSprite);
 				overlaySprites.push(lightsSprite);
@@ -102,20 +109,20 @@
 				updateSpritesTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
 			}
 		},
-		destroy: (_scene, _loader) => {
+		destroy: () => {
 			console.log('destroyed earth');
 			// k
 		},
 	});
 
-	const landSprites: Pixi.TilingSprite[] = []; // not reactive
-	const seaSprites: Pixi.TilingSprite[] = []; // not reactive
-	let shoreSprite: Pixi.TilingSprite | undefined = undefined; // not reactive
-	const overlaySprites: Pixi.TilingSprite[] = []; // not reactive
-	let mapContainer: Pixi.Container;
-	let landContainer: Pixi.Container;
-	let seashoreContainer: Pixi.Container; // includes shore sprites
-	let overlayContainer: Pixi.Container;
+	const landSprites: TilingSprite[] = []; // not reactive
+	const seaSprites: TilingSprite[] = []; // not reactive
+	let shoreSprite: TilingSprite | undefined = undefined; // not reactive
+	const overlaySprites: TilingSprite[] = []; // not reactive
+	let mapContainer: Container;
+	let landContainer: Container;
+	let seashoreContainer: Container; // includes shore sprites
+	let overlayContainer: Container;
 
 	$: tilePositionX = -$x * $scale + $width / 2;
 	$: tilePositionY = -$y * $scale + $height / 2;
@@ -134,12 +141,12 @@
 	$: updateSpritesDimensions(seaSprites, $width, $height);
 	$: shoreSprite && updateSpriteDimensions(shoreSprite, $width, $height);
 	$: updateSpritesDimensions(overlaySprites, $width, $height);
-	const updateSpritesDimensions = (sprites: Pixi.TilingSprite[], width: number, height: number) => {
+	const updateSpritesDimensions = (sprites: TilingSprite[], width: number, height: number) => {
 		for (const sprite of sprites) {
 			updateSpriteDimensions(sprite, width, height);
 		}
 	};
-	const updateSpriteDimensions = (sprite: Pixi.TilingSprite, width: number, height: number) => {
+	const updateSpriteDimensions = (sprite: TilingSprite, width: number, height: number) => {
 		sprite.width = width;
 		sprite.height = height;
 	};
@@ -148,7 +155,7 @@
 	$: shoreSprite && updateSpriteTransforms(shoreSprite, tilePositionX, tilePositionY, $scale);
 	$: updateSpritesTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
 	const updateSpritesTransforms = (
-		sprites: Pixi.TilingSprite[],
+		sprites: TilingSprite[],
 		tilePositionX: number,
 		tilePositionY: number,
 		$scale: number,
@@ -158,7 +165,7 @@
 		}
 	};
 	const updateSpriteTransforms = (
-		sprite: Pixi.TilingSprite,
+		sprite: TilingSprite,
 		tilePositionX: number,
 		tilePositionY: number,
 		$scale: number,
@@ -277,22 +284,22 @@
 		}
 	};
 
-	const createMapSprite = (texture: Pixi.Texture) => {
-		const tempSprite1 = new Pixi.Sprite(texture);
-		const tempSprite2 = new Pixi.Sprite(texture);
+	const createMapSprite = (texture: Texture) => {
+		const tempSprite1 = new Sprite(texture);
+		const tempSprite2 = new Sprite(texture);
 		tempSprite2.angle = 180;
 		tempSprite2.y = imageHeight * 2;
 		tempSprite2.x = imageWidth;
-		const tempTextureContainer = new Pixi.Container();
+		const tempTextureContainer = new Container();
 		tempTextureContainer.addChild(tempSprite1);
 		tempTextureContainer.addChild(tempSprite2);
 		// TODO cache this at module scope? see comment at top of file
-		const renderTexture = Pixi.RenderTexture.create({
+		const renderTexture = RenderTexture.create({
 			width: imageWidth,
 			height: imageHeight * 2,
 		});
 		pixi.app.renderer.render(tempTextureContainer, {renderTexture});
-		return new Pixi.TilingSprite(renderTexture, $width, $height);
+		return new TilingSprite(renderTexture, $width, $height);
 	};
 </script>
 

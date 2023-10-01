@@ -1,9 +1,9 @@
 <script lang="ts" strictEvents>
 	import {fade, slide} from 'svelte/transition';
-	import {swallow} from '@feltjs/util/dom.js';
+	import {swallow} from '@grogarden/util/dom.js';
 	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
-	import {randomItem} from '@feltjs/util/random.js';
-	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
+	import {random_item} from '@grogarden/util/random.js';
+	import PendingAnimation from '@fuz.dev/fuz_library/PendingAnimation.svelte';
 
 	import Playlist from '$lib/Playlist.svelte';
 	import VolumeControl from '$lib/VolumeControl.svelte';
@@ -71,7 +71,7 @@
 		const next_playlist_item = repeat
 			? playlist_items.find((p2) => p2.song === p.song)
 			: to_next_playlist_item();
-		dispatch('play', next_playlist_item);
+		if (next_playlist_item) dispatch('play', next_playlist_item);
 	};
 
 	const play = () => {
@@ -79,7 +79,8 @@
 			paused = !paused;
 			dispatch('paused', paused);
 		} else {
-			dispatch('play', last_playing_song || to_next_playlist_item());
+			const next_playlist_item = last_playing_song || to_next_playlist_item();
+			if (next_playlist_item) dispatch('play', next_playlist_item);
 		}
 	};
 	const stop = () => {
@@ -141,7 +142,7 @@
 		if (playlist_items.length === 1) return playlist_items[0];
 		let playlist_item: PlaylistItemData;
 		do {
-			playlist_item = randomItem(playlist_items);
+			playlist_item = random_item(playlist_items);
 		} while (playlist_item === exclude_playlist_item);
 		return playlist_item;
 	};
@@ -179,14 +180,14 @@
 	$: show_play = !has_song || paused;
 </script>
 
-<div class="player">
+<div class="media_player">
 	<div class="content">
-		<header class="centered-hz">
+		<header class="box row">
 			<!-- https://wikipedia.org/wiki/Media_control_symbols -->
 			<button
 				title={show_play ? 'play' : 'pause'}
 				type="button"
-				class="icon-button plain-button"
+				class="icon_button plain"
 				on:click={() => play()}
 			>
 				{#if show_play}
@@ -196,11 +197,11 @@
 				{/if}
 			</button>
 			<!-- TODO transition -->
-			<label class="duration centered-hz" title="time">
+			<label class="duration box row" title="time">
 				<input
 					on:input={input_current_time}
 					disabled={duration == null}
-					class="plain-input"
+					class="plain"
 					style:flex="1"
 					type="range"
 					min={0}
@@ -212,7 +213,7 @@
 					{#if status === 'pending'}
 						<PendingAnimation />
 					{:else if duration != null}
-						<div class="centered" in:fade|local>
+						<div class="box" in:fade|local>
 							<span>{format_time(current_time || 0)}</span><span>{format_time(duration)}</span>
 						</div>
 					{/if}
@@ -221,7 +222,7 @@
 			<button
 				title="restart or previous"
 				type="button"
-				class="icon-button plain-button"
+				class="icon_button plain"
 				on:click={() => restart_or_previous()}
 			>
 				⏮
@@ -229,19 +230,19 @@
 			<button
 				title="stop"
 				type="button"
-				class="icon-button plain-button"
+				class="icon_button plain"
 				on:click={() => stop()}
 				disabled={!has_song}
 			>
 				⏹
 			</button>
-			<button title="next" type="button" class="icon-button plain-button" on:click={() => next()}>
+			<button title="next" type="button" class="icon_button plain" on:click={() => next()}>
 				⏭
 			</button>
 			<button
 				title={collapsed ? 'expand' : 'collapse'}
 				type="button"
-				class="icon-button plain-button"
+				class="icon_button plain"
 				on:click={() => (collapsed = !collapsed)}
 				>{#if collapsed}+{:else}−{/if}</button
 			>
@@ -250,11 +251,11 @@
 		{#if !collapsed}
 			<footer transition:slide|local>
 				<VolumeControl {volume} {muted} on:volume on:muted />
-				<div class="centered-hz">
+				<div class="box row">
 					{#if repeat !== null}
 						<button
 							type="button"
-							class="togglable icon-button plain-button deselectable"
+							class="togglable icon_button plain deselectable"
 							title="repeat is {repeat ? 'enabled' : 'disabled'}"
 							class:selected={repeat}
 							on:click={() => {
@@ -268,7 +269,7 @@
 					{#if shuffle !== null}
 						<button
 							type="button"
-							class="togglable icon-button plain-button deselectable"
+							class="togglable icon_button plain deselectable"
 							title="shuffle is {shuffle ? 'enabled' : 'disabled'}"
 							class:selected={shuffle}
 							on:click={() => {
@@ -286,12 +287,12 @@
 </div>
 
 <style>
-	.player {
+	.media_player {
 		display: flex;
 		max-height: var(--player_max_height, 360px);
 		overflow: auto;
-		border: var(--player_border, var(--panel_border));
-		border-radius: var(--player_border_radius, var(--border_radius_4));
+		border: var(--media_player_border);
+		border-radius: var(--media_player_border_radius, var(--border_radius_4));
 		padding: var(--spacing-5);
 	}
 	.content {
@@ -299,7 +300,7 @@
 		display: flex;
 		flex-direction: column;
 		background-color: var(--bg_light);
-		border-radius: var(--player_border_radius, var(--border_radius_4));
+		border-radius: var(--media_player_border_radius, var(--border_radius_4));
 	}
 	header,
 	footer {
@@ -313,9 +314,9 @@
 	footer {
 		padding-top: var(--spacing_xs);
 	}
-	/* TODO should this be applied to global `.plain-button`? */
+	/* TODO should this be applied to global `.plain`? */
 	button:hover {
-		border: 1px solid var(--border_color_darker);
+		border: 1px solid var(--border_5);
 	}
 	button:active {
 		border: 1px solid var(--active_border_color);
@@ -328,10 +329,10 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		font-size: var(--font_size_sm);
+		font-size: var(--size_sm);
 		font-weight: 600;
 		width: var(--spacing_xl5);
-		color: var(--text_color_light);
+		color: var(--text_2);
 	}
 	/* TODO move to style.css?  */
 	.togglable {

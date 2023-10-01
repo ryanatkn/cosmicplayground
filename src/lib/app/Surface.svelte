@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {swallow} from '@feltjs/util/dom.js';
+	import {swallow} from '@grogarden/util/dom.js';
 
 	export let width: number;
 	export let height: number;

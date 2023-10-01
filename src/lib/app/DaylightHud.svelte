@@ -47,10 +47,14 @@
 		background-color: var(--photon_color);
 		position: absolute;
 		opacity: 0.65;
-		box-shadow: 1px 0 2px 1px #000, 2px 0 7px #000;
+		box-shadow:
+			1px 0 2px 1px #000,
+			2px 0 7px #000;
 	}
 	.selected .daylight-fill {
-		box-shadow: -1px 0 2px 1px var(--photon_text_color), -2px 0 7px #000;
+		box-shadow:
+			-1px 0 2px 1px var(--photon_text_color),
+			-2px 0 7px #000;
 	}
 	.daylight:active .daylight-fill {
 		opacity: 1;

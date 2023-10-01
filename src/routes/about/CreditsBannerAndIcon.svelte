@@ -2,7 +2,7 @@
 	import {IMAGE_PROCESSING_CREDIT, spaceImages} from '$lib/app/images';
 	import ImageCredits from '$lib/app/ImageCredits.svelte';
 
-	$: image = spaceImages.find((s) => s.title === 'Tapestry of Blazing Starbirth')!;
+	const image = spaceImages.find((s) => s.title === 'Tapestry of Blazing Starbirth')!;
 </script>
 
 <figure style:margin-top="var(--spacing_xl3)">

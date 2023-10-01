@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {getClock} from '@feltcoop/dealt';
+	import {get_clock} from '$lib/flat/clock.js';
 
 	import EarthThumbnail from '$lib/app/EarthThumbnail.svelte';
 	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/soggy-planet/constants';
@@ -9,7 +9,7 @@
 	export let onClick: ((e: MouseEvent) => void) | null = null;
 	export let showName = true;
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	$: textScale = earthWidth / THUMBNAIL_WIDTH_DEFAULT;
 </script>

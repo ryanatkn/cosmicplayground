@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {base} from '$app/paths';
+
 	import Panel from '$lib/app/Panel.svelte';
 	import Credits from '$routes/about/Credits.svelte';
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
@@ -13,56 +15,57 @@
 <figure style:margin="var(--spacing_xl3) auto">
 	<img src="/favicon.png" width="192" height="192" alt="cosmicplayground icon" />
 </figure>
-<div class="markup">
-	<Panel>
-		<h2>About</h2>
-		<p>
-			cosmicplayground.org is a free and open source noncommercial hobby project exploring tools and
-			toys using web tech for fun and learning. The <a
-				href="https://github.com/ryanatkn/cosmicplayground">source code and assets</a
-			>
-			are on GitHub. It's made by
-			<a href="https://www.ryanatkn.com">Ryan Atkinson</a>
-			with <a href="https://svelte.dev/">Svelte</a>,
-			<a href="https://kit.svelte.dev/">SvelteKit</a>, <a href="https://vitejs.dev/">Vite</a>,
-			<a href="https://typescriptlang.org/">TypeScript</a>,
-			<a href="https://pixijs.com/">PixiJS</a>, many freely licensed assets (see below), and
-			<em>space</em>.
-		</p>
-	</Panel>
-	<Panel>
-		<CreditsProjectSignature />
-	</Panel>
-	<Credits />
-	<Panel>
-		<h2>Privacy</h2>
-		<p>
-			This website tracks nothing beyond <a href="https://pages.github.com/">GitHub Pages</a>
-			serving static files. It has no server to store your data, and it makes no third party network
-			requests. See
-			<a href="https://github.com/ryanatkn/cosmicplayground">the source code</a> for more.
-		</p>
-	</Panel>
-	<Panel>
-		<h2>Package</h2>
-		<p>
-			This website depends on heaps of open source. Can't name it all too big. See
-			<a href="https://github.com/ryanatkn/cosmicplayground/blob/main/package.json">package.json</a
-			>.
-		</p>
-	</Panel>
-	<Panel>
-		<CreditsProjectSignature />
-		<div style="position: relative; cursor: none; height: 0">
-			<img
-				aria-hidden
-				src="/assets/characters/spider.png"
-				alt="spiderspace dot org"
-				style="position: absolute; bottom: -33px; right: -29px;"
-				on:click={() => window.open('https://spiderspace.org')}
-			/>
+<div class="box width_full">
+	<div class="box width_md prose">
+		<Panel>
+			<h2>About</h2>
+			<p>
+				cosmicplayground.org is a free and open source noncommercial hobby project building tools
+				and toys with web tech. The <a href="https://github.com/ryanatkn/cosmicplayground"
+					>source code and assets</a
+				>
+				are on GitHub. It's made by
+				<a href="https://www.ryanatkn.com">Ryan Atkinson</a>
+				with <a href="https://svelte.dev/">Svelte</a>,
+				<a href="https://kit.svelte.dev/">SvelteKit</a>, <a href="https://vitejs.dev/">Vite</a>,
+				<a href="https://typescriptlang.org/">TypeScript</a>,
+				<a href="https://pixijs.com/">PixiJS</a>, <a href="https://www.fuz.dev/">Fuz</a>,
+				<a href="https://www.grogarden.org/">Gro</a>, many freely licensed assets (see below), and
+				<em>space</em>.
+			</p>
+		</Panel>
+		<Credits />
+		<Panel>
+			<h2>Privacy</h2>
+			<p>
+				This website tracks nothing beyond <a href="https://pages.github.com/">GitHub Pages</a>
+				serving static files. It has no server to store your data, and it makes no third party network
+				requests. See
+				<a href="https://github.com/ryanatkn/cosmicplayground">the source code</a> for more.
+			</p>
+		</Panel>
+		<Panel>
+			<h2>Package</h2>
+			<p>
+				This website depends on heaps of open source, see
+				<a href="{base}/.well-known/package.json">{base}/.well-known/package.json</a>.
+			</p>
+		</Panel>
+		<div class="box">
+			<Panel>
+				<CreditsProjectSignature />
+				<div style="position: relative; cursor: none; height: 0">
+					<img
+						aria-hidden
+						src="/assets/characters/spider.png"
+						alt="spiderspace dot org"
+						style="position: absolute; bottom: -33px; right: -29px;"
+						on:click={() => window.open('https://spiderspace.org')}
+					/>
+				</div>
+			</Panel>
 		</div>
-	</Panel>
+	</div>
 </div>
 
 <style>
@@ -75,10 +78,13 @@
 		display: flex;
 		justify-content: center;
 	}
+	h2 {
+		margin-top: 0;
+	}
 	.header-content {
 		position: relative;
 	}
-	.markup {
+	.prose {
 		margin-bottom: var(--spacing_xl9);
 	}
 	@media (max-width: 900px) {

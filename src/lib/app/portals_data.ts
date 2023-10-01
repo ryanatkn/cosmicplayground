@@ -34,7 +34,7 @@ const portals: PortalData[] = [
 	FreqSpectaclePortalData,
 ];
 
-export const portalsData: PortalsData = {
+export const portals_data: PortalsData = {
 	portals,
-	portalsBySlug: new Map(portals.map((p) => [p.slug, p])),
+	portals_by_slug: new Map(portals.map((p) => [p.slug, p])),
 };

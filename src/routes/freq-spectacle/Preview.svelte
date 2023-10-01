@@ -1,9 +1,9 @@
 <script lang="ts">
-	import {getClock} from '@feltcoop/dealt';
+	import {get_clock} from '$lib/flat/clock.js';
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 
-	const clock = getClock();
+	const clock = get_clock();
 </script>
 
 <FreqSpectacle

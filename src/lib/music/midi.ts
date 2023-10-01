@@ -1,5 +1,7 @@
 import type {Frequency} from '$lib/audio/helpers';
 
+// TODO replace with earbetter dep
+
 // This project uses `Midi`, the midi number,
 // as the standard musical note identity.
 // This comes with drawbacks, the obvious one being that

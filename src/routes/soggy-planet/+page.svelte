@@ -1,10 +1,12 @@
 <script lang="ts">
 	import {onMount, tick} from 'svelte';
-	import {randomFloat} from '@feltjs/util/random.js';
-	import {swallow} from '@feltjs/util/dom.js';
-	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
+	import {random_float} from '@grogarden/util/random.js';
+	import {swallow} from '@grogarden/util/dom.js';
+	import {get_clock} from '$lib/flat/clock.js';
 	import {dev} from '$app/environment';
 
+	import {enable_global_hotkeys} from '$lib/flat/dom.js';
+	import {get_dimensions} from '$lib/dimensions.js';
 	import Soggy_Planet_Title_Screen from '$routes/soggy-planet/Soggy_Planet_Title_Screen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';
 	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
@@ -26,7 +28,7 @@
 	const DEBUG_START_TIME = 0; // set to start the tour at any time for dev purposes
 	const debug_start_time = dev ? DEBUG_START_TIME : 0;
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	let camera: Camera | undefined;
 	$: x = camera?.x;
@@ -35,7 +37,7 @@
 	$: width = camera?.width;
 	$: height = camera?.height;
 
-	const dimensions = getDimensions();
+	const dimensions = get_dimensions();
 	$: if (width) $width = $dimensions.width;
 	$: if (height) $height = $dimensions.height;
 
@@ -43,8 +45,8 @@
 	const image_width = 4096;
 	const image_height = 2048;
 
-	const initial_x = randomFloat(0, image_width);
-	const initial_y = randomFloat($dimensions.height / 2, image_height - $dimensions.height / 2);
+	const initial_x = random_float(0, image_width);
+	const initial_y = random_float($dimensions.height / 2, image_height - $dimensions.height / 2);
 	const initial_width = $dimensions.width;
 	const initial_height = $dimensions.height;
 
@@ -62,10 +64,10 @@
 	const keydown = (e: KeyboardEvent) => {
 		if (show_title_screen) return;
 		// map screen
-		if (e.key === 'Escape' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+		if (e.key === 'Escape' && !e.ctrlKey && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			go_to_title_screen();
-		} else if (e.key === '1' && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === '1' && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			toggle_hud();
 		}

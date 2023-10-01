@@ -1,15 +1,13 @@
 <script lang="ts">
-	import {swallow} from '@feltjs/util/dom.js';
+	import {swallow} from '@grogarden/util/dom.js';
 	import type {Writable} from 'svelte/store';
-	import {
-		World,
-		SurfaceWithControlller,
-		DomCanvasRenderer,
-		type CameraStore,
-		type Controller,
-		getClock,
-	} from '@feltcoop/dealt';
 
+	import {get_clock} from '$lib/flat/clock.js';
+	import World from '$lib/flat/World.svelte';
+	import SurfaceWithControlller from '$lib/flat/SurfaceWithControlller.svelte';
+	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer.js';
+	import type {CameraStore} from '$lib/flat/camera.js';
+	import type {Controller} from '$lib/flat/controller.js';
 	import {
 		PLAYER_SPEED,
 		PLAYER_SPEED_BOOSTED,
@@ -20,8 +18,8 @@
 		PLAYER_STRENGTH_BOOSTED3,
 		Stage,
 		type StarshipStageScores,
-	} from '$routes/starshipStage';
-	import {getPixi} from '$lib/app/pixi';
+	} from '$routes/starshipStage.js';
+	import {get_pixi} from '$lib/app/pixi.js';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;
@@ -43,8 +41,8 @@
 	export let stage: Stage;
 	export let enableDomCanvasRenderer = false;
 
-	const clock = getClock();
-	const pixi = getPixi();
+	const clock = get_clock();
+	const pixi = get_pixi();
 
 	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;
 

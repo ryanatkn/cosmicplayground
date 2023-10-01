@@ -1,17 +1,15 @@
 <script lang="ts">
-	import {
-		World,
-		SurfaceWithControlller,
-		DomCanvasRenderer,
-		type CameraStore,
-		type Controller,
-		getClock,
-		getIdle,
-	} from '@feltcoop/dealt';
 	import type {Writable} from 'svelte/store';
 
-	import {getPixi} from '$lib/app/pixi';
+	import World from '$lib/flat/World.svelte';
+	import SurfaceWithControlller from '$lib/flat/SurfaceWithControlller.svelte';
+	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer.js';
+	import type {Controller} from '$lib/flat/controller.js';
+	import type {CameraStore} from '$lib/flat/camera.js';
+	import {get_clock} from '$lib/flat/clock.js';
+	import {get_pixi} from '$lib/app/pixi';
 	import type {UnlockStageScores, Stage} from '$routes/unlock/unlockStage';
+	import {get_idle} from '$lib/idle.js';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;
@@ -26,12 +24,12 @@
 
 	$: console.log(`UnlockStage.svelte stage`, stage);
 
-	const clock = getClock();
-	const pixi = getPixi();
+	const clock = get_clock();
+	const pixi = get_pixi();
 
 	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;
 
-	const idle = getIdle();
+	const idle = get_idle();
 	$: if ($idle) clock.pause();
 
 	let camera: CameraStore;

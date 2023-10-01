@@ -1,9 +1,9 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
 	import {createEventDispatcher, onDestroy} from 'svelte';
-	import {swallow} from '@feltjs/util/dom.js';
-	import {UnreachableError} from '@feltjs/util/error.js';
-	import type {ClockStore} from '@feltcoop/dealt';
+	import {swallow} from '@grogarden/util/dom.js';
+	import {UnreachableError} from '@grogarden/util/error.js';
+	import type {ClockStore} from '$lib/flat/clock.js';
 
 	import {get_settings} from '$lib/app/settings';
 	import {reset_render_stats, getRenderStats} from '$lib/app/renderStats';

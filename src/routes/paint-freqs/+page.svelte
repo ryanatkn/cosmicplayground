@@ -1,9 +1,10 @@
 <script lang="ts">
 	import {spring} from 'svelte/motion';
 	import {onDestroy} from 'svelte';
-	import {lerp} from '@feltjs/util/maths.js';
-	import {swallow} from '@feltjs/util/dom.js';
-	import {hslToRgb, getDimensions} from '@feltcoop/dealt';
+	import {lerp} from '@grogarden/util/maths.js';
+	import {swallow} from '@grogarden/util/dom.js';
+	import {hsl_to_rgb} from '$lib/flat/colors.js';
+	import {get_dimensions} from '$lib/dimensions.js';
 
 	import {getAudioCtx} from '$lib/audio/audioCtx';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';
@@ -37,7 +38,7 @@
 
   */
 
-	const dimensions = getDimensions();
+	const dimensions = get_dimensions();
 	let width = $dimensions.width;
 	let height = $dimensions.height;
 	$: width = $dimensions.width;
@@ -52,7 +53,7 @@
 	$: if (canvas && width && height) updateCanvas();
 
 	// TODO move to shared location? src/music/notes? colors?
-	const colorsByChroma = Array.from({length: 12}, (_, i) => hslToRgb(i / 12, 0.3, 0.5));
+	const colorsByChroma = Array.from({length: 12}, (_, i) => hsl_to_rgb(i / 12, 0.3, 0.5));
 
 	// could debounce this if it's too slow on resize
 	const updateCanvas = () => {
@@ -225,11 +226,13 @@
 	{/if}
 	{#if width !== undefined}<canvas class="bg-canvas" bind:this={canvas} />{/if}
 	{#if displayedFreq}
-		<div class="freq idle-fade">
+		<div class="freq idle_fade">
 			<div>{displayedFreq}<span class="unit">hz</span></div>
 		</div>
 	{/if}
+	<!-- TODO better a11y -->
 	<div
+		role="none"
 		class="interaction-surface"
 		on:mousedown={handlePointerDown}
 		on:mouseup={handlePointerUp}
@@ -240,7 +243,7 @@
 		on:touchcancel={handlePointerUp}
 		on:touchmove={handlePointerMove}
 	/>
-	<div class="controls idle-fade">
+	<div class="controls idle_fade">
 		<!-- TODO this is a good candidate for the Hud component -->
 		<FloatingIconButton label="reset" on:click={clear}>↻</FloatingIconButton>
 	</div>

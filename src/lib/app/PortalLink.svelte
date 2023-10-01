@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {getPortals} from '$lib/app/portals';
+	import {get_portals} from '$lib/app/portals';
 
 	export let slug: string;
 
-	const portals = getPortals();
-	$: portal = $portals.data.portalsBySlug.get(slug)!;
+	const portals = get_portals();
+	$: portal = $portals.data.portals_by_slug.get(slug)!;
 </script>
 
 <a href="/{slug}">
@@ -13,7 +13,7 @@
 
 <style>
 	a {
-		background-color: var(--bg_3);
+		background-color: var(--bg);
 		padding: 0 8px;
 		border-radius: 5px;
 		color: var(--color_3);

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Dialog from '@feltjs/felt-ui/Dialog.svelte';
-	import {getClock} from '@feltcoop/dealt';
+	import Dialog from '@fuz.dev/fuz_dialog/Dialog.svelte';
+	import {get_clock} from '$lib/flat/clock.js';
 
 	import {show_app_dialog, appDialogEl} from '$lib/app/appDialog';
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	const exit = () => {
 		$show_app_dialog = false;

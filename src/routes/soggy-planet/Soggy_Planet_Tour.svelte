@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
-	import {getClock} from '@feltcoop/dealt';
+	import {get_clock} from '$lib/flat/clock.js';
 
 	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
 	import {create_soggy_planet_tour_data} from '$routes/soggy-planet/soggy_planet_tour_data';
@@ -34,7 +34,7 @@
 	let {scale} = camera;
 	$: ({scale} = camera);
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	const settings = get_settings();
 	$: ({audio_enabled, dev_mode} = $settings);

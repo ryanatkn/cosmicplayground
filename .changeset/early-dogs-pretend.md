@@ -1,0 +1,5 @@
+---
+'cosmicplayground': minor
+---
+
+upgrade deps

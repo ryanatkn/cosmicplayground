@@ -4,7 +4,7 @@
 	import {get_settings} from '$lib/app/settings';
 
 	const settings = get_settings();
-	$: displayForVideo = $settings.recordingMode;
+	$: displayForVideo = $settings.recording_mode;
 
 	export let transitionDuration: number;
 
@@ -13,7 +13,7 @@
 	const blurAmount = 20;
 </script>
 
-<div class="tour-credits markup" class:displayForVideo>
+<div class="tour-credits prose" class:displayForVideo>
 	<section in:blur|local={{duration: transitionDuration, amount: blurAmount}}>
 		<h2>created by</h2>
 		Ryan Atkinson<br />

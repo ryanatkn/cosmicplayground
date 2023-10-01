@@ -1,10 +1,11 @@
 <script lang="ts">
-	import {getClock, getDimensions} from '@feltcoop/dealt';
+	import {get_clock} from '$lib/flat/clock.js';
+	import {get_dimensions} from '$lib/dimensions.js';
 
 	import {freezeframe} from '$lib/app/freezeframe';
 
-	const clock = getClock();
-	const dimensions = getDimensions();
+	const clock = get_clock();
+	const dimensions = get_dimensions();
 
 	const maxWidth = 1667;
 	const maxHeight = 781;
@@ -40,7 +41,7 @@
 					style="width: 350px; height: 350px;"
 					class="pixelated"
 				/>
-				<button type="button" class="image-button" on:click={toggleClock}>
+				<button type="button" class="image_button" on:click={toggleClock}>
 					<img
 						src="/assets/construction/person-rock.gif"
 						use:freezeframe={freeze}
@@ -54,7 +55,7 @@
 					use:freezeframe={freeze}
 					alt="under construction: person dig fast"
 				/>
-				<button type="button" class="image-button" on:click={toggleClock}>
+				<button type="button" class="image_button" on:click={toggleClock}>
 					<img
 						src="/assets/construction/person-rock.gif"
 						use:freezeframe={freeze}

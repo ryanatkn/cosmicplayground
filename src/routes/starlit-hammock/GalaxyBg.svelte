@@ -9,7 +9,7 @@
 	// TODO get from loaded image
 	const imageWidth = 2560;
 	const imageHeight = 1440;
-	$: imageAspectRatio = imageWidth / imageHeight;
+	const imageAspectRatio = imageWidth / imageHeight;
 
 	// Make sure the bg covers the container and seamlessly scrolls
 	// regardless of its dimensions and aspect ratio.

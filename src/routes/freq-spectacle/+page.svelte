@@ -1,13 +1,14 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
-	import {getClock, getDimensions} from '@feltcoop/dealt';
+	import {get_clock} from '$lib/flat/clock.js';
+	import {get_dimensions} from '$lib/dimensions.js';
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 	import {get_settings} from '$lib/app/settings';
 	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '$routes/data';
 	import {setInStorage} from '$lib/util/storage';
 
-	const dimensions = getDimensions();
+	const dimensions = get_dimensions();
 	const settings = get_settings();
 
 	let width = $dimensions.width;
@@ -15,7 +16,7 @@
 	$: width = $dimensions.width;
 	$: height = $dimensions.height;
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	const hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60];
 	const WINNING_HZ_ITEMS = new Set([0, 119, 59, 60]);

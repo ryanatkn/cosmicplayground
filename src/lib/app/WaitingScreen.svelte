@@ -1,6 +1,6 @@
 <script lang="ts">
 	import WaitingAnimation from '$lib/app/WaitingAnimation.svelte';
-	import type {AsyncStatus} from '@feltjs/util/async.js';
+	import type {AsyncStatus} from '@grogarden/util/async.js';
 
 	export let status: AsyncStatus;
 </script>
@@ -19,7 +19,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: var(--font_size_xl5);
+		font-size: var(--size_xl5);
 		/* This waits one cycle of animation so it doesn't flash when load is quick.
 		The animation-fill-mode property is needed to set the initial opacity to 0
 		without making it go back to 0 when the fade in animation completes. */

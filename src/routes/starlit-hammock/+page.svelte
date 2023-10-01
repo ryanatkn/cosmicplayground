@@ -1,7 +1,8 @@
 <script lang="ts">
-	import {randomItem, randomFloat} from '@feltjs/util/random.js';
+	import {random_item, random_float} from '@grogarden/util/random.js';
 	import {sineInOut} from 'svelte/easing';
-	import {getClock, getDimensions} from '@feltcoop/dealt';
+	import {get_clock} from '$lib/flat/clock.js';
+	import {get_dimensions} from '$lib/dimensions.js';
 
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/app/ImagePicker.svelte';
@@ -26,7 +27,7 @@
 
 	*/
 
-	const dimensions = getDimensions();
+	const dimensions = get_dimensions();
 	let width = $dimensions.width;
 	let height = $dimensions.height;
 	$: width = $dimensions.width;
@@ -34,9 +35,9 @@
 
 	let show_picker = false;
 
-	let activeImage = randomItem(spaceImages);
+	let activeImage = random_item(spaceImages);
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	const pick_image = (image: ImageMeta) => {
 		activeImage = image;
@@ -46,7 +47,7 @@
 		if (spaceImages.length === 1) return; // just in case
 		let newImage;
 		do {
-			newImage = randomItem(spaceImages);
+			newImage = random_item(spaceImages);
 		} while (newImage === activeImage);
 		pick_image(newImage);
 	};
@@ -140,9 +141,9 @@
 		// so these calculations ensure it's at least fullscreen with some zoom room
 		const actualScaleMin = Math.max(scaleMin, Math.max(width / imageWidth, height / imageHeight));
 		const actualScaleMax = Math.max(scaleMax, actualScaleMin * MIN_SCALE_MULT);
-		const scale = randomFloat(actualScaleMin, actualScaleMax);
-		const x = randomFloat(width / 2 / scale, imageWidth - width / 2 / scale);
-		const y = randomFloat(height / 2 / scale, imageHeight - height / 2 / scale);
+		const scale = random_float(actualScaleMin, actualScaleMax);
+		const x = random_float(width / 2 / scale, imageWidth - width / 2 / scale);
+		const y = random_float(height / 2 / scale, imageHeight - height / 2 / scale);
 		return [x, y, scale];
 	};
 
@@ -225,9 +226,9 @@
 		<ImagePicker images={spaceImages} {pick_image} />
 		<footer>
 			<Panel>
-				<h2>
+				<div style:font-size="var(--size_lg)">
 					<a href="https://www.spacetelescope.org/copyright/">spacetelescope.org/copyright</a>
-				</h2>
+				</div>
 			</Panel>
 			<PortalPreview href="/about">
 				<AboutPortalPreview />
@@ -239,7 +240,7 @@
 		<Surface {width} {height} {scale} zoom={zoom_camera} pan={move_camera} />
 	</div>
 {/if}
-<div class="hud idle-fade">
+<div class="hud idle_fade">
 	<!-- TODO showing both of these buttons all the time has a slight UX annoyance
 	where the size of the picker toggle changes.
   one fix is to only show "random image" when the picker is closed,
@@ -253,10 +254,12 @@
 	</FloatingTextButton>
 </div>
 {#if !show_picker}
-	<div class="credits idle-fade markup">
-		<Panel>
-			<ImageCreditsCaption image={activeImage} />
-		</Panel>
+	<div class="credits idle_fade prose">
+		<div class="width_md">
+			<Panel>
+				<ImageCreditsCaption image={activeImage} />
+			</Panel>
+		</div>
 	</div>
 {/if}
 

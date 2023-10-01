@@ -38,7 +38,7 @@
 <style>
 	button {
 		--border_radius: 0;
-		--border_color: var(--border_color_darker);
+		--border_color: var(--border_5);
 		/* TODO set vars instead */
 		background-color: var(--bg);
 		/* for the z-index */
@@ -46,7 +46,7 @@
 		width: 100%;
 		justify-content: flex-start;
 		/* allow the content to shrink a lot, still needs responsive design work but isn't broken */
-		min-height: var(--button_height);
+		min-height: var(--input_height);
 	}
 	button:hover {
 		--border_color: var(--border_color_dark);
@@ -63,7 +63,7 @@
 		bottom: 0;
 	}
 	.count {
-		font-size: var(--font_size_sm);
+		font-size: var(--size_sm);
 		font-weight: 500;
 		width: var(--spacing_xl3);
 		display: flex;
@@ -73,7 +73,7 @@
 		display: flex;
 		justify-content: flex-end;
 		padding-left: var(--spacing_xl);
-		font-size: var(--font_size_sm);
+		font-size: var(--size_sm);
 		font-weight: 500;
 	}
 </style>

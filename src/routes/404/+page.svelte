@@ -1,14 +1,14 @@
 <script lang="ts">
 	import {page} from '$app/stores';
-	import Breadcrumbs from '@feltjs/felt-ui/Breadcrumbs.svelte';
+	import Breadcrumb from '@fuz.dev/fuz_library/Breadcrumb.svelte';
 
 	import Panel from '$lib/app/Panel.svelte';
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import {getPortals} from '$lib/app/portals';
+	import {get_portals} from '$lib/app/portals';
 	import PortalLink from '$lib/app/PortalLink.svelte';
 
-	const portals = getPortals();
+	const portals = get_portals();
 </script>
 
 <!-- TODO how to handle this? -->
@@ -17,7 +17,7 @@
 		<h1>oh no!</h1>
 		<h3>no portal exists here</h3>
 		<blockquote>
-			<Breadcrumbs path={$page.url.pathname} />
+			<Breadcrumb path={$page.url.pathname} />
 		</blockquote>
 		<a href="/">
 			<ChunkyButton>go back home</ChunkyButton>

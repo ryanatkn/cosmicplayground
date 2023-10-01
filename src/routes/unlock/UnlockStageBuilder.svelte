@@ -1,12 +1,14 @@
 <script lang="ts">
 	import {createEventDispatcher, onMount} from 'svelte';
-	import {swallow} from '@feltjs/util/dom.js';
-	import {getClock, enableGlobalHotkeys, getDimensions} from '@feltcoop/dealt';
+	import {swallow} from '@grogarden/util/dom.js';
+	import {get_clock} from '$lib/flat/clock.js';
+	import {get_dimensions} from '$lib/dimensions.js';
+	import {enable_global_hotkeys} from '$lib/flat/dom.js';
 
 	import {initialStageData, type StageData} from '$routes/unlock/stage';
 	import UnlockStage from '$routes/unlock/UnlockStage.svelte';
 	import {Stage} from '$routes/unlock/unlockStage';
-	import {getPixi} from '$lib/app/pixi';
+	import {get_pixi} from '$lib/app/pixi';
 
 	/*
 
@@ -26,9 +28,9 @@ TODO ideas
 
 	const enableDomCanvasRenderer = false; // TODO use this?
 
-	const dimensions = getDimensions();
-	const clock = getClock();
-	const pixi = getPixi();
+	const dimensions = get_dimensions();
+	const clock = get_clock();
+	const pixi = get_pixi();
 
 	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
 	$: ({running} = $clock);
@@ -93,7 +95,7 @@ TODO ideas
 	let viewHeight: number;
 	let worldWidth: number;
 	let worldHeight: number;
-	// TODO make this a helper to clarify the deps `updateDimensions`
+	// TODO make this a helper to clarify the deps `update_dimensions`
 	$: if (cameraUnlocked) {
 		// Expand the world dimensions to fit the viewport dimensions.
 		// It needs to match the viewport aspect ratio and
@@ -156,19 +158,19 @@ TODO ideas
 	const toggleExpandControls = () => (expandControls = !expandControls);
 
 	const onWindowKeydown = (e: KeyboardEvent) => {
-		if (e.key === '`' && e.ctrlKey && enableGlobalHotkeys(e.target)) {
+		if (e.key === '`' && e.ctrlKey && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			toggleExpandControls();
-		} else if (e.key === ' ' && !e.ctrlKey && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === ' ' && !e.ctrlKey && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			resetStage();
-		} else if (e.key === 's' && e.ctrlKey && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === 's' && e.ctrlKey && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			saveData();
-		} else if (e.key === '}' && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === '}' && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			simulate(100);
-		} else if (e.key === ']' && enableGlobalHotkeys(e.target)) {
+		} else if (e.key === ']' && enable_global_hotkeys(e.target)) {
 			swallow(e);
 			if (e.ctrlKey) {
 				simulate(10);
@@ -310,7 +312,7 @@ TODO ideas
 		display: flex;
 	}
 	.buttons button {
-		font-size: var(--font_size_xl4);
+		font-size: var(--size_xl4);
 	}
 	input[type='number'] {
 		width: 50px;

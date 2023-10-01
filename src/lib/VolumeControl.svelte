@@ -16,7 +16,7 @@
 <label class:muted title="volume">
 	{#if muted}
 		<button
-			class="icon-button plain-button"
+			class="icon_button plain"
 			on:click={() => {
 				muted = !muted;
 				dispatch('muted', muted);
@@ -27,7 +27,7 @@
 	{/if}
 	<small>{Math.round(volume * 100)}<span>%</span></small>
 	<input
-		class="plain-input"
+		class="plain"
 		type="range"
 		on:input={(e) => {
 			volume = Number(e.currentTarget.value);
@@ -49,6 +49,6 @@
 		text-align: center;
 	}
 	.muted small {
-		color: var(--text_color_light);
+		color: var(--text_2);
 	}
 </style>

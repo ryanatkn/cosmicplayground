@@ -12,7 +12,7 @@
 	// TODO get from loaded image
 	const imageWidth = 300;
 	const imageHeight = 150;
-	$: imageAspectRatio = imageWidth / imageHeight;
+	const imageAspectRatio = imageWidth / imageHeight;
 
 	// Make sure the bg covers the container and seamlessly scrolls
 	// regardless of its dimensions and aspect ratio.
@@ -22,7 +22,7 @@
 
 	// TODO support customizing this?
 	const bgSizePct = 0.5;
-	$: bgSizeStr = bgSizePct * 100 + '%';
+	const bgSizeStr = bgSizePct * 100 + '%';
 </script>
 
 <div

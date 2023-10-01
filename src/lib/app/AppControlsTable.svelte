@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {page} from '$app/stores';
-	import type {ClockStore} from '@feltcoop/dealt';
+	import type {ClockStore} from '$lib/flat/clock.js';
 
 	import Panel from '$lib/app/Panel.svelte';
 
@@ -10,9 +10,9 @@
 </script>
 
 <Panel
-	><div class="markup centered">
+	><div class="box">
 		<section>
-			<h2>controls</h2>
+			<h2 class="spaced">controls</h2>
 			<table>
 				<thead><th>key</th><th>action</th></thead><slot />
 				<tr><td><code>[Escape]</code></td><td>toggle main menu</td></tr>

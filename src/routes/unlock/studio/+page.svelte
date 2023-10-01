@@ -1,6 +1,5 @@
 <script lang="ts">
-	import {getClock} from '@feltcoop/dealt';
-
+	import {get_clock} from '$lib/flat/clock.js';
 	import {initialStageData, type StageData} from '$routes/unlock/stage';
 	import UnlockStageBuilder from '$routes/unlock/UnlockStageBuilder.svelte';
 	import Tabs from '$lib/Tabs.svelte';
@@ -11,7 +10,7 @@
 	// TODO needs a lot of refactoring -- either combine tabs with controls
 	// in the stage builder or extract elsewhere
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	// TODO store an index and each separate?
 	const STORAGE_KEY_STAGES = 'unlock_stages';
@@ -69,7 +68,7 @@
 	<UnlockStageBuilder data={selectedData} on:save={(e) => updateSelectedData(e.detail)}>
 		<div class="controls">
 			{#if datas.length >= 2}
-				<button on:click={() => deleteSelected()}>✕</button>
+				<button title="delete data item" on:click={() => deleteSelected()}>✕</button>
 				<Tabs bind:selectedIndex={selectedDataIndex} items={datas} let:selected let:index>
 					<button
 						class:selected
@@ -79,7 +78,7 @@
 				</Tabs>
 			{/if}
 			{#if datas.length < MAX_DATA_COUNT}
-				<button on:click={() => addData()}>+</button>
+				<button title="add data item" on:click={() => addData()}>+</button>
 			{/if}
 		</div>
 	</UnlockStageBuilder>
@@ -102,7 +101,7 @@
 		z-index: 1;
 	}
 	.controls button {
-		font-size: var(--font_size_xl4);
-		width: var(--font_size_xl6);
+		font-size: var(--size_xl4);
+		width: var(--size_xl6);
 	}
 </style>

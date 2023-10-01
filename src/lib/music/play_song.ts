@@ -7,6 +7,8 @@ import type {Song} from '$lib/music/songs';
 import {DEFAULT_VOLUME} from '$lib/audio/helpers';
 import {locally_stored} from '$lib/util/locally_stored';
 
+// TODO maybe replace with earbetter or another dep
+
 // TODO refactor, probably into context
 export const volume = locally_stored(writable(DEFAULT_VOLUME), 'volume');
 export const muted = locally_stored(writable(false), 'muted');
@@ -99,7 +101,7 @@ export const play_song = async (song: Song): Promise<SongPlayState | undefined> 
 		play: get(paused) ? null : play_audio(audio_el), // TODO do something with this before resolving?
 		// TODO using a promise like this may be a bad idea, rethink this API
 		ended: new Promise<void>((resolve) =>
-			audio_el!.addEventListener(
+			audio_el.addEventListener(
 				'ended',
 				() => {
 					cleanup();

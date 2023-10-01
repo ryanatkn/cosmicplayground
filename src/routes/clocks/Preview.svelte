@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {getClock} from '@feltcoop/dealt';
+	import {get_clock} from '$lib/flat/clock.js';
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	const TIME_DILATION = 2;
 </script>

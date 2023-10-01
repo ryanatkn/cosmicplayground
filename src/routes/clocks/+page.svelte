@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
-	import {getClock, getDimensions} from '@feltcoop/dealt';
+	import {get_clock} from '$lib/flat/clock.js';
+	import {get_dimensions} from '$lib/dimensions.js';
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
 	import {setInStorage} from '$lib/util/storage';
@@ -10,8 +11,8 @@
 
 	// TODO give user control over speed in dialog
 
-	const dimensions = getDimensions();
-	const clock = getClock();
+	const dimensions = get_dimensions();
+	const clock = get_clock();
 	const settings = get_settings();
 
 	const hzItems = [9, 15, 24];

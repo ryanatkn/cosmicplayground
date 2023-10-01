@@ -1,6 +1,8 @@
-import {writable, type Readable} from 'svelte/store';
-import type {AsyncStatus} from '@feltjs/util/async.js';
-import {UnreachableError} from '@feltjs/util/error.js';
+import {writable, type Readable, type Writable} from 'svelte/store';
+import type {AsyncStatus} from '@grogarden/util/async.js';
+import {UnreachableError} from '@grogarden/util/error.js';
+import {Assets} from '@pixi/assets';
+import type {Texture} from '@pixi/core';
 
 /*
 
@@ -32,7 +34,7 @@ export type ImageResource = {
 	type: 'image';
 	url: string;
 	status: AsyncStatus;
-	image: HTMLImageElement | null; // TODO maybe make this a union so `null` appears only with initial status?
+	texture: Writable<Texture | null>;
 };
 export type AudioResource = {
 	type: 'audio';
@@ -116,7 +118,7 @@ export const createResourcesStore = (): ResourcesStore => {
 				}
 				switch (type) {
 					case 'image': {
-						resource = {type, url, status: 'initial', image: null};
+						resource = {type, url, status: 'initial', texture: writable(null)};
 						break;
 					}
 					case 'audio': {
@@ -139,10 +141,15 @@ export const createResourcesStore = (): ResourcesStore => {
 				for (const resource of state.resources) {
 					switch (resource.type) {
 						case 'image': {
-							const image = new Image();
-							image.addEventListener('load', () => onLoad(resource.url), {once: true});
-							image.addEventListener('error', () => onError(resource.url), {once: true});
-							resources.push({...resource, status: 'pending', image});
+							const loading = Assets.load(resource.url);
+							loading.then(
+								(loaded) => {
+									onLoad(resource.url);
+									resource.texture.set(loaded);
+								},
+								() => onError(resource.url),
+							);
+							resources.push({...resource, status: 'pending'});
 							break;
 						}
 						case 'audio': {
@@ -164,7 +171,6 @@ export const createResourcesStore = (): ResourcesStore => {
 					for (const resource of resources) {
 						switch (resource.type) {
 							case 'image': {
-								resource.image!.src = resource.url;
 								break;
 							}
 							case 'audio': {

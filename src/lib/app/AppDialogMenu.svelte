@@ -1,10 +1,8 @@
 <script lang="ts">
-	import Breadcrumbs from '@feltjs/felt-ui/Breadcrumbs.svelte';
+	import Breadcrumb from '@fuz.dev/fuz_library/Breadcrumb.svelte';
 	import {page} from '$app/stores';
 
 	import Panel from '$lib/app/Panel.svelte';
-	import AboutPreview from '$routes/about/Preview.svelte';
-	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import MediaPlayer from '$lib/MediaPlayer.svelte';
 	import {songs_by_name} from '$lib/music/songs';
 	import {loadFromStorage, setInStorage} from '$lib/util/storage';
@@ -44,15 +42,13 @@
 
 <div>
 	{#if $page.url.pathname !== '/'}
-		<div class="breadcrumbs">
+		<div class="prose box">
 			<Panel>
-				<div class="markup centered">
-					<Breadcrumbs>🌠</Breadcrumbs>
-				</div>
+				<Breadcrumb>🌠</Breadcrumb>
 			</Panel>
 		</div>
 	{/if}
-	<section>
+	<Panel>
 		<MediaPlayer
 			playing_song={$playing_song}
 			{playlist_items}
@@ -70,23 +66,5 @@
 			on:shuffle={(e) => ($shuffle = e.detail)}
 			on:repeat={(e) => ($repeat = e.detail)}
 		/>
-	</section>
-	<PortalPreview href="/about">
-		<AboutPreview />
-	</PortalPreview>
+	</Panel>
 </div>
-
-<style>
-	.breadcrumbs {
-		/* TODO don't hardcode */
-		padding: 12px;
-	}
-	/* TODO hacky */
-	.breadcrumbs :global(.panel) {
-		margin-top: 0;
-	}
-	section {
-		padding: var(--spacing_md);
-		margin-bottom: var(--spacing_xl5);
-	}
-</style>

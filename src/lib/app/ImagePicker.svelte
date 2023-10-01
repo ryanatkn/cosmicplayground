@@ -29,7 +29,7 @@
 		padding: 0;
 		margin: var(--spacing-5);
 		border-width: var(--border_width_3);
-		border-color: var(--light_border_color);
+		border-color: var(--border_5);
 		border-style: var(--clickable_border_style);
 	}
 	button:hover {

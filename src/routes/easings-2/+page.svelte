@@ -23,8 +23,8 @@
   */
 
 	import {onDestroy} from 'svelte';
-	import {lerp} from '@feltjs/util/maths.js';
-	import {getClock} from '@feltcoop/dealt';
+	import {lerp} from '@grogarden/util/maths.js';
+	import {get_clock} from '$lib/flat/clock.js';
 
 	import {svelteEasings} from '$lib/app/easings';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';
@@ -35,7 +35,7 @@
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 	import {muted, volume} from '$lib/music/play_song';
 
-	const clock = getClock();
+	const clock = get_clock();
 
 	const easings = svelteEasings;
 
@@ -263,7 +263,7 @@
 <div class="easing-aud-viz">
 	<section>
 		<section class="controls">
-			<div class="controls-group {$muted ? 'disabled' : ''}">
+			<div class="controls-group" class:disabled={$muted}>
 				<FloatingIconButton label={$muted ? 'unmute' : 'mute'} on:click={() => ($muted = !$muted)}>
 					{$muted ? '🔇' : '🔊'}
 				</FloatingIconButton>

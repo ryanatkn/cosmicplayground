@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PendingAnimation from '@feltjs/felt-ui/PendingAnimation.svelte';
+	import PendingAnimation from '@fuz.dev/fuz_library/PendingAnimation.svelte';
 
 	import Soggy_Planet_Thumbnail from '$routes/soggy-planet/Soggy_Planet_Thumbnail.svelte';
 	import Hud from '$lib/app/Hud.svelte';
@@ -25,7 +25,7 @@
 	// because the download size is so large.
 	const HAS_LOADED_KEY = 'cpg__hasLoadedSoggyPlanet';
 	const has_loaded = !!localStorage.getItem(HAS_LOADED_KEY);
-	$: enable_loading_by_clicking_thumbnail = has_loaded;
+	const enable_loading_by_clicking_thumbnail = has_loaded;
 
 	let loading = false;
 	const load = async () => {
@@ -42,125 +42,124 @@
 <Hud>
 	<HomeButton />
 </Hud>
-<div class="soggy-planet-title-screen">
-	<Soggy_Planet_Thumbnail onClick={enable_loading_by_clicking_thumbnail ? load : null} />
-	<div class="loading_animation">
-		{#if loading}
-			<PendingAnimation />
-		{/if}
-	</div>
-	<Panel>
-		<section class="markup">
-			<p>
-				Soggy Planet is an interactive map of Earth where sea levels rise and fall and the lights of
-				civilization shine through the night. It displays <a
-					href="https://wikipedia.org/wiki/Past_sea_level">past sea levels</a
-				>
-				roughly between:
-			</p>
-			<ul>
-				<li>
-					the lowest point during
-					<a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a>
-					before
-					<a href="https://wikipedia.org/wiki/Early_Holocene_sea_level_rise"
-						>the early Holocene sea level rise</a
+<div class="soggy_planet_title_screen box width_full">
+	<div class="box width_md">
+		<Soggy_Planet_Thumbnail onClick={enable_loading_by_clicking_thumbnail ? load : null} />
+		<div class="loading_animation">
+			{#if loading}
+				<PendingAnimation />
+			{/if}
+		</div>
+		<Panel>
+			<section class="prose">
+				<p>
+					Soggy Planet is an interactive map of Earth where sea levels rise and fall and the lights
+					of civilization shine through the night. It displays <a
+						href="https://wikipedia.org/wiki/Past_sea_level">past sea levels</a
 					>
-				</li>
-				<li>
-					and one
-					<a href="https://wikipedia.org/wiki/Sea_level_rise">estimated possible maximum</a>
-				</li>
-			</ul>
-			<p>For a 3 minute musical tour of some of our soggy planet's sunken history and myths:</p>
-			<ul>
-				<li>
-					<p style:margin-bottom={0}>
-						click the <button on:click={start_tour}>tour</button>
-						button on <button on:click={load}>the map</button>
-					</p>
-				</li>
-				<li>
-					see
-					<a href="https://www.youtube.com/watch?v=akP5J3jfjt4">the video on YouTube</a>
-				</li>
-				<li>or learn more below</li>
-			</ul>
-			<p>
-				This map is resource-intensive and may be broken or slow depending on your hardware and
-				browser. More optimizations like <a
-					href="https://github.com/ryanatkn/cosmicplayground/issues/56">this one</a
-				> would help.
-			</p>
-			<p>
-				The code and image data are
-				<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>. Credits
-				are below.
-			</p>
-			<p>
-				For a different experience about sea level rise see <PortalLink slug="deep-breath" /> 🌚
-			</p>
-		</section>
-		<hr />
-		{#if $resources.status === 'success'}
-			<ChunkyButton on:click={proceed}>back to the map!</ChunkyButton>
-		{:else if $resources.status !== 'initial'}
-			<ResourcesLoadingProgress {resources} />
-		{:else}
-			<p>The download is about 81MB of images. If that's ok with you, continue on:</p>
-			<ChunkyButton on:click={load}>continue with 81MB download!</ChunkyButton>
-		{/if}
-	</Panel>
-	<Panel>
-		<section class="markup">
-			<h2>Tour</h2>
-			<p>
-				Soggy Planet includes a 3 minute tour of some points of interest related to sea levels at
-				the <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">Last Glacial Maximum</a>.
-				Click the <button on:click={start_tour}>start tour</button>
-				button on <button on:click={load}>the map</button> or see
-				<a href="https://www.youtube.com/watch?v=akP5J3jfjt4">the video on YouTube</a>.
-			</p>
-			<p>Learn about the tour's points of interest on Wikipedia:</p>
-			<ul>
-				{#each points_of_interest as point_of_interest (point_of_interest)}
+					roughly between:
+				</p>
+				<ul>
 					<li>
-						<a href={point_of_interest.url}>{point_of_interest.name}</a>
-						{#if point_of_interest.myth}(myth?){/if}
+						the lowest point during
+						<a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">the Last Glacial Maximum</a>
+						before
+						<a href="https://wikipedia.org/wiki/Early_Holocene_sea_level_rise"
+							>the early Holocene sea level rise</a
+						>
 					</li>
-				{/each}
-			</ul>
+					<li>
+						and one
+						<a href="https://wikipedia.org/wiki/Sea_level_rise">estimated possible maximum</a>
+					</li>
+				</ul>
+				<p>For a 3 minute musical tour of some of our soggy planet's sunken history and myths:</p>
+				<ul>
+					<li>
+						<p style:margin-bottom={0}>
+							click the <button class="inline" on:click={start_tour}>tour</button>
+							button on <button class="inline" on:click={load}>the map</button>
+						</p>
+					</li>
+					<li>
+						see
+						<a href="https://www.youtube.com/watch?v=akP5J3jfjt4">the video on YouTube</a>
+					</li>
+					<li>or learn more below</li>
+				</ul>
+				<p>
+					This map is resource-intensive and may be broken or slow depending on your hardware and
+					browser. More optimizations like <a
+						href="https://github.com/ryanatkn/cosmicplayground/issues/56">this one</a
+					> would help.
+				</p>
+				<p>
+					The code and image data are
+					<a href="https://github.com/ryanatkn/cosmicplayground">open source on GitHub</a>. Credits
+					are below.
+				</p>
+				<p>
+					For a different experience about sea level rise see <PortalLink slug="deep-breath" /> 🌚
+				</p>
+			</section>
+			<hr />
+			{#if $resources.status === 'success'}
+				<ChunkyButton on:click={proceed}>back to the map!</ChunkyButton>
+			{:else if $resources.status !== 'initial'}
+				<ResourcesLoadingProgress {resources} />
+			{:else}
+				<p>The download is about 81MB of images. If that's ok with you, continue on:</p>
+				<ChunkyButton on:click={load}>continue with 81MB download!</ChunkyButton>
+			{/if}
+		</Panel>
+		<Panel>
+			<section class="prose">
+				<h2>Tour</h2>
+				<p>
+					Soggy Planet includes a 3 minute tour of some points of interest related to sea levels at
+					the <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">Last Glacial Maximum</a>.
+					Click the <button class="inline" on:click={start_tour}>start tour</button>
+					button on <button class="inline" on:click={load}>the map</button> or see
+					<a href="https://www.youtube.com/watch?v=akP5J3jfjt4">the video on YouTube</a>.
+				</p>
+				<p>Learn about the tour's points of interest on Wikipedia:</p>
+				<ul>
+					{#each points_of_interest as point_of_interest (point_of_interest)}
+						<li>
+							<a href={point_of_interest.url}>{point_of_interest.name}</a>
+							{#if point_of_interest.myth}(myth?){/if}
+						</li>
+					{/each}
+				</ul>
+			</section>
+		</Panel>
+		<Panel>
+			<section class="prose">
+				<h2>Credits</h2>
+				<Soggy_Planet_Credits />
+			</section>
+		</Panel>
+		<Panel>
+			<section class="prose">
+				<CreditsProjectSignature />
+			</section>
+		</Panel>
+		<!-- TODO pull this href from portal data? -->
+		<section>
+			<PortalPreview href="/about">
+				<Soggy_Planet_Portal_Preview />
+			</PortalPreview>
 		</section>
-	</Panel>
-	<Panel>
-		<section class="markup">
-			<h2>Credits</h2>
-			<Soggy_Planet_Credits />
-		</section>
-	</Panel>
-	<Panel>
-		<section class="markup">
-			<CreditsProjectSignature />
-		</section>
-	</Panel>
-	<!-- TODO pull this href from portal data? -->
-	<section>
-		<PortalPreview href="/about">
-			<Soggy_Planet_Portal_Preview />
-		</PortalPreview>
-	</section>
+	</div>
 </div>
 
 <style>
-	.soggy-planet-title-screen {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
+	.soggy_planet_title_screen {
 		padding: var(--spacing_xl7) 0;
 	}
 
 	/* TODO hacky */
-	.soggy-planet-title-screen :global(.portal-preview) {
+	.soggy_planet_title_screen :global(.portal_preview) {
 		margin: 0;
 	}
 

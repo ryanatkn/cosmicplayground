@@ -1,5 +1,5 @@
 import {writable, type Readable} from 'svelte/store';
-import {randomFloat} from '@feltjs/util/random.js';
+import {random_float} from '@grogarden/util/random.js';
 
 // This is the old version of the autopanner that relied on CSS transitions for movement.
 // The newer version has an `update` function that handles time deltas.
@@ -58,26 +58,24 @@ export const createAutopannerStore = (options: AutopannerOptions): AutopannerSto
 		forcedPauseDuration,
 	) => {
 		update((oldState) => {
-			const newState = {
-				...oldState,
-				options: {...oldState.options, ...options},
-			};
-			const transitionDuration = forcedTransitionDuration ?? newState.options.transitionDuration;
-			const pauseDuration = forcedPauseDuration ?? newState.options.pauseDuration;
+			const newOptions = {...oldState.options, ...options};
+			const newState = {...oldState, options: newOptions};
+			const transitionDuration = forcedTransitionDuration ?? newOptions.transitionDuration;
+			const pauseDuration = forcedPauseDuration ?? newOptions.pauseDuration;
 
 			newState.lastTransitionDuration = transitionDuration;
 
 			// TODO maybe change the duration based on the distance/scaling to be done?
 			// or maybe ensure either/both the scaling/distance factor are significantly different?
-			newState.scale = randomFloat(newState.options.scaleMin, newState.options.scaleMax);
-			const scaledImageWidth = newState.options.imageWidth * newState.scale;
-			const scaledImageHeight = newState.options.imageHeight * newState.scale;
+			newState.scale = random_float(newOptions.scaleMin, newOptions.scaleMax);
+			const scaledImageWidth = newOptions.imageWidth * newState.scale;
+			const scaledImageHeight = newOptions.imageHeight * newState.scale;
 			const xMin = 0;
 			const yMin = 0;
-			const xMax = scaledImageWidth - newState.options.width;
-			const yMax = scaledImageHeight - newState.options.height;
-			newState.x = -randomFloat(xMin, xMax);
-			newState.y = -randomFloat(yMin, yMax);
+			const xMax = scaledImageWidth - newOptions.width;
+			const yMax = scaledImageHeight - newOptions.height;
+			newState.x = -random_float(xMin, xMax);
+			newState.y = -random_float(yMin, yMax);
 
 			clearTimeout(timeout);
 			timeout = setTimeout(() => randomize(), transitionDuration + pauseDuration);
