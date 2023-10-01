@@ -1,0 +1,1 @@
+import{w as p}from"./index.c42bac63.js";import{h as n,j as _,w as g}from"./scheduler.24efe3e9.js";const m=t=>{const s=p(t),{subscribe:l,update:c}=s;return{subscribe:l,select:e=>{var o;((o=g(s).selected_portal)==null?void 0:o.slug)!==e&&c(r=>({...r,selected_portal:r.data.portals_by_slug.get(e)}))}}},a=Symbol("portals"),d=()=>n(a),S=t=>_(a,t);export{m as c,d as g,S as s};

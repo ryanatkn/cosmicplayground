@@ -1,0 +1,94 @@
+{
+  "name": "@ryanatkn/cosmicplayground",
+  "description": "tools and toys for expanding minds 🌌 a free and open source noncommercial hobby project building tools and toys with web tech",
+  "homepage": "https://www.cosmicplayground.org/",
+  "license": "Unlicense",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "gro dev",
+    "dev": "gro dev",
+    "build": "gro build",
+    "test": "gro test",
+    "deploy": "gro deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanatkn/cosmicplayground.git"
+  },
+  "bugs": "https://github.com/ryanatkn/cosmicplayground/issues",
+  "keywords": [
+    "space",
+    "web",
+    "games",
+    "typescript",
+    "svelte"
+  ],
+  "author": {
+    "name": "Ryan Atkinson",
+    "email": "mail@ryanatkn.com",
+    "url": "https://www.ryanatkn.com"
+  },
+  "engines": {
+    "node": ">=20.7"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@changesets/changelog-git": "^0.1.14",
+    "@feltjs/eslint-config": "^0.4.0",
+    "@feltjs/felt-mural": "^0.2.5",
+    "@fuz.dev/fuz": "^0.70.0",
+    "@fuz.dev/fuz_contextmenu": "^0.3.0",
+    "@fuz.dev/fuz_dialog": "^0.1.0",
+    "@fuz.dev/fuz_library": "^0.5.6",
+    "@grogarden/gro": "^0.92.5",
+    "@grogarden/util": "^0.15.0",
+    "@pixi/app": "^7.3.1",
+    "@pixi/assets": "^7.3.1",
+    "@pixi/core": "^7.3.1",
+    "@pixi/display": "^7.3.1",
+    "@pixi/graphics": "^7.3.1",
+    "@pixi/sprite": "^7.3.1",
+    "@pixi/sprite-tiling": "^7.3.1",
+    "@pixi/text": "^7.3.1",
+    "@ryanatkn/collisions": "^3.0.1",
+    "@sveltejs/adapter-static": "^2.0.3",
+    "@sveltejs/kit": "^1.25.1",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "dequal": "^2.0.3",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.3",
+    "prettier-plugin-svelte": "^3.0.3",
+    "svelte": "^4.2.1",
+    "svelte-check": "^3.5.2",
+    "svelte-preprocess-esbuild": "^3.0.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2",
+    "uvu": "^0.5.6",
+    "zod": "^3.22.2"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": "@feltjs"
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-svelte"
+    ],
+    "useTabs": true,
+    "printWidth": 100,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "overrides": [
+      {
+        "files": "package.json",
+        "options": {
+          "useTabs": false
+        }
+      }
+    ]
+  }
+}

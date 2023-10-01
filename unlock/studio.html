@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="../favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+		
+		<link rel="modulepreload" href="../_app/immutable/entry/start.e3f370fc.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/scheduler.24efe3e9.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/singletons.3267db8c.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/index.c42bac63.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/paths.f4fdcb8c.js">
+		<link rel="modulepreload" href="../_app/immutable/entry/app.beac0f05.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/index.d51c8976.js">
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<noscript>
+			Unfortunately JavaScript is required to use this website. If you enable it, fun and surprising
+			things may happen! The source code is available at
+			<a href="https://github.com/ryanatkn/cosmicplayground"
+				>github.com/ryanatkn/cosmicplayground</a
+			>
+		</noscript>
+		<div style="display: contents">
+			<script>
+				{
+					__sveltekit_lwzwgg = {
+						base: new URL("..", location).pathname.slice(0, -1),
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("../_app/immutable/entry/start.e3f370fc.js"),
+						import("../_app/immutable/entry/app.beac0f05.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element);
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>

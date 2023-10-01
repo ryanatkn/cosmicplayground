@@ -1,0 +1,1 @@
+const e=t=>{if(!t)return!1;const{tagName:a}=t;if(a==="INPUT"){const{type:r}=t;return r==="text"||r==="number"||r==="password"||r==="email"||r==="search"||r==="url"}return a==="TEXTAREA"||t.contentEditable==="true"},s=(t,a=!0,r=!0)=>(r&&t.preventDefault(),a?t.stopImmediatePropagation():t.stopPropagation(),t);export{e as i,s};
