@@ -21,33 +21,37 @@
 </script>
 
 <div class="wrapper">
-	<div class="starship-preview">
-		<StarshipPreview
-			onClick={async () => {
-				exit();
-				await toggleStarshipMode();
-			}}
-			{starshipMode}
-		>
-			<div class="button-text">
-				{#if starshipMode}exit{:else}play{/if}
+	<div class="box starship_preview_wrapper">
+		<Panel>
+			<div class="starship_preview">
+				<StarshipPreview
+					onClick={async () => {
+						exit();
+						await toggleStarshipMode();
+					}}
+					{starshipMode}
+				>
+					<div class="button-text">
+						{#if starshipMode}exit{:else}play{/if}
+					</div>
+					<small><code>[Space]</code></small>
+				</StarshipPreview>
+				{#if starshipMode}
+					<PortalPreview
+						onClick={async () => {
+							exit();
+							void toggleStarshipMode();
+							await wait();
+							await wait(); // TODO idk
+							void toggleStarshipMode();
+						}}
+					>
+						<div style="font-size: 84px;">↻</div>
+						<div class="button-text">restart</div>
+						<small><code>[r]</code></small>
+					</PortalPreview>{/if}
 			</div>
-			<small><code>[Space]</code></small>
-		</StarshipPreview>
-		{#if starshipMode}
-			<PortalPreview
-				onClick={async () => {
-					exit();
-					void toggleStarshipMode();
-					await wait();
-					await wait(); // TODO idk
-					void toggleStarshipMode();
-				}}
-			>
-				<div style="font-size: 84px;">↻</div>
-				<div class="button-text">restart</div>
-				<small><code>[r]</code></small>
-			</PortalPreview>{/if}
+		</Panel>
 	</div>
 	{#if resetScores || importScores}
 		<div transition:scale|local>
@@ -94,17 +98,25 @@
 	h2 {
 		text-align: center;
 	}
-	.starship-preview {
+	.starship_preview {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
 	/* TODO hacky */
-	.starship-preview :global(.portal_preview) {
+	.starship_preview :global(.portal_preview) {
 		margin: 0;
+	}
+	/* TODO hacky */
+	.starship_preview_wrapper :global(> .panel) {
+		margin-top: 0;
+		margin-bottom: 0;
 	}
 	.button-text {
 		font-size: var(--size_xl3);
 		font-weight: 300;
+	}
+	small {
+		margin: var(--spacing_sm) 0;
 	}
 </style>
