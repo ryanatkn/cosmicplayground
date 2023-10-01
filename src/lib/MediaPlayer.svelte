@@ -180,7 +180,7 @@
 	$: show_play = !has_song || paused;
 </script>
 
-<div class="player">
+<div class="media_player">
 	<div class="content">
 		<header class="box row">
 			<!-- https://wikipedia.org/wiki/Media_control_symbols -->
@@ -287,12 +287,12 @@
 </div>
 
 <style>
-	.player {
+	.media_player {
 		display: flex;
 		max-height: var(--player_max_height, 360px);
 		overflow: auto;
-		border: var(--player_border, var(--panel_border));
-		border-radius: var(--player_border_radius, var(--border_radius_4));
+		border: var(--media_player_border);
+		border-radius: var(--media_player_border_radius, var(--border_radius_4));
 		padding: var(--spacing-5);
 	}
 	.content {
@@ -300,7 +300,7 @@
 		display: flex;
 		flex-direction: column;
 		background-color: var(--bg_light);
-		border-radius: var(--player_border_radius, var(--border_radius_4));
+		border-radius: var(--media_player_border_radius, var(--border_radius_4));
 	}
 	header,
 	footer {
