@@ -20,9 +20,9 @@
 		<Panel>
 			<h2>About</h2>
 			<p>
-				cosmicplayground.org is a free and open source noncommercial hobby project exploring tools
-				and toys using web tech for fun and learning. The <a
-					href="https://github.com/ryanatkn/cosmicplayground">source code and assets</a
+				cosmicplayground.org is a free and open source noncommercial hobby project building tools
+				and toys with web tech. The <a href="https://github.com/ryanatkn/cosmicplayground"
+					>source code and assets</a
 				>
 				are on GitHub. It's made by
 				<a href="https://www.ryanatkn.com">Ryan Atkinson</a>
