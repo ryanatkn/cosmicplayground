@@ -226,9 +226,9 @@
 		<ImagePicker images={spaceImages} {pick_image} />
 		<footer>
 			<Panel>
-				<h2>
+				<div style:font-size="var(--size_lg)">
 					<a href="https://www.spacetelescope.org/copyright/">spacetelescope.org/copyright</a>
-				</h2>
+				</div>
 			</Panel>
 			<PortalPreview href="/about">
 				<AboutPortalPreview />
