@@ -16,7 +16,7 @@
 <label class:muted title="volume">
 	{#if muted}
 		<button
-			class="icon-button plain-button"
+			class="icon_button plain"
 			on:click={() => {
 				muted = !muted;
 				dispatch('muted', muted);

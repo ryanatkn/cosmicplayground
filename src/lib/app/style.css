@@ -262,7 +262,7 @@ summary:active {
 	min-height: auto;
 }
 
-/* TODO upstream next to .plain-button */
+/* TODO upstream next to .plain */
 .plain-input {
 	border: 1px solid transparent;
 }

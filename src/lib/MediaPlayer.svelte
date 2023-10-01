@@ -187,7 +187,7 @@
 			<button
 				title={show_play ? 'play' : 'pause'}
 				type="button"
-				class="icon-button plain-button"
+				class="icon_button plain"
 				on:click={() => play()}
 			>
 				{#if show_play}
@@ -222,7 +222,7 @@
 			<button
 				title="restart or previous"
 				type="button"
-				class="icon-button plain-button"
+				class="icon_button plain"
 				on:click={() => restart_or_previous()}
 			>
 				⏮
@@ -230,19 +230,19 @@
 			<button
 				title="stop"
 				type="button"
-				class="icon-button plain-button"
+				class="icon_button plain"
 				on:click={() => stop()}
 				disabled={!has_song}
 			>
 				⏹
 			</button>
-			<button title="next" type="button" class="icon-button plain-button" on:click={() => next()}>
+			<button title="next" type="button" class="icon_button plain" on:click={() => next()}>
 				⏭
 			</button>
 			<button
 				title={collapsed ? 'expand' : 'collapse'}
 				type="button"
-				class="icon-button plain-button"
+				class="icon_button plain"
 				on:click={() => (collapsed = !collapsed)}
 				>{#if collapsed}+{:else}−{/if}</button
 			>
@@ -255,7 +255,7 @@
 					{#if repeat !== null}
 						<button
 							type="button"
-							class="togglable icon-button plain-button deselectable"
+							class="togglable icon_button plain deselectable"
 							title="repeat is {repeat ? 'enabled' : 'disabled'}"
 							class:selected={repeat}
 							on:click={() => {
@@ -269,7 +269,7 @@
 					{#if shuffle !== null}
 						<button
 							type="button"
-							class="togglable icon-button plain-button deselectable"
+							class="togglable icon_button plain deselectable"
 							title="shuffle is {shuffle ? 'enabled' : 'disabled'}"
 							class:selected={shuffle}
 							on:click={() => {
@@ -314,7 +314,7 @@
 	footer {
 		padding-top: var(--spacing_xs);
 	}
-	/* TODO should this be applied to global `.plain-button`? */
+	/* TODO should this be applied to global `.plain`? */
 	button:hover {
 		border: 1px solid var(--border_5);
 	}
