@@ -1,4 +1,4 @@
-import {settings, SCALE_MODES} from '@pixi/core';
+import {BaseTexture, SCALE_MODES} from '@pixi/core';
 import {Application, type IApplicationOptions} from '@pixi/app';
 import {Container} from '@pixi/display';
 import {getContext, setContext, onMount, onDestroy} from 'svelte';
@@ -9,11 +9,7 @@ export class PixiApp {
 	current_scene!: Container;
 
 	init(options?: Partial<IApplicationOptions>): void {
-		// Tell Pixi to use pixelated image scaling by default. BIG PX
-		// Unfortunately this can cause choppy movement. We may want to revert this global default.
-		// Here's how to change it back to the default for a resource:
-		settings.SCALE_MODE = SCALE_MODES.NEAREST;
-		// BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
+		BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
 
 		this.app = new Application(options);
 		// this.app.ticker.add((dt) => {
@@ -81,12 +77,17 @@ export const get_pixi_scene = (
 	pixi.mount_scene(scene);
 
 	onMount(async () => {
+		console.log('load()');
 		await hooks.load?.(scene);
+		console.log('load done');
 		// TODO show progress? or expect title screen to make these gtg?
 		if (destroyed) return; // in case the scene is destroyed before loading finishes
+		console.log('loaded()');
 		await hooks.loaded?.(scene);
+		console.log('loaded done');
 		// TODO disabled after upgrade - was used to avoid jank
 		// pixi.app.renderer.plugins.prepare.upload(scene, () => ready());
+		ready();
 	});
 
 	onDestroy(() => {
