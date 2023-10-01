@@ -24,7 +24,7 @@
 	import HomeButton from '$lib/app/HomeButton.svelte';
 	import Panel from '$lib/app/Panel.svelte';
 	import {set_settings} from '$lib/app/settings.js';
-	import {setPortals, create_portals_store} from '$lib/app/portals.js';
+	import {set_portals, create_portals_store} from '$lib/app/portals.js';
 	import {update_render_stats} from '$lib/app/renderStats.js';
 	import {portals_data} from '$lib/app/portals_data.js';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
@@ -132,7 +132,7 @@
 		data: portals_data,
 		selected_portal: portals_data.portals_by_slug.get($page.url.pathname.substring(1)) || null,
 	});
-	setPortals(portals);
+	set_portals(portals);
 	$: selected_portalSlugFromPath = $page.url.pathname.substring(1).split('/')[0];
 	$: portals.select(selected_portalSlugFromPath); // TODO hmm?
 

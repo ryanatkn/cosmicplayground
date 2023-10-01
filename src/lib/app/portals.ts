@@ -28,7 +28,7 @@ export const create_portals_store = (initialState: PortalsState): PortalsStore =
 	return portalsStore;
 };
 
-export const portalsContextKey = {};
-export const getPortals = (): PortalsStore => getContext(portalsContextKey);
-export const setPortals = (portals: PortalsStore): PortalsStore =>
-	setContext(portalsContextKey, portals);
+const PORTALS_KEY = Symbol('portals');
+export const get_portals = (): PortalsStore => getContext(PORTALS_KEY);
+export const set_portals = (portals: PortalsStore): PortalsStore =>
+	setContext(PORTALS_KEY, portals);
