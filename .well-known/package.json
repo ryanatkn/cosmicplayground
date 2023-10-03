@@ -1,6 +1,6 @@
 {
   "name": "@ryanatkn/cosmicplayground",
-  "description": "tools and toys for expanding minds 🌌 a free and open source noncommercial hobby project building tools and toys with web tech",
+  "description": "tools and toys for expanding minds",
   "homepage": "https://www.cosmicplayground.org/",
   "license": "Unlicense",
   "version": "0.0.1",
@@ -38,11 +38,11 @@
   "devDependencies": {
     "@changesets/changelog-git": "^0.1.14",
     "@feltjs/eslint-config": "^0.4.0",
-    "@feltjs/felt-mural": "^0.2.5",
-    "@fuz.dev/fuz": "^0.70.3",
-    "@fuz.dev/fuz_contextmenu": "^0.3.1",
-    "@fuz.dev/fuz_dialog": "^0.2.0",
-    "@fuz.dev/fuz_library": "^0.8.0",
+    "@feltjs/felt-mural": "^0.3.0",
+    "@fuz.dev/fuz": "^0.72.1",
+    "@fuz.dev/fuz_contextmenu": "^0.4.0",
+    "@fuz.dev/fuz_dialog": "^0.3.0",
+    "@fuz.dev/fuz_library": "^0.9.0",
     "@grogarden/gro": "^0.93.1",
     "@grogarden/util": "^0.15.0",
     "@pixi/app": "^7.3.1",
@@ -56,8 +56,8 @@
     "@ryanatkn/collisions": "^3.0.1",
     "@sveltejs/adapter-static": "^2.0.3",
     "@sveltejs/kit": "^1.25.1",
-    "@typescript-eslint/eslint-plugin": "^6.7.3",
-    "@typescript-eslint/parser": "^6.7.3",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
     "dequal": "^2.0.3",
     "eslint": "^8.50.0",
     "prettier": "^3.0.3",
@@ -68,7 +68,7 @@
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
     "uvu": "^0.5.6",
-    "zod": "^3.22.2"
+    "zod": "^3.22.3"
   },
   "eslintConfig": {
     "root": true,
