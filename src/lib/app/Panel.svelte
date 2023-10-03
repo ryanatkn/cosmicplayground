@@ -8,7 +8,7 @@
 	.panel {
 		border: var(--panel_border);
 		border-radius: var(--border_radius_4);
-		margin: var(--spacing_xl7) auto;
+		margin: var(--spacing_7) auto;
 		padding: 20px;
 		background-color: var(--bg);
 		padding: var(--spacing-3);

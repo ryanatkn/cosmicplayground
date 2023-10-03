@@ -113,7 +113,7 @@
 		margin-bottom: 0;
 	}
 	.button-text {
-		font-size: var(--size_xl3);
+		font-size: var(--size_3);
 		font-weight: 300;
 	}
 	small {

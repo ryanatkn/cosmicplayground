@@ -5,7 +5,7 @@
 	const image = spaceImages.find((s) => s.title === 'Tapestry of Blazing Starbirth')!;
 </script>
 
-<figure style:margin-top="var(--spacing_xl3)">
+<figure style:margin-top="var(--spacing_3)">
 	<figcaption>
 		<h3>cosmicplayground banner and icon</h3>
 		<p>

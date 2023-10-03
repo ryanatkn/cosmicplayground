@@ -22,7 +22,7 @@
 
 <style>
 	.phase {
-		margin: 0 var(--spacing_xl);
+		margin: 0 var(--spacing_1);
 	}
 	.phase:first-child {
 		margin-left: 0;
@@ -32,19 +32,19 @@
 	}
 	button {
 		position: relative;
-		padding: var(--spacing_xl) var(--spacing_xl3);
+		padding: var(--spacing_1) var(--spacing_3);
 	}
 	.title {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: var(--size_xl4);
+		font-size: var(--size_4);
 		text-align: center;
 		text-shadow: 2px 2px 3px #000;
 	}
 	@media (max-width: 1100px) {
 		.title {
-			font-size: var(--size_xl2);
+			font-size: var(--size_2);
 		}
 	}
 	@media (max-width: 500px) {

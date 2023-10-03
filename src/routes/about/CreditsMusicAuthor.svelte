@@ -42,7 +42,7 @@
 
 <style>
 	h3 {
-		margin-top: var(--spacing_xl8) !important;
+		margin-top: var(--spacing_8) !important;
 	}
 	h3:first-child {
 		margin-top: 0 !important;

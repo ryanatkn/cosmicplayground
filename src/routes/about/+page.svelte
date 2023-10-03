@@ -12,7 +12,7 @@
 	</h1>
 	<h2>tools and toys for expanding minds</h2>
 </header>
-<figure style:margin="var(--spacing_xl3) auto">
+<figure style:margin="var(--spacing_3) auto">
 	<img src="/favicon.png" width="192" height="192" alt="cosmicplayground icon" />
 </figure>
 <div class="box width_full">
@@ -85,7 +85,7 @@
 		position: relative;
 	}
 	.prose {
-		margin-bottom: var(--spacing_xl9);
+		margin-bottom: var(--spacing_9);
 	}
 	@media (max-width: 900px) {
 		header h1 {

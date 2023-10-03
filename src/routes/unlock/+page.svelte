@@ -43,11 +43,11 @@
 		align-items: center;
 	}
 	ul {
-		font-size: var(--size_xl3);
+		font-size: var(--size_3);
 	}
 	@media (max-width: 530px) {
 		ul {
-			font-size: var(--size_xl);
+			font-size: var(--size_1);
 		}
 	}
 	ul {
@@ -58,6 +58,6 @@
 		font-weight: 300;
 	}
 	section {
-		margin-top: var(--spacing_xl7);
+		margin-top: var(--spacing_7);
 	}
 </style>

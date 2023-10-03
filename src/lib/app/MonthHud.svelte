@@ -33,7 +33,7 @@
 	}
 	button {
 		height: var(--hud_element_size);
-		font-size: var(--size_xl4);
+		font-size: var(--size_4);
 		flex: 1;
 		transition: opacity 0.15s linear;
 		text-shadow: var(--text_shadow_sm);

@@ -65,14 +65,14 @@
 	.count {
 		font-size: var(--size_sm);
 		font-weight: 500;
-		width: var(--spacing_xl3);
+		width: var(--spacing_3);
 		display: flex;
 	}
 	.author {
 		flex: 1;
 		display: flex;
 		justify-content: flex-end;
-		padding-left: var(--spacing_xl);
+		padding-left: var(--spacing_1);
 		font-size: var(--size_sm);
 		font-weight: 500;
 	}
