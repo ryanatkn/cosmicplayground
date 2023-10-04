@@ -15,8 +15,7 @@
 			/>
 		</h1>
 		<aside class="width_sm">
-			you made it, welcome. did you reach this place by rescuing the crew all at once in the actual
-			game? if so, wow. anyways,
+			you made it, welcome. did you reach this place by playing the game? if so, wow. anyways,
 		</aside>
 		<ul class="prose">
 			<!-- <li><a href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a></li> -->
