@@ -70,7 +70,9 @@
 			on:repeat={(e) => ($repeat = e.detail)}
 		/>
 	</Panel>
-	<PortalPreview href="{base}/about">
-		<AboutPortalPreview />
-	</PortalPreview>
+	<Panel>
+		<PortalPreview href="{base}/about">
+			<AboutPortalPreview />
+		</PortalPreview>
+	</Panel>
 </div>
