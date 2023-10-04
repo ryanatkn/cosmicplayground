@@ -1,9 +1,10 @@
 <script lang="ts">
 	import {random_item, random_float} from '@grogarden/util/random.js';
 	import {sineInOut} from 'svelte/easing';
+	import {base} from '$app/paths';
+
 	import {get_clock} from '$lib/flat/clock.js';
 	import {get_dimensions} from '$lib/dimensions.js';
-
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/app/ImagePicker.svelte';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
@@ -230,7 +231,7 @@
 					<a href="https://www.spacetelescope.org/copyright/">spacetelescope.org/copyright</a>
 				</div>
 			</Panel>
-			<PortalPreview href="/about">
+			<PortalPreview href="{base}/about">
 				<AboutPortalPreview />
 			</PortalPreview>
 		</footer>

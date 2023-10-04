@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {base} from '$app/paths';
+
 	import AboutPortalPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 </script>
@@ -25,7 +27,7 @@
 	</section>
 
 	<section>
-		<PortalPreview href="/about">
+		<PortalPreview href="{base}/about">
 			<AboutPortalPreview />
 		</PortalPreview>
 	</section>

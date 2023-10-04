@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {base} from '$app/paths';
+
 	import DeepBreathThumbnail from '$routes/deep-breath/DeepBreathThumbnail.svelte';
 	import Hud from '$lib/app/Hud.svelte';
 	import HomeButton from '$lib/app/HomeButton.svelte';
@@ -7,7 +9,7 @@
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import DeepBreathCredits from '$routes/deep-breath/DeepBreathCredits.svelte';
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
-	import DeepBreathPortalPreview from '$routes/deep-breath/Preview.svelte';
+	import AboutPortalPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import type {ResourcesStore} from '$lib/app/resources';
 	import PortalLink from '$lib/app/PortalLink.svelte';
@@ -114,8 +116,8 @@
 		</Panel>
 		<!-- TODO pull this href from portal data? -->
 		<section>
-			<PortalPreview href="/about">
-				<DeepBreathPortalPreview />
+			<PortalPreview href="{base}/about">
+				<AboutPortalPreview />
 			</PortalPreview>
 		</section>
 	</div>

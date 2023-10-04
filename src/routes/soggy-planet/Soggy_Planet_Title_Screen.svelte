@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PendingAnimation from '@fuz.dev/fuz_library/PendingAnimation.svelte';
+	import {base} from '$app/paths';
 
 	import Soggy_Planet_Thumbnail from '$routes/soggy-planet/Soggy_Planet_Thumbnail.svelte';
 	import Hud from '$lib/app/Hud.svelte';
@@ -9,7 +10,7 @@
 	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
 	import Soggy_Planet_Credits from '$routes/soggy-planet/Soggy_Planet_Credits.svelte';
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
-	import Soggy_Planet_Portal_Preview from '$routes/soggy-planet/Preview.svelte';
+	import AboutPortalPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import type {ResourcesStore} from '$lib/app/resources';
 	import PortalLink from '$lib/app/PortalLink.svelte';
@@ -146,8 +147,8 @@
 		</Panel>
 		<!-- TODO pull this href from portal data? -->
 		<section>
-			<PortalPreview href="/about">
-				<Soggy_Planet_Portal_Preview />
+			<PortalPreview href="{base}/about">
+				<AboutPortalPreview />
 			</PortalPreview>
 		</section>
 	</div>

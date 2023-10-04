@@ -33,8 +33,8 @@
 		>
 	</div>
 	<Panel>
-		<h2>maybe you want one of these?</h2>
-		<ul>
+		<h2 class="spaced">maybe you want one of these?</h2>
+		<ul class="box row wrap">
 			{#each $portals.data.portals as portal (portal.slug)}
 				<li role="none">
 					<PortalLink slug={portal.slug} />
