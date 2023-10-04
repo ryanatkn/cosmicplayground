@@ -10,7 +10,7 @@
 		border-radius: var(--border_radius_4);
 		margin: var(--spacing_7) auto;
 		padding: 20px;
-		background-color: var(--bg);
+		background-color: transparent;
 		padding: var(--spacing-3);
 	}
 	/* TODO the `:global` was added without checking that it works as expected */
@@ -19,7 +19,7 @@
 	}
 	.content {
 		padding: var(--spacing-5);
-		background-color: var(--fg_1);
+		background-color: var(--bg);
 		border-radius: var(--border_radius_3);
 	}
 	@media (max-width: 580px) {
