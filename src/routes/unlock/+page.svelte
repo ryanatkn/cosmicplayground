@@ -12,7 +12,7 @@
 				src="/assets/characters/spider.png"
 				alt="spiderspace dot org"
 				class="cursor-none"
-				on:click={() => window.open('https://spiderspace.org')}
+				on:click={() => window.open('https://spiderspace.org/')}
 				aria-hidden
 			/>
 		</h1>

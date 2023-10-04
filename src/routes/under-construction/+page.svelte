@@ -259,7 +259,7 @@
 						alt="spiderspace dot org"
 						class="absolute cursor-none"
 						style="left: 56px; top: 68px;"
-						on:click={() => window.open('https://spiderspace.org')}
+						on:click={() => window.open('https://spiderspace.org/')}
 						aria-hidden
 					/>
 				</div>
