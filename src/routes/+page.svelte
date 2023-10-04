@@ -220,7 +220,7 @@
 			// TODO this is very messy and duplicative but I'm not sure how to do this reactively,
 			// probably need to restructure some things
 			if (!scoresRescuedAnyCrew && rescuedAnyCrew(finalScores)) {
-				toggleSpeedBooster();
+				toggle_speed_booster();
 			}
 			if (!scoresRescuedAllCrew && rescuedAllCrew(finalScores)) {
 				await toggleStrengthBooster();
@@ -282,9 +282,9 @@
 	const BOOSTER_SYMBOL = '🙌';
 	let speedBoosterToggled = loadFromStorage(STORAGE_KEY_SPEED_BOOSTER_TOGGLED, false);
 	$: setInStorage(STORAGE_KEY_SPEED_BOOSTER_TOGGLED, !!speedBoosterToggled); // TODO unnecessary first run
-	$: speedBoosterUnlocked = scoresRescuedAnyCrew;
-	$: speedBoosterEnabled = speedBoosterUnlocked && speedBoosterToggled;
-	const toggleSpeedBooster = () => {
+	$: speed_booster_unlocked = scoresRescuedAnyCrew;
+	$: speed_booster_enabled = speed_booster_unlocked && speedBoosterToggled;
+	const toggle_speed_booster = () => {
 		speedBoosterToggled = !speedBoosterToggled;
 	};
 
@@ -463,10 +463,15 @@
 				</div>
 			{/each}
 		{/if}
-		{#if speedBoosterUnlocked}
+		{#if speed_booster_unlocked}
 			<div class="portals">
-				<PortalPreview onClick={toggleSpeedBooster}
-					><span class="booster" class:disabled={!speedBoosterEnabled}>{BOOSTER_SYMBOL}</span
+				<PortalPreview onClick={toggle_speed_booster}
+					><span
+						role="checkbox"
+						aria-label="speed booster"
+						aria-checked={speed_booster_enabled}
+						class="booster"
+						class:disabled={!speed_booster_enabled}>{BOOSTER_SYMBOL}</span
 					></PortalPreview
 				>
 			</div>
@@ -480,7 +485,7 @@
 			{viewHeight}
 			{worldWidth}
 			{worldHeight}
-			{speedBoosterEnabled}
+			{speed_booster_enabled}
 			{strengthBoosterEnabled}
 			{strengthBooster1Enabled}
 			{strengthBooster2Enabled}

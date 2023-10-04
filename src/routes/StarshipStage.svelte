@@ -28,7 +28,7 @@
 	export let worldWidth: number;
 	export let worldHeight: number;
 	export let cameraUnlocked = false;
-	export let speedBoosterEnabled = false;
+	export let speed_booster_enabled = false;
 	export let strengthBoosterEnabled = false;
 	export let strengthBooster1Enabled = false;
 	export let strengthBooster2Enabled = false;
@@ -56,7 +56,7 @@
 
 	let finished = false;
 
-	$: stage.player.speed = speedBoosterEnabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
+	$: stage.player.speed = speed_booster_enabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
 	$: stage.player.strength =
 		(strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH) +
 		(strengthBooster1Enabled ? PLAYER_STRENGTH_BOOSTED1 : 0) +
