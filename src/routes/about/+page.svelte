@@ -44,13 +44,6 @@
 				<a href="https://github.com/ryanatkn/cosmicplayground">the source code</a> for more.
 			</p>
 		</Panel>
-		<Panel>
-			<h2>Package</h2>
-			<p>
-				This website depends on heaps of open source, see
-				<a href="{base}/.well-known/package.json">{base}/.well-known/package.json</a>.
-			</p>
-		</Panel>
 		<div class="box">
 			<Panel>
 				<CreditsProjectSignature />
