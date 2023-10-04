@@ -39,7 +39,7 @@
 </Hud>
 <div class="deep_breath_title_screen box width_full">
 	<div class="box width_md">
-		<DeepBreathThumbnail onClick={enableLoadingByClickingThumbnail ? load : null} />
+		<DeepBreathThumbnail on_click={enableLoadingByClickingThumbnail ? load : null} />
 		<Panel>
 			<section class="prose">
 				<h2>If all ice on Earth melts, how will sea levels change?</h2>

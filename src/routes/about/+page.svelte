@@ -1,6 +1,4 @@
 <script lang="ts">
-	import {base} from '$app/paths';
-
 	import Panel from '$lib/app/Panel.svelte';
 	import Favicon from '$routes/Favicon.svelte';
 	import Credits from '$routes/about/Credits.svelte';

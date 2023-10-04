@@ -46,7 +46,7 @@
 <div class="soggy_planet_title_screen box width_full">
 	<div class="box width_md">
 		<div style:margin-bottom="55px">
-			<Soggy_Planet_Thumbnail onClick={enable_loading_by_clicking_thumbnail ? load : null} />
+			<Soggy_Planet_Thumbnail on_click={enable_loading_by_clicking_thumbnail ? load : null} />
 		</div>
 		<div class="loading_animation">
 			{#if loading}

@@ -25,7 +25,7 @@
 		<Panel>
 			<div class="starship_preview">
 				<StarshipPreview
-					onClick={async () => {
+					on_click={async () => {
 						exit();
 						await toggleStarshipMode();
 					}}
@@ -38,7 +38,7 @@
 				</StarshipPreview>
 				{#if starshipMode}
 					<PortalPreview
-						onClick={async () => {
+						on_click={async () => {
 							exit();
 							void toggleStarshipMode();
 							await wait();

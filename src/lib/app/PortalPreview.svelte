@@ -1,24 +1,26 @@
 <script lang="ts">
-	export let href: string | null = null; // one of `href` and `onClick` is required
-	export let onClick: ((e: MouseEvent) => void) | null = null; // one of `href` and `onClick` is required
+	export let href: string | null = null; // one of `href` and `on_click` is required
+	export let on_click: ((e: MouseEvent) => void) | null = null; // one of `href` and `on_click` is required
 	export let classes = '';
-	export let style: string | null = null;
 
-	// TODO maybe change `onClick` to an event, but then we'd lose this check:
+	// TODO maybe change `on_click` to an event, but then we'd lose this check:
 	// This check and the whole component are both a bit weird,
 	// not sure of a better way to share styles and behaviors.
-	if (href && onClick) {
-		throw Error(`PortalPreview was given both "href" and "onClick" props. Only one is supported.`);
+	if (href && on_click) {
+		throw Error(`PortalPreview was given both "href" and "on_click" props. Only one is supported.`);
+	}
+	if (!href && !on_click) {
+		throw Error(`PortalPreview requires either "href" or "on_click".`);
 	}
 </script>
 
 {#if href}
 	<!-- TODO remove this interpolated class, or at least clean it up (needs sy rollup plugin fix) -->
-	<a class="portal_preview buttonish {classes}" {href} {style}>
+	<a class="portal_preview buttonish {classes}" {href} {...$$restProps}>
 		<slot />
 	</a>
 {:else}
-	<button class="portal_preview {classes}" on:click={onClick} {style} type="button">
+	<button class="portal_preview {classes}" on:click={on_click} type="button" {...$$restProps}>
 		<slot />
 	</button>
 {/if}

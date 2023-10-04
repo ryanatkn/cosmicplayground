@@ -6,7 +6,7 @@
 
 	export let earthWidth = THUMBNAIL_WIDTH_DEFAULT;
 	export let label = 'proceed';
-	export let onClick: ((e: MouseEvent) => void) | null = null;
+	export let on_click: ((e: MouseEvent) => void) | null = null;
 
 	const clock = get_clock();
 
@@ -21,11 +21,11 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 <div
 	class="deep-breath-thumbnail"
 	style="width: {earthWidth}px; height: {earthWidth / 2}px;"
-	role={onClick ? 'button' : undefined}
-	aria-label={onClick ? label : undefined}
-	tabindex={onClick ? 0 : undefined}
-	on:click={onClick}
-	class:buttonish={onClick}
+	role={on_click ? 'button' : undefined}
+	aria-label={on_click ? label : undefined}
+	tabindex={on_click ? 0 : undefined}
+	on:click={on_click}
+	class:buttonish={on_click}
 >
 	<div class="thumbnail-animation-wrapper">
 		<EarthThumbnail

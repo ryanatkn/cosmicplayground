@@ -81,7 +81,7 @@
 		}
 	};
 
-	const onClickHudToggle = (e: Event) => {
+	const on_clickHudToggle = (e: Event) => {
 		swallow(e);
 		toggleHud();
 	};
@@ -233,7 +233,7 @@
 					<FloatingIconButton
 						pressed={showHud}
 						label="toggle hud controls"
-						on:click={onClickHudToggle}
+						on:click={on_clickHudToggle}
 					>
 						∙∙∙
 					</FloatingIconButton>
@@ -243,7 +243,7 @@
 						<FloatingIconButton
 							pressed={showHud}
 							label="toggle hud controls"
-							on:click={onClickHudToggle}
+							on:click={on_clickHudToggle}
 						>
 							∙∙∙
 						</FloatingIconButton>

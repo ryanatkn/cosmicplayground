@@ -401,7 +401,7 @@
 			<UnlockPortalPreview
 				unlocked={scoresRescuedAllCrewAtOnce}
 				scores={savedScores}
-				onClick={scoresRescuedAllCrewAtOnce
+				on_click={scoresRescuedAllCrewAtOnce
 					? undefined
 					: async () => {
 							if (!starshipMode) {
@@ -414,7 +414,7 @@
 			<div class="portals">
 				{#each portals as portal (portal)}
 					{#if portal === starshipPortal}
-						<StarshipPreview onClick={toggleStarshipMenu} classes="portal_preview--starship" />
+						<StarshipPreview on_click={toggleStarshipMenu} classes="portal_preview--starship" />
 					{:else}
 						<PortalPreview href={portal.slug} classes="portal_preview--{portal.slug}">
 							<svelte:component this={portal.Preview} />
@@ -424,7 +424,7 @@
 			</div>
 		{/each}
 		{#if strengthBoosterUnlocked}
-			<PortalPreview classes="show-more-button" onClick={() => void toggleStrengthBooster()}>
+			<PortalPreview classes="show-more-button" on_click={() => void toggleStrengthBooster()}>
 				<PendingAnimation
 					running={strengthBoosterToggled && $clock.running}
 					let:index
@@ -465,14 +465,16 @@
 		{/if}
 		{#if speed_booster_unlocked}
 			<div class="portals">
-				<PortalPreview onClick={toggle_speed_booster}
-					><span
-						role="checkbox"
-						aria-label="speed booster"
-						aria-checked={speed_booster_enabled}
-						class="booster"
-						class:disabled={!speed_booster_enabled}>{BOOSTER_SYMBOL}</span
-					></PortalPreview
+				<PortalPreview
+					on_click={toggle_speed_booster}
+					role="checkbox"
+					aria-label="speed booster"
+					aria-checked={speed_booster_enabled}
+				>
+					<!-- TODO finish a11y - needs to be the button in `PortalPreview` that has these a11y properties -->
+					<div class="booster" class:disabled={!speed_booster_enabled}>
+						{BOOSTER_SYMBOL}
+					</div></PortalPreview
 				>
 			</div>
 		{/if}
