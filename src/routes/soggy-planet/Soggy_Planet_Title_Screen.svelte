@@ -45,7 +45,9 @@
 </Hud>
 <div class="soggy_planet_title_screen box width_full">
 	<div class="box width_md">
-		<Soggy_Planet_Thumbnail onClick={enable_loading_by_clicking_thumbnail ? load : null} />
+		<div style:margin-bottom="55px">
+			<Soggy_Planet_Thumbnail onClick={enable_loading_by_clicking_thumbnail ? load : null} />
+		</div>
 		<div class="loading_animation">
 			{#if loading}
 				<PendingAnimation />
@@ -156,7 +158,7 @@
 
 <style>
 	.soggy_planet_title_screen {
-		padding: var(--spacing_7) 0;
+		padding: var(--spacing_5) 0;
 	}
 
 	/* TODO hacky */

@@ -1,18 +1,13 @@
 <script lang="ts">
-	import {get_dimensions} from '$lib/dimensions.js';
-
 	import Soggy_Planet_Credits from '$routes/soggy-planet/Soggy_Planet_Credits.svelte';
-	import Soggy_Planet_Thumbnail from '$routes/soggy-planet/Soggy_Planet_Thumbnail.svelte';
-	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/soggy-planet/constants';
+	import Credits_Soggy_Planet_Thumbnail from '$routes/about/Credits_Soggy_Planet_Thumbnail.svelte';
 	import PortalLink from '$lib/app/PortalLink.svelte';
 	import DeepBreathCredits from '$routes/deep-breath/DeepBreathCredits.svelte';
-
-	const dimensions = get_dimensions();
-
-	$: earthWidth = Math.min(THUMBNAIL_WIDTH_DEFAULT, $dimensions.width - 100); // roughly account for padding/margins of containers
 </script>
 
-<Soggy_Planet_Thumbnail {earthWidth} showName={false} />
+<div class="thumbnail panel spaced">
+	<Credits_Soggy_Planet_Thumbnail />
+</div>
 <p>
 	<PortalLink slug="soggy-planet" /> and <PortalLink slug="deep-breath" />
 	use <a href="https://earthobservatory.nasa.gov/image-use-policy">NASA imagery</a> and music from
@@ -20,3 +15,10 @@
 </p>
 <Soggy_Planet_Credits />
 <DeepBreathCredits show_earth_map_credits={false} show_music_credits={true} />
+
+<style>
+	.thumbnail {
+		background: #000;
+		padding: var(--spacing_5) 0;
+	}
+</style>
