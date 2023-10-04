@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Breadcrumb from '@fuz.dev/fuz_library/Breadcrumb.svelte';
 	import {page} from '$app/stores';
+	import {base} from '$app/paths';
 
 	import Panel from '$lib/app/Panel.svelte';
 	import MediaPlayer from '$lib/MediaPlayer.svelte';
@@ -19,6 +20,8 @@
 		repeat,
 	} from '$lib/music/play_song';
 	import type {PlaylistItemData} from '$lib/playlist';
+	import PortalPreview from '$lib/app/PortalPreview.svelte';
+	import AboutPortalPreview from '$routes/about/Preview.svelte';
 
 	const playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values()).map((song) => ({
 		song,
@@ -67,4 +70,7 @@
 			on:repeat={(e) => ($repeat = e.detail)}
 		/>
 	</Panel>
+	<PortalPreview href="{base}/about">
+		<AboutPortalPreview />
+	</PortalPreview>
 </div>
