@@ -20,7 +20,6 @@
 		font-weight: bold;
 		border: var(--border_width_3) solid transparent;
 		text-shadow: var(--text_shadow_sm);
-		white-space: nowrap;
 	}
 	a:hover {
 		border-color: var(--space_color);
