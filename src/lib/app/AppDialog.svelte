@@ -11,6 +11,8 @@
 		clock.resume();
 	};
 
+	// TODO terribly hacky
+
 	// TODO rename to "main menu" ? is what we call it in the UI in the controls instructions
 </script>
 
