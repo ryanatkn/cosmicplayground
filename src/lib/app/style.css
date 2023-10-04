@@ -244,3 +244,13 @@ summary:active {
 .pulsing {
 	animation: pulsing var(--pulsing_duration, 0.2s) linear infinite alternate;
 }
+
+/* offset to avoid visual artifacts on init */
+@keyframes rotating {
+	from {
+		transform: rotate3d(0, 0, 1, 0deg);
+	}
+	to {
+		transform: rotate3d(0, 0, 1, 360deg);
+	}
+}

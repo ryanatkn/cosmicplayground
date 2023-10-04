@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {IMAGE_PROCESSING_CREDIT, spaceImages} from '$lib/app/images';
 	import ImageCredits from '$lib/app/ImageCredits.svelte';
+	import Favicon from '$routes/Favicon.svelte';
 
 	const image = spaceImages.find((s) => s.title === 'Tapestry of Blazing Starbirth')!;
 </script>
@@ -19,6 +20,6 @@
 			{IMAGE_PROCESSING_CREDIT}
 		</p>
 	</figcaption>
-	<img src="/favicon.png" width="192" height="192" alt="cosmicplayground icon" />
+	<Favicon size={192} />
 </figure>
 <ImageCredits {image} />

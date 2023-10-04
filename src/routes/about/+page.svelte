@@ -2,6 +2,7 @@
 	import {base} from '$app/paths';
 
 	import Panel from '$lib/app/Panel.svelte';
+	import Favicon from '$routes/Favicon.svelte';
 	import Credits from '$routes/about/Credits.svelte';
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
 </script>
@@ -12,9 +13,9 @@
 	</h1>
 	<h2>tools and toys for expanding minds</h2>
 </header>
-<figure style:margin="var(--spacing_3) auto">
-	<img src="/favicon.png" width="192" height="192" alt="cosmicplayground icon" />
-</figure>
+<div style:margin-top="var(--spacing_3)" class="box">
+	<Favicon size={192} />
+</div>
 <div class="box width_full">
 	<div class="box width_md prose">
 		<Panel>
@@ -29,7 +30,8 @@
 				with <a href="https://svelte.dev/">Svelte</a>,
 				<a href="https://kit.svelte.dev/">SvelteKit</a>, <a href="https://vitejs.dev/">Vite</a>,
 				<a href="https://typescriptlang.org/">TypeScript</a>,
-				<a href="https://pixijs.com/">PixiJS</a>, and many freely licensed assets, see below.
+				<a href="https://pixijs.com/">PixiJS</a>, and the many freely licensed assets detailed
+				below.
 			</p>
 		</Panel>
 		<Credits />

@@ -1,36 +1,24 @@
 <script lang="ts">
+	import Favicon from '$routes/Favicon.svelte';
 </script>
 
 <div class="preview">
 	<h1>cosmicplayground</h1>
 	<div class="info">
 		about
-		<img
-			src="/assets/icon.png"
-			alt="cosmicplayground icon"
-			width="32"
-			height="32"
-			style:margin="10px"
-		/>
+		<div class="box" style:margin="10px"><Favicon size={48} /></div>
 		credits
-		<img
-			src="/assets/icon.png"
-			alt="cosmicplayground icon"
-			class="mirror_x"
-			width="32"
-			height="32"
-			style:margin="10px"
-		/>
+		<div class="box mirror_x" style:margin="10px"><Favicon size={48} /></div>
 		contact
 	</div>
 </div>
 
 <style>
 	.preview {
-		padding: var(--portal_padding);
+		padding: 0 var(--portal_padding);
 	}
 	h1 {
-		margin-bottom: 5px;
+		margin: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
