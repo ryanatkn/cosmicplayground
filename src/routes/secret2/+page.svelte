@@ -5,7 +5,7 @@
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
 	import {get_settings} from '$lib/app/settings';
-	import {unlockSatisfyingSecret} from '$lib/util/secret';
+	import {unlock_satisfying_secret} from '$lib/util/secret';
 
 	// TODO give user control over speed in dialog
 
@@ -22,7 +22,7 @@
 			const hzItemSelectedIndices = getHzItemSelectedIndices();
 			const hzSelectedIndex = hzItemSelectedIndices.at(-1)!;
 			if (WINNING_HZ_ITEMS.has(hzSelectedIndex)) {
-				unlockSatisfyingSecret();
+				unlock_satisfying_secret();
 				if (!$settings.secretEnabled) {
 					settings.update(($settings) => ({...$settings, secretEnabled: true}));
 				}

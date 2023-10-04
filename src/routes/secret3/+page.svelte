@@ -5,7 +5,7 @@
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 	import {get_settings} from '$lib/app/settings';
-	import {unlockSatisfyingSecret} from '$lib/util/secret';
+	import {unlock_satisfying_secret} from '$lib/util/secret';
 
 	const dimensions = get_dimensions();
 	const settings = get_settings();
@@ -26,7 +26,7 @@
 			const hzItemSelectedIndices = getHzItemSelectedIndices();
 			const hzSelectedIndex = hzItemSelectedIndices.at(-1)!;
 			if (WINNING_HZ_ITEMS.has(hzSelectedIndex)) {
-				unlockSatisfyingSecret();
+				unlock_satisfying_secret();
 				if (!$settings.secretEnabled) {
 					settings.update(($settings) => ({...$settings, secretEnabled: true}));
 				}
