@@ -190,13 +190,13 @@ th {
 	cursor: none;
 }
 
-.mirror-x {
+.mirror_x {
 	transform: scale3d(-1, 1, 1);
 }
-.mirror-y {
+.mirror_y {
 	transform: scale3d(1, -1, 1);
 }
-.mirror-xy {
+.mirror_xy {
 	transform: scale3d(1, -1, 1);
 }
 

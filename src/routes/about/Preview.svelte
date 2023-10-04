@@ -16,6 +16,7 @@
 		<img
 			src="/assets/icon.png"
 			alt="cosmicplayground icon"
+			class="mirror_x"
 			width="32"
 			height="32"
 			style:margin="10px"

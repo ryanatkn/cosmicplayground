@@ -53,7 +53,7 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin: 0 auto 50px;
+		margin: 0 auto;
 	}
 	.soggy-planet-thumbnail:focus {
 		/* TODO hack, see global `button:focus` style for more in main.css */
@@ -62,7 +62,7 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 	.thumbnail-text {
 		position: absolute;
 		left: 0;
-		bottom: -90px;
+		bottom: -100px;
 		width: 100%;
 		font-size: 84px;
 		font-weight: 900;

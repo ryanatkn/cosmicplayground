@@ -29,9 +29,7 @@
 				with <a href="https://svelte.dev/">Svelte</a>,
 				<a href="https://kit.svelte.dev/">SvelteKit</a>, <a href="https://vitejs.dev/">Vite</a>,
 				<a href="https://typescriptlang.org/">TypeScript</a>,
-				<a href="https://pixijs.com/">PixiJS</a>, <a href="https://www.fuz.dev/">Fuz</a>,
-				<a href="https://www.grogarden.org/">Gro</a>, many freely licensed assets (see below), and
-				<em>space</em>.
+				<a href="https://pixijs.com/">PixiJS</a>, and many freely licensed assets, see below.
 			</p>
 		</Panel>
 		<Credits />
@@ -60,7 +58,7 @@
 						src="/assets/characters/spider.png"
 						alt="spiderspace dot org"
 						style="position: absolute; bottom: -33px; right: -29px;"
-						on:click={() => window.open('https://spiderspace.org')}
+						on:click={() => window.open('https://spiderspace.org/')}
 					/>
 				</div>
 			</Panel>
