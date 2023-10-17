@@ -1,7 +1,7 @@
-import type {GroConfigCreator} from '@grogarden/gro';
+import type {CreateGroConfig} from '@grogarden/gro';
 
-const config: GroConfigCreator = async (cfg) => {
-	cfg.package_json = (pkg) => {
+const config: CreateGroConfig = async (cfg) => {
+	cfg.map_package_json = (pkg) => {
 		pkg.exports = undefined;
 		return pkg;
 	};
