@@ -32,7 +32,7 @@
 
 	import {onDestroy} from 'svelte';
 
-	import {createTweens, type Tween} from '$lib/app/tweens';
+	import {createTweens, type Tween} from '$lib/tweens';
 	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
 
 	let duration = 1500;

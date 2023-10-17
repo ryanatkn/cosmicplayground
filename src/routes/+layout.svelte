@@ -1,8 +1,8 @@
 <script lang="ts">
 	import '@fuz.dev/fuz/style.css';
 	import '@fuz.dev/fuz/theme.css';
-	import '$lib/app/style.css';
-	import '$lib/app/style-utilities.css';
+	import '$lib/style.css';
+	import '$lib/style-utilities.css';
 
 	import Themed from '@fuz.dev/fuz/Themed.svelte';
 	import {sync_color_scheme} from '@fuz.dev/fuz/theme.js';
@@ -16,8 +16,8 @@
 	import {base} from '$app/paths';
 	import {browser} from '$app/environment';
 
-	import {set_clock} from '$lib/flat/clock.js';
-	import {enable_global_hotkeys} from '$lib/flat/dom.js';
+	import {set_clock} from '$lib/clock.js';
+	import {enable_global_hotkeys} from '$lib/dom.js';
 	import {set_idle, track_idle_state} from '$lib/idle.js';
 	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg.js';
 	import {PixiApp, set_pixi} from '$lib/app/pixi.js';
@@ -30,12 +30,12 @@
 	import {update_render_stats} from '$lib/app/renderStats.js';
 	import {portals_data} from '$lib/app/portals_data.js';
 	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
-	import {setAudioCtx} from '$lib/audio/audioCtx.js';
+	import {set_audio_ctx} from '$lib/audio_ctx.js';
 	import {show_app_dialog} from '$lib/app/appDialog.js';
 	import AppDialogs from '$lib/app/AppDialogs.svelte';
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import AppDialogMenu from '$lib/app/AppDialogMenu.svelte';
-	import {playing_song, muted, volume} from '$lib/music/play_song.js';
+	import {playing_song, muted, volume} from '$lib/play_song.js';
 	import {set_dimensions} from '$lib/dimensions.js';
 
 	const selected_color_scheme = writable('dark' as const);
@@ -151,7 +151,7 @@
 		: $settings.recording_mode
 		? 500
 		: $settings.time_to_go_idle;
-	setAudioCtx(); // allows components to do `const audioCtx = getAudioCtx();` which uses svelte's `getContext`
+	set_audio_ctx(); // allows components to do `const audio_ctx = get_audio_ctx();` which uses svelte's `getContext`
 
 	// TODO integrate this with the controls in `index.svelte` and `World.svelte`
 	const onKeyDown = async (e: KeyboardEvent) => {

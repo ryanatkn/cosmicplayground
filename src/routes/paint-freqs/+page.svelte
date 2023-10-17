@@ -3,13 +3,13 @@
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@grogarden/util/maths.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {hsl_to_rgb} from '$lib/flat/colors.js';
-	import {get_dimensions} from '$lib/dimensions.js';
 
-	import {getAudioCtx} from '$lib/audio/audioCtx';
-	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';
-	import {freqToMidi} from '$lib/music/midi';
-	import {DEFAULT_TUNING} from '$lib/music/constants';
+	import {get_dimensions} from '$lib/dimensions.js';
+	import {hsl_to_rgb} from '$lib/colors.js';
+	import {get_audio_ctx} from '$lib/audio_ctx';
+	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers';
+	import {freqToMidi} from '$lib/midi';
+	import {DEFAULT_TUNING} from '$lib/notes';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
 
 	/*
@@ -104,7 +104,7 @@
 		lines = lines.slice();
 	};
 
-	const audioCtx = getAudioCtx();
+	const audio_ctx = get_audio_ctx();
 
 	const spotPosition = spring(
 		{x: pointer_x, y: pointer_y},
@@ -121,28 +121,28 @@
 	const VOLUME = 0.35; // TODO probably hook into global settings
 
 	$: freq = width ? calcFreq(pointer_x, pointer_y, width, height) : undefined;
-	$: if (osc && freq !== undefined) osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+	$: if (osc && freq !== undefined) osc.frequency.setValueAtTime(freq, audio_ctx.currentTime);
 	$: displayedFreq = freq === undefined ? '' : Math.round(freq);
 
 	const start = () => {
 		if (osc) return;
-		gain = audioCtx.createGain();
+		gain = audio_ctx.createGain();
 		gain.gain.value = 0;
 		gain.gain.setTargetAtTime(
 			volume_to_gain(VOLUME),
-			audioCtx.currentTime,
+			audio_ctx.currentTime,
 			SMOOTH_GAIN_TIME_CONSTANT,
 		);
-		gain.connect(audioCtx.destination);
-		osc = audioCtx.createOscillator();
+		gain.connect(audio_ctx.destination);
+		osc = audio_ctx.createOscillator();
 		osc.type = 'sine';
 		osc.start();
 		osc.connect(gain);
 	};
 	const stop = () => {
 		if (!osc || !gain) return;
-		gain.gain.setTargetAtTime(0, audioCtx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
-		osc.stop(audioCtx.currentTime + SMOOTH_GAIN_TIME_CONSTANT * 2);
+		gain.gain.setTargetAtTime(0, audio_ctx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
+		osc.stop(audio_ctx.currentTime + SMOOTH_GAIN_TIME_CONSTANT * 2);
 		osc = undefined;
 		gain = undefined;
 	};
@@ -180,11 +180,11 @@
 	const handlePointerUp = (e: TouchEvent | MouseEvent) => {
 		if (!('touches' in e) && e.button !== 0) return; // avoid eating mouse button on Chrome (but not FF?)
 		swallow(e); // TODO should these not be called for mobile?
-		if (!audioCtx || !osc) return;
+		if (!audio_ctx || !osc) return;
 		stop();
 	};
 	const handlePointerMove = (e: TouchEvent | MouseEvent) => {
-		if (!audioCtx || !osc) return;
+		if (!audio_ctx || !osc) return;
 		swallow(e); // TODO should these not be called for mobile?
 		if (!e.altKey) pointer_x = pointerEventX(e);
 		if (!e.shiftKey) pointer_y = pointerEventY(e);

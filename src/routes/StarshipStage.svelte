@@ -2,12 +2,12 @@
 	import {swallow} from '@grogarden/util/dom.js';
 	import type {Writable} from 'svelte/store';
 
-	import {get_clock} from '$lib/flat/clock.js';
-	import World from '$lib/flat/World.svelte';
-	import SurfaceWithControlller from '$lib/flat/SurfaceWithControlller.svelte';
-	import {DomCanvasRenderer} from '$lib/flat/DomCanvasRenderer.js';
-	import type {CameraStore} from '$lib/flat/camera.js';
-	import type {Controller} from '$lib/flat/controller.js';
+	import {get_clock} from '$lib/clock.js';
+	import World from '$lib/World.svelte';
+	import SurfaceWithControlller from '$lib/SurfaceWithControlller.svelte';
+	import {DomCanvasRenderer} from '$lib/DomCanvasRenderer.js';
+	import type {CameraStore} from '$lib/camera.js';
+	import type {Controller} from '$lib/controller.js';
 	import {
 		PLAYER_SPEED,
 		PLAYER_SPEED_BOOSTED,

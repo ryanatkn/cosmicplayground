@@ -1,6 +1,6 @@
 import {z} from 'zod';
 
-import {Song} from '$lib/music/songs';
+import {Song} from '$lib/songs';
 
 export const PlaylistItemData = z.object({
 	song: Song,

@@ -5,8 +5,8 @@
 
 	import Panel from '$lib/app/Panel.svelte';
 	import MediaPlayer from '$lib/MediaPlayer.svelte';
-	import {songs_by_name} from '$lib/music/songs';
-	import {loadFromStorage, setInStorage} from '$lib/util/storage';
+	import {songs_by_name} from '$lib/songs';
+	import {loadFromStorage, setInStorage} from '$lib/storage';
 	import {
 		play_song,
 		playing_song,
@@ -18,7 +18,7 @@
 		paused,
 		shuffle,
 		repeat,
-	} from '$lib/music/play_song';
+	} from '$lib/play_song';
 	import type {PlaylistItemData} from '$lib/playlist';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import AboutPortalPreview from '$routes/about/Preview.svelte';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {get_clock} from '$lib/flat/clock.js';
+	import {get_clock} from '$lib/clock.js';
 
 	import GalaxyBg from '$routes/starlit-hammock/GalaxyBg.svelte';
 

@@ -1,7 +1,7 @@
 import {writable} from 'svelte/store';
 
-import type {CameraState} from '$lib/flat/camera';
-import type {Entity} from '$lib/flat/entity.js';
+import type {CameraState} from '$lib/camera';
+import type {Entity} from '$lib/entity.js';
 
 // TODO this is hacky, rewrite with runes
 // TODO rethink and handle dynamic mappings

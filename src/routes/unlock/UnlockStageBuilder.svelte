@@ -1,9 +1,9 @@
 <script lang="ts">
 	import {createEventDispatcher, onMount} from 'svelte';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {get_clock} from '$lib/flat/clock.js';
+	import {get_clock} from '$lib/clock.js';
 	import {get_dimensions} from '$lib/dimensions.js';
-	import {enable_global_hotkeys} from '$lib/flat/dom.js';
+	import {enable_global_hotkeys} from '$lib/dom.js';
 
 	import {initialStageData, type StageData} from '$routes/unlock/stage';
 	import UnlockStage from '$routes/unlock/UnlockStage.svelte';

@@ -2,8 +2,8 @@ import {Container} from '@pixi/display';
 import {Text} from '@pixi/text';
 import {Graphics} from '@pixi/graphics';
 
-import type {EntityBody} from '$lib/flat/entityBody';
-import {hsl_to_hex, hsl_to_string, type Hsl} from '$lib/flat/colors';
+import type {EntityBody} from '$lib/entityBody';
+import {hsl_to_hex, hsl_to_string, type Hsl} from '$lib/colors';
 
 const DEFAULT_COLOR: Hsl = [0.611, 1, 0.7];
 const DEFAULT_COLOR_STR = hsl_to_string(...DEFAULT_COLOR);

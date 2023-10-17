@@ -24,16 +24,15 @@
 
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@grogarden/util/maths.js';
-	import {get_clock} from '$lib/flat/clock.js';
+	import {get_clock} from '$lib/clock.js';
 
-	import {svelteEasings} from '$lib/app/easings';
-	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';
-	import {getAudioCtx} from '$lib/audio/audioCtx';
-	import {midiNames} from '$lib/music/notes';
-	import {midiToFreq, type Midi} from '$lib/music/midi';
-	import {DEFAULT_TUNING} from '$lib/music/constants';
+	import {svelteEasings} from '$lib/easings';
+	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers';
+	import {get_audio_ctx} from '$lib/audio_ctx';
+	import {midiNames, DEFAULT_TUNING} from '$lib/notes';
+	import {midiToFreq, type Midi} from '$lib/midi';
 	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import {muted, volume} from '$lib/music/play_song';
+	import {muted, volume} from '$lib/play_song';
 
 	const clock = get_clock();
 
@@ -138,7 +137,7 @@
 	// TODO refactor to share code with `HearingTest` and `PaintFreqs`
 	let osc: OscillatorNode | undefined;
 	let gain: GainNode | undefined;
-	const audioCtx = getAudioCtx();
+	const audio_ctx = get_audio_ctx();
 	$: freqMin = midiToFreq(startNote, DEFAULT_TUNING);
 	$: freqMax = midiToFreq(endNote, DEFAULT_TUNING);
 	const calcFreq = (pct: number) => lerp(freqMin, freqMax, pct);
@@ -146,12 +145,12 @@
 		startAudio();
 
 		const freq = calcFreq(tweenAlternating);
-		osc!.frequency.setValueAtTime(freq, audioCtx.currentTime);
+		osc!.frequency.setValueAtTime(freq, audio_ctx.currentTime);
 
 		// TODO volume controls
 		gain!.gain.setTargetAtTime(
 			volume_to_gain(getVolume()),
-			audioCtx.currentTime,
+			audio_ctx.currentTime,
 			SMOOTH_GAIN_TIME_CONSTANT,
 		);
 	};
@@ -170,18 +169,18 @@
 	};
 	const startAudio = () => {
 		if (osc) return;
-		gain = audioCtx.createGain();
+		gain = audio_ctx.createGain();
 		gain.gain.value = 0;
-		gain.connect(audioCtx.destination);
-		osc = audioCtx.createOscillator();
+		gain.connect(audio_ctx.destination);
+		osc = audio_ctx.createOscillator();
 		osc.type = 'sine';
 		osc.start();
 		osc.connect(gain);
 	};
 	const stopAudio = () => {
 		if (!osc) return;
-		gain!.gain.setTargetAtTime(0, audioCtx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
-		osc.stop(audioCtx.currentTime + SMOOTH_GAIN_TIME_CONSTANT);
+		gain!.gain.setTargetAtTime(0, audio_ctx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
+		osc.stop(audio_ctx.currentTime + SMOOTH_GAIN_TIME_CONSTANT);
 		osc = undefined;
 		gain = undefined;
 	};

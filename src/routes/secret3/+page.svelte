@@ -1,11 +1,11 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
-	import {get_clock} from '$lib/flat/clock.js';
+	import {get_clock} from '$lib/clock.js';
 	import {get_dimensions} from '$lib/dimensions.js';
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 	import {get_settings} from '$lib/app/settings';
-	import {unlock_satisfying_secret} from '$lib/util/secret';
+	import {unlock_satisfying_secret} from '$lib/secret';
 
 	const dimensions = get_dimensions();
 	const settings = get_settings();

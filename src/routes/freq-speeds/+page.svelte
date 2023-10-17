@@ -1,10 +1,10 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
-	import {get_clock} from '$lib/flat/clock.js';
+	import {get_clock} from '$lib/clock.js';
 	import {get_dimensions} from '$lib/dimensions.js';
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
-	import {setInStorage} from '$lib/util/storage';
+	import {setInStorage} from '$lib/storage';
 	import {STORAGE_KEY_STRENGTH_BOOSTER2} from '$routes/data';
 	import {get_settings} from '$lib/app/settings';
 

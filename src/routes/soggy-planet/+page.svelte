@@ -2,10 +2,10 @@
 	import {onMount, tick} from 'svelte';
 	import {random_float} from '@grogarden/util/random.js';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {get_clock} from '$lib/flat/clock.js';
+	import {get_clock} from '$lib/clock.js';
 	import {dev} from '$app/environment';
 
-	import {enable_global_hotkeys} from '$lib/flat/dom.js';
+	import {enable_global_hotkeys} from '$lib/dom.js';
 	import {get_dimensions} from '$lib/dimensions.js';
 	import Soggy_Planet_Title_Screen from '$routes/soggy-planet/Soggy_Planet_Title_Screen.svelte';
 	import MonthHud from '$lib/app/MonthHud.svelte';

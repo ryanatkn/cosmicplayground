@@ -1,8 +1,8 @@
 <script lang="ts">
-	import {get_clock} from '$lib/flat/clock.js';
+	import {get_clock} from '$lib/clock.js';
 
 	import PortalLink from '$lib/app/PortalLink.svelte';
-	import {freezeframe} from '$lib/app/freezeframe';
+	import {freezeframe} from '$lib/freezeframe';
 
 	const clock = get_clock();
 

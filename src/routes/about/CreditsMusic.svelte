@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {lookup_song} from '$lib/music/songs';
+	import {lookup_song} from '$lib/songs';
 	import CreditsMusicAuthor from '$routes/about/CreditsMusicAuthor.svelte';
 </script>
 

@@ -4,15 +4,10 @@ import {Container} from '@pixi/display';
 import {Graphics} from '@pixi/graphics';
 import {Collisions} from '@ryanatkn/collisions';
 
-import {Simulation} from '$lib/flat/Simulation';
-import {Controller} from '$lib/flat/controller.js';
-import {
-	type CameraStore,
-	type CameraState,
-	toCameraStore,
-	SPRING_OPTS_HARD,
-} from '$lib/flat/camera';
-import type {Entity} from '$lib/flat/entity.js';
+import {Simulation} from '$lib/Simulation';
+import {Controller} from '$lib/controller.js';
+import {type CameraStore, type CameraState, toCameraStore, SPRING_OPTS_HARD} from '$lib/camera';
+import type {Entity} from '$lib/entity.js';
 
 // TODO hack
 interface StageData {

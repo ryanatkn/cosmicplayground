@@ -1,4 +1,4 @@
-import type {Frequency} from '$lib/audio/helpers';
+import type {Frequency} from '$lib/audio_helpers.js';
 
 // TODO replace with earbetter dep
 

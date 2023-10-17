@@ -5,12 +5,12 @@
 	import {swallow} from '@grogarden/util/dom.js';
 	import {get_dimensions} from '$lib/dimensions.js';
 
-	import {getAudioCtx} from '$lib/audio/audioCtx';
-	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio/helpers';
+	import {get_audio_ctx} from '$lib/audio_ctx';
+	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers';
 
 	const dimensions = get_dimensions();
 
-	const audioCtx = getAudioCtx();
+	const audio_ctx = get_audio_ctx();
 
 	let pointer_x = -300;
 	let pointer_y = -300;
@@ -31,7 +31,7 @@
 		pointer_x >= 0 && $dimensions.width ? calcFreq(pointer_x, $dimensions.width) : undefined;
 	$: displayedFreq = freq === undefined ? '' : Math.round(freq);
 	$: if (osc && freq !== undefined) {
-		osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+		osc.frequency.setValueAtTime(freq, audio_ctx.currentTime);
 	}
 	const freqMin = 0;
 	const freqMax = 25000;
@@ -45,7 +45,7 @@
 	$: if (gain && volume !== undefined) {
 		gain.gain.setTargetAtTime(
 			volume_to_gain(volume),
-			audioCtx.currentTime,
+			audio_ctx.currentTime,
 			SMOOTH_GAIN_TIME_CONSTANT,
 		);
 	}
@@ -57,18 +57,18 @@
 
 	const start = () => {
 		if (osc) return;
-		gain = audioCtx.createGain();
+		gain = audio_ctx.createGain();
 		gain.gain.value = 0;
-		gain.connect(audioCtx.destination);
-		osc = audioCtx.createOscillator();
+		gain.connect(audio_ctx.destination);
+		osc = audio_ctx.createOscillator();
 		osc.type = 'sine';
 		osc.start();
 		osc.connect(gain);
 	};
 	const stop = () => {
 		if (!osc) return;
-		gain!.gain.setTargetAtTime(0, audioCtx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
-		osc.stop(audioCtx.currentTime + SMOOTH_GAIN_TIME_CONSTANT * 2);
+		gain!.gain.setTargetAtTime(0, audio_ctx.currentTime, SMOOTH_GAIN_TIME_CONSTANT);
+		osc.stop(audio_ctx.currentTime + SMOOTH_GAIN_TIME_CONSTANT * 2);
 		osc = undefined;
 		gain = undefined;
 	};
@@ -89,13 +89,13 @@
 		pointer_y = pointerEventY(e);
 	};
 	const handlePointerUp = (e: TouchEvent | MouseEvent) => {
-		if (!audioCtx || !osc) return;
+		if (!audio_ctx || !osc) return;
 		if (!('touches' in e) && e.button !== 0) return; // avoid eating mouse button on Chrome (but not FF?)
 		swallow(e); // TODO should these not be called for mobile?
 		stop();
 	};
 	const handlePointerMove = (e: TouchEvent | MouseEvent) => {
-		if (!audioCtx || !osc) return;
+		if (!audio_ctx || !osc) return;
 		swallow(e); // TODO should these not be called for mobile?
 		pointer_x = pointerEventX(e);
 		pointer_y = pointerEventY(e);

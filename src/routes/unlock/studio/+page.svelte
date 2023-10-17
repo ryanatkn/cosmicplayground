@@ -1,9 +1,9 @@
 <script lang="ts">
-	import {get_clock} from '$lib/flat/clock.js';
+	import {get_clock} from '$lib/clock.js';
 	import {initialStageData, type StageData} from '$routes/unlock/stage';
 	import UnlockStageBuilder from '$routes/unlock/UnlockStageBuilder.svelte';
 	import Tabs from '$lib/Tabs.svelte';
-	import {loadFromStorage, setInStorage} from '$lib/util/storage';
+	import {loadFromStorage, setInStorage} from '$lib/storage';
 	import AppDialog from '$lib/app/AppDialog.svelte';
 	import StudioMenu from '$routes/unlock/studio/StudioMenu.svelte';
 

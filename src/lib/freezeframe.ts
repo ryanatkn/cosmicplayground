@@ -1,7 +1,7 @@
 import type {ActionReturn} from 'svelte/action';
 
-import {fromCache} from '$lib/util/cache';
-import {toImageDataUrl} from '$lib/util/dom';
+import {fromCache} from '$lib/cache';
+import {toImageDataUrl} from '$lib/dom';
 
 export type Options = boolean;
 

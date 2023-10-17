@@ -1,4 +1,4 @@
-import {DEFAULT_STRENGTH, DEFAULT_TIME_DILATION} from '$lib/flat/entity.js';
+import {DEFAULT_STRENGTH, DEFAULT_TIME_DILATION} from '$lib/entity.js';
 
 // interface EntityData {
 // 	id: number;

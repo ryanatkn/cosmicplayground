@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {get_clock} from '$lib/flat/clock.js';
+	import {get_clock} from '$lib/clock.js';
 	import {get_dimensions} from '$lib/dimensions.js';
 	import {swallow} from '@grogarden/util/dom.js';
 	import {blur} from 'svelte/transition';

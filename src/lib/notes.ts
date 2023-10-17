@@ -1,9 +1,11 @@
 import {map_record} from '@grogarden/util/object.js';
-import {hsl_to_string, type Hsl, type Hue} from '$lib/flat/colors.js';
+import {hsl_to_string, type Hsl, type Hue} from '$lib/colors.js';
 
-import {midis, isMidi, type Midi} from '$lib/music/midi.js';
+import {midis, isMidi, type Midi} from '$lib/midi.js';
 
 // TODO replace with earbetter dep
+
+export const DEFAULT_TUNING = 440; // https://wikipedia.org/wiki/A440_(pitch_standard)
 
 export const NOTE_FLAT_SYMBOL = '♭';
 export const NOTE_SHARP_SYMBOL = '♯';

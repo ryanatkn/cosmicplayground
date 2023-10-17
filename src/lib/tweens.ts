@@ -1,7 +1,7 @@
 import {derived} from 'svelte/store';
 import {tweened} from 'svelte/motion';
 
-import {svelteEasings} from '$lib/app/easings.js';
+import {svelteEasings} from '$lib/easings.js';
 
 export interface Tween {
 	name: string;

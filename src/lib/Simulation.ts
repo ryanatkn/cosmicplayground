@@ -1,8 +1,8 @@
 import type {Collisions, CollisionResult, FilterPotentials} from '@ryanatkn/collisions';
 
-import type {Entity} from '$lib/flat/entity.js';
-import type {EntityBody} from '$lib/flat/entityBody';
-import {collisionResult} from '$lib/flat/entityHelpers';
+import type {Entity} from '$lib/entity.js';
+import type {EntityBody} from '$lib/entityBody';
+import {collisionResult} from '$lib/entityHelpers';
 
 const potentials: EntityBody[] = [];
 

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Surface from '$lib/flat/Surface.svelte';
-	import type {Controller} from '$lib/flat/controller.js';
+	import Surface from '$lib/Surface.svelte';
+	import type {Controller} from '$lib/controller.js';
 
 	// TODO merge with `./Surface.svelte`
 

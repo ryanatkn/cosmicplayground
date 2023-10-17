@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {get_clock} from '$lib/flat/clock.js';
+	import {get_clock} from '$lib/clock.js';
 
 	import EarthThumbnail from '$lib/app/EarthThumbnail.svelte';
 	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/soggy-planet/constants';

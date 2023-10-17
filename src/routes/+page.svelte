@@ -7,8 +7,8 @@
 	import {swallow} from '@grogarden/util/dom.js';
 	import {browser} from '$app/environment';
 
-	import {get_clock} from '$lib/flat/clock.js';
-	import {enable_global_hotkeys} from '$lib/flat/dom.js';
+	import {get_clock} from '$lib/clock.js';
+	import {enable_global_hotkeys} from '$lib/dom.js';
 	import {get_dimensions} from '$lib/dimensions.js';
 	import PortalPreview from '$lib/app/PortalPreview.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';
@@ -43,16 +43,16 @@
 		rescuedAllCrewAtOnce,
 		toInitialScores,
 	} from '$routes/starshipStage';
-	import {lookup_song} from '$lib/music/songs';
-	import {play_song} from '$lib/music/play_song';
-	import {loadFromStorage, setInStorage} from '$lib/util/storage';
+	import {lookup_song} from '$lib/songs';
+	import {play_song} from '$lib/play_song';
+	import {loadFromStorage, setInStorage} from '$lib/storage';
 	import {
 		STORAGE_KEY_STRENGTH_BOOSTER1,
 		STORAGE_KEY_STRENGTH_BOOSTER2,
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from '$routes/data';
 	import type {PortalData} from '$lib/app/portal';
-	import {scrollDown} from '$lib/util/dom';
+	import {scrollDown} from '$lib/dom';
 	import {show_app_dialog} from '$lib/app/appDialog';
 
 	const dimensions = get_dimensions();

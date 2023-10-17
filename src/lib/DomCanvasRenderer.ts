@@ -1,8 +1,8 @@
 import {writable} from 'svelte/store';
 
-import type {EntityCircle} from '$lib/flat/entityBody';
-import type {CameraState} from '$lib/flat/camera';
-import type {Entity} from '$lib/flat/entity.js';
+import type {EntityCircle} from '$lib/entityBody';
+import type {CameraState} from '$lib/camera';
+import type {Entity} from '$lib/entity.js';
 
 export class DomCanvasRenderer {
 	width = -1;

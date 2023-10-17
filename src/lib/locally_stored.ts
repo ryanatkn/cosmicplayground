@@ -2,7 +2,7 @@ import {get, type Writable} from 'svelte/store';
 import {identity} from '@grogarden/util/function.js';
 import type {Json} from '@grogarden/util/json.js';
 
-import {loadFromStorage, setInStorage} from '$lib/util/storage';
+import {loadFromStorage, setInStorage} from '$lib/storage';
 
 // TODO problem is this doesn't compose with custom stores that internally use `set` from a writable
 

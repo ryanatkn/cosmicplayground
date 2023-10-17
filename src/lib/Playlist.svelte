@@ -3,7 +3,7 @@
 	import type {ComponentEvents} from 'svelte';
 
 	import PlaylistItem from '$lib/PlaylistItem.svelte';
-	import type {SongPlayState} from '$lib/music/play_song';
+	import type {SongPlayState} from '$lib/play_song';
 	import type {PlaylistItemData} from '$lib/playlist';
 
 	type $$Events = ComponentEvents<PlaylistItem>;
