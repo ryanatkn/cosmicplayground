@@ -1,28 +1,27 @@
 <script lang="ts">
-	import Surface from '@feltjs/felt-mural/Surface.svelte';
-
+	import Surface from '$lib/flat/Surface.svelte';
 	import type {Controller} from '$lib/flat/controller.js';
 
 	// TODO merge with `./Surface.svelte`
 
 	export let controller: Controller;
 
-	let pointerDown = false;
-	let pointerX: number | undefined;
-	let pointerY: number | undefined;
+	let pointer_down = false;
+	let pointer_x: number | undefined;
+	let pointer_y: number | undefined;
 
 	// TODO does binding like this cause input to be delayed a frame? I think so
 
-	$: if (pointerX !== undefined) controller.setPointerLocation(pointerX, pointerY!);
+	$: if (pointer_x !== undefined) controller.setPointerLocation(pointer_x, pointer_y!);
 
-	$: if (controller.pointerDown !== pointerDown) controller.setPointerDown(pointerDown);
+	$: if (controller.pointer_down !== pointer_down) controller.setPointerDown(pointer_down);
 </script>
 
 <!-- TODO instead of trapping the click with `stopPropagation`,
 allow it to bubble and do whatever
 -->
 <div class="surface-wrapper">
-	<Surface bind:pointerDown bind:pointerX bind:pointerY />
+	<Surface bind:pointer_down bind:pointer_x bind:pointer_y />
 </div>
 
 <style>

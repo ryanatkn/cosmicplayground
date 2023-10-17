@@ -15,9 +15,9 @@ export class Controller {
 	movingUp = false;
 	movingDown = false;
 
-	pointerDown = false;
+	pointer_down = false;
 	setPointerDown(down: boolean): void {
-		this.pointerDown = down;
+		this.pointer_down = down;
 		this.moving.set(this.isMoving());
 	}
 
@@ -38,7 +38,7 @@ export class Controller {
 
 	private isMoving(): boolean {
 		return (
-			this.pointerDown || this.movingDown || this.movingUp || this.movingLeft || this.movingRight
+			this.pointer_down || this.movingDown || this.movingUp || this.movingLeft || this.movingRight
 		);
 	}
 
@@ -118,7 +118,7 @@ export const update_direction = (
 	camera: CameraState,
 ): void => {
 	if (
-		controller.pointerDown &&
+		controller.pointer_down &&
 		controller.pointerScreenX !== null &&
 		controller.pointerScreenY !== null
 	) {

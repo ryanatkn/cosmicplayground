@@ -12,22 +12,23 @@
 
 	const audioCtx = getAudioCtx();
 
-	let pointerX = -300;
-	let pointerY = -300;
+	let pointer_x = -300;
+	let pointer_y = -300;
 
 	const spotPosition = spring(
-		{x: pointerX, y: pointerY},
+		{x: pointer_x, y: pointer_y},
 		{
 			stiffness: 0.08,
 			damping: 0.32,
 		},
 	);
-	$: void spotPosition.set({x: pointerX, y: pointerY});
+	$: void spotPosition.set({x: pointer_x, y: pointer_y});
 
 	let osc: OscillatorNode | undefined;
 	let gain: GainNode | undefined;
 
-	$: freq = pointerX >= 0 && $dimensions.width ? calcFreq(pointerX, $dimensions.width) : undefined;
+	$: freq =
+		pointer_x >= 0 && $dimensions.width ? calcFreq(pointer_x, $dimensions.width) : undefined;
 	$: displayedFreq = freq === undefined ? '' : Math.round(freq);
 	$: if (osc && freq !== undefined) {
 		osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
@@ -39,7 +40,7 @@
 	};
 
 	$: volume =
-		pointerY >= 0 && $dimensions.height ? calcVolume(pointerY, $dimensions.height) : undefined;
+		pointer_y >= 0 && $dimensions.height ? calcVolume(pointer_y, $dimensions.height) : undefined;
 	$: displayedVolume = volume === undefined ? '' : Math.round(volume * 100);
 	$: if (gain && volume !== undefined) {
 		gain.gain.setTargetAtTime(
@@ -84,8 +85,8 @@
 		if (!('touches' in e) && e.button !== 0) return; // avoid eating mouse button on Chrome (but not FF?)
 		swallow(e); // TODO should these not be called for mobile?
 		start();
-		pointerX = pointerEventX(e);
-		pointerY = pointerEventY(e);
+		pointer_x = pointerEventX(e);
+		pointer_y = pointerEventY(e);
 	};
 	const handlePointerUp = (e: TouchEvent | MouseEvent) => {
 		if (!audioCtx || !osc) return;
@@ -96,8 +97,8 @@
 	const handlePointerMove = (e: TouchEvent | MouseEvent) => {
 		if (!audioCtx || !osc) return;
 		swallow(e); // TODO should these not be called for mobile?
-		pointerX = pointerEventX(e);
-		pointerY = pointerEventY(e);
+		pointer_x = pointerEventX(e);
+		pointer_y = pointerEventY(e);
 	};
 </script>
 

@@ -44,8 +44,8 @@
 	$: width = $dimensions.width;
 	$: height = $dimensions.height;
 
-	let pointerX = -300;
-	let pointerY = -300;
+	let pointer_x = -300;
+	let pointer_y = -300;
 	let canvas: HTMLCanvasElement;
 	let canvasCtx: CanvasRenderingContext2D | undefined;
 	let canvasData: ImageData | undefined;
@@ -91,7 +91,7 @@
 		points: '',
 	});
 	// this won't work for replaying sounds - we'd need to store lines every frame instead of pointer changes
-	$: if (pointerX >= 0) addPoint(pointerX, pointerY);
+	$: if (pointer_x >= 0) addPoint(pointer_x, pointer_y);
 	const addPoint = (x: number, y: number) => {
 		const point = ` ${x},${y}`;
 		const line = lines[lines.length - 1];
@@ -107,20 +107,20 @@
 	const audioCtx = getAudioCtx();
 
 	const spotPosition = spring(
-		{x: pointerX, y: pointerY},
+		{x: pointer_x, y: pointer_y},
 		{
 			stiffness: 0.08,
 			damping: 0.32,
 		},
 	);
-	$: void spotPosition.set({x: pointerX, y: pointerY});
+	$: void spotPosition.set({x: pointer_x, y: pointer_y});
 
 	let osc: OscillatorNode | undefined;
 	let gain: GainNode | undefined;
 
 	const VOLUME = 0.35; // TODO probably hook into global settings
 
-	$: freq = width ? calcFreq(pointerX, pointerY, width, height) : undefined;
+	$: freq = width ? calcFreq(pointer_x, pointer_y, width, height) : undefined;
 	$: if (osc && freq !== undefined) osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 	$: displayedFreq = freq === undefined ? '' : Math.round(freq);
 
@@ -170,8 +170,8 @@
 		if (!('touches' in e) && e.button !== 0) return; // avoid eating mouse button on Chrome (but not FF?)
 		swallow(e); // TODO should these not be called for mobile?
 		start();
-		pointerX = pointerEventX(e);
-		pointerY = pointerEventY(e);
+		pointer_x = pointerEventX(e);
+		pointer_y = pointerEventY(e);
 
 		const nextPoint = createNextPoint();
 		lines.push(nextPoint);
@@ -186,8 +186,8 @@
 	const handlePointerMove = (e: TouchEvent | MouseEvent) => {
 		if (!audioCtx || !osc) return;
 		swallow(e); // TODO should these not be called for mobile?
-		if (!e.altKey) pointerX = pointerEventX(e);
-		if (!e.shiftKey) pointerY = pointerEventY(e);
+		if (!e.altKey) pointer_x = pointerEventX(e);
+		if (!e.shiftKey) pointer_y = pointerEventY(e);
 	};
 
 	// controls
