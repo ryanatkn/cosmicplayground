@@ -33,8 +33,8 @@
 					>the repo</a
 				>
 				at
-				<a href="https://github.com/ryanatkn/cosmicplayground/tree/main/src/static/assets">
-					<code>src/static/assets</code>
+				<a href="https://github.com/ryanatkn/cosmicplayground/tree/main/static/assets">
+					<code>static/assets</code>
 				</a>
 			</li>
 			<li>more credits below</li>

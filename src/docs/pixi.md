@@ -2,7 +2,7 @@
 
 [PixiJS](https://github.com/pixijs/pixi.js) was first added as a dependency to improve
 the rendering performance of [Deep Breath](https://www.cosmicplayground.org/deep-breath),
-which animates [fifteen 4096x2048 images of Earth](/src/static/assets/earth/)
+which animates [fifteen 4096x2048 images of Earth](/static/assets/earth/)
 layered together with opacity, scaling, and movement.
 The [original DOM implementation](/src/lib/app/EarthViewerDom.svelte)
 has performance problems that range from moderate to severe

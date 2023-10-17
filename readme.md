@@ -1,6 +1,6 @@
 # cosmicplayground
 
-[<img src="/src/static/assets/characters/cosmic-kitty.webp" align="right" width="192" height="192">](https://www.cosmicplayground.org)
+[<img src="/static/assets/characters/cosmic-kitty.webp" align="right" width="192" height="192">](https://www.cosmicplayground.org)
 
 > tools and toys for expanding minds
 > [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
@@ -40,7 +40,7 @@ It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
 
 > learn more [about cosmicplayground](https://www.cosmicplayground.org/about)
 
-[![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
+[![galaxies](/static/assets/space/galaxies-banner.jpg)](/static/assets/space/galaxies.jpg)
 
 ## develop
 
@@ -95,4 +95,4 @@ For the licenses and copyright info of the
 graphics, audio, and other non-code assets,
 see [cosmicplayground.org/about](https://www.cosmicplayground.org/about).
 
-[![galaxies](/src/static/assets/space/galaxies-banner.jpg)](/src/static/assets/space/galaxies.jpg)
+[![galaxies](/static/assets/space/galaxies-banner.jpg)](/static/assets/space/galaxies.jpg)
