@@ -1,1 +1,0 @@
-import{f as n,h as i}from"./scheduler.37029f49.js";const e={},x=()=>n(e)(),C=()=>{let t;const o=()=>(t||(t=s()),t);return i(e,o),o},s=()=>{const t=window;return new(t.AudioContext||t.webkitAudioContext)};export{x as g,C as s};
