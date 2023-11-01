@@ -1,6 +1,6 @@
 import {writable, type Readable} from 'svelte/store';
-import type {AsyncStatus} from '@grogarden/util/async.js';
-import {UnreachableError} from '@grogarden/util/error.js';
+import type {Async_Status} from '@grogarden/util/async.js';
+import {Unreachable_Error} from '@grogarden/util/error.js';
 
 /*
 
@@ -23,14 +23,14 @@ export type Resource = ImageResource | AudioResource;
 export type ImageResource = {
 	type: 'image';
 	url: string;
-	status: AsyncStatus;
+	status: Async_Status;
 	image: HTMLImageElement | null; // TODO maybe make this a union so `null` appears only with initial status?
 	promise: Promise<void> | null;
 };
 export type AudioResource = {
 	type: 'audio';
 	url: string;
-	status: AsyncStatus;
+	status: Async_Status;
 	audio: HTMLAudioElement | null; // TODO maybe make this a union so `null` appears only with initial status?
 	promise: Promise<void> | null;
 };
@@ -100,7 +100,7 @@ export const toResourceStore = (type: ResourceType, url: string): ResourceStore 
 						return {...$v, status: 'pending', audio, promise};
 					}
 					default: {
-						throw new UnreachableError($v);
+						throw new Unreachable_Error($v);
 					}
 				}
 			});

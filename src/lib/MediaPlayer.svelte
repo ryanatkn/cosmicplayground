@@ -3,7 +3,7 @@
 	import {swallow} from '@grogarden/util/dom.js';
 	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
 	import {random_item} from '@grogarden/util/random.js';
-	import PendingAnimation from '@fuz.dev/fuz_library/PendingAnimation.svelte';
+	import Pending_Animation from '@fuz.dev/fuz_library/Pending_Animation.svelte';
 
 	import Playlist from '$lib/Playlist.svelte';
 	import VolumeControl from '$lib/VolumeControl.svelte';
@@ -211,7 +211,7 @@
 				/>
 				<div class="timestamp">
 					{#if status === 'pending'}
-						<PendingAnimation />
+						<Pending_Animation />
 					{:else if duration != null}
 						<div class="box" in:fade|local>
 							<span>{format_time(current_time || 0)}</span><span>{format_time(duration)}</span>

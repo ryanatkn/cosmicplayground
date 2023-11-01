@@ -2,7 +2,7 @@
 	import {writable, type Writable} from 'svelte/store';
 	import {createEventDispatcher, onDestroy} from 'svelte';
 	import {swallow} from '@grogarden/util/dom.js';
-	import {UnreachableError} from '@grogarden/util/error.js';
+	import {Unreachable_Error} from '@grogarden/util/error.js';
 	import type {ClockStore} from '$lib/clock.js';
 
 	import {get_settings} from '$lib/app/settings';
@@ -103,7 +103,7 @@
 					break;
 				}
 				default: {
-					throw new UnreachableError(step);
+					throw new Unreachable_Error(step);
 				}
 			}
 			// Did we just apply the final step?

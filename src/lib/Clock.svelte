@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {get_clock} from '$lib/clock';
-	import PendingAnimation from '@fuz.dev/fuz_library/PendingAnimation.svelte';
+	import Pending_Animation from '@fuz.dev/fuz_library/Pending_Animation.svelte';
 
 	export let clock = get_clock();
 
@@ -8,7 +8,7 @@
 </script>
 
 <button on:click={() => clock.toggle()}>
-	<PendingAnimation {running} />
+	<Pending_Animation {running} />
 	<span class="icon"
 		>{#if running}⏸{:else}▶️{/if}</span
 	>

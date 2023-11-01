@@ -2,7 +2,7 @@
 	import {tick} from 'svelte';
 	import {wait} from '@grogarden/util/async.js';
 	import {EMPTY_ARRAY} from '@grogarden/util/array.js';
-	import PendingAnimation from '@fuz.dev/fuz_library/PendingAnimation.svelte';
+	import Pending_Animation from '@fuz.dev/fuz_library/Pending_Animation.svelte';
 	import {dequal} from 'dequal/lite';
 	import {swallow} from '@grogarden/util/dom.js';
 	import {browser} from '$app/environment';
@@ -425,7 +425,7 @@
 		{/each}
 		{#if strengthBoosterUnlocked}
 			<PortalPreview classes="show-more-button" on_click={() => void toggleStrengthBooster()}>
-				<PendingAnimation
+				<Pending_Animation
 					running={strengthBoosterToggled && $clock.running}
 					let:index
 					--animation_duration="var(--duration_6)"
@@ -449,7 +449,7 @@
 							class="night-light"
 						/>
 					{/if}
-				</PendingAnimation>
+				</Pending_Animation>
 			</PortalPreview>
 		{/if}
 		{#if strengthBoosterToggled}

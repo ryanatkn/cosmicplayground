@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type {AsyncStatus} from '@grogarden/util/async.js';
-	import PendingAnimation from '@fuz.dev/fuz_library/PendingAnimation.svelte';
+	import type {Async_Status} from '@grogarden/util/async.js';
+	import Pending_Animation from '@fuz.dev/fuz_library/Pending_Animation.svelte';
 
-	export let status: AsyncStatus = 'pending'; // 'initial' is unhandled
+	export let status: Async_Status = 'pending'; // 'initial' is unhandled
 
 	$: success = status === 'success';
 	$: failure = status === 'failure';
 </script>
 
 <span class:success class:failure>
-	<PendingAnimation running={status === 'pending'} />
+	<Pending_Animation running={status === 'pending'} />
 </span>
 
 <style>

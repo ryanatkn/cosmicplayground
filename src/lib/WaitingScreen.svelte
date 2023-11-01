@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type {AsyncStatus} from '@grogarden/util/async.js';
+	import type {Async_Status} from '@grogarden/util/async.js';
 
 	import WaitingAnimation from '$lib/WaitingAnimation.svelte';
 
-	export let status: AsyncStatus;
+	export let status: Async_Status;
 </script>
 
 <div class="waiting-screen">

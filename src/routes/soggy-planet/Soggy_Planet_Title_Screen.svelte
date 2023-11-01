@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PendingAnimation from '@fuz.dev/fuz_library/PendingAnimation.svelte';
+	import Pending_Animation from '@fuz.dev/fuz_library/Pending_Animation.svelte';
 	import {base} from '$app/paths';
 
 	import Soggy_Planet_Thumbnail from '$routes/soggy-planet/Soggy_Planet_Thumbnail.svelte';
@@ -50,7 +50,7 @@
 		</div>
 		<div class="loading_animation">
 			{#if loading}
-				<PendingAnimation />
+				<Pending_Animation />
 			{/if}
 		</div>
 		<Panel>

@@ -7,7 +7,7 @@
 	import Themed from '@fuz.dev/fuz/Themed.svelte';
 	import {sync_color_scheme} from '@fuz.dev/fuz/theme.js';
 	import {onMount} from 'svelte';
-	import type {AsyncStatus} from '@grogarden/util/async.js';
+	import type {Async_Status} from '@grogarden/util/async.js';
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
 	import {beforeNavigate, goto} from '$app/navigation';
@@ -66,7 +66,7 @@
 	$: bg?.update_dimensions($dimensions.width, $dimensions.height);
 	$: bg?.tick($clock.dt);
 
-	let loadingStatus: AsyncStatus = 'initial';
+	let loadingStatus: Async_Status = 'initial';
 
 	onMount(async () => {
 		const redirecting = check_legacy_hash_redirect();

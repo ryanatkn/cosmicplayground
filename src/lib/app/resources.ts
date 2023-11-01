@@ -1,6 +1,6 @@
 import {writable, type Readable, type Writable} from 'svelte/store';
-import type {AsyncStatus} from '@grogarden/util/async.js';
-import {UnreachableError} from '@grogarden/util/error.js';
+import type {Async_Status} from '@grogarden/util/async.js';
+import {Unreachable_Error} from '@grogarden/util/error.js';
 import {Assets} from '@pixi/assets';
 import type {Texture} from '@pixi/core';
 
@@ -23,7 +23,7 @@ export interface ResourcesStore extends Readable<ResourcesState> {
 }
 
 export interface ResourcesState {
-	status: AsyncStatus;
+	status: Async_Status;
 	progress: number;
 	resources: Resource[];
 	promise: Promise<void> | null;
@@ -33,13 +33,13 @@ export type Resource = ImageResource | AudioResource;
 export type ImageResource = {
 	type: 'image';
 	url: string;
-	status: AsyncStatus;
+	status: Async_Status;
 	texture: Writable<Texture | null>;
 };
 export type AudioResource = {
 	type: 'audio';
 	url: string;
-	status: AsyncStatus;
+	status: Async_Status;
 	audio: HTMLAudioElement | null; // TODO maybe make this a union so `null` appears only with initial status?
 };
 export type ResourceType = Resource['type'];
@@ -126,7 +126,7 @@ export const createResourcesStore = (): ResourcesStore => {
 						break;
 					}
 					default: {
-						throw new UnreachableError(type);
+						throw new Unreachable_Error(type);
 					}
 				}
 				return {...state, resources: state.resources.concat(resource)};
@@ -160,7 +160,7 @@ export const createResourcesStore = (): ResourcesStore => {
 							break;
 						}
 						default: {
-							throw new UnreachableError(resource);
+							throw new Unreachable_Error(resource);
 						}
 					}
 				}
@@ -178,7 +178,7 @@ export const createResourcesStore = (): ResourcesStore => {
 								break;
 							}
 							default: {
-								throw new UnreachableError(resource);
+								throw new Unreachable_Error(resource);
 							}
 						}
 					}

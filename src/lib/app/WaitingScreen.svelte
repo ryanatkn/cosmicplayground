@@ -1,8 +1,8 @@
 <script lang="ts">
 	import WaitingAnimation from '$lib/app/WaitingAnimation.svelte';
-	import type {AsyncStatus} from '@grogarden/util/async.js';
+	import type {Async_Status} from '@grogarden/util/async.js';
 
-	export let status: AsyncStatus;
+	export let status: Async_Status;
 </script>
 
 <div class="waiting-screen fade-in">

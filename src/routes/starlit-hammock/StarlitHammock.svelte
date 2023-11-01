@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {AsyncStatus} from '@grogarden/util/async.js';
+	import type {Async_Status} from '@grogarden/util/async.js';
 	import {Texture, SCALE_MODES} from '@pixi/core';
 	import {Sprite} from '@pixi/sprite';
 	import {Container} from '@pixi/display';
@@ -71,7 +71,7 @@
 	};
 
 	// TODO handle failure and initial?
-	let loadingStatus: AsyncStatus;
+	let loadingStatus: Async_Status;
 	$: loadingStatus = sprite ? 'success' : 'pending';
 </script>
 
