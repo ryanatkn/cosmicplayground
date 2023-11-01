@@ -1,9 +1,10 @@
 {
   "name": "@ryanatkn/cosmicplayground",
   "description": "tools and toys for expanding minds",
-  "homepage": "https://www.cosmicplayground.org/",
-  "license": "Unlicense",
   "version": "0.0.1",
+  "public": true,
+  "license": "Unlicense",
+  "homepage": "https://www.cosmicplayground.org/",
   "author": {
     "name": "Ryan Atkinson",
     "email": "mail@ryanatkn.com",
