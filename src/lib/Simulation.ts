@@ -1,7 +1,7 @@
-import type {Collisions, CollisionResult, FilterPotentials} from '@ryanatkn/collisions';
+import type {Collisions, Collision_Result, Filter_Potentials} from '@ryanatkn/collisions';
 
 import type {Entity} from '$lib/entity.js';
-import type {EntityBody} from '$lib/entityBody';
+import type {EntityBody} from '$lib/entityBody.js';
 import {collisionResult} from '$lib/entityHelpers';
 
 const potentials: EntityBody[] = [];
@@ -25,7 +25,7 @@ export class Simulation {
 
 	update(
 		dt: number,
-		collide: (entityA: Entity, entityB: Entity, collisionResult: CollisionResult) => void,
+		collide: (entityA: Entity, entityB: Entity, collisionResult: Collision_Result) => void,
 		filter?: (bodyA: EntityBody, bodyB: EntityBody) => boolean,
 	): void {
 		this.collisions.update();
@@ -47,7 +47,7 @@ export class Simulation {
 
 			if (!entityA.ghostly) {
 				potentials.length = 0;
-				entityA.body.potentials(filter as FilterPotentials, potentials);
+				entityA.body.potentials(filter as Filter_Potentials, potentials);
 
 				for (const bodyB of potentials) {
 					if (bodyB.entity.ghostly) continue; // TODO should this be part of the filter?

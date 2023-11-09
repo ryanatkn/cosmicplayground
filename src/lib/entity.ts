@@ -2,7 +2,7 @@ import {Container} from '@pixi/display';
 import {Text} from '@pixi/text';
 import {Graphics} from '@pixi/graphics';
 
-import type {EntityBody} from '$lib/entityBody';
+import type {EntityBody} from '$lib/entityBody.js';
 import {hsl_to_hex, hsl_to_string, type Hsl} from '$lib/colors';
 
 const DEFAULT_COLOR: Hsl = [0.611, 1, 0.7];

@@ -1,6 +1,6 @@
 import {writable} from 'svelte/store';
 
-import type {EntityCircle} from '$lib/entityBody';
+import type {EntityCircle} from '$lib/entityBody.js';
 import type {CameraState} from '$lib/camera';
 import type {Entity} from '$lib/entity.js';
 
@@ -61,9 +61,9 @@ export class DomCanvasRenderer {
 			ctx.beginPath();
 			ctx.strokeStyle = entity.colorStr || '#fff';
 			if (entity.body._circle) {
-				drawCircle(ctx, entity.body, camera);
+				draw_circle(ctx, entity.body, camera);
 			} else {
-				// drawPolygon(ctx, entity, camera);
+				// draw_polygon(ctx, entity, camera);
 				throw Error('TODO');
 			}
 			ctx.stroke();
@@ -94,9 +94,9 @@ export class DomCanvasRenderer {
 	// 		}
 	// 		if (entity.invisible || entity.dead) continue;
 	// 		if (entity._circle) {
-	// 			drawCircle(ctx, entity, camera);
+	// 			draw_circle(ctx, entity, camera);
 	// 		} else {
-	// 			// drawPolygon(ctx, entity, camera);
+	// 			// draw_polygon(ctx, entity, camera);
 	// 			throw Error('TODO');
 	// 		}
 	// 	}
@@ -105,7 +105,7 @@ export class DomCanvasRenderer {
 	// }
 }
 
-const drawCircle = (
+const draw_circle = (
 	ctx: CanvasRenderingContext2D,
 	entity: EntityCircle,
 	camera: CameraState,

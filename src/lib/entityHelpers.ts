@@ -1,12 +1,12 @@
 import {random_float} from '@grogarden/util/random.js';
-import {CollisionResult, type Collisions} from '@ryanatkn/collisions';
+import {Collision_Result, type Collisions} from '@ryanatkn/collisions';
 
 import {Entity} from '$lib/entity.js';
-import type {EntityCircle} from '$lib/entityBody';
+import type {EntityCircle} from '$lib/entityBody.js';
 
-export const collisionResult = new CollisionResult();
+export const collisionResult = new Collision_Result();
 
-export const collide = (entityA: Entity, entityB: Entity, result: CollisionResult): void => {
+export const collide = (entityA: Entity, entityB: Entity, result: Collision_Result): void => {
 	const overlap_x = result.overlap! * result.overlap_x;
 	const overlap_y = result.overlap! * result.overlap_y;
 	const body2_pct =
@@ -43,7 +43,7 @@ export const frag = (
 		for (let i = 0; i < count; i++) {
 			// get point around towards the center and draw a triangle
 			const fragment = new Entity(
-				collisions.createCircle(entity.x, entity.y, radii[i]) as EntityCircle,
+				collisions.create_circle(entity.x, entity.y, radii[i]) as EntityCircle,
 			);
 			fragment.speed = entity.speed;
 			fragment.directionX = entity.directionX;

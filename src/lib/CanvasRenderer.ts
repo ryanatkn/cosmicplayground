@@ -1,4 +1,4 @@
-import {drawCircle, drawPolygon} from '@ryanatkn/collisions';
+import {draw_circle, draw_polygon} from '@ryanatkn/collisions';
 
 import type {Renderer} from '$lib/renderer';
 import type {Entity} from '$lib/entity.js';
@@ -56,9 +56,9 @@ export class CanvasRenderer implements Renderer {
 			ctx.beginPath();
 			ctx.strokeStyle = entity.colorStr || '#fff';
 			if (entity.body._circle) {
-				drawCircle(entity as any, ctx); // TODO type and maybe use `drawBodies` or add `drawBody`
+				draw_circle(entity as any, ctx); // TODO type and maybe use `drawBodies` or add `drawBody`
 			} else {
-				drawPolygon(entity as any, ctx); // TODO type and maybe use `drawBodies` or add `drawBody`
+				draw_polygon(entity as any, ctx); // TODO type and maybe use `drawBodies` or add `drawBody`
 			}
 			ctx.stroke();
 			ctx.closePath();

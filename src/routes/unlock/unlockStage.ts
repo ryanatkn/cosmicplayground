@@ -102,7 +102,7 @@ export class Stage extends BaseStage {
 		console.log('setup stage, sim, controller', sim, controller);
 		// create the controllable player
 		const player = (this.player = new Entity(
-			collisions.createCircle(playerX, playerY, PLAYER_RADIUS) as EntityCircle,
+			collisions.create_circle(playerX, playerY, PLAYER_RADIUS) as EntityCircle,
 		));
 		player.text = PLAYER_ICON;
 		player.fontSize = toIconFontSize(player.radius);
@@ -115,7 +115,7 @@ export class Stage extends BaseStage {
 		// TODO create these programmatically from data
 		const planetRadius = 1618;
 		const planet = (this.planet = new Entity(
-			collisions.createCircle(
+			collisions.create_circle(
 				-1450 + planetRadius / 2,
 				-1750 + planetRadius / 2,
 				planetRadius,
@@ -131,7 +131,7 @@ export class Stage extends BaseStage {
 		// TODO how will this work for polygons?
 		const rockSize = 262;
 		const rock = (this.rock = new Entity(
-			collisions.createCircle(2275 + rockSize / 2, 1200 + rockSize / 2, rockSize) as EntityCircle,
+			collisions.create_circle(2275 + rockSize / 2, 1200 + rockSize / 2, rockSize) as EntityCircle,
 		));
 		rock.speed = ROCK_SPEED;
 		rock.directionX = -1;
@@ -141,7 +141,7 @@ export class Stage extends BaseStage {
 		rock.color = COLOR_ROCK;
 		this.addEntity(rock);
 
-		let moon = new Entity(collisions.createCircle(1660, 1012, 43) as EntityCircle);
+		let moon = new Entity(collisions.create_circle(1660, 1012, 43) as EntityCircle);
 		moon.text = MOON_ICONS[1];
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
@@ -149,7 +149,7 @@ export class Stage extends BaseStage {
 		this.addEntity(moon);
 		moons.add(moon);
 
-		moon = new Entity(collisions.createCircle(1420, 1174, 72) as EntityCircle);
+		moon = new Entity(collisions.create_circle(1420, 1174, 72) as EntityCircle);
 		moon.text = MOON_ICONS[2];
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
@@ -157,7 +157,7 @@ export class Stage extends BaseStage {
 		this.addEntity(moon);
 		moons.add(moon);
 
-		moon = new Entity(collisions.createCircle(2010, 872, 19) as EntityCircle);
+		moon = new Entity(collisions.create_circle(2010, 872, 19) as EntityCircle);
 		moon.text = MOON_ICONS[3];
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
@@ -165,7 +165,7 @@ export class Stage extends BaseStage {
 		this.addEntity(moon);
 		moons.add(moon);
 
-		moon = new Entity(collisions.createCircle(1870, 776, 27) as EntityCircle);
+		moon = new Entity(collisions.create_circle(1870, 776, 27) as EntityCircle);
 		moon.text = MOON_ICONS[4];
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
