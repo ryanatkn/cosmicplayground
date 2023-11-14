@@ -1,0 +1,1 @@
+export const THUMBNAIL_WIDTH_DEFAULT = 600;

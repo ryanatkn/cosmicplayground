@@ -1,0 +1,58 @@
+<script lang="ts">
+	import {page} from '$app/stores';
+	import Breadcrumb from '@fuz.dev/fuz_library/Breadcrumb.svelte';
+
+	import Panel from '$lib/app/Panel.svelte';
+	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
+	import {get_portals} from '$lib/app/portals';
+	import PortalLink from '$lib/app/PortalLink.svelte';
+
+	const portals = get_portals();
+</script>
+
+<!-- TODO how to handle this? -->
+<section class="page box">
+	<Panel>
+		<div class="prose box">
+			<h1>void</h1>
+			<p>nothing is here</p>
+			<Breadcrumb path={$page.url.pathname}>🌠</Breadcrumb>
+		</div>
+		<a href="/">
+			<ChunkyButton>go back home</ChunkyButton>
+		</a>
+	</Panel>
+	<div class="sadface">D:</div>
+	<Panel>
+		<h2 class="spaced text_align_center">maybe you want one of these?</h2>
+		<ul class="box row wrap">
+			{#each $portals.data.portals as portal (portal.slug)}
+				<li role="none">
+					<PortalLink slug={portal.slug} />
+				</li>
+			{/each}
+		</ul>
+	</Panel>
+	<div class="prose box">
+		<h2>maybe it was the computers fault</h2>
+	</div>
+</section>
+
+<style>
+	.page {
+		margin-bottom: var(--spacing_5);
+	}
+	.sadface {
+		opacity: 0.6;
+		display: flex;
+		justify-content: center;
+		font-size: var(--size_5);
+		font-weight: 300;
+	}
+	ul {
+		list-style: none;
+	}
+	li {
+		padding: var(--spacing-3);
+	}
+</style>
