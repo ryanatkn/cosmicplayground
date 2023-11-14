@@ -23,8 +23,8 @@
 		style="opacity: {opacities[i]}; z-index: {floorIndex === undefined
 			? zIndex
 			: i === floorIndex
-			? zIndex
-			: zIndex + 1};"
+			  ? zIndex
+			  : zIndex + 1};"
 	/>
 {/each}
 

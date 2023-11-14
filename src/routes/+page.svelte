@@ -256,8 +256,8 @@
 			savedScores
 				? JSON.stringify(savedScores)
 				: initialScores
-				? JSON.stringify(initialScores)
-				: undefined,
+				  ? JSON.stringify(initialScores)
+				  : undefined,
 		)?.trim();
 		if (newScoresRaw === '') {
 			if (initialScores) {

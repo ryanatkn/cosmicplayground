@@ -14,15 +14,15 @@ export const computeBlendedImagesContinuumOpacities = (
 				? i === baseIndex
 					? 1
 					: i === nextIndex
-					? nextIndexPct
-					: 0
+					  ? nextIndexPct
+					  : 0
 				: i === floorIndex
-				? 1
-				: i === baseIndex
-				? 1 - nextIndexPct
-				: i > baseIndex
-				? 1
-				: 0;
+				  ? 1
+				  : i === baseIndex
+				    ? 1 - nextIndexPct
+				    : i > baseIndex
+				      ? 1
+				      : 0;
 	}
 	return opacities;
 };

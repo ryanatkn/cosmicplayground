@@ -149,8 +149,8 @@
 	$: time_to_go_idle = $settings.dev_mode
 		? 99999999999
 		: $settings.recording_mode
-		? 500
-		: $settings.time_to_go_idle;
+		  ? 500
+		  : $settings.time_to_go_idle;
 	set_audio_ctx(); // allows components to do `const audio_ctx = get_audio_ctx();` which uses svelte's `getContext`
 
 	// TODO integrate this with the controls in `index.svelte` and `World.svelte`

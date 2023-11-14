@@ -26,8 +26,8 @@
 				title={resource.status === 'failure'
 					? 'click to reload'
 					: resource.status === 'success'
-					? 'resource loaded'
-					: 'resource loading'}
+					  ? 'resource loaded'
+					  : 'resource loading'}
 			/>
 		{/each}
 	</div>
