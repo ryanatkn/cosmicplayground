@@ -3,6 +3,7 @@
   "description": "tools and toys for expanding minds",
   "version": "0.0.1",
   "public": true,
+  "icon": "🌌",
   "license": "Unlicense",
   "homepage": "https://www.cosmicplayground.org/",
   "author": {
