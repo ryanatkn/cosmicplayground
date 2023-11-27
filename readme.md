@@ -2,8 +2,8 @@
 
 [<img src="/static/assets/characters/cosmic-kitty.webp" align="right" width="192" height="192">](https://www.cosmicplayground.org)
 
-> tools and toys for expanding minds
-> [:milky_way: cosmicplayground.org](https://www.cosmicplayground.org)
+> tools and toys for expanding minds 🌌
+> [cosmicplayground.org](https://www.cosmicplayground.org)
 
 [cosmicplayground.org](https://www.cosmicplayground.org)
 is a free and open source noncommercial hobby project exploring
