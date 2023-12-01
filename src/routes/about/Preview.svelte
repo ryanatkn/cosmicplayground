@@ -8,8 +8,6 @@
 		about
 		<div class="box" style:margin="10px"><Favicon size={48} /></div>
 		credits
-		<div class="box mirror_x" style:margin="10px"><Favicon size={48} /></div>
-		contact
 	</div>
 </div>
 
