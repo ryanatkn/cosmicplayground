@@ -115,8 +115,8 @@
 		const current_index = playing_song
 			? playlist_items.findIndex((p) => p.song === playing_song!.song)
 			: last_playing_song
-			  ? playlist_items.findIndex((p) => p.song === last_playing_song!.song)
-			  : 1;
+				? playlist_items.findIndex((p) => p.song === last_playing_song!.song)
+				: 1;
 		const previous_index = current_index === 0 ? playlist_items.length - 1 : current_index - 1;
 		return playlist_items[previous_index];
 	};
@@ -130,8 +130,8 @@
 		const current_index = playing_song
 			? playlist_items.findIndex((p) => p.song === playing_song!.song)
 			: last_playing_song
-			  ? playlist_items.findIndex((p) => p.song === last_playing_song!.song)
-			  : playlist_items.length - 1;
+				? playlist_items.findIndex((p) => p.song === last_playing_song!.song)
+				: playlist_items.length - 1;
 		const next_index = current_index === playlist_items.length - 1 ? 0 : current_index + 1;
 		return playlist_items[next_index];
 	};

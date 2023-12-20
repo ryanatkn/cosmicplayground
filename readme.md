@@ -51,7 +51,7 @@ and there's no 3rd party junk anywhere.
 > [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) works
 
 ```bash
-npm i # node 20.7+
+npm i # node 20.10+
 npm start # or gro dev
 # open your browser to localhost:5173 or whatever it says
 npm run build # for production, or gro build

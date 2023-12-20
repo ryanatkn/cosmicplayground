@@ -136,7 +136,7 @@ export const resume_song = (state: SongPlayState | null): void => {
 				? {
 						...$p,
 						play: ($p.audio_el && play_audio($p.audio_el, null)) || null,
-				  }
+					}
 				: null,
 		);
 		paused.set(false);
