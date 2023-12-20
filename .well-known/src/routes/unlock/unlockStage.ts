@@ -219,23 +219,23 @@ export class Stage extends BaseStage {
 				const _moon = moons.has(entityA as Entity<EntityCircle>)
 					? entityA
 					: moons.has(entityB as Entity<EntityCircle>)
-					  ? entityB
-					  : null;
+						? entityB
+						: null;
 				const _rockFragment = rockFragments.has(entityA as Entity<EntityCircle>)
 					? entityA
 					: rockFragments.has(entityB as Entity<EntityCircle>)
-					  ? entityB
-					  : null;
+						? entityB
+						: null;
 				const _planetFragment = planetFragments.has(entityA as Entity<EntityCircle>)
 					? entityA
 					: planetFragments.has(entityB as Entity<EntityCircle>)
-					  ? entityB
-					  : null;
+						? entityB
+						: null;
 				const _moonFragment = moonFragments.has(entityA as Entity<EntityCircle>)
 					? entityA
 					: moonFragments.has(entityB as Entity<EntityCircle>)
-					  ? entityB
-					  : null;
+						? entityB
+						: null;
 
 				const _molten = _rock || _rockFragment || _planetFragment || _moonFragment;
 				if (_moon && _molten) {
@@ -255,18 +255,18 @@ export class Stage extends BaseStage {
 						f.speed = moltenIsRock
 							? random_float(_molten.speed * 1.2, _molten.speed * 2.44)
 							: moltenIsMoonFragment
-							  ? random_float(_molten.speed / 2, _molten.speed * 2)
-							  : random_float(_molten.speed / 8, _molten.speed);
+								? random_float(_molten.speed / 2, _molten.speed * 2)
+								: random_float(_molten.speed / 8, _molten.speed);
 						f.directionX = moltenIsRock
 							? random_float(_molten.directionX / 2, _molten.directionX * 2)
 							: moltenIsMoonFragment
-							  ? random_float(_molten.directionX / 2, _molten.directionX * 2)
-							  : random_float(-_molten.directionX / 2, _molten.directionX);
+								? random_float(_molten.directionX / 2, _molten.directionX * 2)
+								: random_float(-_molten.directionX / 2, _molten.directionX);
 						f.directionY = moltenIsRock
 							? random_float(_molten.directionY / 2, _molten.directionY * 2)
 							: moltenIsMoonFragment
-							  ? random_float(_molten.directionY / 2, _molten.directionY * 2)
-							  : random_float(-_molten.directionY / 2, _molten.directionY);
+								? random_float(_molten.directionY / 2, _molten.directionY * 2)
+								: random_float(-_molten.directionY / 2, _molten.directionY);
 						f.color = COLOR_MOLTEN;
 					}
 				} else if (_rock && _planet) {
@@ -313,8 +313,8 @@ export class Stage extends BaseStage {
 				const _moon = moons.has(entityA as Entity<EntityCircle>)
 					? entityA
 					: moons.has(entityB as Entity<EntityCircle>)
-					  ? entityB
-					  : null;
+						? entityB
+						: null;
 				if (_player && (_planet || _moon)) {
 					return false; // player doesn't collide with these
 				}

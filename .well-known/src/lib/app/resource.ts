@@ -57,14 +57,14 @@ export const toResourceStore = (type: ResourceType, url: string): ResourceStore 
 					status: 'initial',
 					audio: null,
 					promise,
-			  }
+				}
 			: {
 					type,
 					url,
 					status: 'initial',
 					image: null,
 					promise,
-			  },
+				},
 	);
 	const {update, subscribe} = store;
 

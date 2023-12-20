@@ -1,9 +1,0 @@
-import{n as u,e as c,s as m,b as v,g as p,c as g,i as n,a as r,d as h,m as y}from"./scheduler.d427b008.js";import{S as f,i as b}from"./index.b9cc0b28.js";function _(l){let t,i=`<a href="https://visibleearth.nasa.gov/collection/1484/blue-marble">Blue Marble Next Generation</a>
-	by Reto Stöckli, <a href="https://visibleearth.nasa.gov">NASA Visible Earth</a>,
-	<a href="https://earthobservatory.nasa.gov">NASA Earth Observatory</a> (2004)`,e,a,d=`Earth <a href="https://visibleearth.nasa.gov/images/73934/topography">topography</a> and
-	<a href="https://visibleearth.nasa.gov/images/73963/bathymetry">bathymetry</a>
-	by Jesse Allen, <a href="https://visibleearth.nasa.gov">NASA Visible Earth</a>,
-	<a href="https://earthobservatory.nasa.gov">NASA Earth Observatory</a>, using data from the
-	General Bathymetric Chart of the Oceans (<a href="https://www.gebco.net/">GEBCO</a>) produced by
-	the <a href="https://www.bodc.ac.uk/">British Oceanographic Data Centre</a>
-	(2005)`;return{c(){t=c("p"),t.innerHTML=i,e=m(),a=c("p"),a.innerHTML=d},l(s){t=v(s,"P",{"data-svelte-h":!0}),p(t)!=="svelte-u5jbf7"&&(t.innerHTML=i),e=g(s),a=v(s,"P",{"data-svelte-h":!0}),p(a)!=="svelte-of797q"&&(a.innerHTML=d)},m(s,o){n(s,t,o),n(s,e,o),n(s,a,o)},p:r,i:r,o:r,d(s){s&&(h(t),h(e),h(a))}}}class S extends f{constructor(t){super(),b(this,t,null,_,u,{})}}function C(l){let t,i='<div class="links svelte-h08qzw"><div>public ⚘ domain</div> <div><a href="https://github.com/ryanatkn/cosmicplayground">source code</a></div></div>';return{c(){t=c("div"),t.innerHTML=i,this.h()},l(e){t=v(e,"DIV",{class:!0,"data-svelte-h":!0}),p(t)!=="svelte-uv1ft9"&&(t.innerHTML=i),this.h()},h(){y(t,"class","credits-project-signature svelte-h08qzw")},m(e,a){n(e,t,a)},p:r,i:r,o:r,d(e){e&&h(t)}}}class w extends f{constructor(t){super(),b(this,t,null,C,u,{})}}export{w as C,S as E};

@@ -1,0 +1,1 @@
+const e=(t,o,s)=>{const r=localStorage.getItem(t);if(console.log("loading",t,r),r===null)return typeof o=="function"?o():o;try{const n=JSON.parse(r);return s?.(n),n}catch{return localStorage.removeItem(t),typeof o=="function"?o():o}},c=(t,o)=>{console.log("setting",t,o),o===void 0?localStorage.removeItem(t):localStorage.setItem(t,JSON.stringify(o))};export{e as l,c as s};
