@@ -7,7 +7,7 @@ import {
 	type TourStepType,
 	type PanTourStep,
 	type ZoomTourStep,
-} from '$lib/app/tour';
+} from '$lib/tour';
 
 type Easing = (t: number) => number;
 

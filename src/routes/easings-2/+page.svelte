@@ -31,7 +31,7 @@
 	import {get_audio_ctx} from '$lib/audio_ctx';
 	import {midiNames, DEFAULT_TUNING} from '$lib/notes';
 	import {midiToFreq, type Midi} from '$lib/midi';
-	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
+	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import {muted, volume} from '$lib/play_song';
 
 	const clock = get_clock();

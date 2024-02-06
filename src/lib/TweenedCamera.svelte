@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {sineInOut} from 'svelte/easing';
 
-	import type Camera from '$lib/app/Camera.svelte';
-	import TweenedValue from '$lib/app/TweenedValue.svelte';
+	import type Camera from '$lib/Camera.svelte';
+	import TweenedValue from '$lib/TweenedValue.svelte';
 
 	export let camera: Camera;
 	export let enabled = true;

@@ -3,7 +3,7 @@
 	import {page} from '$app/stores';
 	import {base} from '$app/paths';
 
-	import Panel from '$lib/app/Panel.svelte';
+	import Panel from '$lib/Panel.svelte';
 	import MediaPlayer from '$lib/MediaPlayer.svelte';
 	import {songs_by_name} from '$lib/songs';
 	import {loadFromStorage, setInStorage} from '$lib/storage';
@@ -20,7 +20,7 @@
 		repeat,
 	} from '$lib/play_song';
 	import type {PlaylistItemData} from '$lib/playlist';
-	import PortalPreview from '$lib/app/PortalPreview.svelte';
+	import PortalPreview from '$lib/PortalPreview.svelte';
 	import AboutPortalPreview from '$routes/about/Preview.svelte';
 
 	const playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values()).map((song) => ({

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {ImageMeta} from '$lib/app/images';
+	import type {ImageMeta} from '$lib/images';
 
 	export let images: ImageMeta[];
 	export let pick_image: (image: ImageMeta) => void;

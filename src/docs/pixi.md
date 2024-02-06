@@ -4,7 +4,7 @@
 the rendering performance of [Deep Breath](https://www.cosmicplayground.org/deep-breath),
 which animates [fifteen 4096x2048 images of Earth](/static/assets/earth/)
 layered together with opacity, scaling, and movement.
-The [original DOM implementation](/src/lib/app/EarthViewerDom.svelte)
+The [original DOM implementation](/src/lib/EarthViewerDom.svelte)
 has performance problems that range from moderate to severe
 and chews up far more GPU resources than necessary.
 (to the surprise of nobody -
@@ -16,7 +16,7 @@ you can test the difference on the map by pressing `ctrl+backtick` and clicking 
 > [TilingSprite](https://pixijs.download/release/docs/PIXI.TilingSprite.html)
 > and [RenderTexture](https://pixijs.download/release/docs/PIXI.RenderTexture.html)
 > which are used in
-> [the Pixi implementation of the Earth map](/src/lib/app/EarthViewerPixi.svelte).
+> [the Pixi implementation of the Earth map](/src/lib/EarthViewerPixi.svelte).
 
 Pixi is a hefty dependency and roughly tripled the website's JavaScript bundle size
 to a total of about 600KB uncompressed.

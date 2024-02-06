@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {get_clock} from '$lib/clock.js';
 
-	import EarthThumbnail from '$lib/app/EarthThumbnail.svelte';
+	import EarthThumbnail from '$lib/EarthThumbnail.svelte';
 	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/deep-breath/constants';
 
 	export let earthWidth = THUMBNAIL_WIDTH_DEFAULT;

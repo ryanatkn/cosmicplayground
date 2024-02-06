@@ -1,6 +1,8 @@
 <script lang="ts">
 	import {swallow} from '@grogarden/util/dom.js';
 
+	// TODO probably merge with $lib/Surface.svelte
+
 	export let width: number;
 	export let height: number;
 	export let scale: number;

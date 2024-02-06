@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Soggy_Planet_Credits from '$routes/soggy-planet/Soggy_Planet_Credits.svelte';
 	import Credits_Soggy_Planet_Thumbnail from '$routes/about/Credits_Soggy_Planet_Thumbnail.svelte';
-	import PortalLink from '$lib/app/PortalLink.svelte';
+	import PortalLink from '$lib/PortalLink.svelte';
 	import DeepBreathCredits from '$routes/deep-breath/DeepBreathCredits.svelte';
 </script>
 

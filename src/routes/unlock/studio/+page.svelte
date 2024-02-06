@@ -4,7 +4,7 @@
 	import UnlockStageBuilder from '$routes/unlock/UnlockStageBuilder.svelte';
 	import Tabs from '$lib/Tabs.svelte';
 	import {loadFromStorage, setInStorage} from '$lib/storage';
-	import AppDialog from '$lib/app/AppDialog.svelte';
+	import AppDialog from '$lib/AppDialog.svelte';
 	import StudioMenu from '$routes/unlock/studio/StudioMenu.svelte';
 
 	// TODO needs a lot of refactoring -- either combine tabs with controls

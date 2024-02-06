@@ -1,7 +1,7 @@
 import {get, writable, type Readable} from 'svelte/store';
 import {setContext, getContext} from 'svelte';
 
-import type {PortalsData, PortalData} from '$lib/app/portal';
+import type {PortalsData, PortalData} from '$lib/portal';
 
 export interface PortalsState {
 	data: PortalsData;
@@ -12,8 +12,8 @@ export interface PortalsStore extends Readable<PortalsState> {
 	select: (slug: string) => void;
 }
 
-export const create_portals_store = (initialState: PortalsState): PortalsStore => {
-	const store = writable<PortalsState>(initialState);
+export const create_portals_store = (initial_state: PortalsState): PortalsStore => {
+	const store = writable<PortalsState>(initial_state);
 	const {subscribe, update} = store;
 	const portalsStore: PortalsStore = {
 		subscribe,

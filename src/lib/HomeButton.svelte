@@ -3,7 +3,7 @@
 	import {swallow} from '@grogarden/util/dom.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
 
-	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
+	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 
 	const onKeydown = async (e: KeyboardEvent) => {
 		if (e.key === 'Escape' && e.ctrlKey && enable_global_hotkeys(e.target)) {

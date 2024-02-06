@@ -2,14 +2,14 @@
 	import {writable, type Writable} from 'svelte/store';
 	import {get_clock} from '$lib/clock.js';
 
-	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
+	import {createResourcesStore, type AudioResource} from '$lib/resources';
 	import {createDeepBreathTourData} from '$routes/deep-breath/deepBreathTourData';
-	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/app/tour';
-	import {get_settings} from '$lib/app/settings';
+	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/tour';
+	import {get_settings} from '$lib/settings';
 	import DeepBreathTourIntro from '$routes/deep-breath/DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from '$routes/deep-breath/DeepBreathTourTitle.svelte';
-	import Tour from '$lib/app/Tour.svelte';
-	import type Camera from '$lib/app/Camera.svelte';
+	import Tour from '$lib/Tour.svelte';
+	import type Camera from '$lib/Camera.svelte';
 	import DeepBreathTourCredits from '$routes/deep-breath/DeepBreathTourCredits.svelte';
 
 	export let camera: Camera;

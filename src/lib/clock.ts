@@ -17,15 +17,15 @@ export interface ClockStore extends Writable<ClockState> {
 	reset: () => void;
 }
 
-export const create_clock_store = (initialState: Partial<ClockState> = {}): ClockStore => {
+export const create_clock_store = (initial_state: Partial<ClockState> = {}): ClockStore => {
 	let lastTime: number | undefined;
 	let reqId: number | undefined;
 
 	const {subscribe, set, update} = writable(
 		{
-			running: initialState.running ?? false,
-			time: initialState.time ?? 0,
-			dt: initialState.dt ?? 0,
+			running: initial_state.running ?? false,
+			time: initial_state.time ?? 0,
+			dt: initial_state.dt ?? 0,
 		},
 		() => {
 			if (get(store).running) queueUpdate();

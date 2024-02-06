@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PortalPreview from '$lib/app/PortalPreview.svelte';
+	import PortalPreview from '$lib/PortalPreview.svelte';
 
 	export let on_click: ((e: MouseEvent) => void) | null = null; // one of `href` and `on_click` is required
 	export let classes: string | undefined = undefined;

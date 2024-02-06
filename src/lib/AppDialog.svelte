@@ -2,7 +2,7 @@
 	import Teleport from '@fuz.dev/fuz_library/Teleport.svelte';
 	import {get_clock} from '$lib/clock.js';
 
-	import {show_app_dialog, appDialogEl} from '$lib/app/appDialog';
+	import {show_app_dialog, app_dialog_el} from '$lib/app_dialog';
 
 	const clock = get_clock();
 
@@ -16,4 +16,4 @@
 	// TODO rename to "main menu" ? is what we call it in the UI in the controls instructions
 </script>
 
-{#if $appDialogEl}<Teleport to={$appDialogEl}><slot {exit} /></Teleport>{/if}
+{#if $app_dialog_el}<Teleport to={$app_dialog_el}><slot {exit} /></Teleport>{/if}

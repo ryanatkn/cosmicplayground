@@ -4,8 +4,8 @@
 	import {Sprite} from '@pixi/sprite';
 	import {Container} from '@pixi/display';
 
-	import {get_pixi_scene} from '$lib/app/pixi';
-	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
+	import {get_pixi_scene} from '$lib/pixi';
+	import WaitingScreen from '$lib/WaitingScreen.svelte';
 	import {Assets} from '@pixi/assets';
 
 	// TODO refactor with the route component

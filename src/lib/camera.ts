@@ -30,7 +30,7 @@ type SpringOpts = Exclude<Parameters<typeof spring>[1], undefined>;
 type SpringUpdateOpts = Exclude<Parameters<ReturnType<typeof spring>['update']>[1], undefined>;
 
 export const toCameraStore = (
-	initialState?: Partial<BaseCameraState>,
+	initial_state?: Partial<BaseCameraState>,
 	springOpts?: SpringOpts,
 ): CameraStore => {
 	const finalInitialState: BaseCameraState = {
@@ -39,7 +39,7 @@ export const toCameraStore = (
 		scale: 1,
 		width: 0,
 		height: 0,
-		...initialState,
+		...initial_state,
 	};
 
 	// TODO make this more customizable? use a different store than a spring?

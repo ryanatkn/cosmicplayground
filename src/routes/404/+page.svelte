@@ -2,10 +2,10 @@
 	import {page} from '$app/stores';
 	import Breadcrumb from '@fuz.dev/fuz_library/Breadcrumb.svelte';
 
-	import Panel from '$lib/app/Panel.svelte';
-	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
-	import {get_portals} from '$lib/app/portals';
-	import PortalLink from '$lib/app/PortalLink.svelte';
+	import Panel from '$lib/Panel.svelte';
+	import ChunkyButton from '$lib/ChunkyButton.svelte';
+	import {get_portals} from '$lib/portals';
+	import PortalLink from '$lib/PortalLink.svelte';
 
 	const portals = get_portals();
 </script>

@@ -4,7 +4,7 @@
 	import {get_dimensions} from '$lib/dimensions.js';
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
-	import {get_settings} from '$lib/app/settings';
+	import {get_settings} from '$lib/settings';
 	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '$routes/data';
 	import {setInStorage} from '$lib/storage';
 
@@ -28,21 +28,21 @@
 			const hzSelectedIndex = hzItemSelectedIndices.at(-1)!;
 			if (WINNING_HZ_ITEMS.has(hzSelectedIndex)) {
 				setInStorage(STORAGE_KEY_STRENGTH_BOOSTER3, true);
-				if (!$settings.secretEnabled) {
-					settings.update(($settings) => ({...$settings, secretEnabled: true}));
+				if (!$settings.secret_enabled) {
+					settings.update(($settings) => ({...$settings, secret_enabled: true}));
 				}
 			}
 		} else {
-			if ($settings.secretEnabled) {
-				settings.update(($settings) => ({...$settings, secretEnabled: false}));
+			if ($settings.secret_enabled) {
+				settings.update(($settings) => ({...$settings, secret_enabled: false}));
 			}
 		}
 	};
 
 	onDestroy(() => {
 		// secret is ephemeral to just this view, so reset the status if needed
-		if ($settings.secretEnabled) {
-			settings.update(($settings) => ({...$settings, secretEnabled: false}));
+		if ($settings.secret_enabled) {
+			settings.update(($settings) => ({...$settings, secret_enabled: false}));
 		}
 	});
 
@@ -51,7 +51,7 @@
 
 <!-- TODO refactor this lol. also, do wackier thingg with it. -->
 <div class="view" on:click={toggle} aria-hidden>
-	<div class="item" class:pulsing={$settings.secretEnabled}>
+	<div class="item" class:pulsing={$settings.secret_enabled}>
 		<FreqSpectacle
 			{width}
 			height={height * 0.7}
@@ -61,7 +61,7 @@
 			bind:getHzItemSelectedIndices
 		/>
 	</div>
-	<div class="item bottom" class:pulsing={$settings.secretEnabled}>
+	<div class="item bottom" class:pulsing={$settings.secret_enabled}>
 		<div class="item bottom-left">
 			<FreqSpectacle
 				width={width * 0.25}

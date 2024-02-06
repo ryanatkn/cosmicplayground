@@ -2,7 +2,7 @@
 	import {page} from '$app/stores';
 	import type {ClockStore} from '$lib/clock.js';
 
-	import Panel from '$lib/app/Panel.svelte';
+	import Panel from '$lib/Panel.svelte';
 
 	export let clock: ClockStore; // TODO or use context?
 

@@ -3,7 +3,7 @@
 
 	import type {Stage} from '$lib/stage.js'; // TODO shouldnt import this
 	import type {ClockStore} from '$lib/clock.js';
-	import type {PixiApp} from '$lib/app/pixi.js';
+	import type {PixiApp} from '$lib/pixi.js';
 
 	export let pixi: PixiApp; // is not reactive
 	export let stage: Stage; // is not reactive

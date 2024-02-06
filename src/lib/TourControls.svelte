@@ -2,8 +2,8 @@
 	import {round} from '@grogarden/util/maths.js';
 	import {get_clock} from '$lib/clock.js';
 
-	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import type Tour from '$lib/app/Tour.svelte';
+	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
+	import type Tour from '$lib/Tour.svelte';
 
 	export let tour: Tour;
 	export let debug_start_time: number;

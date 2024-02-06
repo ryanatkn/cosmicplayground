@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type {Writable} from 'svelte/store';
 
-	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import type Tour from '$lib/app/Tour.svelte';
-	import TourControls from '$lib/app/TourControls.svelte';
-	import {get_settings} from '$lib/app/settings';
+	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
+	import type Tour from '$lib/Tour.svelte';
+	import TourControls from '$lib/TourControls.svelte';
+	import {get_settings} from '$lib/settings';
 
 	export let tour: Tour | null;
 	export let x: Writable<number>;

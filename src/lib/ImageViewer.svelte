@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Surface from '$lib/app/Surface.svelte';
+	import Surface2 from '$lib/Surface2.svelte';
 
 	export let width: number;
 	export let height: number;
@@ -11,7 +11,7 @@
 	export let input_enabled = true;
 </script>
 
-<Surface {width} {height} {scale} zoom={zoom_camera} pan={move_camera} disabled={!input_enabled}>
+<Surface2 {width} {height} {scale} zoom={zoom_camera} pan={move_camera} disabled={!input_enabled}>
 	<div class="image-viewer">
 		<div
 			class="transform-wrapper"
@@ -21,7 +21,7 @@
 			<slot />
 		</div>
 	</div>
-</Surface>
+</Surface2>
 
 <style>
 	.image-viewer {

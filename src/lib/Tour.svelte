@@ -5,10 +5,10 @@
 	import {Unreachable_Error} from '@grogarden/util/error.js';
 	import type {ClockStore} from '$lib/clock.js';
 
-	import {get_settings} from '$lib/app/settings';
-	import {reset_render_stats, getRenderStats} from '$lib/app/renderStats';
-	import type Camera from '$lib/app/Camera.svelte';
-	import TweenedCamera from '$lib/app/TweenedCamera.svelte';
+	import {get_settings} from '$lib/settings';
+	import {reset_render_stats, getRenderStats} from '$lib/renderStats';
+	import type Camera from '$lib/Camera.svelte';
+	import TweenedCamera from '$lib/TweenedCamera.svelte';
 	import {
 		findMostRecentStepOfType,
 		type PanTourStep,
@@ -16,7 +16,7 @@
 		type TourHooks,
 		type TourStep,
 		type ZoomTourStep,
-	} from '$lib/app/tour';
+	} from '$lib/tour';
 
 	export let camera: Camera;
 	export let clock: ClockStore;

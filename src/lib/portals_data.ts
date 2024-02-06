@@ -1,4 +1,4 @@
-import type {PortalsData, PortalData} from '$lib/app/portal';
+import type {PortalsData, PortalData} from '$lib/portal';
 
 // TODO Keep in sync with `svelte.config.js` until we figure out how to share data.
 // This is all necessary because of the dynamic root route `[...slug].svelte`.

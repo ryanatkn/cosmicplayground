@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PortalLink from '$lib/app/PortalLink.svelte';
+	import PortalLink from '$lib/PortalLink.svelte';
 </script>
 
 <figure>

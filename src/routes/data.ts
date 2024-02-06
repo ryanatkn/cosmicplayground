@@ -1,4 +1,4 @@
-import type {PortalData} from '$lib/app/portal';
+import type {PortalData} from '$lib/portal';
 import Preview from '$routes/Preview.svelte';
 
 const data: PortalData = {

@@ -6,14 +6,14 @@
 	import {get_clock} from '$lib/clock.js';
 	import {get_dimensions} from '$lib/dimensions.js';
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
-	import ImagePicker from '$lib/app/ImagePicker.svelte';
-	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import {spaceImages, type ImageMeta} from '$lib/app/images';
-	import ImageCreditsCaption from '$lib/app/ImageCreditsCaption.svelte';
-	import Surface from '$lib/app/Surface.svelte';
-	import Panel from '$lib/app/Panel.svelte';
+	import ImagePicker from '$lib/ImagePicker.svelte';
+	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
+	import {spaceImages, type ImageMeta} from '$lib/images';
+	import ImageCreditsCaption from '$lib/ImageCreditsCaption.svelte';
+	import Surface2 from '$lib/Surface2.svelte';
+	import Panel from '$lib/Panel.svelte';
 	import AboutPortalPreview from '$routes/starlit-hammock/Preview.svelte';
-	import PortalPreview from '$lib/app/PortalPreview.svelte';
+	import PortalPreview from '$lib/PortalPreview.svelte';
 
 	/*
 	
@@ -238,7 +238,7 @@
 	</div>
 {:else}
 	<div class="interaction-surface-wrapper" style="width: {width}px; height: {height}px;">
-		<Surface {width} {height} {scale} zoom={zoom_camera} pan={move_camera} />
+		<Surface2 {width} {height} {scale} zoom={zoom_camera} pan={move_camera} />
 	</div>
 {/if}
 <div class="hud idle_fade">

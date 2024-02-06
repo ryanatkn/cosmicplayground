@@ -10,7 +10,7 @@
 	import {get_clock} from '$lib/clock.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
 	import {get_dimensions} from '$lib/dimensions.js';
-	import PortalPreview from '$lib/app/PortalPreview.svelte';
+	import PortalPreview from '$lib/PortalPreview.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';
 	import aboutPortal from '$routes/about/data';
 	import soggyPlanetPortal from '$routes/soggy-planet/data';
@@ -25,13 +25,13 @@
 	import strengthBooster3Portal from '$routes/secret3/data';
 	import clocksPortal from '$routes/clocks/data';
 	import freqSpectaclePortal from '$routes/freq-spectacle/data';
-	import {get_settings} from '$lib/app/settings';
+	import {get_settings} from '$lib/settings';
 	import StarshipStage from '$routes/StarshipStage.svelte';
-	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
+	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
 	import UnlockPortalPreview from '$routes/unlock/Preview.svelte';
 	import StarshipMenu from '$routes/StarshipMenu.svelte';
-	import AppDialog from '$lib/app/AppDialog.svelte';
+	import AppDialog from '$lib/AppDialog.svelte';
 	import {
 		mergeScores,
 		rescuedAllMoons,
@@ -51,9 +51,9 @@
 		STORAGE_KEY_STRENGTH_BOOSTER2,
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from '$routes/data';
-	import type {PortalData} from '$lib/app/portal';
+	import type {PortalData} from '$lib/portal';
 	import {scrollDown} from '$lib/dom';
-	import {show_app_dialog} from '$lib/app/appDialog';
+	import {show_app_dialog} from '$lib/app_dialog';
 
 	const dimensions = get_dimensions();
 	const clock = get_clock();

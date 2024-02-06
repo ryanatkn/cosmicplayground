@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type {ClockStore} from '$lib/clock.js';
 
-	import AppControlsTable from '$lib/app/AppControlsTable.svelte';
+	import AppControlsTable from '$lib/AppControlsTable.svelte';
 
 	export let clock: ClockStore; // TODO or use context?
 </script>

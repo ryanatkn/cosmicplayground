@@ -4,7 +4,7 @@
 	import {get_dimensions} from '$lib/dimensions.js';
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
-	import {get_settings} from '$lib/app/settings';
+	import {get_settings} from '$lib/settings';
 	import {unlock_satisfying_secret} from '$lib/secret';
 
 	// TODO give user control over speed in dialog
@@ -23,21 +23,21 @@
 			const hzSelectedIndex = hzItemSelectedIndices.at(-1)!;
 			if (WINNING_HZ_ITEMS.has(hzSelectedIndex)) {
 				unlock_satisfying_secret();
-				if (!$settings.secretEnabled) {
-					settings.update(($settings) => ({...$settings, secretEnabled: true}));
+				if (!$settings.secret_enabled) {
+					settings.update(($settings) => ({...$settings, secret_enabled: true}));
 				}
 			}
 		} else {
-			if ($settings.secretEnabled) {
-				settings.update(($settings) => ({...$settings, secretEnabled: false}));
+			if ($settings.secret_enabled) {
+				settings.update(($settings) => ({...$settings, secret_enabled: false}));
 			}
 		}
 	};
 
 	onDestroy(() => {
 		// secret is ephemeral to just this view, so reset the status if needed
-		if ($settings.secretEnabled) {
-			settings.update(($settings) => ({...$settings, secretEnabled: false}));
+		if ($settings.secret_enabled) {
+			settings.update(($settings) => ({...$settings, secret_enabled: false}));
 		}
 	});
 
@@ -45,7 +45,7 @@
 </script>
 
 <div class="view" on:click={toggle} aria-hidden>
-	<div class="item" class:pulsing={$settings.secretEnabled}>
+	<div class="item" class:pulsing={$settings.secret_enabled}>
 		<FreqSpeeds
 			width={$dimensions.width}
 			height={$dimensions.height / 2}
@@ -55,7 +55,7 @@
 			bind:getHzItemSelectedIndices
 		/>
 	</div>
-	<div class="item" class:pulsing={$settings.secretEnabled}>
+	<div class="item" class:pulsing={$settings.secret_enabled}>
 		<FreqSpeeds
 			width={$dimensions.width}
 			height={$dimensions.height / 2}

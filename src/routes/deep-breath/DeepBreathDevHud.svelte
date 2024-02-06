@@ -2,9 +2,9 @@
 	import type {Writable} from 'svelte/store';
 	import {round} from '@grogarden/util/maths.js';
 
-	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
-	import TourControls from '$lib/app/TourControls.svelte';
-	import type Tour from '$lib/app/Tour.svelte';
+	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
+	import TourControls from '$lib/TourControls.svelte';
+	import type Tour from '$lib/Tour.svelte';
 
 	export let tour: Tour | null;
 	export let x: Writable<number>;

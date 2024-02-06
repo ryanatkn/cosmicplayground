@@ -5,14 +5,14 @@
 	import {TilingSprite} from '@pixi/sprite-tiling';
 	import {Assets} from '@pixi/assets';
 
-	import {computeBlendedImagesContinuumOpacities} from '$lib/app/blendedImagesContinuum';
+	import {computeBlendedImagesContinuumOpacities} from '$lib/blendedImagesContinuum';
 	import {
 		computeBlendedImagesCycleOpacities,
 		computeBlendedImagesCycleZIndex,
-	} from '$lib/app/blendedImagesCycle';
-	import {get_pixi_scene} from '$lib/app/pixi';
-	import Surface from '$lib/app/Surface.svelte';
-	import type Camera from '$lib/app/Camera.svelte';
+	} from '$lib/blendedImagesCycle';
+	import {get_pixi_scene} from '$lib/pixi';
+	import Surface2 from '$lib/Surface2.svelte';
+	import type Camera from '$lib/Camera.svelte';
 
 	// TODO looks like we could use `Pixi.Prepare` to make initial rendering smoother:
 	// https://pixijs.download/release/docs/PIXI.Prepare.html
@@ -303,7 +303,7 @@
 	};
 </script>
 
-<Surface
+<Surface2
 	width={$width}
 	height={$height}
 	scale={$scale}

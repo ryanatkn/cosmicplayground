@@ -19,22 +19,22 @@
 	import {set_clock} from '$lib/clock.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
 	import {set_idle, track_idle_state} from '$lib/idle.js';
-	import {createPixiBgStore, type PixiBgStore} from '$lib/app/pixiBg.js';
-	import {PixiApp, set_pixi} from '$lib/app/pixi.js';
-	import PixiView from '$lib/app/PixiView.svelte';
-	import Hud from '$lib/app/Hud.svelte';
-	import HomeButton from '$lib/app/HomeButton.svelte';
-	import Panel from '$lib/app/Panel.svelte';
-	import {set_settings} from '$lib/app/settings.js';
-	import {set_portals, create_portals_store} from '$lib/app/portals.js';
-	import {update_render_stats} from '$lib/app/renderStats.js';
-	import {portals_data} from '$lib/app/portals_data.js';
-	import WaitingScreen from '$lib/app/WaitingScreen.svelte';
+	import {createPixiBgStore, type PixiBgStore} from '$lib/pixiBg.js';
+	import {PixiApp, set_pixi} from '$lib/pixi.js';
+	import PixiView from '$lib/PixiView.svelte';
+	import Hud from '$lib/Hud.svelte';
+	import HomeButton from '$lib/HomeButton.svelte';
+	import Panel from '$lib/Panel.svelte';
+	import {set_settings} from '$lib/settings.js';
+	import {set_portals, create_portals_store} from '$lib/portals.js';
+	import {update_render_stats} from '$lib/renderStats.js';
+	import {portals_data} from '$lib/portals_data.js';
+	import WaitingScreen from '$lib/WaitingScreen.svelte';
 	import {set_audio_ctx} from '$lib/audio_ctx.js';
-	import {show_app_dialog} from '$lib/app/appDialog.js';
-	import AppDialogs from '$lib/app/AppDialogs.svelte';
-	import AppDialog from '$lib/app/AppDialog.svelte';
-	import AppDialogMenu from '$lib/app/AppDialogMenu.svelte';
+	import {show_app_dialog} from '$lib/app_dialog.js';
+	import AppDialogs from '$lib/AppDialogs.svelte';
+	import AppDialog from '$lib/AppDialog.svelte';
+	import AppDialogMenu from '$lib/AppDialogMenu.svelte';
 	import {playing_song, muted, volume} from '$lib/play_song.js';
 	import {set_dimensions} from '$lib/dimensions.js';
 
@@ -220,7 +220,7 @@
 			<main
 				class="fade-in"
 				class:paused={!$clock.running}
-				class:secret={$settings.secretEnabled}
+				class:secret={$settings.secret_enabled}
 				class:idle={$idle || $settings.idle_mode}
 			>
 				{#if !$portals.selected_portal || $portals.selected_portal.showHomeButton}

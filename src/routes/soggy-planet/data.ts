@@ -1,4 +1,4 @@
-import type {PortalData} from '$lib/app/portal';
+import type {PortalData} from '$lib/portal';
 import Preview from '$routes/soggy-planet/Preview.svelte';
 
 const data: PortalData = {
