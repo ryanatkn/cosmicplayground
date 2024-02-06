@@ -1,5 +1,5 @@
-import type {Flavored} from '@grogarden/util/types.js';
-import {create_random_alea, type Alea} from '@grogarden/util/random_alea.js';
+import type {Flavored} from '@ryanatkn/belt/types.js';
+import {create_random_alea, type Alea} from '@ryanatkn/belt/random_alea.js';
 import {Container} from '@pixi/display';
 import {Graphics} from '@pixi/graphics';
 import {Collisions} from '@ryanatkn/collisions';

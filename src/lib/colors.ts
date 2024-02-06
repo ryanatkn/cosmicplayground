@@ -1,4 +1,4 @@
-import type {Flavored} from '@grogarden/util/types.js';
+import type {Flavored} from '@ryanatkn/belt/types.js';
 
 // https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
 

@@ -1,4 +1,4 @@
-import type {Create_Gro_Config} from '@grogarden/gro';
+import type {Create_Gro_Config} from '@ryanatkn/gro';
 
 const config: Create_Gro_Config = async (cfg) => {
 	// TODO disable the library build more cleanly than this

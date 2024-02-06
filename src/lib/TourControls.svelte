@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {round} from '@grogarden/util/maths.js';
+	import {round} from '@ryanatkn/belt/maths.js';
 	import {get_clock} from '$lib/clock.js';
 
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';

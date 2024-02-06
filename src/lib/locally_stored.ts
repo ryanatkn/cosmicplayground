@@ -1,6 +1,6 @@
 import {get, type Writable} from 'svelte/store';
-import {identity} from '@grogarden/util/function.js';
-import type {Json} from '@grogarden/util/json.js';
+import {identity} from '@ryanatkn/belt/function.js';
+import type {Json} from '@ryanatkn/belt/json.js';
 
 import {loadFromStorage, setInStorage} from '$lib/storage';
 

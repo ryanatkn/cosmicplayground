@@ -2,9 +2,9 @@
 	import {tweened} from 'svelte/motion';
 	import {cubicInOut} from 'svelte/easing';
 	import {onMount} from 'svelte';
-	import {random_float} from '@grogarden/util/random.js';
+	import {random_float} from '@ryanatkn/belt/random.js';
 	import {get_clock} from '$lib/clock.js';
-	import {swallow} from '@grogarden/util/dom.js';
+	import {swallow} from '@ryanatkn/belt/dom.js';
 
 	import {get_dimensions} from '$lib/dimensions.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';

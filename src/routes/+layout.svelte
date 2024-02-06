@@ -7,11 +7,11 @@
 	import Themed from '@fuz.dev/fuz/Themed.svelte';
 	import {sync_color_scheme} from '@fuz.dev/fuz/theme.js';
 	import {onMount} from 'svelte';
-	import type {Async_Status} from '@grogarden/util/async.js';
+	import type {Async_Status} from '@ryanatkn/belt/async.js';
 	import {writable} from 'svelte/store';
 	import {page} from '$app/stores';
 	import {beforeNavigate, goto} from '$app/navigation';
-	import {swallow} from '@grogarden/util/dom.js';
+	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {Assets} from '@pixi/assets';
 	import {base} from '$app/paths';
 	import {browser} from '$app/environment';

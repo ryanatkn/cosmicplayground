@@ -26,7 +26,7 @@
 			void tween.set(lastTarget, {duration: lastDuration});
 		} else {
 			// freeze the tweens in place
-			void tween.set($tween!, {duration: 0});
+			void tween.set($tween as unknown as any, {duration: 0});
 		}
 	};
 

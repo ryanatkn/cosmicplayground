@@ -1,5 +1,5 @@
-import type {Flavored} from '@grogarden/util/types.js';
-import {round} from '@grogarden/util/maths.js';
+import type {Flavored} from '@ryanatkn/belt/types.js';
+import {round} from '@ryanatkn/belt/maths.js';
 import {z} from 'zod';
 
 export type Frequency = number;

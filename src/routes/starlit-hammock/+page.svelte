@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {random_item, random_float} from '@grogarden/util/random.js';
+	import {random_item, random_float} from '@ryanatkn/belt/random.js';
 	import {sineInOut} from 'svelte/easing';
 	import {base} from '$app/paths';
 

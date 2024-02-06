@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {goto} from '$app/navigation';
-	import {swallow} from '@grogarden/util/dom.js';
+	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
 
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';

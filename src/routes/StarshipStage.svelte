@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {swallow} from '@grogarden/util/dom.js';
+	import {swallow} from '@ryanatkn/belt/dom.js';
 	import type {Writable} from 'svelte/store';
 
 	import {get_clock} from '$lib/clock.js';

@@ -1,4 +1,4 @@
-import {map_record} from '@grogarden/util/object.js';
+import {map_record} from '@ryanatkn/belt/object.js';
 import {hsl_to_string, type Hsl, type Hue} from '$lib/colors.js';
 
 import {midis, isMidi, type Midi} from '$lib/midi.js';
