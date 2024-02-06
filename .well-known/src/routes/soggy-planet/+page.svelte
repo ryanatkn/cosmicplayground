@@ -8,22 +8,22 @@
 	import {enable_global_hotkeys} from '$lib/dom.js';
 	import {get_dimensions} from '$lib/dimensions.js';
 	import Soggy_Planet_Title_Screen from '$routes/soggy-planet/Soggy_Planet_Title_Screen.svelte';
-	import MonthHud from '$lib/app/MonthHud.svelte';
-	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
-	import DaylightHud from '$lib/app/DaylightHud.svelte';
-	import Hud from '$lib/app/Hud.svelte';
-	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
-	import {createResourcesStore} from '$lib/app/resources';
-	import {get_settings} from '$lib/app/settings';
-	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
+	import MonthHud from '$lib/MonthHud.svelte';
+	import SeaLevelHud from '$lib/SeaLevelHud.svelte';
+	import DaylightHud from '$lib/DaylightHud.svelte';
+	import Hud from '$lib/Hud.svelte';
+	import EarthViewerPixi from '$lib/EarthViewerPixi.svelte';
+	import {createResourcesStore} from '$lib/resources';
+	import {get_settings} from '$lib/settings';
+	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import Soggy_Planet_Dev_Hud from '$routes/soggy-planet/Soggy_Planet_Dev_Hud.svelte';
-	import Camera from '$lib/app/Camera.svelte';
+	import Camera from '$lib/Camera.svelte';
 	import {SHORE_COUNT} from '$routes/soggy-planet//constants';
-	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
+	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 	import Soggy_Planet_Tour from '$routes/soggy-planet/Soggy_Planet_Tour.svelte';
-	import type Tour from '$lib/app/Tour.svelte';
+	import type Tour from '$lib/Tour.svelte';
 	import Soggy_Planet_Menu from '$routes/soggy-planet/Soggy_Planet_Menu.svelte';
-	import AppDialog from '$lib/app/AppDialog.svelte';
+	import AppDialog from '$lib/AppDialog.svelte';
 
 	const DEBUG_START_TIME = 0; // set to start the tour at any time for dev purposes
 	const debug_start_time = dev ? DEBUG_START_TIME : 0;

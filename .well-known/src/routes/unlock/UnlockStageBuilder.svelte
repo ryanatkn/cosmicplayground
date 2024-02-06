@@ -8,7 +8,7 @@
 	import {initialStageData, type StageData} from '$routes/unlock/stage';
 	import UnlockStage from '$routes/unlock/UnlockStage.svelte';
 	import {Stage} from '$routes/unlock/unlockStage';
-	import {get_pixi} from '$lib/app/pixi';
+	import {get_pixi} from '$lib/pixi';
 
 	/*
 

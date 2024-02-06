@@ -2,14 +2,14 @@
 	import {writable, type Writable} from 'svelte/store';
 	import {get_clock} from '$lib/clock.js';
 
-	import {createResourcesStore, type AudioResource} from '$lib/app/resources';
+	import {createResourcesStore, type AudioResource} from '$lib/resources';
 	import {create_soggy_planet_tour_data} from '$routes/soggy-planet/soggy_planet_tour_data';
-	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/app/tour';
-	import {get_settings} from '$lib/app/settings';
-	import Tour_Text from '$lib/app/Tour_Text.svelte';
+	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/tour';
+	import {get_settings} from '$lib/settings';
+	import Tour_Text from '$lib/Tour_Text.svelte';
 	import Soggy_Planet_Tour_Title from '$routes/soggy-planet/Soggy_Planet_Tour_Title.svelte';
-	import Tour from '$lib/app/Tour.svelte';
-	import type Camera from '$lib/app/Camera.svelte';
+	import Tour from '$lib/Tour.svelte';
+	import type Camera from '$lib/Camera.svelte';
 	import Soggy_Planet_Tour_Credits from '$routes/soggy-planet/Soggy_Planet_Tour_Credits.svelte';
 
 	export let camera: Camera;

@@ -6,7 +6,7 @@
 	import CreditsUnderConstruction from '$routes/about/CreditsUnderConstruction.svelte';
 	import CreditsMusic from '$routes/about/CreditsMusic.svelte';
 	import CreditsBannerAndIcon from '$routes/about/CreditsBannerAndIcon.svelte';
-	import Panel from '$lib/app/Panel.svelte';
+	import Panel from '$lib/Panel.svelte';
 
 	// TODO should credits be a portal convention? `/src/portals/{slug}/Credits.svelte`
 </script>

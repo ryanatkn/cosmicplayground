@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PortalPreview from '$lib/app/PortalPreview.svelte';
+	import PortalPreview from '$lib/PortalPreview.svelte';
 	import type {StarshipStageScores} from '$routes/starshipStage';
 	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
 

@@ -19,7 +19,7 @@
 		Stage,
 		type StarshipStageScores,
 	} from '$routes/starshipStage.js';
-	import {get_pixi} from '$lib/app/pixi.js';
+	import {get_pixi} from '$lib/pixi.js';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;

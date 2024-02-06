@@ -12,7 +12,7 @@ const defaultRenderStats = (): RenderStats => ({totalTime: 0, droppedFrames: 0})
 
 let renderStats: RenderStats = defaultRenderStats();
 
-export const updateRenderStats = (dt: number): void => {
+export const update_render_stats = (dt: number): void => {
 	const droppedFrames = computeDroppedFrames(dt);
 	// TODO mutate like this or not?
 	renderStats.totalTime += dt;
@@ -22,7 +22,7 @@ export const updateRenderStats = (dt: number): void => {
 	}
 };
 
-export const resetRenderStats = (): RenderStats => (renderStats = defaultRenderStats());
+export const reset_render_stats = (): RenderStats => (renderStats = defaultRenderStats());
 
 export const getRenderStats = (): RenderStats => renderStats;
 

@@ -4,7 +4,7 @@
 	import {get_dimensions} from '$lib/dimensions.js';
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
-	import {get_settings} from '$lib/app/settings';
+	import {get_settings} from '$lib/settings';
 	import {unlock_satisfying_secret} from '$lib/secret';
 
 	const dimensions = get_dimensions();
@@ -27,21 +27,21 @@
 			const hzSelectedIndex = hzItemSelectedIndices.at(-1)!;
 			if (WINNING_HZ_ITEMS.has(hzSelectedIndex)) {
 				unlock_satisfying_secret();
-				if (!$settings.secretEnabled) {
-					settings.update(($settings) => ({...$settings, secretEnabled: true}));
+				if (!$settings.secret_enabled) {
+					settings.update(($settings) => ({...$settings, secret_enabled: true}));
 				}
 			}
 		} else {
-			if ($settings.secretEnabled) {
-				settings.update(($settings) => ({...$settings, secretEnabled: false}));
+			if ($settings.secret_enabled) {
+				settings.update(($settings) => ({...$settings, secret_enabled: false}));
 			}
 		}
 	};
 
 	onDestroy(() => {
 		// secret is ephemeral to just this view, so reset the status if needed
-		if ($settings.secretEnabled) {
-			settings.update(($settings) => ({...$settings, secretEnabled: false}));
+		if ($settings.secret_enabled) {
+			settings.update(($settings) => ({...$settings, secret_enabled: false}));
 		}
 	});
 
@@ -50,7 +50,7 @@
 
 <!-- TODO refactor this lol. also, do wackier thingg with it. -->
 <div class="view" on:click={toggle} aria-hidden>
-	<div class="item" class:pulsing={$settings.secretEnabled}>
+	<div class="item" class:pulsing={$settings.secret_enabled}>
 		<FreqSpectacle
 			{width}
 			height={height * 0.3}
@@ -60,7 +60,7 @@
 			bind:getHzItemSelectedIndices
 		/>
 	</div>
-	<div class="item bottom" class:pulsing={$settings.secretEnabled}>
+	<div class="item bottom" class:pulsing={$settings.secret_enabled}>
 		<div class="item bottom-left">
 			<FreqSpectacle
 				width={width * 0.25}
@@ -104,7 +104,7 @@
 			/>
 		</div>
 	</div>
-	<div class="item" class:pulsing={$settings.secretEnabled}>
+	<div class="item" class:pulsing={$settings.secret_enabled}>
 		<FreqSpectacle
 			width={width * 0.25}
 			height={height * 0.1}
@@ -136,7 +136,7 @@
 			{hzItems}
 		/>
 	</div>
-	<div class="item" class:pulsing={$settings.secretEnabled}>
+	<div class="item" class:pulsing={$settings.secret_enabled}>
 		<FreqSpectacle
 			width={width * 0.25}
 			height={height * 0.25}

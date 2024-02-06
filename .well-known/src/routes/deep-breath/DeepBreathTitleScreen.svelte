@@ -2,17 +2,17 @@
 	import {base} from '$app/paths';
 
 	import DeepBreathThumbnail from '$routes/deep-breath/DeepBreathThumbnail.svelte';
-	import Hud from '$lib/app/Hud.svelte';
-	import HomeButton from '$lib/app/HomeButton.svelte';
-	import ResourcesLoadingProgress from '$lib/app/ResourcesLoadingProgress.svelte';
-	import Panel from '$lib/app/Panel.svelte';
-	import ChunkyButton from '$lib/app/ChunkyButton.svelte';
+	import Hud from '$lib/Hud.svelte';
+	import HomeButton from '$lib/HomeButton.svelte';
+	import ResourcesLoadingProgress from '$lib/ResourcesLoadingProgress.svelte';
+	import Panel from '$lib/Panel.svelte';
+	import ChunkyButton from '$lib/ChunkyButton.svelte';
 	import DeepBreathCredits from '$routes/deep-breath/DeepBreathCredits.svelte';
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
 	import AboutPortalPreview from '$routes/about/Preview.svelte';
-	import PortalPreview from '$lib/app/PortalPreview.svelte';
-	import type {ResourcesStore} from '$lib/app/resources';
-	import PortalLink from '$lib/app/PortalLink.svelte';
+	import PortalPreview from '$lib/PortalPreview.svelte';
+	import type {ResourcesStore} from '$lib/resources';
+	import PortalLink from '$lib/PortalLink.svelte';
 
 	export let resources: ResourcesStore;
 	export let proceed: () => void;

@@ -7,7 +7,7 @@
 	import type {Controller} from '$lib/controller.js';
 	import type {CameraStore} from '$lib/camera.js';
 	import {get_clock} from '$lib/clock.js';
-	import {get_pixi} from '$lib/app/pixi';
+	import {get_pixi} from '$lib/pixi';
 	import type {UnlockStageScores, Stage} from '$routes/unlock/unlockStage';
 	import {get_idle} from '$lib/idle.js';
 

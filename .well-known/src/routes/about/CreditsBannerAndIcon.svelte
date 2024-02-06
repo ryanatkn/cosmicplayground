@@ -1,6 +1,6 @@
 <script lang="ts">
-	import {IMAGE_PROCESSING_CREDIT, spaceImages} from '$lib/app/images';
-	import ImageCredits from '$lib/app/ImageCredits.svelte';
+	import {IMAGE_PROCESSING_CREDIT, spaceImages} from '$lib/images';
+	import ImageCredits from '$lib/ImageCredits.svelte';
 	import Favicon from '$routes/Favicon.svelte';
 
 	const image = spaceImages.find((s) => s.title === 'Tapestry of Blazing Starbirth')!;

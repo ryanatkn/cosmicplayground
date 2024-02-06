@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EarthMapCredits from '$lib/app/EarthMapCredits.svelte';
+	import EarthMapCredits from '$lib/EarthMapCredits.svelte';
 
 	export let show_earth_map_credits = true;
 	export let show_music_credits = true;

@@ -2,7 +2,7 @@
 	import Surface from '$lib/Surface.svelte';
 	import type {Controller} from '$lib/controller.js';
 
-	// TODO merge with `./Surface.svelte`
+	// TODO merge with `./Surface.svelte` and probably Surface2 as well
 
 	export let controller: Controller;
 

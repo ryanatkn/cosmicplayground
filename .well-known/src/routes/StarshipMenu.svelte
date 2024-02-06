@@ -3,12 +3,12 @@
 	import {wait} from '@grogarden/util/async.js';
 	import type {ClockStore} from '$lib/clock.js';
 
-	import Panel from '$lib/app/Panel.svelte';
+	import Panel from '$lib/Panel.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';
 	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
 	import type {StarshipStageScores} from '$routes/starshipStage';
-	import AppControlsTable from '$lib/app/AppControlsTable.svelte';
-	import PortalPreview from '$lib/app/PortalPreview.svelte';
+	import AppControlsTable from '$lib/AppControlsTable.svelte';
+	import PortalPreview from '$lib/PortalPreview.svelte';
 
 	export let clock: ClockStore; // TODO or use context?
 	// TODO refactor

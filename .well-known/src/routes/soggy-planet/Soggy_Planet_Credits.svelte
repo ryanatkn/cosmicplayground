@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EarthMapCredits from '$lib/app/EarthMapCredits.svelte';
+	import EarthMapCredits from '$lib/EarthMapCredits.svelte';
 </script>
 
 <EarthMapCredits />

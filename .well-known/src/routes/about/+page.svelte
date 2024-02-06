@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Panel from '$lib/app/Panel.svelte';
+	import Panel from '$lib/Panel.svelte';
 	import Favicon from '$routes/Favicon.svelte';
 	import Credits from '$routes/about/Credits.svelte';
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';

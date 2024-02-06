@@ -10,18 +10,18 @@
 	import {enable_global_hotkeys} from '$lib/dom.js';
 	import DeepBreathTitleScreen from '$routes/deep-breath/DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from '$routes/deep-breath/DeepBreathTour.svelte';
-	import MonthHud from '$lib/app/MonthHud.svelte';
-	import SeaLevelHud from '$lib/app/SeaLevelHud.svelte';
-	import Hud from '$lib/app/Hud.svelte';
-	import EarthViewerDom from '$lib/app/EarthViewerDom.svelte';
-	import EarthViewerPixi from '$lib/app/EarthViewerPixi.svelte';
-	import {createResourcesStore} from '$lib/app/resources';
-	import {get_settings} from '$lib/app/settings';
-	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
-	import FloatingTextButton from '$lib/app/FloatingTextButton.svelte';
+	import MonthHud from '$lib/MonthHud.svelte';
+	import SeaLevelHud from '$lib/SeaLevelHud.svelte';
+	import Hud from '$lib/Hud.svelte';
+	import EarthViewerDom from '$lib/EarthViewerDom.svelte';
+	import EarthViewerPixi from '$lib/EarthViewerPixi.svelte';
+	import {createResourcesStore} from '$lib/resources';
+	import {get_settings} from '$lib/settings';
+	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
+	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 	import DeepBreathDevHud from '$routes/deep-breath/DeepBreathDevHud.svelte';
-	import Camera from '$lib/app/Camera.svelte';
-	import type Tour from '$lib/app/Tour.svelte';
+	import Camera from '$lib/Camera.svelte';
+	import type Tour from '$lib/Tour.svelte';
 
 	const clock = get_clock();
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {blur} from 'svelte/transition';
 
-	import {get_settings} from '$lib/app/settings';
+	import {get_settings} from '$lib/settings';
 	import {base} from '$app/paths';
 
 	const settings = get_settings();

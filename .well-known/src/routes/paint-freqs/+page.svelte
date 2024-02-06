@@ -10,7 +10,7 @@
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers';
 	import {freqToMidi} from '$lib/midi';
 	import {DEFAULT_TUNING} from '$lib/notes';
-	import FloatingIconButton from '$lib/app/FloatingIconButton.svelte';
+	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 
 	/*
 

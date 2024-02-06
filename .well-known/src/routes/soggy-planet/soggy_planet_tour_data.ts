@@ -1,7 +1,7 @@
 import {sineOut, quadInOut} from 'svelte/easing';
 
-import type {TourData} from '$lib/app/tour';
-import {createTourBuilder} from '$lib/app/tourBuilder';
+import type {TourData} from '$lib/tour';
+import {createTourBuilder} from '$lib/tourBuilder';
 import {z} from 'zod';
 
 export const Point_Of_Interest = z.object({
