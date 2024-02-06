@@ -1,4 +1,4 @@
-import {random_item} from '@grogarden/util/random.js';
+import {random_item} from '@ryanatkn/belt/random.js';
 
 import {toImageMeta, type ImageMeta} from '$lib/images';
 import {type Song, lookup_song} from '$lib/songs';

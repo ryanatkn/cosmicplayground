@@ -6,7 +6,7 @@
 
 	export let author: string;
 	const SONG_MAX_DEFAULT_COUNT = 4;
-	$: songs1 = lookup_songs_by_author(author)!.sort((a, b) => {
+	$: songs1 = lookup_songs_by_author(author).sort((a, b) => {
 		const a_index = names.indexOf(a.name);
 		const b_index = names.indexOf(b.name);
 		if (a_index === -1 && b_index === -1) return 1;

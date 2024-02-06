@@ -61,7 +61,7 @@
 	//$: console.log('playing changed', playing);
 
 	const tweens = createTweens(duration, undefined, 1);
-	$: tweens.set(toggle ? 1 : 0, {duration}); //, console.log('tweens.set()');
+	$: void tweens.set(toggle ? 1 : 0, {duration}); //, console.log('tweens.set()');
 
 	let selected: {[key: string]: boolean};
 	$: selected = tweens.easings.reduce((v = {}, {name}) => {

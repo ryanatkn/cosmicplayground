@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
 	import {createEventDispatcher, onDestroy} from 'svelte';
-	import {swallow} from '@grogarden/util/dom.js';
-	import {Unreachable_Error} from '@grogarden/util/error.js';
+	import {swallow} from '@ryanatkn/belt/dom.js';
+	import {Unreachable_Error} from '@ryanatkn/belt/error.js';
 	import type {ClockStore} from '$lib/clock.js';
 
 	import {get_settings} from '$lib/settings';

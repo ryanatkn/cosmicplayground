@@ -1,6 +1,6 @@
 import {writable, type Readable, type Writable} from 'svelte/store';
-import type {Async_Status} from '@grogarden/util/async.js';
-import {Unreachable_Error} from '@grogarden/util/error.js';
+import type {Async_Status} from '@ryanatkn/belt/async.js';
+import {Unreachable_Error} from '@ryanatkn/belt/error.js';
 import {Assets} from '@pixi/assets';
 import type {Texture} from '@pixi/core';
 

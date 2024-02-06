@@ -1,4 +1,4 @@
-import {random_float} from '@grogarden/util/random.js';
+import {random_float} from '@ryanatkn/belt/random.js';
 import {Collision_Result, type Collisions} from '@ryanatkn/collisions';
 
 import {Entity} from '$lib/entity.js';

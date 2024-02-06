@@ -1,1 +1,0 @@
-import{w as c}from"./index.mvauKzP3.js";import{f as p,h as n,v as _}from"./scheduler.EKw-xcnK.js";const i=t=>{const s=c(t),{subscribe:a,update:l}=s;return{subscribe:a,select:e=>{_(s).selected_portal?.slug!==e&&l(o=>({...o,selected_portal:o.data.portals_by_slug.get(e)}))}}},r=Symbol("portals"),m=()=>p(r),d=t=>n(r,t);export{i as c,m as g,d as s};

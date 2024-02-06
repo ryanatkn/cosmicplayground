@@ -1,4 +1,4 @@
-import {random_float} from '@grogarden/util/random.js';
+import {random_float} from '@ryanatkn/belt/random.js';
 import {get, writable, type Writable} from 'svelte/store';
 import {dequal} from 'dequal/lite';
 

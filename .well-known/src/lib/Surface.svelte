@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {swallow} from '@grogarden/util/dom.js';
+	import {swallow} from '@ryanatkn/belt/dom.js';
 
 	// TODO maybe don't cancel when leaving the screen
 

@@ -23,7 +23,7 @@
   */
 
 	import {onDestroy} from 'svelte';
-	import {lerp} from '@grogarden/util/maths.js';
+	import {lerp} from '@ryanatkn/belt/maths.js';
 	import {get_clock} from '$lib/clock.js';
 
 	import {svelteEasings} from '$lib/easings';
