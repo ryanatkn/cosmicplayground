@@ -2,7 +2,7 @@
 	import {tick} from 'svelte';
 	import {wait} from '@ryanatkn/belt/async.js';
 	import {EMPTY_ARRAY} from '@ryanatkn/belt/array.js';
-	import Pending_Animation from '@fuz.dev/fuz_library/Pending_Animation.svelte';
+	import Pending_Animation from '@ryanatkn/fuz/Pending_Animation.svelte';
 	import {dequal} from 'dequal/lite';
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {browser} from '$app/environment';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Pending_Animation from '@fuz.dev/fuz_library/Pending_Animation.svelte';
+	import Pending_Animation from '@ryanatkn/fuz/Pending_Animation.svelte';
 	import {base} from '$app/paths';
 
 	import Soggy_Planet_Thumbnail from '$routes/soggy-planet/Soggy_Planet_Thumbnail.svelte';

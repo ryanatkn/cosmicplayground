@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Teleport from '@fuz.dev/fuz_library/Teleport.svelte';
+	import Teleport from '@ryanatkn/fuz/Teleport.svelte';
 	import {get_clock} from '$lib/clock.js';
 
 	import {show_app_dialog, app_dialog_el} from '$lib/app_dialog';
