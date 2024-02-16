@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type {Async_Status} from '@ryanatkn/belt/async.js';
-	import Pending_Animation from '@fuz.dev/fuz_library/Pending_Animation.svelte';
+	import Pending_Animation from '@ryanatkn/fuz/Pending_Animation.svelte';
 
 	export let status: Async_Status = 'pending'; // 'initial' is unhandled
 

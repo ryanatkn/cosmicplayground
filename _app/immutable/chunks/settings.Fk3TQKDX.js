@@ -1,1 +1,0 @@
-import{w as r}from"./index.c0wBgp3C.js";import{f as a,h as i}from"./scheduler.0wHob__M.js";const _=t=>{const e=r({audio_enabled:!0,dev_mode:!1,recording_mode:!1,idle_mode:!1,time_to_go_idle:6e3,secret_enabled:!1,...t}),{subscribe:o,update:n}=e;return{subscribe:o,update:n}},s={},g=()=>a(s),l=t=>{const e=_(t);return i(s,e),e};export{g,l as s};

@@ -3,7 +3,7 @@
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
 	import {random_item} from '@ryanatkn/belt/random.js';
-	import Pending_Animation from '@fuz.dev/fuz_library/Pending_Animation.svelte';
+	import Pending_Animation from '@ryanatkn/fuz/Pending_Animation.svelte';
 
 	import Playlist from '$lib/Playlist.svelte';
 	import VolumeControl from '$lib/VolumeControl.svelte';

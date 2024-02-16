@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dialog from '@fuz.dev/fuz_dialog/Dialog.svelte';
+	import Dialog from '@ryanatkn/fuz/Dialog.svelte';
 	import {get_clock} from '$lib/clock.js';
 
 	import {show_app_dialog, app_dialog_el} from '$lib/app_dialog';

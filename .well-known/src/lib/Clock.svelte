@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {get_clock} from '$lib/clock';
-	import Pending_Animation from '@fuz.dev/fuz_library/Pending_Animation.svelte';
+	import Pending_Animation from '@ryanatkn/fuz/Pending_Animation.svelte';
 
 	export let clock = get_clock();
 

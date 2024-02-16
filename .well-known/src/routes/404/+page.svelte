@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {page} from '$app/stores';
-	import Breadcrumb from '@fuz.dev/fuz_library/Breadcrumb.svelte';
+	import Breadcrumb from '@ryanatkn/fuz/Breadcrumb.svelte';
 
 	import Panel from '$lib/Panel.svelte';
 	import ChunkyButton from '$lib/ChunkyButton.svelte';
