@@ -17,8 +17,8 @@
 	--photon_text_color: hsl(var(--photon_hue), 65%, 50%);
 	--land_text_color: hsl(var(--land_hue), 65%, 50%);
 	--space_text_color: hsl(var(--space_hue), 45%, 50%);
-	--color_2: #7094db; /* TODO probably make this a lighter shade of `--ocean_color` */
-	--color_3: hsl(
+	--color_b: #7094db; /* TODO probably make this a lighter shade of `--ocean_color` */
+	--color_d: hsl(
 		var(--space_hue),
 		60%,
 		65%
