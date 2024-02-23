@@ -3,9 +3,9 @@
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@ryanatkn/belt/maths.js';
 	import {swallow} from '@ryanatkn/belt/dom.js';
+	import {hsl_to_rgb} from '@ryanatkn/belt/colors.js';
 
 	import {get_dimensions} from '$lib/dimensions.js';
-	import {hsl_to_rgb} from '$lib/colors.js';
 	import {get_audio_ctx} from '$lib/audio_ctx';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers';
 	import {freqToMidi} from '$lib/midi';

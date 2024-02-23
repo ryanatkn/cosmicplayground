@@ -1,7 +1,8 @@
 import {random_float} from '@ryanatkn/belt/random.js';
 import {get, writable, type Writable} from 'svelte/store';
 import {dequal} from 'dequal/lite';
-import type {Hsl} from '$lib/colors.js';
+import type {Hsl} from '@ryanatkn/belt/colors.js';
+
 import {collide, frag} from '$lib/entityHelpers.js';
 import {type StageOptions, Stage as BaseStage} from '$lib/stage.js';
 import type {EntityCircle} from '$lib/entityBody.js';
