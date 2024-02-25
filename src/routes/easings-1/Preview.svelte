@@ -24,7 +24,7 @@
 		animation: slide 5s cubic-bezier(0.645, 0.045, 0.355, 1) infinite alternate;
 		width: 12px;
 		height: 12px;
-		background-color: var(--color_d);
+		background-color: var(--color_d_5);
 	}
 	:global(.paused) .slider-graphic {
 		animation-play-state: paused;
