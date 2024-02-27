@@ -19,6 +19,6 @@
 <style>
 	.thumbnail {
 		background: #000;
-		padding: var(--spacing_5) 0;
+		padding: var(--space_xl5) 0;
 	}
 </style>

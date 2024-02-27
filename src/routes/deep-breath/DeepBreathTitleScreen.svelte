@@ -125,6 +125,6 @@
 
 <style>
 	.deep_breath_title_screen {
-		padding: var(--spacing_7) 0;
+		padding: var(--space_xl7) 0;
 	}
 </style>

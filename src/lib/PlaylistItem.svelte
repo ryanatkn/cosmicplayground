@@ -38,7 +38,7 @@
 <style>
 	button {
 		--border_radius: 0;
-		--border_color: var(--border_5);
+		--border_color: var(--border_color_5);
 		/* TODO set vars instead */
 		background-color: var(--bg);
 		/* for the z-index */
@@ -65,14 +65,14 @@
 	.count {
 		font-size: var(--size_sm);
 		font-weight: 500;
-		width: var(--spacing_3);
+		width: var(--space_xl3);
 		display: flex;
 	}
 	.author {
 		flex: 1;
 		display: flex;
 		justify-content: flex-end;
-		padding-left: var(--spacing_1);
+		padding-left: var(--space_xl);
 		font-size: var(--size_sm);
 		font-weight: 500;
 	}

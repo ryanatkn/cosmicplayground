@@ -11,7 +11,7 @@
 	</h1>
 	<h2>tools and toys for expanding minds</h2>
 </header>
-<div style:margin-top="var(--spacing_3)" class="box">
+<div style:margin-top="var(--space_xl3)" class="box">
 	<Favicon size={192} />
 </div>
 <div class="box width_full">
@@ -76,7 +76,7 @@
 		position: relative;
 	}
 	.prose {
-		margin-bottom: var(--spacing_9);
+		margin-bottom: var(--space_xl9);
 	}
 	@media (max-width: 900px) {
 		header h1 {

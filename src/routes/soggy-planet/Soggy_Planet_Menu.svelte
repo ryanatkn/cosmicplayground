@@ -24,6 +24,6 @@
 
 <style>
 	.wrapper {
-		padding: 0 var(--spacing_sm);
+		padding: 0 var(--space_sm);
 	}
 </style>

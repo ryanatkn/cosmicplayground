@@ -33,7 +33,7 @@
 		flex-direction: row;
 	}
 	button {
-		padding: var(--spacing_3) var(--spacing_3);
+		padding: var(--space_xl3) var(--space_xl3);
 	}
 	/* TODO refactor to be global (there are conflicting styles in places) */
 	.selected {
