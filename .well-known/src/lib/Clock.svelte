@@ -17,7 +17,7 @@
 <style>
 	button {
 		flex-direction: column;
-		font-size: var(--size_1);
+		font-size: var(--size_xl);
 	}
 	.icon {
 		font-size: var(--icon_size_lg);

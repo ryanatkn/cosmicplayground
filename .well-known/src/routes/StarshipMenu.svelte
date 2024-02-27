@@ -93,7 +93,7 @@
 
 <style>
 	.wrapper {
-		padding: 0 var(--spacing_sm);
+		padding: 0 var(--space_sm);
 	}
 	h2 {
 		text-align: center;
@@ -113,10 +113,10 @@
 		margin-bottom: 0;
 	}
 	.button-text {
-		font-size: var(--size_3);
+		font-size: var(--size_xl3);
 		font-weight: 300;
 	}
 	small {
-		margin: var(--spacing_sm) 0;
+		margin: var(--space_sm) 0;
 	}
 </style>

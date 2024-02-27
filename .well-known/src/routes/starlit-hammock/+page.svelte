@@ -307,6 +307,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding-bottom: var(--spacing_7);
+		padding-bottom: var(--space_xl7);
 	}
 </style>

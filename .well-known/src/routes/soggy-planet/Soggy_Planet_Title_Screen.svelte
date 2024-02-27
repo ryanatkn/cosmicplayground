@@ -158,7 +158,7 @@
 
 <style>
 	.soggy_planet_title_screen {
-		padding: var(--spacing_5) 0;
+		padding: var(--space_xl5) 0;
 	}
 
 	/* TODO hacky */

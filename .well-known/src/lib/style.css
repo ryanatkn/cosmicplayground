@@ -46,13 +46,13 @@
 	--clickable_opacity__hover: 0.85;
 	--clickable_opacity__active: 1;
 	--fade_transition: opacity 0.5s linear;
-	--portal_border: var(--border_width_6) var(--clickable_border_style) var(--border_5);
+	--portal_border: var(--border_width_6) var(--clickable_border_style) var(--border_color_5);
 	--portal_border_radius: 7px;
 	--dark_border_md: var(--border_width_3) var(--clickable_border_style) var(--bg_dark_lighter);
-	--portal_padding: 12px; /* TODO maybe swap for spacing_3 */
-	--panel_border: var(--border_width_5) var(--clickable_border_style) var(--border_5);
-	--border_radius_4: 15px;
-	--border_radius_3: 7px;
+	--portal_padding: 12px; /* TODO maybe swap for space_xl3 */
+	--panel_border: var(--border_width_5) var(--clickable_border_style) var(--border_color_5);
+	--radius_xl4: 15px;
+	--radius_xl3: 7px;
 	--text_shadow_sm: 1px 1px rgba(0, 0, 0, 0.6);
 	--text_shadow_reverse_sm: -1px -1px rgba(0, 0, 0, 0.6);
 	--hud_element_size: 72px;
@@ -162,7 +162,7 @@ button:disabled {
 
 /* TODO upstream */
 td {
-	padding: var(--spacing_sm);
+	padding: var(--space_sm);
 }
 tr:hover {
 	background-color: var(--lighten_2);
@@ -170,8 +170,8 @@ tr:hover {
 th {
 	text-align: left;
 	font-weight: 300;
-	font-size: var(--size_1);
-	padding: var(--spacing_sm);
+	font-size: var(--size_xl);
+	padding: var(--space_sm);
 }
 
 .idle {

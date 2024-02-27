@@ -292,7 +292,7 @@
 		max-height: var(--player_max_height, 360px);
 		overflow: auto;
 		border: var(--media_player_border);
-		border-radius: var(--media_player_border_radius, var(--border_radius_4));
+		border-radius: var(--media_player_border_radius, var(--radius_xl4));
 		padding: var(--spacing-5);
 	}
 	.content {
@@ -300,7 +300,7 @@
 		display: flex;
 		flex-direction: column;
 		background-color: var(--bg_light);
-		border-radius: var(--media_player_border_radius, var(--border_radius_4));
+		border-radius: var(--media_player_border_radius, var(--radius_xl4));
 	}
 	header,
 	footer {
@@ -309,14 +309,14 @@
 		justify-content: space-between;
 	}
 	header {
-		padding-bottom: var(--spacing_xs);
+		padding-bottom: var(--space_xs);
 	}
 	footer {
-		padding-top: var(--spacing_xs);
+		padding-top: var(--space_xs);
 	}
 	/* TODO should this be applied to global `.plain`? */
 	button:hover {
-		border: 1px solid var(--border_5);
+		border: 1px solid var(--border_color_5);
 	}
 	button:active {
 		border: 1px solid var(--active_border_color);
@@ -331,7 +331,7 @@
 		align-items: center;
 		font-size: var(--size_sm);
 		font-weight: 600;
-		width: var(--spacing_5);
+		width: var(--space_xl5);
 		color: var(--text_2);
 	}
 	/* TODO move to style.css?  */

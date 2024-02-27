@@ -40,13 +40,13 @@
 
 <style>
 	.page {
-		margin-bottom: var(--spacing_5);
+		margin-bottom: var(--space_xl5);
 	}
 	.sadface {
 		opacity: 0.6;
 		display: flex;
 		justify-content: center;
-		font-size: var(--size_5);
+		font-size: var(--size_xl5);
 		font-weight: 300;
 	}
 	ul {
