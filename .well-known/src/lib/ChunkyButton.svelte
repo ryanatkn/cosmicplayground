@@ -11,7 +11,7 @@
 	button {
 		font-size: var(--size_xl4);
 		font-weight: 300;
-		background: var(--bg_1);
+		background-color: var(--color_a_9);
 		color: var(--ocean_text_color); /* TODO customize? */
 		border-color: var(--ocean_color); /* TODO customize? */
 		border-style: var(--clickable_border_style);
@@ -27,6 +27,7 @@
 	}
 	button:active,
 	.pressed {
+		background-color: var(--color_a_9);
 		border-style: var(--clickable_border_style__active);
 	}
 </style>
