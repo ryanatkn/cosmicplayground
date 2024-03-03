@@ -23,7 +23,7 @@
 	import PortalPreview from '$lib/PortalPreview.svelte';
 	import AboutPortalPreview from '$routes/about/Preview.svelte';
 
-	const playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values()).map((song) => ({
+	const playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values(), (song) => ({
 		song,
 	}));
 

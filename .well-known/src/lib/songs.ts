@@ -304,5 +304,5 @@ export const lookup_songs_by_author = (name: string): Song[] => {
 };
 
 export const song_authors = Array.from(
-	new Set(Array.from(songs_by_name.values()).map((v) => v.author)),
+	new Set(Array.from(songs_by_name.values(), (v) => v.author)),
 );

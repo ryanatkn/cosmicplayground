@@ -37,7 +37,7 @@
 <Hud>
 	<HomeButton />
 </Hud>
-<div class="deep_breath_title_screen box width_full">
+<div class="deep_breath_title_screen box w_100">
 	<div class="box width_md">
 		<DeepBreathThumbnail on_click={enableLoadingByClickingThumbnail ? load : null} />
 		<Panel>
