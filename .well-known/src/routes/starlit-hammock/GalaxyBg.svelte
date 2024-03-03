@@ -24,7 +24,7 @@
 	class:paused={!running}
 >
 	<div
-		class="bg"
+		class="earth_thumbnail_bg"
 		style="width: {bgWidth}px; height: {bgHeight}px; background-image: url({imageUrl});
 		animation-duration: {animationDuration};"
 	/>
@@ -34,14 +34,14 @@
 	.galaxy-bg {
 		overflow: hidden;
 	}
-	.bg {
+	.earth_thumbnail_bg {
 		background-size: 50%;
 		background-repeat: repeat;
 		animation-name: scroll-bg;
 		animation-timing-function: linear;
 		animation-iteration-count: infinite;
 	}
-	.paused .bg {
+	.paused .earth_thumbnail_bg {
 		animation-play-state: paused;
 	}
 	@keyframes scroll-bg {

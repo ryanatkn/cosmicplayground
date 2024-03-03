@@ -31,7 +31,7 @@
 	style="width: {width}px; height: {height}px; opacity: {opacity};"
 >
 	<div
-		class="bg"
+		class="earth_thumbnail_bg"
 		style="width: {bgWidth}px; height: {bgHeight}px; background-image: url({imageUrl});
 		background-size: {bgSizeStr}; animation-duration: {animationDuration};"
 	>
@@ -69,12 +69,12 @@
 		align-items: center;
 	}
 
-	.bg {
+	.earth_thumbnail_bg {
 		background-repeat: repeat;
 		background-position-x: 60%;
 		animation: scroll-bg linear infinite;
 	}
-	.paused .bg,
+	.paused .earth_thumbnail_bg,
 	.paused .bg2 {
 		animation-play-state: paused;
 	}
