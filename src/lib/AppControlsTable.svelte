@@ -12,7 +12,7 @@
 <Panel
 	><div class="box">
 		<section>
-			<h2 class="spaced">controls</h2>
+			<h2 class="mb_lg">controls</h2>
 			<table>
 				<thead><th>key</th><th>action</th></thead><slot />
 				<tr><td><code>[Escape]</code></td><td>toggle main menu</td></tr>

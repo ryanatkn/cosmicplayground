@@ -5,7 +5,7 @@
 	import DeepBreathCredits from '$routes/deep-breath/DeepBreathCredits.svelte';
 </script>
 
-<div class="thumbnail panel spaced">
+<div class="thumbnail panel mb_lg">
 	<Credits_Soggy_Planet_Thumbnail />
 </div>
 <p>

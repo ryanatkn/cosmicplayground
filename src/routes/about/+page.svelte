@@ -14,7 +14,7 @@
 <div style:margin-top="var(--space_xl3)" class="box">
 	<Favicon size={192} />
 </div>
-<div class="box width_full">
+<div class="box w_100">
 	<div class="box width_md prose">
 		<Panel>
 			<h2>About</h2>

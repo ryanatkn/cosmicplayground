@@ -62,7 +62,7 @@
 						<br />
 						<StarshipStageScore {scores} defaultIcon="❔" />
 						<br />
-						<p class="box spaced">
+						<p class="box mb_lg">
 							{#if scores.crew_rescued_at_once_count >= 5}
 								<a href="/unlock">full crew ready</a>
 							{:else if scores.crew_rescued_at_once_count}

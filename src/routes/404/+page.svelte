@@ -24,7 +24,7 @@
 	</Panel>
 	<div class="sadface">D:</div>
 	<Panel>
-		<h2 class="spaced text_align_center">maybe you want one of these?</h2>
+		<h2 class="mb_lg text_align_center">maybe you want one of these?</h2>
 		<ul class="box row wrap">
 			{#each $portals.data.portals as portal (portal.slug)}
 				<li role="none">
