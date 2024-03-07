@@ -87,6 +87,7 @@
 		xPct = calcXPct(loopState, timePct);
 		yPct = activeEasing.fn(xPct);
 		tween = activeEasing.fn(calcTweenPct(loopState, timePct));
+		if (isNaN(tween)) console.log(`tween`, tween);
 		tweenAlternating = loopState === 'movingLeft' ? 1 - tween : tween;
 	};
 	const getNextLoopState = (loopState: LoopState): LoopState => {
@@ -139,8 +140,10 @@
 	let gain: GainNode | undefined;
 	const audio_ctx = get_audio_ctx();
 	$: freqMin = midiToFreq(startNote, DEFAULT_TUNING);
+	$: if (isNaN(freqMin)) console.log('freqMin is NaN');
 	$: freqMax = midiToFreq(endNote, DEFAULT_TUNING);
-	const calcFreq = (pct: number) => lerp(freqMin, freqMax, pct);
+	$: if (isNaN(freqMax)) console.log('freqMax is NaN');
+	const calcFreq = (pct: number) => lerp(freqMin, freqMax, pct); //|| 0; // TODO getting NaN sometimes here, why?
 	const updateAudioization = () => {
 		startAudio();
 
@@ -168,6 +171,10 @@
 		}
 	};
 	const startAudio = () => {
+		if (audio_ctx.state === 'suspended') {
+			// this spams resume, but not spamming resume wasn't working
+			void audio_ctx.resume();
+		}
 		if (osc) return;
 		gain = audio_ctx.createGain();
 		gain.gain.value = 0;
@@ -401,12 +408,14 @@
 		max-width: 1337px;
 		display: flex;
 		flex-wrap: wrap;
-		margin: auto;
+		align-items: flex-start;
 	}
 	.controls {
 		display: flex;
 		flex-direction: column;
 		padding-left: 90px;
+		padding-top: 0;
+		padding-bottom: 0;
 	}
 	.controls-group {
 		display: flex;
@@ -418,7 +427,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-top: 6px;
 	}
 	.active-tween-graphic-rotate {
 		width: 5px;
@@ -433,10 +441,10 @@
 		margin-bottom: 20px;
 	}
 	.tweens {
-		display: flex;
-		flex-wrap: wrap;
 		flex-grow: 1;
-		flex-basis: 440px;
+		flex-basis: 210px;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
 	}
 	.tween-radio {
 		display: flex;
