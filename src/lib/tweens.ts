@@ -10,7 +10,7 @@ export interface Tween {
 
 export interface Tweens {
 	subscribe: Readable<Tween[]>['subscribe'];
-	easings: Partial<typeof svelteEasings>;
+	easings: typeof svelteEasings;
 	// TODO options type
 	set: (value: number, options: TweenedOptions<number> | undefined) => Array<Promise<void>>;
 }
