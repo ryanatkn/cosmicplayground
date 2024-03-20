@@ -108,7 +108,7 @@
 <section class="controls">
 	<div class="controls-group">
 		<FloatingTextButton on:click={() => (playing = !playing)}>
-			{playing ? 'pause' : 'play'}
+			<div style:width="9rem">{playing ? 'pause' : 'play'}</div>
 		</FloatingTextButton>
 		<FloatingTextButton on:click={() => (toggle = !toggle)}>toggle</FloatingTextButton>
 		<select class="pl-2" bind:value={view}>
@@ -174,14 +174,14 @@
 	}
 	.item-graphic-rotate {
 		position: absolute;
-		right: -200px;
+		right: -180px;
 		top: 0;
 		width: 3px;
 		transform-origin: middle;
 	}
 	.item-graphic-scale {
 		position: absolute;
-		right: -250px;
+		right: -230px;
 		top: 0;
 		border-radius: 50%;
 		transform-origin: middle;
@@ -190,9 +190,10 @@
 		position: absolute;
 		left: 100%;
 		top: 0;
-		padding-left: 50px;
+		padding-left: 20px;
 		display: flex;
-		align-items: baseline;
+		flex-direction: row;
+		align-items: center;
 		font-weight: bold;
 	}
 	.item-label input[type='checkbox'] {
