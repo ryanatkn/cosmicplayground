@@ -604,8 +604,8 @@
 		/* TODO hacky -- maybe `.opaque` or remove transparency from the FloatingIconButton or make it a prop?  */
 		--hud_element_size: 200px;
 		--clickable_opacity: 1;
-		--clickable_opacity__hover: 1;
-		--clickable_opacity__active: 1;
+		--clickable_opacity_hover: 1;
+		--clickable_opacity_active: 1;
 	}
 	.night-light {
 		width: 100px;

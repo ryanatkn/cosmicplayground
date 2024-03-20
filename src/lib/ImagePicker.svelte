@@ -34,9 +34,9 @@
 	}
 	button:hover {
 		border-color: var(--space_color);
-		border-style: var(--clickable_border_style__hover);
+		border-style: var(--clickable_border_style_hover);
 	}
 	button:active {
-		border-style: var(--clickable_border_style__active);
+		border-style: var(--clickable_border_style_active);
 	}
 </style>

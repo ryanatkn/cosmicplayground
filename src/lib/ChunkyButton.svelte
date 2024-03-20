@@ -23,11 +23,11 @@
 	}
 	/* TODO a11y hostile, keyboards too :| --- see `button:focus` in main.css */
 	button:hover {
-		border-style: var(--clickable_border_style__hover);
+		border-style: var(--clickable_border_style_hover);
 	}
 	button:active,
 	.pressed {
 		background-color: var(--color_a_9);
-		border-style: var(--clickable_border_style__active);
+		border-style: var(--clickable_border_style_active);
 	}
 </style>
