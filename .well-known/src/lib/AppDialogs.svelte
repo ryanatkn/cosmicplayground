@@ -13,7 +13,7 @@
 </script>
 
 {#if $show_app_dialog}
-	<!-- TODO better way to do this? -->
+	<!-- TODO hacky/buggy -->
 	<Dialog on:close={exit}><div class="dialogs" bind:this={$app_dialog_el} /></Dialog>
 {/if}
 
