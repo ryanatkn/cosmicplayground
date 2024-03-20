@@ -267,177 +267,185 @@
 		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 </script>
 
-<div class="easing-aud-viz">
-	<section>
-		<section class="controls">
-			<div class="controls-group" class:disabled={$muted}>
-				<FloatingIconButton label={$muted ? 'unmute' : 'mute'} on:click={() => ($muted = !$muted)}>
-					{$muted ? '🔇' : '🔊'}
-				</FloatingIconButton>
-				<input
-					type="range"
-					bind:value={$volume}
-					min={0}
-					max={1}
-					step={0.01}
-					style="width: 200px;"
-					disabled={$muted}
-				/>
-				<div>{Math.round($volume * 100)}<span>%</span></div>
-			</div>
-			<label class="controls-group">
-				<input type="range" bind:value={startNote} min={lowestNote} max={highestNote} step={1} />
-				<div>{midiNames[startNote]}<span style="font-size: 24px;">♪</span></div>
-			</label>
-			<label class="controls-group">
-				<input type="range" bind:value={endNote} min={lowestNote} max={highestNote} step={1} />
-				<div>{midiNames[endNote]}<span style="font-size: 24px;">♪</span></div>
-			</label>
-			<label class="controls-group">
-				<input
-					type="range"
-					bind:value={duration}
-					min={(2 * 1000) / 60}
-					max={6000}
-					step={1000 / 60}
-				/>
-				<div>
-					<div>{Math.round(duration)}<small>ms</small></div>
-					<small>duration</small>
+<div class="width_full box">
+	<div class="width_md">
+		<section class="visuals_and_controls">
+			<section class="active_tween">
+				<div class="active_tween_name" style="color: {get_color(activeEasingIndex)};">
+					{activeEasing.name}
 				</div>
-			</label>
-			<label class="controls-group">
-				<input type="range" bind:value={waitTime} min={0} max={2001} step={1000 / 60} />
-				<div>
-					<div>{Math.round(waitTime)}<small>ms</small></div>
-					<small>waitTime</small>
-				</div>
-			</label>
-		</section>
-
-		<section class="active-tween">
-			<div class="active-tween-name" style="color: {get_color(activeEasingIndex)};">
-				{activeEasing.name}
-			</div>
-			<div class="chart">
-				<div
-					class="absolute l-0 t-0"
-					style="transform: translate3d({chartX0 +
-						xPct * chartWidth -
-						chartAxisLineWidth / 2}px, {chartY0 - chartAxisLineWidth / 2}px,
+				<div class="chart">
+					<div
+						class="absolute l-0 t-0"
+						style="transform: translate3d({chartX0 +
+							xPct * chartWidth -
+							chartAxisLineWidth / 2}px, {chartY0 - chartAxisLineWidth / 2}px,
 					0); background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
-				/>
-				<div
-					class="absolute l-0 t-0"
-					style="transform: translate3d({chartX0 - chartAxisLineWidth / 2}px, {chartY0 -
-						yPct * chartHeight -
-						chartAxisLineWidth / 2}px,
+					/>
+					<div
+						class="absolute l-0 t-0"
+						style="transform: translate3d({chartX0 - chartAxisLineWidth / 2}px, {chartY0 -
+							yPct * chartHeight -
+							chartAxisLineWidth / 2}px,
 					0); background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
-				/>
-				<canvas class="relative z-1" bind:this={chartCanvas} />
-				<div
-					class="absolute l-0 t-0"
-					style="background-color: {get_color(activeEasingIndex)}; transform: translate3d({chartX0 +
-						xPct * chartWidth -
-						chartLineHighlightWidth / 2}px,
+					/>
+					<canvas class="relative z-1" bind:this={chartCanvas} />
+					<div
+						class="absolute l-0 t-0"
+						style="background-color: {get_color(
+							activeEasingIndex,
+						)}; transform: translate3d({chartX0 +
+							xPct * chartWidth -
+							chartLineHighlightWidth / 2}px,
 					{chartY0 -
-						yPct * chartHeight -
-						chartLineHighlightWidth / 2}px, 0); width: {chartLineHighlightWidth}px;
+							yPct * chartHeight -
+							chartLineHighlightWidth / 2}px, 0); width: {chartLineHighlightWidth}px;
 					height: {chartLineHighlightWidth}px; border-radius: 50%;"
-				/>
-			</div>
-			<div
-				style="width: {translate_width}px; background-color: {get_color(activeEasingIndex, 0.1)};
+					/>
+				</div>
+				<div
+					style="width: {translate_width}px; background-color: {get_color(activeEasingIndex, 0.1)};
 				margin-bottom: 24px;"
-			>
-				<div
-					style="transform: translate3d({tweenAlternating *
-						translate_distance}px, 0, 0); width: {graphic1Width}px;
-					height: {graphic1Height}px; background-color: {get_color(activeEasingIndex)};"
-				/>
-			</div>
-			<div style="display: flex;">
-				<div class="flex items-center justify-center" style="width: {translate_width / 2}px">
-					<div
-						class="active-tween-graphic-rotate"
-						style="transform: rotate({tweenAlternating * 180}deg); height: {graphic2Height}px;
-						background-color: {get_color(activeEasingIndex)};"
-					/>
-				</div>
-				<div class="flex items-center justify-center" style="width: {translate_width / 2}px">
-					<div
-						class="active-tween-graphic-scale"
-						style="transform: scale3d({tweenAlternating}, {tweenAlternating}, 1); width: {graphic2Width}px;
-						height: {graphic2Height}px; background-color: {get_color(activeEasingIndex)};"
-					/>
-				</div>
-			</div>
-			<div>
-				<div
-					class="flex items-center justify-center"
-					style="width: {translate_width / 2}px; padding: 36px 36px 0;"
 				>
 					<div
-						style="transform: skew({tweenAlternating * 80 - 25}deg, {tweenAlternating * 10 - 2}deg);
-						width: {graphic2Width}px; height: {graphic2Height}px; background-color: {get_color(
-							activeEasingIndex,
-						)};"
+						style="transform: translate3d({tweenAlternating *
+							translate_distance}px, 0, 0); width: {graphic1Width}px;
+					height: {graphic1Height}px; background-color: {get_color(activeEasingIndex)};"
 					/>
 				</div>
-			</div>
-		</section>
-	</section>
+				<div style="display: flex;">
+					<div class="flex items-center justify-center" style="width: {translate_width / 2}px">
+						<div
+							class="active_tween_graphic_rotate"
+							style="transform: rotate({tweenAlternating * 180}deg); height: {graphic2Height}px;
+						background-color: {get_color(activeEasingIndex)};"
+						/>
+					</div>
+					<div class="flex items-center justify-center" style="width: {translate_width / 2}px">
+						<div
+							class="active_tween_graphic_scale"
+							style="transform: scale3d({tweenAlternating}, {tweenAlternating}, 1); width: {graphic2Width}px;
+						height: {graphic2Height}px; background-color: {get_color(activeEasingIndex)};"
+						/>
+					</div>
+				</div>
+				<div>
+					<div
+						class="flex items-center justify-center"
+						style="width: {translate_width / 2}px; padding: 36px 36px 0;"
+					>
+						<div
+							style="transform: skew({tweenAlternating * 80 - 25}deg, {tweenAlternating * 10 -
+								2}deg);
+						width: {graphic2Width}px; height: {graphic2Height}px; background-color: {get_color(
+								activeEasingIndex,
+							)};"
+						/>
+					</div>
+				</div>
+			</section>
 
-	<section class="tweens">
-		{#each easings as easing, i (easing.name)}
-			<label
-				class="tween-radio"
-				class:active={easing === activeEasing}
-				style="color: {get_color(i)}; border-color: {easing === activeEasing
-					? get_color(i)
-					: 'transparent'}"
-			>
-				<input type="radio" bind:group={activeEasingIndex} value={i} />
-				{easing.name}
-			</label>
-		{/each}
-	</section>
+			<section class="controls">
+				<div class="controls_group" class:disabled={$muted}>
+					<FloatingIconButton
+						label={$muted ? 'unmute' : 'mute'}
+						on:click={() => ($muted = !$muted)}
+					>
+						{$muted ? '🔇' : '🔊'}
+					</FloatingIconButton>
+					<input
+						type="range"
+						bind:value={$volume}
+						min={0}
+						max={1}
+						step={0.01}
+						style="width: 200px;"
+						disabled={$muted}
+					/>
+					<div>{Math.round($volume * 100)}<span>%</span></div>
+				</div>
+				<label class="controls_group">
+					<input type="range" bind:value={startNote} min={lowestNote} max={highestNote} step={1} />
+					<div>{midiNames[startNote]}<span style="font-size: 24px;">♪</span></div>
+				</label>
+				<label class="controls_group">
+					<input type="range" bind:value={endNote} min={lowestNote} max={highestNote} step={1} />
+					<div>{midiNames[endNote]}<span style="font-size: 24px;">♪</span></div>
+				</label>
+				<label class="controls_group">
+					<input
+						type="range"
+						bind:value={duration}
+						min={(2 * 1000) / 60}
+						max={6000}
+						step={1000 / 60}
+					/>
+					<div>
+						<div>{Math.round(duration)}<small>ms</small></div>
+						<small>duration</small>
+					</div>
+				</label>
+				<label class="controls_group">
+					<input type="range" bind:value={waitTime} min={0} max={2001} step={1000 / 60} />
+					<div>
+						<div>{Math.round(waitTime)}<small>ms</small></div>
+						<small>waitTime</small>
+					</div>
+				</label>
+			</section>
+		</section>
+
+		<section class="tweens">
+			{#each easings as easing, i (easing.name)}
+				<label
+					class="tween_radio"
+					class:active={easing === activeEasing}
+					style="color: {get_color(i)}; border-color: {easing === activeEasing
+						? get_color(i)
+						: 'transparent'}"
+				>
+					<input type="radio" bind:group={activeEasingIndex} value={i} />
+					{easing.name}
+				</label>
+			{/each}
+		</section>
+	</div>
 </div>
 
 <style>
-	.easing-aud-viz {
-		max-width: 1337px;
-		display: flex;
-		flex-wrap: wrap;
-		align-items: flex-start;
-	}
 	.controls {
 		display: flex;
 		flex-direction: column;
-		padding-left: 90px;
+		padding-left: var(--space_lg);
 		padding-top: 0;
 		padding-bottom: 0;
 	}
-	.controls-group {
+	.controls_group {
 		display: flex;
 		align-items: center;
 		padding: 5px 10px;
 	}
-	.active-tween {
+	.visuals_and_controls {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+	.active_tween {
 		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		padding-bottom: var(--space_xl5);
 	}
-	.active-tween-graphic-rotate {
+	.active_tween_graphic_rotate {
 		width: 5px;
 		transform-origin: middle;
 	}
-	.active-tween-graphic-scale {
+	.active_tween_graphic_scale {
 		border-radius: 50%;
 		transform-origin: middle;
 	}
-	.active-tween-name {
+	.active_tween_name {
 		font-size: 48px;
 		margin-bottom: 20px;
 	}
@@ -445,16 +453,16 @@
 		flex-grow: 1;
 		flex-basis: 210px;
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
 	}
-	.tween-radio {
+	.tween_radio {
 		display: flex;
 		align-items: center;
 		font-weight: bold;
 		border: var(--border_width_3) var(--clickable_border_style) transparent;
 		padding: 10px 15px;
 	}
-	.tween-radio.active input {
+	.tween_radio.active input {
 		opacity: 1;
 	}
 	.chart {
@@ -463,7 +471,6 @@
 	section {
 		color: rgba(255, 255, 255, 0.8);
 		padding: 15px;
-		margin: 0 auto;
 	}
 	input[type='range'] {
 		margin: 0 10px;
