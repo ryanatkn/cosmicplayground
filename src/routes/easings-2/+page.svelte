@@ -199,14 +199,14 @@
 	// transforms
 	const graphic1Width = 24;
 	const graphic1Height = 24;
-	const translateWidth = 300;
-	const translateDistance = translateWidth - graphic1Width;
+	const translate_width = 300;
+	const translate_distance = translate_width - graphic1Width;
 	const graphic2Width = 96;
 	const graphic2Height = 96;
 
 	// chart
 	const canvasChartXPadding = 4; // prevents overflow when drawing vertical axis
-	const chartCanvasWidth = translateWidth + canvasChartXPadding * 2;
+	const chartCanvasWidth = translate_width + canvasChartXPadding * 2;
 	const chartCanvasHeight = 300;
 	const chartWidth = chartCanvasWidth - 2 * canvasChartXPadding;
 	const canvasChartYPadding = 66; // prevents overflow for easings that spring past their endpoint
@@ -254,7 +254,7 @@
 		// draw the active easing
 		ctx.beginPath();
 		ctx.lineWidth = chartLineWidth;
-		ctx.strokeStyle = getColor(activeEasingIndex);
+		ctx.strokeStyle = get_color(activeEasingIndex);
 		ctx.moveTo(chartX0, chartY0 - chartHeight * activeEasing.fn(0));
 		for (let i = 1; i <= chartWidth; i++) {
 			const pct = activeEasing.fn(i / chartWidth);
@@ -263,7 +263,8 @@
 		ctx.stroke();
 	};
 
-	const getColor = (index: number, opacity = 0.8) => `hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
+	const get_color = (index: number, opacity = 0.8) =>
+		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 </script>
 
 <div class="easing-aud-viz">
@@ -315,7 +316,7 @@
 		</section>
 
 		<section class="active-tween">
-			<div class="active-tween-name" style="color: {getColor(activeEasingIndex)};">
+			<div class="active-tween-name" style="color: {get_color(activeEasingIndex)};">
 				{activeEasing.name}
 			</div>
 			<div class="chart">
@@ -336,7 +337,7 @@
 				<canvas class="relative z-1" bind:this={chartCanvas} />
 				<div
 					class="absolute l-0 t-0"
-					style="background-color: {getColor(activeEasingIndex)}; transform: translate3d({chartX0 +
+					style="background-color: {get_color(activeEasingIndex)}; transform: translate3d({chartX0 +
 						xPct * chartWidth -
 						chartLineHighlightWidth / 2}px,
 					{chartY0 -
@@ -346,39 +347,39 @@
 				/>
 			</div>
 			<div
-				style="width: {translateWidth}px; background-color: {getColor(activeEasingIndex, 0.1)};
+				style="width: {translate_width}px; background-color: {get_color(activeEasingIndex, 0.1)};
 				margin-bottom: 24px;"
 			>
 				<div
 					style="transform: translate3d({tweenAlternating *
-						translateDistance}px, 0, 0); width: {graphic1Width}px;
-					height: {graphic1Height}px; background-color: {getColor(activeEasingIndex)};"
+						translate_distance}px, 0, 0); width: {graphic1Width}px;
+					height: {graphic1Height}px; background-color: {get_color(activeEasingIndex)};"
 				/>
 			</div>
 			<div style="display: flex;">
-				<div class="flex items-center justify-center" style="width: {translateWidth / 2}px">
+				<div class="flex items-center justify-center" style="width: {translate_width / 2}px">
 					<div
 						class="active-tween-graphic-rotate"
 						style="transform: rotate({tweenAlternating * 180}deg); height: {graphic2Height}px;
-						background-color: {getColor(activeEasingIndex)};"
+						background-color: {get_color(activeEasingIndex)};"
 					/>
 				</div>
-				<div class="flex items-center justify-center" style="width: {translateWidth / 2}px">
+				<div class="flex items-center justify-center" style="width: {translate_width / 2}px">
 					<div
 						class="active-tween-graphic-scale"
 						style="transform: scale3d({tweenAlternating}, {tweenAlternating}, 1); width: {graphic2Width}px;
-						height: {graphic2Height}px; background-color: {getColor(activeEasingIndex)};"
+						height: {graphic2Height}px; background-color: {get_color(activeEasingIndex)};"
 					/>
 				</div>
 			</div>
 			<div>
 				<div
 					class="flex items-center justify-center"
-					style="width: {translateWidth / 2}px; padding: 36px 36px 0;"
+					style="width: {translate_width / 2}px; padding: 36px 36px 0;"
 				>
 					<div
 						style="transform: skew({tweenAlternating * 80 - 25}deg, {tweenAlternating * 10 - 2}deg);
-						width: {graphic2Width}px; height: {graphic2Height}px; background-color: {getColor(
+						width: {graphic2Width}px; height: {graphic2Height}px; background-color: {get_color(
 							activeEasingIndex,
 						)};"
 					/>
@@ -392,8 +393,8 @@
 			<label
 				class="tween-radio"
 				class:active={easing === activeEasing}
-				style="color: {getColor(i)}; border-color: {easing === activeEasing
-					? getColor(i)
+				style="color: {get_color(i)}; border-color: {easing === activeEasing
+					? get_color(i)
 					: 'transparent'}"
 			>
 				<input type="radio" bind:group={activeEasingIndex} value={i} />

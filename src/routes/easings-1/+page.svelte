@@ -22,7 +22,7 @@
     - I profiled the commented out code that uses `filteredTweens` below in Chrome,
       and it seems to use a lot more memory (like 50% more).
       The current and better performing version doesn't create a filtered collection,
-      and instead uses `{#if isVisible(item)}`.
+      and instead uses `{#if is_visible(item)}`.
       The scripting/rendering/painting characteristics are similar in the two versions.
       I only profiled a handful of times for ~20 seconds,
       and I don't have much experience profiling, so I could be wrong about everything.
@@ -36,47 +36,42 @@
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 
 	let duration = 1500;
-	//$: console.log('duration changed', duration);
 
 	let toggle = false;
-	//$: console.log('toggle changed', toggle);
 
 	let timeout: any;
-	const loopPadding = 300; // time to wait between loops
+	const loop_padding = 300; // time to wait between loops
 	const loop = (time: number): void => {
 		timeout = setTimeout(() => {
 			toggle = !toggle;
-			loop(duration + loopPadding);
+			loop(duration + loop_padding);
 		}, time);
 	};
-	const startPlaying = () => loop(0);
-	const stopPlaying = () => clearTimeout(timeout);
-	onDestroy(stopPlaying);
+	const start_playing = () => loop(0);
+	const stop_playing = () => clearTimeout(timeout);
+	onDestroy(stop_playing);
 
 	const views = ['all', 'selected', 'unselected'];
 	let view = 'selected';
-	//$: console.log('view changed', view);
+
 	let playing = true;
-	$: playing ? startPlaying() : stopPlaying();
-	//$: console.log('playing changed', playing);
+	$: playing ? start_playing() : stop_playing();
 
 	const tweens = createTweens(duration, undefined, 1);
-	$: void tweens.set(toggle ? 1 : 0, {duration}); //, console.log('tweens.set()');
+	$: void tweens.set(toggle ? 1 : 0, {duration});
 
 	let selected: {[key: string]: boolean};
 	$: selected = tweens.easings.reduce((v = {}, {name}) => {
 		if (!(name in v)) v[name] = true;
 		return v;
 	}, selected);
-	//$: console.log('selected changed', selected);
 
-	const graphicWidth = 24;
-	const graphicHeight = 24;
-	const translateWidth = 300;
-	const translateDistance = translateWidth - graphicWidth;
+	const graphic_width = 24;
+	const graphic_height = 24;
+	const translate_width = 300;
+	const translate_distance = translate_width - graphic_width;
 
-	const isVisible = (tween: Tween): boolean => {
-		//console.log("isVisible", view);
+	const is_visible = (tween: Tween): boolean => {
 		switch (view) {
 			case 'all':
 				return true;
@@ -88,13 +83,14 @@
 				throw Error();
 		}
 	};
-	const getColor = (index: number, opacity = 0.8) => `hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
+	const get_color = (index: number, opacity = 0.8) =>
+		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 
 	/*
   let filteredTweens;
   $: {
     // TODO learn to optimize
-    // is it better to compute `filteredTweens` every frame, or use a `{#if isVisible(item)}`?
+    // is it better to compute `filteredTweens` every frame, or use a `{#if is_visible(item)}`?
     //console.log("assign filteredTweens", view);
     switch (view) {
       case 'all': filteredTweens = $tweens; break;
@@ -106,7 +102,7 @@
 </script>
 
 <section class="controls">
-	<div class="controls-group">
+	<div class="controls_group">
 		<FloatingTextButton on:click={() => (playing = !playing)}>
 			<div style:width="9rem">{playing ? 'pause' : 'play'}</div>
 		</FloatingTextButton>
@@ -117,7 +113,7 @@
 			{/each}
 		</select>
 	</div>
-	<div class="controls-group">
+	<div class="controls_group">
 		<input type="range" bind:value={duration} min={(2 * 1000) / 60} max={6000} step={1000 / 60} />
 		<div class="pl-2">
 			<div>{Math.round(duration)}<small>ms</small></div>
@@ -128,24 +124,25 @@
 
 <section>
 	{#each $tweens as item, i (item.name)}
-		{#if isVisible(item)}
-			<div class="item" style="width: {translateWidth}px; background-color: {getColor(i, 0.1)};">
+		{#if is_visible(item)}
+			<div class="item" style="width: {translate_width}px; background-color: {get_color(i, 0.1)};">
 				<div
-					class="item-graphic-scale"
-					style="transform: scale3d({item.value}, {item.value}, 1); width: {graphicWidth}px; height:
-					{graphicHeight}px; background-color: {getColor(i)};"
+					class="item_graphic_scale"
+					style="transform: scale3d({item.value}, {item.value}, 1); width: {graphic_width}px; height:
+					{graphic_height}px; background-color: {get_color(i)};"
 				/>
 				<div
-					class="item-graphic-rotate"
-					style="transform: rotate({item.value * 180}deg); height: {graphicHeight}px;
-					background-color: {getColor(i)};"
+					class="item_graphic_rotate"
+					style="transform: rotate({item.value * 180}deg); height: {graphic_height}px;
+					background-color: {get_color(i)};"
 				/>
 				<div
-					style="transform: translate3d({item.value *
-						translateDistance}px, 0, 0); width: {graphicWidth}px;
-					height: {graphicHeight}px; background-color: {getColor(i)};"
+					style:transform="translate3d({item.value * translate_distance}px, 0, 0)"
+					style:width="{graphic_width}px"
+					style:height="{graphic_height}px"
+					style:background-color={get_color(i)}
 				/>
-				<label class="item-label" style="color: {getColor(i)};">
+				<label class="item_label" style="color: {get_color(i)};">
 					<input
 						type="checkbox"
 						checked={selected[item.name]}
@@ -163,7 +160,7 @@
 		display: flex;
 		flex-direction: column;
 	}
-	.controls-group {
+	.controls_group {
 		display: flex;
 		align-items: center;
 	}
@@ -172,21 +169,21 @@
 		display: flex;
 		margin-top: 6px;
 	}
-	.item-graphic-rotate {
+	.item_graphic_rotate {
 		position: absolute;
 		right: -180px;
 		top: 0;
 		width: 3px;
 		transform-origin: middle;
 	}
-	.item-graphic-scale {
+	.item_graphic_scale {
 		position: absolute;
 		right: -230px;
 		top: 0;
 		border-radius: 50%;
 		transform-origin: middle;
 	}
-	.item-label {
+	.item_label {
 		position: absolute;
 		left: 100%;
 		top: 0;
@@ -196,10 +193,10 @@
 		align-items: center;
 		font-weight: bold;
 	}
-	.item-label input[type='checkbox'] {
+	.item_label input[type='checkbox'] {
 		visibility: hidden;
 	}
-	.item-label span {
+	.item_label span {
 		display: list-item;
 	}
 	section {
