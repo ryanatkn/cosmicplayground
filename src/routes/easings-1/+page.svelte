@@ -1,3 +1,5 @@
+<svelte:options immutable={false} />
+
 <script lang="ts">
 	/*
 
@@ -51,8 +53,9 @@
 	const stop_playing = () => clearTimeout(timeout);
 	onDestroy(stop_playing);
 
-	const views = ['all', 'selected', 'unselected'];
-	let view = 'selected';
+	type Easings_View = 'all' | 'selected' | 'unselected';
+	const views: Easings_View[] = ['all', 'selected', 'unselected'];
+	let view: Easings_View = 'selected';
 
 	let playing = true;
 	$: playing ? start_playing() : stop_playing();
@@ -74,7 +77,11 @@
 	const translate_width = 300;
 	const translate_distance = translate_width - graphic_width;
 
-	const is_visible = (tween: Tween): boolean => {
+	const is_visible = (
+		tween: Tween,
+		selected: {[key: string]: boolean},
+		view: Easings_View,
+	): boolean => {
 		switch (view) {
 			case 'all':
 				return true;
@@ -135,7 +142,7 @@
 </section>
 <section>
 	{#each $tweens as item, i (item.name)}
-		{#if is_visible(item)}
+		{#if is_visible(item, selected, view)}
 			<div
 				class="item"
 				style:width="{translate_width}px"
