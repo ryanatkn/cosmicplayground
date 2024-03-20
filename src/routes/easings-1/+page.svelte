@@ -127,7 +127,7 @@
 			<div
 				class="item"
 				style:width="{translate_width}px"
-				style:background-color={get_color(i, 0.1)}
+				style:background-color={get_color(i, 0.16)}
 			>
 				<div
 					class="item_graphic_scale"
@@ -195,6 +195,16 @@
 		align-items: center;
 		font-weight: bold;
 	}
+	/* TODO helper class */
+	.item_label:focus {
+		transform: var(--clickable_transform__focus);
+	}
+	.item_label:hover {
+		transform: var(--clickable_transform__hover);
+	}
+	.item_label:active {
+		transform: var(--clickable_transform__active);
+	}
 	.item_label input[type='checkbox'] {
 		visibility: hidden;
 	}
@@ -207,11 +217,8 @@
 		margin: 0 auto;
 		color: rgba(255, 255, 255, 0.8);
 	}
-	input[type='range'] {
-		width: 300px;
-	}
 	input[type='checkbox'] {
-		opacity: 0.8;
+		/* opacity: 0.8; */
 		margin-right: 4px;
 	}
 	select {
