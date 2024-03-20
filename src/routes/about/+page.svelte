@@ -51,7 +51,7 @@
 						src="/assets/characters/spider.png"
 						alt="spiderspace dot org"
 						style="position: absolute; bottom: -33px; right: -29px;"
-						on:click={() => window.open('https://spiderspace.org/')}
+						on:click={() => window.open('https://github.com/ryanatkn/fuz_template')}
 					/>
 				</div>
 			</Panel>
