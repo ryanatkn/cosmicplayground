@@ -267,7 +267,7 @@
 		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 </script>
 
-<div class="width_full box">
+<div class="box">
 	<div class="width_md">
 		<section class="visuals_and_controls">
 			<section class="active_tween">
