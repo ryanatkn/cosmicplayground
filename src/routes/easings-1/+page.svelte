@@ -86,19 +86,12 @@
 	const get_color = (index: number, opacity = 0.8) =>
 		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 
-	/*
-  let filteredTweens;
-  $: {
-    // TODO learn to optimize
-    // is it better to compute `filteredTweens` every frame, or use a `{#if is_visible(item)}`?
-    //console.log("assign filteredTweens", view);
-    switch (view) {
-      case 'all': filteredTweens = $tweens; break;
-      case 'selected': filteredTweens = $tweens.filter(e => selected[e.name]); break;
-      case 'unselected': filteredTweens = $tweens.filter(e => !selected[e.name]); break;
-    }
-  };
-  */
+	const select_all = () => {
+		selected = Object.fromEntries(Object.entries(selected).map(([k]) => [k, true]));
+	};
+	const select_none = () => {
+		selected = Object.fromEntries(Object.entries(selected).map(([k]) => [k, false]));
+	};
 </script>
 
 <section class="controls">
@@ -107,11 +100,6 @@
 			<div style:width="9rem">{playing ? 'pause' : 'play'}</div>
 		</FloatingTextButton>
 		<FloatingTextButton on:click={() => (toggle = !toggle)}>toggle</FloatingTextButton>
-		<select class="pl-2" bind:value={view}>
-			{#each views as view (view)}
-				<option value={view}>view {view}</option>
-			{/each}
-		</select>
 	</div>
 	<div class="controls_group">
 		<input type="range" bind:value={duration} min={(2 * 1000) / 60} max={6000} step={1000 / 60} />
@@ -119,6 +107,15 @@
 			<div>{Math.round(duration)}<small>ms</small></div>
 			<small>duration</small>
 		</div>
+	</div>
+	<div class="controls_group">
+		<select class="pl-2" bind:value={view}>
+			{#each views as view (view)}
+				<option value={view}>view {view}</option>
+			{/each}
+		</select>
+		<button on:click={select_all}>select all</button>
+		<button on:click={select_none}>select none</button>
 	</div>
 </section>
 
@@ -143,11 +140,7 @@
 					style:background-color={get_color(i)}
 				/>
 				<label class="item_label" style="color: {get_color(i)};">
-					<input
-						type="checkbox"
-						checked={selected[item.name]}
-						on:change={() => (selected[item.name] = !selected[item.name])}
-					/>
+					<input type="checkbox" bind:checked={selected[item.name]} />
 					<span style="list-style: {selected[item.name] ? 'circle' : 'none'}">{item.name}</span>
 				</label>
 			</div>
