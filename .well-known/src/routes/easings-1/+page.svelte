@@ -1,9 +1,11 @@
+<svelte:options immutable={false} />
+
 <script lang="ts">
 	/*
 
   Svelte has built-in support for ergonomic and high performance animations.
   It includes a number of easing functions that transition your values from
-  start to finish with a flair ranging from vanilla to delightful to well past zany.
+  start to finish with a flair ranging from vanilla to satisfying to well past zany.
   This component visualizes the included easings
   using translate/rotate/scale CSS transforms.
   See the relevant section of Svelte's tutorial -
@@ -22,7 +24,7 @@
     - I profiled the commented out code that uses `filteredTweens` below in Chrome,
       and it seems to use a lot more memory (like 50% more).
       The current and better performing version doesn't create a filtered collection,
-      and instead uses `{#if isVisible(item)}`.
+      and instead uses `{#if is_visible(item)}`.
       The scripting/rendering/painting characteristics are similar in the two versions.
       I only profiled a handful of times for ~20 seconds,
       and I don't have much experience profiling, so I could be wrong about everything.
@@ -32,51 +34,54 @@
 
 	import {onDestroy} from 'svelte';
 
-	import {createTweens, type Tween} from '$lib/tweens';
+	import {createTweens, type Tween} from '$lib/tweens.js';
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 
 	let duration = 1500;
-	//$: console.log('duration changed', duration);
 
 	let toggle = false;
-	//$: console.log('toggle changed', toggle);
 
-	let timeout: any;
-	const loopPadding = 300; // time to wait between loops
+	let timeout: number;
+	const loop_padding = 300; // time to wait between loops
 	const loop = (time: number): void => {
 		timeout = setTimeout(() => {
 			toggle = !toggle;
-			loop(duration + loopPadding);
+			loop(duration + loop_padding);
 		}, time);
 	};
-	const startPlaying = () => loop(0);
-	const stopPlaying = () => clearTimeout(timeout);
-	onDestroy(stopPlaying);
+	const start_playing = () => loop(0);
+	const stop_playing = () => clearTimeout(timeout);
+	onDestroy(stop_playing);
 
-	const views = ['all', 'selected', 'unselected'];
-	let view = 'selected';
-	//$: console.log('view changed', view);
+	type Easings_View = 'all' | 'selected' | 'unselected';
+	const views: Easings_View[] = ['all', 'selected', 'unselected'];
+	let view: Easings_View = 'selected';
+
 	let playing = true;
-	$: playing ? startPlaying() : stopPlaying();
-	//$: console.log('playing changed', playing);
+	$: playing ? start_playing() : stop_playing();
 
 	const tweens = createTweens(duration, undefined, 1);
-	$: void tweens.set(toggle ? 1 : 0, {duration}); //, console.log('tweens.set()');
+	$: void tweens.set(toggle ? 1 : 0, {duration});
 
 	let selected: {[key: string]: boolean};
 	$: selected = tweens.easings.reduce((v = {}, {name}) => {
 		if (!(name in v)) v[name] = true;
 		return v;
 	}, selected);
-	//$: console.log('selected changed', selected);
 
-	const graphicWidth = 24;
-	const graphicHeight = 24;
-	const translateWidth = 300;
-	const translateDistance = translateWidth - graphicWidth;
+	$: selecting_all = Object.values(selected).every(Boolean);
+	$: selecting_none = Object.values(selected).every((v) => !v);
 
-	const isVisible = (tween: Tween): boolean => {
-		//console.log("isVisible", view);
+	const graphic_width = 24;
+	const graphic_height = 24;
+	const translate_width = 300;
+	const translate_distance = translate_width - graphic_width;
+
+	const is_visible = (
+		tween: Tween,
+		selected: {[key: string]: boolean},
+		view: Easings_View,
+	): boolean => {
 		switch (view) {
 			case 'all':
 				return true;
@@ -88,70 +93,84 @@
 				throw Error();
 		}
 	};
-	const getColor = (index: number, opacity = 0.8) => `hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
+	const get_color = (index: number, opacity = 0.8) =>
+		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
 
-	/*
-  let filteredTweens;
-  $: {
-    // TODO learn to optimize
-    // is it better to compute `filteredTweens` every frame, or use a `{#if isVisible(item)}`?
-    //console.log("assign filteredTweens", view);
-    switch (view) {
-      case 'all': filteredTweens = $tweens; break;
-      case 'selected': filteredTweens = $tweens.filter(e => selected[e.name]); break;
-      case 'unselected': filteredTweens = $tweens.filter(e => !selected[e.name]); break;
-    }
-  };
-  */
+	const select_all = () => {
+		selected = Object.fromEntries(Object.entries(selected).map(([k]) => [k, true]));
+	};
+	const select_none = () => {
+		selected = Object.fromEntries(Object.entries(selected).map(([k]) => [k, false]));
+	};
 </script>
 
-<section class="controls">
-	<div class="controls-group">
-		<FloatingTextButton on:click={() => (playing = !playing)}>
-			{playing ? 'pause' : 'play'}
-		</FloatingTextButton>
-		<FloatingTextButton on:click={() => (toggle = !toggle)}>toggle</FloatingTextButton>
-		<select class="pl-2" bind:value={view}>
-			{#each views as view (view)}
-				<option value={view}>view {view}</option>
-			{/each}
-		</select>
-	</div>
-	<div class="controls-group">
-		<input type="range" bind:value={duration} min={(2 * 1000) / 60} max={6000} step={1000 / 60} />
-		<div class="pl-2">
-			<div>{Math.round(duration)}<small>ms</small></div>
-			<small>duration</small>
-		</div>
-	</div>
+<section>
+	<form class="box">
+		<fieldset class="box row">
+			<FloatingTextButton on:click={() => (playing = !playing)}>
+				<div style:width="9rem">{playing ? 'pause' : 'play'}</div>
+			</FloatingTextButton>
+			<FloatingTextButton on:click={() => (toggle = !toggle)}>toggle</FloatingTextButton>
+		</fieldset>
+		<fieldset>
+			<label>
+				<div class="title">duration (ms)</div>
+				<div class="row gap_sm">
+					<input
+						type="range"
+						bind:value={duration}
+						min={(2 * 1000) / 60}
+						max={6000}
+						step={1000 / 60}
+					/>
+					<input type="number" bind:value={duration} style:width="60px" />
+				</div>
+			</label>
+		</fieldset>
+		<fieldset class="row">
+			<button type="button" on:click={select_all} disabled={selecting_all}>select all</button>
+			<button type="button" on:click={select_none} disabled={selecting_none}>select none</button>
+		</fieldset>
+		<fieldset>
+			<select bind:value={view}>
+				{#each views as view (view)}
+					<option value={view}>view {view}</option>
+				{/each}
+			</select>
+		</fieldset>
+	</form>
 </section>
-
 <section>
 	{#each $tweens as item, i (item.name)}
-		{#if isVisible(item)}
-			<div class="item" style="width: {translateWidth}px; background-color: {getColor(i, 0.1)};">
+		{#if is_visible(item, selected, view)}
+			<div
+				class="item"
+				style:width="{translate_width}px"
+				style:background-color={get_color(i, 0.16)}
+			>
 				<div
-					class="item-graphic-scale"
-					style="transform: scale3d({item.value}, {item.value}, 1); width: {graphicWidth}px; height:
-					{graphicHeight}px; background-color: {getColor(i)};"
+					class="item_graphic_scale"
+					style:transform="scale3d({item.value}, {item.value}, 1)"
+					style:width="{graphic_width}px"
+					style:height="{graphic_height}px"
+					style:background-color={get_color(i)}
 				/>
 				<div
-					class="item-graphic-rotate"
-					style="transform: rotate({item.value * 180}deg); height: {graphicHeight}px;
-					background-color: {getColor(i)};"
+					class="item_graphic_rotate"
+					style:transform="rotate({item.value * 180}deg)"
+					style:height="{graphic_height}px"
+					style:background-color={get_color(i)}
 				/>
 				<div
-					style="transform: translate3d({item.value *
-						translateDistance}px, 0, 0); width: {graphicWidth}px;
-					height: {graphicHeight}px; background-color: {getColor(i)};"
+					style:transform="translate3d({item.value * translate_distance}px, 0, 0)"
+					style:width="{graphic_width}px"
+					style:height="{graphic_height}px"
+					style:background-color={get_color(i)}
+					class="radius_xs3"
 				/>
-				<label class="item-label" style="color: {getColor(i)};">
-					<input
-						type="checkbox"
-						checked={selected[item.name]}
-						on:change={() => (selected[item.name] = !selected[item.name])}
-					/>
-					<span style="list-style: {selected[item.name] ? 'circle' : 'none'}">{item.name}</span>
+				<label class="item_label clickable" style:color={get_color(i)}>
+					<input type="checkbox" bind:checked={selected[item.name]} />
+					<span style:list-style={selected[item.name] ? 'circle' : 'none'}>{item.name}</span>
 				</label>
 			</div>
 		{/if}
@@ -159,64 +178,54 @@
 </section>
 
 <style>
-	.controls {
-		display: flex;
-		flex-direction: column;
-	}
-	.controls-group {
-		display: flex;
-		align-items: center;
-	}
 	.item {
 		position: relative;
 		display: flex;
 		margin-top: 6px;
 	}
-	.item-graphic-rotate {
+	.item_graphic_rotate {
 		position: absolute;
-		right: -200px;
+		right: -180px;
 		top: 0;
 		width: 3px;
 		transform-origin: middle;
 	}
-	.item-graphic-scale {
+	.item_graphic_scale {
 		position: absolute;
-		right: -250px;
+		right: -230px;
 		top: 0;
 		border-radius: 50%;
 		transform-origin: middle;
 	}
-	.item-label {
+	.item_label {
 		position: absolute;
 		left: 100%;
 		top: 0;
-		padding-left: 50px;
+		padding-left: 20px;
 		display: flex;
-		align-items: baseline;
+		flex-direction: row;
+		align-items: center;
 		font-weight: bold;
 	}
-	.item-label input[type='checkbox'] {
+	.item_label input[type='checkbox'] {
 		visibility: hidden;
 	}
-	.item-label span {
+	.item_label span {
 		display: list-item;
 	}
 	section {
-		padding: 15px 15px 15px 60px;
-		width: 550px;
+		padding: var(--space_xl);
+		width: 100%;
+		max-width: 550px;
 		margin: 0 auto;
 		color: rgba(255, 255, 255, 0.8);
 	}
-	input[type='range'] {
-		width: 300px;
-	}
 	input[type='checkbox'] {
-		opacity: 0.8;
+		/* opacity: 0.8; */
 		margin-right: 4px;
 	}
 	select {
 		min-width: 150px;
-		height: 40px;
 		flex: 1;
 	}
 </style>

@@ -47,11 +47,11 @@
 	see `button:focus` in main.css for more */
 	.portal_preview:hover,
 	.portal_preview:focus {
-		border-style: var(--clickable_border_style__hover);
-		transform: var(--clickable_transform_sm__hover);
+		border-style: var(--clickable_border_style_hover);
+		transform: var(--clickable_transform_sm_hover);
 	}
 	.portal_preview:active {
-		border-style: var(--clickable_border_style__active);
-		transform: var(--clickable_transform_sm__active);
+		border-style: var(--clickable_border_style_active);
+		transform: var(--clickable_transform_sm_active);
 	}
 </style>
