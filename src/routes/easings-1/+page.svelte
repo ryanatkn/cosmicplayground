@@ -97,29 +97,41 @@
 	};
 </script>
 
-<section class="controls">
-	<div class="controls_group">
-		<FloatingTextButton on:click={() => (playing = !playing)}>
-			<div style:width="9rem">{playing ? 'pause' : 'play'}</div>
-		</FloatingTextButton>
-		<FloatingTextButton on:click={() => (toggle = !toggle)}>toggle</FloatingTextButton>
-	</div>
-	<div class="controls_group">
-		<input type="range" bind:value={duration} min={(2 * 1000) / 60} max={6000} step={1000 / 60} />
-		<div class="pl_sm">
-			<div>{Math.round(duration)}<small>ms</small></div>
-			<small>duration</small>
-		</div>
-	</div>
-	<div class="controls_group">
-		<select bind:value={view}>
-			{#each views as view (view)}
-				<option value={view}>view {view}</option>
-			{/each}
-		</select>
-		<button on:click={select_all} disabled={selecting_all}>select all</button>
-		<button on:click={select_none} disabled={selecting_none}>select none</button>
-	</div>
+<section>
+	<form class="box">
+		<fieldset class="box row">
+			<FloatingTextButton on:click={() => (playing = !playing)}>
+				<div style:width="9rem">{playing ? 'pause' : 'play'}</div>
+			</FloatingTextButton>
+			<FloatingTextButton on:click={() => (toggle = !toggle)}>toggle</FloatingTextButton>
+		</fieldset>
+		<fieldset>
+			<label>
+				<div class="title">duration (ms)</div>
+				<div class="row gap_sm">
+					<input
+						type="range"
+						bind:value={duration}
+						min={(2 * 1000) / 60}
+						max={6000}
+						step={1000 / 60}
+					/>
+					<input type="number" bind:value={duration} style:width="60px" />
+				</div>
+			</label>
+		</fieldset>
+		<fieldset class="row">
+			<button type="button" on:click={select_all} disabled={selecting_all}>select all</button>
+			<button type="button" on:click={select_none} disabled={selecting_none}>select none</button>
+		</fieldset>
+		<fieldset>
+			<select bind:value={view}>
+				{#each views as view (view)}
+					<option value={view}>view {view}</option>
+				{/each}
+			</select>
+		</fieldset>
+	</form>
 </section>
 <section>
 	{#each $tweens as item, i (item.name)}
@@ -159,14 +171,6 @@
 </section>
 
 <style>
-	.controls {
-		display: flex;
-		flex-direction: column;
-	}
-	.controls_group {
-		display: flex;
-		align-items: center;
-	}
 	.item {
 		position: relative;
 		display: flex;
@@ -203,8 +207,9 @@
 		display: list-item;
 	}
 	section {
-		padding: 15px 15px 15px 60px;
-		width: 550px;
+		padding: var(--space_xl);
+		width: 100%;
+		max-width: 550px;
 		margin: 0 auto;
 		color: rgba(255, 255, 255, 0.8);
 	}
@@ -214,7 +219,6 @@
 	}
 	select {
 		min-width: 150px;
-		height: 40px;
 		flex: 1;
 	}
 </style>

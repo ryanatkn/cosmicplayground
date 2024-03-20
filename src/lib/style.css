@@ -217,7 +217,8 @@ summary:active {
 /* TODO delete after updating fuz */
 .clickable {
 	transform: var(--clickable_transform, scale3d(1, 1, 1));
-	transition-duration: var(--clickable_transform_duration);
+	transform-origin: var(--clickable_transform_origin);
+	transition-duration: var(--clickable_transition_duration); /* default to instant, chunky/lofi */
 }
 .clickable:focus {
 	transform: var(--clickable_transform_focus, scale3d(1.07, 1.07, 1.07));
