@@ -122,16 +122,23 @@
 <section>
 	{#each $tweens as item, i (item.name)}
 		{#if is_visible(item)}
-			<div class="item" style="width: {translate_width}px; background-color: {get_color(i, 0.1)};">
+			<div
+				class="item"
+				style:width="{translate_width}px"
+				style:background-color={get_color(i, 0.1)}
+			>
 				<div
 					class="item_graphic_scale"
-					style="transform: scale3d({item.value}, {item.value}, 1); width: {graphic_width}px; height:
-					{graphic_height}px; background-color: {get_color(i)};"
+					style:transform="scale3d({item.value}, {item.value}, 1)"
+					style:width="{graphic_width}px"
+					style:height="{graphic_height}px"
+					style:background-color={get_color(i)}
 				/>
 				<div
 					class="item_graphic_rotate"
-					style="transform: rotate({item.value * 180}deg); height: {graphic_height}px;
-					background-color: {get_color(i)};"
+					style:transform="rotate({item.value * 180}deg)"
+					style:height="{graphic_height}px"
+					style:background-color={get_color(i)}
 				/>
 				<div
 					style:transform="translate3d({item.value * translate_distance}px, 0, 0)"
@@ -139,9 +146,9 @@
 					style:height="{graphic_height}px"
 					style:background-color={get_color(i)}
 				/>
-				<label class="item_label" style="color: {get_color(i)};">
+				<label class="item_label" style:color={get_color(i)}>
 					<input type="checkbox" bind:checked={selected[item.name]} />
-					<span style="list-style: {selected[item.name] ? 'circle' : 'none'}">{item.name}</span>
+					<span style:list-style={selected[item.name] ? 'circle' : 'none'}>{item.name}</span>
 				</label>
 			</div>
 		{/if}
