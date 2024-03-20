@@ -214,18 +214,19 @@ summary:active {
 	animation: fade-in 1s linear;
 }
 
-/* TODO upstream to fuz? */
+/* TODO delete after updating fuz */
 .clickable {
-	transform: var(--clickable_transform);
+	transform: var(--clickable_transform, scale3d(1, 1, 1));
+	transition-duration: var(--clickable_transform_duration);
 }
 .clickable:focus {
-	transform: var(--clickable_transform_focus);
+	transform: var(--clickable_transform_focus, scale3d(1.07, 1.07, 1.07));
 }
 .clickable:hover {
-	transform: var(--clickable_transform_hover);
+	transform: var(--clickable_transform_hover, scale3d(1.1, 1.1, 1.1));
 }
 .clickable:active {
-	transform: var(--clickable_transform_active);
+	transform: var(--clickable_transform_active, scale3d(1.2, 1.2, 1.2));
 }
 
 .image_button {

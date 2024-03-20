@@ -147,8 +147,9 @@
 					style:width="{graphic_width}px"
 					style:height="{graphic_height}px"
 					style:background-color={get_color(i)}
+					class="radius_xs3"
 				/>
-				<label class="item_label" style:color={get_color(i)}>
+				<label class="item_label clickable" style:color={get_color(i)}>
 					<input type="checkbox" bind:checked={selected[item.name]} />
 					<span style:list-style={selected[item.name] ? 'circle' : 'none'}>{item.name}</span>
 				</label>
@@ -194,16 +195,6 @@
 		flex-direction: row;
 		align-items: center;
 		font-weight: bold;
-	}
-	/* TODO helper class */
-	.item_label:focus {
-		transform: var(--clickable_transform_focus);
-	}
-	.item_label:hover {
-		transform: var(--clickable_transform_hover);
-	}
-	.item_label:active {
-		transform: var(--clickable_transform_active);
 	}
 	.item_label input[type='checkbox'] {
 		visibility: hidden;
