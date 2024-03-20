@@ -39,7 +39,7 @@
 
 	let toggle = false;
 
-	let timeout: any;
+	let timeout: number;
 	const loop_padding = 300; // time to wait between loops
 	const loop = (time: number): void => {
 		timeout = setTimeout(() => {
@@ -65,6 +65,9 @@
 		if (!(name in v)) v[name] = true;
 		return v;
 	}, selected);
+
+	$: selecting_all = Object.values(selected).every(Boolean);
+	$: selecting_none = Object.values(selected).every((v) => !v);
 
 	const graphic_width = 24;
 	const graphic_height = 24;
@@ -114,8 +117,8 @@
 				<option value={view}>view {view}</option>
 			{/each}
 		</select>
-		<button on:click={select_all}>select all</button>
-		<button on:click={select_none}>select none</button>
+		<button on:click={select_all} disabled={selecting_all}>select all</button>
+		<button on:click={select_none} disabled={selecting_none}>select none</button>
 	</div>
 </section>
 <section>
