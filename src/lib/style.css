@@ -32,19 +32,19 @@
 	--bg_dark: rgba(0, 0, 0, 0.6);
 	--bg_dark_lighter: rgba(0, 0, 0, 0.35);
 	--clickable_border_style: double;
-	--clickable_border_style__hover: solid;
-	--clickable_border_style__active: solid;
+	--clickable_border_style_hover: solid;
+	--clickable_border_style_active: solid;
 	--clickable_border_style_sm: solid; /* too small for double, also `_sm` hover/active styles are not needed */
 	--clickable_transform: scale3d(1, 1, 1);
-	--clickable_transform__hover: scale3d(1.1, 1.1, 1.1);
-	--clickable_transform__focus: scale3d(1.07, 1.07, 1.07);
-	--clickable_transform__active: scale3d(1.2, 1.2, 1.2);
-	--clickable_transform_sm__hover: scale3d(1.03, 1.03, 1.03);
-	--clickable_transform_sm__active: scale3d(1.09, 1.09, 1.09);
+	--clickable_transform_hover: scale3d(1.1, 1.1, 1.1);
+	--clickable_transform_focus: scale3d(1.07, 1.07, 1.07);
+	--clickable_transform_active: scale3d(1.2, 1.2, 1.2);
+	--clickable_transform_sm_hover: scale3d(1.03, 1.03, 1.03);
+	--clickable_transform_sm_active: scale3d(1.09, 1.09, 1.09);
 	--clickable_transition: transform 0.05s ease-out;
 	--clickable_opacity: 0.7;
-	--clickable_opacity__hover: 0.85;
-	--clickable_opacity__active: 1;
+	--clickable_opacity_hover: 0.85;
+	--clickable_opacity_active: 1;
 	--fade_transition: opacity 0.5s linear;
 	--portal_border: var(--border_width_6) var(--clickable_border_style) var(--border_color_5);
 	--portal_border_radius: 7px;
@@ -143,10 +143,10 @@ h3 {
 	cursor: pointer;
 }
 .buttonish:hover {
-	transform: var(--clickable_transform_sm__hover);
+	transform: var(--clickable_transform_sm_hover);
 }
 .buttonish:active {
-	transform: var(--clickable_transform_sm__active);
+	transform: var(--clickable_transform_sm_active);
 }
 
 /* TODO remove this when felt-ui has dark mode */
@@ -214,6 +214,20 @@ summary:active {
 	animation: fade-in 1s linear;
 }
 
+/* TODO upstream to fuz? */
+.clickable {
+	transform: var(--clickable_transform);
+}
+.clickable:focus {
+	transform: var(--clickable_transform_focus);
+}
+.clickable:hover {
+	transform: var(--clickable_transform_hover);
+}
+.clickable:active {
+	transform: var(--clickable_transform_active);
+}
+
 .image_button {
 	cursor: pointer;
 	height: auto;
@@ -224,13 +238,13 @@ summary:active {
 	display: inline-block;
 }
 .image_button:focus {
-	transform: var(--clickable_transform__focus);
+	transform: var(--clickable_transform_focus);
 }
 .image_button:hover {
-	transform: var(--clickable_transform__hover);
+	transform: var(--clickable_transform_hover);
 }
 .image_button:active {
-	transform: var(--clickable_transform__active);
+	transform: var(--clickable_transform_active);
 }
 
 @keyframes pulsing {

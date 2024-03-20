@@ -26,14 +26,14 @@
 	}
 	/* TODO a11y hostile, keyboards too :| --- see `button:focus` in main.css */
 	button:hover {
-		transform: var(--clickable_transform__hover);
-		opacity: var(--clickable_opacity__hover);
+		transform: var(--clickable_transform_hover);
+		opacity: var(--clickable_opacity_hover);
 	}
 	/* TODO different styling for pressed? */
 	button:active,
 	.pressed {
-		transform: var(--clickable_transform__active);
-		opacity: var(--clickable_opacity__active);
+		transform: var(--clickable_transform_active);
+		opacity: var(--clickable_opacity_active);
 		text-shadow: var(--text_shadow_reverse_sm);
 	}
 </style>
