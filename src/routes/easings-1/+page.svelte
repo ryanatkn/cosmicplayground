@@ -3,7 +3,7 @@
 
   Svelte has built-in support for ergonomic and high performance animations.
   It includes a number of easing functions that transition your values from
-  start to finish with a flair ranging from vanilla to delightful to well past zany.
+  start to finish with a flair ranging from vanilla to satisfying to well past zany.
   This component visualizes the included easings
   using translate/rotate/scale CSS transforms.
   See the relevant section of Svelte's tutorial -
@@ -103,13 +103,13 @@
 	</div>
 	<div class="controls_group">
 		<input type="range" bind:value={duration} min={(2 * 1000) / 60} max={6000} step={1000 / 60} />
-		<div class="pl-2">
+		<div class="pl_sm">
 			<div>{Math.round(duration)}<small>ms</small></div>
 			<small>duration</small>
 		</div>
 	</div>
 	<div class="controls_group">
-		<select class="pl-2" bind:value={view}>
+		<select bind:value={view}>
 			{#each views as view (view)}
 				<option value={view}>view {view}</option>
 			{/each}
@@ -118,7 +118,6 @@
 		<button on:click={select_none}>select none</button>
 	</div>
 </section>
-
 <section>
 	{#each $tweens as item, i (item.name)}
 		{#if is_visible(item)}
