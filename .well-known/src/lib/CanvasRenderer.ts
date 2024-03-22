@@ -1,5 +1,4 @@
-import {draw_circle, draw_polygon} from '@ryanatkn/collisions';
-
+import {draw_circle, draw_polygon} from '$lib/collisions.js';
 import type {Renderer} from '$lib/renderer';
 import type {Entity} from '$lib/entity.js';
 

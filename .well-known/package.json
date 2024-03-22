@@ -47,7 +47,6 @@
     "@pixi/sprite-tiling": "^7.4.0",
     "@pixi/text": "^7.4.0",
     "@ryanatkn/belt": "^0.20.9",
-    "@ryanatkn/collisions": "^4.0.2",
     "@ryanatkn/eslint-config": "^0.1.0",
     "@ryanatkn/fuz": "^0.91.3",
     "@ryanatkn/gro": "^0.112.4",

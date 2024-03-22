@@ -2,8 +2,8 @@ import type {Flavored} from '@ryanatkn/belt/types.js';
 import {create_random_alea, type Alea} from '@ryanatkn/belt/random_alea.js';
 import {Container} from '@pixi/display';
 import {Graphics} from '@pixi/graphics';
-import {Collisions} from '@ryanatkn/collisions';
 
+import {Collisions} from '$lib/collisions.js';
 import {Simulation} from '$lib/Simulation';
 import {Controller} from '$lib/controller.js';
 import {type CameraStore, type CameraState, toCameraStore, SPRING_OPTS_HARD} from '$lib/camera';

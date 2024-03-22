@@ -22,6 +22,7 @@
 		justify-content: center;
 		color: var(--text_color);
 		text-align: center;
+		font-weight: 200;
 		width: 100%;
 	}
 	.info {
