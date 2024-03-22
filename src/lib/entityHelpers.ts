@@ -1,6 +1,6 @@
 import {random_float} from '@ryanatkn/belt/random.js';
-import {Collision_Result, type Collisions} from '@ryanatkn/collisions';
 
+import {Collision_Result, type Collisions} from '$lib/collisions.js';
 import {Entity} from '$lib/entity.js';
 import type {EntityCircle} from '$lib/entityBody.js';
 
