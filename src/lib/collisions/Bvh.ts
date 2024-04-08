@@ -1,3 +1,11 @@
+/**
+ * MIT License
+ * Copyright (c) 2017 Sinova
+ * modified by cosmicplayground
+ * @see ./LICENSE
+ * @see https://github.com/Sinova/Collisions
+ */
+
 import {Bvh_Branch} from './Bvh_Branch.js';
 import type {Some_Body} from './Body.js';
 import type {Polygon} from './Polygon.js';

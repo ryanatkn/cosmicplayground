@@ -1,3 +1,11 @@
+/**
+ * MIT License
+ * Copyright (c) 2017 Sinova
+ * modified by cosmicplayground
+ * @see ./LICENSE
+ * @see https://github.com/Sinova/Collisions
+ */
+
 import type {Bvh, Filter_Potentials} from './Bvh.js';
 import type {Bvh_Branch} from './Bvh_Branch.js';
 import type {Circle} from './Circle.js';

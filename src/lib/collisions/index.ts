@@ -1,4 +1,10 @@
-// adapted from https://github.com/Sinova/Collisions - see ./LICENSE
+/**
+ * MIT License
+ * Copyright (c) 2017 Sinova
+ * modified by cosmicplayground
+ * @see ./LICENSE
+ * @see https://github.com/Sinova/Collisions
+ */
 
 export {Body, type Some_Body} from './Body.js';
 export {Bvh, type Filter_Potentials} from './Bvh.js';
