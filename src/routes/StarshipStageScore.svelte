@@ -1,11 +1,12 @@
 <script lang="ts">
-	import {MOON_ICONS, type StarshipStageScores} from '$routes/starshipStage';
+	import type {StarshipStageScores} from '$routes/starshipStage';
+	import {crew} from '$routes/crew.js';
 
 	export let scores: StarshipStageScores | undefined;
 	export let defaultIcon: string | null = null;
 
 	$: icons = scores
-		? scores.crew.map((f, i) => (f ? MOON_ICONS[i] : defaultIcon)).filter(Boolean)
+		? scores.crew.map((f, i) => (f ? crew[i].icon : defaultIcon)).filter(Boolean)
 		: undefined;
 
 	// TODO ?
