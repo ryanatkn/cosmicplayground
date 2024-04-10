@@ -45,8 +45,8 @@ It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
 Everything is staticly hosted on GitHub pages,
 and there's no 3rd party junk anywhere.
 
-> **important**: Windows is not supported directly but
-> [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) works
+> Windows is not supported directly but
+> [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) works, I chose Bash integration instead
 
 ```bash
 npm i # node 20.10+

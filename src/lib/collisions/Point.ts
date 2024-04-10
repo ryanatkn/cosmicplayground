@@ -1,3 +1,11 @@
+/**
+ * MIT License
+ * Copyright (c) 2017 Sinova
+ * modified by cosmicplayground
+ * @see ./LICENSE
+ * @see https://github.com/Sinova/Collisions
+ */
+
 import {Polygon} from './Polygon.js';
 
 /**
