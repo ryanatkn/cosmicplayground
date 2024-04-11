@@ -43,7 +43,7 @@
 	};
 </script>
 
-<div>
+<div class="app_dialog_menu">
 	{#if $page.url.pathname !== '/'}
 		<div class="prose box">
 			<Panel>
@@ -76,3 +76,9 @@
 		</PortalPreview>
 	</Panel>
 </div>
+
+<style>
+	.app_dialog_menu {
+		order: 1;
+	}
+</style>
