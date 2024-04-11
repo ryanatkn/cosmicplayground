@@ -8,6 +8,7 @@ import {Stage as BaseStage, type StageOptions} from '$lib/stage.js';
 import type {EntityCircle} from '$lib/entityBody.js';
 import {collide, frag} from '$lib/entityHelpers.js';
 import {update_direction} from '$lib/controller.js';
+import {crew} from '$routes/crew.js';
 
 // TODO refactor somehow -- canvas requires DOM color strings, Pixi uses hex numbers,
 // and our `Hsl` is good for fast manipulation
@@ -16,8 +17,6 @@ const COLOR_PLANET: Hsl = [0.611, 1, 0.7];
 const COLOR_MOON: Hsl = [0.389, 0.8, 0.6];
 const COLOR_ROCK: Hsl = [0.12, 0.16, 0.5];
 const COLOR_MOLTEN: Hsl = [0, 1, 0.5];
-
-export const MOON_ICONS = ['🐹', '🐰', '🐸', '🐼', '🐭'];
 
 export const PLAYER_SPEED = 0.6;
 export const PLAYER_SPEED_BOOSTED = PLAYER_SPEED * 1.618;
@@ -47,7 +46,7 @@ const toIconFontSize = (radius: number): number => radius * 1.4;
 // TODO refactor all of these
 export interface StarshipStageScores {
 	// stay in sync with `parseStarshipStageScores`!
-	crew: boolean[]; // mirrors `MOON_ICONS`
+	crew: boolean[]; // mirrors `crew`
 	crew_rescued_at_once_count: number;
 }
 export const parseStarshipStageScores = (str: string): StarshipStageScores | undefined => {
@@ -156,7 +155,7 @@ export class Stage extends BaseStage {
 				planetRadius,
 			) as EntityCircle,
 		));
-		planet.text = MOON_ICONS[0];
+		planet.text = crew[0].icon;
 		planet.textOffsetX = 850;
 		planet.textOffsetY = 1150;
 		planet.fontSize = 200;
@@ -176,7 +175,7 @@ export class Stage extends BaseStage {
 		this.addEntity(rock);
 
 		let moon = new Entity(collisions.create_circle(1660, 1012, 43) as EntityCircle);
-		moon.text = MOON_ICONS[1];
+		moon.text = crew[1].icon;
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_MOON;
@@ -184,7 +183,7 @@ export class Stage extends BaseStage {
 		moons.add(moon);
 
 		moon = new Entity(collisions.create_circle(1420, 1174, 72) as EntityCircle);
-		moon.text = MOON_ICONS[2];
+		moon.text = crew[2].icon;
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_MOON;
@@ -192,7 +191,7 @@ export class Stage extends BaseStage {
 		moons.add(moon);
 
 		moon = new Entity(collisions.create_circle(2010, 872, 19) as EntityCircle);
-		moon.text = MOON_ICONS[3];
+		moon.text = crew[3].icon;
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_MOON;
@@ -200,7 +199,7 @@ export class Stage extends BaseStage {
 		moons.add(moon);
 
 		moon = new Entity(collisions.create_circle(1870, 776, 27) as EntityCircle);
-		moon.text = MOON_ICONS[4];
+		moon.text = crew[4].icon;
 		moon.fontSize = toIconFontSize(moon.radius);
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_MOON;

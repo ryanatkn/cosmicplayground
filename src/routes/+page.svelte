@@ -53,7 +53,9 @@
 	} from '$routes/data';
 	import type {PortalData} from '$lib/portal';
 	import {scrollDown} from '$lib/dom';
-	import {show_app_dialog} from '$lib/app_dialog';
+	import {get_app_dialog} from '$lib/app_dialog';
+
+	const app_dialog = get_app_dialog();
 
 	const dimensions = get_dimensions();
 	const clock = get_clock();
@@ -316,7 +318,7 @@
 		starshipMode = true;
 		clock.pause();
 		clock.reset();
-		$show_app_dialog = false;
+		app_dialog.close();
 		transitioningStarshipModeCount++;
 		await wait(transitionDuration + 50); // trying to avoid glitchy horizontal scrollbar that sometimes appears
 		transitioningStarshipModeCount--;
@@ -327,14 +329,14 @@
 		starshipAngle = 0;
 		starshipMode = false;
 		clock.resume();
-		$show_app_dialog = false;
+		app_dialog.close();
 		transitioningStarshipModeCount++;
 		await wait(transitionDuration + 50); // trying to avoid glitchy horizontal scrollbar that sometimes appears
 		transitioningStarshipModeCount--;
 		exitStarshipModeCount++;
 	};
 	const toggleStarshipMode = () => (starshipMode ? exitStarshipMode() : enterStarshipMode());
-	const toggleStarshipMenu = () => ($show_app_dialog = true);
+	const toggleStarshipMenu = () => app_dialog.open();
 
 	const keydown = async (
 		e: KeyboardEvent & {
