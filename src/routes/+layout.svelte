@@ -35,7 +35,7 @@
 	import {portals_data} from '$lib/portals_data.js';
 	import WaitingScreen from '$lib/WaitingScreen.svelte';
 	import {set_audio_ctx} from '$lib/audio_ctx.js';
-	import {show_app_dialog} from '$lib/app_dialog.js';
+	import {App_Dialog_State, set_app_dialog} from '$lib/app_dialog.js';
 	import AppDialogs from '$lib/AppDialogs.svelte';
 	import AppDialog from '$lib/AppDialog.svelte';
 	import AppDialogMenu from '$lib/AppDialogMenu.svelte';
@@ -45,16 +45,18 @@
 	const selected_color_scheme = writable('dark' as const);
 	sync_color_scheme($selected_color_scheme); // TODO probably shouldn't be needed
 
+	const clock = set_clock();
+
+	const app_dialog = set_app_dialog(new App_Dialog_State(clock));
+
 	beforeNavigate(() => {
-		$show_app_dialog = false;
+		app_dialog.close();
 	});
 
 	let supports_webgl: boolean | null = null;
 
 	const pixi = new PixiApp();
 	console.log(`pixi`, pixi);
-
-	const clock = set_clock();
 
 	const dimensions = set_dimensions(
 		writable(
@@ -172,13 +174,7 @@
 			settings.update((s) => ({...s, dev_mode: !s.dev_mode}));
 		} else if (key === 'Escape' && !e.shiftKey && enable_global_hotkeys(e.currentTarget)) {
 			swallow(e);
-			if ($show_app_dialog) {
-				$show_app_dialog = false;
-				clock.resume(); // TODO make this add to a stack so we can safely unpause
-			} else {
-				$show_app_dialog = true;
-				clock.pause(); // TODO make this add to a stack so we can safely unpause
-			}
+			app_dialog.toggle();
 		} else if (key === 'Escape' && e.shiftKey && enable_global_hotkeys(target)) {
 			// global nav up one - I'd choose `ctrlKey` but it's taken by the OS
 			swallow(e);

@@ -1,19 +1,17 @@
 <script lang="ts">
 	import Teleport from '@ryanatkn/fuz/Teleport.svelte';
-	import {get_clock} from '$lib/clock.js';
 
-	import {show_app_dialog, app_dialog_el} from '$lib/app_dialog';
+	import {get_app_dialog} from '$lib/app_dialog';
 
-	const clock = get_clock();
+	const app_dialog = get_app_dialog();
+	const {app_dialog_el} = app_dialog;
 
-	const exit = () => {
-		$show_app_dialog = false;
-		clock.resume();
-	};
-
-	// TODO terribly hacky
+	// TODO feels hacky to use Teleport but it allows a more composable pattern,
+	// so there's a root app dialog in the main layout that any components can hook into
 
 	// TODO rename to "main menu" ? is what we call it in the UI in the controls instructions
 </script>
 
-{#if $app_dialog_el}<Teleport to={$app_dialog_el}><slot {exit} /></Teleport>{/if}
+{#if $app_dialog_el}
+	<Teleport to={$app_dialog_el}><slot exit={() => app_dialog.close()} /></Teleport>
+{/if}
