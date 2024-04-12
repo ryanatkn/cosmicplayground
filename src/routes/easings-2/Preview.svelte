@@ -30,8 +30,7 @@
 </script>
 
 <div class="preview">
-	<h2>easing function</h2>
-	<h2>visualizations and auralizations</h2>
+	<h2>easing function auralizations</h2>
 	<div class="wrapper">
 		<canvas bind:this={canvas} />
 		<div
