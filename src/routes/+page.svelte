@@ -429,7 +429,6 @@
 			<PortalPreview classes="show-more-button" on_click={() => void toggleStrengthBooster()}>
 				<Pending_Animation
 					running={strengthBoosterToggled && $clock.running}
-					
 					--animation_duration="var(--duration_6)"
 				>
 					{#snippet children(index)}
