@@ -429,28 +429,30 @@
 			<PortalPreview classes="show-more-button" on_click={() => void toggleStrengthBooster()}>
 				<Pending_Animation
 					running={strengthBoosterToggled && $clock.running}
-					let:index
+					
 					--animation_duration="var(--duration_6)"
 				>
-					{#if index === 0}
-						<img
-							src="/assets/earth/night_lights_1.png"
-							alt="night lights of Africa, Europe, and the Middle East"
-							class="night-light"
-						/>
-					{:else if index === 1}
-						<img
-							src="/assets/earth/night_lights_2.png"
-							alt="night lights of the Americas"
-							class="night-light"
-						/>
-					{:else}
-						<img
-							src="/assets/earth/night_lights_3.png"
-							alt="night lights of Asia and Australia"
-							class="night-light"
-						/>
-					{/if}
+					{#snippet children(index)}
+						{#if index === 0}
+							<img
+								src="/assets/earth/night_lights_1.png"
+								alt="night lights of Africa, Europe, and the Middle East"
+								class="night-light"
+							/>
+						{:else if index === 1}
+							<img
+								src="/assets/earth/night_lights_2.png"
+								alt="night lights of the Americas"
+								class="night-light"
+							/>
+						{:else}
+							<img
+								src="/assets/earth/night_lights_3.png"
+								alt="night lights of Asia and Australia"
+								class="night-light"
+							/>
+						{/if}
+					{/snippet}
 				</Pending_Animation>
 			</PortalPreview>
 		{/if}
