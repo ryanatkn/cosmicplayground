@@ -19,6 +19,7 @@
 		margin-bottom: 7px;
 	}
 	.cosmic-kitty {
+		user-select: none;
 		animation: rotate-kitty 6s cubic-bezier(0.77, 0, 0.18, 1) infinite alternate;
 	}
 	:global(.paused) .cosmic-kitty {

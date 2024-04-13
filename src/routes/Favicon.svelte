@@ -22,6 +22,7 @@
 		left: 0;
 		top: 0;
 		animation: rotating 391s linear infinite;
+		user-select: none;
 	}
 	figure .favicon:nth-child(2) {
 		opacity: 0.4;
