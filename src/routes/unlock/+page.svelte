@@ -43,7 +43,7 @@
 			</aside>
 		</section>
 		<section>
-			<ul class="prose">
+			<ul>
 				<!-- <li><a href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a></li> -->
 				<li><a href="/unlock/atlas">atlas</a></li>
 				<li><a href="/unlock/studio">studio</a></li>

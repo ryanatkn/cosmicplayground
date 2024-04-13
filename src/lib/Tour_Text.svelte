@@ -40,7 +40,7 @@
 <!-- the top offset is super hacky but w/e -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="tour-text prose"
+	class="tour-text"
 	transition:blur|local={{duration: transition_out_duration, amount: blur_amount}}
 	style:top="{$dimensions.height / 2 - 164}px"
 	on:click|capture={click}

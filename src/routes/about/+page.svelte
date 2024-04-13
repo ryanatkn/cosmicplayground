@@ -15,7 +15,7 @@
 	<Favicon size={192} />
 </div>
 <div class="box w_100">
-	<div class="box width_md prose">
+	<div class="box width_md mb_xl9">
 		<Panel>
 			<h2>About</h2>
 			<p>
@@ -74,9 +74,6 @@
 	}
 	.header-content {
 		position: relative;
-	}
-	.prose {
-		margin-bottom: var(--space_xl9);
 	}
 	@media (max-width: 900px) {
 		header h1 {

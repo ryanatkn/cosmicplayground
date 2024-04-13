@@ -76,11 +76,6 @@ body {
 	height: 100%;
 }
 
-.prose {
-	/* TODO upstream, use a different class for padding */
-	padding: 0;
-}
-
 hr {
 	background: none;
 	/* TODO vars? */

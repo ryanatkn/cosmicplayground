@@ -235,18 +235,16 @@
 		<!-- render nothing yet -->
 	{:else}
 		<Panel>
-			<div class="prose">
-				<h1>blip :(</h1>
-				<p>
-					It looks like your browser doesn't support WebGL, and sadly this website requires it. I'm
-					sorry, please try another browser or device if you can. (or enable it?)
-				</p>
-				<p>
-					source code is at <a href="https://github.com/ryanatkn/cosmicplayground"
-						>github.com/ryanatkn/cosmicplayground</a
-					>
-				</p>
-			</div>
+			<h1>blip :(</h1>
+			<p>
+				It looks like your browser doesn't support WebGL, and sadly this website requires it. I'm
+				sorry, please try another browser or device if you can. (or enable it?)
+			</p>
+			<p>
+				source code is at <a href="https://github.com/ryanatkn/cosmicplayground"
+					>github.com/ryanatkn/cosmicplayground</a
+				>
+			</p>
 		</Panel>
 	{/if}
 </Themed>
