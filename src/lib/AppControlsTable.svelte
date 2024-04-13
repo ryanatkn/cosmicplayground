@@ -12,7 +12,7 @@
 <Panel
 	><div class="box">
 		<section>
-			<h2 class="mb_lg">controls</h2>
+			<h2 class="mt_0">Controls</h2>
 			<table>
 				<thead>
 					<tr><th>key</th><th>action</th></tr>

@@ -2,7 +2,7 @@
 </script>
 
 <div class="preview">
-	<h2>paint freqs</h2>
+	<h2 class="m_0">paint freqs</h2>
 	<img
 		class="cosmic-kitty"
 		src="/assets/characters/cosmic-kitty.webp"
