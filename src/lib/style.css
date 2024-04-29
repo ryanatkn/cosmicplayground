@@ -59,7 +59,7 @@
 	--earth_wobble: 23.5deg;
 	/* TODO dark mode */
 	--bg: #000;
-	--input_bg_color: #000;
+	--input_fill: #000;
 	--button_color_lighter: #000;
 	--button_color_disabled: #000;
 	--button_color_hover: var(--lighten_2);
