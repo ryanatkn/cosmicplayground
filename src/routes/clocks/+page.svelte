@@ -47,7 +47,7 @@
 	let getHzItemSelectedIndices2: () => number[];
 </script>
 
-<div class="view" on:click={toggle} aria-hidden>
+<div class="view" on:click={toggle} aria-hidden="true">
 	<div class="item" class:pulsing={$settings.secret_enabled}>
 		<FreqSpeeds
 			width={$dimensions.width / 2}

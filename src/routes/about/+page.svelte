@@ -47,7 +47,7 @@
 				<CreditsProjectSignature />
 				<div style="position: relative; cursor: none; height: 0">
 					<img
-						aria-hidden
+						aria-hidden="true"
 						src="/assets/characters/spider.png"
 						alt="spiderspace dot org"
 						style="position: absolute; bottom: -33px; right: -29px;"

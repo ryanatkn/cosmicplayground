@@ -15,7 +15,7 @@
 				src="/assets/characters/spider.png"
 				alt="spiderspace dot org"
 				on:click={() => window.open('https://github.com/ryanatkn/fuz_template')}
-				aria-hidden
+				aria-hidden="true"
 			/>
 		</h1>
 		<section>
