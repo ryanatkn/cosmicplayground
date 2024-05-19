@@ -38,7 +38,7 @@
 </script>
 
 <!-- the top offset is super hacky but w/e -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
 	class="tour-text"
 	transition:blur|local={{duration: transition_out_duration, amount: blur_amount}}
