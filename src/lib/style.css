@@ -60,10 +60,6 @@
 	/* TODO dark mode */
 	--bg: #000;
 	--input_fill: #000;
-	--button_color_lighter: #000;
-	--button_color_disabled: #000;
-	--button_color_hover: var(--lighten_2);
-	--button_color_active: var(--lighten_3);
 }
 
 html {
