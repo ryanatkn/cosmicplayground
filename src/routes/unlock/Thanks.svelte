@@ -5,7 +5,7 @@
 <div>
 	<div class="crew">
 		{#each crew as c}
-			<div>{c.icon}</div>
+			<div>{c.glyph}</div>
 		{/each}
 	</div>
 </div>

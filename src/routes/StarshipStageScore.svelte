@@ -6,7 +6,7 @@
 	export let defaultIcon: string | null = null;
 
 	$: icons = scores
-		? scores.crew.map((f, i) => (f ? crew[i].icon : defaultIcon)).filter(Boolean)
+		? scores.crew.map((f, i) => (f ? crew[i].glyph : defaultIcon)).filter(Boolean)
 		: undefined;
 
 	// TODO ?

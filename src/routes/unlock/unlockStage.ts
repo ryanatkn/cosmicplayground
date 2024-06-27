@@ -35,7 +35,7 @@ const ROCK_SPEED = 0.21;
 
 const MAX_DT = 100; // max 10 fps
 
-const toIconFontSize = (radius: number): number => radius * 1.4;
+const to_glyph_font_size = (radius: number): number => radius * 1.4;
 
 // TODO refactor all of these
 export interface UnlockStageScores {
@@ -106,7 +106,7 @@ export class Stage extends BaseStage {
 			collisions.create_circle(playerX, playerY, PLAYER_RADIUS) as EntityCircle,
 		));
 		player.text = PLAYER_ICON;
-		player.fontSize = toIconFontSize(player.radius);
+		player.fontSize = to_glyph_font_size(player.radius);
 		player.speed = data?.playerSpeed ?? PLAYER_SPEED; // TODO how to do with `playerSpeed`? entity with `name='player'` that we use for defaults here?
 		player.strength = data?.playerStrength ?? PLAYER_STRENGTH; // TODO how to do with `playerSpeed`? entity with `name='player'` that we use for defaults here?
 		player.color = COLOR_PLAYER;
@@ -138,13 +138,13 @@ export class Stage extends BaseStage {
 		rock.directionX = -1;
 		rock.directionY = -0.7;
 		rock.text = ROCK_ICON;
-		rock.fontSize = toIconFontSize(rock.radius);
+		rock.fontSize = to_glyph_font_size(rock.radius);
 		rock.color = COLOR_ROCK;
 		this.addEntity(rock);
 
 		let moon = new Entity(collisions.create_circle(1660, 1012, 43) as EntityCircle);
 		moon.text = MOON_ICONS[1];
-		moon.fontSize = toIconFontSize(moon.radius);
+		moon.fontSize = to_glyph_font_size(moon.radius);
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_MOON;
 		this.addEntity(moon);
@@ -152,7 +152,7 @@ export class Stage extends BaseStage {
 
 		moon = new Entity(collisions.create_circle(1420, 1174, 72) as EntityCircle);
 		moon.text = MOON_ICONS[2];
-		moon.fontSize = toIconFontSize(moon.radius);
+		moon.fontSize = to_glyph_font_size(moon.radius);
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_MOON;
 		this.addEntity(moon);
@@ -160,7 +160,7 @@ export class Stage extends BaseStage {
 
 		moon = new Entity(collisions.create_circle(2010, 872, 19) as EntityCircle);
 		moon.text = MOON_ICONS[3];
-		moon.fontSize = toIconFontSize(moon.radius);
+		moon.fontSize = to_glyph_font_size(moon.radius);
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_MOON;
 		this.addEntity(moon);
@@ -168,7 +168,7 @@ export class Stage extends BaseStage {
 
 		moon = new Entity(collisions.create_circle(1870, 776, 27) as EntityCircle);
 		moon.text = MOON_ICONS[4];
-		moon.fontSize = toIconFontSize(moon.radius);
+		moon.fontSize = to_glyph_font_size(moon.radius);
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_MOON;
 		this.addEntity(moon);
