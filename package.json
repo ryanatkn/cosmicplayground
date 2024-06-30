@@ -35,9 +35,6 @@
     "test": "gro test",
     "deploy": "gro deploy"
   },
-  "files": [
-    "dist"
-  ],
   "devDependencies": {
     "@pixi/app": "^7.4.2",
     "@pixi/assets": "^7.4.2",
@@ -89,5 +86,11 @@
         }
       }
     ]
-  }
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist"
+  ]
 }
