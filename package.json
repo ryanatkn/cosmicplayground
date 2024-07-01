@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "description": "tools and toys for expanding minds",
   "glyph": "🌌",
+  "logo": "favicon.png",
+  "logo_alt": "the JWST alignment starburst against a starry background",
   "public": true,
   "license": "Unlicense",
   "homepage": "https://www.cosmicplayground.org/",
