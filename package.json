@@ -1,9 +1,9 @@
 {
   "name": "@ryanatkn/cosmicplayground",
-  "description": "tools and toys for expanding minds",
   "version": "0.0.1",
-  "public": true,
+  "description": "tools and toys for expanding minds",
   "glyph": "🌌",
+  "public": true,
   "license": "Unlicense",
   "homepage": "https://www.cosmicplayground.org/",
   "author": {
@@ -24,16 +24,16 @@
     "typescript",
     "svelte"
   ],
-  "type": "module",
-  "engines": {
-    "node": ">=20.12"
-  },
   "scripts": {
     "start": "gro dev",
     "dev": "gro dev",
     "build": "gro build",
     "test": "gro test",
     "deploy": "gro deploy"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20.12"
   },
   "devDependencies": {
     "@pixi/app": "^7.4.2",
