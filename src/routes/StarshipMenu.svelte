@@ -57,7 +57,7 @@
 		<div transition:scale|local>
 			<Panel>
 				<div>
-					<h2>scores</h2>
+					<h2 class="m_0">Scores</h2>
 					{#if scores}
 						<br />
 						<StarshipStageScore {scores} defaultIcon="❔" />

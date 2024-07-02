@@ -1,7 +1,7 @@
 export const crew = [
-	{icon: '🐹', kind: 'hamster'},
-	{icon: '🐰', kind: 'rabbit'},
-	{icon: '🐸', kind: 'frog'},
-	{icon: '🐼', kind: 'panda'},
-	{icon: '🐭', kind: 'mouse'},
+	{glyph: '🐹', kind: 'hamster'},
+	{glyph: '🐰', kind: 'rabbit'},
+	{glyph: '🐸', kind: 'frog'},
+	{glyph: '🐼', kind: 'panda'},
+	{glyph: '🐭', kind: 'mouse'},
 ];

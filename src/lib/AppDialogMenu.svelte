@@ -45,7 +45,7 @@
 
 <div class="app_dialog_menu">
 	{#if $page.url.pathname !== '/'}
-		<div class="prose box">
+		<div class="box">
 			<Panel>
 				<Breadcrumb>🌠</Breadcrumb>
 			</Panel>

@@ -59,11 +59,7 @@
 	--earth_wobble: 23.5deg;
 	/* TODO dark mode */
 	--bg: #000;
-	--input_bg_color: #000;
-	--button_color_lighter: #000;
-	--button_color_disabled: #000;
-	--button_color_hover: var(--lighten_2);
-	--button_color_active: var(--lighten_3);
+	--input_fill: #000;
 }
 
 html {
@@ -74,11 +70,6 @@ html {
 body {
 	background-color: #000; /* TODO shouldn't be needed */
 	height: 100%;
-}
-
-.prose {
-	/* TODO upstream, use a different class for padding */
-	padding: 0;
 }
 
 hr {
@@ -124,13 +115,11 @@ h1 {
 h2 {
 	font-size: 36px;
 	font-weight: 300;
-	margin: 0;
 }
 
 h3 {
 	font-size: 28px;
 	font-weight: 300;
-	margin: 0;
 }
 
 .grayscale {

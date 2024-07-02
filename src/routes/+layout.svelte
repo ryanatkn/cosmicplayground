@@ -1,10 +1,6 @@
 <script lang="ts">
-	import '@ryanatkn/fuz/style.css';
-	import '@ryanatkn/fuz/theme.css';
-	import '@ryanatkn/fuz/semantic_classes.css';
-	import '@ryanatkn/fuz/utility_classes.css';
-	import '@ryanatkn/fuz/variable_classes.css';
-	import '@ryanatkn/fuz/animations.css';
+	import '@ryanatkn/moss/style.css';
+	import '@ryanatkn/moss/theme.css';
 	import '$lib/style.css';
 	import '$lib/style-utilities.css';
 
@@ -239,18 +235,16 @@
 		<!-- render nothing yet -->
 	{:else}
 		<Panel>
-			<div class="prose">
-				<h1>blip :(</h1>
-				<p>
-					It looks like your browser doesn't support WebGL, and sadly this website requires it. I'm
-					sorry, please try another browser or device if you can. (or enable it?)
-				</p>
-				<p>
-					source code is at <a href="https://github.com/ryanatkn/cosmicplayground"
-						>github.com/ryanatkn/cosmicplayground</a
-					>
-				</p>
-			</div>
+			<h1>blip :(</h1>
+			<p>
+				It looks like your browser doesn't support WebGL, and sadly this website requires it. I'm
+				sorry, please try another browser or device if you can. (or enable it?)
+			</p>
+			<p>
+				source code is at <a href="https://github.com/ryanatkn/cosmicplayground"
+					>github.com/ryanatkn/cosmicplayground</a
+				>
+			</p>
 		</Panel>
 	{/if}
 </Themed>

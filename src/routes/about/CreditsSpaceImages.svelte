@@ -9,10 +9,12 @@
 	const hiddenImages = spaceImages.slice(visibleCount);
 </script>
 
-<PortalLink slug="starlit-hammock" />
-gently swings under these wondrous views from
-<a href="https://www.spacetelescope.org/copyright/">Hubble</a>,
-<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+<p>
+	<PortalLink slug="starlit-hammock" />
+	gently swings under these wondrous views from
+	<a href="https://www.spacetelescope.org/copyright/">Hubble</a>,
+	<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+</p>
 
 <div class="credits-space-images">
 	<ul>

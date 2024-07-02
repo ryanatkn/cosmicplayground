@@ -41,7 +41,7 @@
 	<div class="box width_md">
 		<DeepBreathThumbnail on_click={enableLoadingByClickingThumbnail ? load : null} />
 		<Panel>
-			<section class="prose">
+			<section>
 				<h2>If all ice on Earth melts, how will sea levels change?</h2>
 				<p>
 					Deep Breath is an interactive webpage with a rough sketch of Earth's coastlines if all ice
@@ -80,7 +80,7 @@
 				<ChunkyButton on:click={load}>continue with 75MB download!</ChunkyButton>
 			{/if}
 			<hr />
-			<section class="prose">
+			<section>
 				<p>Please be aware that <strong>the project's facts are flawed:</strong></p>
 				<ul>
 					<li>
@@ -104,13 +104,13 @@
 			</section>
 		</Panel>
 		<Panel>
-			<section class="prose">
+			<section>
 				<h2>Credits</h2>
 				<DeepBreathCredits />
 			</section>
 		</Panel>
 		<Panel>
-			<section class="prose">
+			<section>
 				<CreditsProjectSignature />
 			</section>
 		</Panel>

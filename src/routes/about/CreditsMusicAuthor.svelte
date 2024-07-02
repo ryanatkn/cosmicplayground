@@ -44,7 +44,7 @@
 	h3 {
 		margin-top: var(--space_xl8) !important;
 	}
-	h3:first-child {
+	h3:nth-child(2) {
 		margin-top: 0 !important;
 	}
 	.audio-file {

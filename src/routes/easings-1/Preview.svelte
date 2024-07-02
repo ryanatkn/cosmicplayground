@@ -2,7 +2,7 @@
 </script>
 
 <div class="preview">
-	<h2>easing function visualizations</h2>
+	<h2 class="m_0">easing function visualizations</h2>
 	<div class="slider-wrapper">
 		<div class="slider-graphic" />
 	</div>

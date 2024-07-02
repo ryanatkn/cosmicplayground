@@ -15,7 +15,7 @@
 				src="/assets/characters/spider.png"
 				alt="spiderspace dot org"
 				on:click={() => window.open('https://github.com/ryanatkn/fuz_template')}
-				aria-hidden
+				aria-hidden="true"
 			/>
 		</h1>
 		<section>
@@ -43,7 +43,7 @@
 			</aside>
 		</section>
 		<section>
-			<ul class="prose">
+			<ul>
 				<!-- <li><a href="https://flat.cosmicplayground.org">flat.cosmicplayground.org</a></li> -->
 				<li><a href="/unlock/atlas">atlas</a></li>
 				<li><a href="/unlock/studio">studio</a></li>

@@ -49,7 +49,7 @@
 </script>
 
 <!-- TODO refactor this lol. also, do wackier thingg with it. -->
-<div class="view" on:click={toggle} aria-hidden>
+<div class="view" on:click={toggle} aria-hidden="true">
 	<div class="item" class:pulsing={$settings.secret_enabled}>
 		<FreqSpectacle
 			{width}

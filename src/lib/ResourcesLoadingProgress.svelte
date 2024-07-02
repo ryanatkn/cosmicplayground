@@ -22,7 +22,7 @@
 						window.location.reload();
 					}
 				}}
-				aria-hidden
+				aria-hidden="true"
 				title={resource.status === 'failure'
 					? 'click to reload'
 					: resource.status === 'success'

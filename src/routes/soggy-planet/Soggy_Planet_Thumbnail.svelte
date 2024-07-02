@@ -20,7 +20,7 @@
 but it doesn't seem quite right - is there a better pattern for a conditional parent?
 I think there are some open Svelte issues about this. (like programmatic HTML tags) -->
 
-<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
 	class="soggy-planet-thumbnail"
 	style:width="{earthWidth / 2}px"

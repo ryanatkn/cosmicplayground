@@ -13,7 +13,7 @@
 <!-- TODO how to handle this? -->
 <section class="page box">
 	<Panel>
-		<div class="prose box">
+		<div class="box">
 			<h1>void</h1>
 			<p>nothing is here</p>
 			<Breadcrumb path={$page.url.pathname}>🌠</Breadcrumb>
@@ -33,7 +33,7 @@
 			{/each}
 		</ul>
 	</Panel>
-	<div class="prose box">
+	<div class="box">
 		<h2>maybe it was the computers fault</h2>
 	</div>
 </section>

@@ -1,6 +1,6 @@
 # cosmicplayground
 
-[<img src="/static/assets/characters/cosmic-kitty.webp" align="right" width="192" height="192">](https://www.cosmicplayground.org)
+[<img src="static/assets/characters/cosmic-kitty.webp" alt="cosmic kitty with a rainbow smile" align="right" width="192" height="192">](https://www.cosmicplayground.org)
 
 > tools and toys for expanding minds 🌌
 > [cosmicplayground.org](https://www.cosmicplayground.org)
