@@ -2,8 +2,8 @@
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
 		"types": ["@sveltejs/kit"],
-		"moduleResolution": "bundler",
-		"noEmit": true,
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
 		"strict": true,
 		"useUnknownInCatchVariables": false,
 		"exactOptionalPropertyTypes": false,
@@ -22,9 +22,11 @@
 	},
 	"include": [
 		"./gro.config.ts",
-		"./svelte.config.js",
+		"./fuz.config.ts",
 		"./.svelte-kit/ambient.d.ts",
+		"./.svelte-kit/non-ambient.d.ts",
 		"./.svelte-kit/types/**/$types.d.ts",
+		"./svelte.config.js",
 		"./vite.config.ts",
 		"./src/**/*.js",
 		"./src/**/*.ts",
