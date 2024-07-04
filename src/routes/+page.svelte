@@ -5,7 +5,7 @@
 	import Pending_Animation from '@ryanatkn/fuz/Pending_Animation.svelte';
 	import {dequal} from 'dequal/lite';
 	import {swallow} from '@ryanatkn/belt/dom.js';
-	import {browser} from '$app/environment';
+	import {BROWSER} from 'esm-env';
 
 	import {get_clock} from '$lib/clock.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
@@ -177,7 +177,7 @@
 	// TODO extract to a custom store
 	const STORAGE_KEY_SCORES = 'cpg_home_scores';
 	const loadScores = (): StarshipStageScores | undefined => {
-		if (!browser) return undefined;
+		if (!BROWSER) return undefined;
 		return loadFromStorage<StarshipStageScores | undefined>(
 			STORAGE_KEY_SCORES,
 			undefined,

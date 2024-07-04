@@ -14,7 +14,7 @@
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {Assets} from '@pixi/assets';
 	import {base} from '$app/paths';
-	import {browser} from '$app/environment';
+	import {BROWSER} from 'esm-env';
 
 	import {set_clock} from '$lib/clock.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
@@ -56,7 +56,7 @@
 
 	const dimensions = set_dimensions(
 		writable(
-			browser ? {width: window.innerWidth, height: window.innerHeight} : {width: 0, height: 0},
+			BROWSER ? {width: window.innerWidth, height: window.innerHeight} : {width: 0, height: 0},
 		),
 	);
 	$: console.log(`$dimensions`, $dimensions);
