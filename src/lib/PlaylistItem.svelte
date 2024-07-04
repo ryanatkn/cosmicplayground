@@ -2,7 +2,7 @@
 	import {createEventDispatcher} from 'svelte';
 
 	import type {PlaylistItemData} from '$lib/playlist';
-	import type {SongPlayState} from '$lib/play_song';
+	import type {SongPlayState} from '$lib/play_song.js';
 
 	const dispatch = createEventDispatcher<{
 		play: PlaylistItemData;

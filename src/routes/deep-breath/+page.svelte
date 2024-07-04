@@ -16,7 +16,7 @@
 	import EarthViewerDom from '$lib/EarthViewerDom.svelte';
 	import EarthViewerPixi from '$lib/EarthViewerPixi.svelte';
 	import {createResourcesStore} from '$lib/resources';
-	import {get_settings} from '$lib/settings';
+	import {get_settings} from '$lib/settings.js';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 	import DeepBreathDevHud from '$routes/deep-breath/DeepBreathDevHud.svelte';

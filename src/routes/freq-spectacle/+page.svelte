@@ -4,9 +4,9 @@
 	import {get_dimensions} from '$lib/dimensions.js';
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
-	import {get_settings} from '$lib/settings';
-	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '$routes/data';
-	import {setInStorage} from '$lib/storage';
+	import {get_settings} from '$lib/settings.js';
+	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '$routes/data.js';
+	import {setInStorage} from '$lib/storage.js';
 
 	const dimensions = get_dimensions();
 	const settings = get_settings();

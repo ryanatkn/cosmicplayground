@@ -5,7 +5,7 @@
 	import {Unreachable_Error} from '@ryanatkn/belt/error.js';
 	import type {ClockStore} from '$lib/clock.js';
 
-	import {get_settings} from '$lib/settings';
+	import {get_settings} from '$lib/settings.js';
 	import {reset_render_stats, getRenderStats} from '$lib/renderStats';
 	import type Camera from '$lib/Camera.svelte';
 	import TweenedCamera from '$lib/TweenedCamera.svelte';
@@ -16,7 +16,7 @@
 		type TourHooks,
 		type TourStep,
 		type ZoomTourStep,
-	} from '$lib/tour';
+	} from '$lib/tour.js';
 
 	export let camera: Camera;
 	export let clock: ClockStore;

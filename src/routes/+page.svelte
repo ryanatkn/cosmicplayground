@@ -12,20 +12,20 @@
 	import {get_dimensions} from '$lib/dimensions.js';
 	import PortalPreview from '$lib/PortalPreview.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';
-	import aboutPortal from '$routes/about/data';
-	import soggyPlanetPortal from '$routes/soggy-planet/data';
-	import starlitHammockPortal from '$routes/starlit-hammock/data';
-	import paintFreqsPortal from '$routes/paint-freqs/data';
-	import easings2Portal from '$routes/easings-2/data';
-	import easings1Portal from '$routes/easings-1/data';
-	import hearingTestPortal from '$routes/hearing-test/data';
-	import underConstructionPortal from '$routes/under-construction/data';
-	import freqSpeedsPortal from '$routes/freq-speeds/data';
-	import strengthBooster2Portal from '$routes/secret2/data';
-	import strengthBooster3Portal from '$routes/secret3/data';
-	import clocksPortal from '$routes/clocks/data';
-	import freqSpectaclePortal from '$routes/freq-spectacle/data';
-	import {get_settings} from '$lib/settings';
+	import aboutPortal from '$routes/about/data.js';
+	import soggyPlanetPortal from '$routes/soggy-planet/data.js';
+	import starlitHammockPortal from '$routes/starlit-hammock/data.js';
+	import paintFreqsPortal from '$routes/paint-freqs/data.js';
+	import easings2Portal from '$routes/easings-2/data.js';
+	import easings1Portal from '$routes/easings-1/data.js';
+	import hearingTestPortal from '$routes/hearing-test/data.js';
+	import underConstructionPortal from '$routes/under-construction/data.js';
+	import freqSpeedsPortal from '$routes/freq-speeds/data.js';
+	import strengthBooster2Portal from '$routes/secret2/data.js';
+	import strengthBooster3Portal from '$routes/secret3/data.js';
+	import clocksPortal from '$routes/clocks/data.js';
+	import freqSpectaclePortal from '$routes/freq-spectacle/data.js';
+	import {get_settings} from '$lib/settings.js';
 	import StarshipStage from '$routes/StarshipStage.svelte';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
@@ -42,18 +42,18 @@
 		rescuedAllCrew,
 		rescuedAllCrewAtOnce,
 		toInitialScores,
-	} from '$routes/starshipStage';
-	import {lookup_song} from '$lib/songs';
-	import {play_song} from '$lib/play_song';
-	import {loadFromStorage, setInStorage} from '$lib/storage';
+	} from '$routes/starshipStage.js';
+	import {lookup_song} from '$lib/songs.js';
+	import {play_song} from '$lib/play_song.js';
+	import {loadFromStorage, setInStorage} from '$lib/storage.js';
 	import {
 		STORAGE_KEY_STRENGTH_BOOSTER1,
 		STORAGE_KEY_STRENGTH_BOOSTER2,
 		STORAGE_KEY_STRENGTH_BOOSTER3,
-	} from '$routes/data';
-	import type {PortalData} from '$lib/portal';
-	import {scrollDown} from '$lib/dom';
-	import {get_app_dialog} from '$lib/app_dialog';
+	} from '$routes/data.js';
+	import type {PortalData} from '$lib/portal.js';
+	import {scrollDown} from '$lib/dom.js';
+	import {get_app_dialog} from '$lib/app_dialog.js';
 
 	const app_dialog = get_app_dialog();
 

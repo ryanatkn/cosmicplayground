@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Details from '$lib/Details.svelte';
-	import {lookup_songs_by_author} from '$lib/songs';
+	import {lookup_songs_by_author} from '$lib/songs.js';
 
 	const names = ['Piña Colada', 'Winter', 'Spacey Intro', 'Spacey Outro'];
 

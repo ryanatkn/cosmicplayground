@@ -1,7 +1,7 @@
 import {random_item} from '@ryanatkn/belt/random.js';
 
 import {toImageMeta, type ImageMeta} from '$lib/images';
-import {type Song, lookup_song} from '$lib/songs';
+import {type Song, lookup_song} from '$lib/songs.js';
 
 // TODO rename Stage to what? world, story? hmm
 

@@ -4,9 +4,9 @@
 	import {get_dimensions} from '$lib/dimensions.js';
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
-	import {setInStorage} from '$lib/storage';
-	import {STORAGE_KEY_STRENGTH_BOOSTER2} from '$routes/data';
-	import {get_settings} from '$lib/settings';
+	import {setInStorage} from '$lib/storage.js';
+	import {STORAGE_KEY_STRENGTH_BOOSTER2} from '$routes/data.js';
+	import {get_settings} from '$lib/settings.js';
 
 	// TODO give user control over speed in dialog
 

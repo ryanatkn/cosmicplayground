@@ -4,7 +4,7 @@
 	import {get_dimensions} from '$lib/dimensions.js';
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
-	import {get_settings} from '$lib/settings';
+	import {get_settings} from '$lib/settings.js';
 	import {unlock_satisfying_secret} from '$lib/secret';
 
 	// TODO give user control over speed in dialog

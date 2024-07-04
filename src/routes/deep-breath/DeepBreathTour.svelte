@@ -4,8 +4,8 @@
 
 	import {createResourcesStore, type AudioResource} from '$lib/resources';
 	import {createDeepBreathTourData} from '$routes/deep-breath/deepBreathTourData';
-	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/tour';
-	import {get_settings} from '$lib/settings';
+	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/tour.js';
+	import {get_settings} from '$lib/settings.js';
 	import DeepBreathTourIntro from '$routes/deep-breath/DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from '$routes/deep-breath/DeepBreathTourTitle.svelte';
 	import Tour from '$lib/Tour.svelte';

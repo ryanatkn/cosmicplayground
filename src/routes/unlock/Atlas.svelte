@@ -12,7 +12,7 @@
 	import Phase from '$routes/unlock/Phase.svelte';
 	import LevelButtons from '$routes/unlock/LevelButtons.svelte';
 	import {pause_audio} from '$lib/play_audio';
-	import {play_song} from '$lib/play_song';
+	import {play_song} from '$lib/play_song.js';
 
 	// TODO refactor this so it doesn't use `bind`
 	let selected_phase: PhaseData | null = null;

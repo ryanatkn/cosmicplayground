@@ -6,7 +6,7 @@
 	import Panel from '$lib/Panel.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';
 	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
-	import type {StarshipStageScores} from '$routes/starshipStage';
+	import type {StarshipStageScores} from '$routes/starshipStage.js';
 	import AppControlsTable from '$lib/AppControlsTable.svelte';
 	import PortalPreview from '$lib/PortalPreview.svelte';
 

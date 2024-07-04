@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Teleport from '@ryanatkn/fuz/Teleport.svelte';
 
-	import {get_app_dialog} from '$lib/app_dialog';
+	import {get_app_dialog} from '$lib/app_dialog.js';
 
 	const app_dialog = get_app_dialog();
 	const {app_dialog_el} = app_dialog;

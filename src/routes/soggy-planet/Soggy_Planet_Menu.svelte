@@ -2,7 +2,7 @@
 	import type {ClockStore} from '$lib/clock.js';
 
 	import AppControlsTable from '$lib/AppControlsTable.svelte';
-	import {get_settings} from '$lib/settings';
+	import {get_settings} from '$lib/settings.js';
 
 	export let clock: ClockStore; // TODO or use context?
 

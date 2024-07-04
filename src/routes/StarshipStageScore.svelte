@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {StarshipStageScores} from '$routes/starshipStage';
+	import type {StarshipStageScores} from '$routes/starshipStage.js';
 	import {crew} from '$routes/crew.js';
 
 	export let scores: StarshipStageScores | undefined;

@@ -4,8 +4,8 @@
 
 	import {createResourcesStore, type AudioResource} from '$lib/resources';
 	import {create_soggy_planet_tour_data} from '$routes/soggy-planet/soggy_planet_tour_data';
-	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/tour';
-	import {get_settings} from '$lib/settings';
+	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/tour.js';
+	import {get_settings} from '$lib/settings.js';
 	import Tour_Text from '$lib/Tour_Text.svelte';
 	import Soggy_Planet_Tour_Title from '$routes/soggy-planet/Soggy_Planet_Tour_Title.svelte';
 	import Tour from '$lib/Tour.svelte';

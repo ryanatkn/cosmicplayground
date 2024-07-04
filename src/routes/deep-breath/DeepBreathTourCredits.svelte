@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {blur} from 'svelte/transition';
 
-	import {get_settings} from '$lib/settings';
+	import {get_settings} from '$lib/settings.js';
 
 	const settings = get_settings();
 	$: displayForVideo = $settings.recording_mode;

@@ -4,7 +4,7 @@
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 	import type Tour from '$lib/Tour.svelte';
 	import TourControls from '$lib/TourControls.svelte';
-	import {get_settings} from '$lib/settings';
+	import {get_settings} from '$lib/settings.js';
 
 	export let tour: Tour | null;
 	export let x: Writable<number>;

@@ -32,7 +32,7 @@
 	import {midiNames, DEFAULT_TUNING} from '$lib/notes';
 	import {midiToFreq, type Midi} from '$lib/midi';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
-	import {muted, volume} from '$lib/play_song';
+	import {muted, volume} from '$lib/play_song.js';
 
 	const clock = get_clock();
 
