@@ -1,14 +1,14 @@
 import type {ActionReturn} from 'svelte/action';
 
-import {fromCache} from '$lib/cache';
+import {fromCache} from '$lib/cache.js';
 import {toImageDataUrl} from '$lib/dom.js';
 
 export type Options = boolean;
 
 const dataUrlBySrc: Map<any, string> = new Map();
 
-let canvas: HTMLCanvasElement;
-const getCanvas = (): HTMLCanvasElement => canvas || (canvas = document.createElement('canvas'));
+let canvas: HTMLCanvasElement | undefined;
+const getCanvas = (): HTMLCanvasElement => (canvas ??= document.createElement('canvas'));
 
 // TODO this doesn't handle `img.src` changes,
 // so for now wrap images with `{#key src}` if it needs to be dynamic.
