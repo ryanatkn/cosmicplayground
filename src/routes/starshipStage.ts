@@ -279,7 +279,7 @@ export class Stage extends BaseStage {
 					const moltenIsMoonFragment = _molten === _moonFragment;
 					const newMoonFragments = frag(_moon, collisions, 12) as Array<Entity<EntityCircle>>;
 					shouldUpdateScores = true;
-					(moonFragmentsToAdd || (moonFragmentsToAdd = [])).push(...newMoonFragments);
+					(moonFragmentsToAdd ??= []).push(...newMoonFragments);
 					this.removeEntity(_moon);
 					// TODO this logic is very hardcoded -- ideally it's all simulated,
 					// but we'd need to ensure the gameplay still works,
@@ -310,7 +310,7 @@ export class Stage extends BaseStage {
 					this.removeEntity(_planet);
 					const newPlanetFragments = frag(_planet, collisions, 42) as Array<Entity<EntityCircle>>;
 					shouldUpdateScores = true;
-					(planetFragmentsToAdd || (planetFragmentsToAdd = [])).push(...newPlanetFragments);
+					(planetFragmentsToAdd ??= []).push(...newPlanetFragments);
 					for (const p of newPlanetFragments) {
 						p.speed = _rock.speed * 0.2 * random_float(0.5, 1.0);
 						p.directionX = random_float(-_rock.directionX / 2, _rock.directionX / 2);
@@ -318,7 +318,7 @@ export class Stage extends BaseStage {
 						p.color = COLOR_MOLTEN;
 					}
 					const newRockFragments = frag(_rock, collisions, 210) as Array<Entity<EntityCircle>>;
-					(rockFragmentsToAdd || (rockFragmentsToAdd = [])).push(...newRockFragments);
+					(rockFragmentsToAdd ??= []).push(...newRockFragments);
 					for (const r of newRockFragments) {
 						r.speed = random_float(_rock.speed / 2, _rock.speed * 2);
 						r.directionX = random_float(-_rock.directionX * 2, _rock.directionX * 0.25);
