@@ -49,7 +49,7 @@
     "@pixi/sprite-tiling": "^7.4.2",
     "@pixi/text": "^7.4.2",
     "@ryanatkn/belt": "^0.24.1",
-    "@ryanatkn/eslint-config": "^0.1.3",
+    "@ryanatkn/eslint-config": "^0.2.0",
     "@ryanatkn/fuz": "^0.107.1",
     "@ryanatkn/gro": "^0.129.0",
     "@ryanatkn/moss": "^0.6.3",
