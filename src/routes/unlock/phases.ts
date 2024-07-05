@@ -54,8 +54,8 @@ export const level_data_by_name: Map<string, LevelData> = new Map(
 		{name: '9', image: 'heic1302a'},
 		{name: '10', image: 'heic1107a'},
 	].map((v) => {
-		(v as unknown as LevelData).image_meta = toImageMeta(v.image);
-		return [v.name, v as unknown as LevelData];
+		(v as LevelData).image_meta = toImageMeta(v.image);
+		return [v.name, v as LevelData];
 	}),
 );
 
@@ -134,7 +134,7 @@ export const phase_data_by_name: Map<string, PhaseData> = new Map(
 	}),
 );
 
-const phase_datas_by_level_name = new Map<string, PhaseData[]>();
+const phase_datas_by_level_name: Map<string, PhaseData[]> = new Map();
 for (const phase_data of phase_data_by_name.values()) {
 	const stage = to_phase_data_by_level_name(phase_data.name);
 	let phase_datas = phase_datas_by_level_name.get(stage.name);
@@ -142,10 +142,10 @@ for (const phase_data of phase_data_by_name.values()) {
 	phase_datas.push(phase_data);
 }
 
-export type PhaseSequenceOrCreator = {
+export interface PhaseSequenceOrCreator {
 	name: string;
 	data: PhaseSequenceData | (() => PhaseSequenceData);
-};
+}
 export interface PhaseSequence {
 	name: string;
 	data: PhaseSequenceData;
