@@ -1,7 +1,8 @@
 {
   "name": "@ryanatkn/cosmicplayground",
   "version": "0.0.1",
-  "description": "tools and toys for expanding minds",
+  "description": "hobby project for fun and learning",
+  "motto": "tools and toys for expanding minds",
   "glyph": "🌌",
   "logo": "favicon.png",
   "logo_alt": "the JWST alignment starburst against starry space",
