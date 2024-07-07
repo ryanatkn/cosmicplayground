@@ -17,6 +17,7 @@
 		"sourceMap": true,
 		"declaration": true,
 		"declarationMap": true,
+		"sourceRoot": "../src/lib/",
 		"importHelpers": true,
 		"skipLibCheck": true,
 		"allowJs": true,
