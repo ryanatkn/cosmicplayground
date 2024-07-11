@@ -24,7 +24,7 @@ export const set_audio_ctx = (): (() => AudioContext) => {
 // This should be called during a user input action like a click,
 // or it needs `resume` called for some browsers.
 export const create_audio_ctx = (): AudioContext => {
-	const w: any = window;
+	const w: any = window; // TODO use the stub from Earbetter? maybe from Belt?
 	const audio_ctx = new (w.AudioContext || w.webkitAudioContext)();
 	return audio_ctx;
 };

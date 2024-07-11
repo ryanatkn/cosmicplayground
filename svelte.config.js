@@ -10,6 +10,7 @@ export default {
 	vitePlugin: {inspector: {toggleKeyCombo: 'meta-shift'}}, // docs: https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/inspector.md
 	kit: {
 		adapter: adapter(),
+		paths: {relative: false}, // use root-absolute paths: https://kit.svelte.dev/docs/configuration#paths
 		alias: {$routes: 'src/routes', $fixtures: 'src/fixtures'},
 	},
 };
