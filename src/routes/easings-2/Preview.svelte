@@ -92,7 +92,7 @@
 		position: absolute;
 		left: 0;
 		top: 0;
-		background-color: var(--color_b_5);
+		background-color: hsl(var(--color_b_5));
 		animation: rotate-360 0.5s linear reverse infinite;
 		transform-origin: middle middle;
 	}
@@ -114,7 +114,7 @@
 		position: absolute;
 		left: 0;
 		top: 0;
-		background-color: var(--color_b_5);
+		background-color: hsl(var(--color_b_5));
 		animation: rotate-360 0.5s linear reverse infinite;
 		transform-origin: middle middle;
 	}
