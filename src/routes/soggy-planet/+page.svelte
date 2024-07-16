@@ -13,12 +13,12 @@
 	import DaylightHud from '$lib/DaylightHud.svelte';
 	import Hud from '$lib/Hud.svelte';
 	import EarthViewerPixi from '$lib/EarthViewerPixi.svelte';
-	import {createResourcesStore} from '$lib/resources';
+	import {createResourcesStore} from '$lib/resources.js';
 	import {get_settings} from '$lib/settings.js';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import Soggy_Planet_Dev_Hud from '$routes/soggy-planet/Soggy_Planet_Dev_Hud.svelte';
 	import Camera from '$lib/Camera.svelte';
-	import {SHORE_COUNT} from '$routes/soggy-planet//constants';
+	import {SHORE_COUNT} from '$routes/soggy-planet/constants.js';
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 	import Soggy_Planet_Tour from '$routes/soggy-planet/Soggy_Planet_Tour.svelte';
 	import type Tour from '$lib/Tour.svelte';
