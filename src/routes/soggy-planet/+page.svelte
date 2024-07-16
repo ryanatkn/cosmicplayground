@@ -264,7 +264,7 @@
 				lightsImage={LIGHTS_IMAGE}
 				lightsOpacity={active_daylight}
 				nightfallOpacity={nightfall_opacity}
-				showLights={true}
+				showLights
 				activeLandValue={active_land_value}
 				activeSeaLevel={active_sea_level}
 				imageWidth={image_width}
