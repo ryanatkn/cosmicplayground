@@ -24,16 +24,15 @@
 		"checkJs": true
 	},
 	"include": [
-		"./eslint.config.js",
-		"./fuz.config.ts",
-		"./gro.config.ts",
-		"./svelte.config.js",
-		"./vite.config.ts",
-		"./.svelte-kit/ambient.d.ts",
-		"./.svelte-kit/non-ambient.d.ts",
-		"./.svelte-kit/types/**/$types.d.ts",
-		"./src/**/*.js",
-		"./src/**/*.ts",
-		"./src/**/*.svelte"
+		"eslint.config.js",
+		"gro.config.ts",
+		"svelte.config.js",
+		"vite.config.ts",
+		".svelte-kit/ambient.d.ts",
+		".svelte-kit/non-ambient.d.ts",
+		".svelte-kit/types/**/$types.d.ts",
+		"src/**/*.js",
+		"src/**/*.ts",
+		"src/**/*.svelte"
 	]
 }
