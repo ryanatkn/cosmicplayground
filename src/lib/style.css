@@ -9,17 +9,17 @@
 	--land_color: hsl(var(--land_hue), 65%, 30%);
 	--space_color: hsl(var(--space_hue), 45%, 30%);
 	--photon_color: hsl(var(--photon_hue), 54%, 30%);
-	--lava_color: hsl(0, 65%, 55%);
+	--lava_color: hsl(0 65% 55%);
 	--pending_color: var(--ocean_color);
 	--success_color: var(--land_color);
-	--text_color_dark: hsl(0, 0%, 60%);
+	--text_color_dark: hsl(0 0% 60%);
 	--ocean_text_color: hsl(var(--ocean_hue), 65%, 50%);
 	--photon_text_color: hsl(var(--photon_hue), 65%, 50%);
 	--land_text_color: hsl(var(--land_hue), 65%, 50%);
 	--space_text_color: hsl(var(--space_hue), 45%, 50%);
 	--color_b_5: 220, 60%, 65%; /* TODO probably make this a lighter shade of `--ocean_color` */
 	--color_d_5: var(--space_hue), 60%, 65%; /*  TODO probably make this a lighter shade of the primary color */
-	/* --text_color_dark: hsl(0, 0%, 2%); */
+	/* --text_color_dark: hsl(0 0% 2%); */
 	--link_color: var(--ocean_text_color);
 	/* TODO reuse --ocean_color and --land_color, maybe using the substitution trick */
 	--bg_1: rgba(27, 71, 128, 0.3);
