@@ -16,7 +16,7 @@
 		background-color: hsla(var(--hue_d), 70%, 58%, 18%);
 		padding: 0 8px;
 		border-radius: 5px;
-		color: hsl(var(--color_d_5));
+		color: var(--color_d_5);
 		font-weight: bold;
 		border: var(--border_width_3) solid transparent;
 		text-shadow: var(--text_shadow_sm);
