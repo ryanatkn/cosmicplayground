@@ -13,7 +13,7 @@
 
 <style>
 	a {
-		background-color: hsla(var(--hue_d), 70%, 58%, 18%);
+		background-color: hsl(var(--hue_d) 70% 58% / 18%);
 		padding: 0 8px;
 		border-radius: 5px;
 		color: var(--color_d_5);

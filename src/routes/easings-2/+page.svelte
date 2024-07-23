@@ -263,8 +263,7 @@
 		ctx.stroke();
 	};
 
-	const get_color = (index: number, opacity = 0.8) =>
-		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
+	const get_color = (index: number, opacity = 0.8) => `hsl(${index * 75}deg 60% 65% / ${opacity})`;
 </script>
 
 <div class="box">

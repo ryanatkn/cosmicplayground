@@ -24,7 +24,7 @@
 	/* TODO reuse --ocean_color and --land_color, maybe using the substitution trick */
 	--bg_1: rgba(27, 71, 128, 0.3);
 	--bg_2: rgba(27, 126, 35, 0.25);
-	--bg_3: hsla(var(--space_hue), 50%, 55%, 0.3);
+	--bg_3: hsl(var(--space_hue) 50% 55% / 0.3);
 	--bg_dark: rgba(0, 0, 0, 0.6);
 	--bg_dark_lighter: rgba(0, 0, 0, 0.35);
 	--clickable_border_style: double;
