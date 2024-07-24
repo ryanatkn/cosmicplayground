@@ -21,13 +21,12 @@
 		"importHelpers": true,
 		"skipLibCheck": true,
 		"allowJs": true,
+		"allowImportingTsExtensions": true,
 		"checkJs": true
 	},
 	"include": [
-		"eslint.config.js",
-		"gro.config.ts",
-		"svelte.config.js",
-		"vite.config.ts",
+		"*.js",
+		"*.ts",
 		".svelte-kit/ambient.d.ts",
 		".svelte-kit/non-ambient.d.ts",
 		".svelte-kit/types/**/$types.d.ts",
