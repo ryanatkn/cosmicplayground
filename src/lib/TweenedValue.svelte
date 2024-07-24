@@ -31,7 +31,7 @@
 	};
 
 	export const update = (target: TValue, duration: number, easing = sineInOut): Promise<void> => {
-		if (!tween) tween = tweened($value);
+		tween ??= tweened($value);
 		lastTarget = target;
 		lastDuration = duration;
 		return tween.set(target, {duration, easing});

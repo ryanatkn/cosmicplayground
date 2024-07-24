@@ -65,7 +65,7 @@
 
 	let selected: {[key: string]: boolean};
 	$: selected = tweens.easings.reduce((v = {}, {name}) => {
-		if (!(name in v)) v[name] = true;
+		v[name] ??= true;
 		return v;
 	}, selected);
 

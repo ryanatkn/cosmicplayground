@@ -14,7 +14,7 @@ export const get_audio_ctx = (): AudioContext => getContext<() => AudioContext>(
 export const set_audio_ctx = (): (() => AudioContext) => {
 	let audio_ctx: AudioContext | undefined;
 	const get_audio_ctx = () => {
-		if (!audio_ctx) audio_ctx = create_audio_ctx();
+		audio_ctx ??= create_audio_ctx();
 		return audio_ctx;
 	};
 	setContext(KEY, get_audio_ctx);
