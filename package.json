@@ -51,7 +51,7 @@
     "@pixi/text": "^7.4.2",
     "@ryanatkn/belt": "^0.24.12",
     "@ryanatkn/eslint-config": "^0.5.1",
-    "@ryanatkn/fuz": "^0.120.2",
+    "@ryanatkn/fuz": "^0.120.3",
     "@ryanatkn/gro": "^0.133.6",
     "@ryanatkn/moss": "^0.13.3",
     "@sveltejs/adapter-static": "^3.0.4",
