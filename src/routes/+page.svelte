@@ -396,7 +396,7 @@
 	>
 		<header class="portals">
 			<PortalPreview href={aboutPortal.slug} classes="portal_preview--{aboutPortal.slug}">
-				<svelte:component this={aboutPortal.Preview} />
+				<aboutPortal.Preview />
 			</PortalPreview>
 		</header>
 		{#if savedScores}
@@ -419,7 +419,7 @@
 						<StarshipPreview on_click={toggleStarshipMenu} classes="portal_preview--starship" />
 					{:else}
 						<PortalPreview href={portal.slug} classes="portal_preview--{portal.slug}">
-							<svelte:component this={portal.Preview} />
+							<portal.Preview />
 						</PortalPreview>
 					{/if}
 				{/each}
@@ -460,7 +460,7 @@
 				<div class="portals strength-portals">
 					{#each portals as portal}
 						<PortalPreview href={portal.slug} classes="portal_preview--{portal.slug}">
-							<svelte:component this={portal.Preview} />
+							<portal.Preview />
 						</PortalPreview>
 					{/each}
 				</div>
