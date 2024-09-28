@@ -20,7 +20,7 @@
 	import {enable_global_hotkeys} from '$lib/dom.js';
 	import {idle_context, track_idle_state} from '$lib/idle.js';
 	import {createPixiBgStore, type PixiBgStore} from '$lib/pixiBg.js';
-	import {PixiApp, set_pixi} from '$lib/pixi.js';
+	import {PixiApp, pixi_context} from '$lib/pixi.js';
 	import PixiView from '$lib/PixiView.svelte';
 	import Hud from '$lib/Hud.svelte';
 	import HomeButton from '$lib/HomeButton.svelte';
@@ -60,7 +60,7 @@
 		),
 	);
 
-	set_pixi(pixi);
+	pixi_context.set(pixi);
 
 	const bgImageUrl = base + '/assets/space/galaxies.jpg';
 	let bg: PixiBgStore;

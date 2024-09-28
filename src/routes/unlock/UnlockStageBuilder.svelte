@@ -8,7 +8,7 @@
 	import {initialStageData, type StageData} from '$routes/unlock/stage';
 	import UnlockStage from '$routes/unlock/UnlockStage.svelte';
 	import {Stage} from '$routes/unlock/unlockStage.js';
-	import {get_pixi} from '$lib/pixi.js';
+	import {pixi_context} from '$lib/pixi.js';
 
 	/*
 
@@ -30,7 +30,7 @@ TODO ideas
 
 	const dimensions = dimensions_context.get();
 	const clock = clock_context.get();
-	const pixi = get_pixi();
+	const pixi = pixi_context.get();
 
 	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
 	$: ({running} = $clock);

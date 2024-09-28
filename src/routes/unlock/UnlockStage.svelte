@@ -7,7 +7,7 @@
 	import type {Controller} from '$lib/controller.js';
 	import type {CameraStore} from '$lib/camera.js';
 	import {clock_context} from '$lib/clock.js';
-	import {get_pixi} from '$lib/pixi.js';
+	import {pixi_context} from '$lib/pixi.js';
 	import type {UnlockStageScores, Stage} from '$routes/unlock/unlockStage.js';
 	import {idle_context} from '$lib/idle.js';
 
@@ -25,7 +25,7 @@
 	$: console.log(`UnlockStage.svelte stage`, stage);
 
 	const clock = clock_context.get();
-	const pixi = get_pixi();
+	const pixi = pixi_context.get();
 
 	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;
 

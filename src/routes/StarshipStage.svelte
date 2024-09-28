@@ -19,7 +19,7 @@
 		Stage,
 		type StarshipStageScores,
 	} from '$routes/starshipStage.js';
-	import {get_pixi} from '$lib/pixi.js';
+	import {pixi_context} from '$lib/pixi.js';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;
@@ -42,7 +42,7 @@
 	export let enableDomCanvasRenderer = false;
 
 	const clock = clock_context.get();
-	const pixi = get_pixi();
+	const pixi = pixi_context.get();
 
 	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;
 
