@@ -154,7 +154,8 @@
 		: $settings.recording_mode
 			? 500
 			: $settings.time_to_go_idle;
-	audio_ctx_context.set(); // allows components to do `const audio_ctx = audio_ctx_context.get();` which uses svelte's `getContext`
+
+	audio_ctx_context.set();
 
 	// TODO integrate this with the controls in `index.svelte` and `World.svelte`
 	const onKeyDown = async (e: KeyboardEvent) => {
