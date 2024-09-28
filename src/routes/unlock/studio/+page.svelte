@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {clock_context} from '$lib/clock.js';
-	import {initialStageData, type StageData} from '$routes/unlock/stage';
+	import {initialStageData, type StageData} from '$routes/unlock/stage.js';
 	import UnlockStageBuilder from '$routes/unlock/UnlockStageBuilder.svelte';
 	import Tabs from '$lib/Tabs.svelte';
 	import {loadFromStorage, setInStorage} from '$lib/storage.js';

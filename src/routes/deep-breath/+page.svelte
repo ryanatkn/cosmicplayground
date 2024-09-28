@@ -15,7 +15,7 @@
 	import Hud from '$lib/Hud.svelte';
 	import EarthViewerDom from '$lib/EarthViewerDom.svelte';
 	import EarthViewerPixi from '$lib/EarthViewerPixi.svelte';
-	import {createResourcesStore} from '$lib/resources';
+	import {createResourcesStore} from '$lib/resources.js';
 	import {settings_context} from '$lib/settings.js';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';

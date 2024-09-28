@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {PhaseData} from '$routes/unlock/phases';
+	import type {PhaseData} from '$routes/unlock/phases.js';
 
 	export let phase: PhaseData;
 	export let selected: boolean;

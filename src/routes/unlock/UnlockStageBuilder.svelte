@@ -5,7 +5,7 @@
 	import {dimensions_context} from '$lib/dimensions.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
 
-	import {initialStageData, type StageData} from '$routes/unlock/stage';
+	import {initialStageData, type StageData} from '$routes/unlock/stage.js';
 	import UnlockStage from '$routes/unlock/UnlockStage.svelte';
 	import {Stage} from '$routes/unlock/unlockStage.js';
 	import {pixi_context} from '$lib/pixi.js';

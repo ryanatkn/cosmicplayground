@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {clock_context} from '$lib/clock.js';
 
-	import {freezeframe} from '$lib/freezeframe';
+	import {freezeframe} from '$lib/freezeframe.js';
 
 	const clock = clock_context.get();
 

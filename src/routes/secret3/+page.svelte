@@ -5,7 +5,7 @@
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 	import {settings_context} from '$lib/settings.js';
-	import {unlock_satisfying_secret} from '$lib/secret';
+	import {unlock_satisfying_secret} from '$lib/secret.js';
 
 	const dimensions = dimensions_context.get();
 	const settings = settings_context.get();

@@ -7,9 +7,9 @@
 
 	import {dimensions_context} from '$lib/dimensions.js';
 	import {audio_ctx_context} from '$lib/audio_ctx.js';
-	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers';
-	import {freqToMidi} from '$lib/midi';
-	import {DEFAULT_TUNING} from '$lib/notes';
+	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers.js';
+	import {freqToMidi} from '$lib/midi.js';
+	import {DEFAULT_TUNING} from '$lib/notes.js';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 
 	/*

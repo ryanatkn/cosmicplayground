@@ -12,9 +12,9 @@
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
 	import AboutPortalPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/PortalPreview.svelte';
-	import type {ResourcesStore} from '$lib/resources';
+	import type {ResourcesStore} from '$lib/resources.js';
 	import PortalLink from '$lib/PortalLink.svelte';
-	import {points_of_interest} from '$routes/soggy-planet/soggy_planet_tour_data';
+	import {points_of_interest} from '$routes/soggy-planet/soggy_planet_tour_data.js';
 
 	export let resources: ResourcesStore;
 	export let proceed: () => void;

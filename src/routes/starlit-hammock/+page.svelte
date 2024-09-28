@@ -8,7 +8,7 @@
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/ImagePicker.svelte';
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
-	import {spaceImages, type ImageMeta} from '$lib/images';
+	import {spaceImages, type ImageMeta} from '$lib/images.js';
 	import ImageCreditsCaption from '$lib/ImageCreditsCaption.svelte';
 	import Surface2 from '$lib/Surface2.svelte';
 	import Panel from '$lib/Panel.svelte';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {IMAGE_PROCESSING_CREDIT, spaceImages} from '$lib/images';
+	import {IMAGE_PROCESSING_CREDIT, spaceImages} from '$lib/images.js';
 	import ImageCredits from '$lib/ImageCredits.svelte';
 	import Favicon from '$routes/Favicon.svelte';
 

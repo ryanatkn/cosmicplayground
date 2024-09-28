@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {createEventDispatcher} from 'svelte';
 
-	import type {Volume} from '$lib/audio_helpers';
+	import type {Volume} from '$lib/audio_helpers.js';
 
 	const dispatch = createEventDispatcher<{
 		volume: number;

@@ -2,7 +2,7 @@
 	import {clock_context} from '$lib/clock.js';
 
 	import EarthThumbnail from '$lib/EarthThumbnail.svelte';
-	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/deep-breath/constants';
+	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/deep-breath/constants.js';
 
 	export let earthWidth = THUMBNAIL_WIDTH_DEFAULT;
 	export let label = 'proceed';

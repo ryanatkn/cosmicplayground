@@ -10,7 +10,7 @@
 	import type {PlaylistItemData} from '$lib/playlist';
 	import type {SongPlayState} from '$lib/play_song.js';
 	import type {Seconds} from '$lib/time';
-	import type {Volume} from '$lib/audio_helpers';
+	import type {Volume} from '$lib/audio_helpers.js';
 
 	// TODO selection behavior
 

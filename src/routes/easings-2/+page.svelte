@@ -26,11 +26,11 @@
 	import {lerp} from '@ryanatkn/belt/maths.js';
 	import {clock_context} from '$lib/clock.js';
 
-	import {svelteEasings} from '$lib/easings';
-	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers';
+	import {svelteEasings} from '$lib/easings.js';
+	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers.js';
 	import {audio_ctx_context} from '$lib/audio_ctx.js';
-	import {midiNames, DEFAULT_TUNING} from '$lib/notes';
-	import {midiToFreq, type Midi} from '$lib/midi';
+	import {midiNames, DEFAULT_TUNING} from '$lib/notes.js';
+	import {midiToFreq, type Midi} from '$lib/midi.js';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import {muted, volume} from '$lib/play_song.js';
 

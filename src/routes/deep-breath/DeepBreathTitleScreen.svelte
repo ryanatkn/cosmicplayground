@@ -11,7 +11,7 @@
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
 	import AboutPortalPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/PortalPreview.svelte';
-	import type {ResourcesStore} from '$lib/resources';
+	import type {ResourcesStore} from '$lib/resources.js';
 	import PortalLink from '$lib/PortalLink.svelte';
 
 	export let resources: ResourcesStore;

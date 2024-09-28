@@ -2,7 +2,7 @@
 	import {clock_context} from '$lib/clock.js';
 	import {dimensions_context} from '$lib/dimensions.js';
 
-	import {freezeframe} from '$lib/freezeframe';
+	import {freezeframe} from '$lib/freezeframe.js';
 
 	const clock = clock_context.get();
 	const dimensions = dimensions_context.get();

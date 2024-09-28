@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {ResourcesStore} from '$lib/resources';
+	import type {ResourcesStore} from '$lib/resources.js';
 	import WaitingAnimation from '$lib/WaitingAnimation.svelte';
 
 	export let resources: ResourcesStore;

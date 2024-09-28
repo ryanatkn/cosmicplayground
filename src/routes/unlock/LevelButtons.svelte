@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {phase_sequences, type PhaseSequenceOrCreator} from '$routes/unlock/phases';
+	import {phase_sequences, type PhaseSequenceOrCreator} from '$routes/unlock/phases.js';
 
 	export let selected_phase_sequence_or_creator: PhaseSequenceOrCreator | null = null;
 	export let play_phase_sequence: (

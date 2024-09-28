@@ -2,8 +2,8 @@
 	import {writable, type Writable} from 'svelte/store';
 	import {clock_context} from '$lib/clock.js';
 
-	import {createResourcesStore, type AudioResource} from '$lib/resources';
-	import {create_soggy_planet_tour_data} from '$routes/soggy-planet/soggy_planet_tour_data';
+	import {createResourcesStore, type AudioResource} from '$lib/resources.js';
+	import {create_soggy_planet_tour_data} from '$routes/soggy-planet/soggy_planet_tour_data.js';
 	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/tour.js';
 	import {settings_context} from '$lib/settings.js';
 	import Tour_Text from '$lib/Tour_Text.svelte';

@@ -2,8 +2,8 @@
 	import {writable, type Writable} from 'svelte/store';
 	import {clock_context} from '$lib/clock.js';
 
-	import {createResourcesStore, type AudioResource} from '$lib/resources';
-	import {createDeepBreathTourData} from '$routes/deep-breath/deepBreathTourData';
+	import {createResourcesStore, type AudioResource} from '$lib/resources.js';
+	import {createDeepBreathTourData} from '$routes/deep-breath/deepBreathTourData.js';
 	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/tour.js';
 	import {settings_context} from '$lib/settings.js';
 	import DeepBreathTourIntro from '$routes/deep-breath/DeepBreathTourIntro.svelte';
