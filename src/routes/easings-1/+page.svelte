@@ -106,10 +106,10 @@
 <section>
 	<form class="box">
 		<fieldset class="box row">
-			<FloatingTextButton on:click={() => (playing = !playing)}>
+			<FloatingTextButton onclick={() => (playing = !playing)}>
 				<div style:width="9rem">{playing ? 'pause' : 'play'}</div>
 			</FloatingTextButton>
-			<FloatingTextButton on:click={() => (toggle = !toggle)}>toggle</FloatingTextButton>
+			<FloatingTextButton onclick={() => (toggle = !toggle)}>toggle</FloatingTextButton>
 		</fieldset>
 		<fieldset>
 			<label>
@@ -127,8 +127,8 @@
 			</label>
 		</fieldset>
 		<fieldset class="row">
-			<button type="button" on:click={select_all} disabled={selecting_all}>select all</button>
-			<button type="button" on:click={select_none} disabled={selecting_none}>select none</button>
+			<button type="button" onclick={select_all} disabled={selecting_all}>select all</button>
+			<button type="button" onclick={select_none} disabled={selecting_none}>select none</button>
 		</fieldset>
 		<fieldset>
 			<select bind:value={view}>

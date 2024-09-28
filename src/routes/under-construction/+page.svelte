@@ -4,7 +4,7 @@
 
 	import {freezeframe} from '$lib/freezeframe';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 	const dimensions = get_dimensions();
 
 	const maxWidth = 1667;
@@ -41,7 +41,7 @@
 					style="width: 350px; height: 350px;"
 					class="pixelated"
 				/>
-				<button type="button" class="image_button" on:click={toggleClock}>
+				<button type="button" class="image_button" onclick={toggleClock}>
 					<img
 						src="/assets/construction/person-rock.gif"
 						use:freezeframe={freeze}
@@ -55,7 +55,7 @@
 					use:freezeframe={freeze}
 					alt="under construction: person dig fast"
 				/>
-				<button type="button" class="image_button" on:click={toggleClock}>
+				<button type="button" class="image_button" onclick={toggleClock}>
 					<img
 						src="/assets/construction/person-rock.gif"
 						use:freezeframe={freeze}
@@ -259,7 +259,7 @@
 						alt="spiderspace dot org"
 						class="absolute cursor-none"
 						style="left: 56px; top: 68px;"
-						on:click={() => window.open('https://github.com/ryanatkn/fuz_template')}
+						onclick={() => window.open('https://github.com/ryanatkn/fuz_template')}
 						aria-hidden="true"
 					/>
 				</div>

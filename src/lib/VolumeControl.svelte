@@ -17,7 +17,7 @@
 	{#if muted}
 		<button
 			class="icon_button plain"
-			on:click={() => {
+			onclick={() => {
 				muted = !muted;
 				dispatch('muted', muted);
 			}}

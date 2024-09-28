@@ -9,7 +9,7 @@
 	export let on_click: ((e: MouseEvent) => void) | null = null;
 	export let showName = true;
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	$: textScale = earthWidth / THUMBNAIL_WIDTH_DEFAULT;
 </script>
@@ -28,7 +28,7 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 	role={on_click ? 'button' : undefined}
 	aria-label={on_click ? label : undefined}
 	tabindex={on_click ? 0 : undefined}
-	on:click={on_click}
+	onclick={on_click}
 	class:buttonish={on_click}
 >
 	<div class="thumbnail-animation-wrapper">

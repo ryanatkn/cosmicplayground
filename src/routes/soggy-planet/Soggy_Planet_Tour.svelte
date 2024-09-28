@@ -34,7 +34,7 @@
 	let {scale} = camera;
 	$: ({scale} = camera);
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	const settings = get_settings();
 	$: ({audio_enabled, dev_mode} = $settings);

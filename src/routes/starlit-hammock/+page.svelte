@@ -38,7 +38,7 @@
 
 	let activeImage = random_item(spaceImages);
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	const pick_image = (image: ImageMeta) => {
 		activeImage = image;
@@ -249,8 +249,8 @@
 	A possible fix would be to include a special slot
 	with content that's hidden or empty and only used for sizing purposes.
 	-->
-	<FloatingTextButton on:click={pick_random_image}>random image</FloatingTextButton>
-	<FloatingTextButton on:click={() => (show_picker = !show_picker)}>
+	<FloatingTextButton onclick={pick_random_image}>random image</FloatingTextButton>
+	<FloatingTextButton onclick={() => (show_picker = !show_picker)}>
 		{#if show_picker}close image picker{:else}pick an image{/if}
 	</FloatingTextButton>
 </div>

@@ -75,10 +75,10 @@
 					{/if}
 					<div class="box row">
 						{#if resetScores}
-							<button on:click={resetScores}>reset scores</button>
+							<button onclick={resetScores}>reset scores</button>
 						{/if}
 						{#if importScores}
-							<button on:click={importScores}>import scores</button>
+							<button onclick={importScores}>import scores</button>
 						{/if}
 					</div>
 				</div>

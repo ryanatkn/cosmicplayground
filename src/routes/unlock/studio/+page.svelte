@@ -10,7 +10,7 @@
 	// TODO needs a lot of refactoring -- either combine tabs with controls
 	// in the stage builder or extract elsewhere
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	// TODO store an index and each separate?
 	const STORAGE_KEY_STAGES = 'unlock_stages';
@@ -68,17 +68,17 @@
 	<UnlockStageBuilder data={selectedData} on:save={(e) => updateSelectedData(e.detail)}>
 		<div class="controls">
 			{#if datas.length >= 2}
-				<button title="delete data item" on:click={() => deleteSelected()}>✕</button>
+				<button title="delete data item" onclick={() => deleteSelected()}>✕</button>
 				<Tabs bind:selectedIndex={selectedDataIndex} items={datas} let:selected let:index>
 					<button
 						class:selected
-						on:click={selected ? undefined : () => selectIndex(index)}
+						onclick={selected ? undefined : () => selectIndex(index)}
 						disabled={selected}>{index + 1}</button
 					>
 				</Tabs>
 			{/if}
 			{#if datas.length < MAX_DATA_COUNT}
-				<button title="add data item" on:click={() => addData()}>+</button>
+				<button title="add data item" onclick={() => addData()}>+</button>
 			{/if}
 		</div>
 	</UnlockStageBuilder>

@@ -1,5 +1,5 @@
 import {writable, get, type Writable} from 'svelte/store';
-import {getContext, setContext} from 'svelte';
+import {create_context} from '@ryanatkn/fuz/context_helpers.js';
 import {BROWSER} from 'esm-env';
 
 // TODO merge with `clock`
@@ -89,8 +89,4 @@ export const create_clock_store = (initial_state: Partial<ClockState> = {}): Clo
 	return store;
 };
 
-const KEY = Symbol();
-export const get_clock = (): ClockStore => getContext(KEY);
-export const set_clock = (clock: ClockStore = create_clock_store()): ClockStore => (
-	setContext(KEY, clock), clock
-);
+export const clock_context = create_context(() => create_clock_store());

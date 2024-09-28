@@ -20,7 +20,7 @@
 		<slot />
 	</a>
 {:else}
-	<button class="portal_preview {classes}" on:click={on_click} type="button" {...$$restProps}>
+	<button class="portal_preview {classes}" onclick={on_click} type="button" {...$$restProps}>
 		<slot />
 	</button>
 {/if}

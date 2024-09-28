@@ -7,7 +7,7 @@
 
 <div class="image-picker">
 	{#each images as image (image.info.url)}
-		<button on:click={() => pick_image(image)}>
+		<button onclick={() => pick_image(image)}>
 			<img
 				src={image.thumbnail.url}
 				alt={image.title}

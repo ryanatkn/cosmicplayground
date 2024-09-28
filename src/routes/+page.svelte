@@ -58,7 +58,7 @@
 	const app_dialog = get_app_dialog();
 
 	const dimensions = get_dimensions();
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	let strengthBooster1Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER1, false);
 	let strengthBooster2Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
@@ -506,11 +506,7 @@
 		/>
 		{#if finished}
 			<div class="exit">
-				<FloatingIconButton
-					label="return home"
-					on:click={() => exitStarshipMode()}
-					class="size_xl9"
-				>
+				<FloatingIconButton label="return home" onclick={() => exitStarshipMode()} class="size_xl9">
 					{#if $currentStageScores && rescuedAnyCrew($currentStageScores)}{BOOSTER_SYMBOL}{:else}↩{/if}
 				</FloatingIconButton>
 				<StarshipStageScore scores={currentStageScores && $currentStageScores} />

@@ -14,14 +14,14 @@
 			<button
 				type="button"
 				class:selected={phase_sequence === selected_phase_sequence_or_creator}
-				on:click={() => play_phase_sequence(phase_sequence)}>{phase_sequence.name}</button
+				onclick={() => play_phase_sequence(phase_sequence)}>{phase_sequence.name}</button
 			>
 		</li>
 	{/each}
 </ul>
 <div>
 	{#if selected_phase_sequence_or_creator}
-		<button type="button" on:click={cancel}>cancel</button>
+		<button type="button" onclick={cancel}>cancel</button>
 	{/if}
 </div>
 

@@ -18,21 +18,21 @@
 </script>
 
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		togglePixiEarthViewer(!enablePixiEarthViewer);
 	}}
 >
 	{enablePixiEarthViewer ? 'webgl' : 'dom'}
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		$scale = Number(prompt('🔎', $scale + '')) || $scale; // eslint-disable-line no-alert
 	}}
 >
 	scale: {round($scale, 1)}
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		const inputValue = Number(prompt('x', $x + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(inputValue)) {
 			$x = inputValue;
@@ -42,7 +42,7 @@
 	x: {Math.round($x)}
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		const inputValue = Number(prompt('y', $y + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(inputValue)) {
 			$y = inputValue;

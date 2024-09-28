@@ -245,7 +245,7 @@
 	/>
 	<div class="controls idle_fade">
 		<!-- TODO this is a good candidate for the Hud component -->
-		<FloatingIconButton label="reset" on:click={clear}>↻</FloatingIconButton>
+		<FloatingIconButton label="reset" onclick={clear}>↻</FloatingIconButton>
 	</div>
 </div>
 

@@ -72,12 +72,12 @@
 			</section>
 			<hr />
 			{#if $resources.status === 'success'}
-				<ChunkyButton on:click={proceed}>back to the map!</ChunkyButton>
+				<ChunkyButton onclick={proceed}>back to the map!</ChunkyButton>
 			{:else if $resources.status !== 'initial'}
 				<ResourcesLoadingProgress {resources} />
 			{:else}
 				<p>The download is about 75MB of images. If that's ok with you, continue on:</p>
-				<ChunkyButton on:click={load}>continue with 75MB download!</ChunkyButton>
+				<ChunkyButton onclick={load}>continue with 75MB download!</ChunkyButton>
 			{/if}
 			<hr />
 			<section>

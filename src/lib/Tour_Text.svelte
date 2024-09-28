@@ -4,7 +4,7 @@
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {blur} from 'svelte/transition';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 	const dimensions = get_dimensions();
 
 	// TODO has some copypasta, needs refactoring

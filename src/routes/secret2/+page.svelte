@@ -10,7 +10,7 @@
 	// TODO give user control over speed in dialog
 
 	const dimensions = get_dimensions();
-	const clock = get_clock();
+	const clock = clock_context.get();
 	const settings = get_settings();
 
 	const hzItems = [1, 24, 30, 48, 60, 144];
@@ -44,7 +44,7 @@
 	let getHzItemSelectedIndices: () => number[];
 </script>
 
-<div class="view" on:click={toggle} aria-hidden="true">
+<div class="view" onclick={toggle} aria-hidden="true">
 	<div class="item" class:pulsing={$settings.secret_enabled}>
 		<FreqSpeeds
 			width={$dimensions.width}

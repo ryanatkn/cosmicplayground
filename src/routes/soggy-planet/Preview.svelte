@@ -3,7 +3,7 @@
 
 	import EarthThumbnail from '$lib/EarthThumbnail.svelte';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 </script>
 
 <EarthThumbnail

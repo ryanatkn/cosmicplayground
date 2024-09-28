@@ -17,7 +17,7 @@
 				class:success={resource.status === 'success'}
 				class:pending={resource.status === 'pending'}
 				class:failure={resource.status === 'failure'}
-				on:click={() => {
+				onclick={() => {
 					if (resource.status === 'failure') {
 						window.location.reload();
 					}

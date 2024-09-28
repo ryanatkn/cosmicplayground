@@ -20,7 +20,7 @@
 	class="water-level"
 	bind:this={water_level_el}
 	class:selected={selected_sea_level !== null}
-	on:click={(e) => select_sea_level(selected_sea_level === null ? get_sea_level(e.clientY) : null)}
+	onclick={(e) => select_sea_level(selected_sea_level === null ? get_sea_level(e.clientY) : null)}
 	aria-hidden="true"
 	on:mouseenter={(e) => hover_sea_level(get_sea_level(e.clientY))}
 	on:mousemove={(e) => hover_sea_level(get_sea_level(e.clientY))}

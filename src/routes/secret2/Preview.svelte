@@ -3,7 +3,7 @@
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 </script>
 
 <FreqSpeeds

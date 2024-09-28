@@ -24,7 +24,7 @@
 	$: ({controller} = stage);
 	$: ({moving} = controller);
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 	$: ({running} = $clock);
 
 	$: if (!running && $moving) clock.resume();

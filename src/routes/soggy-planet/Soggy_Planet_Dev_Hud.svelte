@@ -21,17 +21,17 @@
 		settings.update((v) => ({...v, audio_enabled: value}));
 </script>
 
-<FloatingTextButton on:click={() => toggle_audio_enabled()}>
+<FloatingTextButton onclick={() => toggle_audio_enabled()}>
 	{#if audio_enabled}unmuted{:else}muted{/if}
 </FloatingTextButton><FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		$scale = Number(prompt('🔎', $scale + '')) || $scale; // eslint-disable-line no-alert
 	}}
 >
 	scale: {Math.round($scale * 10) / 10}
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		const inputValue = Number(prompt('x', $x + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(inputValue)) {
 			$x = inputValue;
@@ -41,7 +41,7 @@
 	x: {Math.round($x)}
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		const inputValue = Number(prompt('y', $y + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(inputValue)) {
 			$y = inputValue;

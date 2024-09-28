@@ -28,7 +28,7 @@
 	const DEBUG_START_TIME = 0; // set to start the tour at any time for dev purposes
 	const debug_start_time = dev ? DEBUG_START_TIME : 0;
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	let camera: Camera | undefined;
 	$: x = camera?.x;
@@ -281,9 +281,9 @@
 			<Hud>
 				<!-- TODO these conditions are awkward copypasta from deep-breath -->
 				{#if tour && $touring}
-					<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
+					<FloatingIconButton label="cancel tour" onclick={tour.cancel}>✕</FloatingIconButton>
 				{:else if show_hud}
-					<FloatingIconButton label="go back to title screen" on:click={go_to_title_screen}>
+					<FloatingIconButton label="go back to title screen" onclick={go_to_title_screen}>
 						⇦
 					</FloatingIconButton>
 				{:else}
@@ -291,7 +291,7 @@
 						<FloatingIconButton
 							pressed={show_hud}
 							label="toggle hud controls"
-							on:click={click_hud_toggle}
+							onclick={click_hud_toggle}
 						>
 							∙∙∙
 						</FloatingIconButton>
@@ -302,13 +302,13 @@
 						<FloatingIconButton
 							pressed={show_hud}
 							label="toggle hud controls"
-							on:click={click_hud_toggle}
+							onclick={click_hud_toggle}
 						>
 							∙∙∙
 						</FloatingIconButton>
 						<FloatingTextButton
 							label="start the tour of our soggy planet with history and myth"
-							on:click={start_tour}
+							onclick={start_tour}
 						>
 							tour
 						</FloatingTextButton>

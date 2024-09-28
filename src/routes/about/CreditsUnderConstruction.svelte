@@ -4,7 +4,7 @@
 	import PortalLink from '$lib/PortalLink.svelte';
 	import {freezeframe} from '$lib/freezeframe';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	$: freeze = !$clock.running;
 </script>

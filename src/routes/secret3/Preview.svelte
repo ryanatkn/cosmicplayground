@@ -3,7 +3,7 @@
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 </script>
 
 <FreqSpectacle

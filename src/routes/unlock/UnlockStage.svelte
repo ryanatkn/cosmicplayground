@@ -24,7 +24,7 @@
 
 	$: console.log(`UnlockStage.svelte stage`, stage);
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 	const pixi = get_pixi();
 
 	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;

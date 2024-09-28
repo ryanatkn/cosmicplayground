@@ -19,7 +19,7 @@
 	class="daylight"
 	bind:this={daylight_el}
 	class:selected={selected_daylight !== null}
-	on:click={(e) => select_daylight(selected_daylight === null ? get_daylight(e.clientY) : null)}
+	onclick={(e) => select_daylight(selected_daylight === null ? get_daylight(e.clientY) : null)}
 	aria-hidden="true"
 	on:mouseenter={(e) => hover_daylight(get_daylight(e.clientY))}
 	on:mousemove={(e) => hover_daylight(get_daylight(e.clientY))}

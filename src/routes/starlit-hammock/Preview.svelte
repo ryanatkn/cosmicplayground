@@ -3,7 +3,7 @@
 
 	import GalaxyBg from '$routes/starlit-hammock/GalaxyBg.svelte';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 </script>
 
 <div><span class="starlit">starlit</span> hammock</div>

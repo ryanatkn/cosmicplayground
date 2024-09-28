@@ -15,7 +15,7 @@
 			class:active={i === active_land_index}
 			class:selected={i === selected_land_index}
 			aria-label="select month {i + 1}"
-			on:click={() => toggle_index(i)}
+			onclick={() => toggle_index(i)}
 			on:mouseenter={() => hover_land_index(i)}
 			on:mouseleave={() => hover_land_index(null)}
 		>

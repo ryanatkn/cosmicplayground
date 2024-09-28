@@ -4,7 +4,7 @@
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	const TIME_DILATION = 2;
 </script>

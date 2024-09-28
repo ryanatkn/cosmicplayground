@@ -23,7 +23,7 @@
 	import Camera from '$lib/Camera.svelte';
 	import type Tour from '$lib/Tour.svelte';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	let camera: Camera | undefined;
 	$: x = camera?.x;
@@ -224,16 +224,16 @@
 			<DeepBreathTour {camera} bind:tour on:begin={onBeginTour} />
 			<Hud>
 				{#if tour && $touring}
-					<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
+					<FloatingIconButton label="cancel tour" onclick={tour.cancel}>✕</FloatingIconButton>
 				{:else if showHud}
-					<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
+					<FloatingIconButton label="go back to title screen" onclick={returnToTitleScreen}>
 						⇦
 					</FloatingIconButton>
 				{:else}
 					<FloatingIconButton
 						pressed={showHud}
 						label="toggle hud controls"
-						on:click={on_clickHudToggle}
+						onclick={on_clickHudToggle}
 					>
 						∙∙∙
 					</FloatingIconButton>
@@ -243,12 +243,12 @@
 						<FloatingIconButton
 							pressed={showHud}
 							label="toggle hud controls"
-							on:click={on_clickHudToggle}
+							onclick={on_clickHudToggle}
 						>
 							∙∙∙
 						</FloatingIconButton>
 						{#if tour && !$touring}
-							<FloatingTextButton on:click={tour.begin_tour}>tour</FloatingTextButton>
+							<FloatingTextButton onclick={tour.begin_tour}>tour</FloatingTextButton>
 						{/if}
 					</div>
 					<div class="hud-left-controls">

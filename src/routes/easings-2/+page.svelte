@@ -34,7 +34,7 @@
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import {muted, volume} from '$lib/play_song.js';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	const easings = svelteEasings;
 
@@ -346,10 +346,7 @@
 
 			<section class="controls">
 				<div class="controls_group" class:disabled={$muted}>
-					<FloatingIconButton
-						label={$muted ? 'unmute' : 'mute'}
-						on:click={() => ($muted = !$muted)}
-					>
+					<FloatingIconButton label={$muted ? 'unmute' : 'mute'} onclick={() => ($muted = !$muted)}>
 						{$muted ? '🔇' : '🔊'}
 					</FloatingIconButton>
 					<input

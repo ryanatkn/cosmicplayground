@@ -9,7 +9,7 @@
 
 <div class="phase" title="phase {phase.name}">
 	<button
-		on:click={() => {
+		onclick={() => {
 			select_phase(phase);
 		}}
 		class:selected

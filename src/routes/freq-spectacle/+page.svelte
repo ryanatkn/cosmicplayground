@@ -16,7 +16,7 @@
 	$: width = $dimensions.width;
 	$: height = $dimensions.height;
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	const hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60];
 	const WINNING_HZ_ITEMS = new Set([0, 119, 59, 60]);
@@ -50,7 +50,7 @@
 </script>
 
 <!-- TODO refactor this lol. also, do wackier thingg with it. -->
-<div class="view" on:click={toggle} aria-hidden="true">
+<div class="view" onclick={toggle} aria-hidden="true">
 	<div class="item" class:pulsing={$settings.secret_enabled}>
 		<FreqSpectacle
 			{width}

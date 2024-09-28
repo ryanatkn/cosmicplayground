@@ -29,7 +29,7 @@
 </script>
 
 <!-- TODO render link -->
-<button type="button" class:selected class="deselectable" on:click={click}>
+<button type="button" class:selected class="deselectable" onclick={click}>
 	<div class="count">{index + 1}</div>
 	{song.name}
 	<div class="author">{song.author}</div>

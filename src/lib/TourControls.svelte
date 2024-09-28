@@ -10,7 +10,7 @@
 
 	$: ({currentTime, currentStepIndex} = tour);
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 	$: ({running} = $clock);
 
 	const TIME_DELTA_SM = 1000;
@@ -35,12 +35,12 @@
 
 <svelte:window on:keydown={onKeyDown} />
 
-<FloatingTextButton on:click={() => clock.toggle()}
+<FloatingTextButton onclick={() => clock.toggle()}
 	>{#if running}pause{:else}play{/if}</FloatingTextButton
 >
 <FloatingTextButton>time: {round($currentTime / 1000, 1).toFixed(1)}</FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		const index = Number(prompt('index?', $currentStepIndex + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(index)) {
 			tour.seekIndexTo(index);
@@ -50,49 +50,49 @@
 	index: {$currentStepIndex}
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		tour.seekTimeTo(debug_start_time);
 	}}
 >
 	seek to {Math.round(debug_start_time / 1000)}s
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		tour.seekTimeBy(1000);
 	}}
 >
 	seek +1s
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		tour.seekTimeBy(-1000);
 	}}
 >
 	seek -1s
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		tour.seekTimeBy(10000);
 	}}
 >
 	seek +10s
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		tour.seekTimeBy(-10000);
 	}}
 >
 	seek -10s
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		tour.seekTimeBy(100000);
 	}}
 >
 	seek +100s
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		tour.seekTimeBy(-100000);
 	}}
 >
