@@ -2,7 +2,7 @@
 	import {onMount, tick} from 'svelte';
 	import {random_float} from '@ryanatkn/belt/random.js';
 	import {swallow} from '@ryanatkn/belt/dom.js';
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 	import {dev} from '$app/environment';
 
 	import {enable_global_hotkeys} from '$lib/dom.js';

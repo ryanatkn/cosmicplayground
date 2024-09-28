@@ -5,7 +5,7 @@
 	import PixiCanvas from '$lib/PixiCanvas.svelte';
 	import type {DomCanvasRenderer} from '$lib/DomCanvasRenderer.js';
 	import type {Stage} from '$lib/stage.js';
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 	import type {PixiApp} from '$lib/pixi.js';
 
 	export let stage: Stage;

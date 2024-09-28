@@ -2,7 +2,7 @@
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import type {Writable} from 'svelte/store';
 
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 	import World from '$lib/World.svelte';
 	import SurfaceWithControlller from '$lib/SurfaceWithControlller.svelte';
 	import {DomCanvasRenderer} from '$lib/DomCanvasRenderer.js';

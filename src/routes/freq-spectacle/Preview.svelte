@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 

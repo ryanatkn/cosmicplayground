@@ -3,7 +3,7 @@
 	import {sineInOut} from 'svelte/easing';
 	import {base} from '$app/paths';
 
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 	import {get_dimensions} from '$lib/dimensions.js';
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/ImagePicker.svelte';

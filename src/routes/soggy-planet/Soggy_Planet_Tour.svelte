@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 
 	import {createResourcesStore, type AudioResource} from '$lib/resources';
 	import {create_soggy_planet_tour_data} from '$routes/soggy-planet/soggy_planet_tour_data';

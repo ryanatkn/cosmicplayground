@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {round} from '@ryanatkn/belt/maths.js';
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 	import type Tour from '$lib/Tour.svelte';

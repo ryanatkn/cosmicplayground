@@ -7,7 +7,7 @@
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {BROWSER} from 'esm-env';
 
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
 	import {get_dimensions} from '$lib/dimensions.js';
 	import PortalPreview from '$lib/PortalPreview.svelte';
