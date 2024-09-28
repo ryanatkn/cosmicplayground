@@ -30,7 +30,7 @@
 	import {update_render_stats} from '$lib/renderStats.js';
 	import {portals_data} from '$lib/portals_data.js';
 	import WaitingScreen from '$lib/WaitingScreen.svelte';
-	import {set_audio_ctx} from '$lib/audio_ctx.js';
+	import {audio_ctx_context} from '$lib/audio_ctx.js';
 	import {App_Dialog_State, app_dialog_context} from '$lib/app_dialog.js';
 	import AppDialogs from '$lib/AppDialogs.svelte';
 	import AppDialog from '$lib/AppDialog.svelte';
@@ -152,7 +152,7 @@
 		: $settings.recording_mode
 			? 500
 			: $settings.time_to_go_idle;
-	set_audio_ctx(); // allows components to do `const audio_ctx = get_audio_ctx();` which uses svelte's `getContext`
+	audio_ctx_context.set(); // allows components to do `const audio_ctx = audio_ctx_context.get();` which uses svelte's `getContext`
 
 	// TODO integrate this with the controls in `index.svelte` and `World.svelte`
 	const onKeyDown = async (e: KeyboardEvent) => {

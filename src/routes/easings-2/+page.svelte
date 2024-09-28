@@ -28,7 +28,7 @@
 
 	import {svelteEasings} from '$lib/easings';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers';
-	import {get_audio_ctx} from '$lib/audio_ctx';
+	import {audio_ctx_context} from '$lib/audio_ctx.js';
 	import {midiNames, DEFAULT_TUNING} from '$lib/notes';
 	import {midiToFreq, type Midi} from '$lib/midi';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
@@ -138,7 +138,7 @@
 	// TODO refactor to share code with `HearingTest` and `PaintFreqs`
 	let osc: OscillatorNode | undefined;
 	let gain: GainNode | undefined;
-	const audio_ctx = get_audio_ctx();
+	const audio_ctx = audio_ctx_context.get();
 	$: freqMin = midiToFreq(startNote, DEFAULT_TUNING);
 	$: if (isNaN(freqMin)) console.log('freqMin is NaN');
 	$: freqMax = midiToFreq(endNote, DEFAULT_TUNING);
