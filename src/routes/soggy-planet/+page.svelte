@@ -6,7 +6,7 @@
 	import {dev} from '$app/environment';
 
 	import {enable_global_hotkeys} from '$lib/dom.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import Soggy_Planet_Title_Screen from '$routes/soggy-planet/Soggy_Planet_Title_Screen.svelte';
 	import MonthHud from '$lib/MonthHud.svelte';
 	import SeaLevelHud from '$lib/SeaLevelHud.svelte';
@@ -37,7 +37,7 @@
 	$: width = camera?.width;
 	$: height = camera?.height;
 
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 	$: if (width) $width = $dimensions.width;
 	$: if (height) $height = $dimensions.height;
 

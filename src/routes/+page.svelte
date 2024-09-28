@@ -8,8 +8,8 @@
 	import {BROWSER} from 'esm-env';
 
 	import {clock_context} from '$lib/clock.js';
-	import {enable_global_hotkeys} from '$lib/dom.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {enable_global_hotkeys, scrollDown} from '$lib/dom.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import PortalPreview from '$lib/PortalPreview.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';
 	import aboutPortal from '$routes/about/data.js';
@@ -52,12 +52,11 @@
 		STORAGE_KEY_STRENGTH_BOOSTER3,
 	} from '$routes/data.js';
 	import type {PortalData} from '$lib/portal.js';
-	import {scrollDown} from '$lib/dom.js';
-	import {get_app_dialog} from '$lib/app_dialog.js';
+	import {app_dialog_context} from '$lib/app_dialog.js';
 
-	const app_dialog = get_app_dialog();
+	const app_dialog = app_dialog_context.get();
 
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 	const clock = clock_context.get();
 
 	let strengthBooster1Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER1, false);

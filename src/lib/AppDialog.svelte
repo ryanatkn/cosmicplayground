@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Teleport from '@ryanatkn/fuz/Teleport.svelte';
 
-	import {get_app_dialog} from '$lib/app_dialog.js';
+	import {app_dialog_context} from '$lib/app_dialog.js';
 
-	const app_dialog = get_app_dialog();
+	const app_dialog = app_dialog_context.get();
 	const {app_dialog_el} = app_dialog;
 
 	// TODO feels hacky to use Teleport but it allows a more composable pattern,

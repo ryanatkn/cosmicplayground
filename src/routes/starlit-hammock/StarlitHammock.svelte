@@ -4,7 +4,7 @@
 	import {Sprite} from '@pixi/sprite';
 	import {Container} from '@pixi/display';
 
-	import {get_pixi_scene} from '$lib/pixi';
+	import {get_pixi_scene} from '$lib/pixi.js';
 	import WaitingScreen from '$lib/WaitingScreen.svelte';
 	import {Assets} from '@pixi/assets';
 

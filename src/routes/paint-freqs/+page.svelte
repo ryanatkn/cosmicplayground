@@ -5,7 +5,7 @@
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {hsl_to_rgb} from '@ryanatkn/belt/colors.js';
 
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import {get_audio_ctx} from '$lib/audio_ctx';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers';
 	import {freqToMidi} from '$lib/midi';
@@ -38,7 +38,7 @@
 
   */
 
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 	let width = $dimensions.width;
 	let height = $dimensions.height;
 	$: width = $dimensions.width;

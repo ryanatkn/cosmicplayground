@@ -1,11 +1,11 @@
 <script lang="ts">
 	import {clock_context} from '$lib/clock.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 
 	import {freezeframe} from '$lib/freezeframe';
 
 	const clock = clock_context.get();
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 
 	const maxWidth = 1667;
 	const maxHeight = 781;

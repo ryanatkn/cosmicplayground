@@ -5,7 +5,7 @@
 	import '$lib/style-utilities.css';
 
 	import Themed from '@ryanatkn/fuz/Themed.svelte';
-	import {sync_color_scheme} from '@ryanatkn/fuz/theme.js';
+	import {sync_color_scheme} from '@ryanatkn/fuz/theme.svelte.js';
 	import {onMount} from 'svelte';
 	import type {Async_Status} from '@ryanatkn/belt/async.js';
 	import {writable} from 'svelte/store';
@@ -16,9 +16,9 @@
 	import {base} from '$app/paths';
 	import {BROWSER} from 'esm-env';
 
-	import {set_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
-	import {set_idle, track_idle_state} from '$lib/idle.js';
+	import {idle_context, track_idle_state} from '$lib/idle.js';
 	import {createPixiBgStore, type PixiBgStore} from '$lib/pixiBg.js';
 	import {PixiApp, set_pixi} from '$lib/pixi.js';
 	import PixiView from '$lib/PixiView.svelte';
@@ -31,19 +31,19 @@
 	import {portals_data} from '$lib/portals_data.js';
 	import WaitingScreen from '$lib/WaitingScreen.svelte';
 	import {set_audio_ctx} from '$lib/audio_ctx.js';
-	import {App_Dialog_State, set_app_dialog} from '$lib/app_dialog.js';
+	import {App_Dialog_State, app_dialog_context} from '$lib/app_dialog.js';
 	import AppDialogs from '$lib/AppDialogs.svelte';
 	import AppDialog from '$lib/AppDialog.svelte';
 	import AppDialogMenu from '$lib/AppDialogMenu.svelte';
 	import {playing_song, muted, volume} from '$lib/play_song.js';
-	import {set_dimensions} from '$lib/dimensions.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 
 	const selected_color_scheme = writable('dark' as const);
 	sync_color_scheme($selected_color_scheme); // TODO probably shouldn't be needed
 
-	const clock = set_clock();
+	const clock = clock_context.set();
 
-	const app_dialog = set_app_dialog(new App_Dialog_State(clock));
+	const app_dialog = app_dialog_context.set(new App_Dialog_State(clock));
 
 	beforeNavigate(() => {
 		app_dialog.close();
@@ -54,12 +54,11 @@
 	const pixi = new PixiApp();
 	console.log(`pixi`, pixi);
 
-	const dimensions = set_dimensions(
+	const dimensions = dimensions_context.set(
 		writable(
 			BROWSER ? {width: window.innerWidth, height: window.innerHeight} : {width: 0, height: 0},
 		),
 	);
-	$: console.log(`$dimensions`, $dimensions);
 
 	set_pixi(pixi);
 
@@ -146,8 +145,8 @@
 	$: selected_portalSlugFromPath = $page.url.pathname.substring(1).split('/')[0];
 	$: portals.select(selected_portalSlugFromPath); // TODO hmm?
 
-	const idle = writable(false);
-	set_idle(idle);
+	const idle = idle_context.set(writable(false));
+
 	$: time_to_go_idle = $settings.dev_mode
 		? 99999999999
 		: $settings.recording_mode

@@ -1,11 +1,11 @@
 <script lang="ts">
 	import {clock_context} from '$lib/clock.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {blur} from 'svelte/transition';
 
 	const clock = clock_context.get();
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 
 	// TODO has some copypasta, needs refactoring
 

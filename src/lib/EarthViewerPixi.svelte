@@ -10,7 +10,7 @@
 		computeBlendedImagesCycleOpacities,
 		computeBlendedImagesCycleZIndex,
 	} from '$lib/blendedImagesCycle';
-	import {get_pixi_scene} from '$lib/pixi';
+	import {get_pixi_scene} from '$lib/pixi.js';
 	import Surface2 from '$lib/Surface2.svelte';
 	import type Camera from '$lib/Camera.svelte';
 

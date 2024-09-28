@@ -3,12 +3,12 @@
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@ryanatkn/belt/maths.js';
 	import {swallow} from '@ryanatkn/belt/dom.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 
 	import {get_audio_ctx} from '$lib/audio_ctx';
 	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers';
 
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 
 	const audio_ctx = get_audio_ctx();
 

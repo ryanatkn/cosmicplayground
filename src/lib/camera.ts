@@ -1,4 +1,3 @@
-import {getContext, setContext} from 'svelte';
 import {spring} from 'svelte/motion';
 import {derived, type Readable} from 'svelte/store';
 
@@ -29,7 +28,7 @@ export const SPRING_OPTS_HARD = {hard: true};
 type SpringOpts = Exclude<Parameters<typeof spring>[1], undefined>;
 type SpringUpdateOpts = Exclude<Parameters<ReturnType<typeof spring>['update']>[1], undefined>;
 
-export const toCameraStore = (
+export const create_camera_store = (
 	initial_state?: Partial<BaseCameraState>,
 	springOpts?: SpringOpts,
 ): CameraStore => {
@@ -73,9 +72,3 @@ export const toCameraStore = (
 
 	return store;
 };
-
-const KEY = Symbol();
-export const getCamera = (): CameraStore => getContext(KEY);
-export const setCamera = (clock: CameraStore = toCameraStore()): CameraStore => (
-	setContext(KEY, clock), clock
-);

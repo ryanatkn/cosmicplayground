@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {onDestroy} from 'svelte';
 	import {clock_context} from '$lib/clock.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
 	import {setInStorage} from '$lib/storage.js';
@@ -11,7 +11,7 @@
 
 	// TODO give user control over speed in dialog
 
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 	const clock = clock_context.get();
 	const settings = get_settings();
 

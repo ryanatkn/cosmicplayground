@@ -2,13 +2,13 @@
 	import {createEventDispatcher, onMount} from 'svelte';
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {clock_context} from '$lib/clock.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
 
 	import {initialStageData, type StageData} from '$routes/unlock/stage';
 	import UnlockStage from '$routes/unlock/UnlockStage.svelte';
-	import {Stage} from '$routes/unlock/unlockStage';
-	import {get_pixi} from '$lib/pixi';
+	import {Stage} from '$routes/unlock/unlockStage.js';
+	import {get_pixi} from '$lib/pixi.js';
 
 	/*
 
@@ -28,7 +28,7 @@ TODO ideas
 
 	const enableDomCanvasRenderer = false; // TODO use this?
 
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 	const clock = clock_context.get();
 	const pixi = get_pixi();
 

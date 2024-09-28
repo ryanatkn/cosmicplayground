@@ -6,7 +6,7 @@
 	import {clock_context} from '$lib/clock.js';
 	import {swallow} from '@ryanatkn/belt/dom.js';
 
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
 	import DeepBreathTitleScreen from '$routes/deep-breath/DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from '$routes/deep-breath/DeepBreathTour.svelte';
@@ -32,7 +32,7 @@
 	$: width = camera?.width;
 	$: height = camera?.height;
 
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 	$: if (width) $width = $dimensions.width;
 	$: if (height) $height = $dimensions.height;
 

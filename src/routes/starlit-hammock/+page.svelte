@@ -4,7 +4,7 @@
 	import {base} from '$app/paths';
 
 	import {clock_context} from '$lib/clock.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/ImagePicker.svelte';
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
@@ -28,7 +28,7 @@
 
 	*/
 
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 	let width = $dimensions.width;
 	let height = $dimensions.height;
 	$: width = $dimensions.width;

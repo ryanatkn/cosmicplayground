@@ -4,9 +4,14 @@ import {Container} from '@pixi/display';
 import {Graphics} from '@pixi/graphics';
 
 import {Collisions} from '$lib/collisions.js';
-import {Simulation} from '$lib/Simulation';
+import {Simulation} from '$lib/Simulation.js';
 import {Controller} from '$lib/controller.js';
-import {type CameraStore, type CameraState, toCameraStore, SPRING_OPTS_HARD} from '$lib/camera';
+import {
+	type CameraStore,
+	type CameraState,
+	create_camera_store,
+	SPRING_OPTS_HARD,
+} from '$lib/camera.js';
 import type {Entity} from '$lib/entity.js';
 
 // TODO hack
@@ -140,7 +145,7 @@ export class Stage {
 		this.viewportWidth = viewportWidth;
 		this.viewportHeight = viewportHeight;
 
-		this.camera = toCameraStore({
+		this.camera = create_camera_store({
 			width: worldWidth,
 			height: worldHeight,
 			x: worldWidth / 2,

@@ -1,4 +1,4 @@
-import {getContext, setContext} from 'svelte';
+import {create_context} from '@ryanatkn/fuz/context_helpers.js';
 import type {Writable} from 'svelte/store';
 
 // TODO is this the right module name? `layout`?
@@ -8,9 +8,4 @@ export interface Dimensions {
 	height: number;
 }
 
-const KEY = Symbol('Dimensions');
-
-export const get_dimensions = (): Writable<Dimensions> => getContext(KEY);
-
-export const set_dimensions = (dimensions: Writable<Dimensions>): Writable<Dimensions> =>
-	setContext(KEY, dimensions);
+export const dimensions_context = create_context<Writable<Dimensions>>();

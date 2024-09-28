@@ -2,7 +2,7 @@ import {writable, get, type Writable} from 'svelte/store';
 import {create_context} from '@ryanatkn/fuz/context_helpers.js';
 import {BROWSER} from 'esm-env';
 
-// TODO merge with `clock`
+export const clock_context = create_context(() => create_clock_store());
 
 export interface ClockState {
 	running: boolean;
@@ -88,5 +88,3 @@ export const create_clock_store = (initial_state: Partial<ClockState> = {}): Clo
 
 	return store;
 };
-
-export const clock_context = create_context(() => create_clock_store());
