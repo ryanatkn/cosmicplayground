@@ -4,10 +4,10 @@
 
 	import Panel from '$lib/Panel.svelte';
 	import ChunkyButton from '$lib/ChunkyButton.svelte';
-	import {get_portals} from '$lib/portals';
+	import {portals_context} from '$lib/portals.js';
 	import PortalLink from '$lib/PortalLink.svelte';
 
-	const portals = get_portals();
+	const portals = portals_context.get();
 </script>
 
 <!-- TODO how to handle this? -->

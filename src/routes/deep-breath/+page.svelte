@@ -16,7 +16,7 @@
 	import EarthViewerDom from '$lib/EarthViewerDom.svelte';
 	import EarthViewerPixi from '$lib/EarthViewerPixi.svelte';
 	import {createResourcesStore} from '$lib/resources';
-	import {get_settings} from '$lib/settings.js';
+	import {settings_context} from '$lib/settings.js';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 	import DeepBreathDevHud from '$routes/deep-breath/DeepBreathDevHud.svelte';
@@ -45,7 +45,7 @@
 	const initialWidth = $dimensions.width;
 	const initialHeight = $dimensions.height;
 
-	const settings = get_settings();
+	const settings = settings_context.get();
 	$: dev_mode = $settings.dev_mode;
 
 	const debug_start_time = 0; // ~0-300000

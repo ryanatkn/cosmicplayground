@@ -1,7 +1,9 @@
 import {get, writable, type Readable} from 'svelte/store';
-import {setContext, getContext} from 'svelte';
+import {create_context} from '@ryanatkn/fuz/context_helpers.js';
 
 import type {PortalsData, PortalData} from '$lib/portal.js';
+
+export const portals_context = create_context<PortalsStore>();
 
 export interface PortalsState {
 	data: PortalsData;
@@ -27,8 +29,3 @@ export const create_portals_store = (initial_state: PortalsState): PortalsStore 
 	};
 	return portalsStore;
 };
-
-const PORTALS_KEY = Symbol('portals');
-export const get_portals = (): PortalsStore => getContext(PORTALS_KEY);
-export const set_portals = (portals: PortalsStore): PortalsStore =>
-	setContext(PORTALS_KEY, portals);

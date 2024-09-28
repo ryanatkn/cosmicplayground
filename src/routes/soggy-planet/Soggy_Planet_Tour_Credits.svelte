@@ -1,10 +1,10 @@
 <script lang="ts">
 	import {blur} from 'svelte/transition';
 
-	import {get_settings} from '$lib/settings.js';
+	import {settings_context} from '$lib/settings.js';
 	import {base} from '$app/paths';
 
-	const settings = get_settings();
+	const settings = settings_context.get();
 	$: display_for_video = $settings.recording_mode;
 
 	export let transition_duration: number;

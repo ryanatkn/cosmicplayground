@@ -1,5 +1,7 @@
 import {writable, type Writable} from 'svelte/store';
-import {setContext, getContext} from 'svelte';
+import {create_context} from '@ryanatkn/fuz/context_helpers.js';
+
+export const settings_context = create_context<SettingsStore>();
 
 export interface SettingsState {
 	audio_enabled: boolean;
@@ -28,12 +30,4 @@ export const create_settings_store = (initial_state: Partial<SettingsState>): Se
 	});
 	const {subscribe, update} = store;
 	return {subscribe, update};
-};
-
-export const settings_context_key = {};
-export const get_settings = (): SettingsStore => getContext(settings_context_key);
-export const set_settings = (initial_state: Partial<SettingsState>): SettingsStore => {
-	const settings = create_settings_store(initial_state);
-	setContext(settings_context_key, settings);
-	return settings;
 };

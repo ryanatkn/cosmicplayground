@@ -4,12 +4,12 @@
 	import {dimensions_context} from '$lib/dimensions.js';
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
-	import {get_settings} from '$lib/settings.js';
+	import {settings_context} from '$lib/settings.js';
 	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '$routes/data.js';
 	import {setInStorage} from '$lib/storage.js';
 
 	const dimensions = dimensions_context.get();
-	const settings = get_settings();
+	const settings = settings_context.get();
 
 	let width = $dimensions.width;
 	let height = $dimensions.height;

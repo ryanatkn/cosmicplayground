@@ -4,14 +4,14 @@
 	import {dimensions_context} from '$lib/dimensions.js';
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
-	import {get_settings} from '$lib/settings.js';
+	import {settings_context} from '$lib/settings.js';
 	import {unlock_satisfying_secret} from '$lib/secret';
 
 	// TODO give user control over speed in dialog
 
 	const dimensions = dimensions_context.get();
 	const clock = clock_context.get();
-	const settings = get_settings();
+	const settings = settings_context.get();
 
 	const hzItems = [1, 24, 30, 48, 60, 144];
 	const WINNING_HZ_ITEMS = new Set([0, 143, 144, 287]);

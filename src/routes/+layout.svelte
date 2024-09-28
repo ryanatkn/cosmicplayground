@@ -25,8 +25,8 @@
 	import Hud from '$lib/Hud.svelte';
 	import HomeButton from '$lib/HomeButton.svelte';
 	import Panel from '$lib/Panel.svelte';
-	import {set_settings} from '$lib/settings.js';
-	import {set_portals, create_portals_store} from '$lib/portals.js';
+	import {create_settings_store, settings_context} from '$lib/settings.js';
+	import {portals_context, create_portals_store} from '$lib/portals.js';
 	import {update_render_stats} from '$lib/renderStats.js';
 	import {portals_data} from '$lib/portals_data.js';
 	import WaitingScreen from '$lib/WaitingScreen.svelte';
@@ -98,13 +98,15 @@
 		return goto('/' + hash.substring(1), {replaceState: true});
 	};
 
-	const settings = set_settings({
-		audio_enabled: true,
-		dev_mode: false,
-		recording_mode: false,
-		idle_mode: false,
-		time_to_go_idle: 6000,
-	});
+	const settings = settings_context.set(
+		create_settings_store({
+			audio_enabled: true,
+			dev_mode: false,
+			recording_mode: false,
+			idle_mode: false,
+			time_to_go_idle: 6000,
+		}),
+	);
 	// TODO refactor `settings` with this stuff -- granular stores seems better these days
 	$: audio_el = $playing_song?.audio_el;
 	$: if (audio_el) {
@@ -141,7 +143,7 @@
 		data: portals_data,
 		selected_portal: portals_data.portals_by_slug.get($page.url.pathname.substring(1)) || null,
 	});
-	set_portals(portals);
+	portals_context.set(portals);
 	$: selected_portalSlugFromPath = $page.url.pathname.substring(1).split('/')[0];
 	$: portals.select(selected_portalSlugFromPath); // TODO hmm?
 

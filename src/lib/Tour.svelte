@@ -5,8 +5,8 @@
 	import {Unreachable_Error} from '@ryanatkn/belt/error.js';
 	import type {ClockStore} from '$lib/clock.js';
 
-	import {get_settings} from '$lib/settings.js';
-	import {reset_render_stats, getRenderStats} from '$lib/renderStats';
+	import {settings_context} from '$lib/settings.js';
+	import {reset_render_stats, getRenderStats} from '$lib/renderStats.js';
 	import type Camera from '$lib/Camera.svelte';
 	import TweenedCamera from '$lib/TweenedCamera.svelte';
 	import {
@@ -188,7 +188,7 @@
 		},
 	};
 
-	const settings = get_settings();
+	const settings = settings_context.get();
 	$: dev_mode = $settings.dev_mode;
 
 	const dispatchEvent = createEventDispatcher<{begin: undefined}>();

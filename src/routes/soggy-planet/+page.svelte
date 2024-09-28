@@ -14,7 +14,7 @@
 	import Hud from '$lib/Hud.svelte';
 	import EarthViewerPixi from '$lib/EarthViewerPixi.svelte';
 	import {createResourcesStore} from '$lib/resources.js';
-	import {get_settings} from '$lib/settings.js';
+	import {settings_context} from '$lib/settings.js';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import Soggy_Planet_Dev_Hud from '$routes/soggy-planet/Soggy_Planet_Dev_Hud.svelte';
 	import Camera from '$lib/Camera.svelte';
@@ -50,7 +50,7 @@
 	const initial_width = $dimensions.width;
 	const initial_height = $dimensions.height;
 
-	const settings = get_settings();
+	const settings = settings_context.get();
 	$: dev_mode = $settings.dev_mode;
 
 	// TODO add auto pan button - share logic with Starlit Hanmmock and deep breath
