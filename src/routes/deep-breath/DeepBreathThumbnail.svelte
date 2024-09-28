@@ -10,7 +10,7 @@
 
 	const clock = clock_context.get();
 
-	$: textScale = earthWidth / THUMBNAIL_WIDTH_DEFAULT;
+	const textScale = $derived(earthWidth / THUMBNAIL_WIDTH_DEFAULT);
 </script>
 
 <!-- TODO this isn't always a button so we don't use the button element,
@@ -20,7 +20,8 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
 	class="deep-breath-thumbnail"
-	style="width: {earthWidth}px; height: {earthWidth / 2}px;"
+	style:width="{earthWidth}px"
+	style:height="{earthWidth / 2}px"
 	role={on_click ? 'button' : undefined}
 	aria-label={on_click ? label : undefined}
 	tabindex={on_click ? 0 : undefined}
