@@ -5,11 +5,11 @@
 	import {TilingSprite} from '@pixi/sprite-tiling';
 	import {Assets} from '@pixi/assets';
 
-	import {computeBlendedImagesContinuumOpacities} from '$lib/blendedImagesContinuum';
+	import {computeBlendedImagesContinuumOpacities} from '$lib/blendedImagesContinuum.js';
 	import {
 		computeBlendedImagesCycleOpacities,
 		computeBlendedImagesCycleZIndex,
-	} from '$lib/blendedImagesCycle';
+	} from '$lib/blendedImagesCycle.js';
 	import {get_pixi_scene} from '$lib/pixi.js';
 	import Surface2 from '$lib/Surface2.svelte';
 	import type Camera from '$lib/Camera.svelte';

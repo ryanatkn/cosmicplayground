@@ -6,7 +6,7 @@
 
 	const dimensions = dimensions_context.get();
 
-	$: earthWidth = Math.min(THUMBNAIL_WIDTH_DEFAULT, $dimensions.width - 100); // roughly account for padding/margins of containers
+	const earthWidth = $derived(Math.min(THUMBNAIL_WIDTH_DEFAULT, $dimensions.width - 100)); // roughly account for padding/margins of containers
 </script>
 
 <Soggy_Planet_Thumbnail {earthWidth} showName={false} />
