@@ -1,8 +1,9 @@
 <script lang="ts">
 	import '@ryanatkn/moss/style.css';
 	import '@ryanatkn/moss/theme.css';
+	import '$lib/moss.css';
 	import '$lib/style.css';
-	import '$lib/style-utilities.css';
+	import '$lib/style-utilities.css'; // TODO replace with moss
 
 	import Themed from '@ryanatkn/fuz/Themed.svelte';
 	import {sync_color_scheme} from '@ryanatkn/fuz/theme.svelte.js';
