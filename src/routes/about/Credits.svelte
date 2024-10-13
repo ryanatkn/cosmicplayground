@@ -12,34 +12,32 @@
 </script>
 
 <Panel>
-	<div class="prose">
-		<h2 style:margin-top="0">Credits</h2>
-		<p>
-			This project relies on lots of amazing freely licensed content. See below for links and
-			copyright info.
-		</p>
-		<ul>
-			<li>
-				<a href="https://earthobservatory.nasa.gov/image-use-policy">NASA image use policy</a>
-			</li>
-			<li>
-				cosmicplayground's code is <a
-					href="https://github.com/ryanatkn/cosmicplayground/blob/main/license"
-					>licensed public domain
-				</a>(The Unlicense)
-			</li>
-			<li>
-				source data is in <a href="https://github.com/ryanatkn/cosmicplayground/blob/main/license"
-					>the repo</a
-				>
-				at
-				<a href="https://github.com/ryanatkn/cosmicplayground/tree/main/static/assets">
-					<code>static/assets</code>
-				</a>
-			</li>
-			<li>more credits below</li>
-		</ul>
-	</div>
+	<h2 style:margin-top="0">Credits</h2>
+	<p>
+		This project relies on lots of amazing freely licensed content. See below for links and
+		copyright info.
+	</p>
+	<ul>
+		<li>
+			<a href="https://earthobservatory.nasa.gov/image-use-policy">NASA image use policy</a>
+		</li>
+		<li>
+			cosmicplayground's code is <a
+				href="https://github.com/ryanatkn/cosmicplayground/blob/main/license"
+				>licensed public domain
+			</a>(The Unlicense)
+		</li>
+		<li>
+			source data is in <a href="https://github.com/ryanatkn/cosmicplayground/blob/main/license"
+				>the repo</a
+			>
+			at
+			<a href="https://github.com/ryanatkn/cosmicplayground/tree/main/static/assets">
+				<code>static/assets</code>
+			</a>
+		</li>
+		<li>more credits below</li>
+	</ul>
 </Panel>
 <Panel>
 	<CreditsMusic />

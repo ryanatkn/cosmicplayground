@@ -3,10 +3,10 @@
 	import {cubicInOut} from 'svelte/easing';
 	import {onMount} from 'svelte';
 	import {random_float} from '@ryanatkn/belt/random.js';
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 	import {swallow} from '@ryanatkn/belt/dom.js';
 
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
 	import DeepBreathTitleScreen from '$routes/deep-breath/DeepBreathTitleScreen.svelte';
 	import DeepBreathTour from '$routes/deep-breath/DeepBreathTour.svelte';
@@ -15,15 +15,15 @@
 	import Hud from '$lib/Hud.svelte';
 	import EarthViewerDom from '$lib/EarthViewerDom.svelte';
 	import EarthViewerPixi from '$lib/EarthViewerPixi.svelte';
-	import {createResourcesStore} from '$lib/resources';
-	import {get_settings} from '$lib/settings';
+	import {createResourcesStore} from '$lib/resources.js';
+	import {settings_context} from '$lib/settings.js';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 	import DeepBreathDevHud from '$routes/deep-breath/DeepBreathDevHud.svelte';
 	import Camera from '$lib/Camera.svelte';
 	import type Tour from '$lib/Tour.svelte';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	let camera: Camera | undefined;
 	$: x = camera?.x;
@@ -32,7 +32,7 @@
 	$: width = camera?.width;
 	$: height = camera?.height;
 
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 	$: if (width) $width = $dimensions.width;
 	$: if (height) $height = $dimensions.height;
 
@@ -45,7 +45,7 @@
 	const initialWidth = $dimensions.width;
 	const initialHeight = $dimensions.height;
 
-	const settings = get_settings();
+	const settings = settings_context.get();
 	$: dev_mode = $settings.dev_mode;
 
 	const debug_start_time = 0; // ~0-300000
@@ -224,16 +224,16 @@
 			<DeepBreathTour {camera} bind:tour on:begin={onBeginTour} />
 			<Hud>
 				{#if tour && $touring}
-					<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
+					<FloatingIconButton label="cancel tour" onclick={tour.cancel}>✕</FloatingIconButton>
 				{:else if showHud}
-					<FloatingIconButton label="go back to title screen" on:click={returnToTitleScreen}>
+					<FloatingIconButton label="go back to title screen" onclick={returnToTitleScreen}>
 						⇦
 					</FloatingIconButton>
 				{:else}
 					<FloatingIconButton
 						pressed={showHud}
 						label="toggle hud controls"
-						on:click={on_clickHudToggle}
+						onclick={on_clickHudToggle}
 					>
 						∙∙∙
 					</FloatingIconButton>
@@ -243,12 +243,12 @@
 						<FloatingIconButton
 							pressed={showHud}
 							label="toggle hud controls"
-							on:click={on_clickHudToggle}
+							onclick={on_clickHudToggle}
 						>
 							∙∙∙
 						</FloatingIconButton>
 						{#if tour && !$touring}
-							<FloatingTextButton on:click={tour.begin_tour}>tour</FloatingTextButton>
+							<FloatingTextButton onclick={tour.begin_tour}>tour</FloatingTextButton>
 						{/if}
 					</div>
 					<div class="hud-left-controls">

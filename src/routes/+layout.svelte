@@ -1,15 +1,12 @@
 <script lang="ts">
-	import '@ryanatkn/fuz/style.css';
-	import '@ryanatkn/fuz/theme.css';
-	import '@ryanatkn/fuz/semantic_classes.css';
-	import '@ryanatkn/fuz/utility_classes.css';
-	import '@ryanatkn/fuz/variable_classes.css';
-	import '@ryanatkn/fuz/animations.css';
+	import '@ryanatkn/moss/style.css';
+	import '@ryanatkn/moss/theme.css';
+	import '$lib/moss.css';
 	import '$lib/style.css';
-	import '$lib/style-utilities.css';
+	import '$lib/style-utilities.css'; // TODO replace with moss
 
 	import Themed from '@ryanatkn/fuz/Themed.svelte';
-	import {sync_color_scheme} from '@ryanatkn/fuz/theme.js';
+	import {sync_color_scheme} from '@ryanatkn/fuz/theme.svelte.js';
 	import {onMount} from 'svelte';
 	import type {Async_Status} from '@ryanatkn/belt/async.js';
 	import {writable} from 'svelte/store';
@@ -18,36 +15,36 @@
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {Assets} from '@pixi/assets';
 	import {base} from '$app/paths';
-	import {browser} from '$app/environment';
+	import {BROWSER} from 'esm-env';
 
-	import {set_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
-	import {set_idle, track_idle_state} from '$lib/idle.js';
+	import {idle_context, track_idle_state} from '$lib/idle.js';
 	import {createPixiBgStore, type PixiBgStore} from '$lib/pixiBg.js';
-	import {PixiApp, set_pixi} from '$lib/pixi.js';
+	import {PixiApp, pixi_context} from '$lib/pixi.js';
 	import PixiView from '$lib/PixiView.svelte';
 	import Hud from '$lib/Hud.svelte';
 	import HomeButton from '$lib/HomeButton.svelte';
 	import Panel from '$lib/Panel.svelte';
-	import {set_settings} from '$lib/settings.js';
-	import {set_portals, create_portals_store} from '$lib/portals.js';
+	import {create_settings_store, settings_context} from '$lib/settings.js';
+	import {portals_context, create_portals_store} from '$lib/portals.js';
 	import {update_render_stats} from '$lib/renderStats.js';
 	import {portals_data} from '$lib/portals_data.js';
 	import WaitingScreen from '$lib/WaitingScreen.svelte';
-	import {set_audio_ctx} from '$lib/audio_ctx.js';
-	import {App_Dialog_State, set_app_dialog} from '$lib/app_dialog.js';
+	import {audio_ctx_context} from '$lib/audio_ctx.js';
+	import {App_Dialog_State, app_dialog_context} from '$lib/app_dialog.js';
 	import AppDialogs from '$lib/AppDialogs.svelte';
 	import AppDialog from '$lib/AppDialog.svelte';
 	import AppDialogMenu from '$lib/AppDialogMenu.svelte';
 	import {playing_song, muted, volume} from '$lib/play_song.js';
-	import {set_dimensions} from '$lib/dimensions.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 
 	const selected_color_scheme = writable('dark' as const);
 	sync_color_scheme($selected_color_scheme); // TODO probably shouldn't be needed
 
-	const clock = set_clock();
+	const clock = clock_context.set();
 
-	const app_dialog = set_app_dialog(new App_Dialog_State(clock));
+	const app_dialog = app_dialog_context.set(new App_Dialog_State(clock));
 
 	beforeNavigate(() => {
 		app_dialog.close();
@@ -58,14 +55,13 @@
 	const pixi = new PixiApp();
 	console.log(`pixi`, pixi);
 
-	const dimensions = set_dimensions(
+	const dimensions = dimensions_context.set(
 		writable(
-			browser ? {width: window.innerWidth, height: window.innerHeight} : {width: 0, height: 0},
+			BROWSER ? {width: window.innerWidth, height: window.innerHeight} : {width: 0, height: 0},
 		),
 	);
-	$: console.log(`$dimensions`, $dimensions);
 
-	set_pixi(pixi);
+	pixi_context.set(pixi);
 
 	const bgImageUrl = base + '/assets/space/galaxies.jpg';
 	let bg: PixiBgStore;
@@ -103,13 +99,15 @@
 		return goto('/' + hash.substring(1), {replaceState: true});
 	};
 
-	const settings = set_settings({
-		audio_enabled: true,
-		dev_mode: false,
-		recording_mode: false,
-		idle_mode: false,
-		time_to_go_idle: 6000,
-	});
+	const settings = settings_context.set(
+		create_settings_store({
+			audio_enabled: true,
+			dev_mode: false,
+			recording_mode: false,
+			idle_mode: false,
+			time_to_go_idle: 6000,
+		}),
+	);
 	// TODO refactor `settings` with this stuff -- granular stores seems better these days
 	$: audio_el = $playing_song?.audio_el;
 	$: if (audio_el) {
@@ -146,18 +144,19 @@
 		data: portals_data,
 		selected_portal: portals_data.portals_by_slug.get($page.url.pathname.substring(1)) || null,
 	});
-	set_portals(portals);
+	portals_context.set(portals);
 	$: selected_portalSlugFromPath = $page.url.pathname.substring(1).split('/')[0];
 	$: portals.select(selected_portalSlugFromPath); // TODO hmm?
 
-	const idle = writable(false);
-	set_idle(idle);
+	const idle = idle_context.set(writable(false));
+
 	$: time_to_go_idle = $settings.dev_mode
 		? 99999999999
 		: $settings.recording_mode
 			? 500
 			: $settings.time_to_go_idle;
-	set_audio_ctx(); // allows components to do `const audio_ctx = get_audio_ctx();` which uses svelte's `getContext`
+
+	audio_ctx_context.set();
 
 	// TODO integrate this with the controls in `index.svelte` and `World.svelte`
 	const onKeyDown = async (e: KeyboardEvent) => {
@@ -239,18 +238,16 @@
 		<!-- render nothing yet -->
 	{:else}
 		<Panel>
-			<div class="prose">
-				<h1>blip :(</h1>
-				<p>
-					It looks like your browser doesn't support WebGL, and sadly this website requires it. I'm
-					sorry, please try another browser or device if you can. (or enable it?)
-				</p>
-				<p>
-					source code is at <a href="https://github.com/ryanatkn/cosmicplayground"
-						>github.com/ryanatkn/cosmicplayground</a
-					>
-				</p>
-			</div>
+			<h1>blip :(</h1>
+			<p>
+				It looks like your browser doesn't support WebGL, and sadly this website requires it. I'm
+				sorry, please try another browser or device if you can. (or enable it?)
+			</p>
+			<p>
+				source code is at <a href="https://github.com/ryanatkn/cosmicplayground"
+					>github.com/ryanatkn/cosmicplayground</a
+				>
+			</p>
 		</Panel>
 	{/if}
 </Themed>

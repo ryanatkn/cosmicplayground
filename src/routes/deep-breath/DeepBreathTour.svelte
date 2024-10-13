@@ -1,11 +1,11 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 
-	import {createResourcesStore, type AudioResource} from '$lib/resources';
-	import {createDeepBreathTourData} from '$routes/deep-breath/deepBreathTourData';
-	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/tour';
-	import {get_settings} from '$lib/settings';
+	import {createResourcesStore, type AudioResource} from '$lib/resources.js';
+	import {createDeepBreathTourData} from '$routes/deep-breath/deepBreathTourData.js';
+	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/tour.js';
+	import {settings_context} from '$lib/settings.js';
 	import DeepBreathTourIntro from '$routes/deep-breath/DeepBreathTourIntro.svelte';
 	import DeepBreathTourTitle from '$routes/deep-breath/DeepBreathTourTitle.svelte';
 	import Tour from '$lib/Tour.svelte';
@@ -31,9 +31,9 @@
 	let {scale} = camera;
 	$: ({scale} = camera);
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
-	const settings = get_settings();
+	const settings = settings_context.get();
 	$: ({audio_enabled, dev_mode} = $settings);
 
 	const tourResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run

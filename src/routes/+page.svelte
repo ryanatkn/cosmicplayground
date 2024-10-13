@@ -5,27 +5,27 @@
 	import Pending_Animation from '@ryanatkn/fuz/Pending_Animation.svelte';
 	import {dequal} from 'dequal/lite';
 	import {swallow} from '@ryanatkn/belt/dom.js';
-	import {browser} from '$app/environment';
+	import {BROWSER} from 'esm-env';
 
-	import {get_clock} from '$lib/clock.js';
-	import {enable_global_hotkeys} from '$lib/dom.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {clock_context} from '$lib/clock.js';
+	import {enable_global_hotkeys, scrollDown} from '$lib/dom.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import PortalPreview from '$lib/PortalPreview.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';
-	import aboutPortal from '$routes/about/data';
-	import soggyPlanetPortal from '$routes/soggy-planet/data';
-	import starlitHammockPortal from '$routes/starlit-hammock/data';
-	import paintFreqsPortal from '$routes/paint-freqs/data';
-	import easings2Portal from '$routes/easings-2/data';
-	import easings1Portal from '$routes/easings-1/data';
-	import hearingTestPortal from '$routes/hearing-test/data';
-	import underConstructionPortal from '$routes/under-construction/data';
-	import freqSpeedsPortal from '$routes/freq-speeds/data';
-	import strengthBooster2Portal from '$routes/secret2/data';
-	import strengthBooster3Portal from '$routes/secret3/data';
-	import clocksPortal from '$routes/clocks/data';
-	import freqSpectaclePortal from '$routes/freq-spectacle/data';
-	import {get_settings} from '$lib/settings';
+	import aboutPortal from '$routes/about/data.js';
+	import soggyPlanetPortal from '$routes/soggy-planet/data.js';
+	import starlitHammockPortal from '$routes/starlit-hammock/data.js';
+	import paintFreqsPortal from '$routes/paint-freqs/data.js';
+	import easings2Portal from '$routes/easings-2/data.js';
+	import easings1Portal from '$routes/easings-1/data.js';
+	import hearingTestPortal from '$routes/hearing-test/data.js';
+	import underConstructionPortal from '$routes/under-construction/data.js';
+	import freqSpeedsPortal from '$routes/freq-speeds/data.js';
+	import strengthBooster2Portal from '$routes/secret2/data.js';
+	import strengthBooster3Portal from '$routes/secret3/data.js';
+	import clocksPortal from '$routes/clocks/data.js';
+	import freqSpectaclePortal from '$routes/freq-spectacle/data.js';
+	import {settings_context} from '$lib/settings.js';
 	import StarshipStage from '$routes/StarshipStage.svelte';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
@@ -42,23 +42,22 @@
 		rescuedAllCrew,
 		rescuedAllCrewAtOnce,
 		toInitialScores,
-	} from '$routes/starshipStage';
-	import {lookup_song} from '$lib/songs';
-	import {play_song} from '$lib/play_song';
-	import {loadFromStorage, setInStorage} from '$lib/storage';
+	} from '$routes/starshipStage.js';
+	import {lookup_song} from '$lib/songs.js';
+	import {play_song} from '$lib/play_song.js';
+	import {loadFromStorage, setInStorage} from '$lib/storage.js';
 	import {
 		STORAGE_KEY_STRENGTH_BOOSTER1,
 		STORAGE_KEY_STRENGTH_BOOSTER2,
 		STORAGE_KEY_STRENGTH_BOOSTER3,
-	} from '$routes/data';
-	import type {PortalData} from '$lib/portal';
-	import {scrollDown} from '$lib/dom';
-	import {get_app_dialog} from '$lib/app_dialog';
+	} from '$routes/data.js';
+	import type {PortalData} from '$lib/portal.js';
+	import {app_dialog_context} from '$lib/app_dialog.js';
 
-	const app_dialog = get_app_dialog();
+	const app_dialog = app_dialog_context.get();
 
-	const dimensions = get_dimensions();
-	const clock = get_clock();
+	const dimensions = dimensions_context.get();
+	const clock = clock_context.get();
 
 	let strengthBooster1Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER1, false);
 	let strengthBooster2Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
@@ -124,7 +123,7 @@
 		],
 	];
 
-	const settings = get_settings();
+	const settings = settings_context.get();
 
 	let exitStarshipModeCount = 0;
 
@@ -177,7 +176,7 @@
 	// TODO extract to a custom store
 	const STORAGE_KEY_SCORES = 'cpg_home_scores';
 	const loadScores = (): StarshipStageScores | undefined => {
-		if (!browser) return undefined;
+		if (!BROWSER) return undefined;
 		return loadFromStorage<StarshipStageScores | undefined>(
 			STORAGE_KEY_SCORES,
 			undefined,
@@ -396,7 +395,7 @@
 	>
 		<header class="portals">
 			<PortalPreview href={aboutPortal.slug} classes="portal_preview--{aboutPortal.slug}">
-				<svelte:component this={aboutPortal.Preview} />
+				<aboutPortal.Preview />
 			</PortalPreview>
 		</header>
 		{#if savedScores}
@@ -419,7 +418,7 @@
 						<StarshipPreview on_click={toggleStarshipMenu} classes="portal_preview--starship" />
 					{:else}
 						<PortalPreview href={portal.slug} classes="portal_preview--{portal.slug}">
-							<svelte:component this={portal.Preview} />
+							<portal.Preview />
 						</PortalPreview>
 					{/if}
 				{/each}
@@ -429,28 +428,29 @@
 			<PortalPreview classes="show-more-button" on_click={() => void toggleStrengthBooster()}>
 				<Pending_Animation
 					running={strengthBoosterToggled && $clock.running}
-					let:index
 					--animation_duration="var(--duration_6)"
 				>
-					{#if index === 0}
-						<img
-							src="/assets/earth/night_lights_1.png"
-							alt="night lights of Africa, Europe, and the Middle East"
-							class="night-light"
-						/>
-					{:else if index === 1}
-						<img
-							src="/assets/earth/night_lights_2.png"
-							alt="night lights of the Americas"
-							class="night-light"
-						/>
-					{:else}
-						<img
-							src="/assets/earth/night_lights_3.png"
-							alt="night lights of Asia and Australia"
-							class="night-light"
-						/>
-					{/if}
+					{#snippet children(index)}
+						{#if index === 0}
+							<img
+								src="/assets/earth/night_lights_1.png"
+								alt="night lights of Africa, Europe, and the Middle East"
+								class="night-light"
+							/>
+						{:else if index === 1}
+							<img
+								src="/assets/earth/night_lights_2.png"
+								alt="night lights of the Americas"
+								class="night-light"
+							/>
+						{:else}
+							<img
+								src="/assets/earth/night_lights_3.png"
+								alt="night lights of Asia and Australia"
+								class="night-light"
+							/>
+						{/if}
+					{/snippet}
 				</Pending_Animation>
 			</PortalPreview>
 		{/if}
@@ -459,7 +459,7 @@
 				<div class="portals strength-portals">
 					{#each portals as portal}
 						<PortalPreview href={portal.slug} classes="portal_preview--{portal.slug}">
-							<svelte:component this={portal.Preview} />
+							<portal.Preview />
 						</PortalPreview>
 					{/each}
 				</div>
@@ -505,11 +505,7 @@
 		/>
 		{#if finished}
 			<div class="exit">
-				<FloatingIconButton
-					label="return home"
-					on:click={() => exitStarshipMode()}
-					style="font-size: var(--size_xl9)"
-				>
+				<FloatingIconButton label="return home" onclick={() => exitStarshipMode()} class="size_xl9">
 					{#if $currentStageScores && rescuedAnyCrew($currentStageScores)}{BOOSTER_SYMBOL}{:else}↩{/if}
 				</FloatingIconButton>
 				<StarshipStageScore scores={currentStageScores && $currentStageScores} />

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {ResourcesStore} from '$lib/resources';
+	import type {ResourcesStore} from '$lib/resources.js';
 	import WaitingAnimation from '$lib/WaitingAnimation.svelte';
 
 	export let resources: ResourcesStore;
@@ -17,12 +17,12 @@
 				class:success={resource.status === 'success'}
 				class:pending={resource.status === 'pending'}
 				class:failure={resource.status === 'failure'}
-				on:click={() => {
+				onclick={() => {
 					if (resource.status === 'failure') {
 						window.location.reload();
 					}
 				}}
-				aria-hidden
+				aria-hidden="true"
 				title={resource.status === 'failure'
 					? 'click to reload'
 					: resource.status === 'success'

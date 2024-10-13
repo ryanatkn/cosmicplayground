@@ -1,13 +1,17 @@
 <script lang="ts">
-	import {get_clock} from '$lib/clock';
+	import {clock_context, type ClockStore} from '$lib/clock.js';
 	import Pending_Animation from '@ryanatkn/fuz/Pending_Animation.svelte';
 
-	export let clock = get_clock();
+	interface Props {
+		clock?: ClockStore;
+	}
 
-	$: ({running} = $clock);
+	const {clock = clock_context.get()}: Props = $props();
+
+	const {running} = $derived($clock);
 </script>
 
-<button on:click={() => clock.toggle()}>
+<button type="button" onclick={() => clock.toggle()}>
 	<Pending_Animation {running} />
 	<span class="icon"
 		>{#if running}⏸{:else}▶️{/if}</span

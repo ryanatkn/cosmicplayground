@@ -1,11 +1,11 @@
 <script lang="ts">
-	import {get_clock} from '$lib/clock.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {clock_context} from '$lib/clock.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 
-	import {freezeframe} from '$lib/freezeframe';
+	import {freezeframe} from '$lib/freezeframe.js';
 
-	const clock = get_clock();
-	const dimensions = get_dimensions();
+	const clock = clock_context.get();
+	const dimensions = dimensions_context.get();
 
 	const maxWidth = 1667;
 	const maxHeight = 781;
@@ -21,7 +21,7 @@
 <div
 	class="under-construction"
 	style="width: {$dimensions.width}px; height: {$dimensions.height}px;"
-	aria-hidden
+	aria-hidden="true"
 >
 	<div style={`transform: scale3d(${scale}, ${scale}, 1);`}>
 		<div style={`width: ${maxWidth}px; height: ${maxHeight}px;`}>
@@ -41,7 +41,7 @@
 					style="width: 350px; height: 350px;"
 					class="pixelated"
 				/>
-				<button type="button" class="image_button" on:click={toggleClock}>
+				<button type="button" class="image_button" onclick={toggleClock}>
 					<img
 						src="/assets/construction/person-rock.gif"
 						use:freezeframe={freeze}
@@ -55,7 +55,7 @@
 					use:freezeframe={freeze}
 					alt="under construction: person dig fast"
 				/>
-				<button type="button" class="image_button" on:click={toggleClock}>
+				<button type="button" class="image_button" onclick={toggleClock}>
 					<img
 						src="/assets/construction/person-rock.gif"
 						use:freezeframe={freeze}
@@ -259,8 +259,8 @@
 						alt="spiderspace dot org"
 						class="absolute cursor-none"
 						style="left: 56px; top: 68px;"
-						on:click={() => window.open('https://github.com/ryanatkn/fuz_template')}
-						aria-hidden
+						onclick={() => window.open('https://github.com/ryanatkn/fuz_template')}
+						aria-hidden="true"
 					/>
 				</div>
 			</div>

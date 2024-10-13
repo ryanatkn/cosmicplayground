@@ -12,9 +12,9 @@
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
 	import AboutPortalPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/PortalPreview.svelte';
-	import type {ResourcesStore} from '$lib/resources';
+	import type {ResourcesStore} from '$lib/resources.js';
 	import PortalLink from '$lib/PortalLink.svelte';
-	import {points_of_interest} from '$routes/soggy-planet/soggy_planet_tour_data';
+	import {points_of_interest} from '$routes/soggy-planet/soggy_planet_tour_data.js';
 
 	export let resources: ResourcesStore;
 	export let proceed: () => void;
@@ -54,7 +54,7 @@
 			{/if}
 		</div>
 		<Panel>
-			<section class="prose">
+			<section>
 				<p>
 					Soggy Planet is an interactive map of Earth where sea levels rise and fall and the lights
 					of civilization shine through the night. It displays <a
@@ -80,8 +80,8 @@
 				<ul>
 					<li>
 						<p style:margin-bottom={0}>
-							click the <button class="inline" on:click={start_tour}>tour</button>
-							button on <button class="inline" on:click={load}>the map</button>
+							click the <button class="inline" onclick={start_tour}>tour</button>
+							button on <button class="inline" onclick={load}>the map</button>
 						</p>
 					</li>
 					<li>
@@ -107,22 +107,22 @@
 			</section>
 			<hr />
 			{#if $resources.status === 'success'}
-				<ChunkyButton on:click={proceed}>back to the map!</ChunkyButton>
+				<ChunkyButton onclick={proceed}>back to the map!</ChunkyButton>
 			{:else if $resources.status !== 'initial'}
 				<ResourcesLoadingProgress {resources} />
 			{:else}
 				<p>The download is about 81MB of images. If that's ok with you, continue on:</p>
-				<ChunkyButton on:click={load}>continue with 81MB download!</ChunkyButton>
+				<ChunkyButton onclick={load}>continue with 81MB download!</ChunkyButton>
 			{/if}
 		</Panel>
 		<Panel>
-			<section class="prose">
+			<section>
 				<h2>Tour</h2>
 				<p>
 					Soggy Planet includes a 3 minute tour of some points of interest related to sea levels at
 					the <a href="https://wikipedia.org/wiki/Last_Glacial_Maximum">Last Glacial Maximum</a>.
-					Click the <button class="inline" on:click={start_tour}>start tour</button>
-					button on <button class="inline" on:click={load}>the map</button> or see
+					Click the <button class="inline" onclick={start_tour}>start tour</button>
+					button on <button class="inline" onclick={load}>the map</button> or see
 					<a href="https://www.youtube.com/watch?v=akP5J3jfjt4">the video on YouTube</a>.
 				</p>
 				<p>Learn about the tour's points of interest on Wikipedia:</p>
@@ -137,13 +137,13 @@
 			</section>
 		</Panel>
 		<Panel>
-			<section class="prose">
+			<section>
 				<h2>Credits</h2>
 				<Soggy_Planet_Credits />
 			</section>
 		</Panel>
 		<Panel>
-			<section class="prose">
+			<section>
 				<CreditsProjectSignature />
 			</section>
 		</Panel>

@@ -26,12 +26,12 @@
 			void tween.set(lastTarget, {duration: lastDuration});
 		} else {
 			// freeze the tweens in place
-			void tween.set($tween as unknown as any, {duration: 0});
+			void tween.set($tween!, {duration: 0}); // eslint-disable-line @typescript-eslint/no-unnecessary-type-assertion
 		}
 	};
 
 	export const update = (target: TValue, duration: number, easing = sineInOut): Promise<void> => {
-		if (!tween) tween = tweened($value);
+		tween ??= tweened($value);
 		lastTarget = target;
 		lastDuration = duration;
 		return tween.set(target, {duration, easing});

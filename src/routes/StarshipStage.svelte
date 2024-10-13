@@ -2,7 +2,7 @@
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import type {Writable} from 'svelte/store';
 
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 	import World from '$lib/World.svelte';
 	import SurfaceWithControlller from '$lib/SurfaceWithControlller.svelte';
 	import {DomCanvasRenderer} from '$lib/DomCanvasRenderer.js';
@@ -19,7 +19,7 @@
 		Stage,
 		type StarshipStageScores,
 	} from '$routes/starshipStage.js';
-	import {get_pixi} from '$lib/pixi.js';
+	import {pixi_context} from '$lib/pixi.js';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;
@@ -41,8 +41,8 @@
 	export let stage: Stage;
 	export let enableDomCanvasRenderer = false;
 
-	const clock = get_clock();
-	const pixi = get_pixi();
+	const clock = clock_context.get();
+	const pixi = pixi_context.get();
 
 	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;
 

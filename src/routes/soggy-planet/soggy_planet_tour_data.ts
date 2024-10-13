@@ -1,6 +1,6 @@
 import {sineOut, quadInOut} from 'svelte/easing';
 
-import type {TourData} from '$lib/tour';
+import type {TourData} from '$lib/tour.js';
 import {createTourBuilder} from '$lib/tourBuilder';
 import {z} from 'zod';
 

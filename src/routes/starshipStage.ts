@@ -41,7 +41,7 @@ export const ROCK_TIMER_DEAD = 15000; // time after rock dies before ending the 
 
 const MAX_DT = 100; // max 10 fps
 
-const toIconFontSize = (radius: number): number => radius * 1.4;
+const to_glyph_font_size = (radius: number): number => radius * 1.4;
 
 // TODO refactor all of these
 export interface StarshipStageScores {
@@ -155,7 +155,7 @@ export class Stage extends BaseStage {
 				planetRadius,
 			) as EntityCircle,
 		));
-		planet.text = crew[0].icon;
+		planet.text = crew[0].glyph;
 		planet.textOffsetX = 850;
 		planet.textOffsetY = 1150;
 		planet.fontSize = 200;
@@ -175,32 +175,32 @@ export class Stage extends BaseStage {
 		this.addEntity(rock);
 
 		let moon = new Entity(collisions.create_circle(1660, 1012, 43) as EntityCircle);
-		moon.text = crew[1].icon;
-		moon.fontSize = toIconFontSize(moon.radius);
+		moon.text = crew[1].glyph;
+		moon.fontSize = to_glyph_font_size(moon.radius);
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_MOON;
 		this.addEntity(moon);
 		moons.add(moon);
 
 		moon = new Entity(collisions.create_circle(1420, 1174, 72) as EntityCircle);
-		moon.text = crew[2].icon;
-		moon.fontSize = toIconFontSize(moon.radius);
+		moon.text = crew[2].glyph;
+		moon.fontSize = to_glyph_font_size(moon.radius);
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_MOON;
 		this.addEntity(moon);
 		moons.add(moon);
 
 		moon = new Entity(collisions.create_circle(2010, 872, 19) as EntityCircle);
-		moon.text = crew[3].icon;
-		moon.fontSize = toIconFontSize(moon.radius);
+		moon.text = crew[3].glyph;
+		moon.fontSize = to_glyph_font_size(moon.radius);
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_MOON;
 		this.addEntity(moon);
 		moons.add(moon);
 
 		moon = new Entity(collisions.create_circle(1870, 776, 27) as EntityCircle);
-		moon.text = crew[4].icon;
-		moon.fontSize = toIconFontSize(moon.radius);
+		moon.text = crew[4].glyph;
+		moon.fontSize = to_glyph_font_size(moon.radius);
 		moon.speed = MOON_SPEED;
 		moon.color = COLOR_MOON;
 		this.addEntity(moon);
@@ -279,7 +279,7 @@ export class Stage extends BaseStage {
 					const moltenIsMoonFragment = _molten === _moonFragment;
 					const newMoonFragments = frag(_moon, collisions, 12) as Array<Entity<EntityCircle>>;
 					shouldUpdateScores = true;
-					(moonFragmentsToAdd || (moonFragmentsToAdd = [])).push(...newMoonFragments);
+					(moonFragmentsToAdd ??= []).push(...newMoonFragments);
 					this.removeEntity(_moon);
 					// TODO this logic is very hardcoded -- ideally it's all simulated,
 					// but we'd need to ensure the gameplay still works,
@@ -310,7 +310,7 @@ export class Stage extends BaseStage {
 					this.removeEntity(_planet);
 					const newPlanetFragments = frag(_planet, collisions, 42) as Array<Entity<EntityCircle>>;
 					shouldUpdateScores = true;
-					(planetFragmentsToAdd || (planetFragmentsToAdd = [])).push(...newPlanetFragments);
+					(planetFragmentsToAdd ??= []).push(...newPlanetFragments);
 					for (const p of newPlanetFragments) {
 						p.speed = _rock.speed * 0.2 * random_float(0.5, 1.0);
 						p.directionX = random_float(-_rock.directionX / 2, _rock.directionX / 2);
@@ -318,7 +318,7 @@ export class Stage extends BaseStage {
 						p.color = COLOR_MOLTEN;
 					}
 					const newRockFragments = frag(_rock, collisions, 210) as Array<Entity<EntityCircle>>;
-					(rockFragmentsToAdd || (rockFragmentsToAdd = [])).push(...newRockFragments);
+					(rockFragmentsToAdd ??= []).push(...newRockFragments);
 					for (const r of newRockFragments) {
 						r.speed = random_float(_rock.speed / 2, _rock.speed * 2);
 						r.directionX = random_float(-_rock.directionX * 2, _rock.directionX * 0.25);

@@ -8,9 +8,9 @@
 	import Playlist from '$lib/Playlist.svelte';
 	import VolumeControl from '$lib/VolumeControl.svelte';
 	import type {PlaylistItemData} from '$lib/playlist';
-	import type {SongPlayState} from '$lib/play_song';
+	import type {SongPlayState} from '$lib/play_song.js';
 	import type {Seconds} from '$lib/time';
-	import type {Volume} from '$lib/audio_helpers';
+	import type {Volume} from '$lib/audio_helpers.js';
 
 	// TODO selection behavior
 
@@ -188,7 +188,7 @@
 				title={show_play ? 'play' : 'pause'}
 				type="button"
 				class="icon_button plain"
-				on:click={() => play()}
+				onclick={() => play()}
 			>
 				{#if show_play}
 					⏵
@@ -223,7 +223,7 @@
 				title="restart or previous"
 				type="button"
 				class="icon_button plain"
-				on:click={() => restart_or_previous()}
+				onclick={() => restart_or_previous()}
 			>
 				⏮
 			</button>
@@ -231,19 +231,19 @@
 				title="stop"
 				type="button"
 				class="icon_button plain"
-				on:click={() => stop()}
+				onclick={() => stop()}
 				disabled={!has_song}
 			>
 				⏹
 			</button>
-			<button title="next" type="button" class="icon_button plain" on:click={() => next()}>
+			<button title="next" type="button" class="icon_button plain" onclick={() => next()}>
 				⏭
 			</button>
 			<button
 				title={collapsed ? 'expand' : 'collapse'}
 				type="button"
 				class="icon_button plain"
-				on:click={() => (collapsed = !collapsed)}
+				onclick={() => (collapsed = !collapsed)}
 				>{#if collapsed}+{:else}−{/if}</button
 			>
 		</header>
@@ -258,7 +258,7 @@
 							class="togglable icon_button plain deselectable"
 							title="repeat is {repeat ? 'enabled' : 'disabled'}"
 							class:selected={repeat}
-							on:click={() => {
+							onclick={() => {
 								repeat = !repeat;
 								dispatch('repeat', repeat);
 							}}
@@ -272,7 +272,7 @@
 							class="togglable icon_button plain deselectable"
 							title="shuffle is {shuffle ? 'enabled' : 'disabled'}"
 							class:selected={shuffle}
-							on:click={() => {
+							onclick={() => {
 								shuffle = !shuffle;
 								dispatch('shuffle', shuffle);
 							}}
@@ -332,7 +332,7 @@
 		font-size: var(--size_sm);
 		font-weight: 600;
 		width: var(--space_xl5);
-		color: var(--text_2);
+		color: var(--text_color_3);
 	}
 	/* TODO move to style.css?  */
 	.togglable {

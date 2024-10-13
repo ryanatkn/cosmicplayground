@@ -2,8 +2,8 @@
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
 		"types": ["@sveltejs/kit"],
-		"moduleResolution": "bundler",
-		"noEmit": true,
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
 		"strict": true,
 		"useUnknownInCatchVariables": false,
 		"exactOptionalPropertyTypes": false,
@@ -15,19 +15,23 @@
 		"noFallthroughCasesInSwitch": true,
 		"resolveJsonModule": true,
 		"sourceMap": true,
+		"declaration": true,
+		"declarationMap": true,
+		"sourceRoot": "../src/lib/",
 		"importHelpers": true,
 		"skipLibCheck": true,
 		"allowJs": true,
+		"allowImportingTsExtensions": false,
 		"checkJs": true
 	},
 	"include": [
-		"./gro.config.ts",
-		"./svelte.config.js",
-		"./.svelte-kit/ambient.d.ts",
-		"./.svelte-kit/types/**/$types.d.ts",
-		"./vite.config.ts",
-		"./src/**/*.js",
-		"./src/**/*.ts",
-		"./src/**/*.svelte"
+		"*.js",
+		"*.ts",
+		".svelte-kit/ambient.d.ts",
+		".svelte-kit/non-ambient.d.ts",
+		".svelte-kit/types/**/$types.d.ts",
+		"src/**/*.js",
+		"src/**/*.ts",
+		"src/**/*.svelte"
 	]
 }

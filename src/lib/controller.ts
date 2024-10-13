@@ -1,6 +1,6 @@
 import {writable} from 'svelte/store';
 
-import type {CameraState} from '$lib/camera';
+import type {CameraState} from '$lib/camera.js';
 import type {Entity} from '$lib/entity.js';
 
 // TODO this is hacky, rewrite with runes

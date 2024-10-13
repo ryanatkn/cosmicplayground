@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {ImageMeta} from '$lib/images';
+	import type {ImageMeta} from '$lib/images.js';
 
 	export let images: ImageMeta[];
 	export let pick_image: (image: ImageMeta) => void;
@@ -7,7 +7,7 @@
 
 <div class="image-picker">
 	{#each images as image (image.info.url)}
-		<button on:click={() => pick_image(image)}>
+		<button onclick={() => pick_image(image)}>
 			<img
 				src={image.thumbnail.url}
 				alt={image.title}

@@ -2,7 +2,7 @@
 </script>
 
 <div class="preview">
-	<h2>paint freqs</h2>
+	<h2 class="m_0">paint freqs</h2>
 	<img
 		class="cosmic-kitty"
 		src="/assets/characters/cosmic-kitty.webp"
@@ -19,6 +19,8 @@
 		margin-bottom: 7px;
 	}
 	.cosmic-kitty {
+		-webkit-user-select: none;
+		user-select: none;
 		animation: rotate-kitty 6s cubic-bezier(0.77, 0, 0.18, 1) infinite alternate;
 	}
 	:global(.paused) .cosmic-kitty {

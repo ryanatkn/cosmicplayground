@@ -4,7 +4,7 @@
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 	import type Tour from '$lib/Tour.svelte';
 	import TourControls from '$lib/TourControls.svelte';
-	import {get_settings} from '$lib/settings';
+	import {settings_context} from '$lib/settings.js';
 
 	export let tour: Tour | null;
 	export let x: Writable<number>;
@@ -14,24 +14,24 @@
 
 	$: touring = tour?.touring;
 
-	const settings = get_settings();
+	const settings = settings_context.get();
 	$: ({audio_enabled} = $settings);
 
 	const toggle_audio_enabled = (value = !audio_enabled): void =>
 		settings.update((v) => ({...v, audio_enabled: value}));
 </script>
 
-<FloatingTextButton on:click={() => toggle_audio_enabled()}>
+<FloatingTextButton onclick={() => toggle_audio_enabled()}>
 	{#if audio_enabled}unmuted{:else}muted{/if}
 </FloatingTextButton><FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		$scale = Number(prompt('🔎', $scale + '')) || $scale; // eslint-disable-line no-alert
 	}}
 >
 	scale: {Math.round($scale * 10) / 10}
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		const inputValue = Number(prompt('x', $x + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(inputValue)) {
 			$x = inputValue;
@@ -41,7 +41,7 @@
 	x: {Math.round($x)}
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		const inputValue = Number(prompt('y', $y + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(inputValue)) {
 			$y = inputValue;

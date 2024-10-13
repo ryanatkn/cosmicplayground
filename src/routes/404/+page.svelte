@@ -4,16 +4,16 @@
 
 	import Panel from '$lib/Panel.svelte';
 	import ChunkyButton from '$lib/ChunkyButton.svelte';
-	import {get_portals} from '$lib/portals';
+	import {portals_context} from '$lib/portals.js';
 	import PortalLink from '$lib/PortalLink.svelte';
 
-	const portals = get_portals();
+	const portals = portals_context.get();
 </script>
 
 <!-- TODO how to handle this? -->
 <section class="page box">
 	<Panel>
-		<div class="prose box">
+		<div class="box">
 			<h1>void</h1>
 			<p>nothing is here</p>
 			<Breadcrumb path={$page.url.pathname}>🌠</Breadcrumb>
@@ -25,7 +25,7 @@
 	<div class="sadface">D:</div>
 	<Panel>
 		<h2 class="mb_lg text_align_center">maybe you want one of these?</h2>
-		<ul class="box row wrap">
+		<ul class="box row flex_wrap">
 			{#each $portals.data.portals as portal (portal.slug)}
 				<li role="none">
 					<PortalLink slug={portal.slug} />
@@ -33,7 +33,7 @@
 			{/each}
 		</ul>
 	</Panel>
-	<div class="prose box">
+	<div class="box">
 		<h2>maybe it was the computers fault</h2>
 	</div>
 </section>

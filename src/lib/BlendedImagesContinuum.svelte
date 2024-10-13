@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {computeBlendedImagesContinuumOpacities} from '$lib/blendedImagesContinuum';
+	import {computeBlendedImagesContinuumOpacities} from '$lib/blendedImagesContinuum.js';
 
 	export let images: string[];
 	export let value: number; // `1.6` is 60% opacity of index 2 and 100% opacity of index 1
@@ -20,11 +20,8 @@
 	<img
 		src={image}
 		{alt}
-		style="opacity: {opacities[i]}; z-index: {floorIndex === undefined
-			? zIndex
-			: i === floorIndex
-				? zIndex
-				: zIndex + 1};"
+		style:opacity={opacities[i]}
+		style:z-index={floorIndex === undefined ? zIndex : i === floorIndex ? zIndex : zIndex + 1}
 	/>
 {/each}
 

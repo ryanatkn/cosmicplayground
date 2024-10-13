@@ -2,7 +2,7 @@ import {get, type Writable} from 'svelte/store';
 import {identity} from '@ryanatkn/belt/function.js';
 import type {Json} from '@ryanatkn/belt/json.js';
 
-import {loadFromStorage, setInStorage} from '$lib/storage';
+import {loadFromStorage, setInStorage} from '$lib/storage.js';
 
 // TODO problem is this doesn't compose with custom stores that internally use `set` from a writable
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {to_phase_datas_by_level_name, type LevelData} from '$routes/unlock/phases';
+	import {to_phase_datas_by_level_name, type LevelData} from '$routes/unlock/phases.js';
 
 	export let level: LevelData;
 

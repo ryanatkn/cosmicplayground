@@ -6,10 +6,10 @@
 	import {DomCanvasRenderer} from '$lib/DomCanvasRenderer.js';
 	import type {Controller} from '$lib/controller.js';
 	import type {CameraStore} from '$lib/camera.js';
-	import {get_clock} from '$lib/clock.js';
-	import {get_pixi} from '$lib/pixi';
-	import type {UnlockStageScores, Stage} from '$routes/unlock/unlockStage';
-	import {get_idle} from '$lib/idle.js';
+	import {clock_context} from '$lib/clock.js';
+	import {pixi_context} from '$lib/pixi.js';
+	import type {UnlockStageScores, Stage} from '$routes/unlock/unlockStage.js';
+	import {idle_context} from '$lib/idle.js';
 
 	export let viewportWidth: number;
 	export let viewportHeight: number;
@@ -24,12 +24,12 @@
 
 	$: console.log(`UnlockStage.svelte stage`, stage);
 
-	const clock = get_clock();
-	const pixi = get_pixi();
+	const clock = clock_context.get();
+	const pixi = pixi_context.get();
 
 	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;
 
-	const idle = get_idle();
+	const idle = idle_context.get();
 	$: if ($idle) clock.pause();
 
 	let camera: CameraStore;

@@ -5,11 +5,11 @@
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {hsl_to_rgb} from '@ryanatkn/belt/colors.js';
 
-	import {get_dimensions} from '$lib/dimensions.js';
-	import {get_audio_ctx} from '$lib/audio_ctx';
-	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers';
-	import {freqToMidi} from '$lib/midi';
-	import {DEFAULT_TUNING} from '$lib/notes';
+	import {dimensions_context} from '$lib/dimensions.js';
+	import {audio_ctx_context} from '$lib/audio_ctx.js';
+	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers.js';
+	import {freqToMidi} from '$lib/midi.js';
+	import {DEFAULT_TUNING} from '$lib/notes.js';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 
 	/*
@@ -38,7 +38,7 @@
 
   */
 
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 	let width = $dimensions.width;
 	let height = $dimensions.height;
 	$: width = $dimensions.width;
@@ -104,7 +104,7 @@
 		lines = lines.slice();
 	};
 
-	const audio_ctx = get_audio_ctx();
+	const audio_ctx = audio_ctx_context.get();
 
 	const spotPosition = spring(
 		{x: pointer_x, y: pointer_y},
@@ -245,7 +245,7 @@
 	/>
 	<div class="controls idle_fade">
 		<!-- TODO this is a good candidate for the Hud component -->
-		<FloatingIconButton label="reset" on:click={clear}>↻</FloatingIconButton>
+		<FloatingIconButton label="reset" onclick={clear}>↻</FloatingIconButton>
 	</div>
 </div>
 

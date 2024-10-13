@@ -11,7 +11,7 @@
 	import CreditsProjectSignature from '$routes/about/CreditsProjectSignature.svelte';
 	import AboutPortalPreview from '$routes/about/Preview.svelte';
 	import PortalPreview from '$lib/PortalPreview.svelte';
-	import type {ResourcesStore} from '$lib/resources';
+	import type {ResourcesStore} from '$lib/resources.js';
 	import PortalLink from '$lib/PortalLink.svelte';
 
 	export let resources: ResourcesStore;
@@ -41,7 +41,7 @@
 	<div class="box width_md">
 		<DeepBreathThumbnail on_click={enableLoadingByClickingThumbnail ? load : null} />
 		<Panel>
-			<section class="prose">
+			<section>
 				<h2>If all ice on Earth melts, how will sea levels change?</h2>
 				<p>
 					Deep Breath is an interactive webpage with a rough sketch of Earth's coastlines if all ice
@@ -72,15 +72,15 @@
 			</section>
 			<hr />
 			{#if $resources.status === 'success'}
-				<ChunkyButton on:click={proceed}>back to the map!</ChunkyButton>
+				<ChunkyButton onclick={proceed}>back to the map!</ChunkyButton>
 			{:else if $resources.status !== 'initial'}
 				<ResourcesLoadingProgress {resources} />
 			{:else}
 				<p>The download is about 75MB of images. If that's ok with you, continue on:</p>
-				<ChunkyButton on:click={load}>continue with 75MB download!</ChunkyButton>
+				<ChunkyButton onclick={load}>continue with 75MB download!</ChunkyButton>
 			{/if}
 			<hr />
-			<section class="prose">
+			<section>
 				<p>Please be aware that <strong>the project's facts are flawed:</strong></p>
 				<ul>
 					<li>
@@ -104,13 +104,13 @@
 			</section>
 		</Panel>
 		<Panel>
-			<section class="prose">
+			<section>
 				<h2>Credits</h2>
 				<DeepBreathCredits />
 			</section>
 		</Panel>
 		<Panel>
-			<section class="prose">
+			<section>
 				<CreditsProjectSignature />
 			</section>
 		</Panel>

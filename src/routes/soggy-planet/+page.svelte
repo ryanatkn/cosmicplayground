@@ -2,23 +2,23 @@
 	import {onMount, tick} from 'svelte';
 	import {random_float} from '@ryanatkn/belt/random.js';
 	import {swallow} from '@ryanatkn/belt/dom.js';
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 	import {dev} from '$app/environment';
 
 	import {enable_global_hotkeys} from '$lib/dom.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import Soggy_Planet_Title_Screen from '$routes/soggy-planet/Soggy_Planet_Title_Screen.svelte';
 	import MonthHud from '$lib/MonthHud.svelte';
 	import SeaLevelHud from '$lib/SeaLevelHud.svelte';
 	import DaylightHud from '$lib/DaylightHud.svelte';
 	import Hud from '$lib/Hud.svelte';
 	import EarthViewerPixi from '$lib/EarthViewerPixi.svelte';
-	import {createResourcesStore} from '$lib/resources';
-	import {get_settings} from '$lib/settings';
+	import {createResourcesStore} from '$lib/resources.js';
+	import {settings_context} from '$lib/settings.js';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import Soggy_Planet_Dev_Hud from '$routes/soggy-planet/Soggy_Planet_Dev_Hud.svelte';
 	import Camera from '$lib/Camera.svelte';
-	import {SHORE_COUNT} from '$routes/soggy-planet//constants';
+	import {SHORE_COUNT} from '$routes/soggy-planet/constants.js';
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 	import Soggy_Planet_Tour from '$routes/soggy-planet/Soggy_Planet_Tour.svelte';
 	import type Tour from '$lib/Tour.svelte';
@@ -28,7 +28,7 @@
 	const DEBUG_START_TIME = 0; // set to start the tour at any time for dev purposes
 	const debug_start_time = dev ? DEBUG_START_TIME : 0;
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	let camera: Camera | undefined;
 	$: x = camera?.x;
@@ -37,7 +37,7 @@
 	$: width = camera?.width;
 	$: height = camera?.height;
 
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 	$: if (width) $width = $dimensions.width;
 	$: if (height) $height = $dimensions.height;
 
@@ -50,7 +50,7 @@
 	const initial_width = $dimensions.width;
 	const initial_height = $dimensions.height;
 
-	const settings = get_settings();
+	const settings = settings_context.get();
 	$: dev_mode = $settings.dev_mode;
 
 	// TODO add auto pan button - share logic with Starlit Hanmmock and deep breath
@@ -264,7 +264,7 @@
 				lightsImage={LIGHTS_IMAGE}
 				lightsOpacity={active_daylight}
 				nightfallOpacity={nightfall_opacity}
-				showLights={true}
+				showLights
 				activeLandValue={active_land_value}
 				activeSeaLevel={active_sea_level}
 				imageWidth={image_width}
@@ -281,9 +281,9 @@
 			<Hud>
 				<!-- TODO these conditions are awkward copypasta from deep-breath -->
 				{#if tour && $touring}
-					<FloatingIconButton label="cancel tour" on:click={tour.cancel}>✕</FloatingIconButton>
+					<FloatingIconButton label="cancel tour" onclick={tour.cancel}>✕</FloatingIconButton>
 				{:else if show_hud}
-					<FloatingIconButton label="go back to title screen" on:click={go_to_title_screen}>
+					<FloatingIconButton label="go back to title screen" onclick={go_to_title_screen}>
 						⇦
 					</FloatingIconButton>
 				{:else}
@@ -291,7 +291,7 @@
 						<FloatingIconButton
 							pressed={show_hud}
 							label="toggle hud controls"
-							on:click={click_hud_toggle}
+							onclick={click_hud_toggle}
 						>
 							∙∙∙
 						</FloatingIconButton>
@@ -302,13 +302,13 @@
 						<FloatingIconButton
 							pressed={show_hud}
 							label="toggle hud controls"
-							on:click={click_hud_toggle}
+							onclick={click_hud_toggle}
 						>
 							∙∙∙
 						</FloatingIconButton>
 						<FloatingTextButton
 							label="start the tour of our soggy planet with history and myth"
-							on:click={start_tour}
+							onclick={start_tour}
 						>
 							tour
 						</FloatingTextButton>

@@ -2,7 +2,7 @@
 	import {
 		computeBlendedImagesCycleOpacities,
 		computeBlendedImagesCycleZIndex,
-	} from '$lib/blendedImagesCycle';
+	} from '$lib/blendedImagesCycle.js';
 
 	export let images: string[];
 	export let value: number; // float, where `0 <= value < images.length`
@@ -15,11 +15,8 @@
 	<img
 		src={image}
 		{alt}
-		style="opacity: {opacities[i]}; z-index: {computeBlendedImagesCycleZIndex(
-			images.length,
-			i,
-			opacities[i],
-		)};"
+		style:opacity={opacities[i]}
+		style:z-index={computeBlendedImagesCycleZIndex(images.length, i, opacities[i])}
 	/>
 {/each}
 

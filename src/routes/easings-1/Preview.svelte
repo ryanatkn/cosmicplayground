@@ -2,7 +2,7 @@
 </script>
 
 <div class="preview">
-	<h2>easing function visualizations</h2>
+	<h2 class="m_0">easing function visualizations</h2>
 	<div class="slider-wrapper">
 		<div class="slider-graphic" />
 	</div>
@@ -18,7 +18,7 @@
 	.slider-wrapper {
 		margin-top: 3px;
 		width: 300px;
-		background-color: hsla(var(--space_hue), 60%, 65%, 0.15);
+		background-color: hsl(var(--space_hue) 60% 65% / 0.15);
 	}
 	.slider-graphic {
 		animation: slide 5s cubic-bezier(0.645, 0.045, 0.355, 1) infinite alternate;

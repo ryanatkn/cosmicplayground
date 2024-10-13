@@ -6,7 +6,7 @@
 	import Panel from '$lib/Panel.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';
 	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
-	import type {StarshipStageScores} from '$routes/starshipStage';
+	import type {StarshipStageScores} from '$routes/starshipStage.js';
 	import AppControlsTable from '$lib/AppControlsTable.svelte';
 	import PortalPreview from '$lib/PortalPreview.svelte';
 
@@ -57,7 +57,7 @@
 		<div transition:scale|local>
 			<Panel>
 				<div>
-					<h2>scores</h2>
+					<h2 class="m_0">Scores</h2>
 					{#if scores}
 						<br />
 						<StarshipStageScore {scores} defaultIcon="❔" />
@@ -75,10 +75,10 @@
 					{/if}
 					<div class="box row">
 						{#if resetScores}
-							<button on:click={resetScores}>reset scores</button>
+							<button onclick={resetScores}>reset scores</button>
 						{/if}
 						{#if importScores}
-							<button on:click={importScores}>import scores</button>
+							<button onclick={importScores}>import scores</button>
 						{/if}
 					</div>
 				</div>

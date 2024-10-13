@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Details from '$lib/Details.svelte';
-	import {lookup_songs_by_author} from '$lib/songs';
+	import {lookup_songs_by_author} from '$lib/songs.js';
 
 	const names = ['Piña Colada', 'Winter', 'Spacey Intro', 'Spacey Outro'];
 
@@ -44,7 +44,7 @@
 	h3 {
 		margin-top: var(--space_xl8) !important;
 	}
-	h3:first-child {
+	h3:nth-child(2) {
 		margin-top: 0 !important;
 	}
 	.audio-file {

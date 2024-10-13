@@ -2,7 +2,7 @@
 </script>
 
 <div class="preview">
-	<h2>🐶 hearing test 🐶</h2>
+	<h2 class="m_0">🐶 hearing test 🐶</h2>
 </div>
 
 <style>

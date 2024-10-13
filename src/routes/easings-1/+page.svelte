@@ -65,7 +65,7 @@
 
 	let selected: {[key: string]: boolean};
 	$: selected = tweens.easings.reduce((v = {}, {name}) => {
-		if (!(name in v)) v[name] = true;
+		v[name] ??= true;
 		return v;
 	}, selected);
 
@@ -93,8 +93,7 @@
 				throw Error();
 		}
 	};
-	const get_color = (index: number, opacity = 0.8) =>
-		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
+	const get_color = (index: number, opacity = 0.8) => `hsl(${index * 75}deg 60% 65% / ${opacity})`;
 
 	const select_all = () => {
 		selected = Object.fromEntries(Object.entries(selected).map(([k]) => [k, true]));
@@ -107,10 +106,10 @@
 <section>
 	<form class="box">
 		<fieldset class="box row">
-			<FloatingTextButton on:click={() => (playing = !playing)}>
+			<FloatingTextButton onclick={() => (playing = !playing)}>
 				<div style:width="9rem">{playing ? 'pause' : 'play'}</div>
 			</FloatingTextButton>
-			<FloatingTextButton on:click={() => (toggle = !toggle)}>toggle</FloatingTextButton>
+			<FloatingTextButton onclick={() => (toggle = !toggle)}>toggle</FloatingTextButton>
 		</fieldset>
 		<fieldset>
 			<label>
@@ -128,8 +127,8 @@
 			</label>
 		</fieldset>
 		<fieldset class="row">
-			<button type="button" on:click={select_all} disabled={selecting_all}>select all</button>
-			<button type="button" on:click={select_none} disabled={selecting_none}>select none</button>
+			<button type="button" onclick={select_all} disabled={selecting_all}>select all</button>
+			<button type="button" onclick={select_none} disabled={selecting_none}>select none</button>
 		</fieldset>
 		<fieldset>
 			<select bind:value={view}>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {PhaseData} from '$routes/unlock/phases';
+	import type {PhaseData} from '$routes/unlock/phases.js';
 
 	export let phase: PhaseData;
 	export let selected: boolean;
@@ -9,7 +9,7 @@
 
 <div class="phase" title="phase {phase.name}">
 	<button
-		on:click={() => {
+		onclick={() => {
 			select_phase(phase);
 		}}
 		class:selected

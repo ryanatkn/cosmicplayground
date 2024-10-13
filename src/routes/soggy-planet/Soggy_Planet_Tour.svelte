@@ -1,11 +1,11 @@
 <script lang="ts">
 	import {writable, type Writable} from 'svelte/store';
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 
-	import {createResourcesStore, type AudioResource} from '$lib/resources';
-	import {create_soggy_planet_tour_data} from '$routes/soggy-planet/soggy_planet_tour_data';
-	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/tour';
-	import {get_settings} from '$lib/settings';
+	import {createResourcesStore, type AudioResource} from '$lib/resources.js';
+	import {create_soggy_planet_tour_data} from '$routes/soggy-planet/soggy_planet_tour_data.js';
+	import {type TourHooks, type TourData, update_audio_on_seek, findTourStep} from '$lib/tour.js';
+	import {settings_context} from '$lib/settings.js';
 	import Tour_Text from '$lib/Tour_Text.svelte';
 	import Soggy_Planet_Tour_Title from '$routes/soggy-planet/Soggy_Planet_Tour_Title.svelte';
 	import Tour from '$lib/Tour.svelte';
@@ -34,9 +34,9 @@
 	let {scale} = camera;
 	$: ({scale} = camera);
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
-	const settings = get_settings();
+	const settings = settings_context.get();
 	$: ({audio_enabled, dev_mode} = $settings);
 
 	const tour_resources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run

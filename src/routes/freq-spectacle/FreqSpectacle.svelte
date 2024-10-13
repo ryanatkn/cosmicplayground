@@ -18,23 +18,19 @@
 </script>
 
 <svg {width} {height} {style}>
-	<g>
-		{#each hzItems as hzItem, i (hzItem)}
-			<g style="opacity: {0.5 + (0.5 * i) / hzItems.length}">
-				{#each {length: hzItemCounts[i]} as _, j}
-					{#if hzItemSelectedIndices[i] === j}
-						<rect
-							x={j * hzItemWidths[i]}
-							y={i * hzItemHeight}
-							width={hzItemWidths[i]}
-							height={hzItemHeight}
-							fill="hsl({35 + 360 * (j / hzItem)}, {j % 2 ? '25%' : '30%'}, {j % 2
-								? '30%'
-								: '28%'})"
-						/>
-					{/if}
-				{/each}
-			</g>
-		{/each}
-	</g>
+	{#each hzItems as hzItem, i (hzItem)}
+		<g style:opacity={0.5 + (0.5 * i) / hzItems.length}>
+			{#each {length: hzItemCounts[i]} as _, j}
+				{#if hzItemSelectedIndices[i] === j}
+					<rect
+						x={j * hzItemWidths[i]}
+						y={i * hzItemHeight}
+						width={hzItemWidths[i]}
+						height={hzItemHeight}
+						fill="hsl({35 + 360 * (j / hzItem)}, {j % 2 ? '25%' : '30%'}, {j % 2 ? '30%' : '28%'})"
+					/>
+				{/if}
+			{/each}
+		</g>
+	{/each}
 </svg>

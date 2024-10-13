@@ -18,7 +18,7 @@
 		const h = height - lineWidth * 2;
 		ctx.clearRect(0, 0, width, height);
 		ctx.lineWidth = lineWidth;
-		ctx.strokeStyle = 'hsla(220deg, 60%, 65%, 0.6)'; // could fade opacity in from the left
+		ctx.strokeStyle = 'hsl(220deg 60% 65% / 0.6)'; // could fade opacity in from the left
 		ctx.moveTo(0, height / 2);
 		for (let x = 1; x < width; x++) {
 			const xDiv = lerp(8, 3.75, x / width);
@@ -30,7 +30,7 @@
 </script>
 
 <div class="preview">
-	<h2>easing function auralizations</h2>
+	<h2 class="m_0">easing function auralizations</h2>
 	<div class="wrapper">
 		<canvas bind:this={canvas} />
 		<div

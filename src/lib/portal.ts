@@ -1,4 +1,4 @@
-import type {SvelteComponent} from 'svelte';
+import type {Component} from 'svelte';
 
 // TODO is this the right file name? `Portal.ts`? `portalData.ts`? `portals_data.js`? `data.js`? `types.ts`?
 // does it even belong in this directory?
@@ -18,5 +18,5 @@ export interface PortalData {
 	// previewWidth: number;
 	// previewHeight: number;
 	// slugAliases: string[]; // TODO if we ever change a portal slug, support redirects, and maybe add some Easter eggs
-	Preview: typeof SvelteComponent<any>;
+	Preview: Component<any>;
 }

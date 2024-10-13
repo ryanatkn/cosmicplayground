@@ -7,12 +7,12 @@
 		type PhaseSequence,
 		phase_data_by_name,
 		toPhaseSequence,
-	} from '$routes/unlock/phases';
+	} from '$routes/unlock/phases.js';
 	import Level from '$routes/unlock/Level.svelte';
 	import Phase from '$routes/unlock/Phase.svelte';
 	import LevelButtons from '$routes/unlock/LevelButtons.svelte';
-	import {pause_audio} from '$lib/play_audio';
-	import {play_song} from '$lib/play_song';
+	import {pause_audio} from '$lib/play_audio.js';
+	import {play_song} from '$lib/play_song.js';
 
 	// TODO refactor this so it doesn't use `bind`
 	let selected_phase: PhaseData | null = null;

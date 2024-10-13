@@ -1,14 +1,14 @@
 <script lang="ts">
 	import {createEventDispatcher, onMount} from 'svelte';
 	import {swallow} from '@ryanatkn/belt/dom.js';
-	import {get_clock} from '$lib/clock.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {clock_context} from '$lib/clock.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import {enable_global_hotkeys} from '$lib/dom.js';
 
-	import {initialStageData, type StageData} from '$routes/unlock/stage';
+	import {initialStageData, type StageData} from '$routes/unlock/stage.js';
 	import UnlockStage from '$routes/unlock/UnlockStage.svelte';
-	import {Stage} from '$routes/unlock/unlockStage';
-	import {get_pixi} from '$lib/pixi';
+	import {Stage} from '$routes/unlock/unlockStage.js';
+	import {pixi_context} from '$lib/pixi.js';
 
 	/*
 
@@ -28,9 +28,9 @@ TODO ideas
 
 	const enableDomCanvasRenderer = false; // TODO use this?
 
-	const dimensions = get_dimensions();
-	const clock = get_clock();
-	const pixi = get_pixi();
+	const dimensions = dimensions_context.get();
+	const clock = clock_context.get();
+	const pixi = pixi_context.get();
 
 	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
 	$: ({running} = $clock);
@@ -217,28 +217,28 @@ TODO ideas
 						<button
 							title="[Spacebar] Reset the simulation"
 							aria-label="Reset the simulation"
-							on:click={resetStage}>⏮</button
+							onclick={resetStage}>⏮</button
 						>
 						<button
 							title="[Backtick] {running ? 'Pause the simulation' : 'Play the simulation'}"
 							aria-label={running ? 'Pause the simulation' : 'Play the simulation'}
-							on:click={() => clock.toggle()}
+							onclick={() => clock.toggle()}
 							>{#if running}⏸{:else}▶️{/if}</button
 						>
 						<button
 							title="[]] Simulate 1 tick"
 							aria-label="Simulate 1 tick"
-							on:click={() => simulate(1)}>→</button
+							onclick={() => simulate(1)}>→</button
 						>
 						<button
 							title="[ctrl+]] Simulate 10 ticks"
 							aria-label="Simulate 10 ticks"
-							on:click={() => simulate(10)}>↠</button
+							onclick={() => simulate(10)}>↠</button
 						>
 						<button
 							title="[shift+]] Simulate 100 ticks"
 							aria-label="Simulate 100 ticks"
-							on:click={() => simulate(100)}>⇶</button
+							onclick={() => simulate(100)}>⇶</button
 						>
 					</div>
 				</div>
@@ -248,14 +248,14 @@ TODO ideas
 	{/if}
 	<div class="main-controls">
 		<button
-			on:click={toggleExpandControls}
+			onclick={toggleExpandControls}
 			aria-label={expandControls ? 'Hide controls' : 'Show controls'}
 			title="[Escape] {expandControls ? 'Hide controls' : 'Show controls'}"
 			>{#if expandControls}-{:else}+{/if}</button
 		>
 		{#if expandControls}
-			<button title="Import JSON data" on:click={importData}>import</button>
-			<button title="[ctrl+s] Save to localStorage" on:click={saveData}>save</button>
+			<button title="Import JSON data" onclick={importData}>import</button>
+			<button title="[ctrl+s] Save to localStorage" onclick={saveData}>save</button>
 		{/if}
 	</div>
 </div>

@@ -9,26 +9,22 @@
 	--land_color: hsl(var(--land_hue), 65%, 30%);
 	--space_color: hsl(var(--space_hue), 45%, 30%);
 	--photon_color: hsl(var(--photon_hue), 54%, 30%);
-	--lava_color: hsl(0, 65%, 55%);
+	--lava_color: hsl(0 65% 55%);
 	--pending_color: var(--ocean_color);
 	--success_color: var(--land_color);
-	--text_color_dark: hsl(0, 0%, 60%);
+	--text_color_dark: hsl(0 0% 60%);
 	--ocean_text_color: hsl(var(--ocean_hue), 65%, 50%);
 	--photon_text_color: hsl(var(--photon_hue), 65%, 50%);
 	--land_text_color: hsl(var(--land_hue), 65%, 50%);
 	--space_text_color: hsl(var(--space_hue), 45%, 50%);
-	--color_b_5: #7094db; /* TODO probably make this a lighter shade of `--ocean_color` */
-	--color_d_5: hsl(
-		var(--space_hue),
-		60%,
-		65%
-	); /*  TODO probably make this a lighter shade of the primary color */
-	/* --text_color_dark: hsl(0, 0%, 2%); */
+	--color_b_5: 220, 60%, 65%; /* TODO probably make this a lighter shade of `--ocean_color` */
+	--color_d_5: var(--space_hue), 60%, 65%; /*  TODO probably make this a lighter shade of the primary color */
+	/* --text_color_dark: hsl(0 0% 2%); */
 	--link_color: var(--ocean_text_color);
 	/* TODO reuse --ocean_color and --land_color, maybe using the substitution trick */
 	--bg_1: rgba(27, 71, 128, 0.3);
 	--bg_2: rgba(27, 126, 35, 0.25);
-	--bg_3: hsla(var(--space_hue), 50%, 55%, 0.3);
+	--bg_3: hsl(var(--space_hue) 50% 55% / 0.3);
 	--bg_dark: rgba(0, 0, 0, 0.6);
 	--bg_dark_lighter: rgba(0, 0, 0, 0.35);
 	--clickable_border_style: double;
@@ -59,11 +55,7 @@
 	--earth_wobble: 23.5deg;
 	/* TODO dark mode */
 	--bg: #000;
-	--input_bg_color: #000;
-	--button_color_lighter: #000;
-	--button_color_disabled: #000;
-	--button_color_hover: var(--lighten_2);
-	--button_color_active: var(--lighten_3);
+	--input_fill: #000;
 }
 
 html {
@@ -74,11 +66,6 @@ html {
 body {
 	background-color: #000; /* TODO shouldn't be needed */
 	height: 100%;
-}
-
-.prose {
-	/* TODO upstream, use a different class for padding */
-	padding: 0;
 }
 
 hr {
@@ -124,13 +111,11 @@ h1 {
 h2 {
 	font-size: 36px;
 	font-weight: 300;
-	margin: 0;
 }
 
 h3 {
 	font-size: 28px;
 	font-weight: 300;
-	margin: 0;
 }
 
 .grayscale {
@@ -212,6 +197,15 @@ summary:active {
 
 .fade-in {
 	animation: fade-in 1s linear;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 /* TODO delete after updating fuz */

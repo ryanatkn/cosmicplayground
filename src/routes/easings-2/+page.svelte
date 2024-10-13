@@ -24,17 +24,17 @@
 
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@ryanatkn/belt/maths.js';
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 
-	import {svelteEasings} from '$lib/easings';
-	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers';
-	import {get_audio_ctx} from '$lib/audio_ctx';
-	import {midiNames, DEFAULT_TUNING} from '$lib/notes';
-	import {midiToFreq, type Midi} from '$lib/midi';
+	import {svelteEasings} from '$lib/easings.js';
+	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers.js';
+	import {audio_ctx_context} from '$lib/audio_ctx.js';
+	import {midiNames, DEFAULT_TUNING} from '$lib/notes.js';
+	import {midiToFreq, type Midi} from '$lib/midi.js';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
-	import {muted, volume} from '$lib/play_song';
+	import {muted, volume} from '$lib/play_song.js';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	const easings = svelteEasings;
 
@@ -138,7 +138,7 @@
 	// TODO refactor to share code with `HearingTest` and `PaintFreqs`
 	let osc: OscillatorNode | undefined;
 	let gain: GainNode | undefined;
-	const audio_ctx = get_audio_ctx();
+	const audio_ctx = audio_ctx_context.get();
 	$: freqMin = midiToFreq(startNote, DEFAULT_TUNING);
 	$: if (isNaN(freqMin)) console.log('freqMin is NaN');
 	$: freqMax = midiToFreq(endNote, DEFAULT_TUNING);
@@ -263,8 +263,7 @@
 		ctx.stroke();
 	};
 
-	const get_color = (index: number, opacity = 0.8) =>
-		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
+	const get_color = (index: number, opacity = 0.8) => `hsl(${index * 75}deg 60% 65% / ${opacity})`;
 </script>
 
 <div class="box">
@@ -347,10 +346,7 @@
 
 			<section class="controls">
 				<div class="controls_group" class:disabled={$muted}>
-					<FloatingIconButton
-						label={$muted ? 'unmute' : 'mute'}
-						on:click={() => ($muted = !$muted)}
-					>
+					<FloatingIconButton label={$muted ? 'unmute' : 'mute'} onclick={() => ($muted = !$muted)}>
 						{$muted ? '🔇' : '🔊'}
 					</FloatingIconButton>
 					<input

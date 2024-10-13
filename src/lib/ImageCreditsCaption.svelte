@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {ImageMeta} from '$lib/images';
+	import type {ImageMeta} from '$lib/images.js';
 
 	export let image: ImageMeta;
 </script>

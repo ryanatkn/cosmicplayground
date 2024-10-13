@@ -3,12 +3,12 @@
 	import {sineInOut} from 'svelte/easing';
 	import {base} from '$app/paths';
 
-	import {get_clock} from '$lib/clock.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {clock_context} from '$lib/clock.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/ImagePicker.svelte';
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
-	import {spaceImages, type ImageMeta} from '$lib/images';
+	import {spaceImages, type ImageMeta} from '$lib/images.js';
 	import ImageCreditsCaption from '$lib/ImageCreditsCaption.svelte';
 	import Surface2 from '$lib/Surface2.svelte';
 	import Panel from '$lib/Panel.svelte';
@@ -28,7 +28,7 @@
 
 	*/
 
-	const dimensions = get_dimensions();
+	const dimensions = dimensions_context.get();
 	let width = $dimensions.width;
 	let height = $dimensions.height;
 	$: width = $dimensions.width;
@@ -38,7 +38,7 @@
 
 	let activeImage = random_item(spaceImages);
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	const pick_image = (image: ImageMeta) => {
 		activeImage = image;
@@ -249,13 +249,13 @@
 	A possible fix would be to include a special slot
 	with content that's hidden or empty and only used for sizing purposes.
 	-->
-	<FloatingTextButton on:click={pick_random_image}>random image</FloatingTextButton>
-	<FloatingTextButton on:click={() => (show_picker = !show_picker)}>
+	<FloatingTextButton onclick={pick_random_image}>random image</FloatingTextButton>
+	<FloatingTextButton onclick={() => (show_picker = !show_picker)}>
 		{#if show_picker}close image picker{:else}pick an image{/if}
 	</FloatingTextButton>
 </div>
 {#if !show_picker}
-	<div class="credits idle_fade prose">
+	<div class="credits idle_fade">
 		<div class="width_md">
 			<Panel>
 				<ImageCreditsCaption image={activeImage} />

@@ -1,5 +1,5 @@
 // TODO I was expecting this to typecheck if declared in `Tour.svelte` in
-// `<script context="module" lang="ts">` but it's not working when importing from ts modules.
+// `<script module lang="ts">` but it's not working when importing from ts modules.
 // (vscode doesn't complain tho?)
 
 export interface TourData {

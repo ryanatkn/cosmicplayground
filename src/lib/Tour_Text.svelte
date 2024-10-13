@@ -1,11 +1,11 @@
 <script lang="ts">
-	import {get_clock} from '$lib/clock.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {clock_context} from '$lib/clock.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {blur} from 'svelte/transition';
 
-	const clock = get_clock();
-	const dimensions = get_dimensions();
+	const clock = clock_context.get();
+	const dimensions = dimensions_context.get();
 
 	// TODO has some copypasta, needs refactoring
 
@@ -38,9 +38,9 @@
 </script>
 
 <!-- the top offset is super hacky but w/e -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-	class="tour-text prose"
+	class="tour-text"
 	transition:blur|local={{duration: transition_out_duration, amount: blur_amount}}
 	style:top="{$dimensions.height / 2 - 164}px"
 	on:click|capture={click}

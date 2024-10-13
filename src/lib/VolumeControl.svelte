@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {createEventDispatcher} from 'svelte';
 
-	import type {Volume} from '$lib/audio_helpers';
+	import type {Volume} from '$lib/audio_helpers.js';
 
 	const dispatch = createEventDispatcher<{
 		volume: number;
@@ -17,7 +17,7 @@
 	{#if muted}
 		<button
 			class="icon_button plain"
-			on:click={() => {
+			onclick={() => {
 				muted = !muted;
 				dispatch('muted', muted);
 			}}
@@ -49,6 +49,6 @@
 		text-align: center;
 	}
 	.muted small {
-		color: var(--text_2);
+		color: var(--text_color_3);
 	}
 </style>
