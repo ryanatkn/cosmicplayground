@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '@ryanatkn/moss/style.css';
 	import '@ryanatkn/moss/theme.css';
-	import '$lib/moss.css';
+	import '$routes/moss.css';
 	import '$lib/style.css';
 	import '$lib/style-utilities.css'; // TODO replace with moss
 
