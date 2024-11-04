@@ -5,7 +5,7 @@ import adapter from '@sveltejs/adapter-static';
 export default {
 	preprocess: [vitePreprocess()],
 	compilerOptions: {immutable: true},
-	vitePlugin: {inspector: true}, // docs: https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/inspector.md
+	vitePlugin: {inspector: true},
 	kit: {
 		adapter: adapter(),
 		alias: {$routes: 'src/routes', $fixtures: 'src/fixtures'},
