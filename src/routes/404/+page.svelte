@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {page} from '$app/stores';
 	import Breadcrumb from '@ryanatkn/fuz/Breadcrumb.svelte';
+	import {base} from '$app/paths';
 
 	import Panel from '$lib/Panel.svelte';
 	import ChunkyButton from '$lib/ChunkyButton.svelte';
@@ -24,18 +25,21 @@
 	</Panel>
 	<div class="sadface">D:</div>
 	<Panel>
-		<h2 class="mb_lg text_align_center">maybe you want one of these?</h2>
-		<ul class="box row wrap">
-			{#each $portals.data.portals as portal (portal.slug)}
-				<li role="none">
-					<PortalLink slug={portal.slug} />
-				</li>
-			{/each}
-		</ul>
+		<div class="width_md">
+			<h2 class="mb_lg text_align_center">maybe you want one of these?</h2>
+			<ul class="box row wrap">
+				{#each $portals.data.portals as portal (portal.slug)}
+					<li role="none">
+						<PortalLink slug={portal.slug} />
+					</li>
+				{/each}
+			</ul>
+		</div>
 	</Panel>
 	<div class="prose box">
 		<h2>maybe it was the computers fault</h2>
 	</div>
+	<a hidden href="{base}/unlock">:]</a>
 </section>
 
 <style>
