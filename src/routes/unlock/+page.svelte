@@ -28,7 +28,7 @@
 			<aside class="width_sm">
 				<p>
 					You saved the crew! 🐹 🐰 🐸 🐼 🐭 Unless you arrived here by looking at the code or just
-					following a link? That's cool too, but if so, they're is still in danger!
+					following a link? That's cool too, but if so, they're still in danger!
 				</p>
 				<p>
 					This website has a multi-part game on the homepage. Completing the game leads here. The
