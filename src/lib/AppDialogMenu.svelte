@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Breadcrumb from '@ryanatkn/fuz/Breadcrumb.svelte';
-	import {page} from '$app/stores';
+	import {page} from '$app/state';
 	import {base} from '$app/paths';
 
 	import Panel from '$lib/Panel.svelte';
@@ -44,7 +44,7 @@
 </script>
 
 <div class="app_dialog_menu">
-	{#if $page.url.pathname !== '/'}
+	{#if page.url.pathname !== '/'}
 		<div class="prose box">
 			<Panel>
 				<Breadcrumb>🌠</Breadcrumb>
