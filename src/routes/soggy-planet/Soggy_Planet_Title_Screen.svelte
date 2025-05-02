@@ -22,7 +22,7 @@
 		start_tour: () => void;
 	}
 
-	let { resources, proceed, start_tour }: Props = $props();
+	let {resources, proceed, start_tour}: Props = $props();
 
 	// The user can click the title image to load the interactive,
 	// but only if the user has clicked the load button directly before.

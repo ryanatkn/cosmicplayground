@@ -16,15 +16,8 @@
 		debug_start_time: number;
 	}
 
-	let {
-		tour,
-		x,
-		y,
-		scale,
-		togglePixiEarthViewer,
-		enablePixiEarthViewer,
-		debug_start_time
-	}: Props = $props();
+	let {tour, x, y, scale, togglePixiEarthViewer, enablePixiEarthViewer, debug_start_time}: Props =
+		$props();
 
 	let touring = $derived(tour?.touring);
 </script>

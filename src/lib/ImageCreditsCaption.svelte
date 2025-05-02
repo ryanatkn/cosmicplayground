@@ -5,7 +5,7 @@
 		image: ImageMeta;
 	}
 
-	let { image }: Props = $props();
+	let {image}: Props = $props();
 </script>
 
 <h3 style:margin-top="0"><a href={image.credits.url}>{image.title}</a></h3>

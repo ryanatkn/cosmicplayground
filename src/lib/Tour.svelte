@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {writable, type Writable} from 'svelte/store';
 	import {createEventDispatcher, onDestroy} from 'svelte';
@@ -20,8 +20,6 @@
 		type ZoomTourStep,
 	} from '$lib/tour.js';
 
-
-	
 	interface Props {
 		camera: Camera;
 		clock: ClockStore;
@@ -38,7 +36,7 @@
 		hooks,
 		create_tour_data,
 		paused = $bindable(!$clock.running),
-		tweenedCamera = $bindable(undefined as any)
+		tweenedCamera = $bindable(undefined as any),
 	}: Props = $props();
 	export const touring = writable(false);
 	export const currentTime = writable(0);
@@ -64,7 +62,6 @@
 		finished = true;
 		baseHooks.done(completed);
 	};
-
 
 	// We walk through the steps one at a time,
 	// tracking the amount of time that the current step has been active.

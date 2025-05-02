@@ -4,8 +4,6 @@
 	import BlendedImagesContinuum from '$lib/BlendedImagesContinuum.svelte';
 	import type Camera from '$lib/Camera.svelte';
 
-	
-
 	interface Props {
 		/*
 
@@ -53,7 +51,7 @@
 		nightfallOpacity = 0,
 		showLights = false,
 		activeLandValue,
-		activeSeaLevel
+		activeSeaLevel,
 	}: Props = $props();
 
 	let {x, y, width, height, scale} = $derived(camera);

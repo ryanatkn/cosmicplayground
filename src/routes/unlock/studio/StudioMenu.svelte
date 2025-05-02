@@ -7,7 +7,7 @@
 		clock: ClockStore; // TODO or use context?
 	}
 
-	let { clock }: Props = $props();
+	let {clock}: Props = $props();
 </script>
 
 <AppControlsTable {clock}>

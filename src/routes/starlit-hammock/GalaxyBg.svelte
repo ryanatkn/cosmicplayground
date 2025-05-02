@@ -14,7 +14,7 @@
 		imageUrl = '/assets/space/galaxies.jpg',
 		opacity = 0.2,
 		animationDuration = '360s',
-		running = true
+		running = true,
 	}: Props = $props();
 
 	// TODO get from loaded image

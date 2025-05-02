@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {to_phase_datas_by_level_name, type LevelData} from '$routes/unlock/phases.js';
 
@@ -8,7 +8,7 @@
 		children?: import('svelte').Snippet<[any]>;
 	}
 
-	let { level, children }: Props = $props();
+	let {level, children}: Props = $props();
 
 	let phases = $derived(to_phase_datas_by_level_name(level.name));
 
@@ -26,10 +26,10 @@
 	<img class="pixelated" src={level.image_meta.thumbnail.url} alt={level.image_meta.title} />
 	<div class="phases">
 		<div class="main-phases">
-			{#each mainPhases as phase (phase)}{@render children?.({ phase, phases, })}{/each}
+			{#each mainPhases as phase (phase)}{@render children?.({phase, phases})}{/each}
 		</div>
 		{#if secondaryPhases.length}<div class="secondary-phases">
-				{#each secondaryPhases as phase (phase)}{@render children?.({ phase, phases, })}{/each}
+				{#each secondaryPhases as phase (phase)}{@render children?.({phase, phases})}{/each}
 			</div>{/if}
 	</div>
 </div>

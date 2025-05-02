@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	/*
 	
@@ -205,7 +205,8 @@
 	const chartHeight = chartCanvasHeight - 2 * canvasChartYPadding;
 	const chartX0 = canvasChartXPadding;
 	const chartY0 = chartHeight + canvasChartYPadding;
-	let chartCanvas: HTMLCanvasElement = $state(), chartCanvasCtx: CanvasRenderingContext2D;
+	let chartCanvas: HTMLCanvasElement = $state(),
+		chartCanvasCtx: CanvasRenderingContext2D;
 	const chartLineWidth = 3;
 	const chartLineHighlightWidth = 12;
 	const chartAxisLineWidth = 3;

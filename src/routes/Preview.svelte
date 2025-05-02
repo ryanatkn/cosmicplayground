@@ -6,7 +6,7 @@
 		classes?: string | undefined;
 		starshipMode?: boolean;
 		children?: import('svelte').Snippet;
-		[key: string]: any
+		[key: string]: any;
 	}
 
 	let {
@@ -17,7 +17,9 @@
 		...rest
 	}: Props = $props();
 
-	let finalClasses = $derived(starshipMode ? classes : (classes || '') + ' portal_preview--starship');
+	let finalClasses = $derived(
+		starshipMode ? classes : (classes || '') + ' portal_preview--starship',
+	);
 </script>
 
 <PortalPreview style="font-size: 84px;" classes={finalClasses} {...rest} {on_click}

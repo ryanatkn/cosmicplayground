@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {onMount} from 'svelte';
 
@@ -15,25 +15,17 @@
 		clock: ClockStore;
 	}
 
-	let {
-		width,
-		height,
-		domCanvasRenderer,
-		stage,
-		clock
-	}: Props = $props();
+	let {width, height, domCanvasRenderer, stage, clock}: Props = $props();
 
 	let el: HTMLCanvasElement = $state();
 	let canvasWidth: number = $state();
 	let canvasHeight: number = $state();
-
 
 	const resize = (width: number, height: number): void => {
 		domCanvasRenderer?.resize(width, height); // also updates `el` `width` and `height`
 		canvasWidth = width;
 		canvasHeight = height;
 	};
-
 
 	onMount(() => {
 		domCanvasRenderer?.setCanvas(el);

@@ -19,7 +19,7 @@
 		proceed: () => void;
 	}
 
-	let { resources, proceed }: Props = $props();
+	let {resources, proceed}: Props = $props();
 
 	// The user can click the title image to load the interactive,
 	// but only if the user has clicked the load button directly before.

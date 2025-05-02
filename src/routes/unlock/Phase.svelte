@@ -8,12 +8,7 @@
 		select_phase: (phase: PhaseData) => void; // TODO events instead of callbacks?
 	}
 
-	let {
-		phase,
-		selected,
-		disabled,
-		select_phase
-	}: Props = $props();
+	let {phase, selected, disabled, select_phase}: Props = $props();
 </script>
 
 <div class="phase" title="phase {phase.name}">

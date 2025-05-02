@@ -4,7 +4,7 @@
 	const ZOOM_SENSITIVITY = 1.1;
 
 	// These properties are not reactive.
-	
+
 	interface Props {
 		// To update after mounting, set the stores below directly.
 		initialX?: number;
@@ -19,7 +19,7 @@
 		initialY = 0,
 		initialWidth = 0,
 		initialHeight = 0,
-		initialScale = 1
+		initialScale = 1,
 	}: Props = $props();
 
 	export const x = writable(initialX);

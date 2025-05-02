@@ -6,7 +6,7 @@
 		show_music_credits?: boolean;
 	}
 
-	let { show_earth_map_credits = true, show_music_credits = true }: Props = $props();
+	let {show_earth_map_credits = true, show_music_credits = true}: Props = $props();
 </script>
 
 {#if show_earth_map_credits}

@@ -7,7 +7,6 @@
 	// before the component gets mounted. (unless we refactor things in a weird way)
 	// We could change this and `DeepBreathTourTitle` to use a common component,
 	// but I might want to customize behavior further,
-	
 
 	interface Props {
 		// and I'm doubting the reusability mileage of that much abstraction.
@@ -18,13 +17,8 @@
 		maxDelay: number;
 	}
 
-	let {
-		hide,
-		totalDuration,
-		transitionInDuration,
-		transitionOutDuration,
-		maxDelay
-	}: Props = $props();
+	let {hide, totalDuration, transitionInDuration, transitionOutDuration, maxDelay}: Props =
+		$props();
 
 	// TODO better visual effect? typewriter?
 

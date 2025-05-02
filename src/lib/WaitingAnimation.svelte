@@ -6,7 +6,7 @@
 		status?: Async_Status; // 'initial' is unhandled
 	}
 
-	let { status = 'pending' }: Props = $props();
+	let {status = 'pending'}: Props = $props();
 
 	let success = $derived(status === 'success');
 	let failure = $derived(status === 'failure');

@@ -6,7 +6,7 @@
 		image: ImageMeta;
 	}
 
-	let { image }: Props = $props();
+	let {image}: Props = $props();
 </script>
 
 <figure>

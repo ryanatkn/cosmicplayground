@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {onDestroy} from 'svelte';
 
@@ -13,7 +13,7 @@
 		clock: ClockStore;
 	}
 
-	let { pixi, stage, clock }: Props = $props();
+	let {pixi, stage, clock}: Props = $props();
 
 	let {running} = $derived($clock);
 

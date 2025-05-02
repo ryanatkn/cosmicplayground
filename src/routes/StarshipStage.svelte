@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import type {Writable} from 'svelte/store';
@@ -64,22 +64,17 @@
 		starshipShieldRadius = $bindable(0),
 		finish,
 		stage = $bindable(),
-		enableDomCanvasRenderer = false
+		enableDomCanvasRenderer = false,
 	}: Props = $props();
 
 	const clock = clock_context.get();
 	const pixi = pixi_context.get();
 
-
 	let camera: CameraStore = $state();
 	let scores: Writable<StarshipStageScores> = $state();
 	let controller: Controller = $state();
 
-
 	let finished = false;
-
-
-
 
 	// TODO this is clumsy, keep refactoring to shrink it
 	// should be connected to `starshipStage.update`?
@@ -103,7 +98,6 @@
 
 	const toTargetAngle = (directionX: number, directionY: number): number =>
 		Math.atan2(directionY, directionX);
-
 
 	// TODO consider not scaling the canvas -- though it'll make collisions less precise...
 	// also is this where the transform belongs, or should it be in `World` or even `index.svelte`?

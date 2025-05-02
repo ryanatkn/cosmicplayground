@@ -10,7 +10,7 @@
 		end?: import('svelte').Snippet;
 	}
 
-	let { clock, children, end }: Props = $props();
+	let {clock, children, end}: Props = $props();
 
 	let navLevel = $derived(page.url.pathname === '/' ? 0 : page.url.pathname.split('/').length - 1);
 </script>

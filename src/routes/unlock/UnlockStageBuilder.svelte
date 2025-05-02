@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {createEventDispatcher, onMount} from 'svelte';
 	import {swallow} from '@ryanatkn/belt/dom.js';
@@ -11,8 +11,6 @@
 	import UnlockStage from '$routes/unlock/UnlockStage.svelte';
 	import {Stage} from '$routes/unlock/unlockStage.js';
 	import {pixi_context} from '$lib/pixi.js';
-
-	
 
 	interface Props {
 		/*
@@ -32,14 +30,13 @@ TODO ideas
 		children?: import('svelte').Snippet;
 	}
 
-	let { data = $bindable(), children }: Props = $props();
+	let {data = $bindable(), children}: Props = $props();
 
 	const enableDomCanvasRenderer = false; // TODO use this?
 
 	const dimensions = dimensions_context.get();
 	const clock = clock_context.get();
 	const pixi = pixi_context.get();
-
 
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440}; // TODO
 

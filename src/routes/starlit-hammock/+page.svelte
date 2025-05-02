@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {random_item, random_float} from '@ryanatkn/belt/random.js';
 	import {sineInOut} from 'svelte/easing';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import type {Async_Status} from '@ryanatkn/belt/async.js';
 	import {Texture, SCALE_MODES} from '@pixi/core';
@@ -18,7 +18,6 @@
 	// Maybe we could look in `BaseTextureCache`
 	// and be aggressive about calling `loader.reset`?
 	// But then we'll throw away loading assets if they're not done. (does the browser cache tho?)
-	
 
 	interface Props {
 		// Probably want to encapsulate this possibly-concurrent loader logic, maybe in `get_pixi_scene`?
@@ -28,12 +27,7 @@
 		imageUrl: string;
 	}
 
-	let {
-		cameraX,
-		cameraY,
-		cameraScale,
-		imageUrl
-	}: Props = $props();
+	let {cameraX, cameraY, cameraScale, imageUrl}: Props = $props();
 
 	let sprite: Sprite | null = $state(null);
 	let destroyed = false;
@@ -88,7 +82,6 @@
 	run(() => {
 		updateCamera(camera, cameraX, cameraY, cameraScale);
 	});
-	
 </script>
 
 {#if loadingStatus !== 'success'}

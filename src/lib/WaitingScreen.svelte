@@ -7,7 +7,7 @@
 		status: Async_Status;
 	}
 
-	let { status }: Props = $props();
+	let {status}: Props = $props();
 </script>
 
 <div class="waiting-screen">

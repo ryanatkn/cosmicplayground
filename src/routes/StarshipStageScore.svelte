@@ -7,11 +7,13 @@
 		defaultIcon?: string | null;
 	}
 
-	let { scores, defaultIcon = null }: Props = $props();
+	let {scores, defaultIcon = null}: Props = $props();
 
-	let icons = $derived(scores
-		? scores.crew.map((f, i) => (f ? crew[i].glyph : defaultIcon)).filter(Boolean)
-		: undefined);
+	let icons = $derived(
+		scores
+			? scores.crew.map((f, i) => (f ? crew[i].glyph : defaultIcon)).filter(Boolean)
+			: undefined,
+	);
 
 	// TODO ?
 	// $: iconsStr = icons?.join(' ') ?? '';

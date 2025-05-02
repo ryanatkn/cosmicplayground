@@ -10,7 +10,7 @@
 		transitionDuration: number;
 	}
 
-	let { transitionDuration }: Props = $props();
+	let {transitionDuration}: Props = $props();
 
 	// transition vars
 	const delay = 250;

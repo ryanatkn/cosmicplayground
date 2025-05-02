@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {tick} from 'svelte';
 	import {wait} from '@ryanatkn/belt/async.js';
@@ -65,7 +65,6 @@
 	let strengthBooster2Enabled = $state(loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false));
 	let strengthBooster3Enabled = $state(loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false));
 
-
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
 	// TODO should we pass through plain numbers or a dimensions object?
@@ -127,7 +126,6 @@
 		stage.destroy();
 		stage = null;
 	};
-
 
 	// TODO extract to a custom store
 	const STORAGE_KEY_SCORES = 'cpg_home_scores';
@@ -242,9 +240,7 @@
 		if (strengthBoosterToggled) await scrollDown();
 	};
 
-
 	let starshipHeight: number = $state();
-
 
 	const enterStarshipMode = async () => {
 		if (starshipMode) return;
@@ -348,10 +344,11 @@
 		}
 	});
 	let viewScale = $derived(viewWidth / worldWidth); // this is the same for X and Y as currently calculated, aspect ratio is preserved
-	
+
 	// slow transition the first time -- TODO and play music?
-	let transitionDuration =
-		$derived(savedScores || exitStarshipModeCount > 1 ? TRANSITION_DURATION : TRANSITION_DURATION * 1);
+	let transitionDuration = $derived(
+		savedScores || exitStarshipModeCount > 1 ? TRANSITION_DURATION : TRANSITION_DURATION * 1,
+	);
 	// TODO disable input while transitioning?
 	let transitioningStarshipMode = $derived(transitioningStarshipModeCount > 0);
 	let starshipReady = $derived(starshipMode && !transitioningStarshipMode);
@@ -380,10 +377,14 @@
 	let strengthBoosterUnlocked = $derived(scoresRescuedAllCrew);
 	let strengthBoosterEnabled = $derived(strengthBoosterUnlocked && strengthBoosterToggled);
 	let starshipScale = $derived(player ? ((player.radius * 2) / starshipHeight) * viewScale : 1); // TODO isn't reactive to player radius
-	let starshipViewX = $derived(($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * viewScale);
-	let starshipViewY = $derived($camera
-		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - viewportHeight) / 2
-		: starshipY - (starshipHeight - viewportHeight) / 2);
+	let starshipViewX = $derived(
+		($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * viewScale,
+	);
+	let starshipViewY = $derived(
+		$camera
+			? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - viewportHeight) / 2
+			: starshipY - (starshipHeight - viewportHeight) / 2,
+	);
 </script>
 
 <svelte:window onkeydown={keydown} />
@@ -521,8 +522,8 @@
 		{/if}
 	{/if}
 </div>
-<AppDialog >
-	{#snippet children({ exit })}
+<AppDialog>
+	{#snippet children({exit})}
 		<StarshipMenu
 			{clock}
 			{exit}

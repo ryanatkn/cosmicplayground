@@ -3,7 +3,6 @@
 
 	// TODO maybe don't cancel when leaving the screen
 
-	
 	interface Props {
 		// TODO probably add events
 		scale?: number; // makes the pointer position calculations transform-scale-aware
@@ -22,7 +21,7 @@
 		pointer_x = $bindable(undefined),
 		pointer_y = $bindable(undefined),
 		cancel_on_leave = true,
-		children
+		children,
 	}: Props = $props();
 
 	const update_pointer_position = (clientX: number, clientY: number): void => {

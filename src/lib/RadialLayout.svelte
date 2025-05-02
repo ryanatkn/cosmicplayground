@@ -1,12 +1,10 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	type T = $$Generic<any>;
 	interface $$Slots {
 		default: {item: LayoutItem; index: number};
 	}
-
-	
 
 	interface Props {
 		// TODO this is unused
@@ -18,14 +16,7 @@
 		children?: import('svelte').Snippet<[any]>;
 	}
 
-	let {
-		items,
-		totalCount,
-		width,
-		height = width,
-		offset = 0,
-		children
-	}: Props = $props();
+	let {items, totalCount, width, height = width, offset = 0, children}: Props = $props();
 
 	interface LayoutItem {
 		value: T;
@@ -63,5 +54,5 @@
 </script>
 
 {#each layout as item, index (item)}
-	{@render children?.({ item, index, })}
+	{@render children?.({item, index})}
 {/each}

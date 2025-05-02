@@ -3,7 +3,6 @@
 	import type {StarshipStageScores} from '$routes/starshipStage.js';
 	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
 
-	
 	interface Props {
 		unlocked: boolean;
 		scores: StarshipStageScores;
@@ -11,7 +10,7 @@
 		on_click?: ((e: MouseEvent) => void) | null;
 	}
 
-	let { unlocked, scores, on_click = null }: Props = $props();
+	let {unlocked, scores, on_click = null}: Props = $props();
 </script>
 
 <PortalPreview

@@ -15,7 +15,7 @@
 		earthWidth = THUMBNAIL_WIDTH_DEFAULT,
 		label = 'proceed',
 		on_click = null,
-		showName = true
+		showName = true,
 	}: Props = $props();
 
 	const clock = clock_context.get();

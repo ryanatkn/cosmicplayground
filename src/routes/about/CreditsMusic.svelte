@@ -6,36 +6,34 @@
 <h2 class="mt_0">Music</h2>
 <CreditsMusicAuthor author="Alexander Nakarada">
 	{#snippet links()}
-	
-			<ul>
-				<li>
-					<a href="https://www.serpentsoundstudios.com">serpentsoundstudios.com</a>
-				</li>
-				<li>
-					<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
-				</li>
-				<li>
-					<a href="https://www.youtube.com/channel/UCw4wdHksXbaiyu3BiBNNW0w">YouTube</a>
-				</li>
-				<li>
-					<a href="https://soundcloud.com/serpentsoundstudios">Soundcloud</a>
-				</li>
-				<li>
-					<a href="https://www.patreon.com/anakarada">Patreon</a>
-				</li>
-				<li><a href="https://twitter.com/thenakarada">Twitter</a></li>
-			</ul>
-			<p>
-				Alexander composed <a href={lookup_song('Spacey Intro').url}>Spacey Intro</a> and
-				<a href={lookup_song('Spacey Intro').url}>Spacey Outro</a> with inspiration from cosmicplayground
-				💜🌠
-			</p>
-		
+		<ul>
+			<li>
+				<a href="https://www.serpentsoundstudios.com">serpentsoundstudios.com</a>
+			</li>
+			<li>
+				<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+			</li>
+			<li>
+				<a href="https://www.youtube.com/channel/UCw4wdHksXbaiyu3BiBNNW0w">YouTube</a>
+			</li>
+			<li>
+				<a href="https://soundcloud.com/serpentsoundstudios">Soundcloud</a>
+			</li>
+			<li>
+				<a href="https://www.patreon.com/anakarada">Patreon</a>
+			</li>
+			<li><a href="https://twitter.com/thenakarada">Twitter</a></li>
+		</ul>
+		<p>
+			Alexander composed <a href={lookup_song('Spacey Intro').url}>Spacey Intro</a> and
+			<a href={lookup_song('Spacey Intro').url}>Spacey Outro</a> with inspiration from cosmicplayground
+			💜🌠
+		</p>
 	{/snippet}
 </CreditsMusicAuthor>
 <CreditsMusicAuthor author="Rafael Krux">
 	{#snippet links()}
-		<ul >
+		<ul>
 			<li>
 				<a href="https://www.orchestralis.net">orchestralis.net</a>
 			</li>
@@ -53,7 +51,7 @@
 </CreditsMusicAuthor>
 <CreditsMusicAuthor author="Punch Deck">
 	{#snippet links()}
-		<ul >
+		<ul>
 			<li>
 				<a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>
 			</li>
@@ -75,7 +73,7 @@
 </CreditsMusicAuthor>
 <CreditsMusicAuthor author="Komiku">
 	{#snippet links()}
-		<ul >
+		<ul>
 			<li>
 				<a href="https://loyaltyfreakmusic.com/">loyaltyfreakmusic.com</a>
 			</li>
@@ -97,7 +95,7 @@
 </CreditsMusicAuthor>
 <CreditsMusicAuthor author="Kevin MacLeod">
 	{#snippet links()}
-		<ul >
+		<ul>
 			<li>
 				<a href="https://incompetech.com">incompetech.com</a>
 			</li>
@@ -116,7 +114,7 @@
 </CreditsMusicAuthor>
 <CreditsMusicAuthor author="Phase Shift">
 	{#snippet links()}
-		<ul >
+		<ul>
 			<li>public domain</li>
 			<li>
 				via <a href="https://freepd.com">freepd.com</a>

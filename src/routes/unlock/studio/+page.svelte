@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {clock_context} from '$lib/clock.js';
 	import {initialStageData, type StageData} from '$routes/unlock/stage.js';
@@ -36,12 +36,13 @@
 	}); // does this work? if so, bravo Svelte
 
 	let selectedDataStorageKey = $derived(`${STORAGE_KEY_STAGES}_${selectedDataIndex}`);
-	let selectedData =
-		$derived(datas[selectedDataIndex] ||
-		(datas[selectedDataIndex] = loadFromStorage(
-			selectedDataStorageKey,
-			structuredClone(initialStageData),
-		)));
+	let selectedData = $derived(
+		datas[selectedDataIndex] ||
+			(datas[selectedDataIndex] = loadFromStorage(
+				selectedDataStorageKey,
+				structuredClone(initialStageData),
+			)),
+	);
 
 	// TODO extract a custom store to handle this list of items
 	const selectIndex = (index: number): void => {
@@ -77,15 +78,15 @@
 		<div class="controls">
 			{#if datas.length >= 2}
 				<button title="delete data item" onclick={() => deleteSelected()}>✕</button>
-				<Tabs bind:selectedIndex={selectedDataIndex} items={datas}  >
-					{#snippet children({ selected, index })}
-										<button
+				<Tabs bind:selectedIndex={selectedDataIndex} items={datas}>
+					{#snippet children({selected, index})}
+						<button
 							class:selected
 							onclick={selected ? undefined : () => selectIndex(index)}
 							disabled={selected}>{index + 1}</button
 						>
-														{/snippet}
-								</Tabs>
+					{/snippet}
+				</Tabs>
 			{/if}
 			{#if datas.length < MAX_DATA_COUNT}
 				<button title="add data item" onclick={() => addData()}>+</button>

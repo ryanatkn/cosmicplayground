@@ -8,7 +8,7 @@
 		clock: ClockStore; // TODO or use context?
 	}
 
-	let { clock }: Props = $props();
+	let {clock}: Props = $props();
 
 	const settings = settings_context.get();
 	let dev_mode = $derived($settings.dev_mode);
@@ -17,14 +17,12 @@
 <div class="wrapper">
 	<AppControlsTable {clock}>
 		{#snippet end()}
-			
-				<tr>
-					<td><code>[shift+Backtick `]</code></td><td
-						>toggle dev mode (currently <code>{dev_mode}</code>)</td
-					>
-				</tr>
-			
-			{/snippet}
+			<tr>
+				<td><code>[shift+Backtick `]</code></td><td
+					>toggle dev mode (currently <code>{dev_mode}</code>)</td
+				>
+			</tr>
+		{/snippet}
 	</AppControlsTable>
 </div>
 

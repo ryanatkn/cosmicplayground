@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {sineInOut} from 'svelte/easing';
 
@@ -11,7 +11,7 @@
 		enabled?: boolean;
 	}
 
-	let { camera, enabled = true }: Props = $props();
+	let {camera, enabled = true}: Props = $props();
 
 	let {x, y, scale} = $state(camera);
 	run(() => {

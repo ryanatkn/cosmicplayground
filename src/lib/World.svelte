@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {onMount} from 'svelte';
 
@@ -11,7 +11,7 @@
 	import type {PixiApp} from '$lib/pixi.js';
 
 	// TODO added these view dimensions for the Pixi renderer but probably want to refactor,
-	
+
 	interface Props {
 		stage: Stage;
 		pixi?: PixiApp | null;
@@ -36,19 +36,15 @@
 		viewHeight,
 		viewportWidth,
 		viewportHeight,
-		children
+		children,
 	}: Props = $props();
 
-
 	const clock = clock_context.get();
-
 
 	onMount(() => {
 		stage.update(0);
 		forceRender();
 	});
-
-
 
 	// TODO rename? `rerender`?
 	const forceRender = () => {

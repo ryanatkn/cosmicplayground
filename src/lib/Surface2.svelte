@@ -1,35 +1,20 @@
 <script lang="ts">
-	import { passive, nonpassive } from 'svelte/legacy';
+	import {passive, nonpassive} from 'svelte/legacy';
 
 	import {swallow} from '@ryanatkn/belt/dom.js';
-
-	
 
 	interface Props {
 		// TODO probably merge with $lib/Surface.svelte
 		width: number;
 		height: number;
 		scale: number;
-		zoom: (
-		direction: number,
-		pivot_x: number,
-		pivot_y: number,
-		multiplier?: number,
-	) => void;
+		zoom: (direction: number, pivot_x: number, pivot_y: number, multiplier?: number) => void;
 		pan: (dx: number, dy: number) => void;
 		disabled?: boolean;
 		children?: import('svelte').Snippet;
 	}
 
-	let {
-		width,
-		height,
-		scale,
-		zoom,
-		pan,
-		disabled = false,
-		children
-	}: Props = $props();
+	let {width, height, scale, zoom, pan, disabled = false, children}: Props = $props();
 
 	// TODO probably refactor these, written before `events` was added for pinch gestures
 	let pointer_down = false;
@@ -122,15 +107,15 @@
 	class="surface"
 	style:width="{width}px"
 	style:height="{height}px"
-	use:passive={['wheel', () => disabled ? undefined : wheel]}
+	use:passive={['wheel', () => (disabled ? undefined : wheel)]}
 	onpointerdown={disabled ? undefined : pointerdown}
 	onpointermove={disabled ? undefined : pointermove}
 	onpointerup={disabled ? undefined : pointerup}
 	onpointerleave={disabled ? undefined : pointerup}
 	onpointercancel={disabled ? undefined : pointerup}
 	onpointerout={disabled ? undefined : pointerup}
-	use:nonpassive={['touchstart', () => disabled ? undefined : swallow]}
-	use:nonpassive={['touchmove', () => disabled ? undefined : swallow]}
+	use:nonpassive={['touchstart', () => (disabled ? undefined : swallow)]}
+	use:nonpassive={['touchmove', () => (disabled ? undefined : swallow)]}
 >
 	{@render children?.()}
 </div>

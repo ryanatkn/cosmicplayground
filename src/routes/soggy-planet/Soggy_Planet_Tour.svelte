@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {writable, type Writable} from 'svelte/store';
 	import {clock_context} from '$lib/clock.js';
@@ -14,9 +14,8 @@
 	import type Camera from '$lib/Camera.svelte';
 	import Soggy_Planet_Tour_Credits from '$routes/soggy-planet/Soggy_Planet_Tour_Credits.svelte';
 
-
 	// for external binding, not props
-	
+
 	interface Props {
 		camera: Camera;
 		// owned by the `Tour` component
@@ -43,7 +42,7 @@
 		begin_tour = $bindable(undefined as any),
 		update_land_images,
 		update_daylight,
-		update_sea_level
+		update_sea_level,
 	}: Props = $props();
 	// owned by this component
 	export const show_tour_intro: Writable<boolean> = writable(false);
@@ -70,7 +69,6 @@
 	const tour_title_max_delay = 250;
 	const tour_title_total_duration =
 		tour_title_transition_duration * 2 + tour_title_max_delay + tour_title_pause_duration;
-
 
 	// TODO move to `Tour.svelte` after audio is moved there
 	let last_paused = $state(paused);
@@ -200,9 +198,7 @@
 		main_song = $tour_resources.resources.find((r) => r.url === main_song_url) as any;
 	}); // TODO faster API, or maybe remove (see comment above)
 	run(() => {
-		water_trickle_sound = $tour_resources.resources.find(
-			(r) => r.url === water_trickle_url,
-		) as any;
+		water_trickle_sound = $tour_resources.resources.find((r) => r.url === water_trickle_url) as any;
 	}); // TODO faster API, or maybe remove (see comment above)
 	let main_song_step = $derived($tour_data && findTourStep($tour_data, 'play_main_song'));
 	let water_trickle_step = $derived($tour_data && findTourStep($tour_data, 'play_water_trickle'));

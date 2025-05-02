@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {Filter, Texture, RenderTexture} from '@pixi/core';
 	import {Sprite} from '@pixi/sprite';
@@ -20,7 +20,6 @@
 	// https://pixijs.download/release/docs/PIXI.Prepare.html
 
 	// TODO should we cache stuff at the module scope? mainly thinking of the render textures
-	
 
 	interface Props {
 		// or should we free all resources when this is unmounted? including all base textures?
@@ -56,13 +55,12 @@
 		activeLandValue,
 		activeSeaLevel,
 		imageWidth,
-		imageHeight
+		imageHeight,
 	}: Props = $props();
 
 	if (shoreImage && shoreImageCount === undefined) {
 		throw Error('shoreImageCount is required to be paired with shoreImage');
 	}
-
 
 	const {pixi} = get_pixi_scene({
 		load: async () => {
@@ -145,7 +143,6 @@
 	let landContainer: Container;
 	let seashoreContainer: Container; // includes shore sprites
 	let overlayContainer: Container = $state();
-
 
 	const updateSpritesDimensions = (sprites: TilingSprite[], width: number, height: number) => {
 		for (const sprite of sprites) {

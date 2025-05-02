@@ -1,7 +1,7 @@
 <svelte:options immutable={false} />
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	/*
 

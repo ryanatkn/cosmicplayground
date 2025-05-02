@@ -5,7 +5,7 @@
 		slug: string;
 	}
 
-	let { slug }: Props = $props();
+	let {slug}: Props = $props();
 
 	const portals = portals_context.get();
 	let portal = $derived($portals.data.portals_by_slug.get(slug)!);

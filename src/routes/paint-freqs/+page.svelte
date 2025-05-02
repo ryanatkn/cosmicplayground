@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {spring} from 'svelte/motion';
 	import {onDestroy} from 'svelte';
@@ -115,7 +115,6 @@
 	let gain: GainNode | undefined;
 
 	const VOLUME = 0.35; // TODO probably hook into global settings
-
 
 	const start = () => {
 		if (osc) return;

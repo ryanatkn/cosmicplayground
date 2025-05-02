@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import '@ryanatkn/moss/style.css';
 	import '@ryanatkn/moss/theme.css';
@@ -44,7 +44,7 @@
 		children?: import('svelte').Snippet;
 	}
 
-	let { children }: Props = $props();
+	let {children}: Props = $props();
 
 	const selected_color_scheme = writable('dark' as const);
 	sync_color_scheme($selected_color_scheme); // TODO probably shouldn't be needed
@@ -169,11 +169,9 @@
 
 	const idle = idle_context.set(writable(false));
 
-	let time_to_go_idle = $derived($settings.dev_mode
-		? 99999999999
-		: $settings.recording_mode
-			? 500
-			: $settings.time_to_go_idle);
+	let time_to_go_idle = $derived(
+		$settings.dev_mode ? 99999999999 : $settings.recording_mode ? 500 : $settings.time_to_go_idle,
+	);
 
 	audio_ctx_context.set();
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {onDestroy} from 'svelte';
 	import {clock_context} from '$lib/clock.js';

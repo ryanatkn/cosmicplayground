@@ -16,7 +16,7 @@
 		lowestHzItemCount = 4,
 		height = 600,
 		width = 1000,
-		hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]
+		hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60],
 	}: Props = $props();
 	export const getHzItemSelectedIndices = (): number[] => hzItemSelectedIndices; // TODO better pattern?
 	let baseCycleLength = $derived(lowestHzValue * lowestHzItemCount);

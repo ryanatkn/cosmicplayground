@@ -1,17 +1,15 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import Surface from '$lib/Surface.svelte';
 	import type {Controller} from '$lib/controller.js';
-
-	
 
 	interface Props {
 		// TODO merge with `./Surface.svelte` and probably Surface2 as well
 		controller: Controller;
 	}
 
-	let { controller }: Props = $props();
+	let {controller}: Props = $props();
 
 	let pointer_down = $state(false);
 	let pointer_x: number | undefined = $state();

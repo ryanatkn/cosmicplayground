@@ -10,7 +10,6 @@
 	import AppControlsTable from '$lib/AppControlsTable.svelte';
 	import PortalPreview from '$lib/PortalPreview.svelte';
 
-	
 	interface Props {
 		clock: ClockStore; // TODO or use context?
 		// TODO refactor
@@ -22,15 +21,8 @@
 		scores: StarshipStageScores | undefined;
 	}
 
-	let {
-		clock,
-		exit,
-		starshipMode,
-		toggleStarshipMode,
-		resetScores,
-		importScores,
-		scores
-	}: Props = $props();
+	let {clock, exit, starshipMode, toggleStarshipMode, resetScores, importScores, scores}: Props =
+		$props();
 </script>
 
 <div class="wrapper">

@@ -9,16 +9,18 @@
 		links?: import('svelte').Snippet;
 	}
 
-	let { author, links }: Props = $props();
+	let {author, links}: Props = $props();
 	const SONG_MAX_DEFAULT_COUNT = 4;
-	let songs1 = $derived(lookup_songs_by_author(author).sort((a, b) => {
-		const a_index = names.indexOf(a.name);
-		const b_index = names.indexOf(b.name);
-		if (a_index === -1 && b_index === -1) return 1;
-		if (a_index === -1) return 1;
-		if (b_index === -1) return -1;
-		return a_index - b_index;
-	}));
+	let songs1 = $derived(
+		lookup_songs_by_author(author).sort((a, b) => {
+			const a_index = names.indexOf(a.name);
+			const b_index = names.indexOf(b.name);
+			if (a_index === -1 && b_index === -1) return 1;
+			if (a_index === -1) return 1;
+			if (b_index === -1) return -1;
+			return a_index - b_index;
+		}),
+	);
 	let songs1a = $derived(songs1.slice(0, SONG_MAX_DEFAULT_COUNT));
 	let songs1b = $derived(songs1.slice(SONG_MAX_DEFAULT_COUNT));
 </script>
@@ -34,8 +36,8 @@
 {#if songs1b.length}
 	<Details>
 		{#snippet summary()}
-				<summary ><h3 class="inline">see {songs1b.length} more songs</h3></summary>
-			{/snippet}
+			<summary><h3 class="inline">see {songs1b.length} more songs</h3></summary>
+		{/snippet}
 		<div>
 			{#each songs1b as song}
 				<div class="audio-file">

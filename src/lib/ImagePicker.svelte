@@ -6,7 +6,7 @@
 		pick_image: (image: ImageMeta) => void;
 	}
 
-	let { images, pick_image }: Props = $props();
+	let {images, pick_image}: Props = $props();
 </script>
 
 <div class="image-picker">

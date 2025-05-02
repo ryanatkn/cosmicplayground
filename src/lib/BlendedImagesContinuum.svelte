@@ -9,21 +9,12 @@
 		floorIndex?: number | undefined;
 	}
 
-	let {
-		images,
-		value,
-		alt,
-		zIndex = 1,
-		floorIndex = undefined
-	}: Props = $props();
+	let {images, value, alt, zIndex = 1, floorIndex = undefined}: Props = $props();
 
 	// TODO don't create new opacities every tick, but need to disable immutable? (or swap?)
-	let opacities = $derived(computeBlendedImagesContinuumOpacities(
-		images.length,
-		value,
-		undefined,
-		floorIndex,
-	));
+	let opacities = $derived(
+		computeBlendedImagesContinuumOpacities(images.length, value, undefined, floorIndex),
+	);
 </script>
 
 {#each images as image, i (image)}

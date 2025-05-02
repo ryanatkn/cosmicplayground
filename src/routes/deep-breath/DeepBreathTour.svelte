@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {writable, type Writable} from 'svelte/store';
 	import {clock_context} from '$lib/clock.js';
@@ -14,9 +14,8 @@
 	import type Camera from '$lib/Camera.svelte';
 	import DeepBreathTourCredits from '$routes/deep-breath/DeepBreathTourCredits.svelte';
 
-
 	// for external binding, not props
-	
+
 	interface Props {
 		camera: Camera;
 		// owned by the `Tour` component
@@ -37,7 +36,7 @@
 		currentTime = $bindable(undefined as any),
 		currentStepIndex = $bindable(undefined as any),
 		paused = $bindable(undefined as any),
-		begin_tour = $bindable(undefined as any)
+		begin_tour = $bindable(undefined as any),
 	}: Props = $props();
 	// owned by this component
 	export const showTourIntro: Writable<boolean> = writable(false);
@@ -73,7 +72,6 @@
 	const tourTitleMaxDelay = 250;
 	const tourTitleTotalDuration =
 		tourTitleTransitionDuration * 2 + tourTitleMaxDelay + tourTitlePauseDuration;
-
 
 	// TODO move to `Tour.svelte` after audio is moved there
 	let lastPaused = $state(paused);

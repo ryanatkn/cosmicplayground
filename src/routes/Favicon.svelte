@@ -3,7 +3,7 @@
 		size: number;
 	}
 
-	let { size }: Props = $props();
+	let {size}: Props = $props();
 </script>
 
 <figure style:width="{size}px" style:height="{size}px">

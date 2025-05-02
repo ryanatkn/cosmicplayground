@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import type {Writable} from 'svelte/store';
 
@@ -36,13 +36,11 @@
 		cameraUnlocked = false,
 		finish,
 		stage = $bindable(),
-		enableDomCanvasRenderer = false
+		enableDomCanvasRenderer = false,
 	}: Props = $props();
-
 
 	const clock = clock_context.get();
 	const pixi = pixi_context.get();
-
 
 	const idle = idle_context.get();
 
@@ -50,11 +48,8 @@
 	let scores: Writable<UnlockStageScores> = $state();
 	let controller: Controller = $state();
 
-
 	let finished = false;
 	const STAGE_DURATION = 30000; // TODO add to controls (multiple "finish" conditions)
-
-
 
 	// TODO this is clumsy, keep refactoring to shrink it
 	const syncStageState = () => {
@@ -63,7 +58,6 @@
 			void finish($scores);
 		}
 	};
-
 
 	// TODO consider not scaling the canvas -- though it'll make collisions less precise...
 	// also is this where the transform belongs, or should it be in `World` or even `index.svelte`?

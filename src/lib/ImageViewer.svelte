@@ -22,7 +22,7 @@
 		zoom_camera,
 		move_camera,
 		input_enabled = true,
-		children
+		children,
 	}: Props = $props();
 </script>
 

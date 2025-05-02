@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createBubbler } from 'svelte/legacy';
+	import {createBubbler} from 'svelte/legacy';
 
 	const bubble = createBubbler();
 	interface Props {
@@ -8,7 +8,7 @@
 		type?: 'button' | 'submit' | 'reset' | null | undefined; // avoid submit behavior in forms
 		classes?: string | null; // TODO not sure about this pattern, not used atm
 		children?: import('svelte').Snippet;
-		[key: string]: any
+		[key: string]: any;
 	}
 
 	let {
@@ -21,7 +21,14 @@
 	}: Props = $props();
 </script>
 
-<button class={classes} {type} aria-label={label} aria-pressed={pressed} onclick={bubble('click')} {...rest}>
+<button
+	class={classes}
+	{type}
+	aria-label={label}
+	aria-pressed={pressed}
+	onclick={bubble('click')}
+	{...rest}
+>
 	{@render children?.()}
 </button>
 

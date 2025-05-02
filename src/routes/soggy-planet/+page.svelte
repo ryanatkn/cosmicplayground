@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {onMount, tick} from 'svelte';
 	import {random_float} from '@ryanatkn/belt/random.js';
@@ -251,8 +251,9 @@
 	});
 	let active_sea_level = $derived(hovered_sea_level ?? selected_sea_level ?? sea_level);
 	let active_land_index = $derived(hovered_land_index ?? selected_land_index ?? cycled_land_index);
-	let active_land_value =
-		$derived(active_land_index === cycled_land_index ? cycled_land_value : active_land_index);
+	let active_land_value = $derived(
+		active_land_index === cycled_land_index ? cycled_land_value : active_land_index,
+	);
 	let touring = $derived(tour ? tour.touring : null);
 	run(() => {
 		console.log(`$touring`, $touring);

@@ -6,9 +6,8 @@
 		resources: ResourcesStore; // TODO improve styling
 	}
 
-	let { resources }: Props = $props();
+	let {resources}: Props = $props();
 
-	
 	// TODO allow clicking each to retry the request (`resourcesStore` needs an API for that)
 </script>
 

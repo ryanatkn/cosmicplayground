@@ -4,16 +4,10 @@
 		on_click?: ((e: MouseEvent) => void) | null; // one of `href` and `on_click` is required
 		classes?: string;
 		children?: import('svelte').Snippet;
-		[key: string]: any
+		[key: string]: any;
 	}
 
-	let {
-		href = null,
-		on_click = null,
-		classes = '',
-		children,
-		...rest
-	}: Props = $props();
+	let {href = null, on_click = null, classes = '', children, ...rest}: Props = $props();
 
 	// TODO maybe change `on_click` to an event, but then we'd lose this check:
 	// This check and the whole component are both a bit weird,

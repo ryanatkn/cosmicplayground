@@ -10,7 +10,7 @@
 		alt: string;
 	}
 
-	let { images, value, alt }: Props = $props();
+	let {images, value, alt}: Props = $props();
 
 	let opacities = $derived(computeBlendedImagesCycleOpacities(images.length, value));
 </script>

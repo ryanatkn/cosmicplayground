@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {spring} from 'svelte/motion';
 	import {onDestroy} from 'svelte';
@@ -88,16 +88,18 @@
 	run(() => {
 		void spotPosition.set({x: pointer_x, y: pointer_y});
 	});
-	let freq =
-		$derived(pointer_x >= 0 && $dimensions.width ? calcFreq(pointer_x, $dimensions.width) : undefined);
+	let freq = $derived(
+		pointer_x >= 0 && $dimensions.width ? calcFreq(pointer_x, $dimensions.width) : undefined,
+	);
 	let displayedFreq = $derived(freq === undefined ? '' : Math.round(freq));
 	run(() => {
 		if (osc && freq !== undefined) {
 			osc.frequency.setValueAtTime(freq, audio_ctx.currentTime);
 		}
 	});
-	let volume =
-		$derived(pointer_y >= 0 && $dimensions.height ? calcVolume(pointer_y, $dimensions.height) : undefined);
+	let volume = $derived(
+		pointer_y >= 0 && $dimensions.height ? calcVolume(pointer_y, $dimensions.height) : undefined,
+	);
 	let displayedVolume = $derived(volume === undefined ? '' : Math.round(volume * 100));
 	run(() => {
 		if (gain && volume !== undefined) {

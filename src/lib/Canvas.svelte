@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {onMount} from 'svelte';
 
@@ -13,12 +13,7 @@
 		renderer: CanvasRenderer; // TODO isn't reactive
 	}
 
-	let {
-		width,
-		height,
-		stage,
-		renderer
-	}: Props = $props();
+	let {width, height, stage, renderer}: Props = $props();
 
 	let el: HTMLCanvasElement = $state();
 	let canvasWidth: number = $state();

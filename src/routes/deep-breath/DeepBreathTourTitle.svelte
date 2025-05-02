@@ -9,12 +9,7 @@
 		maxDelay: number;
 	}
 
-	let {
-		hide,
-		transitionDuration,
-		pauseDuration,
-		maxDelay
-	}: Props = $props();
+	let {hide, transitionDuration, pauseDuration, maxDelay}: Props = $props();
 
 	// transition vars
 	const blurAmount = 99;

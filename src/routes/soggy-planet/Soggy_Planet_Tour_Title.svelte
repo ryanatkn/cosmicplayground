@@ -9,12 +9,7 @@
 		max_delay: number;
 	}
 
-	let {
-		hide,
-		transition_duration,
-		pause_duration,
-		max_delay
-	}: Props = $props();
+	let {hide, transition_duration, pause_duration, max_delay}: Props = $props();
 
 	// transition vars
 	const blur_amount = 99;

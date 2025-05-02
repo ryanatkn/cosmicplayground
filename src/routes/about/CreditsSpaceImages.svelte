@@ -29,10 +29,10 @@
 	{#if hiddenImages.length}
 		<Details>
 			{#snippet summary()}
-						<summary >
+				<summary>
 					<h3 class="inline">see {hiddenImages.length} more images</h3>
 				</summary>
-					{/snippet}
+			{/snippet}
 			<ul>
 				{#each hiddenImages as image (image.info.url)}
 					<li>

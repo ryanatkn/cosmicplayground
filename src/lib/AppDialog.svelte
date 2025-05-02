@@ -6,7 +6,7 @@
 		children?: import('svelte').Snippet<[any]>;
 	}
 
-	let { children }: Props = $props();
+	let {children}: Props = $props();
 
 	const app_dialog = app_dialog_context.get();
 	const {app_dialog_el} = app_dialog;
@@ -18,5 +18,5 @@
 </script>
 
 {#if $app_dialog_el}
-	<Teleport to={$app_dialog_el}>{@render children?.({ exit: () => app_dialog.close(), })}</Teleport>
+	<Teleport to={$app_dialog_el}>{@render children?.({exit: () => app_dialog.close()})}</Teleport>
 {/if}

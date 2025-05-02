@@ -10,7 +10,7 @@
 		debug_start_time: number;
 	}
 
-	let { tour, debug_start_time }: Props = $props();
+	let {tour, debug_start_time}: Props = $props();
 
 	let {currentTime, currentStepIndex} = $derived(tour);
 

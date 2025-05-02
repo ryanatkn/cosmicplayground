@@ -7,8 +7,6 @@
 	const clock = clock_context.get();
 	const dimensions = dimensions_context.get();
 
-	
-
 	interface Props {
 		// TODO has some copypasta, needs refactoring
 		tour_text: string[];
@@ -21,7 +19,7 @@
 		tour_text,
 		transition_in_duration = 600,
 		transition_out_duration = 870,
-		height_per_item = 90
+		height_per_item = 90,
 	}: Props = $props();
 
 	let height = $derived(height_per_item * tour_text.length);

@@ -3,13 +3,11 @@
 
 	interface Props {
 		selected_phase_sequence_or_creator?: PhaseSequenceOrCreator | null;
-		play_phase_sequence: (
-		phase_sequence_or_creator: PhaseSequenceOrCreator,
-	) => Promise<void>;
+		play_phase_sequence: (phase_sequence_or_creator: PhaseSequenceOrCreator) => Promise<void>;
 		cancel: () => void;
 	}
 
-	let { selected_phase_sequence_or_creator = null, play_phase_sequence, cancel }: Props = $props();
+	let {selected_phase_sequence_or_creator = null, play_phase_sequence, cancel}: Props = $props();
 </script>
 
 <ul>

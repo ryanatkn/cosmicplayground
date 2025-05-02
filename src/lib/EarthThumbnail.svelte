@@ -20,7 +20,7 @@
 		animationDuration = '360s',
 		fontSize = 48,
 		text = null,
-		running = true
+		running = true,
 	}: Props = $props();
 
 	// TODO get from loaded image

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {tweened} from 'svelte/motion';
 	import {cubicInOut} from 'svelte/easing';
@@ -58,7 +58,6 @@
 
 	let enablePixiEarthViewer = $state(true); // old slow DOM version is available
 
-
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
 		if (show_title_screen) return;
@@ -102,7 +101,6 @@
 		const newSeaIndex = seaIndexValues[currentSeaIndex];
 		$seaLevel = newSeaIndex;
 	};
-
 
 	let selectedSeaLevel: number | null = $state(null);
 	let hoveredSeaLevel: number | null = $state(null);
@@ -192,7 +190,9 @@
 	});
 	let activeSeaLevel = $derived(hoveredSeaLevel ?? selectedSeaLevel ?? $seaLevel);
 	let activeLandIndex = $derived(hoveredLandIndex ?? selectedLandIndex ?? cycledLandIndex);
-	let activeLandValue = $derived(activeLandIndex === cycledLandIndex ? cycledLandValue : activeLandIndex);
+	let activeLandValue = $derived(
+		activeLandIndex === cycledLandIndex ? cycledLandValue : activeLandIndex,
+	);
 	run(() => {
 		if (x) {
 			const xOffsetIndex = Math.floor($x! / imageWidth);

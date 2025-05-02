@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import {tweened, type Tweened} from 'svelte/motion';
 	import {sineInOut} from 'svelte/easing';
@@ -12,7 +12,7 @@
 		enabled?: boolean;
 	}
 
-	let { value, enabled = true }: Props = $props();
+	let {value, enabled = true}: Props = $props();
 
 	let tween: Tweened<TValue> | null = $state();
 
