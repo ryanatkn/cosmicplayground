@@ -1,3 +1,5 @@
+<!-- @migration-task Error while migrating Svelte code: Mixing old (on:input) and new syntaxes for event handling is not allowed. Use only the oninput syntax
+https://svelte.dev/e/mixed_event_handler_syntaxes -->
 <script lang="ts">
 	import {createEventDispatcher} from 'svelte';
 

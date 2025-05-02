@@ -1,12 +1,28 @@
 <script lang="ts">
-	export let label: string; // required for a11y
-	export let pressed: boolean | undefined = undefined;
-	export let type: 'button' | 'submit' | 'reset' | null | undefined = 'button'; // avoid submit behavior in forms
-	export let classes: string | null = null; // TODO not sure about this pattern, not used atm
+	import { createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
+	interface Props {
+		label: string; // required for a11y
+		pressed?: boolean | undefined;
+		type?: 'button' | 'submit' | 'reset' | null | undefined; // avoid submit behavior in forms
+		classes?: string | null; // TODO not sure about this pattern, not used atm
+		children?: import('svelte').Snippet;
+		[key: string]: any
+	}
+
+	let {
+		label,
+		pressed = undefined,
+		type = 'button',
+		classes = null,
+		children,
+		...rest
+	}: Props = $props();
 </script>
 
-<button class={classes} {type} aria-label={label} aria-pressed={pressed} on:click {...$$restProps}>
-	<slot />
+<button class={classes} {type} aria-label={label} aria-pressed={pressed} onclick={bubble('click')} {...rest}>
+	{@render children?.()}
 </button>
 
 <style>

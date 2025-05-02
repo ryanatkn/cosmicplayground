@@ -2,7 +2,11 @@
 	import ImageCreditsCaption from '$lib/ImageCreditsCaption.svelte';
 	import type {ImageMeta} from '$lib/images.js';
 
-	export let image: ImageMeta;
+	interface Props {
+		image: ImageMeta;
+	}
+
+	let { image }: Props = $props();
 </script>
 
 <figure>

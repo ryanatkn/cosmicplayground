@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {tick} from 'svelte';
 	import {wait} from '@ryanatkn/belt/async.js';
 	import {EMPTY_ARRAY} from '@ryanatkn/belt/array.js';
@@ -59,50 +61,19 @@
 	const dimensions = dimensions_context.get();
 	const clock = clock_context.get();
 
-	let strengthBooster1Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER1, false);
-	let strengthBooster2Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
-	let strengthBooster3Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false);
+	let strengthBooster1Enabled = $state(loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER1, false));
+	let strengthBooster2Enabled = $state(loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false));
+	let strengthBooster3Enabled = $state(loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false));
 
-	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
 
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
 	// TODO should we pass through plain numbers or a dimensions object?
 	// // TODO what about the camera zoom relative to what can fit in the dimensions?
-	let viewWidth: number;
-	let viewHeight: number;
-	let worldWidth: number;
-	let worldHeight: number;
-	$: viewScale = viewWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
-	// TODO make this a helper to clarify the deps `update_dimensions`
-	$: if (cameraUnlocked) {
-		// Expand the world dimensions to fit the viewport dimensions.
-		// It needs to match the viewport aspect ratio and
-		// cover the entire default world dimensions.
-		viewWidth = viewportWidth;
-		viewHeight = viewportHeight;
-		const worldMinWidth = DEFAULT_WORLD_DIMENSIONS.width;
-		const worldMinHeight = DEFAULT_WORLD_DIMENSIONS.height;
-		const worldWidthRatio = worldMinWidth / viewWidth;
-		const worldHeightRatio = worldMinHeight / viewHeight;
-		if (worldHeightRatio > 1 && worldHeightRatio > worldWidthRatio) {
-			worldHeight = worldMinHeight;
-			worldWidth = (viewWidth * worldHeightRatio) | 0;
-		} else if (worldWidthRatio > 1) {
-			worldWidth = worldMinWidth;
-			worldHeight = (viewHeight * worldWidthRatio) | 0;
-		} else {
-			worldWidth = viewWidth;
-			worldHeight = viewHeight;
-		}
-	} else {
-		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
-		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
-		const worldAspectRatio = worldWidth / worldHeight;
-		const viewportAspectRatio = viewportWidth / viewportHeight;
-		viewWidth = (viewportWidth * Math.min(1, worldAspectRatio / viewportAspectRatio)) | 0;
-		viewHeight = (viewportHeight * Math.min(1, viewportAspectRatio / worldAspectRatio)) | 0;
-	}
+	let viewWidth: number = $state();
+	let viewHeight: number = $state();
+	let worldWidth: number = $state();
+	let worldHeight: number = $state();
 
 	const starshipPortal: any = Symbol();
 
@@ -112,8 +83,7 @@
 		[easings2Portal, paintFreqsPortal, easings1Portal],
 		[starshipPortal, hearingTestPortal, underConstructionPortal],
 	];
-	let secondaryPortals: PortalData[][];
-	$: secondaryPortals = [
+	let secondaryPortals: PortalData[][] = $derived([
 		[
 			...(strengthBooster2Enabled ? [strengthBooster2Portal] : EMPTY_ARRAY),
 			...(strengthBooster1Enabled ? [freqSpeedsPortal] : EMPTY_ARRAY),
@@ -121,31 +91,21 @@
 			...(strengthBooster1Enabled ? [freqSpectaclePortal] : EMPTY_ARRAY),
 			...(strengthBooster3Enabled ? [strengthBooster3Portal] : EMPTY_ARRAY),
 		],
-	];
+	]);
 
 	const settings = settings_context.get();
 
-	let exitStarshipModeCount = 0;
+	let exitStarshipModeCount = $state(0);
 
-	let starshipMode = false;
+	let starshipMode = $state(false);
 	const TRANSITION_DURATION = 500;
-	// slow transition the first time -- TODO and play music?
-	$: transitionDuration =
-		savedScores || exitStarshipModeCount > 1 ? TRANSITION_DURATION : TRANSITION_DURATION * 1;
-	let transitioningStarshipModeCount = 0; // counter so it handles concurrent calls without much code
-	// TODO disable input while transitioning?
-	$: transitioningStarshipMode = transitioningStarshipModeCount > 0;
-	$: starshipReady = starshipMode && !transitioningStarshipMode;
+	let transitioningStarshipModeCount = $state(0); // counter so it handles concurrent calls without much code
 
-	let starshipX = 0;
-	let starshipY = 0;
-	let starshipAngle = 0;
-	let starshipShieldRadius = 0;
-	let stage: Stage | null = null;
-	$: {
-		destroyStage();
-		if (starshipMode) createStage();
-	}
+	let starshipX = $state(0);
+	let starshipY = $state(0);
+	let starshipAngle = $state(0);
+	let starshipShieldRadius = $state(0);
+	let stage: Stage | null = $state(null);
 	const createStage = () => {
 		stage = new Stage({
 			exit: (outcome) => console.log('exited stage', outcome), // TODO refactor with `finish` below
@@ -167,11 +127,7 @@
 		stage.destroy();
 		stage = null;
 	};
-	$: camera = stage?.camera;
-	$: player = stage?.player;
-	$: enableDomCanvasRenderer = $settings.dev_mode;
 
-	$: starshipRotation = starshipAngle + Math.PI / 2;
 
 	// TODO extract to a custom store
 	const STORAGE_KEY_SCORES = 'cpg_home_scores';
@@ -194,15 +150,8 @@
 			},
 		);
 	};
-	// TODO refactor these into a single store that handles saving/loading
-	$: currentStageScores = stage?.scores;
-	let savedScores = loadScores();
+	let savedScores = $state(loadScores());
 	let initialScores: StarshipStageScores | undefined;
-	// TODO probably create a single scores object from this
-	$: scoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
-	$: scoresRescuedAllMoons = !!savedScores && rescuedAllMoons(savedScores);
-	$: scoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
-	$: scoresRescuedAllCrewAtOnce = !!savedScores && rescuedAllCrewAtOnce(savedScores);
 	const saveScores = (scores: StarshipStageScores): boolean => {
 		if (dequal(scores, savedScores)) return false;
 		setInStorage(STORAGE_KEY_SCORES, scores);
@@ -211,7 +160,7 @@
 	};
 
 	// TODO refactor with `exit` above
-	let finished = false;
+	let finished = $state(false);
 	const finish = async (scores: StarshipStageScores | null): Promise<void> => {
 		if (finished) return;
 		if (!scores) return exitStarshipMode();
@@ -281,33 +230,21 @@
 
 	const STORAGE_KEY_SPEED_BOOSTER_TOGGLED = 'cpg_speed_booster_toggled';
 	const BOOSTER_SYMBOL = '🙌';
-	let speedBoosterToggled = loadFromStorage(STORAGE_KEY_SPEED_BOOSTER_TOGGLED, false);
-	$: setInStorage(STORAGE_KEY_SPEED_BOOSTER_TOGGLED, !!speedBoosterToggled); // TODO unnecessary first run
-	$: speed_booster_unlocked = scoresRescuedAnyCrew;
-	$: speed_booster_enabled = speed_booster_unlocked && speedBoosterToggled;
+	let speedBoosterToggled = $state(loadFromStorage(STORAGE_KEY_SPEED_BOOSTER_TOGGLED, false));
 	const toggle_speed_booster = () => {
 		speedBoosterToggled = !speedBoosterToggled;
 	};
 
 	const STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED = 'cpg_strength_booster_toggled';
-	let strengthBoosterToggled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED, false);
-	$: setInStorage(STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED, !!strengthBoosterToggled); // TODO unnecessary first run
-	$: strengthBoosterUnlocked = scoresRescuedAllCrew;
-	$: strengthBoosterEnabled = strengthBoosterUnlocked && strengthBoosterToggled;
+	let strengthBoosterToggled = $state(loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED, false));
 	const toggleStrengthBooster = async () => {
 		strengthBoosterToggled = !strengthBoosterToggled;
 		if (strengthBoosterToggled) await scrollDown();
 	};
 
-	$: cameraUnlocked = scoresRescuedAllMoons;
 
-	let starshipHeight: number;
+	let starshipHeight: number = $state();
 
-	$: starshipScale = player ? ((player.radius * 2) / starshipHeight) * viewScale : 1; // TODO isn't reactive to player radius
-	$: starshipViewX = ($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * viewScale;
-	$: starshipViewY = $camera
-		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - viewportHeight) / 2
-		: starshipY - (starshipHeight - viewportHeight) / 2;
 
 	const enterStarshipMode = async () => {
 		if (starshipMode) return;
@@ -376,9 +313,80 @@
 			await play_song(lookup_song('Futuristic 1'));
 		}
 	};
+	let {width: viewportWidth, height: viewportHeight} = $derived($dimensions);
+	let scoresRescuedAllMoons = $derived(!!savedScores && rescuedAllMoons(savedScores));
+	let cameraUnlocked = $derived(scoresRescuedAllMoons);
+	// TODO make this a helper to clarify the deps `update_dimensions`
+	run(() => {
+		if (cameraUnlocked) {
+			// Expand the world dimensions to fit the viewport dimensions.
+			// It needs to match the viewport aspect ratio and
+			// cover the entire default world dimensions.
+			viewWidth = viewportWidth;
+			viewHeight = viewportHeight;
+			const worldMinWidth = DEFAULT_WORLD_DIMENSIONS.width;
+			const worldMinHeight = DEFAULT_WORLD_DIMENSIONS.height;
+			const worldWidthRatio = worldMinWidth / viewWidth;
+			const worldHeightRatio = worldMinHeight / viewHeight;
+			if (worldHeightRatio > 1 && worldHeightRatio > worldWidthRatio) {
+				worldHeight = worldMinHeight;
+				worldWidth = (viewWidth * worldHeightRatio) | 0;
+			} else if (worldWidthRatio > 1) {
+				worldWidth = worldMinWidth;
+				worldHeight = (viewHeight * worldWidthRatio) | 0;
+			} else {
+				worldWidth = viewWidth;
+				worldHeight = viewHeight;
+			}
+		} else {
+			worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
+			worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
+			const worldAspectRatio = worldWidth / worldHeight;
+			const viewportAspectRatio = viewportWidth / viewportHeight;
+			viewWidth = (viewportWidth * Math.min(1, worldAspectRatio / viewportAspectRatio)) | 0;
+			viewHeight = (viewportHeight * Math.min(1, viewportAspectRatio / worldAspectRatio)) | 0;
+		}
+	});
+	let viewScale = $derived(viewWidth / worldWidth); // this is the same for X and Y as currently calculated, aspect ratio is preserved
+	
+	// slow transition the first time -- TODO and play music?
+	let transitionDuration =
+		$derived(savedScores || exitStarshipModeCount > 1 ? TRANSITION_DURATION : TRANSITION_DURATION * 1);
+	// TODO disable input while transitioning?
+	let transitioningStarshipMode = $derived(transitioningStarshipModeCount > 0);
+	let starshipReady = $derived(starshipMode && !transitioningStarshipMode);
+	run(() => {
+		destroyStage();
+		if (starshipMode) createStage();
+	});
+	let camera = $derived(stage?.camera);
+	let player = $derived(stage?.player);
+	let enableDomCanvasRenderer = $derived($settings.dev_mode);
+	let starshipRotation = $derived(starshipAngle + Math.PI / 2);
+	// TODO refactor these into a single store that handles saving/loading
+	let currentStageScores = $derived(stage?.scores);
+	// TODO probably create a single scores object from this
+	let scoresRescuedAnyCrew = $derived(!!savedScores && rescuedAnyCrew(savedScores));
+	let scoresRescuedAllCrew = $derived(!!savedScores && rescuedAllCrew(savedScores));
+	let scoresRescuedAllCrewAtOnce = $derived(!!savedScores && rescuedAllCrewAtOnce(savedScores));
+	run(() => {
+		setInStorage(STORAGE_KEY_SPEED_BOOSTER_TOGGLED, !!speedBoosterToggled);
+	}); // TODO unnecessary first run
+	let speed_booster_unlocked = $derived(scoresRescuedAnyCrew);
+	let speed_booster_enabled = $derived(speed_booster_unlocked && speedBoosterToggled);
+	run(() => {
+		setInStorage(STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED, !!strengthBoosterToggled);
+	}); // TODO unnecessary first run
+	let strengthBoosterUnlocked = $derived(scoresRescuedAllCrew);
+	let strengthBoosterEnabled = $derived(strengthBoosterUnlocked && strengthBoosterToggled);
+	let starshipScale = $derived(player ? ((player.radius * 2) / starshipHeight) * viewScale : 1); // TODO isn't reactive to player radius
+	let starshipViewX = $derived(($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * viewScale);
+	let starshipViewY = $derived($camera
+		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - viewportHeight) / 2
+		: starshipY - (starshipHeight - viewportHeight) / 2);
 </script>
 
-<svelte:window on:keydown={keydown} />
+<svelte:window onkeydown={keydown} />
 
 <div
 	class="home"
@@ -513,16 +521,18 @@
 		{/if}
 	{/if}
 </div>
-<AppDialog let:exit>
-	<StarshipMenu
-		{clock}
-		{exit}
-		{starshipMode}
-		{toggleStarshipMode}
-		scores={savedScores}
-		resetScores={savedScores ? resetScores : undefined}
-		{importScores}
-	/>
+<AppDialog >
+	{#snippet children({ exit })}
+		<StarshipMenu
+			{clock}
+			{exit}
+			{starshipMode}
+			{toggleStarshipMode}
+			scores={savedScores}
+			resetScores={savedScores ? resetScores : undefined}
+			{importScores}
+		/>
+	{/snippet}
 </AppDialog>
 
 <style>

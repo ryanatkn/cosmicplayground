@@ -5,7 +5,7 @@
 
 	const clock = clock_context.get();
 
-	$: freeze = !$clock.running;
+	let freeze = $derived(!$clock.running);
 </script>
 
 <img

@@ -8,15 +8,24 @@
 
 	type $$Events = ComponentEvents<PlaylistItem>;
 
-	export let playlist_items: PlaylistItemData[];
-	export let collapsed: boolean;
-	export let paused: boolean;
-	export let playing_song: SongPlayState | null;
+	interface Props {
+		playlist_items: PlaylistItemData[];
+		collapsed: boolean;
+		paused: boolean;
+		playing_song: SongPlayState | null;
+	}
 
-	$: current_song = playing_song?.song;
-	$: selected_playlist_item_index = playlist_items.findIndex((p) => p.song === current_song);
-	$: selected_playlist_item =
-		selected_playlist_item_index === -1 ? null : playlist_items[selected_playlist_item_index];
+	let {
+		playlist_items,
+		collapsed,
+		paused,
+		playing_song
+	}: Props = $props();
+
+	let current_song = $derived(playing_song?.song);
+	let selected_playlist_item_index = $derived(playlist_items.findIndex((p) => p.song === current_song));
+	let selected_playlist_item =
+		$derived(selected_playlist_item_index === -1 ? null : playlist_items[selected_playlist_item_index]);
 </script>
 
 <!-- TODO try to hoist this, problem is getting the animation smooth -->

@@ -4,11 +4,15 @@
 		computeBlendedImagesCycleZIndex,
 	} from '$lib/blendedImagesCycle.js';
 
-	export let images: string[];
-	export let value: number; // float, where `0 <= value < images.length`
-	export let alt: string;
+	interface Props {
+		images: string[];
+		value: number; // float, where `0 <= value < images.length`
+		alt: string;
+	}
 
-	$: opacities = computeBlendedImagesCycleOpacities(images.length, value);
+	let { images, value, alt }: Props = $props();
+
+	let opacities = $derived(computeBlendedImagesCycleOpacities(images.length, value));
 </script>
 
 {#each images as image, i (image)}

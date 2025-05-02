@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type {Async_Status} from '@ryanatkn/belt/async.js';
 	import {Texture, SCALE_MODES} from '@pixi/core';
 	import {Sprite} from '@pixi/sprite';
@@ -16,14 +18,24 @@
 	// Maybe we could look in `BaseTextureCache`
 	// and be aggressive about calling `loader.reset`?
 	// But then we'll throw away loading assets if they're not done. (does the browser cache tho?)
-	// Probably want to encapsulate this possibly-concurrent loader logic, maybe in `get_pixi_scene`?
+	
 
-	export let cameraX: number;
-	export let cameraY: number;
-	export let cameraScale: number;
-	export let imageUrl: string;
+	interface Props {
+		// Probably want to encapsulate this possibly-concurrent loader logic, maybe in `get_pixi_scene`?
+		cameraX: number;
+		cameraY: number;
+		cameraScale: number;
+		imageUrl: string;
+	}
 
-	let sprite: Sprite | null = null;
+	let {
+		cameraX,
+		cameraY,
+		cameraScale,
+		imageUrl
+	}: Props = $props();
+
+	let sprite: Sprite | null = $state(null);
 	let destroyed = false;
 
 	const {scene} = get_pixi_scene({
@@ -39,7 +51,6 @@
 	const camera = new Container();
 	scene.addChild(camera);
 
-	$: void updateSprite(imageUrl);
 	const updateSprite = async (url: string) => {
 		const texture = await Assets.load(url);
 		if (sprite && sprite.texture === texture) {
@@ -63,16 +74,21 @@
 		sprite = null;
 	};
 
-	// TODO copied from `EarthPixiViewer`, extract camera store (see also `View.svelte` parent component)
-	$: updateCamera(camera, cameraX, cameraY, cameraScale);
 	const updateCamera = (camera: Container, x: number, y: number, scale: number) => {
 		camera.scale.set(scale);
 		camera.position.set(x, y);
 	};
 
 	// TODO handle failure and initial?
-	let loadingStatus: Async_Status;
-	$: loadingStatus = sprite ? 'success' : 'pending';
+	let loadingStatus: Async_Status = $derived(sprite ? 'success' : 'pending');
+	run(() => {
+		void updateSprite(imageUrl);
+	});
+	// TODO copied from `EarthPixiViewer`, extract camera store (see also `View.svelte` parent component)
+	run(() => {
+		updateCamera(camera, cameraX, cameraY, cameraScale);
+	});
+	
 </script>
 
 {#if loadingStatus !== 'success'}

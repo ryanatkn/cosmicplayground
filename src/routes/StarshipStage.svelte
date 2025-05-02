@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import type {Writable} from 'svelte/store';
 
@@ -21,59 +23,63 @@
 	} from '$routes/starshipStage.js';
 	import {pixi_context} from '$lib/pixi.js';
 
-	export let viewportWidth: number;
-	export let viewportHeight: number;
-	export let viewWidth: number;
-	export let viewHeight: number;
-	export let worldWidth: number;
-	export let worldHeight: number;
-	export let cameraUnlocked = false;
-	export let speed_booster_enabled = false;
-	export let strengthBoosterEnabled = false;
-	export let strengthBooster1Enabled = false;
-	export let strengthBooster2Enabled = false;
-	export let strengthBooster3Enabled = false;
-	export let starshipX = 0;
-	export let starshipY = 0;
-	export let starshipAngle = 0;
-	export let starshipShieldRadius = 0;
-	export let finish: (scores: StarshipStageScores | null) => Promise<void>;
-	export let stage: Stage;
-	export let enableDomCanvasRenderer = false;
+	interface Props {
+		viewportWidth: number;
+		viewportHeight: number;
+		viewWidth: number;
+		viewHeight: number;
+		worldWidth: number;
+		worldHeight: number;
+		cameraUnlocked?: boolean;
+		speed_booster_enabled?: boolean;
+		strengthBoosterEnabled?: boolean;
+		strengthBooster1Enabled?: boolean;
+		strengthBooster2Enabled?: boolean;
+		strengthBooster3Enabled?: boolean;
+		starshipX?: number;
+		starshipY?: number;
+		starshipAngle?: number;
+		starshipShieldRadius?: number;
+		finish: (scores: StarshipStageScores | null) => Promise<void>;
+		stage: Stage;
+		enableDomCanvasRenderer?: boolean;
+	}
+
+	let {
+		viewportWidth,
+		viewportHeight,
+		viewWidth,
+		viewHeight,
+		worldWidth,
+		worldHeight,
+		cameraUnlocked = false,
+		speed_booster_enabled = false,
+		strengthBoosterEnabled = false,
+		strengthBooster1Enabled = false,
+		strengthBooster2Enabled = false,
+		strengthBooster3Enabled = false,
+		starshipX = $bindable(0),
+		starshipY = $bindable(0),
+		starshipAngle = $bindable(0),
+		starshipShieldRadius = $bindable(0),
+		finish,
+		stage = $bindable(),
+		enableDomCanvasRenderer = false
+	}: Props = $props();
 
 	const clock = clock_context.get();
 	const pixi = pixi_context.get();
 
-	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;
 
-	let camera: CameraStore;
-	let scores: Writable<StarshipStageScores>;
-	let controller: Controller;
-	$: ({camera, scores, controller} = stage);
+	let camera: CameraStore = $state();
+	let scores: Writable<StarshipStageScores> = $state();
+	let controller: Controller = $state();
 
-	// TODO maybe replace all `clock` usage with the app ticker
-	$: $clock, syncStageState();
 
 	let finished = false;
 
-	$: stage.player.speed = speed_booster_enabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
-	$: stage.player.strength =
-		(strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH) +
-		(strengthBooster1Enabled ? PLAYER_STRENGTH_BOOSTED1 : 0) +
-		(strengthBooster2Enabled ? PLAYER_STRENGTH_BOOSTED2 : 0) +
-		(strengthBooster3Enabled ? PLAYER_STRENGTH_BOOSTED3 : 0);
 
-	$: stage.freezeCamera = !cameraUnlocked;
-	// TODO refactor, maybe `camera.frozen`?
-	$: if (cameraUnlocked) void camera.setPosition(starshipX, starshipY);
 
-	// TODO refactor
-	$: if (controller) controller.viewportWidth = viewportWidth;
-	$: if (controller) controller.viewportHeight = viewportHeight;
-	$: if (controller) controller.viewWidth = viewWidth;
-	$: if (controller) controller.viewHeight = viewHeight;
-	$: if (controller) controller.worldWidth = worldWidth;
-	$: if (controller) controller.worldHeight = worldHeight;
 
 	// TODO this is clumsy, keep refactoring to shrink it
 	// should be connected to `starshipStage.update`?
@@ -98,7 +104,6 @@
 	const toTargetAngle = (directionX: number, directionY: number): number =>
 		Math.atan2(directionY, directionX);
 
-	$: transform = computeWorldTransform(viewWidth, viewHeight, worldWidth, worldHeight);
 
 	// TODO consider not scaling the canvas -- though it'll make collisions less precise...
 	// also is this where the transform belongs, or should it be in `World` or even `index.svelte`?
@@ -121,9 +126,54 @@
 			void finish(null);
 		}
 	};
+	let domCanvasRenderer = $derived(enableDomCanvasRenderer ? new DomCanvasRenderer() : null);
+	run(() => {
+		({camera, scores, controller} = stage);
+	});
+	// TODO maybe replace all `clock` usage with the app ticker
+	run(() => {
+		$clock, syncStageState();
+	});
+	run(() => {
+		stage.player.speed = speed_booster_enabled ? PLAYER_SPEED_BOOSTED : PLAYER_SPEED;
+	});
+	run(() => {
+		stage.player.strength =
+			(strengthBoosterEnabled ? PLAYER_STRENGTH_BOOSTED : PLAYER_STRENGTH) +
+			(strengthBooster1Enabled ? PLAYER_STRENGTH_BOOSTED1 : 0) +
+			(strengthBooster2Enabled ? PLAYER_STRENGTH_BOOSTED2 : 0) +
+			(strengthBooster3Enabled ? PLAYER_STRENGTH_BOOSTED3 : 0);
+	});
+	run(() => {
+		stage.freezeCamera = !cameraUnlocked;
+	});
+	// TODO refactor, maybe `camera.frozen`?
+	run(() => {
+		if (cameraUnlocked) void camera.setPosition(starshipX, starshipY);
+	});
+	// TODO refactor
+	run(() => {
+		if (controller) controller.viewportWidth = viewportWidth;
+	});
+	run(() => {
+		if (controller) controller.viewportHeight = viewportHeight;
+	});
+	run(() => {
+		if (controller) controller.viewWidth = viewWidth;
+	});
+	run(() => {
+		if (controller) controller.viewHeight = viewHeight;
+	});
+	run(() => {
+		if (controller) controller.worldWidth = worldWidth;
+	});
+	run(() => {
+		if (controller) controller.worldHeight = worldHeight;
+	});
+	let transform = $derived(computeWorldTransform(viewWidth, viewHeight, worldWidth, worldHeight));
 </script>
 
-<svelte:window on:keydown={onKeydown} />
+<svelte:window onkeydown={onKeydown} />
 
 <div class="view" style:transform>
 	<World

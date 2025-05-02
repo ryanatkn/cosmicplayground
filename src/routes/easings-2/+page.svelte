@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	/*
 	
 	WARNING: messy code
@@ -38,8 +40,8 @@
 
 	const easings = svelteEasings;
 
-	let duration = 1000;
-	let waitTime = 250; // time to wait between loops
+	let duration = $state(1000);
+	let waitTime = $state(250); // time to wait between loops
 
 	let destroyed = false; // TODO is there a better way to do this? `useLoop`?
 	onDestroy(() => {
@@ -51,20 +53,15 @@
 	let timeLast: number;
 	let timeTarget: number;
 	let tween: number;
-	let tweenAlternating: number;
-	let xPct: number;
-	let yPct: number;
+	let tweenAlternating: number = $state();
+	let xPct: number = $state();
+	let yPct: number = $state();
 	// TODO refactor `loopState` to a state machine? xstate? microstate?
 	// this looks a little more complicated than it needs to be,
 	// and the variable names are tattered in spots
 	type LoopState = 'waitingLeft' | 'movingRight' | 'waitingRight' | 'movingLeft';
 	let loopState: LoopState = 'waitingLeft'; //
 	let timePct = 0; // % of the way to `TimeTarget`, when the next state transition will occur
-	$: if ($clock.running) {
-		update($clock.dt);
-	} else {
-		stopAudio();
-	}
 	const update = (dt: number) => {
 		timeLast = timeNow;
 		timeNow += dt;
@@ -131,18 +128,14 @@
 	// audio options
 	const lowestNote = 21;
 	const highestNote = 108;
-	let startNote: Midi = (42 + ((Math.random() * 6) | 0)) as Midi; // TODO midi picker
-	let endNote: Midi = (startNote + 12) as Midi; // TODO midi picker
+	let startNote: Midi = $state((42 + ((Math.random() * 6) | 0)) as Midi); // TODO midi picker
+	let endNote: Midi = $state((startNote + 12) as Midi); // TODO midi picker
 
 	// audio playback
 	// TODO refactor to share code with `HearingTest` and `PaintFreqs`
 	let osc: OscillatorNode | undefined;
 	let gain: GainNode | undefined;
 	const audio_ctx = audio_ctx_context.get();
-	$: freqMin = midiToFreq(startNote, DEFAULT_TUNING);
-	$: if (isNaN(freqMin)) console.log('freqMin is NaN');
-	$: freqMax = midiToFreq(endNote, DEFAULT_TUNING);
-	$: if (isNaN(freqMax)) console.log('freqMax is NaN');
 	const calcFreq = (pct: number) => lerp(freqMin, freqMax, pct); //|| 0; // TODO getting NaN sometimes here, why?
 	const updateAudioization = () => {
 		startAudio();
@@ -192,9 +185,8 @@
 		gain = undefined;
 	};
 
-	let activeEasingIndex = easings.findIndex((e) => e.name === 'elasticOut');
-	let activeEasing = easings[activeEasingIndex]; // {name, fn}
-	$: activeEasing = easings[activeEasingIndex];
+	let activeEasingIndex = $state(easings.findIndex((e) => e.name === 'elasticOut'));
+	let activeEasing = $state(easings[activeEasingIndex]); // {name, fn}
 
 	// transforms
 	const graphic1Width = 24;
@@ -213,13 +205,12 @@
 	const chartHeight = chartCanvasHeight - 2 * canvasChartYPadding;
 	const chartX0 = canvasChartXPadding;
 	const chartY0 = chartHeight + canvasChartYPadding;
-	let chartCanvas: HTMLCanvasElement, chartCanvasCtx: CanvasRenderingContext2D;
+	let chartCanvas: HTMLCanvasElement = $state(), chartCanvasCtx: CanvasRenderingContext2D;
 	const chartLineWidth = 3;
 	const chartLineHighlightWidth = 12;
 	const chartAxisLineWidth = 3;
 	const chartGridLineWidth = 1;
 	const chartGridSectionCount = 2;
-	$: if (chartCanvas && activeEasing) drawChart();
 	const drawChart = () => {
 		// TODO could probably abstract this better - maybe an action? maybe multiple or parameterized for different canvas use cases?
 		const canvas = chartCanvas;
@@ -264,6 +255,27 @@
 	};
 
 	const get_color = (index: number, opacity = 0.8) => `hsl(${index * 75}deg 60% 65% / ${opacity})`;
+	run(() => {
+		if ($clock.running) {
+			update($clock.dt);
+		} else {
+			stopAudio();
+		}
+	});
+	let freqMin = $derived(midiToFreq(startNote, DEFAULT_TUNING));
+	run(() => {
+		if (isNaN(freqMin)) console.log('freqMin is NaN');
+	});
+	let freqMax = $derived(midiToFreq(endNote, DEFAULT_TUNING));
+	run(() => {
+		if (isNaN(freqMax)) console.log('freqMax is NaN');
+	});
+	run(() => {
+		activeEasing = easings[activeEasingIndex];
+	});
+	run(() => {
+		if (chartCanvas && activeEasing) drawChart();
+	});
 </script>
 
 <div class="box">

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {spring} from 'svelte/motion';
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@ryanatkn/belt/maths.js';
@@ -39,18 +41,15 @@
   */
 
 	const dimensions = dimensions_context.get();
-	let width = $dimensions.width;
-	let height = $dimensions.height;
-	$: width = $dimensions.width;
-	$: height = $dimensions.height;
+	let width = $state($dimensions.width);
+	let height = $state($dimensions.height);
 
-	let pointer_x = -300;
-	let pointer_y = -300;
-	let canvas: HTMLCanvasElement;
+	let pointer_x = $state(-300);
+	let pointer_y = $state(-300);
+	let canvas: HTMLCanvasElement = $state();
 	let canvasCtx: CanvasRenderingContext2D | undefined;
 	let canvasData: ImageData | undefined;
-	let fgDataUrl: string | undefined;
-	$: if (canvas && width && height) updateCanvas();
+	let fgDataUrl: string | undefined = $state();
 
 	// TODO move to shared location? src/music/notes? colors?
 	const colorsByChroma = Array.from({length: 12}, (_, i) => hsl_to_rgb(i / 12, 0.3, 0.5));
@@ -85,13 +84,11 @@
 		fgDataUrl = canvas.toDataURL();
 	};
 
-	let lines = [{id: 0, points: ''}];
+	let lines = $state([{id: 0, points: ''}]);
 	const createNextPoint = () => ({
 		id: lines[lines.length - 1].id + 1,
 		points: '',
 	});
-	// this won't work for replaying sounds - we'd need to store lines every frame instead of pointer changes
-	$: if (pointer_x >= 0) addPoint(pointer_x, pointer_y);
 	const addPoint = (x: number, y: number) => {
 		const point = ` ${x},${y}`;
 		const line = lines[lines.length - 1];
@@ -113,16 +110,12 @@
 			damping: 0.32,
 		},
 	);
-	$: void spotPosition.set({x: pointer_x, y: pointer_y});
 
-	let osc: OscillatorNode | undefined;
+	let osc: OscillatorNode | undefined = $state();
 	let gain: GainNode | undefined;
 
 	const VOLUME = 0.35; // TODO probably hook into global settings
 
-	$: freq = width ? calcFreq(pointer_x, pointer_y, width, height) : undefined;
-	$: if (osc && freq !== undefined) osc.frequency.setValueAtTime(freq, audio_ctx.currentTime);
-	$: displayedFreq = freq === undefined ? '' : Math.round(freq);
 
 	const start = () => {
 		if (osc) return;
@@ -194,6 +187,27 @@
 	const clear = () => {
 		lines = [createNextPoint()];
 	};
+	run(() => {
+		width = $dimensions.width;
+	});
+	run(() => {
+		height = $dimensions.height;
+	});
+	run(() => {
+		if (canvas && width && height) updateCanvas();
+	});
+	// this won't work for replaying sounds - we'd need to store lines every frame instead of pointer changes
+	run(() => {
+		if (pointer_x >= 0) addPoint(pointer_x, pointer_y);
+	});
+	run(() => {
+		void spotPosition.set({x: pointer_x, y: pointer_y});
+	});
+	let freq = $derived(width ? calcFreq(pointer_x, pointer_y, width, height) : undefined);
+	run(() => {
+		if (osc && freq !== undefined) osc.frequency.setValueAtTime(freq, audio_ctx.currentTime);
+	});
+	let displayedFreq = $derived(freq === undefined ? '' : Math.round(freq));
 </script>
 
 <div class="paint-freqs" style="width: {width}px; height: {height}px;">
@@ -234,14 +248,14 @@
 	<div
 		role="none"
 		class="interaction-surface"
-		on:mousedown={handlePointerDown}
-		on:mouseup={handlePointerUp}
-		on:mouseleave={handlePointerUp}
-		on:mousemove={handlePointerMove}
-		on:touchstart={handlePointerDown}
-		on:touchend={handlePointerUp}
-		on:touchcancel={handlePointerUp}
-		on:touchmove={handlePointerMove}
+		onmousedown={handlePointerDown}
+		onmouseup={handlePointerUp}
+		onmouseleave={handlePointerUp}
+		onmousemove={handlePointerMove}
+		ontouchstart={handlePointerDown}
+		ontouchend={handlePointerUp}
+		ontouchcancel={handlePointerUp}
+		ontouchmove={handlePointerMove}
 	></div>
 	<div class="controls idle_fade">
 		<!-- TODO this is a good candidate for the Hud component -->

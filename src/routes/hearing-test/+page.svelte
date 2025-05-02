@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {spring} from 'svelte/motion';
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@ryanatkn/belt/maths.js';
@@ -12,8 +14,8 @@
 
 	const audio_ctx = audio_ctx_context.get();
 
-	let pointer_x = -300;
-	let pointer_y = -300;
+	let pointer_x = $state(-300);
+	let pointer_y = $state(-300);
 
 	const spotPosition = spring(
 		{x: pointer_x, y: pointer_y},
@@ -22,33 +24,16 @@
 			damping: 0.32,
 		},
 	);
-	$: void spotPosition.set({x: pointer_x, y: pointer_y});
 
-	let osc: OscillatorNode | undefined;
-	let gain: GainNode | undefined;
+	let osc: OscillatorNode | undefined = $state();
+	let gain: GainNode | undefined = $state();
 
-	$: freq =
-		pointer_x >= 0 && $dimensions.width ? calcFreq(pointer_x, $dimensions.width) : undefined;
-	$: displayedFreq = freq === undefined ? '' : Math.round(freq);
-	$: if (osc && freq !== undefined) {
-		osc.frequency.setValueAtTime(freq, audio_ctx.currentTime);
-	}
 	const freqMin = 0;
 	const freqMax = 25000;
 	const calcFreq = (value: number, max: number) => {
 		return lerp(freqMin, freqMax, value / max);
 	};
 
-	$: volume =
-		pointer_y >= 0 && $dimensions.height ? calcVolume(pointer_y, $dimensions.height) : undefined;
-	$: displayedVolume = volume === undefined ? '' : Math.round(volume * 100);
-	$: if (gain && volume !== undefined) {
-		gain.gain.setTargetAtTime(
-			volume_to_gain(volume),
-			audio_ctx.currentTime,
-			SMOOTH_GAIN_TIME_CONSTANT,
-		);
-	}
 	const volumeMin = 0;
 	const volumeMax = 1;
 	const calcVolume = (value: number, max: number) => {
@@ -100,6 +85,29 @@
 		pointer_x = pointerEventX(e);
 		pointer_y = pointerEventY(e);
 	};
+	run(() => {
+		void spotPosition.set({x: pointer_x, y: pointer_y});
+	});
+	let freq =
+		$derived(pointer_x >= 0 && $dimensions.width ? calcFreq(pointer_x, $dimensions.width) : undefined);
+	let displayedFreq = $derived(freq === undefined ? '' : Math.round(freq));
+	run(() => {
+		if (osc && freq !== undefined) {
+			osc.frequency.setValueAtTime(freq, audio_ctx.currentTime);
+		}
+	});
+	let volume =
+		$derived(pointer_y >= 0 && $dimensions.height ? calcVolume(pointer_y, $dimensions.height) : undefined);
+	let displayedVolume = $derived(volume === undefined ? '' : Math.round(volume * 100));
+	run(() => {
+		if (gain && volume !== undefined) {
+			gain.gain.setTargetAtTime(
+				volume_to_gain(volume),
+				audio_ctx.currentTime,
+				SMOOTH_GAIN_TIME_CONSTANT,
+			);
+		}
+	});
 </script>
 
 <div class="hearing-test" style="width: {$dimensions.width}px; height: {$dimensions.height}px;">
@@ -132,14 +140,14 @@
 	<div
 		role="none"
 		class="absolute z-3 w-100 h-100"
-		on:mousedown={handlePointerDown}
-		on:mouseup={handlePointerUp}
-		on:mouseleave={handlePointerUp}
-		on:mousemove={handlePointerMove}
-		on:touchstart={handlePointerDown}
-		on:touchend={handlePointerUp}
-		on:touchcancel={handlePointerUp}
-		on:touchmove={handlePointerMove}
+		onmousedown={handlePointerDown}
+		onmouseup={handlePointerUp}
+		onmouseleave={handlePointerUp}
+		onmousemove={handlePointerMove}
+		ontouchstart={handlePointerDown}
+		ontouchend={handlePointerUp}
+		ontouchcancel={handlePointerUp}
+		ontouchmove={handlePointerMove}
 	></div>
 </div>
 

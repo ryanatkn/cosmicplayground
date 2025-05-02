@@ -43,8 +43,8 @@
 		}
 	});
 
-	let getHzItemSelectedIndices: () => number[];
-	let getHzItemSelectedIndices2: () => number[];
+	let getHzItemSelectedIndices: () => number[] = $state();
+	let getHzItemSelectedIndices2: () => number[] = $state();
 </script>
 
 <div class="view" onclick={toggle} aria-hidden="true">

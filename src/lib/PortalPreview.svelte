@@ -1,7 +1,19 @@
 <script lang="ts">
-	export let href: string | null = null; // one of `href` and `on_click` is required
-	export let on_click: ((e: MouseEvent) => void) | null = null; // one of `href` and `on_click` is required
-	export let classes = '';
+	interface Props {
+		href?: string | null; // one of `href` and `on_click` is required
+		on_click?: ((e: MouseEvent) => void) | null; // one of `href` and `on_click` is required
+		classes?: string;
+		children?: import('svelte').Snippet;
+		[key: string]: any
+	}
+
+	let {
+		href = null,
+		on_click = null,
+		classes = '',
+		children,
+		...rest
+	}: Props = $props();
 
 	// TODO maybe change `on_click` to an event, but then we'd lose this check:
 	// This check and the whole component are both a bit weird,
@@ -16,12 +28,12 @@
 
 {#if href}
 	<!-- TODO remove this interpolated class, or at least clean it up (needs sy rollup plugin fix) -->
-	<a class="portal_preview buttonish {classes}" {href} {...$$restProps}>
-		<slot />
+	<a class="portal_preview buttonish {classes}" {href} {...rest}>
+		{@render children?.()}
 	</a>
 {:else}
-	<button class="portal_preview {classes}" onclick={on_click} type="button" {...$$restProps}>
-		<slot />
+	<button class="portal_preview {classes}" onclick={on_click} type="button" {...rest}>
+		{@render children?.()}
 	</button>
 {/if}
 

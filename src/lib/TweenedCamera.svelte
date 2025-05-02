@@ -1,18 +1,26 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {sineInOut} from 'svelte/easing';
 
 	import type Camera from '$lib/Camera.svelte';
 	import TweenedValue from '$lib/TweenedValue.svelte';
 
-	export let camera: Camera;
-	export let enabled = true;
+	interface Props {
+		camera: Camera;
+		enabled?: boolean;
+	}
 
-	let {x, y, scale} = camera;
-	$: ({x, y, scale} = camera);
+	let { camera, enabled = true }: Props = $props();
 
-	let tweenedX: TweenedValue<number>;
-	let tweenedY: TweenedValue<number>;
-	let tweenedScale: TweenedValue<number>;
+	let {x, y, scale} = $state(camera);
+	run(() => {
+		({x, y, scale} = camera);
+	});
+
+	let tweenedX: TweenedValue<number> = $state();
+	let tweenedY: TweenedValue<number> = $state();
+	let tweenedScale: TweenedValue<number> = $state();
 
 	export const pan = async (
 		xTarget: number,

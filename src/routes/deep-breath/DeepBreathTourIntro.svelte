@@ -7,13 +7,24 @@
 	// before the component gets mounted. (unless we refactor things in a weird way)
 	// We could change this and `DeepBreathTourTitle` to use a common component,
 	// but I might want to customize behavior further,
-	// and I'm doubting the reusability mileage of that much abstraction.
+	
 
-	export let hide: () => void;
-	export let totalDuration: number;
-	export let transitionInDuration: number;
-	export let transitionOutDuration: number;
-	export let maxDelay: number;
+	interface Props {
+		// and I'm doubting the reusability mileage of that much abstraction.
+		hide: () => void;
+		totalDuration: number;
+		transitionInDuration: number;
+		transitionOutDuration: number;
+		maxDelay: number;
+	}
+
+	let {
+		hide,
+		totalDuration,
+		transitionInDuration,
+		transitionOutDuration,
+		maxDelay
+	}: Props = $props();
 
 	// TODO better visual effect? typewriter?
 
@@ -21,7 +32,7 @@
 	const text2Delay = Math.min(maxDelay, 2000);
 	const blurAmount = 99;
 
-	$: textStyle = `animation-duration: ${totalDuration}ms;`;
+	let textStyle = $derived(`animation-duration: ${totalDuration}ms;`);
 
 	let timeout: any;
 	onMount(() => {

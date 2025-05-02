@@ -2,10 +2,14 @@
 	import type {Async_Status} from '@ryanatkn/belt/async.js';
 	import Pending_Animation from '@ryanatkn/fuz/Pending_Animation.svelte';
 
-	export let status: Async_Status = 'pending'; // 'initial' is unhandled
+	interface Props {
+		status?: Async_Status; // 'initial' is unhandled
+	}
 
-	$: success = status === 'success';
-	$: failure = status === 'failure';
+	let { status = 'pending' }: Props = $props();
+
+	let success = $derived(status === 'success');
+	let failure = $derived(status === 'failure');
 </script>
 
 <span class:success class:failure>

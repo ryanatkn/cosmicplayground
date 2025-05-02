@@ -2,16 +2,25 @@
 	import {onDestroy, onMount} from 'svelte';
 	import {blur} from 'svelte/transition';
 
-	export let hide: () => void;
-	export let transitionDuration: number;
-	export let pauseDuration: number;
-	export let maxDelay: number;
+	interface Props {
+		hide: () => void;
+		transitionDuration: number;
+		pauseDuration: number;
+		maxDelay: number;
+	}
+
+	let {
+		hide,
+		transitionDuration,
+		pauseDuration,
+		maxDelay
+	}: Props = $props();
 
 	// transition vars
 	const blurAmount = 99;
 
-	$: animationDuration = transitionDuration * 2 + pauseDuration;
-	$: textStyle = `animation-duration: ${animationDuration}ms;`;
+	let animationDuration = $derived(transitionDuration * 2 + pauseDuration);
+	let textStyle = $derived(`animation-duration: ${animationDuration}ms;`);
 
 	let timeout: any;
 	onMount(() => {

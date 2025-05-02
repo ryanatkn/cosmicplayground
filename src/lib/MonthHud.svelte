@@ -1,3 +1,5 @@
+<!-- @migration-task Error while migrating Svelte code: Mixing old (on:mouseenter) and new syntaxes for event handling is not allowed. Use only the onmouseenter syntax
+https://svelte.dev/e/mixed_event_handler_syntaxes -->
 <script lang="ts">
 	export let active_land_index: number | null; // active is the hover state or "current" when automatically cycling
 	export let selected_land_index: number | null; // selected is the "current" non-cycling state (confusing yes)

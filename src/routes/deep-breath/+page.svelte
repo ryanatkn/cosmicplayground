@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {tweened} from 'svelte/motion';
 	import {cubicInOut} from 'svelte/easing';
 	import {onMount} from 'svelte';
@@ -25,16 +27,9 @@
 
 	const clock = clock_context.get();
 
-	let camera: Camera | undefined;
-	$: x = camera?.x;
-	$: y = camera?.y;
-	$: scale = camera?.scale;
-	$: width = camera?.width;
-	$: height = camera?.height;
+	let camera: Camera | undefined = $state();
 
 	const dimensions = dimensions_context.get();
-	$: if (width) $width = $dimensions.width;
-	$: if (height) $height = $dimensions.height;
 
 	// TODO image metadata
 	const imageWidth = 4096;
@@ -46,26 +41,23 @@
 	const initialHeight = $dimensions.height;
 
 	const settings = settings_context.get();
-	$: dev_mode = $settings.dev_mode;
 
 	const debug_start_time = 0; // ~0-300000
 
 	// TODO use Pixi loader instead of the `ResourcesStore` - see the store module for more info
 	const resources = createResourcesStore();
 
-	let tour: Tour | undefined;
-	$: touring = tour ? tour.touring : null;
+	let tour: Tour | undefined = $state();
 
 	// TODO add auto pan button - share logic with Starlit Hanmmock and soggy planet
 
-	let showHud = true;
+	let showHud = $state(true);
 	const toggleHud = (value = !showHud) => {
 		showHud = value;
 	};
 
-	let enablePixiEarthViewer = true; // old slow DOM version is available
+	let enablePixiEarthViewer = $state(true); // old slow DOM version is available
 
-	$: input_enabled = !$touring;
 
 	// TODO refactor global hotkeys system (register them in this component, unregister on unmount)
 	const onKeyDown = (e: KeyboardEvent) => {
@@ -88,17 +80,16 @@
 
 	// Earth's land
 	const landImages = Array.from({length: 12}, (_, i) => `/assets/earth/land_${i + 1}.png`);
-	let cycledLandValue = 0;
-	$: cycledLandIndex = Math.floor(cycledLandValue);
+	let cycledLandValue = $state(0);
 	const landDelay = 230;
-	let landTimer = 0;
+	let landTimer = $state(0);
 
 	// Earth's sea
 	const seaImages = Array.from({length: 3}, (_, i) => `/assets/earth/sea_${i + 1}.png`);
 	const seaImageCount = seaImages.length;
 	const seaIndexMax = seaImageCount - 1;
 	const seaTimerMax = 1000; // this and the tour movement/pauses are in whole seconds
-	let seaTimer = seaTimerMax;
+	let seaTimer = $state(seaTimerMax);
 	const seaLevel = tweened(0, {easing: cubicInOut, duration: seaTimerMax});
 	let currentSeaIndex = 0;
 	const seaIndexValues = [0, 1].map((v) => Math.round(v * seaIndexMax));
@@ -112,26 +103,11 @@
 		$seaLevel = newSeaIndex;
 	};
 
-	// update every clock tick
-	$: if (selectedLandIndex === null && hoveredLandIndex === null) {
-		landTimer += $clock.dt;
-		cycledLandValue = (landTimer / landDelay) % landImages.length;
-	}
-	$: if (selectedSeaLevel === null && hoveredSeaLevel === null) {
-		seaTimer -= $clock.dt;
-		if (seaTimer <= 0) {
-			seaTimer = seaTimerMax;
-			nextSeaIndex();
-		}
-	}
 
-	let selectedSeaLevel: number | null = null;
-	let hoveredSeaLevel: number | null = null;
-	$: activeSeaLevel = hoveredSeaLevel ?? selectedSeaLevel ?? $seaLevel;
-	let selectedLandIndex: number | null = null;
-	let hoveredLandIndex: number | null = null;
-	$: activeLandIndex = hoveredLandIndex ?? selectedLandIndex ?? cycledLandIndex;
-	$: activeLandValue = activeLandIndex === cycledLandIndex ? cycledLandValue : activeLandIndex;
+	let selectedSeaLevel: number | null = $state(null);
+	let hoveredSeaLevel: number | null = $state(null);
+	let selectedLandIndex: number | null = $state(null);
+	let hoveredLandIndex: number | null = $state(null);
 
 	const setCycledLandValue = (value: number) => {
 		landTimer = landDelay * value;
@@ -161,20 +137,14 @@
 
 	// For the DOM renderer, make the two Earths tile seamlessly when possible.
 	// We render only 2 instances as a balance between performance and UX.
-	let earth1LeftOffset: number;
-	let earth2LeftOffset: number;
-	$: if (x) {
-		const xOffsetIndex = Math.floor($x! / imageWidth);
-		earth1LeftOffset = xOffsetIndex * imageWidth;
-		const xOffsetOverflow = $x! / imageWidth - xOffsetIndex;
-		earth2LeftOffset = earth1LeftOffset + imageWidth * (xOffsetOverflow < 0.5 ? -1 : 1);
-	}
+	let earth1LeftOffset: number = $state();
+	let earth2LeftOffset: number = $state();
 
 	landImages.forEach((url) => resources.addResource('image', url));
 	seaImages.forEach((url) => resources.addResource('image', url));
 
 	// in dev mode, bypass the title screen for convenience
-	let show_title_screen = true;
+	let show_title_screen = $state(true);
 	const proceed = () => {
 		show_title_screen = false;
 	};
@@ -189,9 +159,51 @@
 			void resources.load();
 		}
 	});
+	let x = $derived(camera?.x);
+	let y = $derived(camera?.y);
+	let scale = $derived(camera?.scale);
+	let width = $derived(camera?.width);
+	let height = $derived(camera?.height);
+	run(() => {
+		if (width) $width = $dimensions.width;
+	});
+	run(() => {
+		if (height) $height = $dimensions.height;
+	});
+	let dev_mode = $derived($settings.dev_mode);
+	let touring = $derived(tour ? tour.touring : null);
+	let input_enabled = $derived(!$touring);
+	// update every clock tick
+	run(() => {
+		if (selectedLandIndex === null && hoveredLandIndex === null) {
+			landTimer += $clock.dt;
+			cycledLandValue = (landTimer / landDelay) % landImages.length;
+		}
+	});
+	let cycledLandIndex = $derived(Math.floor(cycledLandValue));
+	run(() => {
+		if (selectedSeaLevel === null && hoveredSeaLevel === null) {
+			seaTimer -= $clock.dt;
+			if (seaTimer <= 0) {
+				seaTimer = seaTimerMax;
+				nextSeaIndex();
+			}
+		}
+	});
+	let activeSeaLevel = $derived(hoveredSeaLevel ?? selectedSeaLevel ?? $seaLevel);
+	let activeLandIndex = $derived(hoveredLandIndex ?? selectedLandIndex ?? cycledLandIndex);
+	let activeLandValue = $derived(activeLandIndex === cycledLandIndex ? cycledLandValue : activeLandIndex);
+	run(() => {
+		if (x) {
+			const xOffsetIndex = Math.floor($x! / imageWidth);
+			earth1LeftOffset = xOffsetIndex * imageWidth;
+			const xOffsetOverflow = $x! / imageWidth - xOffsetIndex;
+			earth2LeftOffset = earth1LeftOffset + imageWidth * (xOffsetOverflow < 0.5 ? -1 : 1);
+		}
+	});
 </script>
 
-<svelte:window on:keydown={onKeyDown} />
+<svelte:window onkeydown={onKeyDown} />
 
 <Camera bind:this={camera} {initialX} {initialY} {initialWidth} {initialHeight} />
 

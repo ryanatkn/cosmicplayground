@@ -4,22 +4,27 @@
 
 	const names = ['Piña Colada', 'Winter', 'Spacey Intro', 'Spacey Outro'];
 
-	export let author: string;
+	interface Props {
+		author: string;
+		links?: import('svelte').Snippet;
+	}
+
+	let { author, links }: Props = $props();
 	const SONG_MAX_DEFAULT_COUNT = 4;
-	$: songs1 = lookup_songs_by_author(author).sort((a, b) => {
+	let songs1 = $derived(lookup_songs_by_author(author).sort((a, b) => {
 		const a_index = names.indexOf(a.name);
 		const b_index = names.indexOf(b.name);
 		if (a_index === -1 && b_index === -1) return 1;
 		if (a_index === -1) return 1;
 		if (b_index === -1) return -1;
 		return a_index - b_index;
-	});
-	$: songs1a = songs1.slice(0, SONG_MAX_DEFAULT_COUNT);
-	$: songs1b = songs1.slice(SONG_MAX_DEFAULT_COUNT);
+	}));
+	let songs1a = $derived(songs1.slice(0, SONG_MAX_DEFAULT_COUNT));
+	let songs1b = $derived(songs1.slice(SONG_MAX_DEFAULT_COUNT));
 </script>
 
 <h3>music by {author}</h3>
-<slot name="links" />
+{@render links?.()}
 {#each songs1a as song}
 	<div class="audio-file">
 		<a href={song.url}>"{song.name}"</a>
@@ -28,7 +33,9 @@
 {/each}
 {#if songs1b.length}
 	<Details>
-		<summary slot="summary"><h3 class="inline">see {songs1b.length} more songs</h3></summary>
+		{#snippet summary()}
+				<summary ><h3 class="inline">see {songs1b.length} more songs</h3></summary>
+			{/snippet}
 		<div>
 			{#each songs1b as song}
 				<div class="audio-file">

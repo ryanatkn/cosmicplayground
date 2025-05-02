@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {onMount, tick} from 'svelte';
 	import {random_float} from '@ryanatkn/belt/random.js';
 	import {swallow} from '@ryanatkn/belt/dom.js';
@@ -30,16 +32,9 @@
 
 	const clock = clock_context.get();
 
-	let camera: Camera | undefined;
-	$: x = camera?.x;
-	$: y = camera?.y;
-	$: scale = camera?.scale;
-	$: width = camera?.width;
-	$: height = camera?.height;
+	let camera: Camera | undefined = $state();
 
 	const dimensions = dimensions_context.get();
-	$: if (width) $width = $dimensions.width;
-	$: if (height) $height = $dimensions.height;
 
 	// TODO image metadata
 	const image_width = 4096;
@@ -51,11 +46,10 @@
 	const initial_height = $dimensions.height;
 
 	const settings = settings_context.get();
-	$: dev_mode = $settings.dev_mode;
 
 	// TODO add auto pan button - share logic with Starlit Hanmmock and deep breath
 
-	let show_hud = true;
+	let show_hud = $state(true);
 	const toggle_hud = (value = !show_hud) => {
 		show_hud = value;
 	};
@@ -81,28 +75,23 @@
 	// Earth's land
 	const to_land_images = (min: number, max: number): string[] =>
 		Array.from({length: 1 + max - min}, (_, i) => `/assets/earth/land_${i + 1 + min}.png`);
-	let land_images = to_land_images(0, 11);
-	let cycled_land_value = 0;
-	$: cycled_land_index = Math.floor(cycled_land_value);
+	let land_images = $state(to_land_images(0, 11));
+	let cycled_land_value = $state(0);
 
 	// Earth's lights
 	const DEFAULT_LIGHTS_OPACITY_MIN = 0;
 	const DEFAULT_LIGHTS_OPACITY_MAX = 0.91;
 	const LIGHTS_IMAGE = `/assets/earth/lights.png`;
-	let lights_opacity_min = DEFAULT_LIGHTS_OPACITY_MIN;
-	let lights_opacity_max = DEFAULT_LIGHTS_OPACITY_MAX;
-	let lights_opacity = lights_opacity_min;
+	let lights_opacity_min = $state(DEFAULT_LIGHTS_OPACITY_MIN);
+	let lights_opacity_max = $state(DEFAULT_LIGHTS_OPACITY_MAX);
+	let lights_opacity = $state(lights_opacity_min);
 	const LIGHTS_OPACITY_CYCLE_TIMER = 3000; // larger is slower
-	let lights_timer = LIGHTS_OPACITY_CYCLE_TIMER * 1.7;
-	$: if (selected_daylight === null) lights_timer += $clock.dt;
-	$: lights_opacity = to_lights_opacity(lights_timer);
+	let lights_timer = $state(LIGHTS_OPACITY_CYCLE_TIMER * 1.7);
 	const to_lights_opacity = (time: number): number =>
 		lights_opacity_min +
 		((lights_opacity_max - lights_opacity_min) *
 			(Math.sin(time / LIGHTS_OPACITY_CYCLE_TIMER) + 1)) /
 			2;
-	// TODO would be cool to have nightfall overlay the shape of the real thing, not global
-	$: nightfall_opacity = (active_daylight - lights_opacity_min) * 0.48;
 
 	// TODO this is weird because the shore images were bolted on after the fact.
 	// Refactoring the sea images to have a single base and later the second/third above would be ideal
@@ -113,26 +102,17 @@
 	const seashore_floor_index = SHORE_COUNT;
 	const sea_index_max = sea_images.length + SHORE_COUNT - 1;
 	const SEA_LEVEL_CYCLE_TIMER = 1000; // larger is slower
-	let sea_level_timer = SEA_LEVEL_CYCLE_TIMER * 2.5;
-	$: if (selected_sea_level === null && hovered_sea_level === null) {
-		sea_level_timer += $clock.dt;
-	}
+	let sea_level_timer = $state(SEA_LEVEL_CYCLE_TIMER * 2.5);
 	const to_sea_level = (time: number): number =>
 		(sea_index_max * (Math.sin(time / SEA_LEVEL_CYCLE_TIMER) + 1)) / 2;
-	let sea_level = to_sea_level(sea_level_timer);
-	$: sea_level = to_sea_level(sea_level_timer);
+	let sea_level = $state(to_sea_level(sea_level_timer));
 
 	// update every clock tick
 	const LAND_DELAY = 230;
-	let land_timer = 0;
-	$: if (selected_land_index === null && hovered_land_index === null) {
-		land_timer += $clock.dt;
-		cycled_land_value = (land_timer / LAND_DELAY) % land_images.length;
-	}
+	let land_timer = $state(0);
 
-	let selected_sea_level: number | null = null;
-	let hovered_sea_level: number | null = null;
-	$: active_sea_level = hovered_sea_level ?? selected_sea_level ?? sea_level;
+	let selected_sea_level: number | null = $state(null);
+	let hovered_sea_level: number | null = $state(null);
 	const select_sea_level = (value: number | null) => {
 		selected_sea_level = value;
 	};
@@ -140,11 +120,8 @@
 		hovered_sea_level = value;
 	};
 
-	let selected_land_index: number | null = null;
-	let hovered_land_index: number | null = null;
-	$: active_land_index = hovered_land_index ?? selected_land_index ?? cycled_land_index;
-	$: active_land_value =
-		active_land_index === cycled_land_index ? cycled_land_value : active_land_index;
+	let selected_land_index: number | null = $state(null);
+	let hovered_land_index: number | null = $state(null);
 	const set_cycled_land_value = (value: number) => {
 		land_timer = LAND_DELAY * value;
 	};
@@ -157,9 +134,8 @@
 		if (index !== null) set_cycled_land_value(index);
 	};
 
-	let selected_daylight: number | null = null;
-	let hovered_daylight: number | null = null;
-	$: active_daylight = hovered_daylight ?? selected_daylight ?? lights_opacity;
+	let selected_daylight: number | null = $state(null);
+	let hovered_daylight: number | null = $state(null);
 	const select_daylight = (value: number | null) => {
 		selected_daylight = value;
 	};
@@ -175,7 +151,7 @@
 	resources.addResource('image', LIGHTS_IMAGE);
 
 	// in dev mode, bypass the title screen for convenience
-	let show_title_screen = true;
+	let show_title_screen = $state(true);
 	const proceed = () => {
 		show_title_screen = !show_title_screen;
 	};
@@ -193,9 +169,7 @@
 		}
 	});
 
-	let tour: Tour | undefined;
-	$: touring = tour ? tour.touring : null;
-	$: console.log(`$touring`, $touring);
+	let tour: Tour | undefined = $state();
 
 	const start_tour = async (): Promise<void> => {
 		if (show_title_screen) {
@@ -213,14 +187,7 @@
 	};
 
 	// TODO hacky
-	let was_touring = false;
-	$: {
-		if (was_touring && !$touring) {
-			lights_opacity_min = DEFAULT_LIGHTS_OPACITY_MIN;
-			lights_opacity_max = DEFAULT_LIGHTS_OPACITY_MAX;
-		}
-		was_touring = !!$touring;
-	}
+	let was_touring = $state(false);
 
 	const update_land_images: (min: number, max: number) => void = (min, max) => {
 		console.log(`update_land_images`, min, max);
@@ -239,9 +206,60 @@
 		select_sea_level(max);
 		hover_sea_level(max);
 	};
+	let x = $derived(camera?.x);
+	let y = $derived(camera?.y);
+	let scale = $derived(camera?.scale);
+	let width = $derived(camera?.width);
+	let height = $derived(camera?.height);
+	run(() => {
+		if (width) $width = $dimensions.width;
+	});
+	run(() => {
+		if (height) $height = $dimensions.height;
+	});
+	let dev_mode = $derived($settings.dev_mode);
+	run(() => {
+		if (selected_land_index === null && hovered_land_index === null) {
+			land_timer += $clock.dt;
+			cycled_land_value = (land_timer / LAND_DELAY) % land_images.length;
+		}
+	});
+	let cycled_land_index = $derived(Math.floor(cycled_land_value));
+	run(() => {
+		if (selected_daylight === null) lights_timer += $clock.dt;
+	});
+	run(() => {
+		lights_opacity = to_lights_opacity(lights_timer);
+	});
+	let active_daylight = $derived(hovered_daylight ?? selected_daylight ?? lights_opacity);
+	run(() => {
+		if (was_touring && !$touring) {
+			lights_opacity_min = DEFAULT_LIGHTS_OPACITY_MIN;
+			lights_opacity_max = DEFAULT_LIGHTS_OPACITY_MAX;
+		}
+		was_touring = !!$touring;
+	});
+	// TODO would be cool to have nightfall overlay the shape of the real thing, not global
+	let nightfall_opacity = $derived((active_daylight - lights_opacity_min) * 0.48);
+	run(() => {
+		if (selected_sea_level === null && hovered_sea_level === null) {
+			sea_level_timer += $clock.dt;
+		}
+	});
+	run(() => {
+		sea_level = to_sea_level(sea_level_timer);
+	});
+	let active_sea_level = $derived(hovered_sea_level ?? selected_sea_level ?? sea_level);
+	let active_land_index = $derived(hovered_land_index ?? selected_land_index ?? cycled_land_index);
+	let active_land_value =
+		$derived(active_land_index === cycled_land_index ? cycled_land_value : active_land_index);
+	let touring = $derived(tour ? tour.touring : null);
+	run(() => {
+		console.log(`$touring`, $touring);
+	});
 </script>
 
-<svelte:window on:keydown={keydown} />
+<svelte:window onkeydown={keydown} />
 
 <Camera
 	bind:this={camera}

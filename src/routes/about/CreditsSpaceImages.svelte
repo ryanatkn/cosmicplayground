@@ -28,9 +28,11 @@
 	<!-- TODO replace with a <Details /> component that lazily renders its contents, this causes a ton of unnecessary image requests -->
 	{#if hiddenImages.length}
 		<Details>
-			<summary slot="summary">
-				<h3 class="inline">see {hiddenImages.length} more images</h3>
-			</summary>
+			{#snippet summary()}
+						<summary >
+					<h3 class="inline">see {hiddenImages.length} more images</h3>
+				</summary>
+					{/snippet}
 			<ul>
 				{#each hiddenImages as image (image.info.url)}
 					<li>

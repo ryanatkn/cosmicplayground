@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {writable, type Writable} from 'svelte/store';
 	import {clock_context} from '$lib/clock.js';
 
@@ -12,32 +14,47 @@
 	import type Camera from '$lib/Camera.svelte';
 	import Soggy_Planet_Tour_Credits from '$routes/soggy-planet/Soggy_Planet_Tour_Credits.svelte';
 
-	export let camera: Camera;
 
 	// for external binding, not props
-	// owned by the `Tour` component
-	export let tour: Tour | undefined = undefined;
-	export let touring: Writable<boolean> | undefined = undefined as any;
-	export let tour_data: Writable<TourData | null> | undefined = undefined as any;
-	export let current_time: Writable<number> | undefined = undefined as any;
-	export let current_step_index: Writable<number> | undefined = undefined as any;
-	export let paused: boolean | undefined = undefined as any;
-	export let begin_tour: (() => void) | undefined = undefined as any;
-	export let update_land_images: (min: number, max: number) => void;
-	export let update_daylight: (min: number, max: number) => void;
-	export let update_sea_level: (min: number, max: number) => void;
+	
+	interface Props {
+		camera: Camera;
+		// owned by the `Tour` component
+		tour?: Tour | undefined;
+		touring?: Writable<boolean> | undefined;
+		tour_data?: Writable<TourData | null> | undefined;
+		current_time?: Writable<number> | undefined;
+		current_step_index?: Writable<number> | undefined;
+		paused?: boolean | undefined;
+		begin_tour?: (() => void) | undefined;
+		update_land_images: (min: number, max: number) => void;
+		update_daylight: (min: number, max: number) => void;
+		update_sea_level: (min: number, max: number) => void;
+	}
+
+	let {
+		camera,
+		tour = $bindable(undefined),
+		touring = $bindable(undefined as any),
+		tour_data = $bindable(undefined as any),
+		current_time = $bindable(undefined as any),
+		current_step_index = $bindable(undefined as any),
+		paused = $bindable(undefined as any),
+		begin_tour = $bindable(undefined as any),
+		update_land_images,
+		update_daylight,
+		update_sea_level
+	}: Props = $props();
 	// owned by this component
 	export const show_tour_intro: Writable<boolean> = writable(false);
 	export const show_tour_title: Writable<boolean> = writable(false);
 	export const show_tour_credits: Writable<boolean> = writable(false);
 
-	let {scale} = camera;
-	$: ({scale} = camera);
+	let {scale} = $state(camera);
 
 	const clock = clock_context.get();
 
 	const settings = settings_context.get();
-	$: ({audio_enabled, dev_mode} = $settings);
 
 	const tour_resources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
 	const main_song_url = '/assets/audio/Alexander_Nakarada__Piña_Colada.mp3';
@@ -46,27 +63,17 @@
 	// and then we can remove the next line `$: main_song = ...`
 	tour_resources.addResource('audio', main_song_url);
 	tour_resources.addResource('audio', water_trickle_url);
-	let main_song: AudioResource;
-	$: main_song = $tour_resources.resources.find((r) => r.url === main_song_url) as any; // TODO faster API, or maybe remove (see comment above)
-	let water_trickle_sound: AudioResource;
-	$: water_trickle_sound = $tour_resources.resources.find(
-		(r) => r.url === water_trickle_url,
-	) as any; // TODO faster API, or maybe remove (see comment above)
+	let main_song: AudioResource = $state();
+	let water_trickle_sound: AudioResource = $state();
 	const tour_title_transition_duration = 2000;
 	const tour_title_pause_duration = 3000;
 	const tour_title_max_delay = 250;
 	const tour_title_total_duration =
 		tour_title_transition_duration * 2 + tour_title_max_delay + tour_title_pause_duration;
 
-	$: main_song_step = $tour_data && findTourStep($tour_data, 'play_main_song');
-	$: water_trickle_step = $tour_data && findTourStep($tour_data, 'play_water_trickle');
 
 	// TODO move to `Tour.svelte` after audio is moved there
-	let last_paused = paused;
-	$: if ($touring && paused !== undefined && paused !== last_paused) {
-		last_paused = paused;
-		update_paused(paused);
-	}
+	let last_paused = $state(paused);
 	const update_paused = (paused: boolean): void => {
 		if (main_song.audio && main_song_step && $current_time != null && paused != null) {
 			update_audio_on_seek(main_song.audio, main_song_step, $current_time, audio_enabled, paused);
@@ -87,7 +94,7 @@
 		}
 	};
 
-	let tour_text: string[] | null = null; // TODO maybe make a store? move/refactor?
+	let tour_text: string[] | null = $state(null); // TODO maybe make a store? move/refactor?
 	const add_tour_text = (text: string | {content: string; count: number}): void => {
 		if (typeof text === 'string') {
 			tour_text = [text];
@@ -185,7 +192,29 @@
 		},
 	};
 
-	$: update_paused(!audio_enabled); // TODO awkward naming
+	run(() => {
+		({scale} = camera);
+	});
+	let {audio_enabled, dev_mode} = $derived($settings);
+	run(() => {
+		main_song = $tour_resources.resources.find((r) => r.url === main_song_url) as any;
+	}); // TODO faster API, or maybe remove (see comment above)
+	run(() => {
+		water_trickle_sound = $tour_resources.resources.find(
+			(r) => r.url === water_trickle_url,
+		) as any;
+	}); // TODO faster API, or maybe remove (see comment above)
+	let main_song_step = $derived($tour_data && findTourStep($tour_data, 'play_main_song'));
+	let water_trickle_step = $derived($tour_data && findTourStep($tour_data, 'play_water_trickle'));
+	run(() => {
+		if ($touring && paused !== undefined && paused !== last_paused) {
+			last_paused = paused;
+			update_paused(paused);
+		}
+	});
+	run(() => {
+		update_paused(!audio_enabled);
+	}); // TODO awkward naming
 </script>
 
 {#if $touring}

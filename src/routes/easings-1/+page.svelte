@@ -1,6 +1,8 @@
 <svelte:options immutable={false} />
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	/*
 
   Svelte has built-in support for ergonomic and high performance animations.
@@ -37,9 +39,9 @@
 	import {createTweens, type Tween} from '$lib/tweens.js';
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 
-	let duration = 1500;
+	let duration = $state(1500);
 
-	let toggle = false;
+	let toggle = $state(false);
 
 	let timeout: number;
 	const loop_padding = 300; // time to wait between loops
@@ -55,22 +57,28 @@
 
 	type Easings_View = 'all' | 'selected' | 'unselected';
 	const views: Easings_View[] = ['all', 'selected', 'unselected'];
-	let view: Easings_View = 'selected';
+	let view: Easings_View = $state('selected');
 
-	let playing = true;
-	$: playing ? start_playing() : stop_playing();
+	let playing = $state(true);
+	run(() => {
+		playing ? start_playing() : stop_playing();
+	});
 
 	const tweens = createTweens(duration, undefined, 1);
-	$: void tweens.set(toggle ? 1 : 0, {duration});
+	run(() => {
+		void tweens.set(toggle ? 1 : 0, {duration});
+	});
 
-	let selected: {[key: string]: boolean};
-	$: selected = tweens.easings.reduce((v = {}, {name}) => {
-		v[name] ??= true;
-		return v;
-	}, selected);
+	let selected: {[key: string]: boolean} = $state();
+	run(() => {
+		selected = tweens.easings.reduce((v = {}, {name}) => {
+			v[name] ??= true;
+			return v;
+		}, selected);
+	});
 
-	$: selecting_all = Object.values(selected).every(Boolean);
-	$: selecting_none = Object.values(selected).every((v) => !v);
+	let selecting_all = $derived(Object.values(selected).every(Boolean));
+	let selecting_none = $derived(Object.values(selected).every((v) => !v));
 
 	const graphic_width = 24;
 	const graphic_height = 24;

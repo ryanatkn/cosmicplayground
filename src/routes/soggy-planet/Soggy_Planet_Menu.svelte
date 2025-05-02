@@ -4,21 +4,27 @@
 	import AppControlsTable from '$lib/AppControlsTable.svelte';
 	import {settings_context} from '$lib/settings.js';
 
-	export let clock: ClockStore; // TODO or use context?
+	interface Props {
+		clock: ClockStore; // TODO or use context?
+	}
+
+	let { clock }: Props = $props();
 
 	const settings = settings_context.get();
-	$: dev_mode = $settings.dev_mode;
+	let dev_mode = $derived($settings.dev_mode);
 </script>
 
 <div class="wrapper">
 	<AppControlsTable {clock}>
-		<svelte:fragment slot="end">
-			<tr>
-				<td><code>[shift+Backtick `]</code></td><td
-					>toggle dev mode (currently <code>{dev_mode}</code>)</td
-				>
-			</tr>
-		</svelte:fragment>
+		{#snippet end()}
+			
+				<tr>
+					<td><code>[shift+Backtick `]</code></td><td
+						>toggle dev mode (currently <code>{dev_mode}</code>)</td
+					>
+				</tr>
+			
+			{/snippet}
 	</AppControlsTable>
 </div>
 

@@ -4,14 +4,23 @@
 	import EarthThumbnail from '$lib/EarthThumbnail.svelte';
 	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/soggy-planet/constants.js';
 
-	export let earthWidth = THUMBNAIL_WIDTH_DEFAULT;
-	export let label = 'proceed';
-	export let on_click: ((e: MouseEvent) => void) | null = null;
-	export let showName = true;
+	interface Props {
+		earthWidth?: any;
+		label?: string;
+		on_click?: ((e: MouseEvent) => void) | null;
+		showName?: boolean;
+	}
+
+	let {
+		earthWidth = THUMBNAIL_WIDTH_DEFAULT,
+		label = 'proceed',
+		on_click = null,
+		showName = true
+	}: Props = $props();
 
 	const clock = clock_context.get();
 
-	$: textScale = earthWidth / THUMBNAIL_WIDTH_DEFAULT;
+	let textScale = $derived(earthWidth / THUMBNAIL_WIDTH_DEFAULT);
 </script>
 
 <!-- TODO this fake sphere is unsettling... -->

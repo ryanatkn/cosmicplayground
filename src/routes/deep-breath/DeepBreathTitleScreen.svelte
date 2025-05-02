@@ -14,8 +14,12 @@
 	import type {ResourcesStore} from '$lib/resources.js';
 	import PortalLink from '$lib/PortalLink.svelte';
 
-	export let resources: ResourcesStore;
-	export let proceed: () => void;
+	interface Props {
+		resources: ResourcesStore;
+		proceed: () => void;
+	}
+
+	let { resources, proceed }: Props = $props();
 
 	// The user can click the title image to load the interactive,
 	// but only if the user has clicked the load button directly before.

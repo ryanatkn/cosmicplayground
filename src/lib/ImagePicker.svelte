@@ -1,8 +1,12 @@
 <script lang="ts">
 	import type {ImageMeta} from '$lib/images.js';
 
-	export let images: ImageMeta[];
-	export let pick_image: (image: ImageMeta) => void;
+	interface Props {
+		images: ImageMeta[];
+		pick_image: (image: ImageMeta) => void;
+	}
+
+	let { images, pick_image }: Props = $props();
 </script>
 
 <div class="image-picker">

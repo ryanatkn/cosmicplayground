@@ -3,7 +3,11 @@
 
 	import AppControlsTable from '$lib/AppControlsTable.svelte';
 
-	export let clock: ClockStore; // TODO or use context?
+	interface Props {
+		clock: ClockStore; // TODO or use context?
+	}
+
+	let { clock }: Props = $props();
 </script>
 
 <AppControlsTable {clock}>

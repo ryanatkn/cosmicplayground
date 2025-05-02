@@ -1,20 +1,32 @@
 <script lang="ts">
-	export let elapsedTime: number;
-	export let style: string | null = null;
-	export let lowestHzValue = 1000; // the base cycle should be a multiple of this
-	export let lowestHzItemCount = 4; // value range: [1, N] where N is an integer - the # of items that will appear for the lowest hz value
-	$: baseCycleLength = lowestHzValue * lowestHzItemCount;
-	$: baseCycleTime = elapsedTime % baseCycleLength;
-	$: baseCyclePct = baseCycleTime / baseCycleLength;
-	export let height = 600;
-	export let width = 1000;
-	export let hzItems: number[] = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]; // correspond to a # of hz - `baseCycleLength` needs to be evenly divisible, or we get visual bugs
-	// TODO are there any low-hanging high-impact optimizations here? maybe not re-allocating arrays each tick?
-	$: hzItemCounts = hzItems.map((v) => (v * baseCycleLength) / 1000);
-	$: hzItemSelectedIndices = hzItemCounts.map((v) => Math.floor(baseCyclePct * v));
-	$: hzItemHeight = height / hzItems.length;
-	$: hzItemWidths = hzItems.map((_v, i) => width / hzItemCounts[i]);
+	interface Props {
+		elapsedTime: number;
+		style?: string | null;
+		lowestHzValue?: number; // the base cycle should be a multiple of this
+		lowestHzItemCount?: number; // value range: [1, N] where N is an integer - the # of items that will appear for the lowest hz value
+		height?: number;
+		width?: number;
+		hzItems?: number[]; // correspond to a # of hz - `baseCycleLength` needs to be evenly divisible, or we get visual bugs
+	}
+
+	let {
+		elapsedTime,
+		style = null,
+		lowestHzValue = 1000,
+		lowestHzItemCount = 4,
+		height = 600,
+		width = 1000,
+		hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]
+	}: Props = $props();
 	export const getHzItemSelectedIndices = (): number[] => hzItemSelectedIndices; // TODO better pattern?
+	let baseCycleLength = $derived(lowestHzValue * lowestHzItemCount);
+	let baseCycleTime = $derived(elapsedTime % baseCycleLength);
+	let baseCyclePct = $derived(baseCycleTime / baseCycleLength);
+	// TODO are there any low-hanging high-impact optimizations here? maybe not re-allocating arrays each tick?
+	let hzItemCounts = $derived(hzItems.map((v) => (v * baseCycleLength) / 1000));
+	let hzItemSelectedIndices = $derived(hzItemCounts.map((v) => Math.floor(baseCyclePct * v)));
+	let hzItemHeight = $derived(height / hzItems.length);
+	let hzItemWidths = $derived(hzItems.map((_v, i) => width / hzItemCounts[i]));
 </script>
 
 <svg {width} {height} {style}>

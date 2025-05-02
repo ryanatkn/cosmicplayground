@@ -1,10 +1,14 @@
 <script lang="ts">
 	import {portals_context} from '$lib/portals.js';
 
-	export let slug: string;
+	interface Props {
+		slug: string;
+	}
+
+	let { slug }: Props = $props();
 
 	const portals = portals_context.get();
-	$: portal = $portals.data.portals_by_slug.get(slug)!;
+	let portal = $derived($portals.data.portals_by_slug.get(slug)!);
 </script>
 
 <a href="/{slug}">

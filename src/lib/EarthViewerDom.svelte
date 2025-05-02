@@ -4,7 +4,10 @@
 	import BlendedImagesContinuum from '$lib/BlendedImagesContinuum.svelte';
 	import type Camera from '$lib/Camera.svelte';
 
-	/*
+	
+
+	interface Props {
+		/*
 
 	This is the original implementation of the renderer for the animated Earth sea levels.
 	Using the normal DOM `<img>` ended up being slow and wasteful
@@ -20,28 +23,45 @@
 	press ctrl+backtick and then click "webgl" in the top left.
 
 	*/
+		camera: Camera;
+		input_enabled?: boolean;
+		earth1LeftOffset: number;
+		earth2LeftOffset: number;
+		landImages: string[];
+		seaImages: string[];
+		shoreImages?: string[] | undefined;
+		seashoreFloorIndex?: number | undefined;
+		lightsImage?: string | undefined;
+		lightsOpacity?: number;
+		nightfallOpacity?: number;
+		showLights?: boolean;
+		activeLandValue: number;
+		activeSeaLevel: number;
+	}
 
-	export let camera: Camera;
-	export let input_enabled = true;
-	export let earth1LeftOffset: number;
-	export let earth2LeftOffset: number;
-	export let landImages: string[];
-	export let seaImages: string[];
-	export let shoreImages: string[] | undefined = undefined;
-	export let seashoreFloorIndex: number | undefined = undefined;
-	export let lightsImage: string | undefined = undefined;
-	export let lightsOpacity = 0;
-	export let nightfallOpacity = 0;
-	export let showLights = false;
-	export let activeLandValue: number;
-	export let activeSeaLevel: number;
+	let {
+		camera,
+		input_enabled = true,
+		earth1LeftOffset,
+		earth2LeftOffset,
+		landImages,
+		seaImages,
+		shoreImages = undefined,
+		seashoreFloorIndex = undefined,
+		lightsImage = undefined,
+		lightsOpacity = 0,
+		nightfallOpacity = 0,
+		showLights = false,
+		activeLandValue,
+		activeSeaLevel
+	}: Props = $props();
 
-	$: ({x, y, width, height, scale} = camera);
+	let {x, y, width, height, scale} = $derived(camera);
 
-	$: imageViewerX = $x * -1 + $width / 2;
-	$: imageViewerY = $y * -1 + $height / 2;
+	let imageViewerX = $derived($x * -1 + $width / 2);
+	let imageViewerY = $derived($y * -1 + $height / 2);
 
-	$: oceanImages = shoreImages ? shoreImages.concat(seaImages) : seaImages;
+	let oceanImages = $derived(shoreImages ? shoreImages.concat(seaImages) : seaImages);
 </script>
 
 <ImageViewer

@@ -4,9 +4,15 @@
 
 	import Panel from '$lib/Panel.svelte';
 
-	export let clock: ClockStore; // TODO or use context?
+	interface Props {
+		clock: ClockStore; // TODO or use context?
+		children?: import('svelte').Snippet;
+		end?: import('svelte').Snippet;
+	}
 
-	$: navLevel = page.url.pathname === '/' ? 0 : page.url.pathname.split('/').length - 1;
+	let { clock, children, end }: Props = $props();
+
+	let navLevel = $derived(page.url.pathname === '/' ? 0 : page.url.pathname.split('/').length - 1);
 </script>
 
 <Panel
@@ -18,7 +24,7 @@
 					<tr><th>key</th><th>action</th></tr>
 				</thead>
 				<tbody>
-					<slot />
+					{@render children?.()}
 					<tr><td><code>[Escape]</code></td><td>toggle main menu</td></tr>
 					<tr>
 						<td><code>[Backtick `]</code></td><td
@@ -31,7 +37,7 @@
 								one level above you{:else}there's {navLevel} levels above you{/if})</td
 						>
 					</tr>
-					<slot name="end" />
+					{@render end?.()}
 				</tbody>
 			</table>
 		</section>

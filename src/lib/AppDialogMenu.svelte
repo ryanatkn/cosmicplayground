@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import Breadcrumb from '@ryanatkn/fuz/Breadcrumb.svelte';
 	import {page} from '$app/state';
 	import {base} from '$app/paths';
@@ -27,12 +29,14 @@
 
 	const STORAGE_KEY_MEDIA_PLAYER_COLLAPSED = 'media_player_collapsed';
 	const DEFAULT_COLLAPSED = false;
-	let collapsed = loadFromStorage(STORAGE_KEY_MEDIA_PLAYER_COLLAPSED, DEFAULT_COLLAPSED);
-	let last_collapsed = collapsed;
-	$: if (last_collapsed !== collapsed) {
-		last_collapsed = collapsed;
-		setInStorage(STORAGE_KEY_MEDIA_PLAYER_COLLAPSED, collapsed);
-	}
+	let collapsed = $state(loadFromStorage(STORAGE_KEY_MEDIA_PLAYER_COLLAPSED, DEFAULT_COLLAPSED));
+	let last_collapsed = $state(collapsed);
+	run(() => {
+		if (last_collapsed !== collapsed) {
+			last_collapsed = collapsed;
+			setInStorage(STORAGE_KEY_MEDIA_PLAYER_COLLAPSED, collapsed);
+		}
+	});
 
 	const play = async (playlist_item: PlaylistItemData) => {
 		const {song} = playlist_item;

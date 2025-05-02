@@ -1,11 +1,15 @@
 <script lang="ts">
 	import {phase_sequences, type PhaseSequenceOrCreator} from '$routes/unlock/phases.js';
 
-	export let selected_phase_sequence_or_creator: PhaseSequenceOrCreator | null = null;
-	export let play_phase_sequence: (
+	interface Props {
+		selected_phase_sequence_or_creator?: PhaseSequenceOrCreator | null;
+		play_phase_sequence: (
 		phase_sequence_or_creator: PhaseSequenceOrCreator,
 	) => Promise<void>;
-	export let cancel: () => void;
+		cancel: () => void;
+	}
+
+	let { selected_phase_sequence_or_creator = null, play_phase_sequence, cancel }: Props = $props();
 </script>
 
 <ul>

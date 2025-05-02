@@ -6,15 +6,27 @@
 	import TourControls from '$lib/TourControls.svelte';
 	import type Tour from '$lib/Tour.svelte';
 
-	export let tour: Tour | null;
-	export let x: Writable<number>;
-	export let y: Writable<number>;
-	export let scale: Writable<number>;
-	export let togglePixiEarthViewer: (visible: boolean) => void;
-	export let enablePixiEarthViewer: boolean;
-	export let debug_start_time: number;
+	interface Props {
+		tour: Tour | null;
+		x: Writable<number>;
+		y: Writable<number>;
+		scale: Writable<number>;
+		togglePixiEarthViewer: (visible: boolean) => void;
+		enablePixiEarthViewer: boolean;
+		debug_start_time: number;
+	}
 
-	$: touring = tour?.touring;
+	let {
+		tour,
+		x,
+		y,
+		scale,
+		togglePixiEarthViewer,
+		enablePixiEarthViewer,
+		debug_start_time
+	}: Props = $props();
+
+	let touring = $derived(tour?.touring);
 </script>
 
 <FloatingTextButton

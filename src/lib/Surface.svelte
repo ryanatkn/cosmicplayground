@@ -3,13 +3,27 @@
 
 	// TODO maybe don't cancel when leaving the screen
 
-	// TODO probably add events
-	export let scale = 1; // makes the pointer position calculations transform-scale-aware
-	export let pointing: boolean | undefined = undefined;
-	export let pointer_down: boolean | undefined = undefined;
-	export let pointer_x: number | undefined = undefined;
-	export let pointer_y: number | undefined = undefined;
-	export let cancel_on_leave = true;
+	
+	interface Props {
+		// TODO probably add events
+		scale?: number; // makes the pointer position calculations transform-scale-aware
+		pointing?: boolean | undefined;
+		pointer_down?: boolean | undefined;
+		pointer_x?: number | undefined;
+		pointer_y?: number | undefined;
+		cancel_on_leave?: boolean;
+		children?: import('svelte').Snippet;
+	}
+
+	let {
+		scale = 1,
+		pointing = $bindable(undefined),
+		pointer_down = $bindable(undefined),
+		pointer_x = $bindable(undefined),
+		pointer_y = $bindable(undefined),
+		cancel_on_leave = true,
+		children
+	}: Props = $props();
 
 	const update_pointer_position = (clientX: number, clientY: number): void => {
 		const rect = el.getBoundingClientRect();
@@ -60,7 +74,7 @@
 		}
 	};
 
-	let el: HTMLDivElement;
+	let el: HTMLDivElement = $state();
 
 	const focus = (): void => {
 		if (document.activeElement !== el) {
@@ -79,14 +93,14 @@
 	tabindex="0"
 	role="button"
 	bind:this={el}
-	on:pointerdown={pointerdown}
-	on:pointerup={pointerup}
-	on:pointermove={pointermove}
-	on:pointerenter={pointerenter}
-	on:pointerleave={pointerleave}
-	on:pointercancel={pointercancel}
+	onpointerdown={pointerdown}
+	onpointerup={pointerup}
+	onpointermove={pointermove}
+	onpointerenter={pointerenter}
+	onpointerleave={pointerleave}
+	onpointercancel={pointercancel}
 >
-	<slot />
+	{@render children?.()}
 </div>
 
 <style>

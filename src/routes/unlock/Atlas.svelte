@@ -15,9 +15,9 @@
 	import {play_song} from '$lib/play_song.js';
 
 	// TODO refactor this so it doesn't use `bind`
-	let selected_phase: PhaseData | null = null;
-	let selected_phase_sequence_or_creator: PhaseSequenceOrCreator | null = null;
-	let selected_phase_sequence: PhaseSequence | null = null;
+	let selected_phase: PhaseData | null = $state(null);
+	let selected_phase_sequence_or_creator: PhaseSequenceOrCreator | null = $state(null);
+	let selected_phase_sequence: PhaseSequence | null = $state(null);
 
 	const play_phase_song = async (phase: PhaseData): Promise<void> => {
 		console.log(`playPhaseSong`, phase);
@@ -94,114 +94,136 @@
 <div class="atlas">
 	<section>
 		<!-- TODO maybe have the `Level` mount the `Phase` as well -->
-		<Level level={to_level_data_by_name('0')} let:phase>
-			<Phase
-				{phase}
-				{select_phase}
-				selected={phase === selected_phase}
-				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
-			/>
-		</Level>
+		<Level level={to_level_data_by_name('0')} >
+			{#snippet children({ phase })}
+						<Phase
+					{phase}
+					{select_phase}
+					selected={phase === selected_phase}
+					disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
+				/>
+								{/snippet}
+				</Level>
 	</section>
 	<section>
-		<Level level={to_level_data_by_name('1')} let:phase>
-			<Phase
-				{phase}
-				{select_phase}
-				selected={phase === selected_phase}
-				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
-			/>
-		</Level>
+		<Level level={to_level_data_by_name('1')} >
+			{#snippet children({ phase })}
+						<Phase
+					{phase}
+					{select_phase}
+					selected={phase === selected_phase}
+					disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
+				/>
+								{/snippet}
+				</Level>
 	</section>
 	<section>
-		<Level level={to_level_data_by_name('2')} let:phase>
-			<Phase
-				{phase}
-				{select_phase}
-				selected={phase === selected_phase}
-				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
-			/>
-		</Level>
+		<Level level={to_level_data_by_name('2')} >
+			{#snippet children({ phase })}
+						<Phase
+					{phase}
+					{select_phase}
+					selected={phase === selected_phase}
+					disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
+				/>
+								{/snippet}
+				</Level>
 	</section>
 	<section>
-		<Level level={to_level_data_by_name('3')} let:phase>
-			<Phase
-				{phase}
-				{select_phase}
-				selected={phase === selected_phase}
-				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
-			/>
-		</Level>
+		<Level level={to_level_data_by_name('3')} >
+			{#snippet children({ phase })}
+						<Phase
+					{phase}
+					{select_phase}
+					selected={phase === selected_phase}
+					disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
+				/>
+								{/snippet}
+				</Level>
 	</section>
 	<section>
-		<Level level={to_level_data_by_name('4')} let:phase>
-			<Phase
-				{phase}
-				{select_phase}
-				selected={phase === selected_phase}
-				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
-			/>
-		</Level>
+		<Level level={to_level_data_by_name('4')} >
+			{#snippet children({ phase })}
+						<Phase
+					{phase}
+					{select_phase}
+					selected={phase === selected_phase}
+					disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
+				/>
+								{/snippet}
+				</Level>
 	</section>
 	<section>
-		<Level level={to_level_data_by_name('5')} let:phase>
-			<Phase
-				{phase}
-				{select_phase}
-				selected={phase === selected_phase}
-				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
-			/>
-		</Level>
+		<Level level={to_level_data_by_name('5')} >
+			{#snippet children({ phase })}
+						<Phase
+					{phase}
+					{select_phase}
+					selected={phase === selected_phase}
+					disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
+				/>
+								{/snippet}
+				</Level>
 	</section>
 	<section>
-		<Level level={to_level_data_by_name('6')} let:phase>
-			<Phase
-				{phase}
-				{select_phase}
-				selected={phase === selected_phase}
-				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
-			/>
-		</Level>
+		<Level level={to_level_data_by_name('6')} >
+			{#snippet children({ phase })}
+						<Phase
+					{phase}
+					{select_phase}
+					selected={phase === selected_phase}
+					disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
+				/>
+								{/snippet}
+				</Level>
 	</section>
 	<section>
-		<Level level={to_level_data_by_name('7')} let:phase>
-			<Phase
-				{phase}
-				{select_phase}
-				selected={phase === selected_phase}
-				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
-			/>
-		</Level>
+		<Level level={to_level_data_by_name('7')} >
+			{#snippet children({ phase })}
+						<Phase
+					{phase}
+					{select_phase}
+					selected={phase === selected_phase}
+					disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
+				/>
+								{/snippet}
+				</Level>
 	</section>
 	<section>
-		<Level level={to_level_data_by_name('8')} let:phase>
-			<Phase
-				{phase}
-				{select_phase}
-				selected={phase === selected_phase}
-				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
-			/>
-		</Level>
+		<Level level={to_level_data_by_name('8')} >
+			{#snippet children({ phase })}
+						<Phase
+					{phase}
+					{select_phase}
+					selected={phase === selected_phase}
+					disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
+				/>
+								{/snippet}
+				</Level>
 	</section>
 	<section>
-		<Level level={to_level_data_by_name('9')} let:phase>
-			<Phase
-				{phase}
-				{select_phase}
-				selected={phase === selected_phase}
-				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
-			/>
-		</Level>
+		<Level level={to_level_data_by_name('9')} >
+			{#snippet children({ phase })}
+						<Phase
+					{phase}
+					{select_phase}
+					selected={phase === selected_phase}
+					disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
+				/>
+								{/snippet}
+				</Level>
 	</section>
 	<section>
-		<Level level={to_level_data_by_name('10')} let:phase>
-			<Phase
-				{phase}
-				{select_phase}
-				selected={phase === selected_phase}
-				disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
-			/>
-		</Level>
+		<Level level={to_level_data_by_name('10')} >
+			{#snippet children({ phase })}
+						<Phase
+					{phase}
+					{select_phase}
+					selected={phase === selected_phase}
+					disabled={!!selected_phase_sequence && !sequenceContains(selected_phase_sequence, phase)}
+				/>
+								{/snippet}
+				</Level>
 	</section>
 </div>
 

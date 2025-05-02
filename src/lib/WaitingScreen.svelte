@@ -3,7 +3,11 @@
 
 	import WaitingAnimation from '$lib/WaitingAnimation.svelte';
 
-	export let status: Async_Status;
+	interface Props {
+		status: Async_Status;
+	}
+
+	let { status }: Props = $props();
 </script>
 
 <div class="waiting-screen">

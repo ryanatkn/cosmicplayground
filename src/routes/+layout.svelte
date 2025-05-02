@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import '@ryanatkn/moss/style.css';
 	import '@ryanatkn/moss/theme.css';
 	import '$routes/moss.css';
@@ -38,6 +40,11 @@
 	import AppDialogMenu from '$lib/AppDialogMenu.svelte';
 	import {playing_song, muted, volume} from '$lib/play_song.js';
 	import {dimensions_context} from '$lib/dimensions.js';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 
 	const selected_color_scheme = writable('dark' as const);
 	sync_color_scheme($selected_color_scheme); // TODO probably shouldn't be needed
@@ -50,7 +57,7 @@
 		app_dialog.close();
 	});
 
-	let supports_webgl: boolean | null = null;
+	let supports_webgl: boolean | null = $state(null);
 
 	const pixi = new PixiApp();
 	console.log(`pixi`, pixi);
@@ -64,11 +71,15 @@
 	pixi_context.set(pixi);
 
 	const bgImageUrl = base + '/assets/space/galaxies.jpg';
-	let bg: PixiBgStore;
-	$: bg?.update_dimensions($dimensions.width, $dimensions.height);
-	$: bg?.tick($clock.dt);
+	let bg: PixiBgStore = $state();
+	run(() => {
+		bg?.update_dimensions($dimensions.width, $dimensions.height);
+	});
+	run(() => {
+		bg?.tick($clock.dt);
+	});
 
-	let loadingStatus: Async_Status = 'initial';
+	let loadingStatus: Async_Status = $state('initial');
 
 	onMount(async () => {
 		const redirecting = check_legacy_hash_redirect();
@@ -109,16 +120,22 @@
 		}),
 	);
 	// TODO refactor `settings` with this stuff -- granular stores seems better these days
-	$: audio_el = $playing_song?.audio_el;
-	$: if (audio_el) {
-		audio_el.volume = $muted ? 0 : $volume!;
-	}
-	$: if (audio_el) {
-		audio_el.volume = $muted ? 0 : volume ? $volume! : 1;
-	}
+	let audio_el = $derived($playing_song?.audio_el);
+	run(() => {
+		if (audio_el) {
+			audio_el.volume = $muted ? 0 : $volume!;
+		}
+	});
+	run(() => {
+		if (audio_el) {
+			audio_el.volume = $muted ? 0 : volume ? $volume! : 1;
+		}
+	});
 
 	clock.resume();
-	$: update_render_stats($clock.dt);
+	run(() => {
+		update_render_stats($clock.dt);
+	});
 
 	// TODO We want to do this to avoid unnecessary rendering when the app is paused,
 	// but the problem is it breaks some experiences like soggy planet.
@@ -145,16 +162,18 @@
 		selected_portal: portals_data.portals_by_slug.get(page.url.pathname.substring(1)) || null,
 	});
 	portals_context.set(portals);
-	$: selected_portalSlugFromPath = page.url.pathname.substring(1).split('/')[0];
-	$: portals.select(selected_portalSlugFromPath); // TODO hmm?
+	let selected_portalSlugFromPath = $derived(page.url.pathname.substring(1).split('/')[0]);
+	run(() => {
+		portals.select(selected_portalSlugFromPath);
+	}); // TODO hmm?
 
 	const idle = idle_context.set(writable(false));
 
-	$: time_to_go_idle = $settings.dev_mode
+	let time_to_go_idle = $derived($settings.dev_mode
 		? 99999999999
 		: $settings.recording_mode
 			? 500
-			: $settings.time_to_go_idle;
+			: $settings.time_to_go_idle);
 
 	audio_ctx_context.set();
 
@@ -200,9 +219,9 @@
 </svelte:head>
 
 <svelte:window
-	on:resize={() => ($dimensions = {width: window.innerWidth, height: window.innerHeight})}
+	onresize={() => ($dimensions = {width: window.innerWidth, height: window.innerHeight})}
 	use:track_idle_state={{idle, time_to_go_idle, idle_interval_time: 1000}}
-	on:keydown={onKeyDown}
+	onkeydown={onKeyDown}
 />
 
 <Themed {selected_color_scheme} color_scheme_fallback={$selected_color_scheme}>
@@ -227,7 +246,7 @@
 						<HomeButton />
 					</Hud>
 				{/if}
-				<slot />
+				{@render children?.()}
 			</main>
 			<AppDialogs />
 			<AppDialog>

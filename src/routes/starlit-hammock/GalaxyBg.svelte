@@ -1,10 +1,21 @@
 <script lang="ts">
-	export let width: number;
-	export let height: number;
-	export let imageUrl = '/assets/space/galaxies.jpg';
-	export let opacity = 0.2;
-	export let animationDuration = '360s';
-	export let running = true;
+	interface Props {
+		width: number;
+		height: number;
+		imageUrl?: string;
+		opacity?: number;
+		animationDuration?: string;
+		running?: boolean;
+	}
+
+	let {
+		width,
+		height,
+		imageUrl = '/assets/space/galaxies.jpg',
+		opacity = 0.2,
+		animationDuration = '360s',
+		running = true
+	}: Props = $props();
 
 	// TODO get from loaded image
 	const imageWidth = 2560;
@@ -13,9 +24,9 @@
 
 	// Make sure the bg covers the container and seamlessly scrolls
 	// regardless of its dimensions and aspect ratio.
-	$: useWidthDimension = width / imageAspectRatio > height;
-	$: bgWidth = 2 * (useWidthDimension ? width : height * imageAspectRatio);
-	$: bgHeight = 2 * (useWidthDimension ? width / imageAspectRatio : height);
+	let useWidthDimension = $derived(width / imageAspectRatio > height);
+	let bgWidth = $derived(2 * (useWidthDimension ? width : height * imageAspectRatio));
+	let bgHeight = $derived(2 * (useWidthDimension ? width / imageAspectRatio : height));
 </script>
 
 <div

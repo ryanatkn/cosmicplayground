@@ -5,9 +5,13 @@
 	import {base} from '$app/paths';
 
 	const settings = settings_context.get();
-	$: display_for_video = $settings.recording_mode;
+	let display_for_video = $derived($settings.recording_mode);
 
-	export let transition_duration: number;
+	interface Props {
+		transition_duration: number;
+	}
+
+	let { transition_duration }: Props = $props();
 
 	// transition vars
 	const delay = 250;

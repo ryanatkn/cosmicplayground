@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {writable, type Writable} from 'svelte/store';
 	import {clock_context} from '$lib/clock.js';
 
@@ -12,29 +14,41 @@
 	import type Camera from '$lib/Camera.svelte';
 	import DeepBreathTourCredits from '$routes/deep-breath/DeepBreathTourCredits.svelte';
 
-	export let camera: Camera;
 
 	// for external binding, not props
-	// owned by the `Tour` component
-	export let tour: Tour | undefined = undefined;
-	export let touring: Writable<boolean> | undefined = undefined as any;
-	export let tourData: Writable<TourData | null> | undefined = undefined as any;
-	export let currentTime: Writable<number> | undefined = undefined as any;
-	export let currentStepIndex: Writable<number> | undefined = undefined as any;
-	export let paused: boolean | undefined = undefined as any;
-	export let begin_tour: (() => void) | undefined = undefined as any;
+	
+	interface Props {
+		camera: Camera;
+		// owned by the `Tour` component
+		tour?: Tour | undefined;
+		touring?: Writable<boolean> | undefined;
+		tourData?: Writable<TourData | null> | undefined;
+		currentTime?: Writable<number> | undefined;
+		currentStepIndex?: Writable<number> | undefined;
+		paused?: boolean | undefined;
+		begin_tour?: (() => void) | undefined;
+	}
+
+	let {
+		camera,
+		tour = $bindable(undefined),
+		touring = $bindable(undefined as any),
+		tourData = $bindable(undefined as any),
+		currentTime = $bindable(undefined as any),
+		currentStepIndex = $bindable(undefined as any),
+		paused = $bindable(undefined as any),
+		begin_tour = $bindable(undefined as any)
+	}: Props = $props();
 	// owned by this component
 	export const showTourIntro: Writable<boolean> = writable(false);
 	export const showTourTitle: Writable<boolean> = writable(false);
 	export const showTourCredits: Writable<boolean> = writable(false);
 
-	let {scale} = camera;
-	$: ({scale} = camera);
+	let {scale} = $state(camera);
 
 	const clock = clock_context.get();
 
 	const settings = settings_context.get();
-	$: ({audio_enabled, dev_mode} = $settings);
 
 	const tourResources = createResourcesStore(); // creating this is lightweight enough to not be wasteful if the tour is never run
 	const mainSongUrl = '/assets/audio/Alexander_Nakarada__Winter.mp3';
@@ -43,10 +57,8 @@
 	// and then we can remove the next line `$: mainSong = ...`
 	tourResources.addResource('audio', mainSongUrl);
 	tourResources.addResource('audio', oceanWavesSoundUrl);
-	let mainSong: AudioResource;
-	$: mainSong = $tourResources.resources.find((r) => r.url === mainSongUrl) as any; // TODO faster API, or maybe remove (see comment above)
-	let oceanWavesSound: AudioResource;
-	$: oceanWavesSound = $tourResources.resources.find((r) => r.url === oceanWavesSoundUrl) as any; // TODO faster API, or maybe remove (see comment above)
+	let mainSong: AudioResource = $state();
+	let oceanWavesSound: AudioResource = $state();
 	const tourIntroTransitionInDuration = 2000;
 	const tourIntroTransitionOutDuration = 2000;
 	const tourIntroPauseDuration = 3000;
@@ -62,15 +74,9 @@
 	const tourTitleTotalDuration =
 		tourTitleTransitionDuration * 2 + tourTitleMaxDelay + tourTitlePauseDuration;
 
-	$: mainSongStep = $tourData && findTourStep($tourData, 'play_main_song');
-	$: oceanWavesStep = $tourData && findTourStep($tourData, 'playOceanWavesSound');
 
 	// TODO move to `Tour.svelte` after audio is moved there
-	let lastPaused = paused;
-	$: if ($touring && paused !== undefined && paused !== lastPaused) {
-		lastPaused = paused;
-		updatePaused(paused);
-	}
+	let lastPaused = $state(paused);
 	const updatePaused = (paused: boolean): void => {
 		update_audio_on_seek(mainSong.audio!, mainSongStep!, $currentTime!, audio_enabled, paused);
 		update_audio_on_seek(
@@ -141,6 +147,24 @@
 			if (oceanWavesSound.audio && !oceanWavesSound.audio.paused) oceanWavesSound.audio.pause();
 		},
 	};
+	run(() => {
+		({scale} = camera);
+	});
+	let {audio_enabled, dev_mode} = $derived($settings);
+	run(() => {
+		mainSong = $tourResources.resources.find((r) => r.url === mainSongUrl) as any;
+	}); // TODO faster API, or maybe remove (see comment above)
+	run(() => {
+		oceanWavesSound = $tourResources.resources.find((r) => r.url === oceanWavesSoundUrl) as any;
+	}); // TODO faster API, or maybe remove (see comment above)
+	let mainSongStep = $derived($tourData && findTourStep($tourData, 'play_main_song'));
+	let oceanWavesStep = $derived($tourData && findTourStep($tourData, 'playOceanWavesSound'));
+	run(() => {
+		if ($touring && paused !== undefined && paused !== lastPaused) {
+			lastPaused = paused;
+			updatePaused(paused);
+		}
+	});
 </script>
 
 {#if $touring}

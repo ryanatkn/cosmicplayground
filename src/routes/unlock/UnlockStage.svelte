@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type {Writable} from 'svelte/store';
 
 	import World from '$lib/World.svelte';
@@ -11,50 +13,48 @@
 	import type {UnlockStageScores, Stage} from '$routes/unlock/unlockStage.js';
 	import {idle_context} from '$lib/idle.js';
 
-	export let viewportWidth: number;
-	export let viewportHeight: number;
-	export let viewWidth: number;
-	export let viewHeight: number;
-	export let worldWidth: number;
-	export let worldHeight: number;
-	export let cameraUnlocked = false;
-	export let finish: (scores: UnlockStageScores) => Promise<void>;
-	export let stage: Stage;
-	export let enableDomCanvasRenderer = false;
+	interface Props {
+		viewportWidth: number;
+		viewportHeight: number;
+		viewWidth: number;
+		viewHeight: number;
+		worldWidth: number;
+		worldHeight: number;
+		cameraUnlocked?: boolean;
+		finish: (scores: UnlockStageScores) => Promise<void>;
+		stage: Stage;
+		enableDomCanvasRenderer?: boolean;
+	}
 
-	$: console.log(`UnlockStage.svelte stage`, stage);
+	let {
+		viewportWidth,
+		viewportHeight,
+		viewWidth,
+		viewHeight,
+		worldWidth,
+		worldHeight,
+		cameraUnlocked = false,
+		finish,
+		stage = $bindable(),
+		enableDomCanvasRenderer = false
+	}: Props = $props();
+
 
 	const clock = clock_context.get();
 	const pixi = pixi_context.get();
 
-	$: domCanvasRenderer = enableDomCanvasRenderer ? new DomCanvasRenderer() : null;
 
 	const idle = idle_context.get();
-	$: if ($idle) clock.pause();
 
-	let camera: CameraStore;
-	let scores: Writable<UnlockStageScores>;
-	let controller: Controller;
-	$: ({camera, scores, controller} = stage);
+	let camera: CameraStore = $state();
+	let scores: Writable<UnlockStageScores> = $state();
+	let controller: Controller = $state();
 
-	// TODO maybe replace all `clock` usage with the app ticker
-	$: $clock, stage, syncStageState();
 
 	let finished = false;
 	const STAGE_DURATION = 30000; // TODO add to controls (multiple "finish" conditions)
 
-	$: stage.freezeCamera = !cameraUnlocked;
-	// TODO should this be on the stage class?
-	// TODO refactor, maybe `camera.frozen`?
-	$: if (cameraUnlocked) void camera.setPosition(stage.player.x, stage.player.y);
 
-	// TODO refactor
-	$: if (controller) controller.viewportWidth = viewportWidth;
-	$: if (controller) controller.viewportHeight = viewportHeight;
-	$: if (controller) controller.viewWidth = viewWidth;
-	$: if (controller) controller.viewHeight = viewHeight;
-	$: if (controller) controller.worldWidth = worldWidth;
-	$: if (controller) controller.worldHeight = worldHeight;
 
 	// TODO this is clumsy, keep refactoring to shrink it
 	const syncStageState = () => {
@@ -64,7 +64,6 @@
 		}
 	};
 
-	$: transform = computeWorldTransform(viewWidth, viewHeight, worldWidth, worldHeight);
 
 	// TODO consider not scaling the canvas -- though it'll make collisions less precise...
 	// also is this where the transform belongs, or should it be in `World` or even `index.svelte`?
@@ -78,6 +77,48 @@
 		const scale = Math.min(viewWidth / worldWidth, viewHeight / worldHeight);
 		return `scale3d(${scale}, ${scale}, 1)`;
 	};
+	run(() => {
+		console.log(`UnlockStage.svelte stage`, stage);
+	});
+	let domCanvasRenderer = $derived(enableDomCanvasRenderer ? new DomCanvasRenderer() : null);
+	run(() => {
+		if ($idle) clock.pause();
+	});
+	run(() => {
+		({camera, scores, controller} = stage);
+	});
+	// TODO maybe replace all `clock` usage with the app ticker
+	run(() => {
+		$clock, stage, syncStageState();
+	});
+	run(() => {
+		stage.freezeCamera = !cameraUnlocked;
+	});
+	// TODO should this be on the stage class?
+	// TODO refactor, maybe `camera.frozen`?
+	run(() => {
+		if (cameraUnlocked) void camera.setPosition(stage.player.x, stage.player.y);
+	});
+	// TODO refactor
+	run(() => {
+		if (controller) controller.viewportWidth = viewportWidth;
+	});
+	run(() => {
+		if (controller) controller.viewportHeight = viewportHeight;
+	});
+	run(() => {
+		if (controller) controller.viewWidth = viewWidth;
+	});
+	run(() => {
+		if (controller) controller.viewHeight = viewHeight;
+	});
+	run(() => {
+		if (controller) controller.worldWidth = worldWidth;
+	});
+	run(() => {
+		if (controller) controller.worldHeight = worldHeight;
+	});
+	let transform = $derived(computeWorldTransform(viewWidth, viewHeight, worldWidth, worldHeight));
 </script>
 
 <div class="view" style:transform>

@@ -2,9 +2,13 @@
 	import type {ResourcesStore} from '$lib/resources.js';
 	import WaitingAnimation from '$lib/WaitingAnimation.svelte';
 
-	export let resources: ResourcesStore;
+	interface Props {
+		resources: ResourcesStore; // TODO improve styling
+	}
 
-	// TODO improve styling
+	let { resources }: Props = $props();
+
+	
 	// TODO allow clicking each to retry the request (`resourcesStore` needs an API for that)
 </script>
 

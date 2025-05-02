@@ -1,8 +1,12 @@
 <script lang="ts">
 	import EarthMapCredits from '$lib/EarthMapCredits.svelte';
 
-	export let show_earth_map_credits = true;
-	export let show_music_credits = true;
+	interface Props {
+		show_earth_map_credits?: boolean;
+		show_music_credits?: boolean;
+	}
+
+	let { show_earth_map_credits = true, show_music_credits = true }: Props = $props();
 </script>
 
 {#if show_earth_map_credits}

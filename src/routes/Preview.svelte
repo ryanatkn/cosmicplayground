@@ -1,13 +1,25 @@
 <script lang="ts">
 	import PortalPreview from '$lib/PortalPreview.svelte';
 
-	export let on_click: ((e: MouseEvent) => void) | null = null; // one of `href` and `on_click` is required
-	export let classes: string | undefined = undefined;
-	export let starshipMode = false;
+	interface Props {
+		on_click?: ((e: MouseEvent) => void) | null; // one of `href` and `on_click` is required
+		classes?: string | undefined;
+		starshipMode?: boolean;
+		children?: import('svelte').Snippet;
+		[key: string]: any
+	}
 
-	$: finalClasses = starshipMode ? classes : (classes || '') + ' portal_preview--starship';
+	let {
+		on_click = null,
+		classes = undefined,
+		starshipMode = false,
+		children,
+		...rest
+	}: Props = $props();
+
+	let finalClasses = $derived(starshipMode ? classes : (classes || '') + ' portal_preview--starship');
 </script>
 
-<PortalPreview style="font-size: 84px;" classes={finalClasses} {...$$restProps} {on_click}
-	>🛸<slot /></PortalPreview
+<PortalPreview style="font-size: 84px;" classes={finalClasses} {...rest} {on_click}
+	>🛸{@render children?.()}</PortalPreview
 >

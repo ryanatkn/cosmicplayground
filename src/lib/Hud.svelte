@@ -1,3 +1,11 @@
+<script lang="ts">
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
+</script>
+
 <!-- TODO what if any components anywhere could register hud components?
 	Seems weird to conditionally render the hud and let child components mount one when needed.
 	Sounds like React's "portal" concept. (different from cosmicplayground's "portals"!!)
@@ -5,7 +13,7 @@
 	but then multiple huds could overlap, which could be easily avoided with a single hud.
 -->
 <div class="hud idle_fade">
-	<slot />
+	{@render children?.()}
 </div>
 
 <style>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {createEventDispatcher, onMount} from 'svelte';
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {clock_context} from '$lib/clock.js';
@@ -10,7 +12,10 @@
 	import {Stage} from '$routes/unlock/unlockStage.js';
 	import {pixi_context} from '$lib/pixi.js';
 
-	/*
+	
+
+	interface Props {
+		/*
 
 TODO ideas
 
@@ -23,8 +28,11 @@ TODO ideas
 	- spacebar would go back to the most recent snapshot (none means t=0)
 
 */
+		data: StageData;
+		children?: import('svelte').Snippet;
+	}
 
-	export let data: StageData;
+	let { data = $bindable(), children }: Props = $props();
 
 	const enableDomCanvasRenderer = false; // TODO use this?
 
@@ -32,8 +40,6 @@ TODO ideas
 	const clock = clock_context.get();
 	const pixi = pixi_context.get();
 
-	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
-	$: ({running} = $clock);
 
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440}; // TODO
 
@@ -68,7 +74,6 @@ TODO ideas
 		}
 	};
 
-	$: updateFromData(data);
 	const updateFromData = (data: StageData) => {
 		console.log(`updateFromData`, data);
 		savedData = data;
@@ -80,52 +85,19 @@ TODO ideas
 	};
 
 	// TODO refactor with code above
-	let cameraUnlocked = !data.freezeCamera; // TODO `see `freezeCamera`
-	let playerSpeed = data.playerSpeed;
-	let playerStrength = data.playerStrength;
-	let timeDilation = data.timeDilation;
-	$: if (stage) stage.freezeCamera = cameraUnlocked; // TODO make this a method?
-	$: if (stage) stage.player.speed = playerSpeed;
-	$: if (stage) stage.player.strength = playerStrength;
-	$: if (stage) stage.timeDilation = timeDilation;
+	let cameraUnlocked = $state(!data.freezeCamera); // TODO `see `freezeCamera`
+	let playerSpeed = $state(data.playerSpeed);
+	let playerStrength = $state(data.playerStrength);
+	let timeDilation = $state(data.timeDilation);
 
 	// TODO should we pass through plain numbers or a dimensions object?
 	// // TODO what about the camera zoom relative to what can fit in the dimensions?
-	let viewWidth: number;
-	let viewHeight: number;
-	let worldWidth: number;
-	let worldHeight: number;
-	// TODO make this a helper to clarify the deps `update_dimensions`
-	$: if (cameraUnlocked) {
-		// Expand the world dimensions to fit the viewport dimensions.
-		// It needs to match the viewport aspect ratio and
-		// cover the entire default world dimensions.
-		viewWidth = viewportWidth;
-		viewHeight = viewportHeight;
-		const worldMinWidth = DEFAULT_WORLD_DIMENSIONS.width;
-		const worldMinHeight = DEFAULT_WORLD_DIMENSIONS.height;
-		const worldWidthRatio = worldMinWidth / viewWidth;
-		const worldHeightRatio = worldMinHeight / viewHeight;
-		if (worldHeightRatio > 1 && worldHeightRatio > worldWidthRatio) {
-			worldHeight = worldMinHeight;
-			worldWidth = (viewWidth * worldHeightRatio) | 0;
-		} else if (worldWidthRatio > 1) {
-			worldWidth = worldMinWidth;
-			worldHeight = (viewHeight * worldWidthRatio) | 0;
-		} else {
-			worldWidth = viewWidth;
-			worldHeight = viewHeight;
-		}
-	} else {
-		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
-		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
-		const worldAspectRatio = worldWidth / worldHeight;
-		const viewportAspectRatio = viewportWidth / viewportHeight;
-		viewWidth = (viewportWidth * Math.min(1, worldAspectRatio / viewportAspectRatio)) | 0;
-		viewHeight = (viewportHeight * Math.min(1, viewportAspectRatio / worldAspectRatio)) | 0;
-	}
+	let viewWidth: number = $state();
+	let viewHeight: number = $state();
+	let worldWidth: number = $state();
+	let worldHeight: number = $state();
 
-	let stage: Stage | null = null;
+	let stage: Stage | null = $state(null);
 
 	const destroyStage = () => {
 		if (!stage) return;
@@ -154,7 +126,7 @@ TODO ideas
 		clock.pause();
 	};
 
-	let expandControls = true;
+	let expandControls = $state(true);
 	const toggleExpandControls = () => (expandControls = !expandControls);
 
 	const onWindowKeydown = (e: KeyboardEvent) => {
@@ -187,9 +159,57 @@ TODO ideas
 		}
 		if (!running) pixi.app.render(); // TODO should `stage` wrap the `app` and ticker? wouldn't need `pixi` here then
 	};
+	let {width: viewportWidth, height: viewportHeight} = $derived($dimensions);
+	let {running} = $derived($clock);
+	run(() => {
+		updateFromData(data);
+	});
+	run(() => {
+		if (stage) stage.freezeCamera = cameraUnlocked;
+	}); // TODO make this a method?
+	run(() => {
+		if (stage) stage.player.speed = playerSpeed;
+	});
+	run(() => {
+		if (stage) stage.player.strength = playerStrength;
+	});
+	run(() => {
+		if (stage) stage.timeDilation = timeDilation;
+	});
+	// TODO make this a helper to clarify the deps `update_dimensions`
+	run(() => {
+		if (cameraUnlocked) {
+			// Expand the world dimensions to fit the viewport dimensions.
+			// It needs to match the viewport aspect ratio and
+			// cover the entire default world dimensions.
+			viewWidth = viewportWidth;
+			viewHeight = viewportHeight;
+			const worldMinWidth = DEFAULT_WORLD_DIMENSIONS.width;
+			const worldMinHeight = DEFAULT_WORLD_DIMENSIONS.height;
+			const worldWidthRatio = worldMinWidth / viewWidth;
+			const worldHeightRatio = worldMinHeight / viewHeight;
+			if (worldHeightRatio > 1 && worldHeightRatio > worldWidthRatio) {
+				worldHeight = worldMinHeight;
+				worldWidth = (viewWidth * worldHeightRatio) | 0;
+			} else if (worldWidthRatio > 1) {
+				worldWidth = worldMinWidth;
+				worldHeight = (viewHeight * worldWidthRatio) | 0;
+			} else {
+				worldWidth = viewWidth;
+				worldHeight = viewHeight;
+			}
+		} else {
+			worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
+			worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
+			const worldAspectRatio = worldWidth / worldHeight;
+			const viewportAspectRatio = viewportWidth / viewportHeight;
+			viewWidth = (viewportWidth * Math.min(1, worldAspectRatio / viewportAspectRatio)) | 0;
+			viewHeight = (viewportHeight * Math.min(1, viewportAspectRatio / worldAspectRatio)) | 0;
+		}
+	});
 </script>
 
-<svelte:window on:keydown={onWindowKeydown} />
+<svelte:window onkeydown={onWindowKeydown} />
 
 <div class="controls">
 	{#if expandControls}
@@ -242,7 +262,7 @@ TODO ideas
 						>
 					</div>
 				</div>
-				<slot />
+				{@render children?.()}
 			{/if}
 		</div>
 	{/if}

@@ -16,9 +16,13 @@
 	import PortalLink from '$lib/PortalLink.svelte';
 	import {points_of_interest} from '$routes/soggy-planet/soggy_planet_tour_data.js';
 
-	export let resources: ResourcesStore;
-	export let proceed: () => void;
-	export let start_tour: () => void;
+	interface Props {
+		resources: ResourcesStore;
+		proceed: () => void;
+		start_tour: () => void;
+	}
+
+	let { resources, proceed, start_tour }: Props = $props();
 
 	// The user can click the title image to load the interactive,
 	// but only if the user has clicked the load button directly before.
@@ -28,7 +32,7 @@
 	const has_loaded = !!localStorage.getItem(HAS_LOADED_KEY);
 	const enable_loading_by_clicking_thumbnail = has_loaded;
 
-	let loading = false;
+	let loading = $state(false);
 	const load = async () => {
 		loading = true;
 		await resources.load();

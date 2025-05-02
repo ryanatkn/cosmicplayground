@@ -2,12 +2,16 @@
 	import type {StarshipStageScores} from '$routes/starshipStage.js';
 	import {crew} from '$routes/crew.js';
 
-	export let scores: StarshipStageScores | undefined;
-	export let defaultIcon: string | null = null;
+	interface Props {
+		scores: StarshipStageScores | undefined;
+		defaultIcon?: string | null;
+	}
 
-	$: icons = scores
+	let { scores, defaultIcon = null }: Props = $props();
+
+	let icons = $derived(scores
 		? scores.crew.map((f, i) => (f ? crew[i].glyph : defaultIcon)).filter(Boolean)
-		: undefined;
+		: undefined);
 
 	// TODO ?
 	// $: iconsStr = icons?.join(' ') ?? '';

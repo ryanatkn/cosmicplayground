@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {onDestroy} from 'svelte';
 	import {clock_context} from '$lib/clock.js';
 	import {dimensions_context} from '$lib/dimensions.js';
@@ -11,10 +13,14 @@
 	const dimensions = dimensions_context.get();
 	const settings = settings_context.get();
 
-	let width = $dimensions.width;
-	let height = $dimensions.height;
-	$: width = $dimensions.width;
-	$: height = $dimensions.height;
+	let width = $state($dimensions.width);
+	let height = $state($dimensions.height);
+	run(() => {
+		width = $dimensions.width;
+	});
+	run(() => {
+		height = $dimensions.height;
+	});
 
 	const clock = clock_context.get();
 
@@ -46,7 +52,7 @@
 		}
 	});
 
-	let getHzItemSelectedIndices: () => number[];
+	let getHzItemSelectedIndices: () => number[] = $state();
 </script>
 
 <!-- TODO refactor this lol. also, do wackier thingg with it. -->

@@ -1,8 +1,9 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {lerp} from '@ryanatkn/belt/maths.js';
 
-	let canvas: HTMLCanvasElement | null = null;
-	$: canvas && drawCanvas(canvas);
+	let canvas: HTMLCanvasElement | null = $state(null);
 	const canvasWidth = 240;
 	const canvasHeight = 24;
 	const mouthSize = 16;
@@ -27,6 +28,9 @@
 		}
 		ctx.stroke();
 	};
+	run(() => {
+		canvas && drawCanvas(canvas);
+	});
 </script>
 
 <div class="preview">

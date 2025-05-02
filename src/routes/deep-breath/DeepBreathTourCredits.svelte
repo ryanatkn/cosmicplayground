@@ -4,9 +4,13 @@
 	import {settings_context} from '$lib/settings.js';
 
 	const settings = settings_context.get();
-	$: displayForVideo = $settings.recording_mode;
+	let displayForVideo = $derived($settings.recording_mode);
 
-	export let transitionDuration: number;
+	interface Props {
+		transitionDuration: number;
+	}
+
+	let { transitionDuration }: Props = $props();
 
 	// transition vars
 	const delay = 250;

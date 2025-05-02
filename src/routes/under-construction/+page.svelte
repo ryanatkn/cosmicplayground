@@ -9,13 +9,13 @@
 
 	const maxWidth = 1667;
 	const maxHeight = 781;
-	$: xScale = Math.min(1, $dimensions.width / maxWidth);
-	$: yScale = Math.min(1, $dimensions.height / maxHeight);
-	$: scale = Math.min(xScale, yScale);
+	let xScale = $derived(Math.min(1, $dimensions.width / maxWidth));
+	let yScale = $derived(Math.min(1, $dimensions.height / maxHeight));
+	let scale = $derived(Math.min(xScale, yScale));
 
 	const toggleClock = () => clock.toggle();
 
-	$: freeze = !$clock.running;
+	let freeze = $derived(!$clock.running);
 </script>
 
 <div

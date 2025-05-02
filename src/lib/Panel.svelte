@@ -1,6 +1,14 @@
+<script lang="ts">
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
+</script>
+
 <section class="panel">
 	<div class="content">
-		<slot />
+		{@render children?.()}
 	</div>
 </section>
 

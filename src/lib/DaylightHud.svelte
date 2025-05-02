@@ -1,3 +1,5 @@
+<!-- @migration-task Error while migrating Svelte code: Mixing old (on:mouseenter) and new syntaxes for event handling is not allowed. Use only the onmouseenter syntax
+https://svelte.dev/e/mixed_event_handler_syntaxes -->
 <script lang="ts">
 	export let daylight: number; // 0 to 1, where 1 is max light
 	export let selected_daylight: number | null;

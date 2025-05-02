@@ -1,10 +1,15 @@
 <script lang="ts">
 	type TItem = $$Generic;
 
-	export let selectedIndex: number;
-	export let items: TItem[];
+	interface Props {
+		selectedIndex: number;
+		items: TItem[];
+		children?: import('svelte').Snippet<[any]>;
+	}
+
+	let { selectedIndex, items, children }: Props = $props();
 </script>
 
 {#each items as item, index (item || Symbol())}
-	<slot {item} selected={index === selectedIndex} {index} />
+	{@render children?.({ item, selected: index === selectedIndex, index, })}
 {/each}

@@ -6,16 +6,26 @@
 	import TourControls from '$lib/TourControls.svelte';
 	import {settings_context} from '$lib/settings.js';
 
-	export let tour: Tour | null;
-	export let x: Writable<number>;
-	export let y: Writable<number>;
-	export let scale: Writable<number>;
-	export let debug_start_time: number;
+	interface Props {
+		tour: Tour | null;
+		x: Writable<number>;
+		y: Writable<number>;
+		scale: Writable<number>;
+		debug_start_time: number;
+	}
 
-	$: touring = tour?.touring;
+	let {
+		tour,
+		x,
+		y,
+		scale,
+		debug_start_time
+	}: Props = $props();
+
+	let touring = $derived(tour?.touring);
 
 	const settings = settings_context.get();
-	$: ({audio_enabled} = $settings);
+	let {audio_enabled} = $derived($settings);
 
 	const toggle_audio_enabled = (value = !audio_enabled): void =>
 		settings.update((v) => ({...v, audio_enabled: value}));

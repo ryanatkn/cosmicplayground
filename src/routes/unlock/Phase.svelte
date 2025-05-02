@@ -1,10 +1,19 @@
 <script lang="ts">
 	import type {PhaseData} from '$routes/unlock/phases.js';
 
-	export let phase: PhaseData;
-	export let selected: boolean;
-	export let disabled: boolean;
-	export let select_phase: (phase: PhaseData) => void; // TODO events instead of callbacks?
+	interface Props {
+		phase: PhaseData;
+		selected: boolean;
+		disabled: boolean;
+		select_phase: (phase: PhaseData) => void; // TODO events instead of callbacks?
+	}
+
+	let {
+		phase,
+		selected,
+		disabled,
+		select_phase
+	}: Props = $props();
 </script>
 
 <div class="phase" title="phase {phase.name}">

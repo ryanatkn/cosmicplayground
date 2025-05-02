@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {random_item, random_float} from '@ryanatkn/belt/random.js';
 	import {sineInOut} from 'svelte/easing';
 	import {base} from '$app/paths';
@@ -29,14 +31,18 @@
 	*/
 
 	const dimensions = dimensions_context.get();
-	let width = $dimensions.width;
-	let height = $dimensions.height;
-	$: width = $dimensions.width;
-	$: height = $dimensions.height;
+	let width = $state($dimensions.width);
+	let height = $state($dimensions.height);
+	run(() => {
+		width = $dimensions.width;
+	});
+	run(() => {
+		height = $dimensions.height;
+	});
 
-	let show_picker = false;
+	let show_picker = $state(false);
 
-	let activeImage = random_item(spaceImages);
+	let activeImage = $state(random_item(spaceImages));
 
 	const clock = clock_context.get();
 
@@ -73,9 +79,9 @@
 	// const pauseDuration = 0;
 
 	// TODO refactor, probably into a tween store with an external `update` function
-	let x: number;
-	let y: number;
-	let scale: number;
+	let x: number = $state();
+	let y: number = $state();
+	let scale: number = $state();
 	let target_x: number;
 	let target_y: number;
 	let target_scale: number;
@@ -149,9 +155,13 @@
 	};
 
 	// TODO clamp instead of randomize when width/height change, but randomize when activeImage changes
-	$: randomize(activeImage.info.width, activeImage.info.height);
+	run(() => {
+		randomize(activeImage.info.width, activeImage.info.height);
+	});
 	// $: clampTarget(width, height); // TODO
-	$: !show_picker && update($clock.dt);
+	run(() => {
+		!show_picker && update($clock.dt);
+	});
 
 	const onKeydown = (e: KeyboardEvent) => {
 		switch (e.key) {
@@ -204,11 +214,11 @@
 		transition_pause_timer = WAIT_AFTER_INTERACTION;
 		transition_time = transition_duration; // force a new transition to be randomized once the pause timer expires
 	};
-	$: camera_x = -x * scale + width / 2;
-	$: camera_y = -y * scale + height / 2;
+	let camera_x = $derived(-x * scale + width / 2);
+	let camera_y = $derived(-y * scale + height / 2);
 </script>
 
-<svelte:window on:keydown|capture={onKeydown} />
+<svelte:window onkeydowncapture={onKeydown} />
 
 <!-- TODO probably want a better pattern than this -->
 {#if show_picker}

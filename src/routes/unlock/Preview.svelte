@@ -3,10 +3,15 @@
 	import type {StarshipStageScores} from '$routes/starshipStage.js';
 	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
 
-	export let unlocked: boolean;
-	export let scores: StarshipStageScores;
-	// TODO refactor to an event, probably -- problem is it doesn't get attached for the anchor version
-	export let on_click: ((e: MouseEvent) => void) | null = null;
+	
+	interface Props {
+		unlocked: boolean;
+		scores: StarshipStageScores;
+		// TODO refactor to an event, probably -- problem is it doesn't get attached for the anchor version
+		on_click?: ((e: MouseEvent) => void) | null;
+	}
+
+	let { unlocked, scores, on_click = null }: Props = $props();
 </script>
 
 <PortalPreview

@@ -1,20 +1,31 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import Surface from '$lib/Surface.svelte';
 	import type {Controller} from '$lib/controller.js';
 
-	// TODO merge with `./Surface.svelte` and probably Surface2 as well
+	
 
-	export let controller: Controller;
+	interface Props {
+		// TODO merge with `./Surface.svelte` and probably Surface2 as well
+		controller: Controller;
+	}
 
-	let pointer_down = false;
-	let pointer_x: number | undefined;
-	let pointer_y: number | undefined;
+	let { controller }: Props = $props();
+
+	let pointer_down = $state(false);
+	let pointer_x: number | undefined = $state();
+	let pointer_y: number | undefined = $state();
 
 	// TODO does binding like this cause input to be delayed a frame? I think so
 
-	$: if (pointer_x !== undefined) controller.setPointerLocation(pointer_x, pointer_y!);
+	run(() => {
+		if (pointer_x !== undefined) controller.setPointerLocation(pointer_x, pointer_y!);
+	});
 
-	$: if (controller.pointer_down !== pointer_down) controller.setPointerDown(pointer_down);
+	run(() => {
+		if (controller.pointer_down !== pointer_down) controller.setPointerDown(pointer_down);
+	});
 </script>
 
 <!-- TODO instead of trapping the click with `stopPropagation`,

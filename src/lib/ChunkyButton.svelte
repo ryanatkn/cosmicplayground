@@ -1,10 +1,19 @@
 <script lang="ts">
-	export let pressed: boolean | undefined = undefined;
-	export let type: 'button' | 'submit' | 'reset' | null | undefined = 'button'; // avoid submit behavior in forms
+	import { createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
+	interface Props {
+		pressed?: boolean | undefined;
+		type?: 'button' | 'submit' | 'reset' | null | undefined; // avoid submit behavior in forms
+		children?: import('svelte').Snippet;
+		[key: string]: any
+	}
+
+	let { pressed = undefined, type = 'button', children, ...rest }: Props = $props();
 </script>
 
-<button class:pressed aria-pressed={pressed} on:click {...$$restProps} {type}>
-	<slot />
+<button class:pressed aria-pressed={pressed} onclick={bubble('click')} {...rest} {type}>
+	{@render children?.()}
 </button>
 
 <style>

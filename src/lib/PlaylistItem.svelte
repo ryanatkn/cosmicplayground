@@ -9,10 +9,19 @@
 		paused: boolean;
 	}>();
 
-	export let playlist_item: PlaylistItemData;
-	export let index: number;
-	export let playing_song: SongPlayState | null;
-	export let paused: boolean;
+	interface Props {
+		playlist_item: PlaylistItemData;
+		index: number;
+		playing_song: SongPlayState | null;
+		paused: boolean;
+	}
+
+	let {
+		playlist_item,
+		index,
+		playing_song,
+		paused = $bindable()
+	}: Props = $props();
 
 	const click = async () => {
 		if (playing_song && selected) {
@@ -23,9 +32,9 @@
 		}
 	};
 
-	$: ({song} = playlist_item);
-	$: current_song = playing_song?.song;
-	$: selected = current_song === song;
+	let {song} = $derived(playlist_item);
+	let current_song = $derived(playing_song?.song);
+	let selected = $derived(current_song === song);
 </script>
 
 <!-- TODO render link -->

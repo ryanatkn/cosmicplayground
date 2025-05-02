@@ -1,13 +1,27 @@
 <script lang="ts">
-	export let width: number;
-	export let height: number;
-	export let imageUrl = '/assets/earth/seas.png';
-	export let image2Url: string | undefined = undefined;
-	export let opacity = 1.0;
-	export let animationDuration = '360s';
-	export let fontSize = 48;
-	export let text: string | null = null;
-	export let running = true;
+	interface Props {
+		width: number;
+		height: number;
+		imageUrl?: string;
+		image2Url?: string | undefined;
+		opacity?: number;
+		animationDuration?: string;
+		fontSize?: number;
+		text?: string | null;
+		running?: boolean;
+	}
+
+	let {
+		width,
+		height,
+		imageUrl = '/assets/earth/seas.png',
+		image2Url = undefined,
+		opacity = 1.0,
+		animationDuration = '360s',
+		fontSize = 48,
+		text = null,
+		running = true
+	}: Props = $props();
 
 	// TODO get from loaded image
 	const imageWidth = 300;
@@ -16,9 +30,9 @@
 
 	// Make sure the bg covers the container and seamlessly scrolls
 	// regardless of its dimensions and aspect ratio.
-	$: useWidthDimension = width / imageAspectRatio > height;
-	$: bgWidth = 2 * (useWidthDimension ? width : height * imageAspectRatio);
-	$: bgHeight = 2 * (useWidthDimension ? width / imageAspectRatio : height);
+	let useWidthDimension = $derived(width / imageAspectRatio > height);
+	let bgWidth = $derived(2 * (useWidthDimension ? width : height * imageAspectRatio));
+	let bgHeight = $derived(2 * (useWidthDimension ? width / imageAspectRatio : height));
 
 	// TODO support customizing this?
 	const bgSizePct = 0.5;

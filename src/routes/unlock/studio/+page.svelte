@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {clock_context} from '$lib/clock.js';
 	import {initialStageData, type StageData} from '$routes/unlock/stage.js';
 	import UnlockStageBuilder from '$routes/unlock/UnlockStageBuilder.svelte';
@@ -17,23 +19,29 @@
 	const STORAGE_KEY_SELECTED_DATA_INDEX = 'unlock_selected_data_index';
 	const STORAGE_KEY_DATA_COUNT = 'unlock_data_count';
 
-	let selectedDataIndex = loadFromStorage(STORAGE_KEY_SELECTED_DATA_INDEX, 0);
-	$: setInStorage(STORAGE_KEY_SELECTED_DATA_INDEX, selectedDataIndex);
+	let selectedDataIndex = $state(loadFromStorage(STORAGE_KEY_SELECTED_DATA_INDEX, 0));
+	run(() => {
+		setInStorage(STORAGE_KEY_SELECTED_DATA_INDEX, selectedDataIndex);
+	});
 
 	const MAX_DATA_COUNT = 10;
-	let dataCount = loadFromStorage(STORAGE_KEY_DATA_COUNT, 0);
-	$: setInStorage(STORAGE_KEY_DATA_COUNT, dataCount); // TODO is wasteful on first run
+	let dataCount = $state(loadFromStorage(STORAGE_KEY_DATA_COUNT, 0));
+	run(() => {
+		setInStorage(STORAGE_KEY_DATA_COUNT, dataCount);
+	}); // TODO is wasteful on first run
 
-	let datas: StageData[] = Array.from({length: dataCount});
-	$: dataCount = datas.length; // does this work? if so, bravo Svelte
+	let datas: StageData[] = $state(Array.from({length: dataCount}));
+	run(() => {
+		dataCount = datas.length;
+	}); // does this work? if so, bravo Svelte
 
-	$: selectedDataStorageKey = `${STORAGE_KEY_STAGES}_${selectedDataIndex}`;
-	$: selectedData =
-		datas[selectedDataIndex] ||
+	let selectedDataStorageKey = $derived(`${STORAGE_KEY_STAGES}_${selectedDataIndex}`);
+	let selectedData =
+		$derived(datas[selectedDataIndex] ||
 		(datas[selectedDataIndex] = loadFromStorage(
 			selectedDataStorageKey,
 			structuredClone(initialStageData),
-		));
+		)));
 
 	// TODO extract a custom store to handle this list of items
 	const selectIndex = (index: number): void => {
@@ -69,13 +77,15 @@
 		<div class="controls">
 			{#if datas.length >= 2}
 				<button title="delete data item" onclick={() => deleteSelected()}>✕</button>
-				<Tabs bind:selectedIndex={selectedDataIndex} items={datas} let:selected let:index>
-					<button
-						class:selected
-						onclick={selected ? undefined : () => selectIndex(index)}
-						disabled={selected}>{index + 1}</button
-					>
-				</Tabs>
+				<Tabs bind:selectedIndex={selectedDataIndex} items={datas}  >
+					{#snippet children({ selected, index })}
+										<button
+							class:selected
+							onclick={selected ? undefined : () => selectIndex(index)}
+							disabled={selected}>{index + 1}</button
+						>
+														{/snippet}
+								</Tabs>
 			{/if}
 			{#if datas.length < MAX_DATA_COUNT}
 				<button title="add data item" onclick={() => addData()}>+</button>

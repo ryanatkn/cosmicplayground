@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {Filter, Texture, RenderTexture} from '@pixi/core';
 	import {Sprite} from '@pixi/sprite';
 	import {Container} from '@pixi/display';
@@ -18,29 +20,49 @@
 	// https://pixijs.download/release/docs/PIXI.Prepare.html
 
 	// TODO should we cache stuff at the module scope? mainly thinking of the render textures
-	// or should we free all resources when this is unmounted? including all base textures?
+	
 
-	export let camera: Camera;
-	export let input_enabled = true;
-	export let landImages: string[]; // not reactive
-	export let seaImages: string[]; // not reactive
-	export let shoreImage: string | undefined = undefined; // not reactive
-	export let shoreImageCount: number | undefined = undefined; //not reactive
-	export let seashoreFloorIndex: number | undefined = undefined;
-	export let lightsImage: string | undefined = undefined; // not reactive
-	export let lightsOpacity = 0;
-	export let nightfallOpacity = 0;
-	export let showLights = false;
-	export let activeLandValue: number;
-	export let activeSeaLevel: number;
-	export let imageWidth: number; // not reactive
-	export let imageHeight: number; // not reactive
+	interface Props {
+		// or should we free all resources when this is unmounted? including all base textures?
+		camera: Camera;
+		input_enabled?: boolean;
+		landImages: string[]; // not reactive
+		seaImages: string[]; // not reactive
+		shoreImage?: string | undefined; // not reactive
+		shoreImageCount?: number | undefined; //not reactive
+		seashoreFloorIndex?: number | undefined;
+		lightsImage?: string | undefined; // not reactive
+		lightsOpacity?: number;
+		nightfallOpacity?: number;
+		showLights?: boolean;
+		activeLandValue: number;
+		activeSeaLevel: number;
+		imageWidth: number; // not reactive
+		imageHeight: number; // not reactive
+	}
+
+	let {
+		camera,
+		input_enabled = true,
+		landImages,
+		seaImages,
+		shoreImage = undefined,
+		shoreImageCount = undefined,
+		seashoreFloorIndex = undefined,
+		lightsImage = undefined,
+		lightsOpacity = 0,
+		nightfallOpacity = 0,
+		showLights = false,
+		activeLandValue,
+		activeSeaLevel,
+		imageWidth,
+		imageHeight
+	}: Props = $props();
 
 	if (shoreImage && shoreImageCount === undefined) {
 		throw Error('shoreImageCount is required to be paired with shoreImage');
 	}
 
-	$: ({x, y, width, height, scale} = camera);
 
 	const {pixi} = get_pixi_scene({
 		load: async () => {
@@ -116,31 +138,15 @@
 	});
 
 	const landSprites: TilingSprite[] = []; // not reactive
-	const seaSprites: TilingSprite[] = []; // not reactive
-	let shoreSprite: TilingSprite | undefined = undefined; // not reactive
+	const seaSprites: TilingSprite[] = $state([]); // not reactive
+	let shoreSprite: TilingSprite | undefined = $state(undefined); // not reactive
 	const overlaySprites: TilingSprite[] = []; // not reactive
 	let mapContainer: Container;
 	let landContainer: Container;
 	let seashoreContainer: Container; // includes shore sprites
-	let overlayContainer: Container;
+	let overlayContainer: Container = $state();
 
-	$: tilePositionX = -$x * $scale + $width / 2;
-	$: tilePositionY = -$y * $scale + $height / 2;
 
-	$: if (overlayContainer) {
-		const visible = showLights;
-		overlayContainer.visible = visible;
-		if (visible) {
-			// TODO hacky, maybe save each as a reference?
-			// probably want to keep each as a separate opacity instead of setting once on the container
-			overlayContainer.children[0].alpha = nightfallOpacity;
-			overlayContainer.children[1].alpha = lightsOpacity;
-		}
-	}
-	$: updateSpritesDimensions(landSprites, $width, $height);
-	$: updateSpritesDimensions(seaSprites, $width, $height);
-	$: shoreSprite && updateSpriteDimensions(shoreSprite, $width, $height);
-	$: updateSpritesDimensions(overlaySprites, $width, $height);
 	const updateSpritesDimensions = (sprites: TilingSprite[], width: number, height: number) => {
 		for (const sprite of sprites) {
 			updateSpriteDimensions(sprite, width, height);
@@ -150,10 +156,6 @@
 		sprite.width = width;
 		sprite.height = height;
 	};
-	$: updateSpritesTransforms(landSprites, tilePositionX, tilePositionY, $scale);
-	$: updateSpritesTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
-	$: shoreSprite && updateSpriteTransforms(shoreSprite, tilePositionX, tilePositionY, $scale);
-	$: updateSpritesTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
 	const updateSpritesTransforms = (
 		sprites: TilingSprite[],
 		tilePositionX: number,
@@ -238,7 +240,6 @@
 
 	const seashoreImageCount = seaImages.length + (shoreImage ? shoreImageCount! : 0);
 	const seashoreOpacities = new Array(seashoreImageCount);
-	$: if (seaSprites.length) updateSeaOpacities(activeSeaLevel);
 	const updateSeaOpacities = (activeSeaLevel: number) => {
 		computeBlendedImagesContinuumOpacities(
 			seashoreImageCount,
@@ -258,7 +259,6 @@
 		}
 	};
 	const landOpacities = new Array(landImages.length);
-	$: if (landSprites.length) updateLandOpacities(activeLandValue);
 	const updateLandOpacities = (activeLandValue: number) => {
 		computeBlendedImagesCycleOpacities(
 			landImages.length,
@@ -301,6 +301,51 @@
 		pixi.app.renderer.render(tempTextureContainer, {renderTexture});
 		return new TilingSprite(renderTexture, $width, $height);
 	};
+	let {x, y, width, height, scale} = $derived(camera);
+	let tilePositionX = $derived(-$x * $scale + $width / 2);
+	let tilePositionY = $derived(-$y * $scale + $height / 2);
+	run(() => {
+		if (overlayContainer) {
+			const visible = showLights;
+			overlayContainer.visible = visible;
+			if (visible) {
+				// TODO hacky, maybe save each as a reference?
+				// probably want to keep each as a separate opacity instead of setting once on the container
+				overlayContainer.children[0].alpha = nightfallOpacity;
+				overlayContainer.children[1].alpha = lightsOpacity;
+			}
+		}
+	});
+	run(() => {
+		updateSpritesDimensions(landSprites, $width, $height);
+	});
+	run(() => {
+		updateSpritesDimensions(seaSprites, $width, $height);
+	});
+	run(() => {
+		shoreSprite && updateSpriteDimensions(shoreSprite, $width, $height);
+	});
+	run(() => {
+		updateSpritesDimensions(overlaySprites, $width, $height);
+	});
+	run(() => {
+		updateSpritesTransforms(landSprites, tilePositionX, tilePositionY, $scale);
+	});
+	run(() => {
+		updateSpritesTransforms(seaSprites, tilePositionX, tilePositionY, $scale);
+	});
+	run(() => {
+		shoreSprite && updateSpriteTransforms(shoreSprite, tilePositionX, tilePositionY, $scale);
+	});
+	run(() => {
+		updateSpritesTransforms(overlaySprites, tilePositionX, tilePositionY, $scale);
+	});
+	run(() => {
+		if (seaSprites.length) updateSeaOpacities(activeSeaLevel);
+	});
+	run(() => {
+		if (landSprites.length) updateLandOpacities(activeLandValue);
+	});
 </script>
 
 <Surface2

@@ -1,26 +1,42 @@
 <script lang="ts">
+	import { passive, nonpassive } from 'svelte/legacy';
+
 	import {swallow} from '@ryanatkn/belt/dom.js';
 
-	// TODO probably merge with $lib/Surface.svelte
+	
 
-	export let width: number;
-	export let height: number;
-	export let scale: number;
-	export let zoom: (
+	interface Props {
+		// TODO probably merge with $lib/Surface.svelte
+		width: number;
+		height: number;
+		scale: number;
+		zoom: (
 		direction: number,
 		pivot_x: number,
 		pivot_y: number,
 		multiplier?: number,
 	) => void;
-	export let pan: (dx: number, dy: number) => void;
-	export let disabled = false;
+		pan: (dx: number, dy: number) => void;
+		disabled?: boolean;
+		children?: import('svelte').Snippet;
+	}
+
+	let {
+		width,
+		height,
+		scale,
+		zoom,
+		pan,
+		disabled = false,
+		children
+	}: Props = $props();
 
 	// TODO probably refactor these, written before `events` was added for pinch gestures
 	let pointer_down = false;
 	let pointer_x: number | null = null;
 	let pointer_y: number | null = null;
 
-	let el: HTMLDivElement;
+	let el: HTMLDivElement = $state();
 
 	const events = new Map<number, PointerEvent>();
 	let last_pinch_distance: number | null = null;
@@ -106,17 +122,17 @@
 	class="surface"
 	style:width="{width}px"
 	style:height="{height}px"
-	on:wheel|passive={disabled ? undefined : wheel}
-	on:pointerdown={disabled ? undefined : pointerdown}
-	on:pointermove={disabled ? undefined : pointermove}
-	on:pointerup={disabled ? undefined : pointerup}
-	on:pointerleave={disabled ? undefined : pointerup}
-	on:pointercancel={disabled ? undefined : pointerup}
-	on:pointerout={disabled ? undefined : pointerup}
-	on:touchstart|nonpassive={disabled ? undefined : swallow}
-	on:touchmove|nonpassive={disabled ? undefined : swallow}
+	use:passive={['wheel', () => disabled ? undefined : wheel]}
+	onpointerdown={disabled ? undefined : pointerdown}
+	onpointermove={disabled ? undefined : pointermove}
+	onpointerup={disabled ? undefined : pointerup}
+	onpointerleave={disabled ? undefined : pointerup}
+	onpointercancel={disabled ? undefined : pointerup}
+	onpointerout={disabled ? undefined : pointerup}
+	use:nonpassive={['touchstart', () => disabled ? undefined : swallow]}
+	use:nonpassive={['touchmove', () => disabled ? undefined : swallow]}
 >
-	<slot />
+	{@render children?.()}
 </div>
 
 <style>

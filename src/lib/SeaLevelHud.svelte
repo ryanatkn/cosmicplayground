@@ -1,3 +1,5 @@
+<!-- @migration-task Error while migrating Svelte code: Mixing old (on:mouseenter) and new syntaxes for event handling is not allowed. Use only the onmouseenter syntax
+https://svelte.dev/e/mixed_event_handler_syntaxes -->
 <script lang="ts">
 	export let sea_level: number;
 	export let sea_index_max: number;
