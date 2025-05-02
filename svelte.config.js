@@ -12,6 +12,10 @@ export default {
 		adapter: adapter(),
 		paths: {relative: false}, // use root-absolute paths: https://kit.svelte.dev/docs/configuration#paths
 		alias: {$routes: 'src/routes'},
-		csp: {directives: create_csp_directives({trusted_sources: csp_trusted_sources_of_ryanatkn})},
+		csp: {
+			directives: create_csp_directives({
+				trusted_sources: csp_trusted_sources_of_ryanatkn,
+			}),
+		},
 	},
 };
