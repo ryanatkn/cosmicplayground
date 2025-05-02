@@ -280,15 +280,15 @@
 							xPct * chartWidth -
 							chartAxisLineWidth / 2}px, {chartY0 - chartAxisLineWidth / 2}px,
 					0); background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
-					/>
+					></div>
 					<div
 						class="absolute l-0 t-0"
 						style="transform: translate3d({chartX0 - chartAxisLineWidth / 2}px, {chartY0 -
 							yPct * chartHeight -
 							chartAxisLineWidth / 2}px,
 					0); background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
-					/>
-					<canvas class="relative z-1" bind:this={chartCanvas} />
+					></div>
+					<canvas class="relative z-1" bind:this={chartCanvas}></canvas>
 					<div
 						class="absolute l-0 t-0"
 						style="background-color: {get_color(
@@ -300,7 +300,7 @@
 							yPct * chartHeight -
 							chartLineHighlightWidth / 2}px, 0); width: {chartLineHighlightWidth}px;
 					height: {chartLineHighlightWidth}px; border-radius: 50%;"
-					/>
+					></div>
 				</div>
 				<div
 					style="width: {translate_width}px; background-color: {get_color(activeEasingIndex, 0.1)};
@@ -310,7 +310,7 @@
 						style="transform: translate3d({tweenAlternating *
 							translate_distance}px, 0, 0); width: {graphic1Width}px;
 					height: {graphic1Height}px; background-color: {get_color(activeEasingIndex)};"
-					/>
+					></div>
 				</div>
 				<div style="display: flex;">
 					<div class="flex items-center justify-center" style="width: {translate_width / 2}px">
@@ -318,14 +318,14 @@
 							class="active_tween_graphic_rotate"
 							style="transform: rotate({tweenAlternating * 180}deg); height: {graphic2Height}px;
 						background-color: {get_color(activeEasingIndex)};"
-						/>
+						></div>
 					</div>
 					<div class="flex items-center justify-center" style="width: {translate_width / 2}px">
 						<div
 							class="active_tween_graphic_scale"
 							style="transform: scale3d({tweenAlternating}, {tweenAlternating}, 1); width: {graphic2Width}px;
 						height: {graphic2Height}px; background-color: {get_color(activeEasingIndex)};"
-						/>
+						></div>
 					</div>
 				</div>
 				<div>
@@ -339,7 +339,7 @@
 						width: {graphic2Width}px; height: {graphic2Height}px; background-color: {get_color(
 								activeEasingIndex,
 							)};"
-						/>
+						></div>
 					</div>
 				</div>
 			</section>

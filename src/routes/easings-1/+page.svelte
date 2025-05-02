@@ -153,20 +153,20 @@
 					style:width="{graphic_width}px"
 					style:height="{graphic_height}px"
 					style:background-color={get_color(i)}
-				/>
+				></div>
 				<div
 					class="item_graphic_rotate"
 					style:transform="rotate({item.value * 180}deg)"
 					style:height="{graphic_height}px"
 					style:background-color={get_color(i)}
-				/>
+				></div>
 				<div
 					style:transform="translate3d({item.value * translate_distance}px, 0, 0)"
 					style:width="{graphic_width}px"
 					style:height="{graphic_height}px"
 					style:background-color={get_color(i)}
 					class="border_radius_xs3"
-				/>
+				></div>
 				<label class="item_label clickable" style:color={get_color(i)}>
 					<input type="checkbox" bind:checked={selected[item.name]} />
 					<span style:list-style={selected[item.name] ? 'circle' : 'none'}>{item.name}</span>

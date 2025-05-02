@@ -26,7 +26,7 @@
 	on:mousemove={(e) => hover_sea_level(get_sea_level(e.clientY))}
 	on:mouseleave={() => hover_sea_level(null)}
 >
-	<div class="water-level-fill" style="height: {(100 * sea_level) / sea_index_max}%;" />
+	<div class="water-level-fill" style="height: {(100 * sea_level) / sea_index_max}%;"></div>
 </div>
 
 <style>

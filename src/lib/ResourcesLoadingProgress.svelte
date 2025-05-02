@@ -28,7 +28,7 @@
 					: resource.status === 'success'
 						? 'resource loaded'
 						: 'resource loading'}
-			/>
+			></div>
 		{/each}
 	</div>
 	<div class="waiting-animation-wrapper">

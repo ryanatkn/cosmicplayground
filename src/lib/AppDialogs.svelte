@@ -9,7 +9,7 @@
 
 {#if $show_app_dialog}
 	<Dialog onclose={() => app_dialog.close()}>
-		<div class="dialogs" bind:this={$app_dialog_el} />
+		<div class="dialogs" bind:this={$app_dialog_el}></div>
 	</Dialog>
 {/if}
 

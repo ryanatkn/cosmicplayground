@@ -36,7 +36,7 @@
 allow it to bubble and do whatever
 -->
 <div class="canvas">
-	<canvas bind:this={el} />
+	<canvas bind:this={el}></canvas>
 </div>
 
 <style>

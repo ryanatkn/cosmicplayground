@@ -23,7 +23,7 @@
 {#each songs1a as song}
 	<div class="audio-file">
 		<a href={song.url}>"{song.name}"</a>
-		<audio preload="none" controls src={song.url} />
+		<audio preload="none" controls src={song.url}></audio>
 	</div>
 {/each}
 {#if songs1b.length}
@@ -33,7 +33,7 @@
 			{#each songs1b as song}
 				<div class="audio-file">
 					<a href={song.url}>"{song.name}"</a>
-					<audio preload="none" controls src={song.url} />
+					<audio preload="none" controls src={song.url}></audio>
 				</div>
 			{/each}
 		</div>

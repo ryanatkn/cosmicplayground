@@ -224,7 +224,7 @@
 			<circle class="inner" cx={$spotPosition.x} cy={$spotPosition.y} r={2} />
 		</svg>
 	{/if}
-	{#if width !== undefined}<canvas class="bg-canvas" bind:this={canvas} />{/if}
+	{#if width !== undefined}<canvas class="bg-canvas" bind:this={canvas}></canvas>{/if}
 	{#if displayedFreq}
 		<div class="freq idle_fade">
 			<div>{displayedFreq}<span class="unit">hz</span></div>
@@ -242,7 +242,7 @@
 		on:touchend={handlePointerUp}
 		on:touchcancel={handlePointerUp}
 		on:touchmove={handlePointerMove}
-	/>
+	></div>
 	<div class="controls idle_fade">
 		<!-- TODO this is a good candidate for the Hud component -->
 		<FloatingIconButton label="reset" onclick={clear}>↻</FloatingIconButton>

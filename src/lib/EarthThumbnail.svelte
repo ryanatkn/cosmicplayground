@@ -40,7 +40,7 @@
 				class="bg2"
 				style="width: {bgWidth}px; height: {bgHeight}px; background-image: url({image2Url});
 		background-size: {bgSizeStr};"
-			/>
+			></div>
 		{/if}
 	</div>
 	{#if text}

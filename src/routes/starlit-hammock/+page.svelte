@@ -212,7 +212,7 @@
 
 <!-- TODO probably want a better pattern than this -->
 {#if show_picker}
-	<div class="overlay-bg" />
+	<div class="overlay-bg"></div>
 {/if}
 
 <StarlitHammock

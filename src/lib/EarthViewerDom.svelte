@@ -65,7 +65,7 @@
 				floorIndex={seashoreFloorIndex}
 			/>
 			{#if showLights}
-				<div class="nightfall" style:opacity={nightfallOpacity} />
+				<div class="nightfall" style:opacity={nightfallOpacity}></div>
 				<img
 					class="lights"
 					src={lightsImage}
@@ -84,7 +84,7 @@
 				floorIndex={seashoreFloorIndex}
 			/>
 			{#if showLights}
-				<div class="nightfall" style:opacity={nightfallOpacity} />
+				<div class="nightfall" style:opacity={nightfallOpacity}></div>
 				<img
 					class="lights"
 					src={lightsImage}

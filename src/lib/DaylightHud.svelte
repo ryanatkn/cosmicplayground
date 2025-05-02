@@ -25,7 +25,7 @@
 	on:mousemove={(e) => hover_daylight(get_daylight(e.clientY))}
 	on:mouseleave={() => hover_daylight(null)}
 >
-	<div class="daylight-fill" style="height: {100 * daylight}%;" />
+	<div class="daylight-fill" style="height: {100 * daylight}%;"></div>
 </div>
 
 <style>

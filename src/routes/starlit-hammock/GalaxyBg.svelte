@@ -27,7 +27,7 @@
 		class="earth_thumbnail_bg"
 		style="width: {bgWidth}px; height: {bgHeight}px; background-image: url({imageUrl});
 		animation-duration: {animationDuration};"
-	/>
+	></div>
 </div>
 
 <style>

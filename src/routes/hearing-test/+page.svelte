@@ -140,7 +140,7 @@
 		on:touchend={handlePointerUp}
 		on:touchcancel={handlePointerUp}
 		on:touchmove={handlePointerMove}
-	/>
+	></div>
 </div>
 
 <style>

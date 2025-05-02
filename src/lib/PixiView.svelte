@@ -34,4 +34,4 @@
 	onDestroy(() => el.removeChild(pixi.app.view as any));
 </script>
 
-<div style="width: {width}px; height: {height}px;" bind:this={el} />
+<div style="width: {width}px; height: {height}px;" bind:this={el}></div>
