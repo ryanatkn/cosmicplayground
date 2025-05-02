@@ -7,7 +7,7 @@
 <style>
 	.panel {
 		border: var(--panel_border);
-		border-radius: var(--radius_xl4);
+		border-radius: var(--border_radius_xl4);
 		margin: var(--space_xl7) auto;
 		padding: 20px;
 		background-color: transparent;
@@ -20,7 +20,7 @@
 	.content {
 		padding: var(--spacing-5);
 		background-color: var(--bg);
-		border-radius: var(--radius_xl3);
+		border-radius: var(--border_radius_xl3);
 	}
 	@media (max-width: 580px) {
 		.content {

@@ -51,8 +51,8 @@
 	--dark_border_md: var(--border_width_3) var(--clickable_border_style) var(--bg_dark_lighter);
 	--portal_padding: 12px; /* TODO maybe swap for space_xl3 */
 	--panel_border: var(--border_width_5) var(--clickable_border_style) var(--border_color_5);
-	--radius_xl4: 15px;
-	--radius_xl3: 7px;
+	--border_radius_xl4: 15px;
+	--border_radius_xl3: 7px;
 	--text_shadow_sm: 1px 1px rgba(0, 0, 0, 0.6);
 	--text_shadow_reverse_sm: -1px -1px rgba(0, 0, 0, 0.6);
 	--hud_element_size: 72px;
