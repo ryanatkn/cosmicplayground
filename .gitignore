@@ -5,8 +5,9 @@ node_modules
 /.svelte-kit
 /build
 /dist
-/.gro
 /dist_*
+/.gro
+/.zzz
 
 # Env
 .env
@@ -31,3 +32,6 @@ ignore
 # Os
 .DS_Store
 Thumbs.db
+
+# GitHub
+.github/copilot-instructions.md
