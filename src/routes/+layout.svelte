@@ -5,11 +5,12 @@
 	import '@ryanatkn/fuz/utility_classes.css';
 	import '@ryanatkn/fuz/variable_classes.css';
 	import '@ryanatkn/fuz/animations.css';
+	import '$routes/moss.css';
 	import '$lib/style.css';
 	import '$lib/style-utilities.css';
 
 	import Themed from '@ryanatkn/fuz/Themed.svelte';
-	import {sync_color_scheme} from '@ryanatkn/fuz/theme.js';
+	import {sync_color_scheme} from '@ryanatkn/fuz/themer.js';
 	import {onMount} from 'svelte';
 	import type {Async_Status} from '@ryanatkn/belt/async.js';
 	import {writable} from 'svelte/store';
