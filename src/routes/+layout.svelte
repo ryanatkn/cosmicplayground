@@ -6,11 +6,11 @@
 	import '$lib/style-utilities.css'; // TODO replace with moss
 
 	import Themed from '@ryanatkn/fuz/Themed.svelte';
-	import {sync_color_scheme} from '@ryanatkn/fuz/theme.svelte.js';
+	import {sync_color_scheme} from '@ryanatkn/fuz/themer.svelte.js';
 	import {onMount} from 'svelte';
 	import type {Async_Status} from '@ryanatkn/belt/async.js';
 	import {writable} from 'svelte/store';
-	import {page} from '$app/stores';
+	import {page} from '$app/state';
 	import {beforeNavigate, goto} from '$app/navigation';
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {Assets} from '@pixi/assets';
@@ -142,10 +142,10 @@
 
 	const portals = create_portals_store({
 		data: portals_data,
-		selected_portal: portals_data.portals_by_slug.get($page.url.pathname.substring(1)) || null,
+		selected_portal: portals_data.portals_by_slug.get(page.url.pathname.substring(1)) || null,
 	});
 	portals_context.set(portals);
-	$: selected_portalSlugFromPath = $page.url.pathname.substring(1).split('/')[0];
+	$: selected_portalSlugFromPath = page.url.pathname.substring(1).split('/')[0];
 	$: portals.select(selected_portalSlugFromPath); // TODO hmm?
 
 	const idle = idle_context.set(writable(false));
@@ -177,9 +177,9 @@
 		} else if (key === 'Escape' && e.shiftKey && enable_global_hotkeys(target)) {
 			// global nav up one - I'd choose `ctrlKey` but it's taken by the OS
 			swallow(e);
-			await goto($page.url.pathname.split('/').slice(0, -1).join('/') || '/');
+			await goto(page.url.pathname.split('/').slice(0, -1).join('/') || '/');
 		} else if (e.key === '!' && e.ctrlKey && enable_global_hotkeys(target)) {
-			if ($page.url.pathname !== '/unlock/atlas') {
+			if (page.url.pathname !== '/unlock/atlas') {
 				swallow(e);
 				await goto('/unlock/atlas');
 			}

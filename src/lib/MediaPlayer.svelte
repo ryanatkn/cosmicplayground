@@ -292,7 +292,7 @@
 		max-height: var(--player_max_height, 360px);
 		overflow: auto;
 		border: var(--media_player_border);
-		border-radius: var(--media_player_border_radius, var(--radius_xl4));
+		border-radius: var(--media_player_border_radius, var(--border_radius_xl4));
 		padding: var(--spacing-5);
 	}
 	.content {
@@ -300,7 +300,7 @@
 		display: flex;
 		flex-direction: column;
 		background-color: var(--bg_light);
-		border-radius: var(--media_player_border_radius, var(--radius_xl4));
+		border-radius: var(--media_player_border_radius, var(--border_radius_xl4));
 	}
 	header,
 	footer {

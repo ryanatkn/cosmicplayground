@@ -1,12 +1,12 @@
 <script lang="ts">
-	import {page} from '$app/stores';
+	import {page} from '$app/state';
 	import type {ClockStore} from '$lib/clock.js';
 
 	import Panel from '$lib/Panel.svelte';
 
 	export let clock: ClockStore; // TODO or use context?
 
-	$: navLevel = $page.url.pathname === '/' ? 0 : $page.url.pathname.split('/').length - 1;
+	$: navLevel = page.url.pathname === '/' ? 0 : page.url.pathname.split('/').length - 1;
 </script>
 
 <Panel

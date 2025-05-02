@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Breadcrumb from '@ryanatkn/fuz/Breadcrumb.svelte';
-	import {page} from '$app/stores';
+	import {page} from '$app/state';
 	import {base} from '$app/paths';
 
 	import Panel from '$lib/Panel.svelte';
@@ -23,9 +23,7 @@
 	import PortalPreview from '$lib/PortalPreview.svelte';
 	import AboutPortalPreview from '$routes/about/Preview.svelte';
 
-	const playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values(), (song) => ({
-		song,
-	}));
+	const playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values(), (song) => ({song}));
 
 	const STORAGE_KEY_MEDIA_PLAYER_COLLAPSED = 'media_player_collapsed';
 	const DEFAULT_COLLAPSED = false;
@@ -44,7 +42,7 @@
 </script>
 
 <div class="app_dialog_menu">
-	{#if $page.url.pathname !== '/'}
+	{#if page.url.pathname !== '/'}
 		<div class="box">
 			<Panel>
 				<Breadcrumb>🌠</Breadcrumb>

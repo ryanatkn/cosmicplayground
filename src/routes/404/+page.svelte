@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {page} from '$app/stores';
+	import {page} from '$app/state';
 	import Breadcrumb from '@ryanatkn/fuz/Breadcrumb.svelte';
 	import {base} from '$app/paths';
 
@@ -17,7 +17,7 @@
 		<div class="box">
 			<h1>void</h1>
 			<p>nothing is here</p>
-			<Breadcrumb path={$page.url.pathname}>🌠</Breadcrumb>
+			<Breadcrumb path={page.url.pathname}>🌠</Breadcrumb>
 		</div>
 		<a href="/">
 			<ChunkyButton>go back home</ChunkyButton>

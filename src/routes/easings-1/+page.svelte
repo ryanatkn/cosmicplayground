@@ -165,7 +165,7 @@
 					style:width="{graphic_width}px"
 					style:height="{graphic_height}px"
 					style:background-color={get_color(i)}
-					class="radius_xs3"
+					class="border_radius_xs3"
 				/>
 				<label class="item_label clickable" style:color={get_color(i)}>
 					<input type="checkbox" bind:checked={selected[item.name]} />

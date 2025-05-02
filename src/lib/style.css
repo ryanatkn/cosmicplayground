@@ -18,7 +18,8 @@
 	--land_text_color: hsl(var(--land_hue), 65%, 50%);
 	--space_text_color: hsl(var(--space_hue), 45%, 50%);
 	--color_b_5: 220, 60%, 65%; /* TODO probably make this a lighter shade of `--ocean_color` */
-	--color_d_5: var(--space_hue), 60%, 65%; /*  TODO probably make this a lighter shade of the primary color */
+	--color_d_5:
+		var(--space_hue), 60%, 65%; /*  TODO probably make this a lighter shade of the primary color */
 	/* --text_color_dark: hsl(0 0% 2%); */
 	--link_color: var(--ocean_text_color);
 	/* TODO reuse --ocean_color and --land_color, maybe using the substitution trick */
@@ -47,8 +48,8 @@
 	--dark_border_md: var(--border_width_3) var(--clickable_border_style) var(--bg_dark_lighter);
 	--portal_padding: 12px; /* TODO maybe swap for space_xl3 */
 	--panel_border: var(--border_width_5) var(--clickable_border_style) var(--border_color_5);
-	--radius_xl4: 15px;
-	--radius_xl3: 7px;
+	--border_radius_xl4: 15px;
+	--border_radius_xl3: 7px;
 	--text_shadow_sm: 1px 1px rgba(0, 0, 0, 0.6);
 	--text_shadow_reverse_sm: -1px -1px rgba(0, 0, 0, 0.6);
 	--hud_element_size: 72px;
