@@ -1,40 +1,30 @@
-<script lang="ts" strictEvents>
-	import {createEventDispatcher} from 'svelte';
-
-	import type {PlaylistItemData} from '$lib/playlist';
+<script lang="ts">
+	import type {PlaylistItemData} from '$lib/playlist.js';
 	import type {SongPlayState} from '$lib/play_song.js';
-
-	const dispatch = createEventDispatcher<{
-		play: PlaylistItemData;
-		paused: boolean;
-	}>();
 
 	interface Props {
 		playlist_item: PlaylistItemData;
 		index: number;
 		playing_song: SongPlayState | null;
 		paused: boolean;
+		onplay: (playlist_item: PlaylistItemData) => void;
+		onpause: (value: boolean) => void;
 	}
 
-	let {
-		playlist_item,
-		index,
-		playing_song,
-		paused = $bindable()
-	}: Props = $props();
+	let {playlist_item, index, playing_song, paused = $bindable(), onplay, onpause}: Props = $props();
 
-	const click = async () => {
+	const click = () => {
 		if (playing_song && selected) {
 			paused = !paused;
-			dispatch('paused', paused);
+			onpause(paused);
 		} else {
-			dispatch('play', playlist_item);
+			onplay(playlist_item);
 		}
 	};
 
-	let {song} = $derived(playlist_item);
-	let current_song = $derived(playing_song?.song);
-	let selected = $derived(current_song === song);
+	const {song} = $derived(playlist_item);
+	const current_song = $derived(playing_song?.song);
+	const selected = $derived(current_song === song);
 </script>
 
 <!-- TODO render link -->

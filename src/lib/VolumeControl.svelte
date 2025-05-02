@@ -1,27 +1,24 @@
-<!-- @migration-task Error while migrating Svelte code: Mixing old (on:input) and new syntaxes for event handling is not allowed. Use only the oninput syntax
-https://svelte.dev/e/mixed_event_handler_syntaxes -->
 <script lang="ts">
-	import {createEventDispatcher} from 'svelte';
-
 	import type {Volume} from '$lib/audio_helpers.js';
 
-	const dispatch = createEventDispatcher<{
-		volume: number;
+	interface Props {
+		volume: Volume;
 		muted: boolean;
-	}>();
+		onvolume: (volume: Volume) => void;
+		onmute: (muted: boolean) => void;
+	}
 
-	// TODO maybe events instead of writable stores?
-	export let volume: Volume = 1;
-	export let muted = false;
+	let {volume = $bindable(1), muted = $bindable(false), onvolume, onmute}: Props = $props();
 </script>
 
 <label class:muted title="volume">
 	{#if muted}
 		<button
+			type="button"
 			class="icon_button plain"
 			onclick={() => {
 				muted = !muted;
-				dispatch('muted', muted);
+				onmute(muted);
 			}}
 		>
 			{#if muted}🔇{:else if volume < 0.33}🔉{:else}🔊{/if}
@@ -31,9 +28,9 @@ https://svelte.dev/e/mixed_event_handler_syntaxes -->
 	<input
 		class="plain"
 		type="range"
-		on:input={(e) => {
+		oninput={(e) => {
 			volume = Number(e.currentTarget.value);
-			dispatch('volume', volume);
+			onvolume(volume);
 		}}
 		step={0.01}
 		min={0}

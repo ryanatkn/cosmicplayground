@@ -1,10 +1,13 @@
-<!-- @migration-task Error while migrating Svelte code: Mixing old (on:mouseenter) and new syntaxes for event handling is not allowed. Use only the onmouseenter syntax
-https://svelte.dev/e/mixed_event_handler_syntaxes -->
 <script lang="ts">
-	export let active_land_index: number | null; // active is the hover state or "current" when automatically cycling
-	export let selected_land_index: number | null; // selected is the "current" non-cycling state (confusing yes)
-	export let select_land_index: (value: number | null) => void;
-	export let hover_land_index: (value: number | null) => void;
+	interface Props {
+		active_land_index: number | null; // active is the hover state or "current" when automatically cycling
+		selected_land_index: number | null; // selected is the "current" non-cycling state (confusing yes)
+		select_land_index: (value: number | null) => void;
+		hover_land_index: (value: number | null) => void;
+	}
+
+	const {active_land_index, selected_land_index, select_land_index, hover_land_index}: Props =
+		$props();
 
 	const toggle_index = (index: number) => {
 		select_land_index(selected_land_index === index ? null : index);
@@ -12,14 +15,15 @@ https://svelte.dev/e/mixed_event_handler_syntaxes -->
 </script>
 
 <div class="month-hud">
-	{#each {length: 12} as _, i}
+	{#each {length: 12} as _, i (i)}
 		<button
+			type="button"
 			class:active={i === active_land_index}
 			class:selected={i === selected_land_index}
 			aria-label="select month {i + 1}"
 			onclick={() => toggle_index(i)}
-			on:mouseenter={() => hover_land_index(i)}
-			on:mouseleave={() => hover_land_index(null)}
+			onmouseenter={() => hover_land_index(i)}
+			onmouseleave={() => hover_land_index(null)}
 		>
 			∙
 		</button>

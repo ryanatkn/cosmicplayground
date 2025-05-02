@@ -1,14 +1,20 @@
-<!-- @migration-task Error while migrating Svelte code: Cannot use `export let` in runes mode — use `$props()` instead
-https://svelte.dev/e/legacy_export_invalid -->
 <script lang="ts">
 	import {clock_context} from '$lib/clock.js';
 
 	import EarthThumbnail from '$lib/EarthThumbnail.svelte';
 	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/deep-breath/constants.js';
 
-	export let earthWidth = THUMBNAIL_WIDTH_DEFAULT;
-	export let label = 'proceed';
-	export let on_click: ((e: MouseEvent) => void) | null = null;
+	interface Props {
+		earthWidth: number;
+		label: string;
+		on_click: ((e: MouseEvent) => void) | null;
+	}
+
+	const {
+		earthWidth = THUMBNAIL_WIDTH_DEFAULT,
+		label = 'proceed',
+		on_click = null,
+	}: Props = $props();
 
 	const clock = clock_context.get();
 
@@ -38,7 +44,7 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 			running={$clock.running}
 		/>
 	</div>
-	<div class="thumbnail-text" style="transform: scale3d({textScale}, {textScale}, {textScale})">
+	<div class="thumbnail-text" style:transform="scale3d({textScale}, {textScale}, {textScale})">
 		deep breath
 	</div>
 </div>

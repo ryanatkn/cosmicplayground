@@ -1,17 +1,21 @@
-<!-- @migration-task Error while migrating Svelte code: Mixing old (on:mouseenter) and new syntaxes for event handling is not allowed. Use only the onmouseenter syntax
-https://svelte.dev/e/mixed_event_handler_syntaxes -->
 <script lang="ts">
-	export let sea_level: number;
-	export let sea_index_max: number;
-	export let selected_sea_level: number | null;
-	export let select_sea_level: (value: number | null) => void;
-	export let hover_sea_level: (value: number | null) => void;
+	interface Props {
+		sea_level: number;
+		sea_index_max: number;
+		selected_sea_level: number | null;
+		select_sea_level: (value: number | null) => void;
+		hover_sea_level: (value: number | null) => void;
+	}
+
+	const {sea_level, sea_index_max, selected_sea_level, select_sea_level, hover_sea_level}: Props =
+		$props();
 
 	// TODO style when selected
 
-	let water_level_el: HTMLElement;
+	let water_level_el: HTMLElement | undefined = $state();
 
-	const get_sea_level = (y: number): number => {
+	const get_sea_level = (y: number): number | null => {
+		if (!water_level_el) return null;
 		const rect = water_level_el.getBoundingClientRect();
 		const value = (1 - (y - rect.top) / (rect.bottom - rect.top)) * sea_index_max;
 		return value;
@@ -24,11 +28,11 @@ https://svelte.dev/e/mixed_event_handler_syntaxes -->
 	class:selected={selected_sea_level !== null}
 	onclick={(e) => select_sea_level(selected_sea_level === null ? get_sea_level(e.clientY) : null)}
 	aria-hidden="true"
-	on:mouseenter={(e) => hover_sea_level(get_sea_level(e.clientY))}
-	on:mousemove={(e) => hover_sea_level(get_sea_level(e.clientY))}
-	on:mouseleave={() => hover_sea_level(null)}
+	onmouseenter={(e) => hover_sea_level(get_sea_level(e.clientY))}
+	onmousemove={(e) => hover_sea_level(get_sea_level(e.clientY))}
+	onmouseleave={() => hover_sea_level(null)}
 >
-	<div class="water-level-fill" style="height: {(100 * sea_level) / sea_index_max}%;"></div>
+	<div class="water-level-fill" style:height="{(100 * sea_level) / sea_index_max}%"></div>
 </div>
 
 <style>

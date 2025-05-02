@@ -1,16 +1,19 @@
-<!-- @migration-task Error while migrating Svelte code: Mixing old (on:mouseenter) and new syntaxes for event handling is not allowed. Use only the onmouseenter syntax
-https://svelte.dev/e/mixed_event_handler_syntaxes -->
 <script lang="ts">
-	export let daylight: number; // 0 to 1, where 1 is max light
-	export let selected_daylight: number | null;
-	export let select_daylight: (value: number | null) => void;
-	export let hover_daylight: (value: number | null) => void;
+	interface Props {
+		daylight: number; // 0 to 1, where 1 is max light
+		selected_daylight: number | null;
+		select_daylight: (value: number | null) => void;
+		hover_daylight: (value: number | null) => void;
+	}
+
+	const {daylight, selected_daylight, select_daylight, hover_daylight}: Props = $props();
 
 	// TODO style when selected
 
-	let daylight_el: HTMLElement;
+	let daylight_el: HTMLElement | undefined = $state();
 
-	const get_daylight = (y: number): number => {
+	const get_daylight = (y: number): number | null => {
+		if (!daylight_el) return null;
 		const rect = daylight_el.getBoundingClientRect();
 		const value = 1 - (y - rect.top) / (rect.bottom - rect.top);
 		return value;
@@ -23,11 +26,11 @@ https://svelte.dev/e/mixed_event_handler_syntaxes -->
 	class:selected={selected_daylight !== null}
 	onclick={(e) => select_daylight(selected_daylight === null ? get_daylight(e.clientY) : null)}
 	aria-hidden="true"
-	on:mouseenter={(e) => hover_daylight(get_daylight(e.clientY))}
-	on:mousemove={(e) => hover_daylight(get_daylight(e.clientY))}
-	on:mouseleave={() => hover_daylight(null)}
+	onmouseenter={(e) => hover_daylight(get_daylight(e.clientY))}
+	onmousemove={(e) => hover_daylight(get_daylight(e.clientY))}
+	onmouseleave={() => hover_daylight(null)}
 >
-	<div class="daylight-fill" style="height: {100 * daylight}%;"></div>
+	<div class="daylight-fill" style:height="{100 * daylight}%"></div>
 </div>
 
 <style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import {run} from 'svelte/legacy';
 
 	import Breadcrumb from '@ryanatkn/fuz/Breadcrumb.svelte';
 	import {page} from '$app/state';
@@ -21,11 +21,13 @@
 		shuffle,
 		repeat,
 	} from '$lib/play_song.js';
-	import type {PlaylistItemData} from '$lib/playlist';
+	import type {PlaylistItemData} from '$lib/playlist.js';
 	import PortalPreview from '$lib/PortalPreview.svelte';
 	import AboutPortalPreview from '$routes/about/Preview.svelte';
 
-	const playlist_items: PlaylistItemData[] = Array.from(songs_by_name.values(), (song) => ({song}));
+	const playlist_items: Array<PlaylistItemData> = Array.from(songs_by_name.values(), (song) => ({
+		song,
+	}));
 
 	const STORAGE_KEY_MEDIA_PLAYER_COLLAPSED = 'media_player_collapsed';
 	const DEFAULT_COLLAPSED = false;
@@ -63,13 +65,13 @@
 			shuffle={$shuffle}
 			repeat={$repeat}
 			bind:collapsed
-			on:play={(e) => play(e.detail)}
-			on:stop={() => stop_song($playing_song)}
-			on:paused={(e) => (e.detail ? pause_song($playing_song) : resume_song($playing_song))}
-			on:volume={(e) => ($volume = e.detail)}
-			on:muted={(e) => ($muted = e.detail)}
-			on:shuffle={(e) => ($shuffle = e.detail)}
-			on:repeat={(e) => ($repeat = e.detail)}
+			onplay={(v) => play(v)}
+			onstop={() => stop_song($playing_song)}
+			onpause={(v) => (v ? pause_song($playing_song) : resume_song($playing_song))}
+			onvolume={(v) => ($volume = v)}
+			onmute={(v) => ($muted = v)}
+			onshuffle={(v) => ($shuffle = v)}
+			onrepeat={(v) => ($repeat = v)}
 		/>
 	</Panel>
 	<Panel>
