@@ -39,7 +39,7 @@
 		width: var(--hud_element_size);
 		height: var(--hud_element_size);
 		line-height: 1;
-		font-size: var(--size, var(--size_xl5));
+		font-size: var(--font_size, var(--font_size_xl5));
 		font-weight: 300;
 		text-shadow: var(--text_shadow_sm);
 		transition: var(--clickable_transition);

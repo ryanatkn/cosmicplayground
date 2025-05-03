@@ -326,14 +326,14 @@
 					></div>
 				</div>
 				<div style="display: flex;">
-					<div class="flex items-center justify-center" style="width: {translate_width / 2}px">
+					<div class="display_flex items-center justify-center" style="width: {translate_width / 2}px">
 						<div
 							class="active_tween_graphic_rotate"
 							style="transform: rotate({tweenAlternating * 180}deg); height: {graphic2Height}px;
 						background-color: {get_color(activeEasingIndex)};"
 						></div>
 					</div>
-					<div class="flex items-center justify-center" style="width: {translate_width / 2}px">
+					<div class="display_flex items-center justify-center" style="width: {translate_width / 2}px">
 						<div
 							class="active_tween_graphic_scale"
 							style="transform: scale3d({tweenAlternating}, {tweenAlternating}, 1); width: {graphic2Width}px;
@@ -343,7 +343,7 @@
 				</div>
 				<div>
 					<div
-						class="flex items-center justify-center"
+						class="display_flex items-center justify-center"
 						style="width: {translate_width / 2}px; padding: 36px 36px 0;"
 					>
 						<div

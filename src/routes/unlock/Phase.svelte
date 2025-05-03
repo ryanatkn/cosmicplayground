@@ -42,18 +42,18 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: var(--size_xl4);
+		font-size: var(--font_size_xl4);
 		text-align: center;
 		text-shadow: 2px 2px 3px #000;
 	}
 	@media (max-width: 1100px) {
 		.title {
-			font-size: var(--size_xl2);
+			font-size: var(--font_size_xl2);
 		}
 	}
 	@media (max-width: 500px) {
 		.title {
-			font-size: var(--size_lg);
+			font-size: var(--font_size_lg);
 		}
 	}
 	/* TODO refactor to be global (there are conflicting styles in places) */

@@ -329,7 +329,7 @@ TODO ideas
 		display: flex;
 	}
 	.buttons button {
-		font-size: var(--size_xl4);
+		font-size: var(--font_size_xl4);
 	}
 	input[type='number'] {
 		width: 50px;

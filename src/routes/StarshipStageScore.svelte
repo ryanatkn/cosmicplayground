@@ -34,7 +34,7 @@
 
 <style>
 	.text {
-		font-size: var(--size_xl4);
+		font-size: var(--font_size_xl4);
 		text-align: center;
 	}
 </style>

@@ -222,7 +222,7 @@
 					alt="under construction: person dig pause"
 				/>
 				<div
-					class="inline-block relative"
+					class="display_inline_block relative"
 					style="height: 100px; width: 240px; transform: rotate(-5deg);"
 				>
 					<img
@@ -247,7 +247,7 @@
 						style="bottom: 38px; left: 0"
 					/>
 				</div>
-				<div class="relative inline-block" style="width: 96px; height: 93px;">
+				<div class="relative display_inline_block" style="width: 96px; height: 93px;">
 					<img
 						src="/assets/construction/mammal.gif"
 						use:freezeframe={freeze}

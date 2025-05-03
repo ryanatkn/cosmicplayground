@@ -70,7 +70,7 @@
 		align-items: center;
 	}
 	ul {
-		font-size: var(--size_xl3);
+		font-size: var(--font_size_xl3);
 		align-items: center;
 		text-align: center;
 	}

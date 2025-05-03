@@ -514,7 +514,11 @@
 		/>
 		{#if finished}
 			<div class="exit">
-				<FloatingIconButton label="return home" onclick={() => exitStarshipMode()} class="size_xl9">
+				<FloatingIconButton
+					label="return home"
+					onclick={() => exitStarshipMode()}
+					class="font_size_xl9"
+				>
 					{#if $currentStageScores && rescuedAnyCrew($currentStageScores)}{BOOSTER_SYMBOL}{:else}↩{/if}
 				</FloatingIconButton>
 				<StarshipStageScore scores={currentStageScores && $currentStageScores} />

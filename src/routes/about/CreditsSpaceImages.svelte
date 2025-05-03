@@ -30,7 +30,7 @@
 		<Details>
 			{#snippet summary()}
 				<summary>
-					<h3 class="inline">see {hiddenImages.length} more images</h3>
+					<h3 class="display_inline">see {hiddenImages.length} more images</h3>
 				</summary>
 			{/snippet}
 			<ul>

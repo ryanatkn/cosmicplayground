@@ -156,7 +156,7 @@ tr:hover {
 th {
 	text-align: left;
 	font-weight: 300;
-	font-size: var(--size_xl);
+	font-size: var(--font_size_xl);
 	padding: var(--space_sm);
 }
 

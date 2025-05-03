@@ -338,7 +338,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		font-size: var(--size_sm);
+		font-size: var(--font_size_sm);
 		font-weight: 600;
 		width: var(--space_xl5);
 		color: var(--text_color_3);

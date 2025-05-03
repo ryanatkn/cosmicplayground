@@ -18,7 +18,7 @@
 
 <style>
 	button {
-		font-size: var(--size_xl4);
+		font-size: var(--font_size_xl4);
 		font-weight: 300;
 		background-color: var(--color_a_9);
 		color: var(--ocean_text_color); /* TODO customize? */

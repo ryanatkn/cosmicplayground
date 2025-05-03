@@ -36,7 +36,7 @@
 {#if songs1b.length}
 	<Details>
 		{#snippet summary()}
-			<summary><h3 class="inline">see {songs1b.length} more songs</h3></summary>
+			<summary><h3 class="display_inline">see {songs1b.length} more songs</h3></summary>
 		{/snippet}
 		<div>
 			{#each songs1b as song}

@@ -50,7 +50,7 @@
 		opacity: 0.6;
 		display: flex;
 		justify-content: center;
-		font-size: var(--size_xl5);
+		font-size: var(--font_size_xl5);
 		font-weight: 300;
 	}
 	ul {
