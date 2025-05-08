@@ -288,22 +288,22 @@
 				</div>
 				<div class="chart">
 					<div
-						class="absolute l-0 t-0"
+						class="position_absolute l-0 t-0"
 						style="transform: translate3d({chartX0 +
 							xPct * chartWidth -
 							chartAxisLineWidth / 2}px, {chartY0 - chartAxisLineWidth / 2}px,
 					0); background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
 					></div>
 					<div
-						class="absolute l-0 t-0"
+						class="position_absolute l-0 t-0"
 						style="transform: translate3d({chartX0 - chartAxisLineWidth / 2}px, {chartY0 -
 							yPct * chartHeight -
 							chartAxisLineWidth / 2}px,
 					0); background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
 					></div>
-					<canvas class="relative z-1" bind:this={chartCanvas}></canvas>
+					<canvas class="position_relative z-1" bind:this={chartCanvas}></canvas>
 					<div
-						class="absolute l-0 t-0"
+						class="position_absolute l-0 t-0"
 						style="background-color: {get_color(
 							activeEasingIndex,
 						)}; transform: translate3d({chartX0 +
@@ -326,14 +326,20 @@
 					></div>
 				</div>
 				<div style="display: flex;">
-					<div class="display_flex items-center justify-center" style="width: {translate_width / 2}px">
+					<div
+						class="display_flex items-center justify-center"
+						style="width: {translate_width / 2}px"
+					>
 						<div
 							class="active_tween_graphic_rotate"
 							style="transform: rotate({tweenAlternating * 180}deg); height: {graphic2Height}px;
 						background-color: {get_color(activeEasingIndex)};"
 						></div>
 					</div>
-					<div class="display_flex items-center justify-center" style="width: {translate_width / 2}px">
+					<div
+						class="display_flex items-center justify-center"
+						style="width: {translate_width / 2}px"
+					>
 						<div
 							class="active_tween_graphic_scale"
 							style="transform: scale3d({tweenAlternating}, {tweenAlternating}, 1); width: {graphic2Width}px;

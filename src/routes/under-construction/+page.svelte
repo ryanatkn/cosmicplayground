@@ -222,32 +222,32 @@
 					alt="under construction: person dig pause"
 				/>
 				<div
-					class="display_inline_block relative"
+					class="display_inline_block position_relative"
 					style="height: 100px; width: 240px; transform: rotate(-5deg);"
 				>
 					<img
 						src="/assets/construction/line-2.gif"
 						use:freezeframe={freeze}
 						alt="under construction: line 2"
-						class="absolute"
+						class="position_absolute"
 						style="width: 90%; top: 38px; left: 5%"
 					/>
 					<img
 						src="/assets/construction/line-2.gif"
 						use:freezeframe={freeze}
 						alt="under construction: line 2"
-						class="absolute"
+						class="position_absolute"
 						style="width: 80%; bottom: 46px; left: 14%"
 					/>
 					<img
 						src="/assets/construction/line-2.gif"
 						use:freezeframe={freeze}
 						alt="under construction: line 2"
-						class="w-100 absolute"
+						class="w-100 position_absolute"
 						style="bottom: 38px; left: 0"
 					/>
 				</div>
-				<div class="relative display_inline_block" style="width: 96px; height: 93px;">
+				<div class="position_relative display_inline_block" style="width: 96px; height: 93px;">
 					<img
 						src="/assets/construction/mammal.gif"
 						use:freezeframe={freeze}
@@ -257,7 +257,7 @@
 					<img
 						src="/assets/characters/spider.png"
 						alt="spiderspace dot org"
-						class="absolute cursor-none"
+						class="position_absolute cursor-none"
 						style="left: 56px; top: 68px;"
 						onclick={() => window.open('https://github.com/ryanatkn/fuz_template')}
 						aria-hidden="true"
@@ -276,7 +276,7 @@
 				use:freezeframe={freeze}
 				alt="under construction: line 1"
 				style="top: -8px; transform: scale3d(1, -1, 1);"
-				class="pixelated w-100 relative"
+				class="pixelated w-100 position_relative"
 			/>
 		</div>
 	</div>

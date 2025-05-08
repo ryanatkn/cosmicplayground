@@ -85,10 +85,10 @@
 	--border_color: transparent;
 }
 
-.relative {
+.position_relative {
 	position: relative;
 }
-.absolute {
+.position_absolute {
 	position: absolute;
 }
 /** Same as `display: inline flow`. */

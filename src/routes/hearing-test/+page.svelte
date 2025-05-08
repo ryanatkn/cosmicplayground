@@ -129,19 +129,19 @@
 		</svg>
 	{/if}
 	{#if volume !== undefined}
-		<div class="volume h-100 absolute z-1 t-0 display_flex items-center justify-start">
+		<div class="volume h-100 position_absolute z-1 t-0 display_flex items-center justify-start">
 			<div>{displayedVolume}<span class="unit">%</span></div>
 		</div>
 	{/if}
 	{#if freq !== undefined}
-		<div class="freq absolute z-1 w-100 l-0 display_flex items-start justify-center">
+		<div class="freq position_absolute z-1 w-100 l-0 display_flex items-start justify-center">
 			<div>{displayedFreq}<span class="unit">hz</span></div>
 		</div>
 	{/if}
 	<!-- TODO better a11y -->
 	<div
 		role="none"
-		class="absolute z-3 w-100 h-100"
+		class="position_absolute z-3 w-100 h-100"
 		onmousedown={handlePointerDown}
 		onmouseup={handlePointerUp}
 		onmouseleave={handlePointerUp}
