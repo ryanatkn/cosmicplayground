@@ -1,6 +1,7 @@
 import {BaseTexture, SCALE_MODES} from '@pixi/core';
 import {Application, type IApplicationOptions} from '@pixi/app';
 import {Container} from '@pixi/display';
+import '@pixi/unsafe-eval'; // import 'pixi.js/unsafe-eval'; // when upgraded
 import {onMount, onDestroy} from 'svelte';
 import {create_context} from '@ryanatkn/fuz/context_helpers.js';
 
