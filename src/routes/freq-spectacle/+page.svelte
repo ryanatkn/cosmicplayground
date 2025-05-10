@@ -1,22 +1,28 @@
 <script lang="ts">
+	import {run} from 'svelte/legacy';
+
 	import {onDestroy} from 'svelte';
-	import {get_clock} from '$lib/clock.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {clock_context} from '$lib/clock.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
-	import {get_settings} from '$lib/settings';
-	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '$routes/data';
-	import {setInStorage} from '$lib/storage';
+	import {settings_context} from '$lib/settings.js';
+	import {STORAGE_KEY_STRENGTH_BOOSTER3} from '$routes/data.js';
+	import {setInStorage} from '$lib/storage.js';
 
-	const dimensions = get_dimensions();
-	const settings = get_settings();
+	const dimensions = dimensions_context.get();
+	const settings = settings_context.get();
 
-	let width = $dimensions.width;
-	let height = $dimensions.height;
-	$: width = $dimensions.width;
-	$: height = $dimensions.height;
+	let width = $state($dimensions.width);
+	let height = $state($dimensions.height);
+	run(() => {
+		width = $dimensions.width;
+	});
+	run(() => {
+		height = $dimensions.height;
+	});
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	const hzItems = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60];
 	const WINNING_HZ_ITEMS = new Set([0, 119, 59, 60]);
@@ -46,11 +52,11 @@
 		}
 	});
 
-	let getHzItemSelectedIndices: () => number[];
+	let getHzItemSelectedIndices: () => number[] = $state();
 </script>
 
 <!-- TODO refactor this lol. also, do wackier thingg with it. -->
-<div class="view" on:click={toggle} aria-hidden>
+<div class="view" onclick={toggle} aria-hidden="true">
 	<div class="item" class:pulsing={$settings.secret_enabled}>
 		<FreqSpectacle
 			{width}

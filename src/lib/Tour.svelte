@@ -1,12 +1,14 @@
 <script lang="ts">
+	import {run} from 'svelte/legacy';
+
 	import {writable, type Writable} from 'svelte/store';
 	import {createEventDispatcher, onDestroy} from 'svelte';
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {Unreachable_Error} from '@ryanatkn/belt/error.js';
 	import type {ClockStore} from '$lib/clock.js';
 
-	import {get_settings} from '$lib/settings';
-	import {reset_render_stats, getRenderStats} from '$lib/renderStats';
+	import {settings_context} from '$lib/settings.js';
+	import {reset_render_stats, getRenderStats} from '$lib/renderStats.js';
 	import type Camera from '$lib/Camera.svelte';
 	import TweenedCamera from '$lib/TweenedCamera.svelte';
 	import {
@@ -16,16 +18,26 @@
 		type TourHooks,
 		type TourStep,
 		type ZoomTourStep,
-	} from '$lib/tour';
+	} from '$lib/tour.js';
 
-	export let camera: Camera;
-	export let clock: ClockStore;
-	export let hooks: Partial<TourHooks>;
-	export let create_tour_data: () => TourData;
+	interface Props {
+		camera: Camera;
+		clock: ClockStore;
+		hooks: Partial<TourHooks>;
+		create_tour_data: () => TourData;
+		// for external binding, not props
+		paused?: any;
+		tweenedCamera?: TweenedCamera | undefined;
+	}
 
-	// for external binding, not props
-	export let paused = !$clock.running;
-	export let tweenedCamera: TweenedCamera | undefined = undefined as any;
+	let {
+		camera,
+		clock,
+		hooks,
+		create_tour_data,
+		paused = $bindable(!$clock.running),
+		tweenedCamera = $bindable(undefined as any),
+	}: Props = $props();
 	export const touring = writable(false);
 	export const currentTime = writable(0);
 	export const currentStepIndex = writable(0);
@@ -50,14 +62,6 @@
 		finished = true;
 		baseHooks.done(completed);
 	};
-
-	$: ({running} = $clock);
-	$: if (paused === running) {
-		paused = !running;
-	}
-	$: if (running && $touring && $clock.dt > 0) {
-		void handleClockTick($clock.dt);
-	}
 
 	// We walk through the steps one at a time,
 	// tracking the amount of time that the current step has been active.
@@ -188,8 +192,7 @@
 		},
 	};
 
-	const settings = get_settings();
-	$: dev_mode = $settings.dev_mode;
+	const settings = settings_context.get();
 
 	const dispatchEvent = createEventDispatcher<{begin: undefined}>();
 
@@ -222,8 +225,20 @@
 	onDestroy(() => {
 		if ($touring) cancel();
 	});
+	let {running} = $derived($clock);
+	run(() => {
+		if (paused === running) {
+			paused = !running;
+		}
+	});
+	run(() => {
+		if (running && $touring && $clock.dt > 0) {
+			void handleClockTick($clock.dt);
+		}
+	});
+	let dev_mode = $derived($settings.dev_mode);
 </script>
 
-<svelte:window on:keydown|capture={keydown} />
+<svelte:window onkeydowncapture={keydown} />
 
 <TweenedCamera {camera} enabled={!paused} bind:this={tweenedCamera} />

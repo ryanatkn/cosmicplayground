@@ -14,7 +14,7 @@
 	<a href="https://www.serpentsoundstudios.com">Alexander Nakarada</a>
 </p>
 <Soggy_Planet_Credits />
-<DeepBreathCredits show_earth_map_credits={false} show_music_credits={true} />
+<DeepBreathCredits show_earth_map_credits={false} show_music_credits />
 
 <style>
 	.thumbnail {

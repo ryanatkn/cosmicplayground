@@ -1,10 +1,13 @@
 <script lang="ts">
-	import type {ResourcesStore} from '$lib/resources';
+	import type {ResourcesStore} from '$lib/resources.js';
 	import WaitingAnimation from '$lib/WaitingAnimation.svelte';
 
-	export let resources: ResourcesStore;
+	interface Props {
+		resources: ResourcesStore; // TODO improve styling
+	}
 
-	// TODO improve styling
+	let {resources}: Props = $props();
+
 	// TODO allow clicking each to retry the request (`resourcesStore` needs an API for that)
 </script>
 
@@ -17,18 +20,18 @@
 				class:success={resource.status === 'success'}
 				class:pending={resource.status === 'pending'}
 				class:failure={resource.status === 'failure'}
-				on:click={() => {
+				onclick={() => {
 					if (resource.status === 'failure') {
 						window.location.reload();
 					}
 				}}
-				aria-hidden
+				aria-hidden="true"
 				title={resource.status === 'failure'
 					? 'click to reload'
 					: resource.status === 'success'
 						? 'resource loaded'
 						: 'resource loading'}
-			/>
+			></div>
 		{/each}
 	</div>
 	<div class="waiting-animation-wrapper">
@@ -39,7 +42,7 @@
 <style>
 	h2 {
 		margin-bottom: 10px;
-		font-size: var(--size_xl4);
+		font-size: var(--font_size_xl4);
 	}
 	.resources-loading-progress {
 		display: flex;
@@ -69,6 +72,6 @@
 		background-color: var(--success_color);
 	}
 	.waiting-animation-wrapper {
-		font-size: var(--size_xl5);
+		font-size: var(--font_size_xl5);
 	}
 </style>

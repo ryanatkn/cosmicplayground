@@ -1,16 +1,16 @@
-<script lang="ts" strictEvents>
+<script lang="ts">
 	import {fade, slide} from 'svelte/transition';
 	import {swallow} from '@ryanatkn/belt/dom.js';
-	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
+	import {onDestroy, onMount} from 'svelte';
 	import {random_item} from '@ryanatkn/belt/random.js';
 	import Pending_Animation from '@ryanatkn/fuz/Pending_Animation.svelte';
 
 	import Playlist from '$lib/Playlist.svelte';
 	import VolumeControl from '$lib/VolumeControl.svelte';
-	import type {PlaylistItemData} from '$lib/playlist';
-	import type {SongPlayState} from '$lib/play_song';
-	import type {Seconds} from '$lib/time';
-	import type {Volume} from '$lib/audio_helpers';
+	import type {PlaylistItemData} from '$lib/playlist.js';
+	import type {SongPlayState} from '$lib/play_song.js';
+	import type {Seconds} from '$lib/time.js';
+	import type {Volume} from '$lib/audio_helpers.js';
 
 	// TODO selection behavior
 
@@ -18,47 +18,56 @@
 
 	// TODO skins (inspired by winamp)
 
-	// TODO try to not duplicate with `dispatch`
-	interface $$Events {
-		play: CustomEvent<PlaylistItemData>;
-		stop: void;
-		paused: CustomEvent<boolean>;
-		volume: CustomEvent<number>;
-		muted: CustomEvent<boolean>;
-		shuffle: CustomEvent<boolean>;
-		repeat: CustomEvent<boolean>;
-	}
-
-	const dispatch = createEventDispatcher<{
-		play: PlaylistItemData;
-		stop: void;
+	interface Props {
+		playing_song: SongPlayState | null;
+		playlist_items: Array<PlaylistItemData>;
+		collapsed: boolean;
 		paused: boolean;
-		volume: number;
+		volume: Volume;
 		muted: boolean;
 		shuffle: boolean;
 		repeat: boolean;
-	}>();
+		onplay: (playlist_item: PlaylistItemData) => void;
+		onstop: () => void;
+		onpause: (value: boolean) => void;
+		onvolume: (value: Volume) => void;
+		onmute: (value: boolean) => void;
+		onshuffle: (value: boolean) => void;
+		onrepeat: (value: boolean) => void;
+	}
 
-	export let playing_song: SongPlayState | null;
-	export let playlist_items: PlaylistItemData[];
-	export let collapsed = false;
-	export let paused = false; // TODO maybe make these optional, and don't set locally?
-	export let volume: Volume = 1;
-	export let muted = false;
-	export let shuffle = false;
-	export let repeat = false;
+	let {
+		playing_song,
+		playlist_items,
+		collapsed = $bindable(false),
+		paused = $bindable(false),
+		volume = $bindable(1),
+		muted = $bindable(false),
+		shuffle = $bindable(false),
+		repeat = $bindable(false),
+		onplay,
+		onstop,
+		onpause,
+		onvolume,
+		onmute,
+		onshuffle,
+		onrepeat,
+	}: Props = $props();
 
-	$: console.log(`[MediaPlayer playing_song]`, playing_song, playing_song?.audio_el);
-	$: has_song = !!playing_song;
-	$: duration = playing_song?.duration;
-	$: audio_el = playing_song?.audio_el;
-	$: audio = playing_song?.audio;
-	$: status = $audio?.status;
+	$inspect(`[MediaPlayer playing_song]`, playing_song, playing_song?.audio_el);
+	const has_song = $derived(!!playing_song);
+	const duration = $derived(playing_song?.duration);
+	const audio_el = $derived(playing_song?.audio_el);
+	const audio = $derived(playing_song?.audio);
+	const status = $derived($audio?.status);
 
 	// cache the last played song so we can resume to it for better UX
 	let last_playing_song: SongPlayState | null = null;
 	let ended: Promise<unknown> | null = null;
-	$: if (playing_song) void update_playing_song(playing_song);
+	// TODO try to refactor
+	$effect(() => {
+		if (playing_song) void update_playing_song(playing_song);
+	});
 	const update_playing_song = async (p: SongPlayState | null) => {
 		if (!p) {
 			return;
@@ -71,20 +80,20 @@
 		const next_playlist_item = repeat
 			? playlist_items.find((p2) => p2.song === p.song)
 			: to_next_playlist_item();
-		if (next_playlist_item) dispatch('play', next_playlist_item);
+		if (next_playlist_item) onplay(next_playlist_item);
 	};
 
 	const play = () => {
 		if (has_song) {
 			paused = !paused;
-			dispatch('paused', paused);
+			onpause(paused);
 		} else {
 			const next_playlist_item = last_playing_song || to_next_playlist_item();
-			if (next_playlist_item) dispatch('play', next_playlist_item);
+			if (next_playlist_item) onplay(next_playlist_item);
 		}
 	};
 	const stop = () => {
-		dispatch('stop');
+		onstop();
 	};
 	const DOUBLE_CLICK_TIME = 0.29; // in seconds - TODO move?
 	const restart_or_previous = async () => {
@@ -92,7 +101,7 @@
 		if (!el || el.currentTime < DOUBLE_CLICK_TIME) {
 			const previous_playlist_item = to_previous_playlist_item();
 			if (previous_playlist_item) {
-				dispatch('play', previous_playlist_item);
+				onplay(previous_playlist_item);
 			}
 		} else {
 			el.currentTime = 0;
@@ -101,7 +110,7 @@
 	const next = async () => {
 		const next_playlist_item = to_next_playlist_item();
 		if (next_playlist_item) {
-			dispatch('play', next_playlist_item);
+			onplay(next_playlist_item);
 		}
 	};
 
@@ -113,7 +122,7 @@
 			return to_random_playlist_item(playing_song || last_playing_song);
 		}
 		const current_index = playing_song
-			? playlist_items.findIndex((p) => p.song === playing_song!.song)
+			? playlist_items.findIndex((p) => p.song === playing_song.song)
 			: last_playing_song
 				? playlist_items.findIndex((p) => p.song === last_playing_song!.song)
 				: 1;
@@ -128,7 +137,7 @@
 			return to_random_playlist_item(playing_song || last_playing_song);
 		}
 		const current_index = playing_song
-			? playlist_items.findIndex((p) => p.song === playing_song!.song)
+			? playlist_items.findIndex((p) => p.song === playing_song.song)
 			: last_playing_song
 				? playlist_items.findIndex((p) => p.song === last_playing_song!.song)
 				: playlist_items.length - 1;
@@ -149,7 +158,7 @@
 
 	// TODO refactor? this updates the component's `current_time`, syncing to the audio element
 	// consider polling `audio_el.paused` like with `audio_el.currentTime` so we could have a `paused` local
-	let current_time: number | undefined;
+	let current_time: number | undefined = $state();
 	let req: number;
 	const sync = () => {
 		current_time = audio_el?.currentTime;
@@ -177,7 +186,7 @@
 		return m + ':' + (s < 10 ? '0' : '') + s;
 	};
 
-	$: show_play = !has_song || paused;
+	const show_play = $derived(!has_song || paused);
 </script>
 
 <div class="media_player">
@@ -188,7 +197,7 @@
 				title={show_play ? 'play' : 'pause'}
 				type="button"
 				class="icon_button plain"
-				on:click={() => play()}
+				onclick={() => play()}
 			>
 				{#if show_play}
 					⏵
@@ -199,7 +208,7 @@
 			<!-- TODO transition -->
 			<label class="duration box row" title="time">
 				<input
-					on:input={input_current_time}
+					oninput={input_current_time}
 					disabled={duration == null}
 					class="plain"
 					style:flex="1"
@@ -223,7 +232,7 @@
 				title="restart or previous"
 				type="button"
 				class="icon_button plain"
-				on:click={() => restart_or_previous()}
+				onclick={() => restart_or_previous()}
 			>
 				⏮
 			</button>
@@ -231,26 +240,26 @@
 				title="stop"
 				type="button"
 				class="icon_button plain"
-				on:click={() => stop()}
+				onclick={() => stop()}
 				disabled={!has_song}
 			>
 				⏹
 			</button>
-			<button title="next" type="button" class="icon_button plain" on:click={() => next()}>
+			<button title="next" type="button" class="icon_button plain" onclick={() => next()}>
 				⏭
 			</button>
 			<button
 				title={collapsed ? 'expand' : 'collapse'}
 				type="button"
 				class="icon_button plain"
-				on:click={() => (collapsed = !collapsed)}
+				onclick={() => (collapsed = !collapsed)}
 				>{#if collapsed}+{:else}−{/if}</button
 			>
 		</header>
-		<Playlist {playlist_items} {collapsed} {paused} {playing_song} on:play on:paused />
+		<Playlist {playlist_items} {collapsed} {paused} {playing_song} {onplay} {onpause} />
 		{#if !collapsed}
 			<footer transition:slide|local>
-				<VolumeControl {volume} {muted} on:volume on:muted />
+				<VolumeControl {volume} {muted} {onvolume} {onmute} />
 				<div class="box row">
 					{#if repeat !== null}
 						<button
@@ -258,9 +267,9 @@
 							class="togglable icon_button plain deselectable"
 							title="repeat is {repeat ? 'enabled' : 'disabled'}"
 							class:selected={repeat}
-							on:click={() => {
+							onclick={() => {
 								repeat = !repeat;
-								dispatch('repeat', repeat);
+								onrepeat(repeat);
 							}}
 						>
 							🔁
@@ -272,9 +281,9 @@
 							class="togglable icon_button plain deselectable"
 							title="shuffle is {shuffle ? 'enabled' : 'disabled'}"
 							class:selected={shuffle}
-							on:click={() => {
+							onclick={() => {
 								shuffle = !shuffle;
-								dispatch('shuffle', shuffle);
+								onshuffle(shuffle);
 							}}
 						>
 							🔀
@@ -292,7 +301,7 @@
 		max-height: var(--player_max_height, 360px);
 		overflow: auto;
 		border: var(--media_player_border);
-		border-radius: var(--media_player_border_radius, var(--radius_xl4));
+		border-radius: var(--media_player_border_radius, var(--border_radius_xl4));
 		padding: var(--spacing-5);
 	}
 	.content {
@@ -300,7 +309,7 @@
 		display: flex;
 		flex-direction: column;
 		background-color: var(--bg_light);
-		border-radius: var(--media_player_border_radius, var(--radius_xl4));
+		border-radius: var(--media_player_border_radius, var(--border_radius_xl4));
 	}
 	header,
 	footer {
@@ -329,10 +338,10 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		font-size: var(--size_sm);
+		font-size: var(--font_size_sm);
 		font-weight: 600;
 		width: var(--space_xl5);
-		color: var(--text_2);
+		color: var(--text_color_3);
 	}
 	/* TODO move to style.css?  */
 	.togglable {

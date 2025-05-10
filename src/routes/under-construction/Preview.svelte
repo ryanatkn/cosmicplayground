@@ -1,11 +1,11 @@
 <script lang="ts">
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 
-	import {freezeframe} from '$lib/freezeframe';
+	import {freezeframe} from '$lib/freezeframe.js';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
-	$: freeze = !$clock.running;
+	let freeze = $derived(!$clock.running);
 </script>
 
 <img

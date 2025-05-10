@@ -1,23 +1,23 @@
 <script lang="ts">
-	import {page} from '$app/stores';
+	import {page} from '$app/state';
 	import Breadcrumb from '@ryanatkn/fuz/Breadcrumb.svelte';
 	import {base} from '$app/paths';
 
 	import Panel from '$lib/Panel.svelte';
 	import ChunkyButton from '$lib/ChunkyButton.svelte';
-	import {get_portals} from '$lib/portals';
+	import {portals_context} from '$lib/portals.js';
 	import PortalLink from '$lib/PortalLink.svelte';
 
-	const portals = get_portals();
+	const portals = portals_context.get();
 </script>
 
 <!-- TODO how to handle this? -->
 <section class="page box">
 	<Panel>
-		<div class="prose box">
+		<div class="box">
 			<h1>void</h1>
 			<p>nothing is here</p>
-			<Breadcrumb path={$page.url.pathname}>🌠</Breadcrumb>
+			<Breadcrumb path={page.url.pathname}>🌠</Breadcrumb>
 		</div>
 		<a href="/">
 			<ChunkyButton>go back home</ChunkyButton>
@@ -36,7 +36,7 @@
 			</ul>
 		</div>
 	</Panel>
-	<div class="prose box">
+	<div class="box">
 		<h2>maybe it was the computers fault</h2>
 	</div>
 	<a hidden href="{base}/unlock">:]</a>
@@ -50,7 +50,7 @@
 		opacity: 0.6;
 		display: flex;
 		justify-content: center;
-		font-size: var(--size_xl5);
+		font-size: var(--font_size_xl5);
 		font-weight: 300;
 	}
 	ul {

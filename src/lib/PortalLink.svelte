@@ -1,10 +1,14 @@
 <script lang="ts">
-	import {get_portals} from '$lib/portals';
+	import {portals_context} from '$lib/portals.js';
 
-	export let slug: string;
+	interface Props {
+		slug: string;
+	}
 
-	const portals = get_portals();
-	$: portal = $portals.data.portals_by_slug.get(slug)!;
+	let {slug}: Props = $props();
+
+	const portals = portals_context.get();
+	let portal = $derived($portals.data.portals_by_slug.get(slug)!);
 </script>
 
 <a href="/{slug}">
@@ -13,7 +17,7 @@
 
 <style>
 	a {
-		background-color: hsla(var(--hue_d), 70%, 58%, 18%);
+		background-color: hsl(var(--hue_d) 70% 58% / 18%);
 		padding: 0 8px;
 		border-radius: 5px;
 		color: var(--color_d_5);

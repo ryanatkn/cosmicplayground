@@ -1,25 +1,24 @@
 <script lang="ts">
-	import {createEventDispatcher} from 'svelte';
+	import type {Volume} from '$lib/audio_helpers.js';
 
-	import type {Volume} from '$lib/audio_helpers';
-
-	const dispatch = createEventDispatcher<{
-		volume: number;
+	interface Props {
+		volume: Volume;
 		muted: boolean;
-	}>();
+		onvolume: (volume: Volume) => void;
+		onmute: (muted: boolean) => void;
+	}
 
-	// TODO maybe events instead of writable stores?
-	export let volume: Volume = 1;
-	export let muted = false;
+	let {volume = $bindable(1), muted = $bindable(false), onvolume, onmute}: Props = $props();
 </script>
 
 <label class:muted title="volume">
 	{#if muted}
 		<button
+			type="button"
 			class="icon_button plain"
-			on:click={() => {
+			onclick={() => {
 				muted = !muted;
-				dispatch('muted', muted);
+				onmute(muted);
 			}}
 		>
 			{#if muted}🔇{:else if volume < 0.33}🔉{:else}🔊{/if}
@@ -29,9 +28,9 @@
 	<input
 		class="plain"
 		type="range"
-		on:input={(e) => {
+		oninput={(e) => {
 			volume = Number(e.currentTarget.value);
-			dispatch('volume', volume);
+			onvolume(volume);
 		}}
 		step={0.01}
 		min={0}
@@ -49,6 +48,6 @@
 		text-align: center;
 	}
 	.muted small {
-		color: var(--text_2);
+		color: var(--text_color_3);
 	}
 </style>

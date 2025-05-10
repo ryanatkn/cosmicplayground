@@ -1,20 +1,28 @@
 <script lang="ts">
-	import {get_clock} from '$lib/clock.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {clock_context} from '$lib/clock.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import {swallow} from '@ryanatkn/belt/dom.js';
 	import {blur} from 'svelte/transition';
 
-	const clock = get_clock();
-	const dimensions = get_dimensions();
+	const clock = clock_context.get();
+	const dimensions = dimensions_context.get();
 
-	// TODO has some copypasta, needs refactoring
+	interface Props {
+		// TODO has some copypasta, needs refactoring
+		tour_text: string[];
+		transition_in_duration?: number;
+		transition_out_duration?: number;
+		height_per_item?: number;
+	}
 
-	export let tour_text: string[];
-	export let transition_in_duration = 600;
-	export let transition_out_duration = 870;
-	export let height_per_item = 90;
+	let {
+		tour_text,
+		transition_in_duration = 600,
+		transition_out_duration = 870,
+		height_per_item = 90,
+	}: Props = $props();
 
-	$: height = height_per_item * tour_text.length;
+	let height = $derived(height_per_item * tour_text.length);
 
 	// TODO better visual effect? typewriter?
 
@@ -38,13 +46,13 @@
 </script>
 
 <!-- the top offset is super hacky but w/e -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-	class="tour-text prose"
+	class="tour-text"
 	transition:blur|local={{duration: transition_out_duration, amount: blur_amount}}
 	style:top="{$dimensions.height / 2 - 164}px"
-	on:click|capture={click}
-	on:keydown|capture={keydown}
+	onclickcapture={click}
+	onkeydowncapture={keydown}
 >
 	<div style:height="{height}px">
 		<!-- hacky but `i` is expected to not change, avoids need for uniqueness -->

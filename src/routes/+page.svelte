@@ -1,31 +1,33 @@
 <script lang="ts">
+	import {run} from 'svelte/legacy';
+
 	import {tick} from 'svelte';
 	import {wait} from '@ryanatkn/belt/async.js';
 	import {EMPTY_ARRAY} from '@ryanatkn/belt/array.js';
 	import Pending_Animation from '@ryanatkn/fuz/Pending_Animation.svelte';
 	import {dequal} from 'dequal/lite';
 	import {swallow} from '@ryanatkn/belt/dom.js';
-	import {browser} from '$app/environment';
+	import {BROWSER} from 'esm-env';
 
-	import {get_clock} from '$lib/clock.js';
-	import {enable_global_hotkeys} from '$lib/dom.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {clock_context} from '$lib/clock.js';
+	import {enable_global_hotkeys, scrollDown} from '$lib/dom.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import PortalPreview from '$lib/PortalPreview.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';
-	import aboutPortal from '$routes/about/data';
-	import soggyPlanetPortal from '$routes/soggy-planet/data';
-	import starlitHammockPortal from '$routes/starlit-hammock/data';
-	import paintFreqsPortal from '$routes/paint-freqs/data';
-	import easings2Portal from '$routes/easings-2/data';
-	import easings1Portal from '$routes/easings-1/data';
-	import hearingTestPortal from '$routes/hearing-test/data';
-	import underConstructionPortal from '$routes/under-construction/data';
-	import freqSpeedsPortal from '$routes/freq-speeds/data';
-	import strengthBooster2Portal from '$routes/secret2/data';
-	import strengthBooster3Portal from '$routes/secret3/data';
-	import clocksPortal from '$routes/clocks/data';
-	import freqSpectaclePortal from '$routes/freq-spectacle/data';
-	import {get_settings} from '$lib/settings';
+	import aboutPortal from '$routes/about/data.js';
+	import soggyPlanetPortal from '$routes/soggy-planet/data.js';
+	import starlitHammockPortal from '$routes/starlit-hammock/data.js';
+	import paintFreqsPortal from '$routes/paint-freqs/data.js';
+	import easings2Portal from '$routes/easings-2/data.js';
+	import easings1Portal from '$routes/easings-1/data.js';
+	import hearingTestPortal from '$routes/hearing-test/data.js';
+	import underConstructionPortal from '$routes/under-construction/data.js';
+	import freqSpeedsPortal from '$routes/freq-speeds/data.js';
+	import strengthBooster2Portal from '$routes/secret2/data.js';
+	import strengthBooster3Portal from '$routes/secret3/data.js';
+	import clocksPortal from '$routes/clocks/data.js';
+	import freqSpectaclePortal from '$routes/freq-spectacle/data.js';
+	import {settings_context} from '$lib/settings.js';
 	import StarshipStage from '$routes/StarshipStage.svelte';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
 	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
@@ -42,68 +44,35 @@
 		rescuedAllCrew,
 		rescuedAllCrewAtOnce,
 		toInitialScores,
-	} from '$routes/starshipStage';
-	import {lookup_song} from '$lib/songs';
-	import {play_song} from '$lib/play_song';
-	import {loadFromStorage, setInStorage} from '$lib/storage';
+	} from '$routes/starshipStage.js';
+	import {lookup_song} from '$lib/songs.js';
+	import {play_song} from '$lib/play_song.js';
+	import {loadFromStorage, setInStorage} from '$lib/storage.js';
 	import {
 		STORAGE_KEY_STRENGTH_BOOSTER1,
 		STORAGE_KEY_STRENGTH_BOOSTER2,
 		STORAGE_KEY_STRENGTH_BOOSTER3,
-	} from '$routes/data';
-	import type {PortalData} from '$lib/portal';
-	import {scrollDown} from '$lib/dom';
-	import {get_app_dialog} from '$lib/app_dialog';
+	} from '$routes/data.js';
+	import type {PortalData} from '$lib/portal.js';
+	import {app_dialog_context} from '$lib/app_dialog.js';
 
-	const app_dialog = get_app_dialog();
+	const app_dialog = app_dialog_context.get();
 
-	const dimensions = get_dimensions();
-	const clock = get_clock();
+	const dimensions = dimensions_context.get();
+	const clock = clock_context.get();
 
-	let strengthBooster1Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER1, false);
-	let strengthBooster2Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false);
-	let strengthBooster3Enabled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false);
-
-	$: ({width: viewportWidth, height: viewportHeight} = $dimensions);
+	let strengthBooster1Enabled = $state(loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER1, false));
+	let strengthBooster2Enabled = $state(loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER2, false));
+	let strengthBooster3Enabled = $state(loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER3, false));
 
 	const DEFAULT_WORLD_DIMENSIONS = {width: 2560, height: 1440};
 
 	// TODO should we pass through plain numbers or a dimensions object?
 	// // TODO what about the camera zoom relative to what can fit in the dimensions?
-	let viewWidth: number;
-	let viewHeight: number;
-	let worldWidth: number;
-	let worldHeight: number;
-	$: viewScale = viewWidth / worldWidth; // this is the same for X and Y as currently calculated, aspect ratio is preserved
-	// TODO make this a helper to clarify the deps `update_dimensions`
-	$: if (cameraUnlocked) {
-		// Expand the world dimensions to fit the viewport dimensions.
-		// It needs to match the viewport aspect ratio and
-		// cover the entire default world dimensions.
-		viewWidth = viewportWidth;
-		viewHeight = viewportHeight;
-		const worldMinWidth = DEFAULT_WORLD_DIMENSIONS.width;
-		const worldMinHeight = DEFAULT_WORLD_DIMENSIONS.height;
-		const worldWidthRatio = worldMinWidth / viewWidth;
-		const worldHeightRatio = worldMinHeight / viewHeight;
-		if (worldHeightRatio > 1 && worldHeightRatio > worldWidthRatio) {
-			worldHeight = worldMinHeight;
-			worldWidth = (viewWidth * worldHeightRatio) | 0;
-		} else if (worldWidthRatio > 1) {
-			worldWidth = worldMinWidth;
-			worldHeight = (viewHeight * worldWidthRatio) | 0;
-		} else {
-			worldWidth = viewWidth;
-			worldHeight = viewHeight;
-		}
-	} else {
-		worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
-		worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
-		const worldAspectRatio = worldWidth / worldHeight;
-		const viewportAspectRatio = viewportWidth / viewportHeight;
-		viewWidth = (viewportWidth * Math.min(1, worldAspectRatio / viewportAspectRatio)) | 0;
-		viewHeight = (viewportHeight * Math.min(1, viewportAspectRatio / worldAspectRatio)) | 0;
-	}
+	let viewWidth: number = $state();
+	let viewHeight: number = $state();
+	let worldWidth: number = $state();
+	let worldHeight: number = $state();
 
 	const starshipPortal: any = Symbol();
 
@@ -113,8 +82,7 @@
 		[easings2Portal, paintFreqsPortal, easings1Portal],
 		[starshipPortal, hearingTestPortal, underConstructionPortal],
 	];
-	let secondaryPortals: PortalData[][];
-	$: secondaryPortals = [
+	let secondaryPortals: PortalData[][] = $derived([
 		[
 			...(strengthBooster2Enabled ? [strengthBooster2Portal] : EMPTY_ARRAY),
 			...(strengthBooster1Enabled ? [freqSpeedsPortal] : EMPTY_ARRAY),
@@ -122,31 +90,21 @@
 			...(strengthBooster1Enabled ? [freqSpectaclePortal] : EMPTY_ARRAY),
 			...(strengthBooster3Enabled ? [strengthBooster3Portal] : EMPTY_ARRAY),
 		],
-	];
+	]);
 
-	const settings = get_settings();
+	const settings = settings_context.get();
 
-	let exitStarshipModeCount = 0;
+	let exitStarshipModeCount = $state(0);
 
-	let starshipMode = false;
+	let starshipMode = $state(false);
 	const TRANSITION_DURATION = 500;
-	// slow transition the first time -- TODO and play music?
-	$: transitionDuration =
-		savedScores || exitStarshipModeCount > 1 ? TRANSITION_DURATION : TRANSITION_DURATION * 1;
-	let transitioningStarshipModeCount = 0; // counter so it handles concurrent calls without much code
-	// TODO disable input while transitioning?
-	$: transitioningStarshipMode = transitioningStarshipModeCount > 0;
-	$: starshipReady = starshipMode && !transitioningStarshipMode;
+	let transitioningStarshipModeCount = $state(0); // counter so it handles concurrent calls without much code
 
-	let starshipX = 0;
-	let starshipY = 0;
-	let starshipAngle = 0;
-	let starshipShieldRadius = 0;
-	let stage: Stage | null = null;
-	$: {
-		destroyStage();
-		if (starshipMode) createStage();
-	}
+	let starshipX = $state(0);
+	let starshipY = $state(0);
+	let starshipAngle = $state(0);
+	let starshipShieldRadius = $state(0);
+	let stage: Stage | null = $state(null);
 	const createStage = () => {
 		stage = new Stage({
 			exit: (outcome) => console.log('exited stage', outcome), // TODO refactor with `finish` below
@@ -168,16 +126,11 @@
 		stage.destroy();
 		stage = null;
 	};
-	$: camera = stage?.camera;
-	$: player = stage?.player;
-	$: enableDomCanvasRenderer = $settings.dev_mode;
-
-	$: starshipRotation = starshipAngle + Math.PI / 2;
 
 	// TODO extract to a custom store
 	const STORAGE_KEY_SCORES = 'cpg_home_scores';
 	const loadScores = (): StarshipStageScores | undefined => {
-		if (!browser) return undefined;
+		if (!BROWSER) return undefined;
 		return loadFromStorage<StarshipStageScores | undefined>(
 			STORAGE_KEY_SCORES,
 			undefined,
@@ -195,15 +148,8 @@
 			},
 		);
 	};
-	// TODO refactor these into a single store that handles saving/loading
-	$: currentStageScores = stage?.scores;
-	let savedScores = loadScores();
+	let savedScores = $state(loadScores());
 	let initialScores: StarshipStageScores | undefined;
-	// TODO probably create a single scores object from this
-	$: scoresRescuedAnyCrew = !!savedScores && rescuedAnyCrew(savedScores);
-	$: scoresRescuedAllMoons = !!savedScores && rescuedAllMoons(savedScores);
-	$: scoresRescuedAllCrew = !!savedScores && rescuedAllCrew(savedScores);
-	$: scoresRescuedAllCrewAtOnce = !!savedScores && rescuedAllCrewAtOnce(savedScores);
 	const saveScores = (scores: StarshipStageScores): boolean => {
 		if (dequal(scores, savedScores)) return false;
 		setInStorage(STORAGE_KEY_SCORES, scores);
@@ -212,7 +158,7 @@
 	};
 
 	// TODO refactor with `exit` above
-	let finished = false;
+	let finished = $state(false);
 	const finish = async (scores: StarshipStageScores | null): Promise<void> => {
 		if (finished) return;
 		if (!scores) return exitStarshipMode();
@@ -282,33 +228,19 @@
 
 	const STORAGE_KEY_SPEED_BOOSTER_TOGGLED = 'cpg_speed_booster_toggled';
 	const BOOSTER_SYMBOL = '🙌';
-	let speedBoosterToggled = loadFromStorage(STORAGE_KEY_SPEED_BOOSTER_TOGGLED, false);
-	$: setInStorage(STORAGE_KEY_SPEED_BOOSTER_TOGGLED, !!speedBoosterToggled); // TODO unnecessary first run
-	$: speed_booster_unlocked = scoresRescuedAnyCrew;
-	$: speed_booster_enabled = speed_booster_unlocked && speedBoosterToggled;
+	let speedBoosterToggled = $state(loadFromStorage(STORAGE_KEY_SPEED_BOOSTER_TOGGLED, false));
 	const toggle_speed_booster = () => {
 		speedBoosterToggled = !speedBoosterToggled;
 	};
 
 	const STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED = 'cpg_strength_booster_toggled';
-	let strengthBoosterToggled = loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED, false);
-	$: setInStorage(STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED, !!strengthBoosterToggled); // TODO unnecessary first run
-	$: strengthBoosterUnlocked = scoresRescuedAllCrew;
-	$: strengthBoosterEnabled = strengthBoosterUnlocked && strengthBoosterToggled;
+	let strengthBoosterToggled = $state(loadFromStorage(STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED, false));
 	const toggleStrengthBooster = async () => {
 		strengthBoosterToggled = !strengthBoosterToggled;
 		if (strengthBoosterToggled) await scrollDown();
 	};
 
-	$: cameraUnlocked = scoresRescuedAllMoons;
-
-	let starshipHeight: number;
-
-	$: starshipScale = player ? ((player.radius * 2) / starshipHeight) * viewScale : 1; // TODO isn't reactive to player radius
-	$: starshipViewX = ($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * viewScale;
-	$: starshipViewY = $camera
-		? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - viewportHeight) / 2
-		: starshipY - (starshipHeight - viewportHeight) / 2;
+	let starshipHeight: number = $state();
 
 	const enterStarshipMode = async () => {
 		if (starshipMode) return;
@@ -377,9 +309,85 @@
 			await play_song(lookup_song('Futuristic 1'));
 		}
 	};
+	let {width: viewportWidth, height: viewportHeight} = $derived($dimensions);
+	let scoresRescuedAllMoons = $derived(!!savedScores && rescuedAllMoons(savedScores));
+	let cameraUnlocked = $derived(scoresRescuedAllMoons);
+	// TODO make this a helper to clarify the deps `update_dimensions`
+	run(() => {
+		if (cameraUnlocked) {
+			// Expand the world dimensions to fit the viewport dimensions.
+			// It needs to match the viewport aspect ratio and
+			// cover the entire default world dimensions.
+			viewWidth = viewportWidth;
+			viewHeight = viewportHeight;
+			const worldMinWidth = DEFAULT_WORLD_DIMENSIONS.width;
+			const worldMinHeight = DEFAULT_WORLD_DIMENSIONS.height;
+			const worldWidthRatio = worldMinWidth / viewWidth;
+			const worldHeightRatio = worldMinHeight / viewHeight;
+			if (worldHeightRatio > 1 && worldHeightRatio > worldWidthRatio) {
+				worldHeight = worldMinHeight;
+				worldWidth = (viewWidth * worldHeightRatio) | 0;
+			} else if (worldWidthRatio > 1) {
+				worldWidth = worldMinWidth;
+				worldHeight = (viewHeight * worldWidthRatio) | 0;
+			} else {
+				worldWidth = viewWidth;
+				worldHeight = viewHeight;
+			}
+		} else {
+			worldWidth = DEFAULT_WORLD_DIMENSIONS.width;
+			worldHeight = DEFAULT_WORLD_DIMENSIONS.height;
+			const worldAspectRatio = worldWidth / worldHeight;
+			const viewportAspectRatio = viewportWidth / viewportHeight;
+			viewWidth = (viewportWidth * Math.min(1, worldAspectRatio / viewportAspectRatio)) | 0;
+			viewHeight = (viewportHeight * Math.min(1, viewportAspectRatio / worldAspectRatio)) | 0;
+		}
+	});
+	let viewScale = $derived(viewWidth / worldWidth); // this is the same for X and Y as currently calculated, aspect ratio is preserved
+
+	// slow transition the first time -- TODO and play music?
+	let transitionDuration = $derived(
+		savedScores || exitStarshipModeCount > 1 ? TRANSITION_DURATION : TRANSITION_DURATION * 1,
+	);
+	// TODO disable input while transitioning?
+	let transitioningStarshipMode = $derived(transitioningStarshipModeCount > 0);
+	let starshipReady = $derived(starshipMode && !transitioningStarshipMode);
+	run(() => {
+		destroyStage();
+		if (starshipMode) createStage();
+	});
+	let camera = $derived(stage?.camera);
+	let player = $derived(stage?.player);
+	let enableDomCanvasRenderer = $derived($settings.dev_mode);
+	let starshipRotation = $derived(starshipAngle + Math.PI / 2);
+	// TODO refactor these into a single store that handles saving/loading
+	let currentStageScores = $derived(stage?.scores);
+	// TODO probably create a single scores object from this
+	let scoresRescuedAnyCrew = $derived(!!savedScores && rescuedAnyCrew(savedScores));
+	let scoresRescuedAllCrew = $derived(!!savedScores && rescuedAllCrew(savedScores));
+	let scoresRescuedAllCrewAtOnce = $derived(!!savedScores && rescuedAllCrewAtOnce(savedScores));
+	run(() => {
+		setInStorage(STORAGE_KEY_SPEED_BOOSTER_TOGGLED, !!speedBoosterToggled);
+	}); // TODO unnecessary first run
+	let speed_booster_unlocked = $derived(scoresRescuedAnyCrew);
+	let speed_booster_enabled = $derived(speed_booster_unlocked && speedBoosterToggled);
+	run(() => {
+		setInStorage(STORAGE_KEY_STRENGTH_BOOSTER_TOGGLED, !!strengthBoosterToggled);
+	}); // TODO unnecessary first run
+	let strengthBoosterUnlocked = $derived(scoresRescuedAllCrew);
+	let strengthBoosterEnabled = $derived(strengthBoosterUnlocked && strengthBoosterToggled);
+	let starshipScale = $derived(player ? ((player.radius * 2) / starshipHeight) * viewScale : 1); // TODO isn't reactive to player radius
+	let starshipViewX = $derived(
+		($camera ? (starshipX - $camera.x) * $camera.scale : starshipX) * viewScale,
+	);
+	let starshipViewY = $derived(
+		$camera
+			? (starshipY - $camera.y) * $camera.scale * viewScale - (starshipHeight - viewportHeight) / 2
+			: starshipY - (starshipHeight - viewportHeight) / 2,
+	);
 </script>
 
-<svelte:window on:keydown={keydown} />
+<svelte:window onkeydown={keydown} />
 
 <div
 	class="home"
@@ -396,7 +404,7 @@
 	>
 		<header class="portals">
 			<PortalPreview href={aboutPortal.slug} classes="portal_preview--{aboutPortal.slug}">
-				<svelte:component this={aboutPortal.Preview} />
+				<aboutPortal.Preview />
 			</PortalPreview>
 		</header>
 		{#if savedScores}
@@ -419,7 +427,7 @@
 						<StarshipPreview on_click={toggleStarshipMenu} classes="portal_preview--starship" />
 					{:else}
 						<PortalPreview href={portal.slug} classes="portal_preview--{portal.slug}">
-							<svelte:component this={portal.Preview} />
+							<portal.Preview />
 						</PortalPreview>
 					{/if}
 				{/each}
@@ -429,28 +437,29 @@
 			<PortalPreview classes="show-more-button" on_click={() => void toggleStrengthBooster()}>
 				<Pending_Animation
 					running={strengthBoosterToggled && $clock.running}
-					let:index
 					--animation_duration="var(--duration_6)"
 				>
-					{#if index === 0}
-						<img
-							src="/assets/earth/night_lights_1.png"
-							alt="night lights of Africa, Europe, and the Middle East"
-							class="night-light"
-						/>
-					{:else if index === 1}
-						<img
-							src="/assets/earth/night_lights_2.png"
-							alt="night lights of the Americas"
-							class="night-light"
-						/>
-					{:else}
-						<img
-							src="/assets/earth/night_lights_3.png"
-							alt="night lights of Asia and Australia"
-							class="night-light"
-						/>
-					{/if}
+					{#snippet children(index)}
+						{#if index === 0}
+							<img
+								src="/assets/earth/night_lights_1.png"
+								alt="night lights of Africa, Europe, and the Middle East"
+								class="night-light"
+							/>
+						{:else if index === 1}
+							<img
+								src="/assets/earth/night_lights_2.png"
+								alt="night lights of the Americas"
+								class="night-light"
+							/>
+						{:else}
+							<img
+								src="/assets/earth/night_lights_3.png"
+								alt="night lights of Asia and Australia"
+								class="night-light"
+							/>
+						{/if}
+					{/snippet}
 				</Pending_Animation>
 			</PortalPreview>
 		{/if}
@@ -459,7 +468,7 @@
 				<div class="portals strength-portals">
 					{#each portals as portal}
 						<PortalPreview href={portal.slug} classes="portal_preview--{portal.slug}">
-							<svelte:component this={portal.Preview} />
+							<portal.Preview />
 						</PortalPreview>
 					{/each}
 				</div>
@@ -507,8 +516,8 @@
 			<div class="exit">
 				<FloatingIconButton
 					label="return home"
-					on:click={() => exitStarshipMode()}
-					style="font-size: var(--size_xl9)"
+					onclick={() => exitStarshipMode()}
+					class="font_size_xl9"
 				>
 					{#if $currentStageScores && rescuedAnyCrew($currentStageScores)}{BOOSTER_SYMBOL}{:else}↩{/if}
 				</FloatingIconButton>
@@ -517,16 +526,18 @@
 		{/if}
 	{/if}
 </div>
-<AppDialog let:exit>
-	<StarshipMenu
-		{clock}
-		{exit}
-		{starshipMode}
-		{toggleStarshipMode}
-		scores={savedScores}
-		resetScores={savedScores ? resetScores : undefined}
-		{importScores}
-	/>
+<AppDialog>
+	{#snippet children({exit})}
+		<StarshipMenu
+			{clock}
+			{exit}
+			{starshipMode}
+			{toggleStarshipMode}
+			scores={savedScores}
+			resetScores={savedScores ? resetScores : undefined}
+			{importScores}
+		/>
+	{/snippet}
 </AppDialog>
 
 <style>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {run} from 'svelte/legacy';
+
 	/*
 	
 	WARNING: messy code
@@ -24,22 +26,22 @@
 
 	import {onDestroy} from 'svelte';
 	import {lerp} from '@ryanatkn/belt/maths.js';
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 
-	import {svelteEasings} from '$lib/easings';
-	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers';
-	import {get_audio_ctx} from '$lib/audio_ctx';
-	import {midiNames, DEFAULT_TUNING} from '$lib/notes';
-	import {midiToFreq, type Midi} from '$lib/midi';
+	import {svelteEasings} from '$lib/easings.js';
+	import {volume_to_gain, SMOOTH_GAIN_TIME_CONSTANT} from '$lib/audio_helpers.js';
+	import {audio_ctx_context} from '$lib/audio_ctx.js';
+	import {midiNames, DEFAULT_TUNING} from '$lib/notes.js';
+	import {midiToFreq, type Midi} from '$lib/midi.js';
 	import FloatingIconButton from '$lib/FloatingIconButton.svelte';
-	import {muted, volume} from '$lib/play_song';
+	import {muted, volume} from '$lib/play_song.js';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	const easings = svelteEasings;
 
-	let duration = 1000;
-	let waitTime = 250; // time to wait between loops
+	let duration = $state(1000);
+	let waitTime = $state(250); // time to wait between loops
 
 	let destroyed = false; // TODO is there a better way to do this? `useLoop`?
 	onDestroy(() => {
@@ -51,20 +53,15 @@
 	let timeLast: number;
 	let timeTarget: number;
 	let tween: number;
-	let tweenAlternating: number;
-	let xPct: number;
-	let yPct: number;
+	let tweenAlternating: number = $state();
+	let xPct: number = $state();
+	let yPct: number = $state();
 	// TODO refactor `loopState` to a state machine? xstate? microstate?
 	// this looks a little more complicated than it needs to be,
 	// and the variable names are tattered in spots
 	type LoopState = 'waitingLeft' | 'movingRight' | 'waitingRight' | 'movingLeft';
 	let loopState: LoopState = 'waitingLeft'; //
 	let timePct = 0; // % of the way to `TimeTarget`, when the next state transition will occur
-	$: if ($clock.running) {
-		update($clock.dt);
-	} else {
-		stopAudio();
-	}
 	const update = (dt: number) => {
 		timeLast = timeNow;
 		timeNow += dt;
@@ -131,18 +128,14 @@
 	// audio options
 	const lowestNote = 21;
 	const highestNote = 108;
-	let startNote: Midi = (42 + ((Math.random() * 6) | 0)) as Midi; // TODO midi picker
-	let endNote: Midi = (startNote + 12) as Midi; // TODO midi picker
+	let startNote: Midi = $state((42 + ((Math.random() * 6) | 0)) as Midi); // TODO midi picker
+	let endNote: Midi = $state((startNote + 12) as Midi); // TODO midi picker
 
 	// audio playback
 	// TODO refactor to share code with `HearingTest` and `PaintFreqs`
 	let osc: OscillatorNode | undefined;
 	let gain: GainNode | undefined;
-	const audio_ctx = get_audio_ctx();
-	$: freqMin = midiToFreq(startNote, DEFAULT_TUNING);
-	$: if (isNaN(freqMin)) console.log('freqMin is NaN');
-	$: freqMax = midiToFreq(endNote, DEFAULT_TUNING);
-	$: if (isNaN(freqMax)) console.log('freqMax is NaN');
+	const audio_ctx = audio_ctx_context.get();
 	const calcFreq = (pct: number) => lerp(freqMin, freqMax, pct); //|| 0; // TODO getting NaN sometimes here, why?
 	const updateAudioization = () => {
 		startAudio();
@@ -192,9 +185,8 @@
 		gain = undefined;
 	};
 
-	let activeEasingIndex = easings.findIndex((e) => e.name === 'elasticOut');
-	let activeEasing = easings[activeEasingIndex]; // {name, fn}
-	$: activeEasing = easings[activeEasingIndex];
+	let activeEasingIndex = $state(easings.findIndex((e) => e.name === 'elasticOut'));
+	let activeEasing = $state(easings[activeEasingIndex]); // {name, fn}
 
 	// transforms
 	const graphic1Width = 24;
@@ -213,13 +205,13 @@
 	const chartHeight = chartCanvasHeight - 2 * canvasChartYPadding;
 	const chartX0 = canvasChartXPadding;
 	const chartY0 = chartHeight + canvasChartYPadding;
-	let chartCanvas: HTMLCanvasElement, chartCanvasCtx: CanvasRenderingContext2D;
+	let chartCanvas: HTMLCanvasElement = $state(),
+		chartCanvasCtx: CanvasRenderingContext2D;
 	const chartLineWidth = 3;
 	const chartLineHighlightWidth = 12;
 	const chartAxisLineWidth = 3;
 	const chartGridLineWidth = 1;
 	const chartGridSectionCount = 2;
-	$: if (chartCanvas && activeEasing) drawChart();
 	const drawChart = () => {
 		// TODO could probably abstract this better - maybe an action? maybe multiple or parameterized for different canvas use cases?
 		const canvas = chartCanvas;
@@ -263,8 +255,28 @@
 		ctx.stroke();
 	};
 
-	const get_color = (index: number, opacity = 0.8) =>
-		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
+	const get_color = (index: number, opacity = 0.8) => `hsl(${index * 75}deg 60% 65% / ${opacity})`;
+	run(() => {
+		if ($clock.running) {
+			update($clock.dt);
+		} else {
+			stopAudio();
+		}
+	});
+	let freqMin = $derived(midiToFreq(startNote, DEFAULT_TUNING));
+	run(() => {
+		if (isNaN(freqMin)) console.log('freqMin is NaN');
+	});
+	let freqMax = $derived(midiToFreq(endNote, DEFAULT_TUNING));
+	run(() => {
+		if (isNaN(freqMax)) console.log('freqMax is NaN');
+	});
+	run(() => {
+		activeEasing = easings[activeEasingIndex];
+	});
+	run(() => {
+		if (chartCanvas && activeEasing) drawChart();
+	});
 </script>
 
 <div class="box">
@@ -276,22 +288,22 @@
 				</div>
 				<div class="chart">
 					<div
-						class="absolute l-0 t-0"
+						class="position_absolute l-0 t-0"
 						style="transform: translate3d({chartX0 +
 							xPct * chartWidth -
 							chartAxisLineWidth / 2}px, {chartY0 - chartAxisLineWidth / 2}px,
 					0); background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
-					/>
+					></div>
 					<div
-						class="absolute l-0 t-0"
+						class="position_absolute l-0 t-0"
 						style="transform: translate3d({chartX0 - chartAxisLineWidth / 2}px, {chartY0 -
 							yPct * chartHeight -
 							chartAxisLineWidth / 2}px,
 					0); background-color: rgba(255, 255, 255, 0.6); width: {chartAxisLineWidth}px; height: {chartAxisLineWidth}px"
-					/>
-					<canvas class="relative z-1" bind:this={chartCanvas} />
+					></div>
+					<canvas class="position_relative z-1" bind:this={chartCanvas}></canvas>
 					<div
-						class="absolute l-0 t-0"
+						class="position_absolute l-0 t-0"
 						style="background-color: {get_color(
 							activeEasingIndex,
 						)}; transform: translate3d({chartX0 +
@@ -301,7 +313,7 @@
 							yPct * chartHeight -
 							chartLineHighlightWidth / 2}px, 0); width: {chartLineHighlightWidth}px;
 					height: {chartLineHighlightWidth}px; border-radius: 50%;"
-					/>
+					></div>
 				</div>
 				<div
 					style="width: {translate_width}px; background-color: {get_color(activeEasingIndex, 0.1)};
@@ -311,27 +323,33 @@
 						style="transform: translate3d({tweenAlternating *
 							translate_distance}px, 0, 0); width: {graphic1Width}px;
 					height: {graphic1Height}px; background-color: {get_color(activeEasingIndex)};"
-					/>
+					></div>
 				</div>
 				<div style="display: flex;">
-					<div class="flex items-center justify-center" style="width: {translate_width / 2}px">
+					<div
+						class="display_flex items-center justify-center"
+						style="width: {translate_width / 2}px"
+					>
 						<div
 							class="active_tween_graphic_rotate"
 							style="transform: rotate({tweenAlternating * 180}deg); height: {graphic2Height}px;
 						background-color: {get_color(activeEasingIndex)};"
-						/>
+						></div>
 					</div>
-					<div class="flex items-center justify-center" style="width: {translate_width / 2}px">
+					<div
+						class="display_flex items-center justify-center"
+						style="width: {translate_width / 2}px"
+					>
 						<div
 							class="active_tween_graphic_scale"
 							style="transform: scale3d({tweenAlternating}, {tweenAlternating}, 1); width: {graphic2Width}px;
 						height: {graphic2Height}px; background-color: {get_color(activeEasingIndex)};"
-						/>
+						></div>
 					</div>
 				</div>
 				<div>
 					<div
-						class="flex items-center justify-center"
+						class="display_flex items-center justify-center"
 						style="width: {translate_width / 2}px; padding: 36px 36px 0;"
 					>
 						<div
@@ -340,17 +358,14 @@
 						width: {graphic2Width}px; height: {graphic2Height}px; background-color: {get_color(
 								activeEasingIndex,
 							)};"
-						/>
+						></div>
 					</div>
 				</div>
 			</section>
 
 			<section class="controls">
 				<div class="controls_group" class:disabled={$muted}>
-					<FloatingIconButton
-						label={$muted ? 'unmute' : 'mute'}
-						on:click={() => ($muted = !$muted)}
-					>
+					<FloatingIconButton label={$muted ? 'unmute' : 'mute'} onclick={() => ($muted = !$muted)}>
 						{$muted ? '🔇' : '🔊'}
 					</FloatingIconButton>
 					<input

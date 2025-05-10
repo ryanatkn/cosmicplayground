@@ -1,19 +1,23 @@
 <script lang="ts">
 	import {blur} from 'svelte/transition';
 
-	import {get_settings} from '$lib/settings';
+	import {settings_context} from '$lib/settings.js';
 
-	const settings = get_settings();
-	$: displayForVideo = $settings.recording_mode;
+	const settings = settings_context.get();
+	let displayForVideo = $derived($settings.recording_mode);
 
-	export let transitionDuration: number;
+	interface Props {
+		transitionDuration: number;
+	}
+
+	let {transitionDuration}: Props = $props();
 
 	// transition vars
 	const delay = 250;
 	const blurAmount = 20;
 </script>
 
-<div class="tour-credits prose" class:displayForVideo>
+<div class="tour-credits" class:displayForVideo>
 	<section in:blur|local={{duration: transitionDuration, amount: blurAmount}}>
 		<h2>created by</h2>
 		Ryan Atkinson<br />

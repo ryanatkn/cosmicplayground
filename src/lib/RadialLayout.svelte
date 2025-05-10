@@ -1,20 +1,22 @@
 <script lang="ts">
+	import {run} from 'svelte/legacy';
+
 	type T = $$Generic<any>;
 	interface $$Slots {
 		default: {item: LayoutItem; index: number};
 	}
 
-	// TODO this is unused
+	interface Props {
+		// TODO this is unused
+		items: T[];
+		totalCount: number | undefined;
+		width: number;
+		height?: number;
+		offset?: number;
+		children?: import('svelte').Snippet<[any]>;
+	}
 
-	export let items: T[];
-	export let totalCount: number | undefined;
-	export let width: number;
-	export let height: number = width;
-	export let offset = 0;
-	// TODO offset // radians from 12 oclock
-	// TODO counterclockwide
-
-	$: total = totalCount ?? items.length;
+	let {items, totalCount, width, height = width, offset = 0, children}: Props = $props();
 
 	interface LayoutItem {
 		value: T;
@@ -24,8 +26,7 @@
 		y: number;
 	}
 
-	let layout: LayoutItem[];
-	$: layout = toLayout(items, total);
+	let layout: LayoutItem[] = $state();
 
 	const toLayout = (items: T[], total: number): LayoutItem[] =>
 		items.map((value, i) => ({
@@ -40,9 +41,18 @@
 				height / 2,
 		}));
 
-	$: console.log('layout', layout);
+	// TODO offset // radians from 12 oclock
+	// TODO counterclockwide
+
+	let total = $derived(totalCount ?? items.length);
+	run(() => {
+		layout = toLayout(items, total);
+	});
+	run(() => {
+		console.log('layout', layout);
+	});
 </script>
 
 {#each layout as item, index (item)}
-	<slot {item} {index} />
+	{@render children?.({item, index})}
 {/each}

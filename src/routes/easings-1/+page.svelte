@@ -1,6 +1,8 @@
 <svelte:options immutable={false} />
 
 <script lang="ts">
+	import {run} from 'svelte/legacy';
+
 	/*
 
   Svelte has built-in support for ergonomic and high performance animations.
@@ -37,9 +39,9 @@
 	import {createTweens, type Tween} from '$lib/tweens.js';
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 
-	let duration = 1500;
+	let duration = $state(1500);
 
-	let toggle = false;
+	let toggle = $state(false);
 
 	let timeout: number;
 	const loop_padding = 300; // time to wait between loops
@@ -55,22 +57,28 @@
 
 	type Easings_View = 'all' | 'selected' | 'unselected';
 	const views: Easings_View[] = ['all', 'selected', 'unselected'];
-	let view: Easings_View = 'selected';
+	let view: Easings_View = $state('selected');
 
-	let playing = true;
-	$: playing ? start_playing() : stop_playing();
+	let playing = $state(true);
+	run(() => {
+		playing ? start_playing() : stop_playing();
+	});
 
 	const tweens = createTweens(duration, undefined, 1);
-	$: void tweens.set(toggle ? 1 : 0, {duration});
+	run(() => {
+		void tweens.set(toggle ? 1 : 0, {duration});
+	});
 
-	let selected: {[key: string]: boolean};
-	$: selected = tweens.easings.reduce((v = {}, {name}) => {
-		if (!(name in v)) v[name] = true;
-		return v;
-	}, selected);
+	let selected: {[key: string]: boolean} = $state();
+	run(() => {
+		selected = tweens.easings.reduce((v = {}, {name}) => {
+			v[name] ??= true;
+			return v;
+		}, selected);
+	});
 
-	$: selecting_all = Object.values(selected).every(Boolean);
-	$: selecting_none = Object.values(selected).every((v) => !v);
+	let selecting_all = $derived(Object.values(selected).every(Boolean));
+	let selecting_none = $derived(Object.values(selected).every((v) => !v));
 
 	const graphic_width = 24;
 	const graphic_height = 24;
@@ -93,8 +101,7 @@
 				throw Error();
 		}
 	};
-	const get_color = (index: number, opacity = 0.8) =>
-		`hsla(${index * 75}deg, 60%, 65%, ${opacity})`;
+	const get_color = (index: number, opacity = 0.8) => `hsl(${index * 75}deg 60% 65% / ${opacity})`;
 
 	const select_all = () => {
 		selected = Object.fromEntries(Object.entries(selected).map(([k]) => [k, true]));
@@ -107,10 +114,10 @@
 <section>
 	<form class="box">
 		<fieldset class="box row">
-			<FloatingTextButton on:click={() => (playing = !playing)}>
+			<FloatingTextButton onclick={() => (playing = !playing)}>
 				<div style:width="9rem">{playing ? 'pause' : 'play'}</div>
 			</FloatingTextButton>
-			<FloatingTextButton on:click={() => (toggle = !toggle)}>toggle</FloatingTextButton>
+			<FloatingTextButton onclick={() => (toggle = !toggle)}>toggle</FloatingTextButton>
 		</fieldset>
 		<fieldset>
 			<label>
@@ -128,8 +135,8 @@
 			</label>
 		</fieldset>
 		<fieldset class="row">
-			<button type="button" on:click={select_all} disabled={selecting_all}>select all</button>
-			<button type="button" on:click={select_none} disabled={selecting_none}>select none</button>
+			<button type="button" onclick={select_all} disabled={selecting_all}>select all</button>
+			<button type="button" onclick={select_none} disabled={selecting_none}>select none</button>
 		</fieldset>
 		<fieldset>
 			<select bind:value={view}>
@@ -154,20 +161,20 @@
 					style:width="{graphic_width}px"
 					style:height="{graphic_height}px"
 					style:background-color={get_color(i)}
-				/>
+				></div>
 				<div
 					class="item_graphic_rotate"
 					style:transform="rotate({item.value * 180}deg)"
 					style:height="{graphic_height}px"
 					style:background-color={get_color(i)}
-				/>
+				></div>
 				<div
 					style:transform="translate3d({item.value * translate_distance}px, 0, 0)"
 					style:width="{graphic_width}px"
 					style:height="{graphic_height}px"
 					style:background-color={get_color(i)}
-					class="radius_xs3"
-				/>
+					class="border_radius_xs3"
+				></div>
 				<label class="item_label clickable" style:color={get_color(i)}>
 					<input type="checkbox" bind:checked={selected[item.name]} />
 					<span style:list-style={selected[item.name] ? 'circle' : 'none'}>{item.name}</span>

@@ -1,14 +1,16 @@
 <script lang="ts">
+	import {run} from 'svelte/legacy';
+
 	import {random_item, random_float} from '@ryanatkn/belt/random.js';
 	import {sineInOut} from 'svelte/easing';
 	import {base} from '$app/paths';
 
-	import {get_clock} from '$lib/clock.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {clock_context} from '$lib/clock.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 	import StarlitHammock from '$routes/starlit-hammock/StarlitHammock.svelte';
 	import ImagePicker from '$lib/ImagePicker.svelte';
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
-	import {spaceImages, type ImageMeta} from '$lib/images';
+	import {spaceImages, type ImageMeta} from '$lib/images.js';
 	import ImageCreditsCaption from '$lib/ImageCreditsCaption.svelte';
 	import Surface2 from '$lib/Surface2.svelte';
 	import Panel from '$lib/Panel.svelte';
@@ -28,17 +30,21 @@
 
 	*/
 
-	const dimensions = get_dimensions();
-	let width = $dimensions.width;
-	let height = $dimensions.height;
-	$: width = $dimensions.width;
-	$: height = $dimensions.height;
+	const dimensions = dimensions_context.get();
+	let width = $state($dimensions.width);
+	let height = $state($dimensions.height);
+	run(() => {
+		width = $dimensions.width;
+	});
+	run(() => {
+		height = $dimensions.height;
+	});
 
-	let show_picker = false;
+	let show_picker = $state(false);
 
-	let activeImage = random_item(spaceImages);
+	let activeImage = $state(random_item(spaceImages));
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	const pick_image = (image: ImageMeta) => {
 		activeImage = image;
@@ -73,9 +79,9 @@
 	// const pauseDuration = 0;
 
 	// TODO refactor, probably into a tween store with an external `update` function
-	let x: number;
-	let y: number;
-	let scale: number;
+	let x: number = $state();
+	let y: number = $state();
+	let scale: number = $state();
 	let target_x: number;
 	let target_y: number;
 	let target_scale: number;
@@ -149,9 +155,13 @@
 	};
 
 	// TODO clamp instead of randomize when width/height change, but randomize when activeImage changes
-	$: randomize(activeImage.info.width, activeImage.info.height);
+	run(() => {
+		randomize(activeImage.info.width, activeImage.info.height);
+	});
 	// $: clampTarget(width, height); // TODO
-	$: !show_picker && update($clock.dt);
+	run(() => {
+		!show_picker && update($clock.dt);
+	});
 
 	const onKeydown = (e: KeyboardEvent) => {
 		switch (e.key) {
@@ -204,15 +214,15 @@
 		transition_pause_timer = WAIT_AFTER_INTERACTION;
 		transition_time = transition_duration; // force a new transition to be randomized once the pause timer expires
 	};
-	$: camera_x = -x * scale + width / 2;
-	$: camera_y = -y * scale + height / 2;
+	let camera_x = $derived(-x * scale + width / 2);
+	let camera_y = $derived(-y * scale + height / 2);
 </script>
 
-<svelte:window on:keydown|capture={onKeydown} />
+<svelte:window onkeydowncapture={onKeydown} />
 
 <!-- TODO probably want a better pattern than this -->
 {#if show_picker}
-	<div class="overlay-bg" />
+	<div class="overlay-bg"></div>
 {/if}
 
 <StarlitHammock
@@ -227,7 +237,7 @@
 		<ImagePicker images={spaceImages} {pick_image} />
 		<footer>
 			<Panel>
-				<div style:font-size="var(--size_lg)">
+				<div style:font-size="var(--font_size_lg)">
 					<a href="https://www.spacetelescope.org/copyright/">spacetelescope.org/copyright</a>
 				</div>
 			</Panel>
@@ -249,13 +259,13 @@
 	A possible fix would be to include a special slot
 	with content that's hidden or empty and only used for sizing purposes.
 	-->
-	<FloatingTextButton on:click={pick_random_image}>random image</FloatingTextButton>
-	<FloatingTextButton on:click={() => (show_picker = !show_picker)}>
+	<FloatingTextButton onclick={pick_random_image}>random image</FloatingTextButton>
+	<FloatingTextButton onclick={() => (show_picker = !show_picker)}>
 		{#if show_picker}close image picker{:else}pick an image{/if}
 	</FloatingTextButton>
 </div>
 {#if !show_picker}
-	<div class="credits idle_fade prose">
+	<div class="credits idle_fade">
 		<div class="width_md">
 			<Panel>
 				<ImageCreditsCaption image={activeImage} />

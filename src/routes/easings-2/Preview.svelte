@@ -1,8 +1,9 @@
 <script lang="ts">
+	import {run} from 'svelte/legacy';
+
 	import {lerp} from '@ryanatkn/belt/maths.js';
 
-	let canvas: HTMLCanvasElement | null = null;
-	$: canvas && drawCanvas(canvas);
+	let canvas: HTMLCanvasElement | null = $state(null);
 	const canvasWidth = 240;
 	const canvasHeight = 24;
 	const mouthSize = 16;
@@ -18,7 +19,7 @@
 		const h = height - lineWidth * 2;
 		ctx.clearRect(0, 0, width, height);
 		ctx.lineWidth = lineWidth;
-		ctx.strokeStyle = 'hsla(220deg, 60%, 65%, 0.6)'; // could fade opacity in from the left
+		ctx.strokeStyle = 'hsl(220deg 60% 65% / 0.6)'; // could fade opacity in from the left
 		ctx.moveTo(0, height / 2);
 		for (let x = 1; x < width; x++) {
 			const xDiv = lerp(8, 3.75, x / width);
@@ -27,21 +28,24 @@
 		}
 		ctx.stroke();
 	};
+	run(() => {
+		canvas && drawCanvas(canvas);
+	});
 </script>
 
 <div class="preview">
-	<h2>easing function auralizations</h2>
+	<h2 class="m_0">easing function auralizations</h2>
 	<div class="wrapper">
-		<canvas bind:this={canvas} />
+		<canvas bind:this={canvas}></canvas>
 		<div
 			class="mouth-wrapper"
 			style="left: {-mouthSize / 2}px; top: {canvasHeight / 2 -
 				mouthSize / 2}px; width: {mouthSize}px;
 			height: {mouthSize}px;"
 		>
-			<div class="mouth" style="width: {mouthSize}px; height: {mouthSize}px;" />
-			<div class="mouth" style="width: {mouthSize}px; height: {mouthSize}px;" />
-			<div style="width: {mouthSize}px; height: {mouthSize}px; border-radius: 50%;" />
+			<div class="mouth" style="width: {mouthSize}px; height: {mouthSize}px;"></div>
+			<div class="mouth" style="width: {mouthSize}px; height: {mouthSize}px;"></div>
+			<div style="width: {mouthSize}px; height: {mouthSize}px; border-radius: 50%;"></div>
 		</div>
 		<div
 			class="tail-wrapper"
@@ -50,9 +54,9 @@
 				tailSize / 2}px; width: {tailSize}px;
 			height: {tailSize}px;"
 		>
-			<div class="tail" style="width: {tailSize}px; height: {tailSize}px;" />
-			<div class="tail" style="width: {tailSize}px; height: {tailSize}px;" />
-			<div style="width: {tailSize / 2}px; height: {tailSize / 2}px; border-radius: 50%;" />
+			<div class="tail" style="width: {tailSize}px; height: {tailSize}px;"></div>
+			<div class="tail" style="width: {tailSize}px; height: {tailSize}px;"></div>
+			<div style="width: {tailSize / 2}px; height: {tailSize / 2}px; border-radius: 50%;"></div>
 		</div>
 	</div>
 </div>

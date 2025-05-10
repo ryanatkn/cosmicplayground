@@ -1,6 +1,8 @@
-import {getContext, setContext} from 'svelte';
+import {create_context} from '@ryanatkn/fuz/context_helpers.js';
 import type {Writable} from 'svelte/store';
 import type {ActionReturn} from 'svelte/action';
+
+export const idle_context = create_context<Writable<boolean>>();
 
 interface TrackIdleStateOptions {
 	idle: Writable<boolean>;
@@ -66,13 +68,4 @@ export const track_idle_state = (
 			clearInterval(interval);
 		},
 	};
-};
-
-const KEY = {};
-
-export const get_idle = (): Writable<boolean> => getContext(KEY);
-
-export const set_idle = (idle: Writable<boolean>): Writable<boolean> => {
-	setContext(KEY, idle);
-	return idle;
 };

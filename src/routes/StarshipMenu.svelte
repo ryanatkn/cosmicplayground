@@ -6,18 +6,23 @@
 	import Panel from '$lib/Panel.svelte';
 	import StarshipPreview from '$routes/Preview.svelte';
 	import StarshipStageScore from '$routes/StarshipStageScore.svelte';
-	import type {StarshipStageScores} from '$routes/starshipStage';
+	import type {StarshipStageScores} from '$routes/starshipStage.js';
 	import AppControlsTable from '$lib/AppControlsTable.svelte';
 	import PortalPreview from '$lib/PortalPreview.svelte';
 
-	export let clock: ClockStore; // TODO or use context?
-	// TODO refactor
-	export let exit: () => void;
-	export let starshipMode: boolean;
-	export let toggleStarshipMode: () => Promise<void>;
-	export let resetScores: (() => void) | undefined;
-	export let importScores: (() => void) | undefined;
-	export let scores: StarshipStageScores | undefined;
+	interface Props {
+		clock: ClockStore; // TODO or use context?
+		// TODO refactor
+		exit: () => void;
+		starshipMode: boolean;
+		toggleStarshipMode: () => Promise<void>;
+		resetScores: (() => void) | undefined;
+		importScores: (() => void) | undefined;
+		scores: StarshipStageScores | undefined;
+	}
+
+	let {clock, exit, starshipMode, toggleStarshipMode, resetScores, importScores, scores}: Props =
+		$props();
 </script>
 
 <div class="wrapper">
@@ -57,7 +62,7 @@
 		<div transition:scale|local>
 			<Panel>
 				<div>
-					<h2>scores</h2>
+					<h2 class="m_0">Scores</h2>
 					{#if scores}
 						<br />
 						<StarshipStageScore {scores} defaultIcon="❔" />
@@ -75,10 +80,10 @@
 					{/if}
 					<div class="box row">
 						{#if resetScores}
-							<button on:click={resetScores}>reset scores</button>
+							<button onclick={resetScores}>reset scores</button>
 						{/if}
 						{#if importScores}
-							<button on:click={importScores}>import scores</button>
+							<button onclick={importScores}>import scores</button>
 						{/if}
 					</div>
 				</div>
@@ -113,7 +118,7 @@
 		margin-bottom: 0;
 	}
 	.button-text {
-		font-size: var(--size_xl3);
+		font-size: var(--font_size_xl3);
 		font-weight: 300;
 	}
 	small {

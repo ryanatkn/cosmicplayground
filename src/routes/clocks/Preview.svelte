@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 
 	import FreqSpeeds from '$routes/freq-speeds/FreqSpeeds.svelte';
 	import FreqSpectacle from '$routes/freq-spectacle/FreqSpectacle.svelte';
 
-	const clock = get_clock();
+	const clock = clock_context.get();
 
 	const TIME_DILATION = 2;
 </script>

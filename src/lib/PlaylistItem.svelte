@@ -1,35 +1,34 @@
-<script lang="ts" strictEvents>
-	import {createEventDispatcher} from 'svelte';
+<script lang="ts">
+	import type {PlaylistItemData} from '$lib/playlist.js';
+	import type {SongPlayState} from '$lib/play_song.js';
 
-	import type {PlaylistItemData} from '$lib/playlist';
-	import type {SongPlayState} from '$lib/play_song';
-
-	const dispatch = createEventDispatcher<{
-		play: PlaylistItemData;
+	interface Props {
+		playlist_item: PlaylistItemData;
+		index: number;
+		playing_song: SongPlayState | null;
 		paused: boolean;
-	}>();
+		onplay: (playlist_item: PlaylistItemData) => void;
+		onpause: (value: boolean) => void;
+	}
 
-	export let playlist_item: PlaylistItemData;
-	export let index: number;
-	export let playing_song: SongPlayState | null;
-	export let paused: boolean;
+	let {playlist_item, index, playing_song, paused = $bindable(), onplay, onpause}: Props = $props();
 
-	const click = async () => {
+	const click = () => {
 		if (playing_song && selected) {
 			paused = !paused;
-			dispatch('paused', paused);
+			onpause(paused);
 		} else {
-			dispatch('play', playlist_item);
+			onplay(playlist_item);
 		}
 	};
 
-	$: ({song} = playlist_item);
-	$: current_song = playing_song?.song;
-	$: selected = current_song === song;
+	const {song} = $derived(playlist_item);
+	const current_song = $derived(playing_song?.song);
+	const selected = $derived(current_song === song);
 </script>
 
 <!-- TODO render link -->
-<button type="button" class:selected class="deselectable" on:click={click}>
+<button type="button" class:selected class="deselectable" onclick={click}>
 	<div class="count">{index + 1}</div>
 	{song.name}
 	<div class="author">{song.author}</div>
@@ -63,7 +62,7 @@
 		bottom: 0;
 	}
 	.count {
-		font-size: var(--size_sm);
+		font-size: var(--font_size_sm);
 		font-weight: 500;
 		width: var(--space_xl3);
 		display: flex;
@@ -73,7 +72,7 @@
 		display: flex;
 		justify-content: flex-end;
 		padding-left: var(--space_xl);
-		font-size: var(--size_sm);
+		font-size: var(--font_size_sm);
 		font-weight: 500;
 	}
 </style>

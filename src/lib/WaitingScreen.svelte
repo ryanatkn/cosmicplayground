@@ -3,7 +3,11 @@
 
 	import WaitingAnimation from '$lib/WaitingAnimation.svelte';
 
-	export let status: Async_Status;
+	interface Props {
+		status: Async_Status;
+	}
+
+	let {status}: Props = $props();
 </script>
 
 <div class="waiting-screen">
@@ -20,7 +24,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: var(--size_xl5);
+		font-size: var(--font_size_xl5);
 		/* This waits one cycle of animation so it doesn't flash when load is quick.
 		The animation-fill-mode property is needed to set the initial opacity to 0
 		without making it go back to 0 when the fade in animation completes. */

@@ -1,15 +1,19 @@
 <script lang="ts">
-	import type {PhaseData} from '$routes/unlock/phases';
+	import type {PhaseData} from '$routes/unlock/phases.js';
 
-	export let phase: PhaseData;
-	export let selected: boolean;
-	export let disabled: boolean;
-	export let select_phase: (phase: PhaseData) => void; // TODO events instead of callbacks?
+	interface Props {
+		phase: PhaseData;
+		selected: boolean;
+		disabled: boolean;
+		select_phase: (phase: PhaseData) => void; // TODO events instead of callbacks?
+	}
+
+	let {phase, selected, disabled, select_phase}: Props = $props();
 </script>
 
 <div class="phase" title="phase {phase.name}">
 	<button
-		on:click={() => {
+		onclick={() => {
 			select_phase(phase);
 		}}
 		class:selected
@@ -38,18 +42,18 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: var(--size_xl4);
+		font-size: var(--font_size_xl4);
 		text-align: center;
 		text-shadow: 2px 2px 3px #000;
 	}
 	@media (max-width: 1100px) {
 		.title {
-			font-size: var(--size_xl2);
+			font-size: var(--font_size_xl2);
 		}
 	}
 	@media (max-width: 500px) {
 		.title {
-			font-size: var(--size_lg);
+			font-size: var(--font_size_lg);
 		}
 	}
 	/* TODO refactor to be global (there are conflicting styles in places) */

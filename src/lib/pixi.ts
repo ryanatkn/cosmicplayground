@@ -1,7 +1,9 @@
 import {BaseTexture, SCALE_MODES} from '@pixi/core';
 import {Application, type IApplicationOptions} from '@pixi/app';
 import {Container} from '@pixi/display';
-import {getContext, setContext, onMount, onDestroy} from 'svelte';
+import '@pixi/unsafe-eval'; // import 'pixi.js/unsafe-eval'; // when upgraded
+import {onMount, onDestroy} from 'svelte';
+import {create_context} from '@ryanatkn/fuz/context_helpers.js';
 
 export class PixiApp {
 	app!: Application;
@@ -43,9 +45,7 @@ export class PixiApp {
 	}
 }
 
-const PIXI_KEY = Symbol('pixi');
-export const get_pixi = (): PixiApp => getContext(PIXI_KEY);
-export const set_pixi = (pixi: PixiApp): PixiApp => setContext(PIXI_KEY, pixi);
+export const pixi_context = create_context<PixiApp>();
 
 export interface PixiSceneHooks {
 	load?: (scene: Container) => Promise<void> | void;
@@ -55,7 +55,7 @@ export interface PixiSceneHooks {
 
 export const get_pixi_scene = (
 	hooks: PixiSceneHooks,
-	pixi: PixiApp = get_pixi(),
+	pixi: PixiApp = pixi_context.get(),
 ): {pixi: PixiApp; scene: Container} => {
 	let destroyed = false;
 

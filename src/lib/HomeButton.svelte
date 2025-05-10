@@ -13,7 +13,7 @@
 	};
 </script>
 
-<svelte:window on:keydown={onKeydown} />
+<svelte:window onkeydown={onKeydown} />
 
 <a href="/" class="idle_fade">
 	<FloatingIconButton label="go back home">⇦</FloatingIconButton>

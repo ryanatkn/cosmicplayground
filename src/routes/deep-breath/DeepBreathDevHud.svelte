@@ -6,33 +6,38 @@
 	import TourControls from '$lib/TourControls.svelte';
 	import type Tour from '$lib/Tour.svelte';
 
-	export let tour: Tour | null;
-	export let x: Writable<number>;
-	export let y: Writable<number>;
-	export let scale: Writable<number>;
-	export let togglePixiEarthViewer: (visible: boolean) => void;
-	export let enablePixiEarthViewer: boolean;
-	export let debug_start_time: number;
+	interface Props {
+		tour: Tour | null;
+		x: Writable<number>;
+		y: Writable<number>;
+		scale: Writable<number>;
+		togglePixiEarthViewer: (visible: boolean) => void;
+		enablePixiEarthViewer: boolean;
+		debug_start_time: number;
+	}
 
-	$: touring = tour?.touring;
+	let {tour, x, y, scale, togglePixiEarthViewer, enablePixiEarthViewer, debug_start_time}: Props =
+		$props();
+
+	let touring = $derived(tour?.touring);
 </script>
 
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		togglePixiEarthViewer(!enablePixiEarthViewer);
 	}}
 >
 	{enablePixiEarthViewer ? 'webgl' : 'dom'}
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		$scale = Number(prompt('🔎', $scale + '')) || $scale; // eslint-disable-line no-alert
 	}}
 >
 	scale: {round($scale, 1)}
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		const inputValue = Number(prompt('x', $x + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(inputValue)) {
 			$x = inputValue;
@@ -42,7 +47,7 @@
 	x: {Math.round($x)}
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		const inputValue = Number(prompt('y', $y + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(inputValue)) {
 			$y = inputValue;

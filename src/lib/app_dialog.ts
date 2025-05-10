@@ -1,9 +1,9 @@
-import {getContext, setContext} from 'svelte';
+import {create_context} from '@ryanatkn/fuz/context_helpers.js';
 import {get, writable} from 'svelte/store';
 
-import type {ClockStore} from '$lib/clock';
+import type {ClockStore} from '$lib/clock.js';
 
-const KEY = Symbol('app_dialog');
+export const app_dialog_context = create_context<App_Dialog_State>();
 
 export class App_Dialog_State {
 	show_app_dialog = writable(false);
@@ -41,7 +41,3 @@ export class App_Dialog_State {
 		}
 	}
 }
-
-export const get_app_dialog = (): App_Dialog_State => getContext(KEY);
-
-export const set_app_dialog = (v: App_Dialog_State): App_Dialog_State => setContext(KEY, v);

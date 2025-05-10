@@ -1,27 +1,27 @@
 <script lang="ts">
-	import {get_clock} from '$lib/clock.js';
-	import {get_dimensions} from '$lib/dimensions.js';
+	import {clock_context} from '$lib/clock.js';
+	import {dimensions_context} from '$lib/dimensions.js';
 
-	import {freezeframe} from '$lib/freezeframe';
+	import {freezeframe} from '$lib/freezeframe.js';
 
-	const clock = get_clock();
-	const dimensions = get_dimensions();
+	const clock = clock_context.get();
+	const dimensions = dimensions_context.get();
 
 	const maxWidth = 1667;
 	const maxHeight = 781;
-	$: xScale = Math.min(1, $dimensions.width / maxWidth);
-	$: yScale = Math.min(1, $dimensions.height / maxHeight);
-	$: scale = Math.min(xScale, yScale);
+	let xScale = $derived(Math.min(1, $dimensions.width / maxWidth));
+	let yScale = $derived(Math.min(1, $dimensions.height / maxHeight));
+	let scale = $derived(Math.min(xScale, yScale));
 
 	const toggleClock = () => clock.toggle();
 
-	$: freeze = !$clock.running;
+	let freeze = $derived(!$clock.running);
 </script>
 
 <div
 	class="under-construction"
 	style="width: {$dimensions.width}px; height: {$dimensions.height}px;"
-	aria-hidden
+	aria-hidden="true"
 >
 	<div style={`transform: scale3d(${scale}, ${scale}, 1);`}>
 		<div style={`width: ${maxWidth}px; height: ${maxHeight}px;`}>
@@ -41,7 +41,7 @@
 					style="width: 350px; height: 350px;"
 					class="pixelated"
 				/>
-				<button type="button" class="image_button" on:click={toggleClock}>
+				<button type="button" class="image_button" onclick={toggleClock}>
 					<img
 						src="/assets/construction/person-rock.gif"
 						use:freezeframe={freeze}
@@ -55,7 +55,7 @@
 					use:freezeframe={freeze}
 					alt="under construction: person dig fast"
 				/>
-				<button type="button" class="image_button" on:click={toggleClock}>
+				<button type="button" class="image_button" onclick={toggleClock}>
 					<img
 						src="/assets/construction/person-rock.gif"
 						use:freezeframe={freeze}
@@ -222,32 +222,32 @@
 					alt="under construction: person dig pause"
 				/>
 				<div
-					class="inline-block relative"
+					class="display_inline_block position_relative"
 					style="height: 100px; width: 240px; transform: rotate(-5deg);"
 				>
 					<img
 						src="/assets/construction/line-2.gif"
 						use:freezeframe={freeze}
 						alt="under construction: line 2"
-						class="absolute"
+						class="position_absolute"
 						style="width: 90%; top: 38px; left: 5%"
 					/>
 					<img
 						src="/assets/construction/line-2.gif"
 						use:freezeframe={freeze}
 						alt="under construction: line 2"
-						class="absolute"
+						class="position_absolute"
 						style="width: 80%; bottom: 46px; left: 14%"
 					/>
 					<img
 						src="/assets/construction/line-2.gif"
 						use:freezeframe={freeze}
 						alt="under construction: line 2"
-						class="w-100 absolute"
+						class="w-100 position_absolute"
 						style="bottom: 38px; left: 0"
 					/>
 				</div>
-				<div class="relative inline-block" style="width: 96px; height: 93px;">
+				<div class="position_relative display_inline_block" style="width: 96px; height: 93px;">
 					<img
 						src="/assets/construction/mammal.gif"
 						use:freezeframe={freeze}
@@ -257,10 +257,10 @@
 					<img
 						src="/assets/characters/spider.png"
 						alt="spiderspace dot org"
-						class="absolute cursor-none"
+						class="position_absolute cursor-none"
 						style="left: 56px; top: 68px;"
-						on:click={() => window.open('https://github.com/ryanatkn/fuz_template')}
-						aria-hidden
+						onclick={() => window.open('https://github.com/ryanatkn/fuz_template')}
+						aria-hidden="true"
 					/>
 				</div>
 			</div>
@@ -276,7 +276,7 @@
 				use:freezeframe={freeze}
 				alt="under construction: line 1"
 				style="top: -8px; transform: scale3d(1, -1, 1);"
-				class="pixelated w-100 relative"
+				class="pixelated w-100 position_relative"
 			/>
 		</div>
 	</div>

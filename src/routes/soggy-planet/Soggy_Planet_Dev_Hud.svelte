@@ -4,34 +4,38 @@
 	import FloatingTextButton from '$lib/FloatingTextButton.svelte';
 	import type Tour from '$lib/Tour.svelte';
 	import TourControls from '$lib/TourControls.svelte';
-	import {get_settings} from '$lib/settings';
+	import {settings_context} from '$lib/settings.js';
 
-	export let tour: Tour | null;
-	export let x: Writable<number>;
-	export let y: Writable<number>;
-	export let scale: Writable<number>;
-	export let debug_start_time: number;
+	interface Props {
+		tour: Tour | null;
+		x: Writable<number>;
+		y: Writable<number>;
+		scale: Writable<number>;
+		debug_start_time: number;
+	}
 
-	$: touring = tour?.touring;
+	let {tour, x, y, scale, debug_start_time}: Props = $props();
 
-	const settings = get_settings();
-	$: ({audio_enabled} = $settings);
+	let touring = $derived(tour?.touring);
+
+	const settings = settings_context.get();
+	let {audio_enabled} = $derived($settings);
 
 	const toggle_audio_enabled = (value = !audio_enabled): void =>
 		settings.update((v) => ({...v, audio_enabled: value}));
 </script>
 
-<FloatingTextButton on:click={() => toggle_audio_enabled()}>
+<FloatingTextButton onclick={() => toggle_audio_enabled()}>
 	{#if audio_enabled}unmuted{:else}muted{/if}
 </FloatingTextButton><FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		$scale = Number(prompt('🔎', $scale + '')) || $scale; // eslint-disable-line no-alert
 	}}
 >
 	scale: {Math.round($scale * 10) / 10}
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		const inputValue = Number(prompt('x', $x + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(inputValue)) {
 			$x = inputValue;
@@ -41,7 +45,7 @@
 	x: {Math.round($x)}
 </FloatingTextButton>
 <FloatingTextButton
-	on:click={() => {
+	onclick={() => {
 		const inputValue = Number(prompt('y', $y + '')); // eslint-disable-line no-alert
 		if (!Number.isNaN(inputValue)) {
 			$y = inputValue;

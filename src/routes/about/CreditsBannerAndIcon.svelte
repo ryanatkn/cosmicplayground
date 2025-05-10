@@ -1,12 +1,12 @@
 <script lang="ts">
-	import {IMAGE_PROCESSING_CREDIT, spaceImages} from '$lib/images';
+	import {IMAGE_PROCESSING_CREDIT, spaceImages} from '$lib/images.js';
 	import ImageCredits from '$lib/ImageCredits.svelte';
 	import Favicon from '$routes/Favicon.svelte';
 
 	const image = spaceImages.find((s) => s.title === 'Tapestry of Blazing Starbirth')!;
 </script>
 
-<figure style:margin-top="var(--space_xl3)">
+<figure>
 	<figcaption>
 		<h3>cosmicplayground banner and icon</h3>
 		<p>

@@ -1,17 +1,26 @@
 <script lang="ts">
-	import {get_clock} from '$lib/clock.js';
+	import {clock_context} from '$lib/clock.js';
 
 	import EarthThumbnail from '$lib/EarthThumbnail.svelte';
-	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/soggy-planet/constants';
+	import {THUMBNAIL_WIDTH_DEFAULT} from '$routes/soggy-planet/constants.js';
 
-	export let earthWidth = THUMBNAIL_WIDTH_DEFAULT;
-	export let label = 'proceed';
-	export let on_click: ((e: MouseEvent) => void) | null = null;
-	export let showName = true;
+	interface Props {
+		earthWidth?: any;
+		label?: string;
+		on_click?: ((e: MouseEvent) => void) | null;
+		showName?: boolean;
+	}
 
-	const clock = get_clock();
+	let {
+		earthWidth = THUMBNAIL_WIDTH_DEFAULT,
+		label = 'proceed',
+		on_click = null,
+		showName = true,
+	}: Props = $props();
 
-	$: textScale = earthWidth / THUMBNAIL_WIDTH_DEFAULT;
+	const clock = clock_context.get();
+
+	let textScale = $derived(earthWidth / THUMBNAIL_WIDTH_DEFAULT);
 </script>
 
 <!-- TODO this fake sphere is unsettling... -->
@@ -20,7 +29,7 @@
 but it doesn't seem quite right - is there a better pattern for a conditional parent?
 I think there are some open Svelte issues about this. (like programmatic HTML tags) -->
 
-<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
 	class="soggy-planet-thumbnail"
 	style:width="{earthWidth / 2}px"
@@ -28,7 +37,7 @@ I think there are some open Svelte issues about this. (like programmatic HTML ta
 	role={on_click ? 'button' : undefined}
 	aria-label={on_click ? label : undefined}
 	tabindex={on_click ? 0 : undefined}
-	on:click={on_click}
+	onclick={on_click}
 	class:buttonish={on_click}
 >
 	<div class="thumbnail-animation-wrapper">

@@ -1,9 +1,14 @@
 <script lang="ts">
 	import Teleport from '@ryanatkn/fuz/Teleport.svelte';
 
-	import {get_app_dialog} from '$lib/app_dialog';
+	import {app_dialog_context} from '$lib/app_dialog.js';
+	interface Props {
+		children?: import('svelte').Snippet<[any]>;
+	}
 
-	const app_dialog = get_app_dialog();
+	let {children}: Props = $props();
+
+	const app_dialog = app_dialog_context.get();
 	const {app_dialog_el} = app_dialog;
 
 	// TODO feels hacky to use Teleport but it allows a more composable pattern,
@@ -13,5 +18,5 @@
 </script>
 
 {#if $app_dialog_el}
-	<Teleport to={$app_dialog_el}><slot exit={() => app_dialog.close()} /></Teleport>
+	<Teleport to={$app_dialog_el}>{@render children?.({exit: () => app_dialog.close()})}</Teleport>
 {/if}

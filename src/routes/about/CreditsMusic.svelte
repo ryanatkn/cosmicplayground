@@ -1,38 +1,39 @@
 <script lang="ts">
-	import {lookup_song} from '$lib/songs';
+	import {lookup_song} from '$lib/songs.js';
 	import CreditsMusicAuthor from '$routes/about/CreditsMusicAuthor.svelte';
 </script>
 
-<div class="prose">
-	<CreditsMusicAuthor author="Alexander Nakarada">
-		<svelte:fragment slot="links">
-			<ul>
-				<li>
-					<a href="https://www.serpentsoundstudios.com">serpentsoundstudios.com</a>
-				</li>
-				<li>
-					<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
-				</li>
-				<li>
-					<a href="https://www.youtube.com/channel/UCw4wdHksXbaiyu3BiBNNW0w">YouTube</a>
-				</li>
-				<li>
-					<a href="https://soundcloud.com/serpentsoundstudios">Soundcloud</a>
-				</li>
-				<li>
-					<a href="https://www.patreon.com/anakarada">Patreon</a>
-				</li>
-				<li><a href="https://twitter.com/thenakarada">Twitter</a></li>
-			</ul>
-			<p>
-				Alexander composed <a href={lookup_song('Spacey Intro').url}>Spacey Intro</a> and
-				<a href={lookup_song('Spacey Intro').url}>Spacey Outro</a> with inspiration from cosmicplayground
-				💜🌠
-			</p>
-		</svelte:fragment>
-	</CreditsMusicAuthor>
-	<CreditsMusicAuthor author="Rafael Krux">
-		<ul slot="links">
+<h2 class="mt_0">Music</h2>
+<CreditsMusicAuthor author="Alexander Nakarada">
+	{#snippet links()}
+		<ul>
+			<li>
+				<a href="https://www.serpentsoundstudios.com">serpentsoundstudios.com</a>
+			</li>
+			<li>
+				<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+			</li>
+			<li>
+				<a href="https://www.youtube.com/channel/UCw4wdHksXbaiyu3BiBNNW0w">YouTube</a>
+			</li>
+			<li>
+				<a href="https://soundcloud.com/serpentsoundstudios">Soundcloud</a>
+			</li>
+			<li>
+				<a href="https://www.patreon.com/anakarada">Patreon</a>
+			</li>
+			<li><a href="https://twitter.com/thenakarada">Twitter</a></li>
+		</ul>
+		<p>
+			Alexander composed <a href={lookup_song('Spacey Intro').url}>Spacey Intro</a> and
+			<a href={lookup_song('Spacey Intro').url}>Spacey Outro</a> with inspiration from cosmicplayground
+			💜🌠
+		</p>
+	{/snippet}
+</CreditsMusicAuthor>
+<CreditsMusicAuthor author="Rafael Krux">
+	{#snippet links()}
+		<ul>
 			<li>
 				<a href="https://www.orchestralis.net">orchestralis.net</a>
 			</li>
@@ -46,9 +47,11 @@
 			</li>
 			<li><a href="https://twitter.com/rkrux">Twitter</a></li>
 		</ul>
-	</CreditsMusicAuthor>
-	<CreditsMusicAuthor author="Punch Deck">
-		<ul slot="links">
+	{/snippet}
+</CreditsMusicAuthor>
+<CreditsMusicAuthor author="Punch Deck">
+	{#snippet links()}
+		<ul>
 			<li>
 				<a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>
 			</li>
@@ -66,9 +69,11 @@
 			</li>
 			<li><a href="https://twitter.com/punch_deck">Twitter</a></li>
 		</ul>
-	</CreditsMusicAuthor>
-	<CreditsMusicAuthor author="Komiku">
-		<ul slot="links">
+	{/snippet}
+</CreditsMusicAuthor>
+<CreditsMusicAuthor author="Komiku">
+	{#snippet links()}
+		<ul>
 			<li>
 				<a href="https://loyaltyfreakmusic.com/">loyaltyfreakmusic.com</a>
 			</li>
@@ -86,9 +91,11 @@
 				<a href="https://twitter.com/rrrrroseazerty">Twitter</a>
 			</li>
 		</ul>
-	</CreditsMusicAuthor>
-	<CreditsMusicAuthor author="Kevin MacLeod">
-		<ul slot="links">
+	{/snippet}
+</CreditsMusicAuthor>
+<CreditsMusicAuthor author="Kevin MacLeod">
+	{#snippet links()}
+		<ul>
 			<li>
 				<a href="https://incompetech.com">incompetech.com</a>
 			</li>
@@ -103,13 +110,15 @@
 				<a href="https://twitter.com/kmacleod">Twitter</a>
 			</li>
 		</ul>
-	</CreditsMusicAuthor>
-	<CreditsMusicAuthor author="Phase Shift">
-		<ul slot="links">
+	{/snippet}
+</CreditsMusicAuthor>
+<CreditsMusicAuthor author="Phase Shift">
+	{#snippet links()}
+		<ul>
 			<li>public domain</li>
 			<li>
 				via <a href="https://freepd.com">freepd.com</a>
 			</li>
 		</ul>
-	</CreditsMusicAuthor>
-</div>
+	{/snippet}
+</CreditsMusicAuthor>

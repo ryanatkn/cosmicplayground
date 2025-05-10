@@ -1,5 +1,9 @@
 <script lang="ts">
-	export let size: number;
+	interface Props {
+		size: number;
+	}
+
+	let {size}: Props = $props();
 </script>
 
 <figure style:width="{size}px" style:height="{size}px">
@@ -22,6 +26,8 @@
 		left: 0;
 		top: 0;
 		animation: rotating 391s linear infinite;
+		-webkit-user-select: none;
+		user-select: none;
 	}
 	figure .favicon:nth-child(2) {
 		opacity: 0.4;

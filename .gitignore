@@ -32,3 +32,6 @@ ignore
 # Os
 .DS_Store
 Thumbs.db
+
+# GitHub
+.github/copilot-instructions.md
