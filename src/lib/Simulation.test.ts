@@ -1,5 +1,4 @@
-import {test} from 'uvu';
-import * as assert from 'uvu/assert';
+import {test, assert} from 'vitest';
 import {noop} from '@ryanatkn/belt/function.js';
 
 import {Collisions} from '$lib/collisions.js';
@@ -11,5 +10,3 @@ test('Simulation', async () => {
 	assert.ok(sim);
 	sim.update(2, noop);
 });
-
-test.run();
