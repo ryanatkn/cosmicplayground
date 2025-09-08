@@ -10,7 +10,7 @@ is a free and open source noncommercial hobby project exploring
 tools and toys with web tech.
 It's made with Svelte, SvelteKit, Vite, TypeScript, PixiJS, and _space_.
 
-> **update**: I gave up on JS for games because of performance, this project was archived on Svelte 4
+> **⚠️ update**: I gave up on JS for games because of performance, this project was archived on Svelte 4
 
 - [Soggy Planet](https://www.cosmicplayground.org/soggy-planet) is an interactive map of Earth
   where sea levels rise and fall and the lights of civilization shine through the night.
